@@ -1,0 +1,91 @@
+name: Arm E4a accept-backlog tuner
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tune:
+    name: Paired bounded search over TCP accept backlog
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 20
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e4a-${{ github.run_id }}-${{ github.run_attempt }}
+
+    steps:
+      - name: Check out experiment repository
+        uses: actions/checkout@v7
+
+      - name: Select pinned Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Capture host and verify frozen inputs
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          cp experiments/e4_contract.json "$EVIDENCE_DIR/contract.json"
+          cp results/manifests/e3-30635472160.json \
+            "$EVIDENCE_DIR/planner-manifest.json"
+          cp configs/cloud-balanced.json "$EVIDENCE_DIR/planner-policy.json"
+          echo 'e29b0b81fd4aeaa8cc6ec092cac9400ade31945e541081e90eae0cb8efd98af4  results/manifests/e3-30635472160.json' \
+            | sha256sum --check --strict
+          echo '946692148731e086f8005551751c1a0347be1935da554495ee5b6bc9c35b859b  configs/cloud-balanced.json' \
+            | sha256sum --check --strict
+
+      - name: Run product and analyzer tests
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -v \
+            2>&1 | tee "$EVIDENCE_DIR/tests.log"
+
+      - name: Execute frozen cyclic backlog search
+        run: |
+          set -euo pipefail
+          python3 experiments/e4_backlog_search.py \
+            --contract experiments/e4_contract.json \
+            --output-dir "$EVIDENCE_DIR/search"
+
+      - name: Record provenance and score frozen decision rule
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          provenance = {
+              "schema_version": 1,
+              "experiment_id": "E4a",
+              "git_commit": os.environ["GITHUB_SHA"],
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+          }
+          (evidence / "provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          python3 experiments/e4_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract experiments/e4_contract.json \
+            --manifest results/manifests/e3-30635472160.json \
+            --policy configs/cloud-balanced.json \
+            --output "$EVIDENCE_DIR/summary.json"
+          jq '{status, search, candidates, selection}' \
+            "$EVIDENCE_DIR/summary.json"
+
+      - name: Upload E4a evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e4a-backlog-tuner-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90

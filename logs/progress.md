@@ -295,3 +295,28 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `ThreadingHTTPServer`'s default accept backlog of five at concurrency eight.
   This is a mechanism hypothesis, not a conclusion. A separate paired backlog
   experiment can now test it without changing E5a.
+
+## 2026-07-31 — E4a bounded backlog search frozen
+
+- Verified Python's current `ThreadingHTTPServer` default accept backlog is five
+  and exposed it as an explicit bounded Pareto64 server setting.
+- Frozen candidates 5, 16, and 64 with three cyclic execution orders, 400
+  requests per run, concurrency 32, and nine total fresh-process evaluations.
+- The primary tail breach is latency above 50 ms. Selection minimizes total
+  failures, then breaches, then backlog size, then pooled p95. A win requires
+  default breaches in every round, zero selected breaches/failures, a
+  p95/throughput/RSS guardrail, and a selected backlog larger than five.
+- This experiment is deliberately stricter than E5a and reports full search
+  overhead. No tuned backlog has been measured before freezing the contract.
+- The first full local harness preflight showed that the stressed default can
+  lose a connection, which also leaves request-count shutdown one short. Before
+  native dispatch, the scorer was made failure-aware: baseline failures remain
+  valid evidence, selection prioritizes zero failures, and only the selected
+  candidate must have zero. The runner now interrupts the exact child cleanly
+  when failed connections prevent automatic shutdown; performance thresholds
+  and candidate values did not change.
+- The subsequent complete local integration calibration evaluated all nine
+  configurations and independently re-ingested the raw evidence. Backlog 5 had
+  12 failures and 77 tail breaches, backlog 16 had zero failures but 43 tail
+  breaches, and backlog 64 had neither. This x86 result validates the harness;
+  only the frozen native Arm run can validate the experiment hypothesis.

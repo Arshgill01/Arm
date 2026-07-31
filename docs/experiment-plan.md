@@ -145,6 +145,25 @@ creating a separately testable accept-backlog hypothesis rather than a reason to
 rewrite E5a. See
 [`../results/reports/e5a-planner-api.md`](../results/reports/e5a-planner-api.md).
 
+## E4a frozen accept-backlog tuner
+
+E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server
+change is the listen/accept backlog. A bounded search evaluates capacities 5,
+16, and 64 in three cyclic orders on the same native Arm job. Every fresh server
+receives one readiness request, 20 warm-ups, and 400 measured alternating
+GET/POST requests at concurrency 32.
+
+Selection is lexicographic and predeclared: minimize failures, then the number
+of requests over 50 ms, choose the smallest backlog capacity, and finally
+minimize pooled p95. No weighted score is used. A validated win additionally
+requires the default
+backlog five to reproduce at least one tail breach in every round, the selected
+larger backlog to have zero breaches and failures, p95 at most 50 ms, at least
+90% of default median-round throughput, and no more than 10 MiB additional RSS.
+The search evaluates all nine configurations even if an early candidate looks
+good; total search overhead is reported. Exact details are frozen in
+[`../experiments/e4_contract.json`](../experiments/e4_contract.json).
+
 ## First workload scope
 
 Start with the smallest public, permissively licensed text path already supported

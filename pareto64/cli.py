@@ -23,6 +23,12 @@ def parse_args() -> argparse.Namespace:
     serve.add_argument("--host", default="127.0.0.1")
     serve.add_argument("--port", type=int, default=8080)
     serve.add_argument(
+        "--backlog",
+        type=int,
+        default=5,
+        help="TCP accept backlog for fresh concurrent connections",
+    )
+    serve.add_argument(
         "--max-requests",
         type=int,
         default=0,
@@ -51,12 +57,20 @@ def main() -> int:
     if arguments.command == "serve":
         if arguments.max_requests < 0:
             raise ValueError("--max-requests must be non-negative")
+        if arguments.backlog <= 0 or arguments.backlog > 4096:
+            raise ValueError("--backlog must be between 1 and 4096")
         state = PlannerState.from_paths(arguments.manifest, arguments.constraints)
         server = PlannerHTTPServer(
-            (arguments.host, arguments.port), state, arguments.max_requests
+            (arguments.host, arguments.port),
+            state,
+            arguments.max_requests,
+            arguments.backlog,
         )
         host, port = server.server_address
-        print(f"Pareto64 listening on http://{host}:{port}", flush=True)
+        print(
+            f"Pareto64 listening on http://{host}:{port} backlog={arguments.backlog}",
+            flush=True,
+        )
         try:
             server.serve_forever()
         except KeyboardInterrupt:

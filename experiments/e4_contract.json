@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E4a",
+  "hypothesis": "Increasing the TCP accept backlog above concurrent fresh-connection demand eliminates the one-second planner API tail without material throughput or RSS regression.",
+  "inputs": {
+    "manifest_path": "results/manifests/e3-30635472160.json",
+    "manifest_sha256": "e29b0b81fd4aeaa8cc6ec092cac9400ade31945e541081e90eae0cb8efd98af4",
+    "policy_path": "configs/cloud-balanced.json",
+    "policy_sha256": "946692148731e086f8005551751c1a0347be1935da554495ee5b6bc9c35b859b"
+  },
+  "candidates": [5, 16, 64],
+  "execution_order": [
+    [5, 16, 64],
+    [16, 64, 5],
+    [64, 5, 16]
+  ],
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8765,
+    "python_version": "3.13"
+  },
+  "probe": {
+    "readiness_requests": 1,
+    "warmups": 20,
+    "measured_requests": 400,
+    "concurrency": 32,
+    "timeout_seconds": 5.0,
+    "method_mix": "alternating GET and POST",
+    "expected_plan_status": "no_feasible_candidate",
+    "tail_breach_ms": 50.0
+  },
+  "selection": {
+    "lexicographic_objectives": [
+      "total_failures",
+      "total_tail_breaches",
+      "backlog_capacity",
+      "pooled_p95_latency_ms"
+    ],
+    "weighted_score_used": false
+  },
+  "acceptance": {
+    "http_status": 200,
+    "minimum_default_breaches_per_round": 1,
+    "maximum_selected_failures": 0,
+    "maximum_selected_total_breaches": 0,
+    "maximum_selected_p95_latency_ms": 50.0,
+    "minimum_throughput_ratio_to_default": 0.9,
+    "maximum_rss_increase_kib": 10240,
+    "process_exit_status": 0
+  }
+}

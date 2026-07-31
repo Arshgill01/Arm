@@ -83,10 +83,15 @@ class PlannerHTTPServer(ThreadingHTTPServer):
     daemon_threads = True
 
     def __init__(
-        self, address: tuple[str, int], state: PlannerState, max_requests: int = 0
+        self,
+        address: tuple[str, int],
+        state: PlannerState,
+        max_requests: int = 0,
+        backlog: int = 5,
     ):
         self.state = state
         self.max_requests = max_requests
+        self.request_queue_size = backlog
         super().__init__(address, PlannerHandler)
 
 

@@ -89,6 +89,17 @@ class Pareto64ServerTests(unittest.TestCase):
         server.server_close()
         self.assertFalse(thread.is_alive())
 
+    def test_accept_backlog_is_explicit(self) -> None:
+        state = PlannerState.from_paths(
+            ROOT / "results/manifests/e3-30635472160.json",
+            ROOT / "configs/cloud-balanced.json",
+        )
+        server = PlannerHTTPServer(("127.0.0.1", 0), state, backlog=64)
+        try:
+            self.assertEqual(64, server.request_queue_size)
+        finally:
+            server.server_close()
+
 
 if __name__ == "__main__":
     unittest.main()
