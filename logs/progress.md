@@ -739,3 +739,6 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `a844e58ea3f89e8fd9d9e8697ad6c680865a6719d2f6b34298af0d56be7d76e5`.
   Cached two-slot promotion is rejected; cached single-slot serving remains the
   verified default.
+- Retained-evidence clean-checkout run `30665354849` passed all 75 tests, all
+  six pinned evidence hashes, exact-plan checks, and the demo smoke test on
+  native `aarch64`.
