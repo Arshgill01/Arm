@@ -1,0 +1,147 @@
+name: Arm LLM-Runner E1 smoke
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  LLM_RUNNER_SHA: 8ba39e40fa754b87deb99a998c31de3b850094d5
+  PHI2_SHA256: a6f246baa29a776acbc9a1638088c33d8f7b6a044cc7dd09fb4b0374e1582ae0
+  PHI2_URL: https://huggingface.co/TheBloke/phi-2-GGUF/resolve/main/phi-2.Q4_0.gguf?download=true
+
+jobs:
+  smoke:
+    name: Build, test, and benchmark LLM-Runner
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e1-${{ github.run_id }}-${{ github.run_attempt }}
+      LLM_RUNNER_DIR: ${{ runner.temp }}/LLM-Runner
+      MODEL_PATH: ${{ runner.temp }}/LLM-Runner/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf
+
+    steps:
+      - name: Check out experiment repository
+        uses: actions/checkout@v7
+
+      - name: Capture host and pin upstream source
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          git clone --filter=blob:none https://github.com/Arm-Examples/LLM-Runner.git "$LLM_RUNNER_DIR"
+          git -C "$LLM_RUNNER_DIR" checkout --detach "$LLM_RUNNER_SHA"
+          test "$(git -C "$LLM_RUNNER_DIR" rev-parse HEAD)" = "$LLM_RUNNER_SHA"
+          git -C "$LLM_RUNNER_DIR" submodule status --recursive > "$EVIDENCE_DIR/submodules.txt"
+
+      - name: Restore pinned model
+        uses: actions/cache@v6
+        with:
+          path: ${{ env.MODEL_PATH }}
+          key: phi2-q4-0-${{ env.PHI2_SHA256 }}
+
+      - name: Fetch and verify pinned model
+        run: |
+          set -euo pipefail
+          mkdir -p "$(dirname "$MODEL_PATH")"
+          if [ ! -f "$MODEL_PATH" ]; then
+            curl --fail --location --retry 5 --retry-all-errors \
+              --output "$MODEL_PATH" "$PHI2_URL"
+          fi
+          echo "$PHI2_SHA256  $MODEL_PATH" | sha256sum --check --strict
+          stat --format='%n %s bytes' "$MODEL_PATH" | tee "$EVIDENCE_DIR/model.txt"
+          sha256sum "$MODEL_PATH" | tee -a "$EVIDENCE_DIR/model.txt"
+
+      - name: Configure KleidiAI build
+        working-directory: ${{ env.LLM_RUNNER_DIR }}
+        run: |
+          set -euo pipefail
+          cmake --preset=native -B build \
+            -DCPU_ARCH=Armv8.6_1 \
+            -DBUILD_BENCHMARK=ON \
+            -DBUILD_JNI_LIB=OFF \
+            -DBUILD_LLM_TESTING=ON \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DDOWNLOAD_LLM_MODELS=OFF \
+            -DLLM_FRAMEWORK=llama.cpp \
+            -DUSE_KLEIDIAI=ON \
+            2>&1 | tee "$EVIDENCE_DIR/configure.log"
+
+      - name: Build
+        working-directory: ${{ env.LLM_RUNNER_DIR }}
+        run: |
+          set -euo pipefail
+          cmake --build build --parallel 4 2>&1 | tee "$EVIDENCE_DIR/build.log"
+
+      - name: Run pinned upstream text test
+        working-directory: ${{ env.LLM_RUNNER_DIR }}
+        run: |
+          set -euo pipefail
+          ctest --test-dir build -N | tee "$EVIDENCE_DIR/ctest-list.log"
+          grep -q 'phi_2' "$EVIDENCE_DIR/ctest-list.log"
+          ctest --test-dir build -R 'phi_2' --output-on-failure \
+            2>&1 | tee "$EVIDENCE_DIR/ctest.log"
+
+      - name: Run reference benchmark
+        working-directory: ${{ env.LLM_RUNNER_DIR }}
+        run: |
+          set -euo pipefail
+          /usr/bin/time -v ./build/bin/llm-bench-cli \
+            -m "$MODEL_PATH" \
+            -i 64 -o 32 -c 512 -t 4 -n 3 -w 1 \
+            > >(tee "$EVIDENCE_DIR/benchmark.stdout.log") \
+            2> >(tee "$EVIDENCE_DIR/benchmark.stderr.log" >&2)
+          grep -Eiq 'kleidi' \
+            "$EVIDENCE_DIR/configure.log" \
+            "$EVIDENCE_DIR/build.log" \
+            "$EVIDENCE_DIR/benchmark.stdout.log" \
+            "$EVIDENCE_DIR/benchmark.stderr.log"
+
+      - name: Record provenance
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          evidence_dir = Path(os.environ["EVIDENCE_DIR"])
+          evidence_dir.mkdir(parents=True, exist_ok=True)
+          provenance = {
+              "experiment_id": "E1",
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "git_commit": os.environ["GITHUB_SHA"],
+              "llm_runner_commit": os.environ["LLM_RUNNER_SHA"],
+              "model_sha256": os.environ["PHI2_SHA256"],
+              "model_url": os.environ["PHI2_URL"],
+              "build": {
+                  "framework": "llama.cpp",
+                  "cpu_arch": "Armv8.6_1",
+                  "use_kleidiai": True,
+                  "build_type": "Release",
+              },
+              "benchmark": {
+                  "input_tokens": 64,
+                  "output_tokens": 32,
+                  "context": 512,
+                  "threads": 4,
+                  "measured_iterations": 3,
+                  "warmup_iterations": 1,
+              },
+          }
+          (evidence_dir / "provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+
+      - name: Upload E1 evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e1-llm-runner-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90

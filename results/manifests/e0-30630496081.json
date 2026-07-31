@@ -1,0 +1,72 @@
+{
+  "experiment_id": "E0",
+  "status": "valid",
+  "workflow_run": "https://github.com/Arshgill01/Arm/actions/runs/30630496081",
+  "git_commit": "6f7cd918dc39db3b73a92f1da621dbae125dd07d",
+  "architecture": "aarch64",
+  "runner": {
+    "os": "Linux",
+    "kernel": "6.17.0-1020-azure",
+    "cpu": "Neoverse-N2",
+    "logical_cpus": 4,
+    "memory_kib": 16330120,
+    "features": [
+      "asimd",
+      "asimddp",
+      "sve",
+      "sve2",
+      "svei8mm",
+      "svebf16",
+      "i8mm",
+      "bf16"
+    ],
+    "compiler": "GCC 13.3.0",
+    "perf_event_paranoid": 4,
+    "scaling_governor_exposed": false
+  },
+  "microbenchmark": {
+    "source": "experiments/e0_microbench.c",
+    "compiler_flags": [
+      "-O3",
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "-Werror"
+    ],
+    "samples": 21,
+    "iterations_per_sample": 100000000,
+    "checksum": "808bd59bf0eb57e2",
+    "elapsed_ns": [
+      118587377,
+      118818662,
+      118529484,
+      118603329,
+      118572899,
+      118791743,
+      118663501,
+      118911937,
+      118523301,
+      118658846,
+      118623728,
+      118631376,
+      118647159,
+      118553644,
+      118636799,
+      118555611,
+      118615272,
+      118646470,
+      118658438,
+      118571507,
+      118696364
+    ],
+    "summary": {
+      "min_ns": 118523301,
+      "median_ns": 118631376,
+      "p95_ns": 118818662,
+      "max_ns": 118911937,
+      "mean_ns": 118642735.57142857,
+      "population_stddev_ns": 94600.92252825698,
+      "coefficient_of_variation": 0.0007973595860936866
+    }
+  }
+}

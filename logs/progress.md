@@ -47,3 +47,15 @@ that repeatedly profiles, breaks, tunes, validates, and records a real Arm AI
 workload. The experiment history becomes both engineering evidence and the live
 demo of the reusable optimization tool. The Arm LLM-Runner abstraction makes the
 comparison cross-runtime rather than another one-off llama.cpp tuner.
+
+## 2026-07-31 — E0 native Arm probe
+
+- Added a tested, architecture-gated environment/timing probe and manually
+  dispatched it to GitHub's `ubuntu-24.04-arm` runner.
+- Workflow run `30630496081` passed all steps on commit `6f7cd91`.
+- Confirmed a native four-core Neoverse N2 environment with 16 GiB RAM, SVE2,
+  I8MM, and BF16.
+- The 21-trial compute probe produced a 118.631 ms median, 118.819 ms p95, and
+  0.0797% coefficient of variation with identical checksums.
+- PMU access remains blocked and no scaling governor is exposed. The environment
+  passes feasibility/CI screening, not final energy/mechanism proof.
