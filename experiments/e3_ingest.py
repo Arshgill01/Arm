@@ -37,6 +37,17 @@ FRONTIER_DIRECTIONS = {
 }
 
 
+def normalize_quality_sources(
+    quality: dict[str, Any], variants: Sequence[str]
+) -> None:
+    for variant in variants:
+        repetitions = quality["variants"][variant]["repetitions"]
+        for repetition, run in enumerate(repetitions, start=1):
+            run["source"] = (
+                f"variants/{variant}/quality-repeat-{repetition}.json"
+            )
+
+
 def pareto_front(
     candidates: dict[str, dict[str, float]], directions: dict[str, str]
 ) -> list[str]:
@@ -174,6 +185,7 @@ def build_manifest(
                 raise ValueError(f"missing size evidence for {expected_path}")
 
     quality = build_summary(models_path, tasks_path, evidence_dir)
+    normalize_quality_sources(quality, VARIANTS)
     if quality["tasks"]["count"] != provenance["quality"]["tasks"]:
         raise ValueError("quality task count differs from provenance")
     quality_process = summarize_quality_processes(evidence_dir, VARIANTS)

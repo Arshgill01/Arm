@@ -20,6 +20,18 @@ The provisional concept is **Pareto64**, a quality-constrained cross-runtime
 planner for Arm AI inference. It becomes the final Cloud AI direction only if the
 native feasibility and novelty gates in `docs/strategy.md` pass.
 
+## Native evidence so far
+
+| Gate | Outcome |
+| --- | --- |
+| [E0](results/reports/e0-native-arm.md) | Native four-core Neoverse N2 runner and repeatability characterized |
+| [E1](results/reports/e1-llm-runner-smoke.md) | Pinned LLM-Runner built and executed end to end on Arm |
+| [E2](results/reports/e2-kleidiai-ablation.md) | Primary KleidiAI threshold missed; smaller decode/latency benefits retained |
+| [E3](results/reports/e3-qwen-frontier.md) | Three Qwen packages measured; frozen quality gate rejected all three |
+
+Negative results remain first-class evidence. No runtime is promoted into the
+planner until it passes a predeclared quality/SLO contract.
+
 ## Repository map
 
 - [`docs/hackathon-requirements.md`](docs/hackathon-requirements.md): rules,

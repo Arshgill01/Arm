@@ -69,6 +69,16 @@ good on every reported objective and strictly better on at least one. Hosted
 runner results remain screening evidence because PMU, energy, and governor
 control are unavailable.
 
+### E3 outcome
+
+Native run `30635472160` completed the frozen contract, but Q4_0, Q4_K_M, and
+MNN int4 scored 46.67%, 53.33%, and 13.33% respectively. All predictions were
+stable and all variants failed the 75% floor, so the valid Pareto set is empty.
+Most responses reached the eight-token limit, especially MNN reasoning
+preambles. The cap and parser will not be changed retroactively; any calibration
+is a separately versioned experiment. See
+[`../results/reports/e3-qwen-frontier.md`](../results/reports/e3-qwen-frontier.md).
+
 ## Experimental discipline
 
 - E0–E3 establish feasibility; they do not prove a winning product.

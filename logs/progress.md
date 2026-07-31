@@ -194,3 +194,22 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   tasks, two repetitions, eight-token output cap, 75% eligibility threshold,
   performance protocol, and Pareto rule remain unchanged after observing the
   partial results.
+
+## 2026-07-31 — E3 native comparison completed honestly
+
+- Run `30635472160` completed in 9m30s. Both runtime builds, all six quality
+  repetitions, all nine cyclic performance rounds, the frozen scorer, and the
+  artifact upload passed.
+- The independent ingester accepted the raw artifact without code or data
+  changes. Its compact manifest records `valid_no_quality_eligible_variant`.
+- Q4_0 scored 14/30 (46.67%), Q4_K_M scored 16/30 (53.33%), and MNN int4 scored
+  4/30 (13.33%); every variant repeated the same parsed predictions exactly.
+- The response cap was reached by 27/30 Q4_0, 10/30 Q4_K_M, and 29/30 MNN cases.
+  MNN usually spent the eight-token budget starting a reasoning preamble.
+- MNN's diagnostic measurements were compelling but gated: versus Q4_0 it used
+  a 17.51% smaller package, 49.55% less peak quality-process RSS, and 43.49%
+  lower median same-text task time after loading, while taking 5.02x as long to
+  load. Its failed quality gate prevents a deployment claim.
+- No variant enters the Pareto set. E3 remains visible as a valid empty-frontier
+  result; a longer completion or parser calibration requires a separately
+  predeclared experiment.

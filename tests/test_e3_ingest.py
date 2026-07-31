@@ -13,6 +13,29 @@ SPEC.loader.exec_module(INGEST)
 
 
 class E3IngestTests(unittest.TestCase):
+    def test_quality_sources_are_artifact_relative(self) -> None:
+        quality = {
+            "variants": {
+                "candidate": {
+                    "repetitions": [
+                        {"source": "/tmp/download/quality-repeat-1.json"},
+                        {"source": "/other/path/quality-repeat-2.json"},
+                    ]
+                }
+            }
+        }
+        INGEST.normalize_quality_sources(quality, ("candidate",))
+        self.assertEqual(
+            [
+                "variants/candidate/quality-repeat-1.json",
+                "variants/candidate/quality-repeat-2.json",
+            ],
+            [
+                run["source"]
+                for run in quality["variants"]["candidate"]["repetitions"]
+            ],
+        )
+
     def test_pareto_front_excludes_only_dominated_candidates(self) -> None:
         directions = {
             "quality": "higher",
