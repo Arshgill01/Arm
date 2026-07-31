@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E5e",
+  "title": "Selected-model context and KV-cache memory profile",
+  "artifact_name_prefix": "e5e-kv-context-profile",
+  "scope": "Quality-gated context right-sizing and K-cache precision profiling on the promoted cached single-slot native Arm service",
+  "hypothesis": "A workload-sized context and, only if needed, a lower-precision K cache can reduce maximum process RSS by at least 128 MiB while retaining at least 95 percent of baseline throughput, preserving latency within 10 percent, and reproducing every selected E3f prediction.",
+  "prior_evidence": {
+    "selected_service": "E5c promoted shared-prefix caching on one slot; E5d retained that one-slot default.",
+    "observed_prompt_tokens": {
+      "source_run": "30664666945",
+      "minimum": 61,
+      "median": 76,
+      "maximum": 127
+    },
+    "context_rationale": "The measured workload needs at most 127 prompt tokens plus the frozen eight-token output cap. A 256-token context leaves 1.896x headroom over that 135-token bound.",
+    "runtime_source": {
+      "repository": "ggml-org/llama.cpp",
+      "commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+      "context_source": "src/llama-context.cpp",
+      "mechanism": "The pinned runtime permits quantized K cache without flash attention when head dimensions satisfy the quantization block size; quantized V cache would introduce a flash-attention requirement and is excluded."
+    }
+  },
+  "inputs": {
+    "manifest_path": "results/manifests/e3f-30656151957.json",
+    "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "policy_path": "configs/cloud-quality.json",
+    "policy_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "runtime_contract_path": "experiments/e3f_contract.json",
+    "runtime_contract_sha256": "a43ebf2b44aba9bac7e44e18a979901715cd23855df0d2c16c93375382977551",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "reference_correct": 23,
+    "reference_total": 30,
+    "reference_accuracy": 0.7666666666666667,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "llama_cpp_commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+    "llama_cpp_tag": "b10208",
+    "required_runtime_buffer_patterns": [
+      "CPU_REPACK model buffer size",
+      "CPU_Mapped model buffer size"
+    ]
+  },
+  "request": {
+    "instruction_role": "system",
+    "chat_template_mode": "model_jinja_system_instruction",
+    "temperature": 0.0,
+    "seed": 424242,
+    "max_output_tokens": 8,
+    "timeout_seconds": 30.0,
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ],
+    "measured_tasks": 30
+  },
+  "mechanism": {
+    "expected_layers": 26,
+    "expected_v_cache_type": "f16",
+    "proof_log_verbosity": 4,
+    "required_log_pattern": "llama_kv_cache: size ="
+  },
+  "execution": {
+    "fresh_server_per_cell": true,
+    "repetitions_per_configuration": 2,
+    "baseline_configuration": "ctx2048_k_f16",
+    "configurations": {
+      "ctx2048_k_f16": {
+        "server_parallel_slots": 1,
+        "client_concurrency": 1,
+        "prompt_cache": true,
+        "warmup_slot_ids": [
+          0,
+          0
+        ],
+        "context_per_slot": 2048,
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16",
+        "flash_attention": "auto"
+      },
+      "ctx2048_k_q8_0": {
+        "server_parallel_slots": 1,
+        "client_concurrency": 1,
+        "prompt_cache": true,
+        "warmup_slot_ids": [
+          0,
+          0
+        ],
+        "context_per_slot": 2048,
+        "kv_cache_type_k": "q8_0",
+        "kv_cache_type_v": "f16",
+        "flash_attention": "auto"
+      },
+      "ctx2048_k_q4_0": {
+        "server_parallel_slots": 1,
+        "client_concurrency": 1,
+        "prompt_cache": true,
+        "warmup_slot_ids": [
+          0,
+          0
+        ],
+        "context_per_slot": 2048,
+        "kv_cache_type_k": "q4_0",
+        "kv_cache_type_v": "f16",
+        "flash_attention": "auto"
+      },
+      "ctx256_k_f16": {
+        "server_parallel_slots": 1,
+        "client_concurrency": 1,
+        "prompt_cache": true,
+        "warmup_slot_ids": [
+          0,
+          0
+        ],
+        "context_per_slot": 256,
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16",
+        "flash_attention": "auto"
+      },
+      "ctx256_k_q8_0": {
+        "server_parallel_slots": 1,
+        "client_concurrency": 1,
+        "prompt_cache": true,
+        "warmup_slot_ids": [
+          0,
+          0
+        ],
+        "context_per_slot": 256,
+        "kv_cache_type_k": "q8_0",
+        "kv_cache_type_v": "f16",
+        "flash_attention": "auto"
+      },
+      "ctx256_k_q4_0": {
+        "server_parallel_slots": 1,
+        "client_concurrency": 1,
+        "prompt_cache": true,
+        "warmup_slot_ids": [
+          0,
+          0
+        ],
+        "context_per_slot": 256,
+        "kv_cache_type_k": "q4_0",
+        "kv_cache_type_v": "f16",
+        "flash_attention": "auto"
+      }
+    },
+    "order": [
+      {
+        "configuration": "ctx2048_k_f16",
+        "repetition": 1
+      },
+      {
+        "configuration": "ctx2048_k_q8_0",
+        "repetition": 1
+      },
+      {
+        "configuration": "ctx2048_k_q4_0",
+        "repetition": 1
+      },
+      {
+        "configuration": "ctx256_k_f16",
+        "repetition": 1
+      },
+      {
+        "configuration": "ctx256_k_q8_0",
+        "repetition": 1
+      },
+      {
+        "configuration": "ctx256_k_q4_0",
+        "repetition": 1
+      },
+      {
+        "configuration": "ctx256_k_q4_0",
+        "repetition": 2
+      },
+      {
+        "configuration": "ctx256_k_q8_0",
+        "repetition": 2
+      },
+      {
+        "configuration": "ctx256_k_f16",
+        "repetition": 2
+      },
+      {
+        "configuration": "ctx2048_k_q4_0",
+        "repetition": 2
+      },
+      {
+        "configuration": "ctx2048_k_q8_0",
+        "repetition": 2
+      },
+      {
+        "configuration": "ctx2048_k_f16",
+        "repetition": 2
+      }
+    ]
+  },
+  "selection_policy": {
+    "weighted_score_used": false,
+    "eligible_profiles": "Non-baseline configurations passing every quality, context, performance, and memory gate",
+    "kv_precision_preference": [
+      "f16",
+      "q8_0",
+      "q4_0"
+    ],
+    "tie_breakers": [
+      "higher K-cache precision",
+      "larger context",
+      "lower maximum RSS",
+      "configuration name"
+    ]
+  },
+  "acceptance": {
+    "http_status": 200,
+    "termination_reason": "stop",
+    "request_failures": 0,
+    "reference_prediction_mismatches": 0,
+    "minimum_candidate_cached_tokens_per_request": 1,
+    "minimum_context_headroom_ratio": 1.5,
+    "minimum_throughput_retention_ratio": 0.95,
+    "maximum_median_http_latency_ratio": 1.1,
+    "maximum_p95_http_latency_ratio": 1.1,
+    "minimum_process_rss_reduction_kib": 131072,
+    "maximum_ready_ms": 15000.0,
+    "maximum_process_rss_kib": 8388608,
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ]
+  }
+}

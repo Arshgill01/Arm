@@ -524,6 +524,40 @@ serving is rejected; the promoted cached single-slot default remains unchanged.
 See
 [`../results/reports/e5d-cached-concurrency.md`](../results/reports/e5d-cached-concurrency.md).
 
+## E5e frozen context and KV-cache memory profile
+
+E5e asks whether the promoted E5c single-slot service reserves more KV memory
+than this application needs. The retained E5d probes used at most 127 prompt
+tokens, and generation remains capped at eight. The 2,048-token default is
+therefore compared with a 256-token workload profile, which leaves 1.896x
+headroom over the measured 135-token prompt-plus-output bound.
+
+The second factor is K-cache precision: f16, q8_0, and q4_0. V remains f16 in
+every profile because the pinned runtime makes quantized V conditional on flash
+attention; changing both would confound the memory mechanism. The existing
+`auto` flash-attention mode is explicitly bound in every recipe. The exact runtime
+must emit an unmeasured allocation record for all six context/precision
+combinations, and the validator requires K sizes to decrease with precision,
+both K and V sizes to decrease with context, and V to remain constant inside
+each context factor.
+
+Twelve fresh servers run two repetitions in forward then reverse order. The
+selected model, pinned runtime, four threads, one slot/client, promoted prompt
+cache, request content, seed, and output cap remain fixed. A profile may drift
+to another valid A-D answer without invalidating evidence from the other
+profiles, but it becomes ineligible. Every promotable profile must reproduce
+all E3f predictions, retain at least 95% of baseline throughput, keep pooled
+median and p95 HTTP latency within 1.10x, leave at least 1.5x measured context
+headroom, reduce conservative maximum RSS by at least 128 MiB, become ready
+within 15 seconds, and stay below 8 GiB RSS.
+
+Selection is lexicographic, never weighted: among eligible non-baseline
+profiles, prefer f16 K over q8_0 over q4_0, then larger context, lower maximum
+RSS, and configuration name. This deliberately promotes workload right-sizing
+before lossy cache quantization when both solve the memory problem. Exact
+inputs and order are frozen in
+[`../experiments/e5e_contract.json`](../experiments/e5e_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

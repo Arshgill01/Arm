@@ -3,13 +3,12 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
-from pathlib import Path
 import tempfile
 import unittest
+from pathlib import Path
 
 from pareto64.planner import load_object
 from pareto64.runtime import prepare_launch, validate_server_version
-
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -74,6 +73,10 @@ class Pareto64RuntimeTests(unittest.TestCase):
             self.assertIn("--cont-batching", recipe["runtime"]["argv"])
             self.assertIn("--cache-prompt", recipe["runtime"]["argv"])
             self.assertTrue(recipe["runtime"]["prompt_cache"])
+            self.assertEqual("f16", recipe["runtime"]["kv_cache_type_k"])
+            self.assertEqual("f16", recipe["runtime"]["kv_cache_type_v"])
+            self.assertEqual("auto", recipe["runtime"]["flash_attention"])
+            self.assertIn("--flash-attn", recipe["runtime"]["argv"])
             self.assertFalse(recipe["weighted_score_used"])
 
             uncached_recipe = prepare_launch(
@@ -96,6 +99,31 @@ class Pareto64RuntimeTests(unittest.TestCase):
             self.assertIn("--no-cache-prompt", uncached_recipe["runtime"]["argv"])
             self.assertNotIn("--cache-prompt", uncached_recipe["runtime"]["argv"])
             self.assertFalse(uncached_recipe["runtime"]["prompt_cache"])
+
+            profiled_recipe = prepare_launch(
+                manifest=manifest,
+                constraints=constraints,
+                models=models,
+                contract=contract,
+                manifest_path=manifest_path,
+                constraints_path=constraints_path,
+                models_path=models_path,
+                contract_path=contract_path,
+                model_root=model_root,
+                server_path=server_path,
+                version_output="version b10208 (9d9a6d29f)",
+                host="127.0.0.1",
+                port=18081,
+                parallel=1,
+                context_per_slot=256,
+                kv_cache_type_k="q8_0",
+                log_verbosity=3,
+            )
+            self.assertEqual(256, profiled_recipe["runtime"]["context_total"])
+            self.assertEqual("q8_0", profiled_recipe["runtime"]["kv_cache_type_k"])
+            self.assertEqual(3, profiled_recipe["runtime"]["log_verbosity"])
+            self.assertIn("--cache-type-k", profiled_recipe["runtime"]["argv"])
+            self.assertIn("--log-verbosity", profiled_recipe["runtime"]["argv"])
 
     def test_model_hash_mismatch_fails_closed(self) -> None:
         manifest = load_object(ROOT / "results/manifests/e3f-30656151957.json")
@@ -149,7 +177,9 @@ class Pareto64RuntimeTests(unittest.TestCase):
 
     def test_runtime_commit_mismatch_fails_closed(self) -> None:
         with self.assertRaisesRegex(ValueError, "version differs"):
-            validate_server_version("different build", "9d9a6d29f6b981cc7f41983d26e56485c6af1811")
+            validate_server_version(
+                "different build", "9d9a6d29f6b981cc7f41983d26e56485c6af1811"
+            )
 
     def test_model_symlink_cannot_escape_candidate_directory(self) -> None:
         manifest = load_object(ROOT / "results/manifests/e3f-30656151957.json")

@@ -50,6 +50,22 @@ def parse_args() -> argparse.Namespace:
     launch.add_argument("--port", type=int, default=8081)
     launch.add_argument("--parallel", type=int, default=1)
     launch.add_argument(
+        "--context-per-slot",
+        type=int,
+        help="reduce the validated per-slot context for a measured workload profile",
+    )
+    launch.add_argument(
+        "--kv-cache-type-k",
+        choices=("f16", "q8_0", "q4_0"),
+        default="f16",
+    )
+    launch.add_argument(
+        "--kv-cache-type-v",
+        choices=("f16",),
+        default="f16",
+    )
+    launch.add_argument("--log-verbosity", type=int)
+    launch.add_argument(
         "--prompt-cache",
         action=argparse.BooleanOptionalAction,
         default=True,
@@ -117,6 +133,10 @@ def main() -> int:
             port=arguments.port,
             parallel=arguments.parallel,
             prompt_cache=arguments.prompt_cache,
+            context_per_slot=arguments.context_per_slot,
+            kv_cache_type_k=arguments.kv_cache_type_k,
+            kv_cache_type_v=arguments.kv_cache_type_v,
+            log_verbosity=arguments.log_verbosity,
         )
         write_recipe(arguments.recipe_output, recipe)
         print(arguments.recipe_output, flush=True)

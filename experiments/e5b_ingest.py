@@ -115,6 +115,7 @@ def validate_probe(
     contract: dict[str, Any],
     tasks: list[dict[str, Any]],
     references: dict[str, str],
+    require_selected_quality: bool = True,
 ) -> dict[str, Any]:
     request_contract = contract["request"]
     parameters = probe.get("parameters")
@@ -247,10 +248,13 @@ def validate_probe(
     selected = contract["selected"]
     acceptance = contract["acceptance"]
     if (
-        correct != selected["reference_correct"]
-        or len(cases) != selected["reference_total"]
-        or correct / len(cases) != selected["reference_accuracy"]
+        len(cases) != selected["reference_total"]
         or failures != acceptance["request_failures"]
+    ):
+        raise ValueError("probe does not reproduce selected E3f quality")
+    if require_selected_quality and (
+        correct != selected["reference_correct"]
+        or correct / len(cases) != selected["reference_accuracy"]
         or mismatches != acceptance["reference_prediction_mismatches"]
     ):
         raise ValueError("probe does not reproduce selected E3f quality")
@@ -304,13 +308,14 @@ def validate_recipe(
     ):
         raise ValueError("launch recipe model package differs from selected evidence")
     slots = config["server_parallel_slots"]
+    context_per_slot = config.get("context_per_slot", 2048)
     if (
         runtime.get("llama_cpp_commit") != selected["llama_cpp_commit"]
         or selected["llama_cpp_commit"][:9] not in runtime.get("server_version", "")
         or runtime.get("threads") != 4
         or runtime.get("parallel_slots") != slots
-        or runtime.get("context_per_slot") != 2048
-        or runtime.get("context_total") != 2048 * slots
+        or runtime.get("context_per_slot") != context_per_slot
+        or runtime.get("context_total") != context_per_slot * slots
     ):
         raise ValueError("launch recipe runtime differs from the frozen configuration")
     argv = runtime.get("argv")
@@ -333,6 +338,27 @@ def validate_recipe(
         )
     ):
         raise ValueError("launch recipe lacks required serving arguments")
+    if "context_per_slot" in config and (
+        argv.count("--ctx-size") != 1
+        or argv.index("--ctx-size") == len(argv) - 1
+        or argv[argv.index("--ctx-size") + 1] != str(context_per_slot * slots)
+    ):
+        raise ValueError("launch recipe context argument differs from the contract")
+    for field, argument in (
+        ("kv_cache_type_k", "--cache-type-k"),
+        ("kv_cache_type_v", "--cache-type-v"),
+        ("flash_attention", "--flash-attn"),
+    ):
+        if field not in config:
+            continue
+        expected = config[field]
+        if (
+            runtime.get(field) != expected
+            or argv.count(argument) != 1
+            or argv.index(argument) == len(argv) - 1
+            or argv[argv.index(argument) + 1] != expected
+        ):
+            raise ValueError("launch recipe KV cache type differs from the contract")
 
 
 def validate_cell(
@@ -344,6 +370,7 @@ def validate_cell(
     contract: dict[str, Any],
     tasks: list[dict[str, Any]],
     references: dict[str, str],
+    require_selected_quality: bool = True,
 ) -> dict[str, Any]:
     validate_recipe(
         load_object(cell_dir / "recipe.json"), config=config, contract=contract
@@ -366,6 +393,7 @@ def validate_cell(
         contract=contract,
         tasks=tasks,
         references=references,
+        require_selected_quality=require_selected_quality,
     )
     process = parse_time_output(
         (cell_dir / "server-time.log").read_text(encoding="utf-8")

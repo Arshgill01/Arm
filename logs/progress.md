@@ -759,3 +759,25 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   package verifier.
 - Clean-checkout native Arm run `30665760895` passed all 75 tests, six pinned
   evidence hashes, package verification, and the strengthened demo smoke test.
+
+## 2026-07-31 — E5e context and KV-cache profile frozen
+
+- E5d measured at most 127 prompt tokens with an eight-token output cap, while
+  the promoted single-slot launcher still reserves 2,048 tokens of context.
+  The frozen 256-token factor retains 1.896x headroom over the measured
+  135-token bound.
+- Audited pinned llama.cpp `b10208`: quantized V cache requires flash attention,
+  while the selected model's 128-wide K heads satisfy q8_0/q4_0 block sizing.
+  E5e therefore varies only K precision and holds V at f16 to avoid a hidden
+  required attention-kernel change; the existing `auto` mode is explicit in
+  every launch recipe.
+- Froze a 2×3 context/K-precision factorial with two repetitions and exact
+  forward/reverse order. Separate INFO-level launches must prove all six KV
+  allocation sizes without adding logging overhead to measured cells.
+- Added bounded, fail-closed launcher overrides for context and K/V types. The
+  validator treats answer drift as profile ineligibility rather than discarding
+  valid evidence from the remaining factorial.
+- Promotion requires exact selected quality, at least 128 MiB lower conservative
+  maximum RSS, at least 95% throughput retention, no more than 1.10x median or
+  p95 latency, and the existing readiness/RSS ceilings. Lexicographic selection
+  preserves K precision before taking additional memory savings.

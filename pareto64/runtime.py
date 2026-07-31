@@ -2,11 +2,14 @@ from __future__ import annotations
 
 import json
 import os
-from pathlib import Path
 import subprocess
+from pathlib import Path
 from typing import Any
 
 from .planner import build_plan, sha256_file
+
+K_CACHE_TYPES = {"f16", "q8_0", "q4_0"}
+V_CACHE_TYPES = {"f16"}
 
 
 def server_version(server_path: Path) -> str:
@@ -96,6 +99,10 @@ def prepare_launch(
     port: int,
     parallel: int,
     prompt_cache: bool = True,
+    context_per_slot: int | None = None,
+    kv_cache_type_k: str = "f16",
+    kv_cache_type_v: str = "f16",
+    log_verbosity: int | None = None,
 ) -> dict[str, Any]:
     plan = build_plan(
         manifest,
@@ -122,11 +129,10 @@ def prepare_launch(
     if model.get("framework") != "llama.cpp":
         raise ValueError("selected runtime is not supported by the launch adapter")
     provenance = manifest.get("provenance", {})
-    if (
-        model.get("revision")
-        != provenance.get("model_revisions", {}).get(candidate)
-        or models.get("source_model", {}).get("revision")
-        != provenance.get("source_model_revision")
+    if model.get("revision") != provenance.get("model_revisions", {}).get(
+        candidate
+    ) or models.get("source_model", {}).get("revision") != provenance.get(
+        "source_model_revision"
     ):
         raise ValueError("model catalog revisions differ from selected evidence")
     upstream = contract.get("upstream", {})
@@ -144,18 +150,35 @@ def prepare_launch(
         raise ValueError("runtime prompt cache setting must be boolean")
     configuration = contract.get("configuration", {})
     threads = configuration.get("threads")
-    slot_context = configuration.get("context")
+    contract_context = configuration.get("context")
     temperature = configuration.get("temperature")
     seed = configuration.get("seed")
     if (
         not isinstance(threads, int)
         or threads <= 0
-        or not isinstance(slot_context, int)
-        or slot_context <= 0
+        or not isinstance(contract_context, int)
+        or contract_context <= 0
         or not isinstance(temperature, (int, float))
         or not isinstance(seed, int)
     ):
         raise ValueError("runtime contract has invalid server configuration")
+    slot_context = contract_context if context_per_slot is None else context_per_slot
+    if (
+        type(slot_context) is not int
+        or slot_context < 128
+        or slot_context > contract_context
+        or slot_context % 32 != 0
+    ):
+        raise ValueError(
+            "context per slot must be a multiple of 32 between 128 and the "
+            "validated runtime context"
+        )
+    if kv_cache_type_k not in K_CACHE_TYPES or kv_cache_type_v not in V_CACHE_TYPES:
+        raise ValueError("KV cache type is not allowed by the verified launcher")
+    if log_verbosity is not None and (
+        type(log_verbosity) is not int or not 0 <= log_verbosity <= 5
+    ):
+        raise ValueError("log verbosity must be between 0 and 5")
     expected_package_size = int(selected["metrics"]["package_size_bytes"])
     validated_files = validate_model_package(
         model_root, candidate, model, expected_package_size
@@ -179,6 +202,12 @@ def prepare_launch(
         str(threads),
         "--ctx-size",
         str(slot_context * parallel),
+        "--cache-type-k",
+        kv_cache_type_k,
+        "--cache-type-v",
+        kv_cache_type_v,
+        "--flash-attn",
+        "auto",
         "--parallel",
         str(parallel),
         "--cont-batching",
@@ -198,6 +227,8 @@ def prepare_launch(
         "--log-colors",
         "off",
     ]
+    if log_verbosity is not None:
+        argv.extend(["--log-verbosity", str(log_verbosity)])
     return {
         "schema_version": 1,
         "service": "Pareto64",
@@ -234,8 +265,12 @@ def prepare_launch(
             "threads": threads,
             "parallel_slots": parallel,
             "prompt_cache": prompt_cache,
+            "kv_cache_type_k": kv_cache_type_k,
+            "kv_cache_type_v": kv_cache_type_v,
+            "flash_attention": "auto",
             "context_per_slot": slot_context,
             "context_total": slot_context * parallel,
+            "log_verbosity": log_verbosity,
             "argv": argv,
         },
         "weighted_score_used": False,
