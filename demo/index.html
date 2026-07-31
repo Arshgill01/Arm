@@ -19,6 +19,7 @@
       <a class="wordmark" href="#main" aria-label="Pareto64 home">Pareto64</a>
       <nav aria-label="Primary navigation">
         <a href="#decision">Decision lab</a>
+        <a href="#serving">Serving win</a>
         <a href="#optimization">Arm patch</a>
         <a href="#evidence">Evidence</a>
       </nav>
@@ -48,16 +49,16 @@
               <dd>76.67%</dd>
             </div>
             <div>
+              <dt>Cached throughput</dt>
+              <dd>0.899 req/s</dd>
+            </div>
+            <div>
+              <dt>Serving median</dt>
+              <dd>1.06 s</dd>
+            </div>
+            <div>
               <dt>Model package</dt>
               <dd>2.15 GB</dd>
-            </div>
-            <div>
-              <dt>Median inference</dt>
-              <dd>1.80 s</dd>
-            </div>
-            <div>
-              <dt>Peak RSS</dt>
-              <dd>4.70 GB</dd>
             </div>
           </dl>
         </div>
@@ -171,6 +172,52 @@
         </div>
       </section>
 
+      <section class="cache-section" id="serving" aria-labelledby="serving-title">
+        <header class="section-heading">
+          <h2 id="serving-title">Reuse 25 tokens. Keep all 120 answers.</h2>
+          <p>
+            The selected service was correct but repeated the same system and
+            chat-template prefix on every request. Quality-gated KV reuse
+            removed that work without changing a single prediction.
+          </p>
+        </header>
+
+        <div class="cache-comparison">
+          <div class="cache-side before">
+            <h3>Cache disabled</h3>
+            <div class="cache-rate">0.538 <span>requests/s</span></div>
+            <div class="cache-bar" aria-label="Baseline relative throughput">
+              <span></span>
+            </div>
+            <dl>
+              <div><dt>Prompt encode</dt><dd>1,738 ms</dd></div>
+              <div><dt>Median HTTP</dt><dd>1,807 ms</dd></div>
+              <div><dt>Reused tokens</dt><dd>0</dd></div>
+            </dl>
+          </div>
+          <div class="cache-multiplier" aria-label="1.672 times throughput">
+            <strong>1.672×</strong>
+            <span>throughput</span>
+          </div>
+          <div class="cache-side after">
+            <h3>Shared-prefix cache</h3>
+            <div class="cache-rate">0.899 <span>requests/s</span></div>
+            <div class="cache-bar" aria-label="Cached relative throughput">
+              <span></span>
+            </div>
+            <dl>
+              <div><dt>Prompt encode</dt><dd>989 ms</dd></div>
+              <div><dt>Median HTTP</dt><dd>1,062 ms</dd></div>
+              <div><dt>Median reused tokens</dt><dd>25</dd></div>
+            </dl>
+          </div>
+        </div>
+        <p class="cache-guardrail">
+          Four fresh servers · A–B–B–A order · 23/30 in every cell · zero drift
+          · +6.2 MiB maximum RSS
+        </p>
+      </section>
+
       <section class="optimization-section" id="optimization" aria-labelledby="optimization-title">
         <header class="section-heading">
           <h2 id="optimization-title">Six vector instructions replaced 32 scalar stores</h2>
@@ -238,6 +285,11 @@
             <span class="evidence-result reject-text">Not promoted</span>
           </li>
           <li>
+            <span class="evidence-id">E5c</span>
+            <div><strong>Shared-prefix prompt cache</strong><p>1.672× throughput with all 120 answers preserved.</p></div>
+            <span class="evidence-result select-text">Promoted</span>
+          </li>
+          <li>
             <span class="evidence-id">E6b</span>
             <div><strong>NEON vector-store patch</strong><p>2.029× direct hot-path throughput.</p></div>
             <span class="evidence-result select-text">Accepted</span>
@@ -261,7 +313,7 @@
       <p>Pareto64 · Apache-2.0 · Arm Create AI Optimization Challenge 2026</p>
       <div>
         <a href="../results/reports/e3f-ministral-frontier.md">Selected frontier</a>
-        <a href="../results/reports/e5b-selected-inference.md">Serving proof</a>
+        <a href="../results/reports/e5c-prompt-cache.md">Serving optimization</a>
         <a href="../results/reports/e6b-q8-vector-store.md">Arm patch</a>
       </div>
     </footer>

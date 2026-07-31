@@ -1,4 +1,4 @@
-# Public demo script — 2 minutes 35 seconds
+# Public demo script — 2 minutes 50 seconds
 
 Record at 1440×900 or 1920×1080. Show the browser and terminal at readable zoom.
 Use no copyrighted music or third-party footage.
@@ -11,7 +11,7 @@ Use no copyrighted music or third-party footage.
 faster and slightly smaller—but it failed the workload. Pareto64 selected the
 only package that cleared quality and every deployment SLO.”
 
-## 0:18–0:48 — The quality frontier
+## 0:18–0:43 — The quality frontier
 
 **Screen:** Point to the 70% Q4_0 marker, the fixed 75% line, and the selected
 76.67% Q4_K_M marker. Keep all four selected metrics visible.
@@ -20,7 +20,7 @@ only package that cleared quality and every deployment SLO.”
 experiment quality first, then evaluates latency, load time, memory, and size.
 There is no weighted score to hide a bad tradeoff.”
 
-## 0:48–1:18 — Interactive refusal
+## 0:43–1:08 — Interactive refusal
 
 **Screen:** Navigate to “Decision lab.” Click “Latency temptation.” Show
 `No feasible candidate`, then return to “Quality deployment.”
@@ -30,7 +30,17 @@ model stays rejected because its frozen experiment gate failed. Tightening the
 latency SLO makes the selected model fail too, so Pareto64 refuses deployment
 instead of moving the goalposts.”
 
-## 1:18–1:50 — Arm-specific patch
+## 1:08–1:35 — Serving optimization
+
+**Screen:** Scroll to “Reuse 25 tokens. Keep all 120 answers.” Point to the
+throughput bars and the zero-drift guardrail.
+
+**Voice:** “More server slots gained only 1.9%, so we rejected them. Shared
+prefix caching was different: every request reused at least 25 prompt tokens,
+all 120 answers stayed identical, throughput rose 1.67 times, and median HTTP
+latency fell 41%. That cleared both frozen performance gates.”
+
+## 1:35–2:02 — Arm-specific patch
 
 **Screen:** Scroll to the before/after assembly section.
 
@@ -41,20 +51,20 @@ about 5.1 to 10.3 gigabytes per second. Outputs were bit-identical, upstream
 tests passed, and real-model inference did not regress. We do not claim a
 whole-model speedup.”
 
-## 1:50–2:14 — Exact serving
+## 2:02–2:30 — Exact serving
 
-**Screen:** Show the E5b row and then the terminal.
+**Screen:** Show the E5b and E5c rows, then the terminal.
 
 ```bash
 python3 scripts/verify_submission.py
 ```
 
-**Voice:** “The selected package was then launched through a hash-verifying
-adapter. Across 120 native Arm requests, every answer matched the selected
-evidence. Two inference slots gained only 1.9%, below our frozen 10% target, so
-the product kept one slot.”
+**Voice:** “The product launches through a hash-verifying adapter. The verifier
+pins the model, runtime, selected plan, serving evidence, and Arm patch. Cache
+mode is written into the recipe, and there is an explicit no-cache escape hatch
+for workloads that have not passed the same correctness gate.”
 
-## 2:14–2:35 — Close
+## 2:30–2:50 — Close
 
 **Screen:** Run the planner command, show `ministral3_3b_q4_k_m`, then end on the
 top of the demo.

@@ -89,17 +89,24 @@ context proportionally so each slot retains the frozen context allocation.
 `--dry-run` performs every integrity and selection check and writes the recipe
 without starting the server.
 
-Prompt-prefix reuse remains disabled by default because the pinned llama.cpp
-runtime warns that cache-dependent prompt batch sizes can alter logits. The
-launcher exposes `--prompt-cache` only as an auditable experimental override;
-E5c must reproduce every selected answer and clear frozen throughput and encode
-gates before the default can change.
+Prompt-prefix reuse is enabled by default after E5c reproduced every selected
+answer and improved repeated median throughput 1.672x. The pinned llama.cpp
+runtime warns that cache-dependent prompt batch sizes can alter logits, so the
+hashed recipe records the mode and `--no-prompt-cache` remains available for
+workloads that have not passed an equivalent application-level correctness
+gate.
 
 E5b validated the full launch path on native Arm with zero answer drift across
 120 measured requests. Its two-slot candidate improved repeated median
 throughput by only 1.89%, below the frozen 10% minimum, while pooled median
 latency rose from 1.81 to 3.57 seconds. The default remains one slot; `--parallel`
 is an explicit deployment override, not a promoted optimization.
+
+E5c kept one slot and changed only shared-prefix caching. All 120 answers again
+matched the selected evidence, while throughput rose from 0.5378 to 0.8991
+requests/s and pooled median latency fell from 1.807 to 1.062 seconds. Unlike
+the two-slot candidate, prompt caching cleared both frozen 1.10x performance
+gates and is promoted.
 
 ## Constraint contract
 
@@ -135,4 +142,6 @@ E3f now selects Ministral 3 3B Q4_K_M after a stable 76.67% result and clean
 resource SLOs. E5b is the frozen native Arm gate for the launch adapter and
 two-slot inference service. The service passed every quality and resource gate,
 but two slots missed the throughput-improvement threshold, so inference serving
-is validated while the single-slot default is retained.
+is validated while the single-slot default is retained. E5c subsequently
+validated quality-preserving shared-prefix caching at 1.672x throughput and
+promoted it within that single-slot default.

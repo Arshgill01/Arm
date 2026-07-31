@@ -158,10 +158,11 @@ jobs:
             local prompt_cache="$4"
             local output_dir="$EVIDENCE_DIR/cells/${index}-${configuration}-r${repetition}"
             local probe_cache_argument="--no-cache-prompt"
-            local launch_cache_arguments=()
+            local launch_cache_arguments=(--no-prompt-cache)
             if [ "$prompt_cache" = "true" ]; then
               probe_cache_argument="--cache-prompt"
-              launch_cache_arguments=(--prompt-cache)
+              # Exercise the promoted launcher default; the recipe must still bind true.
+              launch_cache_arguments=()
             fi
             mkdir -p "$output_dir"
             /usr/bin/time --verbose --output "$output_dir/server-time.log" \

@@ -44,6 +44,8 @@ Ministral 3 Q4_K_M is the first candidate to clear the unchanged quality and
 cloud SLO gates. A fail-closed launch adapter now binds that selection to the
 exact model hash and pinned llama.cpp build. E5b validates native inference
 serving with zero answer drift while rejecting a marginal two-slot tuning win.
+E5c then preserves all 120 answers while quality-gated shared-prefix caching
+raises repeated median throughput 1.672x and cuts median HTTP latency 41.3%.
 
 ```bash
 python3 -m pareto64 plan \

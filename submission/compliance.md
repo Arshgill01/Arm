@@ -19,7 +19,7 @@ Last technical review: 2026-07-31 UTC. The submission deadline is August 14,
 - [x] English project overview, functionality, implementation, challenges,
       accomplishments, learning, and future work are drafted.
 - [x] Interactive no-dependency demo is implemented and browser-tested.
-- [x] Video script is under three minutes.
+- [x] Video script is under three minutes (2m50s).
 - [x] Clean-checkout native Arm validation passes in public workflow run
       [`30661309115`](https://github.com/Arshgill01/Arm/actions/runs/30661309115).
 
@@ -35,7 +35,7 @@ repository. They use no third-party imagery, fonts, music, or footage.
 - [ ] Verify that URL works without credentials and will remain available through
       September 4, 2026.
 - [ ] Replace `<ADD PUBLIC DEMO URL>` in `submission/devpost.md`.
-- [ ] Record the 2m35s script on the intended native Arm evidence path.
+- [ ] Record the 2m50s script on the intended native Arm evidence path.
 - [ ] Upload the video publicly to YouTube, Vimeo, or Youku.
 - [ ] Replace `<ADD PUBLIC VIDEO URL>` in `submission/devpost.md`.
 - [ ] Add screenshots from `output/playwright/` to the Devpost gallery.

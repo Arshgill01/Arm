@@ -16,6 +16,8 @@ authoritative, timestamped record; this file groups the significant additions.
   exact model/runtime/input hashes, emits a recipe, and starts llama-server.
 - Validated exact selected-model serving across 120 native Arm requests with no
   response drift; rejected a marginal two-slot optimization.
+- Promoted quality-gated shared-prefix caching after it preserved all 120
+  answers, raised throughput 1.672x, and cut median HTTP latency 41.3%.
 
 ### Native evidence
 
@@ -40,7 +42,7 @@ authoritative, timestamped record; this file groups the significant additions.
 ### Submission and developer experience
 
 - Added immutable experiment contracts, raw-data ingesters, compact manifests,
-  reports, CI workflows, source patches, and 65 tests.
+  reports, CI workflows, source patches, and 72 tests.
 - Added a dependency-free interactive evidence demo, browser screenshots,
   paste-ready Devpost draft, video script, claim index, compliance checklist,
   and clean-checkout package verifier.

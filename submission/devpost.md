@@ -67,6 +67,13 @@ A two-slot tuning candidate improved repeated median throughput only 1.019x,
 below its predeclared 1.10x gate, and nearly doubled median request latency.
 Pareto64 retained one slot rather than marketing a marginal concurrency win.
 
+We then tested shared-prefix prompt caching in a separate frozen A–B–B–A
+experiment. Upstream warns that cache-dependent prompt batch sizes can alter
+logits, so all 120 responses had to match before speed counted. They did.
+Caching reused at least 25 tokens per request, raised repeated median throughput
+from 0.538 to 0.899 requests/s (1.672x), and cut pooled median HTTP latency from
+1.807 to 1.062 seconds with only about 6.2 MiB additional maximum RSS.
+
 ### Arm-specific source work
 
 We fixed a llama.cpp/KleidiAI feature-selection defect where a substring search
@@ -119,19 +126,22 @@ without changing measured inputs or post-observation thresholds.
 - first deployable quality/SLO frontier after multiple valid empty frontiers;
 - exact model-to-runtime launch with cryptographic fail-closed checks;
 - stable end-to-end native Arm inference service with zero response drift;
+- quality-gated prompt reuse delivering 1.672x serving throughput and 41% lower
+  median HTTP latency;
 - two reviewable Arm source patches with correctness evidence;
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 65 local tests plus native Arm workflows for the final evidence path.
+- 72 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 
 Optimization is a sequence of obligations, not a leaderboard. Quantization can
 save time and lose the task. A locally dramatic kernel win can be invisible at
 model level. More server slots can divide fixed compute rather than increase
-throughput. The reusable contribution is the machinery that makes those limits
-visible before deployment.
+throughput, while removing redundant shared-prefix work can produce a large win
+with almost no memory cost. The reusable contribution is the machinery that
+makes those limits visible before deployment.
 
 ## What's next
 

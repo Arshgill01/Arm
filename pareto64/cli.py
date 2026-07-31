@@ -51,8 +51,9 @@ def parse_args() -> argparse.Namespace:
     launch.add_argument("--parallel", type=int, default=1)
     launch.add_argument(
         "--prompt-cache",
-        action="store_true",
-        help="experimentally reuse a shared prompt prefix; disabled by default",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="reuse a shared prompt prefix; validated and enabled by default",
     )
     launch.add_argument("--dry-run", action="store_true")
     return parser.parse_args()

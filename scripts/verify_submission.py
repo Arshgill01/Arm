@@ -23,6 +23,9 @@ EXPECTED_HASHES = {
     "results/manifests/e5b-30659829983.json": (
         "aa529b16094ab398bf1d7c6aa698b452eeea6217f8016c280a5f2b6f947bf66c"
     ),
+    "results/manifests/e5c-30662037235.json": (
+        "27a426dd9ed0ed8e4b9ef513a5ced7418f7a722b91e94ca1bc10f8f76d84bfa7"
+    ),
     "results/manifests/e6b-30640282768.json": (
         "e870ad9cf7b7d1f89f0fa745383f555d54f62b3caf2fc635cbcb76ca4ef7e210"
     ),
@@ -141,6 +144,19 @@ def main() -> int:
         or serving.get("selection", {}).get("correct") != 23
     ):
         raise ValueError("retained serving decision differs from E5b evidence")
+
+    prompt_cache = load_object(ROOT / "results/manifests/e5c-30662037235.json")
+    if (
+        prompt_cache.get("status") != "valid_selected_inference_prompt_cache"
+        or prompt_cache.get("validation", {}).get(
+            "prompt_cache_optimization_claim_allowed"
+        )
+        is not True
+        or prompt_cache.get("selection", {}).get("correct") != 23
+        or prompt_cache.get("throughput_improvement_ratio", 0) < 1.1
+        or prompt_cache.get("prompt_encode_improvement_ratio", 0) < 1.1
+    ):
+        raise ValueError("retained prompt-cache decision differs from E5c evidence")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

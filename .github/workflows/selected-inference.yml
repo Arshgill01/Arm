@@ -170,6 +170,7 @@ jobs:
               --host 127.0.0.1 \
               --port 18081 \
               --parallel "$slots" \
+              --no-prompt-cache \
               > "$output_dir/server.stdout.log" \
               2> "$output_dir/server.stderr.log" &
             active_timer_pid=$!

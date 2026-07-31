@@ -95,7 +95,7 @@ def prepare_launch(
     host: str,
     port: int,
     parallel: int,
-    prompt_cache: bool = False,
+    prompt_cache: bool = True,
 ) -> dict[str, Any]:
     plan = build_plan(
         manifest,
