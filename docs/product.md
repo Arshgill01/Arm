@@ -32,21 +32,24 @@ frontier using the user-visible priority order.
 
 ```bash
 python3 -m pareto64 plan \
-  --manifest results/manifests/e3-30635472160.json \
-  --constraints configs/cloud-balanced.json \
-  --output results/plans/e3-cloud-balanced.json
+  --manifest results/manifests/e3b-30643977955.json \
+  --constraints configs/cloud-quality.json \
+  --output results/plans/e3b-cloud-quality.json
 ```
 
-The current real result is `no_feasible_candidate`. Q4_0, Q4_K_M, and MNN int4
-all fail the frozen E3 quality gate, so Pareto64 selects none of them even though
-MNN has attractive latency, package-size, and RSS measurements.
+Both real policy runs return `no_feasible_candidate`. E3 rejects Q4_0, Q4_K_M,
+and MNN int4 at the frozen quality gate. E3b then rejects a larger 7B Q4_K_M
+anchor at a stable 73.33%, one task short of the unchanged 75% floor; it also
+records the candidate's small same-text latency and RSS SLO misses. Pareto64
+does not allow any of those resource or quality near-misses to become a
+deployment.
 
 The same decision is available through the bounded HTTP service:
 
 ```bash
 python3 -m pareto64 serve \
-  --manifest results/manifests/e3-30635472160.json \
-  --constraints configs/cloud-balanced.json \
+  --manifest results/manifests/e3b-30643977955.json \
+  --constraints configs/cloud-quality.json \
   --host 127.0.0.1 \
   --port 8080
 ```
@@ -78,5 +81,6 @@ This is the evidence-to-decision core and HTTP decision plane, not yet an
 inference server. E5a validated its correctness, concurrency, latency, and RSS;
 E4a then eliminated the observed admission tail under a stricter load. A runtime
 launch adapter is intentionally deferred until a candidate passes the quality
-gate; Pareto64 must not turn an invalid measurement into a deployment. E3b is
-the frozen quality-anchor gate for that next transition.
+gate; Pareto64 must not turn an invalid measurement into a deployment. E3b has
+now produced a valid empty frontier, so the next candidate search must be a
+separately frozen quality-per-byte calibration rather than a relaxed policy.

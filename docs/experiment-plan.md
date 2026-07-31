@@ -108,6 +108,17 @@ If E3b yields a frontier, deployment selection uses the separately frozen
 least 75% task accuracy, at most 5 seconds median same-text latency, 8 GiB
 process RSS, a 5 GB package, and 10 seconds model load on the 16 GiB target.
 
+### E3b outcome
+
+Native run `30643977955` completed the frozen contract. The 1.5B and 7B
+candidates scored a stable 16/30 (53.33%) and 22/30 (73.33%) respectively. The
+7B candidate was within one task of the best because it was the best, but it
+missed the absolute 75% floor by one task; the valid frontier is therefore
+empty. Under the separately frozen cloud policy, 7B also exceeded the
+5-second same-text ceiling by 129.0 ms and the 8 GiB RSS ceiling by 583,420
+KiB. No threshold is relaxed. See
+[`../results/reports/e3b-quality-anchor.md`](../results/reports/e3b-quality-anchor.md).
+
 ## Experimental discipline
 
 - E0–E3 establish feasibility; they do not prove a winning product.

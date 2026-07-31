@@ -1,0 +1,3075 @@
+{
+  "application": {
+    "qwen_1_5b_q4_k_m": {
+      "display_name": "Qwen2.5-1.5B-Instruct Q4_K_M",
+      "minimum_accuracy": 0.5333333333333333,
+      "model_load_ms": {
+        "coefficient_of_variation": 0.003990964088905235,
+        "max": 796.221557,
+        "mean": 793.056497,
+        "median": 793.056497,
+        "min": 789.891437,
+        "p95": 796.221557,
+        "population_stddev": 3.1650599999999827
+      },
+      "package_size_bytes": 1117320736,
+      "quality_eligible": false,
+      "quality_process": {
+        "elapsed_seconds": {
+          "coefficient_of_variation": 0.0030606566499721604,
+          "max": 36.05,
+          "mean": 35.94,
+          "median": 35.94,
+          "min": 35.83,
+          "p95": 36.05,
+          "population_stddev": 0.10999999999999943
+        },
+        "maximum_rss_kib": {
+          "coefficient_of_variation": 7.587872303697001e-06,
+          "max": 2108644.0,
+          "mean": 2108628.0,
+          "median": 2108628.0,
+          "min": 2108612.0,
+          "p95": 2108644.0,
+          "population_stddev": 16.0
+        },
+        "repetitions": [
+          {
+            "elapsed": "0:36.05",
+            "exit_status": 0,
+            "maximum_rss_kib": 2108612,
+            "percent_cpu": "387%"
+          },
+          {
+            "elapsed": "0:35.83",
+            "exit_status": 0,
+            "maximum_rss_kib": 2108644,
+            "percent_cpu": "388%"
+          }
+        ]
+      },
+      "quality_repetitions": [
+        {
+          "accuracy": 0.5333333333333333,
+          "cases": [
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "arithmetic-01",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "arithmetic-02",
+              "predicted": "B",
+              "response": "B. 30<|im"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "arithmetic-03",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "arithmetic-04",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "arithmetic-05",
+              "predicted": "D",
+              "response": "D<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-01",
+              "predicted": "C",
+              "response": "C<|im_end|>\nC"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-02",
+              "predicted": "A",
+              "response": "A|<im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "logic-03",
+              "predicted": "D",
+              "response": "D<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "logic-04",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "logic-05",
+              "predicted": "B",
+              "response": "B. Two\n\nExplanation: If you"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "code-01",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-02",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "code-03",
+              "predicted": "B",
+              "response": "B. [1, 2,"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-04",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-05",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "data-01",
+              "predicted": "A",
+              "response": "A<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "data-02",
+              "predicted": "B",
+              "response": "B<|im_end|>\n<"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-03",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "data-04",
+              "predicted": "C",
+              "response": "C.<|im_end|>\nC"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-05",
+              "predicted": "B",
+              "response": "B<|im_end|>\n<"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-01",
+              "predicted": "B",
+              "response": "B. A dominates C.\n\nVariant A"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "systems-02",
+              "predicted": "D",
+              "response": "D<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "systems-03",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "systems-04",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "systems-05",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-01",
+              "predicted": "B",
+              "response": "B. Refuse to recommend the configuration"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "evidence-02",
+              "predicted": "C",
+              "response": "C. Reproduce the measured configuration.<"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "evidence-03",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "D",
+              "id": "evidence-04",
+              "predicted": "D",
+              "response": "D<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-05",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            }
+          ],
+          "category_accuracy": {
+            "arithmetic": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "code_reasoning": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "data_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "evidence_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "logic": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "systems_reasoning": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            }
+          },
+          "correct": 16,
+          "framework": "llama.cpp",
+          "model_path": "/tmp/Pareto64-E3b/models/qwen_1_5b_q4_k_m/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+          "predictions": {
+            "arithmetic-01": "B",
+            "arithmetic-02": "B",
+            "arithmetic-03": "B",
+            "arithmetic-04": "B",
+            "arithmetic-05": "D",
+            "code-01": "B",
+            "code-02": "B",
+            "code-03": "B",
+            "code-04": "C",
+            "code-05": "B",
+            "data-01": "A",
+            "data-02": "B",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "B",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "C",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "D",
+            "logic-04": "B",
+            "logic-05": "B",
+            "systems-01": "B",
+            "systems-02": "D",
+            "systems-03": "C",
+            "systems-04": "C",
+            "systems-05": "B"
+          },
+          "source": "variants/qwen_1_5b_q4_k_m/quality-repeat-1.json",
+          "total": 30
+        },
+        {
+          "accuracy": 0.5333333333333333,
+          "cases": [
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "arithmetic-01",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "arithmetic-02",
+              "predicted": "B",
+              "response": "B. 30<|im"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "arithmetic-03",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "arithmetic-04",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "arithmetic-05",
+              "predicted": "D",
+              "response": "D<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-01",
+              "predicted": "C",
+              "response": "C<|im_end|>\nC"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-02",
+              "predicted": "A",
+              "response": "A|<im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "logic-03",
+              "predicted": "D",
+              "response": "D<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "logic-04",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "logic-05",
+              "predicted": "B",
+              "response": "B. Two\n\nExplanation: If you"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "code-01",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-02",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "code-03",
+              "predicted": "B",
+              "response": "B. [1, 2,"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-04",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-05",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "data-01",
+              "predicted": "A",
+              "response": "A<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "data-02",
+              "predicted": "B",
+              "response": "B<|im_end|>\n<"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-03",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "data-04",
+              "predicted": "C",
+              "response": "C.<|im_end|>\nC"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-05",
+              "predicted": "B",
+              "response": "B<|im_end|>\n<"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-01",
+              "predicted": "B",
+              "response": "B. A dominates C.\n\nVariant A"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "systems-02",
+              "predicted": "D",
+              "response": "D<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "systems-03",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "systems-04",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "systems-05",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-01",
+              "predicted": "B",
+              "response": "B. Refuse to recommend the configuration"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "evidence-02",
+              "predicted": "C",
+              "response": "C. Reproduce the measured configuration.<"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "evidence-03",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "D",
+              "id": "evidence-04",
+              "predicted": "D",
+              "response": "D<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-05",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            }
+          ],
+          "category_accuracy": {
+            "arithmetic": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "code_reasoning": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "data_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "evidence_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "logic": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "systems_reasoning": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            }
+          },
+          "correct": 16,
+          "framework": "llama.cpp",
+          "model_path": "/tmp/Pareto64-E3b/models/qwen_1_5b_q4_k_m/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+          "predictions": {
+            "arithmetic-01": "B",
+            "arithmetic-02": "B",
+            "arithmetic-03": "B",
+            "arithmetic-04": "B",
+            "arithmetic-05": "D",
+            "code-01": "B",
+            "code-02": "B",
+            "code-03": "B",
+            "code-04": "C",
+            "code-05": "B",
+            "data-01": "A",
+            "data-02": "B",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "B",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "C",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "D",
+            "logic-04": "B",
+            "logic-05": "B",
+            "systems-01": "B",
+            "systems-02": "D",
+            "systems-03": "C",
+            "systems-04": "C",
+            "systems-05": "B"
+          },
+          "source": "variants/qwen_1_5b_q4_k_m/quality-repeat-2.json",
+          "total": 30
+        }
+      ],
+      "same_text_decode_ms": {
+        "coefficient_of_variation": 0.06521009890424968,
+        "max": 249.21806,
+        "mean": 224.72042581666668,
+        "median": 215.0305135,
+        "min": 211.617282,
+        "p95": 246.459331,
+        "population_stddev": 14.654041193309936
+      },
+      "same_text_encode_ms": {
+        "coefficient_of_variation": 0.13799209193174897,
+        "max": 1330.555244,
+        "mean": 942.2612718666667,
+        "median": 916.102408,
+        "min": 765.843189,
+        "p95": 1295.463294,
+        "population_stddev": 130.02460405115178
+      },
+      "same_text_total_ms": {
+        "coefficient_of_variation": 0.11586826298205674,
+        "max": 1575.003448,
+        "mean": 1166.9816976833333,
+        "median": 1136.9276185,
+        "min": 994.719772,
+        "p95": 1510.541561,
+        "population_stddev": 135.2161422424195
+      }
+    },
+    "qwen_7b_q4_k_m": {
+      "display_name": "Qwen2.5-7B-Instruct Q4_K_M",
+      "minimum_accuracy": 0.7333333333333333,
+      "model_load_ms": {
+        "coefficient_of_variation": 0.006626741767513331,
+        "max": 2750.719847,
+        "mean": 2732.611536,
+        "median": 2732.611536,
+        "min": 2714.503225,
+        "p95": 2750.719847,
+        "population_stddev": 18.108310999999958
+      },
+      "package_size_bytes": 4683073632,
+      "quality_eligible": false,
+      "quality_process": {
+        "elapsed_seconds": {
+          "coefficient_of_variation": 0.0004047952670091716,
+          "max": 160.64,
+          "mean": 160.575,
+          "median": 160.575,
+          "min": 160.51,
+          "p95": 160.64,
+          "population_stddev": 0.06499999999999773
+        },
+        "maximum_rss_kib": {
+          "coefficient_of_variation": 1.2037557178396598e-05,
+          "max": 8972028.0,
+          "mean": 8971920.0,
+          "median": 8971920.0,
+          "min": 8971812.0,
+          "p95": 8972028.0,
+          "population_stddev": 108.0
+        },
+        "repetitions": [
+          {
+            "elapsed": "2:40.51",
+            "exit_status": 0,
+            "maximum_rss_kib": 8972028,
+            "percent_cpu": "391%"
+          },
+          {
+            "elapsed": "2:40.64",
+            "exit_status": 0,
+            "maximum_rss_kib": 8971812,
+            "percent_cpu": "391%"
+          }
+        ]
+      },
+      "quality_repetitions": [
+        {
+          "accuracy": 0.7333333333333333,
+          "cases": [
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "arithmetic-01",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "arithmetic-02",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "arithmetic-03",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "arithmetic-04",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "arithmetic-05",
+              "predicted": "A",
+              "response": "A<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-01",
+              "predicted": "C",
+              "response": "C\n<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-02",
+              "predicted": "A",
+              "response": "A <|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "logic-03",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "logic-04",
+              "predicted": "A",
+              "response": "A<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-05",
+              "predicted": "A",
+              "response": "A<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-01",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-02",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "code-03",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-04",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "D",
+              "id": "code-05",
+              "predicted": "D",
+              "response": "D<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "data-01",
+              "predicted": "A",
+              "response": "A<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "data-02",
+              "predicted": "D",
+              "response": "D<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-03",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "data-04",
+              "predicted": "C",
+              "response": "C\n<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-05",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-01",
+              "predicted": "B",
+              "response": "B\n<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-02",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "systems-03",
+              "predicted": "D",
+              "response": "D<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-04",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "systems-05",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-01",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "evidence-02",
+              "predicted": "C",
+              "response": "C\n<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "evidence-03",
+              "predicted": "A",
+              "response": "A<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "D",
+              "id": "evidence-04",
+              "predicted": "D",
+              "response": "D\n<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-05",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            }
+          ],
+          "category_accuracy": {
+            "arithmetic": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "code_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "data_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "evidence_reasoning": {
+              "accuracy": 1.0,
+              "correct": 5,
+              "total": 5
+            },
+            "logic": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "systems_reasoning": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            }
+          },
+          "correct": 22,
+          "framework": "llama.cpp",
+          "model_path": "/tmp/Pareto64-E3b/models/qwen_7b_q4_k_m/qwen2.5-7b-instruct-q4_k_m-00001-of-00002.gguf",
+          "predictions": {
+            "arithmetic-01": "B",
+            "arithmetic-02": "B",
+            "arithmetic-03": "C",
+            "arithmetic-04": "B",
+            "arithmetic-05": "A",
+            "code-01": "C",
+            "code-02": "C",
+            "code-03": "B",
+            "code-04": "C",
+            "code-05": "D",
+            "data-01": "A",
+            "data-02": "D",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "B",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "A",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "B",
+            "logic-04": "A",
+            "logic-05": "A",
+            "systems-01": "B",
+            "systems-02": "B",
+            "systems-03": "D",
+            "systems-04": "B",
+            "systems-05": "B"
+          },
+          "source": "variants/qwen_7b_q4_k_m/quality-repeat-1.json",
+          "total": 30
+        },
+        {
+          "accuracy": 0.7333333333333333,
+          "cases": [
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "arithmetic-01",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "arithmetic-02",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "arithmetic-03",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "arithmetic-04",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "arithmetic-05",
+              "predicted": "A",
+              "response": "A<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-01",
+              "predicted": "C",
+              "response": "C\n<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-02",
+              "predicted": "A",
+              "response": "A <|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "logic-03",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "logic-04",
+              "predicted": "A",
+              "response": "A<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-05",
+              "predicted": "A",
+              "response": "A<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-01",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-02",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "code-03",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-04",
+              "predicted": "C",
+              "response": "C<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "D",
+              "id": "code-05",
+              "predicted": "D",
+              "response": "D<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "data-01",
+              "predicted": "A",
+              "response": "A<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "data-02",
+              "predicted": "D",
+              "response": "D<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-03",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "data-04",
+              "predicted": "C",
+              "response": "C\n<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-05",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-01",
+              "predicted": "B",
+              "response": "B\n<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-02",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "systems-03",
+              "predicted": "D",
+              "response": "D<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-04",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "systems-05",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-01",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "evidence-02",
+              "predicted": "C",
+              "response": "C\n<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "evidence-03",
+              "predicted": "A",
+              "response": "A<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "D",
+              "id": "evidence-04",
+              "predicted": "D",
+              "response": "D\n<|im_end|>"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-05",
+              "predicted": "B",
+              "response": "B<|im_end|>"
+            }
+          ],
+          "category_accuracy": {
+            "arithmetic": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "code_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "data_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "evidence_reasoning": {
+              "accuracy": 1.0,
+              "correct": 5,
+              "total": 5
+            },
+            "logic": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "systems_reasoning": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            }
+          },
+          "correct": 22,
+          "framework": "llama.cpp",
+          "model_path": "/tmp/Pareto64-E3b/models/qwen_7b_q4_k_m/qwen2.5-7b-instruct-q4_k_m-00001-of-00002.gguf",
+          "predictions": {
+            "arithmetic-01": "B",
+            "arithmetic-02": "B",
+            "arithmetic-03": "C",
+            "arithmetic-04": "B",
+            "arithmetic-05": "A",
+            "code-01": "C",
+            "code-02": "C",
+            "code-03": "B",
+            "code-04": "C",
+            "code-05": "D",
+            "data-01": "A",
+            "data-02": "D",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "B",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "A",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "B",
+            "logic-04": "A",
+            "logic-05": "A",
+            "systems-01": "B",
+            "systems-02": "B",
+            "systems-03": "D",
+            "systems-04": "B",
+            "systems-05": "B"
+          },
+          "source": "variants/qwen_7b_q4_k_m/quality-repeat-2.json",
+          "total": 30
+        }
+      ],
+      "same_text_decode_ms": {
+        "coefficient_of_variation": 0.05999107243962231,
+        "max": 972.693114,
+        "mean": 861.2780369,
+        "median": 845.63831,
+        "min": 718.51664,
+        "p95": 965.557283,
+        "population_stddev": 51.6689931023236
+      },
+      "same_text_encode_ms": {
+        "coefficient_of_variation": 0.13773505138676218,
+        "max": 6192.207044,
+        "mean": 4388.457190300001,
+        "median": 4270.915391500001,
+        "min": 3559.812384,
+        "p95": 6024.843138,
+        "population_stddev": 604.4443766145765
+      },
+      "same_text_total_ms": {
+        "coefficient_of_variation": 0.11697854108852167,
+        "max": 7053.845176,
+        "mean": 5249.7352272,
+        "median": 5128.9840395,
+        "min": 4404.340381,
+        "p95": 6869.836391,
+        "population_stddev": 614.1063679788748
+      }
+    }
+  },
+  "experiment_id": "E3b",
+  "pareto": {
+    "directions": {
+      "maximum_quality_process_rss_kib": "lower",
+      "minimum_accuracy": "higher",
+      "package_size_bytes": "lower",
+      "same_text_total_ms_median": "lower"
+    },
+    "frontier": [],
+    "inputs": {},
+    "weighted_score_used": false
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "controlled_difference": "Qwen parameter scale and package only",
+    "execution_order": [
+      [
+        "qwen_1_5b_q4_k_m",
+        "qwen_7b_q4_k_m"
+      ],
+      [
+        "qwen_7b_q4_k_m",
+        "qwen_1_5b_q4_k_m"
+      ],
+      [
+        "qwen_1_5b_q4_k_m",
+        "qwen_7b_q4_k_m"
+      ],
+      [
+        "qwen_7b_q4_k_m",
+        "qwen_1_5b_q4_k_m"
+      ]
+    ],
+    "experiment_id": "E3b",
+    "git_commit": "d94a3c72dfdad272f4bac94b6e726adb77c3f962",
+    "github_run_attempt": "1",
+    "github_run_id": "30643977955",
+    "llama_cpp_commit": "eed25bc6b052c363aa760d0055282cc2222ccf6e",
+    "llm_runner_commit": "8ba39e40fa754b87deb99a998c31de3b850094d5",
+    "model_revisions": {
+      "qwen_1_5b_q4_k_m": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+      "qwen_7b_q4_k_m": "bb5d59e06d9551d752d08b292a50eb208b07ab1f"
+    },
+    "patch_sha256": [
+      "75089ddea4d834133316f4a22f6909d3af87e4d8eadafdf631729bfbf80acbf9",
+      "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+    ],
+    "schema_version": 1
+  },
+  "quality": {
+    "acceptance_policy": {
+      "absolute_accuracy_floor": 0.75,
+      "maximum_task_deficit_from_best": 1,
+      "prediction_parser": "first standalone uppercase A-D after case folding",
+      "predictions_must_be_stable": true,
+      "repetitions": 2
+    },
+    "best_minimum_correct": 22,
+    "experiment_id": "E3b",
+    "schema_version": 1,
+    "tasks": {
+      "count": 30,
+      "path": "experiments/e3_tasks.json",
+      "sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    },
+    "variants": {
+      "qwen_1_5b_q4_k_m": {
+        "absolute_floor_met": false,
+        "framework": "llama.cpp",
+        "minimum_accuracy": 0.5333333333333333,
+        "minimum_correct": 16,
+        "predictions_stable": true,
+        "quality_eligible": false,
+        "repetitions": [
+          {
+            "accuracy": 0.5333333333333333,
+            "cases": [
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "arithmetic-01",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "arithmetic-02",
+                "predicted": "B",
+                "response": "B. 30<|im"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "arithmetic-03",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "arithmetic-04",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "arithmetic-05",
+                "predicted": "D",
+                "response": "D<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-01",
+                "predicted": "C",
+                "response": "C<|im_end|>\nC"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-02",
+                "predicted": "A",
+                "response": "A|<im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "logic-03",
+                "predicted": "D",
+                "response": "D<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "logic-04",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "logic-05",
+                "predicted": "B",
+                "response": "B. Two\n\nExplanation: If you"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "code-01",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-02",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "code-03",
+                "predicted": "B",
+                "response": "B. [1, 2,"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-04",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-05",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "data-01",
+                "predicted": "A",
+                "response": "A<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "data-02",
+                "predicted": "B",
+                "response": "B<|im_end|>\n<"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-03",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "data-04",
+                "predicted": "C",
+                "response": "C.<|im_end|>\nC"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-05",
+                "predicted": "B",
+                "response": "B<|im_end|>\n<"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-01",
+                "predicted": "B",
+                "response": "B. A dominates C.\n\nVariant A"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "systems-02",
+                "predicted": "D",
+                "response": "D<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "systems-03",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "systems-04",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "systems-05",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-01",
+                "predicted": "B",
+                "response": "B. Refuse to recommend the configuration"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "evidence-02",
+                "predicted": "C",
+                "response": "C. Reproduce the measured configuration.<"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "evidence-03",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "D",
+                "id": "evidence-04",
+                "predicted": "D",
+                "response": "D<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-05",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              }
+            ],
+            "category_accuracy": {
+              "arithmetic": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "code_reasoning": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "data_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "evidence_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "logic": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "systems_reasoning": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              }
+            },
+            "correct": 16,
+            "framework": "llama.cpp",
+            "model_path": "/tmp/Pareto64-E3b/models/qwen_1_5b_q4_k_m/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+            "predictions": {
+              "arithmetic-01": "B",
+              "arithmetic-02": "B",
+              "arithmetic-03": "B",
+              "arithmetic-04": "B",
+              "arithmetic-05": "D",
+              "code-01": "B",
+              "code-02": "B",
+              "code-03": "B",
+              "code-04": "C",
+              "code-05": "B",
+              "data-01": "A",
+              "data-02": "B",
+              "data-03": "B",
+              "data-04": "C",
+              "data-05": "B",
+              "evidence-01": "B",
+              "evidence-02": "C",
+              "evidence-03": "C",
+              "evidence-04": "D",
+              "evidence-05": "B",
+              "logic-01": "C",
+              "logic-02": "A",
+              "logic-03": "D",
+              "logic-04": "B",
+              "logic-05": "B",
+              "systems-01": "B",
+              "systems-02": "D",
+              "systems-03": "C",
+              "systems-04": "C",
+              "systems-05": "B"
+            },
+            "source": "variants/qwen_1_5b_q4_k_m/quality-repeat-1.json",
+            "total": 30
+          },
+          {
+            "accuracy": 0.5333333333333333,
+            "cases": [
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "arithmetic-01",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "arithmetic-02",
+                "predicted": "B",
+                "response": "B. 30<|im"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "arithmetic-03",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "arithmetic-04",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "arithmetic-05",
+                "predicted": "D",
+                "response": "D<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-01",
+                "predicted": "C",
+                "response": "C<|im_end|>\nC"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-02",
+                "predicted": "A",
+                "response": "A|<im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "logic-03",
+                "predicted": "D",
+                "response": "D<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "logic-04",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "logic-05",
+                "predicted": "B",
+                "response": "B. Two\n\nExplanation: If you"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "code-01",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-02",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "code-03",
+                "predicted": "B",
+                "response": "B. [1, 2,"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-04",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-05",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "data-01",
+                "predicted": "A",
+                "response": "A<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "data-02",
+                "predicted": "B",
+                "response": "B<|im_end|>\n<"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-03",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "data-04",
+                "predicted": "C",
+                "response": "C.<|im_end|>\nC"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-05",
+                "predicted": "B",
+                "response": "B<|im_end|>\n<"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-01",
+                "predicted": "B",
+                "response": "B. A dominates C.\n\nVariant A"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "systems-02",
+                "predicted": "D",
+                "response": "D<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "systems-03",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "systems-04",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "systems-05",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-01",
+                "predicted": "B",
+                "response": "B. Refuse to recommend the configuration"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "evidence-02",
+                "predicted": "C",
+                "response": "C. Reproduce the measured configuration.<"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "evidence-03",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "D",
+                "id": "evidence-04",
+                "predicted": "D",
+                "response": "D<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-05",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              }
+            ],
+            "category_accuracy": {
+              "arithmetic": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "code_reasoning": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "data_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "evidence_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "logic": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "systems_reasoning": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              }
+            },
+            "correct": 16,
+            "framework": "llama.cpp",
+            "model_path": "/tmp/Pareto64-E3b/models/qwen_1_5b_q4_k_m/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+            "predictions": {
+              "arithmetic-01": "B",
+              "arithmetic-02": "B",
+              "arithmetic-03": "B",
+              "arithmetic-04": "B",
+              "arithmetic-05": "D",
+              "code-01": "B",
+              "code-02": "B",
+              "code-03": "B",
+              "code-04": "C",
+              "code-05": "B",
+              "data-01": "A",
+              "data-02": "B",
+              "data-03": "B",
+              "data-04": "C",
+              "data-05": "B",
+              "evidence-01": "B",
+              "evidence-02": "C",
+              "evidence-03": "C",
+              "evidence-04": "D",
+              "evidence-05": "B",
+              "logic-01": "C",
+              "logic-02": "A",
+              "logic-03": "D",
+              "logic-04": "B",
+              "logic-05": "B",
+              "systems-01": "B",
+              "systems-02": "D",
+              "systems-03": "C",
+              "systems-04": "C",
+              "systems-05": "B"
+            },
+            "source": "variants/qwen_1_5b_q4_k_m/quality-repeat-2.json",
+            "total": 30
+          }
+        ],
+        "within_one_task_of_best": false
+      },
+      "qwen_7b_q4_k_m": {
+        "absolute_floor_met": false,
+        "framework": "llama.cpp",
+        "minimum_accuracy": 0.7333333333333333,
+        "minimum_correct": 22,
+        "predictions_stable": true,
+        "quality_eligible": false,
+        "repetitions": [
+          {
+            "accuracy": 0.7333333333333333,
+            "cases": [
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "arithmetic-01",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "arithmetic-02",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "arithmetic-03",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "arithmetic-04",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "arithmetic-05",
+                "predicted": "A",
+                "response": "A<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-01",
+                "predicted": "C",
+                "response": "C\n<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-02",
+                "predicted": "A",
+                "response": "A <|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "logic-03",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "logic-04",
+                "predicted": "A",
+                "response": "A<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-05",
+                "predicted": "A",
+                "response": "A<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-01",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-02",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "code-03",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-04",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "D",
+                "id": "code-05",
+                "predicted": "D",
+                "response": "D<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "data-01",
+                "predicted": "A",
+                "response": "A<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "data-02",
+                "predicted": "D",
+                "response": "D<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-03",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "data-04",
+                "predicted": "C",
+                "response": "C\n<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-05",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-01",
+                "predicted": "B",
+                "response": "B\n<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-02",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "systems-03",
+                "predicted": "D",
+                "response": "D<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-04",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "systems-05",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-01",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "evidence-02",
+                "predicted": "C",
+                "response": "C\n<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "evidence-03",
+                "predicted": "A",
+                "response": "A<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "D",
+                "id": "evidence-04",
+                "predicted": "D",
+                "response": "D\n<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-05",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              }
+            ],
+            "category_accuracy": {
+              "arithmetic": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "code_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "data_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "evidence_reasoning": {
+                "accuracy": 1.0,
+                "correct": 5,
+                "total": 5
+              },
+              "logic": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "systems_reasoning": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              }
+            },
+            "correct": 22,
+            "framework": "llama.cpp",
+            "model_path": "/tmp/Pareto64-E3b/models/qwen_7b_q4_k_m/qwen2.5-7b-instruct-q4_k_m-00001-of-00002.gguf",
+            "predictions": {
+              "arithmetic-01": "B",
+              "arithmetic-02": "B",
+              "arithmetic-03": "C",
+              "arithmetic-04": "B",
+              "arithmetic-05": "A",
+              "code-01": "C",
+              "code-02": "C",
+              "code-03": "B",
+              "code-04": "C",
+              "code-05": "D",
+              "data-01": "A",
+              "data-02": "D",
+              "data-03": "B",
+              "data-04": "C",
+              "data-05": "B",
+              "evidence-01": "B",
+              "evidence-02": "C",
+              "evidence-03": "A",
+              "evidence-04": "D",
+              "evidence-05": "B",
+              "logic-01": "C",
+              "logic-02": "A",
+              "logic-03": "B",
+              "logic-04": "A",
+              "logic-05": "A",
+              "systems-01": "B",
+              "systems-02": "B",
+              "systems-03": "D",
+              "systems-04": "B",
+              "systems-05": "B"
+            },
+            "source": "variants/qwen_7b_q4_k_m/quality-repeat-1.json",
+            "total": 30
+          },
+          {
+            "accuracy": 0.7333333333333333,
+            "cases": [
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "arithmetic-01",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "arithmetic-02",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "arithmetic-03",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "arithmetic-04",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "arithmetic-05",
+                "predicted": "A",
+                "response": "A<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-01",
+                "predicted": "C",
+                "response": "C\n<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-02",
+                "predicted": "A",
+                "response": "A <|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "logic-03",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "logic-04",
+                "predicted": "A",
+                "response": "A<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-05",
+                "predicted": "A",
+                "response": "A<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-01",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-02",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "code-03",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-04",
+                "predicted": "C",
+                "response": "C<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "D",
+                "id": "code-05",
+                "predicted": "D",
+                "response": "D<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "data-01",
+                "predicted": "A",
+                "response": "A<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "data-02",
+                "predicted": "D",
+                "response": "D<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-03",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "data-04",
+                "predicted": "C",
+                "response": "C\n<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-05",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-01",
+                "predicted": "B",
+                "response": "B\n<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-02",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "systems-03",
+                "predicted": "D",
+                "response": "D<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-04",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "systems-05",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-01",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "evidence-02",
+                "predicted": "C",
+                "response": "C\n<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "evidence-03",
+                "predicted": "A",
+                "response": "A<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "D",
+                "id": "evidence-04",
+                "predicted": "D",
+                "response": "D\n<|im_end|>"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-05",
+                "predicted": "B",
+                "response": "B<|im_end|>"
+              }
+            ],
+            "category_accuracy": {
+              "arithmetic": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "code_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "data_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "evidence_reasoning": {
+                "accuracy": 1.0,
+                "correct": 5,
+                "total": 5
+              },
+              "logic": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "systems_reasoning": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              }
+            },
+            "correct": 22,
+            "framework": "llama.cpp",
+            "model_path": "/tmp/Pareto64-E3b/models/qwen_7b_q4_k_m/qwen2.5-7b-instruct-q4_k_m-00001-of-00002.gguf",
+            "predictions": {
+              "arithmetic-01": "B",
+              "arithmetic-02": "B",
+              "arithmetic-03": "C",
+              "arithmetic-04": "B",
+              "arithmetic-05": "A",
+              "code-01": "C",
+              "code-02": "C",
+              "code-03": "B",
+              "code-04": "C",
+              "code-05": "D",
+              "data-01": "A",
+              "data-02": "D",
+              "data-03": "B",
+              "data-04": "C",
+              "data-05": "B",
+              "evidence-01": "B",
+              "evidence-02": "C",
+              "evidence-03": "A",
+              "evidence-04": "D",
+              "evidence-05": "B",
+              "logic-01": "C",
+              "logic-02": "A",
+              "logic-03": "B",
+              "logic-04": "A",
+              "logic-05": "A",
+              "systems-01": "B",
+              "systems-02": "B",
+              "systems-03": "D",
+              "systems-04": "B",
+              "systems-05": "B"
+            },
+            "source": "variants/qwen_7b_q4_k_m/quality-repeat-2.json",
+            "total": 30
+          }
+        ],
+        "within_one_task_of_best": true
+      }
+    }
+  },
+  "schema_version": 1,
+  "source": {
+    "artifact_name": "e3b-quality-anchor-30643977955-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30643977955"
+  },
+  "status": "valid_no_quality_eligible_variant",
+  "synthetic_token_benchmark": {
+    "parameters": {
+      "context_size": 2048,
+      "num_input_tokens": 128,
+      "num_iterations": 3,
+      "num_output_tokens": 64,
+      "num_threads": 4,
+      "num_warmup": 1
+    },
+    "variants": {
+      "qwen_1_5b_q4_k_m": {
+        "metrics": {
+          "decode_tokens_per_sec": {
+            "coefficient_of_variation": 0.02033750996632475,
+            "max": 32.528,
+            "mean": 31.934250000000002,
+            "median": 32.3015,
+            "min": 30.339,
+            "p95": 32.528,
+            "population_stddev": 0.6494631276421062
+          },
+          "encode_tokens_per_sec": {
+            "coefficient_of_variation": 0.01284625931894375,
+            "max": 122.02,
+            "mean": 121.27058333333333,
+            "median": 121.745,
+            "min": 116.165,
+            "p95": 122.02,
+            "population_stddev": 1.557873361259578
+          },
+          "total_ms": {
+            "coefficient_of_variation": 0.01395606966538846,
+            "max": 3161.809,
+            "mean": 3060.6445833333332,
+            "median": 3047.1165,
+            "min": 3017.35,
+            "p95": 3161.809,
+            "population_stddev": 42.71456902599383
+          },
+          "ttft_ms": {
+            "coefficient_of_variation": 0.0129080974356489,
+            "max": 1132.772,
+            "mean": 1086.9354166666667,
+            "median": 1082.7415,
+            "min": 1080.026,
+            "p95": 1132.772,
+            "population_stddev": 14.030268264590969
+          }
+        },
+        "process": {
+          "elapsed_seconds": {
+            "coefficient_of_variation": 0.009646116740730912,
+            "max": 13.37,
+            "mean": 13.2025,
+            "median": 13.19,
+            "min": 13.06,
+            "p95": 13.37,
+            "population_stddev": 0.12735285626949988
+          },
+          "maximum_rss_kib": {
+            "coefficient_of_variation": 5.160928069423597e-05,
+            "max": 2108772.0,
+            "mean": 2108643.0,
+            "median": 2108654.0,
+            "min": 2108492.0,
+            "p95": 2108772.0,
+            "population_stddev": 108.82554847093581
+          }
+        },
+        "rounds": {
+          "1": {
+            "iterations": [
+              {
+                "decode_time_sec": 2.11,
+                "decode_tokens_per_sec": 30.339,
+                "encode_time_sec": 1.052,
+                "encode_tokens_per_sec": 121.638,
+                "time_to_first_token_ms": 1083.816,
+                "tokens_generated": 64,
+                "total_time_ms": 3161.809
+              },
+              {
+                "decode_time_sec": 1.974,
+                "decode_tokens_per_sec": 32.414,
+                "encode_time_sec": 1.049,
+                "encode_tokens_per_sec": 122.02,
+                "time_to_first_token_ms": 1080.026,
+                "tokens_generated": 64,
+                "total_time_ms": 3023.487
+              },
+              {
+                "decode_time_sec": 1.982,
+                "decode_tokens_per_sec": 32.297,
+                "encode_time_sec": 1.102,
+                "encode_tokens_per_sec": 116.165,
+                "time_to_first_token_ms": 1132.772,
+                "tokens_generated": 64,
+                "total_time_ms": 3083.513
+              }
+            ],
+            "parameters": {
+              "context_size": 2048,
+              "model_path": "/tmp/Pareto64-E3b/models/qwen_1_5b_q4_k_m/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+              "model_size": "1.12 GB",
+              "num_input_tokens": 128,
+              "num_iterations": 3,
+              "num_output_tokens": 64,
+              "num_threads": 4,
+              "num_warmup": 1
+            },
+            "position": 1,
+            "process": {
+              "elapsed": "0:13.28",
+              "exit_status": 0,
+              "maximum_rss_kib": 2108772,
+              "percent_cpu": "371%"
+            }
+          },
+          "2": {
+            "iterations": [
+              {
+                "decode_time_sec": 1.969,
+                "decode_tokens_per_sec": 32.497,
+                "encode_time_sec": 1.053,
+                "encode_tokens_per_sec": 121.555,
+                "time_to_first_token_ms": 1083.974,
+                "tokens_generated": 64,
+                "total_time_ms": 3022.432
+              },
+              {
+                "decode_time_sec": 2.013,
+                "decode_tokens_per_sec": 31.786,
+                "encode_time_sec": 1.049,
+                "encode_tokens_per_sec": 121.986,
+                "time_to_first_token_ms": 1080.156,
+                "tokens_generated": 64,
+                "total_time_ms": 3062.797
+              },
+              {
+                "decode_time_sec": 1.968,
+                "decode_tokens_per_sec": 32.528,
+                "encode_time_sec": 1.05,
+                "encode_tokens_per_sec": 121.925,
+                "time_to_first_token_ms": 1080.676,
+                "tokens_generated": 64,
+                "total_time_ms": 3017.35
+              }
+            ],
+            "parameters": {
+              "context_size": 2048,
+              "model_path": "/tmp/Pareto64-E3b/models/qwen_1_5b_q4_k_m/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+              "model_size": "1.12 GB",
+              "num_input_tokens": 128,
+              "num_iterations": 3,
+              "num_output_tokens": 64,
+              "num_threads": 4,
+              "num_warmup": 1
+            },
+            "position": 2,
+            "process": {
+              "elapsed": "0:13.10",
+              "exit_status": 0,
+              "maximum_rss_kib": 2108492,
+              "percent_cpu": "374%"
+            }
+          },
+          "3": {
+            "iterations": [
+              {
+                "decode_time_sec": 1.971,
+                "decode_tokens_per_sec": 32.472,
+                "encode_time_sec": 1.05,
+                "encode_tokens_per_sec": 121.942,
+                "time_to_first_token_ms": 1080.604,
+                "tokens_generated": 64,
+                "total_time_ms": 3020.639
+              },
+              {
+                "decode_time_sec": 1.981,
+                "decode_tokens_per_sec": 32.306,
+                "encode_time_sec": 1.05,
+                "encode_tokens_per_sec": 121.863,
+                "time_to_first_token_ms": 1081.49,
+                "tokens_generated": 64,
+                "total_time_ms": 3031.436
+              },
+              {
+                "decode_time_sec": 1.979,
+                "decode_tokens_per_sec": 32.347,
+                "encode_time_sec": 1.051,
+                "encode_tokens_per_sec": 121.826,
+                "time_to_first_token_ms": 1081.667,
+                "tokens_generated": 64,
+                "total_time_ms": 3029.22
+              }
+            ],
+            "parameters": {
+              "context_size": 2048,
+              "model_path": "/tmp/Pareto64-E3b/models/qwen_1_5b_q4_k_m/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+              "model_size": "1.12 GB",
+              "num_input_tokens": 128,
+              "num_iterations": 3,
+              "num_output_tokens": 64,
+              "num_threads": 4,
+              "num_warmup": 1
+            },
+            "position": 1,
+            "process": {
+              "elapsed": "0:13.06",
+              "exit_status": 0,
+              "maximum_rss_kib": 2108716,
+              "percent_cpu": "374%"
+            }
+          },
+          "4": {
+            "iterations": [
+              {
+                "decode_time_sec": 2.028,
+                "decode_tokens_per_sec": 31.564,
+                "encode_time_sec": 1.057,
+                "encode_tokens_per_sec": 121.149,
+                "time_to_first_token_ms": 1088.352,
+                "tokens_generated": 64,
+                "total_time_ms": 3084.144
+              },
+              {
+                "decode_time_sec": 2.043,
+                "decode_tokens_per_sec": 31.329,
+                "encode_time_sec": 1.052,
+                "encode_tokens_per_sec": 121.664,
+                "time_to_first_token_ms": 1083.959,
+                "tokens_generated": 64,
+                "total_time_ms": 3094.924
+              },
+              {
+                "decode_time_sec": 2.043,
+                "decode_tokens_per_sec": 31.332,
+                "encode_time_sec": 1.053,
+                "encode_tokens_per_sec": 121.514,
+                "time_to_first_token_ms": 1085.733,
+                "tokens_generated": 64,
+                "total_time_ms": 3095.984
+              }
+            ],
+            "parameters": {
+              "context_size": 2048,
+              "model_path": "/tmp/Pareto64-E3b/models/qwen_1_5b_q4_k_m/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+              "model_size": "1.12 GB",
+              "num_input_tokens": 128,
+              "num_iterations": 3,
+              "num_output_tokens": 64,
+              "num_threads": 4,
+              "num_warmup": 1
+            },
+            "position": 2,
+            "process": {
+              "elapsed": "0:13.37",
+              "exit_status": 0,
+              "maximum_rss_kib": 2108592,
+              "percent_cpu": "373%"
+            }
+          }
+        }
+      },
+      "qwen_7b_q4_k_m": {
+        "metrics": {
+          "decode_tokens_per_sec": {
+            "coefficient_of_variation": 0.008492287707507032,
+            "max": 8.278,
+            "mean": 8.192833333333333,
+            "median": 8.2205,
+            "min": 8.032,
+            "p95": 8.278,
+            "population_stddev": 0.06957589780632052
+          },
+          "encode_tokens_per_sec": {
+            "coefficient_of_variation": 0.0035621225667243138,
+            "max": 25.959,
+            "mean": 25.855,
+            "median": 25.8905,
+            "min": 25.649,
+            "p95": 25.959,
+            "population_stddev": 0.09209867896265714
+          },
+          "total_ms": {
+            "coefficient_of_variation": 0.005971634224544104,
+            "max": 12914.709,
+            "mean": 12762.871500000001,
+            "median": 12731.883,
+            "min": 12665.899,
+            "p95": 12914.709,
+            "population_stddev": 76.21520025285855
+          },
+          "ttft_ms": {
+            "coefficient_of_variation": 0.0036701124648486757,
+            "max": 5114.277,
+            "mean": 5072.807666666667,
+            "median": 5065.567,
+            "min": 5053.132,
+            "p95": 5114.277,
+            "population_stddev": 18.61777464921326
+          }
+        },
+        "process": {
+          "elapsed_seconds": {
+            "coefficient_of_variation": 0.004701650311194314,
+            "max": 54.52,
+            "mean": 54.087500000000006,
+            "median": 53.97,
+            "min": 53.89,
+            "p95": 54.52,
+            "population_stddev": 0.2543005112067225
+          },
+          "maximum_rss_kib": {
+            "coefficient_of_variation": 6.3687931588570346e-06,
+            "max": 8963712.0,
+            "mean": 8963653.0,
+            "median": 8963654.0,
+            "min": 8963592.0,
+            "p95": 8963712.0,
+            "population_stddev": 57.087651904768336
+          }
+        },
+        "rounds": {
+          "1": {
+            "iterations": [
+              {
+                "decode_time_sec": 7.831,
+                "decode_tokens_per_sec": 8.172,
+                "encode_time_sec": 4.941,
+                "encode_tokens_per_sec": 25.906,
+                "time_to_first_token_ms": 5062.59,
+                "tokens_generated": 64,
+                "total_time_ms": 12772.142
+              },
+              {
+                "decode_time_sec": 7.763,
+                "decode_tokens_per_sec": 8.244,
+                "encode_time_sec": 4.972,
+                "encode_tokens_per_sec": 25.745,
+                "time_to_first_token_ms": 5093.12,
+                "tokens_generated": 64,
+                "total_time_ms": 12734.972
+              },
+              {
+                "decode_time_sec": 7.79,
+                "decode_tokens_per_sec": 8.216,
+                "encode_time_sec": 4.939,
+                "encode_tokens_per_sec": 25.916,
+                "time_to_first_token_ms": 5059.74,
+                "tokens_generated": 64,
+                "total_time_ms": 12728.794
+              }
+            ],
+            "parameters": {
+              "context_size": 2048,
+              "model_path": "/tmp/Pareto64-E3b/models/qwen_7b_q4_k_m/qwen2.5-7b-instruct-q4_k_m-00001-of-00002.gguf",
+              "model_size": "3.99 GB",
+              "num_input_tokens": 128,
+              "num_iterations": 3,
+              "num_output_tokens": 64,
+              "num_threads": 4,
+              "num_warmup": 1
+            },
+            "position": 2,
+            "process": {
+              "elapsed": "0:54.02",
+              "exit_status": 0,
+              "maximum_rss_kib": 8963592,
+              "percent_cpu": "380%"
+            }
+          },
+          "2": {
+            "iterations": [
+              {
+                "decode_time_sec": 7.781,
+                "decode_tokens_per_sec": 8.225,
+                "encode_time_sec": 4.937,
+                "encode_tokens_per_sec": 25.928,
+                "time_to_first_token_ms": 5057.073,
+                "tokens_generated": 64,
+                "total_time_ms": 12717.424
+              },
+              {
+                "decode_time_sec": 7.829,
+                "decode_tokens_per_sec": 8.175,
+                "encode_time_sec": 4.954,
+                "encode_tokens_per_sec": 25.837,
+                "time_to_first_token_ms": 5079.288,
+                "tokens_generated": 64,
+                "total_time_ms": 12783.259
+              },
+              {
+                "decode_time_sec": 7.731,
+                "decode_tokens_per_sec": 8.278,
+                "encode_time_sec": 4.935,
+                "encode_tokens_per_sec": 25.938,
+                "time_to_first_token_ms": 5055.078,
+                "tokens_generated": 64,
+                "total_time_ms": 12665.899
+              }
+            ],
+            "parameters": {
+              "context_size": 2048,
+              "model_path": "/tmp/Pareto64-E3b/models/qwen_7b_q4_k_m/qwen2.5-7b-instruct-q4_k_m-00001-of-00002.gguf",
+              "model_size": "3.99 GB",
+              "num_input_tokens": 128,
+              "num_iterations": 3,
+              "num_output_tokens": 64,
+              "num_threads": 4,
+              "num_warmup": 1
+            },
+            "position": 1,
+            "process": {
+              "elapsed": "0:53.92",
+              "exit_status": 0,
+              "maximum_rss_kib": 8963708,
+              "percent_cpu": "380%"
+            }
+          },
+          "3": {
+            "iterations": [
+              {
+                "decode_time_sec": 7.774,
+                "decode_tokens_per_sec": 8.232,
+                "encode_time_sec": 4.931,
+                "encode_tokens_per_sec": 25.959,
+                "time_to_first_token_ms": 5053.132,
+                "tokens_generated": 64,
+                "total_time_ms": 12705.159
+              },
+              {
+                "decode_time_sec": 7.745,
+                "decode_tokens_per_sec": 8.263,
+                "encode_time_sec": 4.938,
+                "encode_tokens_per_sec": 25.923,
+                "time_to_first_token_ms": 5059.297,
+                "tokens_generated": 64,
+                "total_time_ms": 12683.172
+              },
+              {
+                "decode_time_sec": 7.766,
+                "decode_tokens_per_sec": 8.241,
+                "encode_time_sec": 4.954,
+                "encode_tokens_per_sec": 25.84,
+                "time_to_first_token_ms": 5075.197,
+                "tokens_generated": 64,
+                "total_time_ms": 12719.397
+              }
+            ],
+            "parameters": {
+              "context_size": 2048,
+              "model_path": "/tmp/Pareto64-E3b/models/qwen_7b_q4_k_m/qwen2.5-7b-instruct-q4_k_m-00001-of-00002.gguf",
+              "model_size": "3.99 GB",
+              "num_input_tokens": 128,
+              "num_iterations": 3,
+              "num_output_tokens": 64,
+              "num_threads": 4,
+              "num_warmup": 1
+            },
+            "position": 2,
+            "process": {
+              "elapsed": "0:53.89",
+              "exit_status": 0,
+              "maximum_rss_kib": 8963712,
+              "percent_cpu": "380%"
+            }
+          },
+          "4": {
+            "iterations": [
+              {
+                "decode_time_sec": 7.879,
+                "decode_tokens_per_sec": 8.123,
+                "encode_time_sec": 4.972,
+                "encode_tokens_per_sec": 25.744,
+                "time_to_first_token_ms": 5096.356,
+                "tokens_generated": 64,
+                "total_time_ms": 12850.579
+              },
+              {
+                "decode_time_sec": 7.888,
+                "decode_tokens_per_sec": 8.113,
+                "encode_time_sec": 4.991,
+                "encode_tokens_per_sec": 25.649,
+                "time_to_first_token_ms": 5114.277,
+                "tokens_generated": 64,
+                "total_time_ms": 12878.952
+              },
+              {
+                "decode_time_sec": 7.968,
+                "decode_tokens_per_sec": 8.032,
+                "encode_time_sec": 4.947,
+                "encode_tokens_per_sec": 25.875,
+                "time_to_first_token_ms": 5068.544,
+                "tokens_generated": 64,
+                "total_time_ms": 12914.709
+              }
+            ],
+            "parameters": {
+              "context_size": 2048,
+              "model_path": "/tmp/Pareto64-E3b/models/qwen_7b_q4_k_m/qwen2.5-7b-instruct-q4_k_m-00001-of-00002.gguf",
+              "model_size": "3.99 GB",
+              "num_input_tokens": 128,
+              "num_iterations": 3,
+              "num_output_tokens": 64,
+              "num_threads": 4,
+              "num_warmup": 1
+            },
+            "position": 1,
+            "process": {
+              "elapsed": "0:54.52",
+              "exit_status": 0,
+              "maximum_rss_kib": 8963600,
+              "percent_cpu": "380%"
+            }
+          }
+        }
+      }
+    }
+  },
+  "validation": {
+    "kleidiai_build_enabled": true,
+    "performance_comparison_allowed": true,
+    "quality_eligible_variants": [],
+    "quality_policy_predeclared": true,
+    "runtime_repack_buffer_proven": true,
+    "same_tasks_and_instruction_as_e3": true,
+    "validated_patch_set_applied": true
+  }
+}

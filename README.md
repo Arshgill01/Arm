@@ -26,9 +26,9 @@ a hashed deployment decision without a hidden weighted score.
 
 ```bash
 python3 -m pareto64 plan \
-  --manifest results/manifests/e3-30635472160.json \
-  --constraints configs/cloud-balanced.json \
-  --output results/plans/e3-cloud-balanced.json
+  --manifest results/manifests/e3b-30643977955.json \
+  --constraints configs/cloud-quality.json \
+  --output results/plans/e3b-cloud-quality.json
 ```
 
 ## Native evidence so far
@@ -39,6 +39,7 @@ python3 -m pareto64 plan \
 | [E1](results/reports/e1-llm-runner-smoke.md) | Pinned LLM-Runner built and executed end to end on Arm |
 | [E2](results/reports/e2-kleidiai-ablation.md) | Primary KleidiAI threshold missed; smaller decode/latency benefits retained |
 | [E3](results/reports/e3-qwen-frontier.md) | Three Qwen packages measured; frozen quality gate rejected all three |
+| [E3b](results/reports/e3b-quality-anchor.md) | 7B improved to a stable 73.33% but missed the unchanged quality floor by one task |
 | [E4a](results/reports/e4a-backlog-tuner.md) | Native bounded tuner selected backlog 64 with zero failures or tail breaches |
 | [E5a](results/reports/e5a-planner-api.md) | Native fail-closed API passed load SLOs; one-second tail retained for tuning |
 | [E6a](results/reports/e6a-native-feature-fix.md) | Reproduced and fixed invalid native KleidiAI SVE source selection |
@@ -73,7 +74,7 @@ planner until it passes a predeclared quality/SLO contract.
 - [`configs/cloud-balanced.json`](configs/cloud-balanced.json): explicit example
   quality/SLO and selection policy.
 - [`configs/cloud-quality.json`](configs/cloud-quality.json): predeclared
-  quality-first policy for the E3b model-scale frontier.
+  quality-first policy that independently rejected the E3b near-miss.
 - [`patches/README.md`](patches/README.md): reviewable source-patch inputs and
   validation status.
 - [`logs/progress.md`](logs/progress.md): chronological project journal.

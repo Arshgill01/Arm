@@ -407,3 +407,22 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   accuracy, 5-second median same-text latency, 8 GiB RSS, 5 GB package, and
   10-second model-load ceilings, with accuracy first in the visible
   lexicographic priority. No post-result threshold adjustment is permitted.
+
+## 2026-07-31 — E3b native quality anchor retained as a near-miss
+
+- Run `30643977955` completed the full contract in 17m23s. A separate local
+  ingestion reproduced the workflow summary byte for byte; SHA-256 is
+  `8fd89b9ea82490935e7226dce4d8b20b346828bbb3aead8ab1805572481fb628`.
+- The 1.5B candidate repeated its E3 result at a stable 16/30 (53.33%). The 7B
+  candidate improved to a stable 22/30 (73.33%) but missed the predeclared 75%
+  floor by exactly one task. The eligible set and Pareto frontier remain empty.
+- The 7B candidate's same-text median was 5,128.984 ms and quality-process RSS
+  was 8,972,028 KiB. These exceed the separately frozen cloud limits by 128.984
+  ms and 583,420 KiB; its 4,683,073,632-byte package and 2,732.612 ms load met
+  their limits.
+- The real planner returned `no_feasible_candidate` and retained the quality,
+  accuracy, latency, and RSS rejection reasons. No task, parser, output cap,
+  model result, or policy threshold was altered after observation.
+- E3b rejects the 7B Q4_K_M quality-anchor hypothesis without invalidating the
+  product direction. The next calibration must target a stronger
+  quality-per-byte candidate under a new predeclared contract.

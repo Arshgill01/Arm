@@ -93,6 +93,42 @@ class Pareto64PlannerTests(unittest.TestCase):
         self.assertEqual("selected", result["status"])
         self.assertEqual("E3b", result["inputs"]["experiment_id"])
 
+    def test_real_e3b_manifest_preserves_near_miss_reasons(self) -> None:
+        data = json.loads(
+            (ROOT / "results/manifests/e3b-30643977955.json").read_text()
+        )
+        policy = json.loads((ROOT / "configs/cloud-quality.json").read_text())
+        result = build_plan(data, policy)
+        self.assertEqual("no_feasible_candidate", result["status"])
+        self.assertEqual([], result["pareto_frontier"])
+        self.assertEqual(
+            [
+                "quality_gate",
+                "slo",
+                "slo",
+                "slo",
+            ],
+            [
+                reason["kind"]
+                for reason in result["evaluated"]["qwen_7b_q4_k_m"][
+                    "rejections"
+                ]
+            ],
+        )
+        self.assertEqual(
+            [
+                "minimum_accuracy",
+                "same_text_total_ms_median",
+                "maximum_quality_process_rss_kib",
+            ],
+            [
+                reason["metric"]
+                for reason in result["evaluated"]["qwen_7b_q4_k_m"][
+                    "rejections"
+                ][1:]
+            ],
+        )
+
     def test_conflicting_quality_evidence_is_rejected(self) -> None:
         data = manifest()
         data["quality"]["variants"]["fast"]["quality_eligible"] = False
