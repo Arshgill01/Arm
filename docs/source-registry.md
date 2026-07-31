@@ -26,6 +26,8 @@ how heavily the source should control a project decision.
 | [GitHub-hosted runners](https://docs.github.com/en/actions/reference/runners/github-hosted-runners) | Official GitHub documentation | Free public native Arm64 Linux runner specifications |
 | [llama.cpp build documentation](https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md) | Upstream repository | KleidiAI build and runtime verification |
 | [KleidiAI](https://github.com/ARM-software/kleidiai) | Official Arm mirror | Arm-specific AI microkernels and supported extensions |
+| [Qwen2.5-1.5B-Instruct GGUF](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/tree/91cad51170dc346986eccefdc2dd33a9da36ead9) | Official Qwen model repository, pinned revision | Apache-2.0 E3 base model, GGUF quantizations, model card, and immutable file metadata |
+| [Qwen2.5-1.5B-Instruct MNN](https://huggingface.co/taobao-mnn/Qwen2.5-1.5B-Instruct-MNN/tree/4ed860971cc9268355e31e26e6034e2d28e3dc7a) | Official MNN export, pinned revision | Apache-2.0 E3 cross-runtime package and configuration |
 
 ## Evidence policy
 

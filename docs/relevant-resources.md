@@ -127,6 +127,21 @@ published.
 
 ## License and provenance traps
 
+### Selected E3 model artifacts
+
+Qwen2.5-1.5B-Instruct is the first quality-frontier model. The Qwen-maintained
+GGUF repository and taobao-mnn MNN export both declare Apache-2.0 and derive from
+the same 1.54B-parameter instruction model. The official Q4_0 and Q4_K_M files
+are 1,066,227,232 and 1,117,320,736 bytes; the six-file MNN package totals
+879,481,306 bytes. Repository revisions, every package file size, and every
+SHA-256 are pinned in `experiments/e3_models.json` rather than trusting a moving
+`main` URL.
+
+The two formats use different quantization implementations and tokenizers may
+not map a nominal token count to identical text. Therefore E3 treats the same-
+text quality suite's latency as the cross-runtime comparison and token-rate
+measurements as secondary diagnostics.
+
 - Runtime licenses do not grant model/data licenses. Record exact weight source,
   license, version, and SHA-256.
 - [AI-on-Arm](https://github.com/arm-education/AI-on-Arm) uses an Arm Education

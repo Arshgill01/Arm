@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "base_model": {
+    "id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "license": "Apache-2.0"
+  },
+  "variants": {
+    "llama_q4_0": {
+      "framework": "llama.cpp",
+      "repository": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+      "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+      "files": [
+        {
+          "path": "qwen2.5-1.5b-instruct-q4_0.gguf",
+          "sha256": "dcd819ff094852c38faba6873d8ff0c9d51eadb2844539e52042ae5d647bbfdb",
+          "size_bytes": 1066227232
+        }
+      ],
+      "quantization": "Q4_0"
+    },
+    "llama_q4_k_m": {
+      "framework": "llama.cpp",
+      "repository": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+      "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+      "files": [
+        {
+          "path": "qwen2.5-1.5b-instruct-q4_k_m.gguf",
+          "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+          "size_bytes": 1117320736
+        }
+      ],
+      "quantization": "Q4_K_M"
+    },
+    "mnn_int4": {
+      "framework": "mnn",
+      "repository": "taobao-mnn/Qwen2.5-1.5B-Instruct-MNN",
+      "revision": "4ed860971cc9268355e31e26e6034e2d28e3dc7a",
+      "files": [
+        {
+          "path": "config.json",
+          "sha256": "7636b063425bdbc0e2e429cb23af7f594b5ba145bab2045dfda852416d9285de",
+          "size_bytes": 159
+        },
+        {
+          "path": "llm.mnn",
+          "sha256": "5a57a643ad6dbb38d36660e6ce0968d82725929311d455934768280b939863d5",
+          "size_bytes": 1145128
+        },
+        {
+          "path": "llm.mnn.json",
+          "sha256": "3d34e0f4957cf408a59a1965ffeaa58bdcb456195ea0fe39e0bcd6aad5554ee4",
+          "size_bytes": 6650652
+        },
+        {
+          "path": "llm.mnn.weight",
+          "sha256": "94a73a713aed33d6356c2f050d431d94c14711a75e6b500869b21b3b720aa5fb",
+          "size_bytes": 868491506
+        },
+        {
+          "path": "llm_config.json",
+          "sha256": "9c877345bb9a88a6ff81c31f28c9c8680898bb2593f00cff9fac9e85a2681554",
+          "size_bytes": 384
+        },
+        {
+          "path": "tokenizer.txt",
+          "sha256": "b86f1298a0d6a1b2f312946c2f674f883f1d134ccabc79c42dd4c6b5beadf37b",
+          "size_bytes": 3193477
+        }
+      ],
+      "quantization": "official 4-bit MNN export"
+    }
+  }
+}

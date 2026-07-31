@@ -156,3 +156,24 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - E2 supports retaining generic and KleidiAI profiles in a workload-aware
   multi-objective planner, but not a blanket or quality claim. E3 remains gated
   on a modern, license-checked model artifact.
+
+## 2026-07-31 — E3 protocol and harness frozen
+
+- Selected Qwen2.5-1.5B-Instruct because its official GGUF and MNN packages are
+  Apache-2.0, small enough for the native runner, and expose two LLM-Runner
+  runtime paths without changing the base model family.
+- Pinned the GGUF repository at `91cad51170dc346986eccefdc2dd33a9da36ead9`
+  and the MNN export at `4ed860971cc9268355e31e26e6034e2d28e3dc7a`,
+  including exact sizes and SHA-256 values for all eight package files.
+- Authored a 30-task, six-category deterministic quality suite and a tested
+  scorer. Eligibility requires two stable greedy repetitions, at least 75%
+  accuracy, and a deficit of no more than one task from the best variant.
+- Added a backend-neutral C++ quality CLI over LLM-Runner's common API. A local
+  x86_64 build successfully compiled and linked the target against the pinned
+  llama.cpp dependency; it is integration validation, not Arm evidence.
+- Predeclared three cyclic native performance rounds and a Pareto rule over
+  eligible accuracy, same-text latency, package size, and RSS. Token throughput
+  is secondary across runtimes because their tokenizers differ.
+- A local configure attempt exposed LLM-Runner's eager default-model download.
+  The E3 workflow disables it and fetches only the explicit, checksum-pinned
+  Qwen packages.

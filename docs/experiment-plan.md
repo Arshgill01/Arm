@@ -36,6 +36,39 @@ target. A material primary win requires a median paired-round speedup of at leas
 both builds. Decode rate, TTFT, total latency, wall time, and RSS are secondary
 metrics and must all be reported even when their direction is unfavorable.
 
+## E3 frozen protocol
+
+E3 uses the Apache-2.0 Qwen2.5-1.5B-Instruct base model in three pinned 4-bit
+packages: the official Q4_0 and Q4_K_M GGUF files through llama.cpp, and the
+official MNN export through MNN. Both runtime builds use LLM-Runner's common API,
+four threads, a 2,048-token context, greedy decoding, and KleidiAI enabled. Exact
+repository revisions, file sizes, and SHA-256 values are frozen in
+[`../experiments/e3_models.json`](../experiments/e3_models.json).
+
+Quality uses 30 original multiple-choice tasks across arithmetic, logic, code,
+data, systems, and evidence reasoning. The prompts and expected answers are
+frozen in [`../experiments/e3_tasks.json`](../experiments/e3_tasks.json). Each
+variant runs the full suite twice in a fresh process. The parser takes the first
+standalone A-D option after case folding. A variant is quality-eligible only if
+both repetitions produce identical parsed predictions, its worse repetition is
+at least 75% accurate, and it finishes no more than one task behind the best
+variant's worse repetition. Invalid or missing answers count as incorrect; no
+task may be excluded after results are observed.
+
+The primary cross-runtime comparison uses the same-text task suite: accuracy,
+per-case wall latency, model-load time, whole-process maximum RSS, and package
+size. The synthetic token benchmark is secondary because tokenizers can encode
+different text for the same nominal token count. It uses 128 input tokens, 64
+output tokens, one warm-up and three measured iterations in each of three cyclic
+rounds: `Q4_0/Q4_K_M/MNN`, `Q4_K_M/MNN/Q4_0`, and `MNN/Q4_0/Q4_K_M`.
+
+Only quality-eligible variants enter the quality/latency/size/RSS Pareto set. No
+weighted aggregate score will be invented after measurement: a variant is
+excluded from the frontier only when another eligible variant is at least as
+good on every reported objective and strictly better on at least one. Hosted
+runner results remain screening evidence because PMU, energy, and governor
+control are unavailable.
+
 ## Experimental discipline
 
 - E0–E3 establish feasibility; they do not prove a winning product.
