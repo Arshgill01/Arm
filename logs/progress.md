@@ -953,3 +953,6 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   the faster default. Independent Python 3.10 ingestion matched the uploaded
   summary byte for byte at SHA-256
   `e048f3e25d513430b49fd2ee0a140e8a0f82fe31d79b5fb0aafb36b470190faa`.
+- Retained-product run `30673396572` passed clean-checkout validation on native
+  Arm: 93 tests, all ten immutable evidence hashes, exact plan recomputation,
+  and the standalone demo smoke test.
