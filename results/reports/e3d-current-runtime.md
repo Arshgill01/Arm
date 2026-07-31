@@ -13,6 +13,9 @@ the ingester derived the abbreviation from the frozen full commit, an
 independent Python 3.10 ingestion accepted the artifact; the retained summary's
 SHA-256 is
 `887f202cb150348a0dfd0029b0f1dc2256809c66acc710194b336ef73aba044b`.
+Clean reproducibility run
+[`30652188393`](https://github.com/Arshgill01/Arm/actions/runs/30652188393)
+then passed the corrected workflow end to end from commit `fbe770b`.
 
 Both quantizations were stable across two repetitions and scored 20/30
 (66.67%). They missed the unchanged 75% absolute floor, so the eligible set and

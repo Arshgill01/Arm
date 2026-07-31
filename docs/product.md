@@ -83,5 +83,6 @@ E4a then eliminated the observed admission tail under a stricter load. A runtime
 launch adapter is intentionally deferred until a candidate passes the quality
 gate; Pareto64 must not turn an invalid measurement into a deployment. E3b,
 E3c, and E3d all produced valid empty frontiers. E3d's current-runtime Qwen3.5
-candidates both reached a stable 66.67%; the separate E3e contract now tests
-bounded reasoning without relaxing the policy.
+candidates both reached a stable 66.67%. E3e was rejected before frontier
+creation because budget 0 violated the runtime's documented immediate-end
+mechanism; a source fix requires separate native validation.

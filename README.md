@@ -27,9 +27,10 @@ score.
 
 E3c and E3d measured exact quantizations of Apache-2.0 Qwen3-4B and Qwen3.5-4B.
 Their best stable score was 66.67% under the unchanged 75% task floor, so no
-inference adapter may launch from either result. E3e predeclares a
-0/16/32/48-token forced-reasoning frontier on the E3d Q4_0 file, using measured
-Arm latency to bound added computation before any thinking output is observed.
+inference adapter may launch from either result. E3e's predeclared bounded-
+reasoning run was correctly rejected: budget 0 failed the runtime's documented
+immediate-end mechanism. That failure exposed a reproducible upstream sampler
+state bug; no E3e frontier or deployment plan is accepted.
 
 ```bash
 python3 -m pareto64 plan \
@@ -49,6 +50,7 @@ python3 -m pareto64 plan \
 | [E3b](results/reports/e3b-quality-anchor.md) | 7B improved to a stable 73.33% but missed the unchanged quality floor by one task |
 | [E3c](results/reports/e3c-quality-per-byte.md) | Q4_K_M led a stable 4B quantization sweep at 66.67%; the unchanged quality gate rejected all variants |
 | [E3d](results/reports/e3d-current-runtime.md) | Current Qwen3.5 Q4_0/Q8_0 both reached a stable 66.67%; Q8_0 was faster but exceeded load and RSS ceilings |
+| [E3e](results/reports/e3e-bounded-reasoning.md) | Invalid mechanism run exposed a reproducible zero-budget forced-token state bug; no frontier was created |
 | [E4a](results/reports/e4a-backlog-tuner.md) | Native bounded tuner selected backlog 64 with zero failures or tail breaches |
 | [E5a](results/reports/e5a-planner-api.md) | Native fail-closed API passed load SLOs; one-second tail retained for tuning |
 | [E6a](results/reports/e6a-native-feature-fix.md) | Reproduced and fixed invalid native KleidiAI SVE source selection |

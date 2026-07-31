@@ -231,6 +231,15 @@ count, process RSS, model load, and verbose `CPU_KLEIDIAI` buffer proof are all
 required. Exact inputs are frozen in
 [`../experiments/e3e_contract.json`](../experiments/e3e_contract.json).
 
+Run `30651144293` completed all eight native cells but is invalid. Every
+zero-budget request consumed all eight output tokens as reasoning and produced
+no final answer, contradicting the pinned runtime's documented immediate-end
+semantics. The fail-closed ingester rejected it before creating a manifest or
+plan. Positive budgets 16/32/48 produced stable but ineligible diagnostic scores
+of 13/30, 11/30, and 7/30; they do not rescue the invalid matrix. Source and
+unit-test analysis reproduces an unchecked forced-token state transition. See
+[`../results/reports/e3e-bounded-reasoning.md`](../results/reports/e3e-bounded-reasoning.md).
+
 ## Experimental discipline
 
 - E0–E3 establish feasibility; they do not prove a winning product.

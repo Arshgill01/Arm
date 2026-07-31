@@ -39,3 +39,19 @@ assembly removed all 32 scalar byte stores, all frozen Qwen task outputs stayed
 identical, real-model inference stayed within its 0.98 guardrail, and peak RSS
 was unchanged. The exact evidence and claim boundary are in
 [`../results/reports/e6b-q8-vector-store.md`](../results/reports/e6b-q8-vector-store.md).
+
+## llama.cpp reasoning-budget forced-token guard
+
+[`llama.cpp/0003-reasoning-budget-forced-token-guard.patch`](llama.cpp/0003-reasoning-budget-forced-token-guard.patch)
+targets current tag `b10208` / commit
+`9d9a6d29f6b981cc7f41983d26e56485c6af1811`. E3e showed that Qwen3.5 budget 0
+incorrectly consumed its entire output cap as reasoning instead of forcing an
+immediate end. The sampler advanced its forcing position for an unrelated
+prefill newline without checking the accepted token.
+
+The patch adds that equality guard and one exact regression test. On the
+untouched source, the new test aborts at the expected forcing-state assertion;
+with the guard, all 13 upstream reasoning-budget tests pass. This is local
+functional preflight only. A separate frozen native experiment is required
+before the patch is considered validated; no external pull request has been
+opened.

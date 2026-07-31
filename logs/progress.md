@@ -521,3 +521,23 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `887f202cb150348a0dfd0029b0f1dc2256809c66acc710194b336ef73aba044b`.
 - The independent planner returned `no_feasible_candidate`; no task, output,
   parser, order, threshold, or policy was changed after observation.
+- Clean reproducibility run `30652188393` subsequently passed the corrected
+  workflow end to end from retained-evidence commit `fbe770b`.
+
+## 2026-07-31 — E3e rejected and reasoning-budget bug reproduced
+
+- Run `30651144293` completed the entire reverse-balanced 0/16/32/48-token
+  matrix. The frozen ingester correctly rejected it because budget 0 emitted
+  reasoning content rather than enforcing the documented immediate end.
+- All 60 zero-budget requests consumed exactly eight generated tokens inside
+  reasoning and emitted no final answer. Positive budgets produced stable
+  diagnostic scores of 13/30, 11/30, and 7/30; none met the quality floor, and
+  budget 48 also exceeded the five-second latency ceiling.
+- Source tracing found that the forcing state increments for any accepted token.
+  Qwen3.5's prefilled newline after `<think>` therefore consumes the one-token
+  forced end sequence before generation. The same code remains on current
+  upstream `master`.
+- An added test against untouched tag `b10208` reproduced the defect with exit
+  134 at the exact state assertion. A one-condition token-equality guard made
+  all 13 upstream reasoning-budget tests pass locally. Native validation is not
+  yet claimed, and the E3e validator was not weakened.
