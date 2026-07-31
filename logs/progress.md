@@ -614,3 +614,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   assumption without changing any experiment input or gate. Independent Python
   3.10 ingestion retained manifest SHA-256
   `54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c`.
+- Clean run `30657209779` subsequently passed the corrected workflow end to end
+  in 11m44s, reproduced both stable scores and the selected candidate, and
+  independently matched its uploaded summary byte for byte at SHA-256
+  `268cc0ec71e3396758c49b1405025ef6b13a0652029d15d5b027ddd046fa6932`.

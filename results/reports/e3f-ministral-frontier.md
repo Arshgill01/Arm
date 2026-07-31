@@ -9,6 +9,7 @@ completed the full native matrix in 12m38s on one four-core Neoverse N2 job.
 Both quantizations produced identical predictions across two repetitions. The
 Q4_K_M candidate reached 23/30 (76.67%), clearing the unchanged 75% floor by one
 task; Q4_0 reached 21/30 (70.00%) and was rejected.
+All 120 responses were exact standalone option letters and ended normally.
 
 | Candidate | Stable score | Package | Load | Median model time | Peak quality RSS |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -53,6 +54,13 @@ The derived selected plan has SHA-256
 `657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de`.
 Raw evidence remains in the 90-day artifact
 `e3f-ministral3-frontier-30656151957-1`.
+
+Clean reproducibility run
+[`30657209779`](https://github.com/Arshgill01/Arm/actions/runs/30657209779)
+then passed the corrected workflow end to end in 11m44s from retained-result
+commit `7fe068d`. It reproduced both stable scores and the selected candidate.
+Independent ingestion matched the uploaded summary byte for byte at SHA-256
+`268cc0ec71e3396758c49b1405025ef6b13a0652029d15d5b027ddd046fa6932`.
 
 ## Decision
 
