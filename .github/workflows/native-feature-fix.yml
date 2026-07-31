@@ -1,0 +1,230 @@
+name: Arm E6a validated feature patch
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  LLM_RUNNER_SHA: 8ba39e40fa754b87deb99a998c31de3b850094d5
+  LLAMA_CPP_SHA: eed25bc6b052c363aa760d0055282cc2222ccf6e
+  PATCH_SHA256: 75089ddea4d834133316f4a22f6909d3af87e4d8eadafdf631729bfbf80acbf9
+  PHI2_SHA256: a6f246baa29a776acbc9a1638088c33d8f7b6a044cc7dd09fb4b0374e1582ae0
+  PHI2_URL: https://huggingface.co/TheBloke/phi-2-GGUF/resolve/main/phi-2.Q4_0.gguf?download=true
+
+jobs:
+  validate:
+    name: Reproduce failure, patch, clean-build, and test
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e6a-${{ github.run_id }}-${{ github.run_attempt }}
+      LLM_RUNNER_DIR: /tmp/LLM-Runner-E6a
+      MODEL_PATH: /tmp/LLM-Runner-E6a/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf
+      PATCH_PATH: ${{ github.workspace }}/patches/llama.cpp/0001-kleidiai-use-validated-arm-features.patch
+
+    steps:
+      - name: Check out experiment repository
+        uses: actions/checkout@v7
+
+      - name: Select supported Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Capture host and pin upstream source
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          sha256sum "$PATCH_PATH" | tee "$EVIDENCE_DIR/patch-sha256.txt"
+          echo "$PATCH_SHA256  $PATCH_PATH" | sha256sum --check --strict
+          git clone --filter=blob:none \
+            https://github.com/Arm-Examples/LLM-Runner.git "$LLM_RUNNER_DIR"
+          git -C "$LLM_RUNNER_DIR" checkout --detach "$LLM_RUNNER_SHA"
+          test "$(git -C "$LLM_RUNNER_DIR" rev-parse HEAD)" = "$LLM_RUNNER_SHA"
+
+      - name: Restore pinned model
+        id: model-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ${{ env.MODEL_PATH }}
+          key: phi2-q4-0-${{ env.PHI2_SHA256 }}
+
+      - name: Fetch and verify pinned model
+        run: |
+          set -euo pipefail
+          mkdir -p "$(dirname "$MODEL_PATH")"
+          if [ ! -f "$MODEL_PATH" ]; then
+            curl --fail --location --retry 5 --retry-all-errors \
+              --output "$MODEL_PATH" "$PHI2_URL"
+          fi
+          echo "$PHI2_SHA256  $MODEL_PATH" | sha256sum --check --strict
+          stat --format='%n %s bytes' "$MODEL_PATH" | tee "$EVIDENCE_DIR/model.txt"
+          sha256sum "$MODEL_PATH" | tee -a "$EVIDENCE_DIR/model.txt"
+
+      - name: Save verified model
+        if: steps.model-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: ${{ env.MODEL_PATH }}
+          key: phi2-q4-0-${{ env.PHI2_SHA256 }}
+
+      - name: Configure the unpatched native build
+        working-directory: ${{ env.LLM_RUNNER_DIR }}
+        run: |
+          set -euo pipefail
+          cmake --preset=native -B build \
+            -DCPU_ARCH=Armv8.6_1 \
+            -DBUILD_BENCHMARK=ON \
+            -DBUILD_JNI_LIB=OFF \
+            -DBUILD_LLM_TESTING=ON \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DDOWNLOAD_LLM_MODELS=OFF \
+            -DGGML_NATIVE=ON \
+            -DLLM_FRAMEWORK=llama.cpp \
+            -DPython3_EXECUTABLE="$(command -v python3)" \
+            -DUSE_KLEIDIAI=ON \
+            2>&1 | tee "$EVIDENCE_DIR/configure-unpatched.log"
+          git -C build/llama.cpp rev-parse HEAD \
+            | tee "$EVIDENCE_DIR/llama-cpp-commit.txt"
+          test "$(cat "$EVIDENCE_DIR/llama-cpp-commit.txt")" = "$LLAMA_CPP_SHA"
+          git -C build/llama.cpp apply --check "$PATCH_PATH"
+          grep -q 'Performing Test HAVE_SVE - Failed' \
+            "$EVIDENCE_DIR/configure-unpatched.log"
+
+      - name: Reproduce the unpatched build failure
+        id: baseline
+        working-directory: ${{ env.LLM_RUNNER_DIR }}
+        run: |
+          set -uo pipefail
+          set +e
+          cmake --build build --parallel 4 \
+            2>&1 | tee "$EVIDENCE_DIR/build-unpatched.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "$status" | tee "$EVIDENCE_DIR/build-unpatched-exit.txt"
+          test "$status" -ne 0
+          grep -q 'sve_dotprod_asm.S' "$EVIDENCE_DIR/build-unpatched.log"
+          grep -q 'selected processor does not support' \
+            "$EVIDENCE_DIR/build-unpatched.log"
+
+      - name: Apply the source patch and reconfigure
+        working-directory: ${{ env.LLM_RUNNER_DIR }}
+        run: |
+          set -euo pipefail
+          git -C build/llama.cpp apply "$PATCH_PATH"
+          git -C build/llama.cpp diff --check
+          git -C build/llama.cpp diff -- \
+            ggml/src/ggml-cpu/CMakeLists.txt \
+            | tee "$EVIDENCE_DIR/applied.patch"
+          cmake --preset=native -B build \
+            -DCPU_ARCH=Armv8.6_1 \
+            -DBUILD_BENCHMARK=ON \
+            -DBUILD_JNI_LIB=OFF \
+            -DBUILD_LLM_TESTING=ON \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DDOWNLOAD_LLM_MODELS=OFF \
+            -DGGML_NATIVE=ON \
+            -DLLM_FRAMEWORK=llama.cpp \
+            -DPython3_EXECUTABLE="$(command -v python3)" \
+            -DUSE_KLEIDIAI=ON \
+            2>&1 | tee "$EVIDENCE_DIR/configure-patched.log"
+          cmake --build build --target clean
+
+      - name: Build the patched tree from clean outputs
+        id: patched_build
+        working-directory: ${{ env.LLM_RUNNER_DIR }}
+        run: |
+          set -euo pipefail
+          cmake --build build --parallel 4 \
+            2>&1 | tee "$EVIDENCE_DIR/build-patched.log"
+          echo 0 > "$EVIDENCE_DIR/build-patched-exit.txt"
+          if grep -q 'kleidiai_download-src/.*/sve_dotprod' \
+            "$EVIDENCE_DIR/build-patched.log"; then
+            echo 'Patched build still compiled KleidiAI SVE sources' >&2
+            exit 1
+          fi
+
+      - name: Run pinned upstream text test
+        id: functional_test
+        working-directory: ${{ env.LLM_RUNNER_DIR }}
+        run: |
+          set -euo pipefail
+          ctest --test-dir build -N | tee "$EVIDENCE_DIR/ctest-list.log"
+          grep -q 'phi_2' "$EVIDENCE_DIR/ctest-list.log"
+          ctest --test-dir build -R 'phi_2' --output-on-failure \
+            2>&1 | tee "$EVIDENCE_DIR/ctest.log"
+          echo 0 > "$EVIDENCE_DIR/ctest-exit.txt"
+
+      - name: Run real KleidiAI inference
+        id: benchmark
+        working-directory: ${{ env.LLM_RUNNER_DIR }}
+        run: |
+          set -euo pipefail
+          /usr/bin/time --verbose --output "$EVIDENCE_DIR/time.log" \
+            ./build/bin/llm-bench-cli \
+            --model "$MODEL_PATH" \
+            --input 64 \
+            --output 32 \
+            --context 512 \
+            --threads 4 \
+            --iterations 3 \
+            --warmup 1 \
+            --json-output "$EVIDENCE_DIR/benchmark.json" \
+            > "$EVIDENCE_DIR/benchmark.stdout.log" \
+            2> "$EVIDENCE_DIR/benchmark.stderr.log"
+          grep -Eiq 'kleidi' \
+            "$EVIDENCE_DIR/configure-patched.log" \
+            "$EVIDENCE_DIR/build-patched.log" \
+            "$EVIDENCE_DIR/benchmark.stdout.log" \
+            "$EVIDENCE_DIR/benchmark.stderr.log"
+          echo 0 > "$EVIDENCE_DIR/benchmark-exit.txt"
+
+      - name: Record frozen contract and provenance
+        if: always()
+        env:
+          BASELINE_OUTCOME: ${{ steps.baseline.outcome }}
+          PATCHED_BUILD_OUTCOME: ${{ steps.patched_build.outcome }}
+          FUNCTIONAL_TEST_OUTCOME: ${{ steps.functional_test.outcome }}
+          BENCHMARK_OUTCOME: ${{ steps.benchmark.outcome }}
+        run: |
+          set -euo pipefail
+          cp experiments/e6_contract.json "$EVIDENCE_DIR/contract.json"
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          provenance = {
+              "schema_version": 1,
+              "experiment_id": "E6a",
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "git_commit": os.environ["GITHUB_SHA"],
+              "llm_runner_commit": os.environ["LLM_RUNNER_SHA"],
+              "llama_cpp_commit": os.environ["LLAMA_CPP_SHA"],
+              "patch_sha256": os.environ["PATCH_SHA256"],
+              "step_outcomes": {
+                  "expected_unpatched_failure": os.environ["BASELINE_OUTCOME"],
+                  "patched_clean_build": os.environ["PATCHED_BUILD_OUTCOME"],
+                  "functional_test": os.environ["FUNCTIONAL_TEST_OUTCOME"],
+                  "benchmark": os.environ["BENCHMARK_OUTCOME"],
+              },
+          }
+          (evidence / "provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+
+      - name: Upload E6a evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e6a-native-feature-fix-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90

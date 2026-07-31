@@ -94,6 +94,23 @@ is a separately versioned experiment. See
 - Never claim that unlike model families or tokenizers have equivalent quality
   merely because the application output looks plausible.
 
+## E6a frozen source-correctness protocol
+
+E6a isolates a llama.cpp/KleidiAI native-feature selection defect observed in
+E1 attempt 4. The exact unpatched flags contain SVE2 modifier names but finish
+with `+nosve`; llama.cpp's existing compiled `HAVE_SVE` probe correctly fails,
+while a later substring search still selects SVE KleidiAI assembly. The
+assembler then rejects those sources under the final flags.
+
+The patch is frozen by SHA-256 in
+[`../experiments/e6_contract.json`](../experiments/e6_contract.json). On one
+native runner and identical pinned source, the workflow must first reproduce the
+specific unpatched failure. It then applies the patch, cleans every generated
+object, rebuilds, verifies that KleidiAI SVE sources are absent, passes the
+pinned upstream Phi-2 text test, and runs the fixed real-model benchmark. E6a is
+a build/source-correctness result, not a speedup claim; a later hot-path E6b
+still needs paired performance and mechanism evidence.
+
 ## First workload scope
 
 Start with the smallest public, permissively licensed text path already supported

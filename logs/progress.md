@@ -213,3 +213,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - No variant enters the Pareto set. E3 remains visible as a valid empty-frontier
   result; a longer completion or parser calibration requires a separately
   predeclared experiment.
+
+## 2026-07-31 — E6a native feature patch frozen
+
+- Recovered the complete E1 attempt-4 artifact. The final native compiler flag
+  was `-mcpu=neoverse-n2+crc+sve2-sm4+sve2-aes+sve2-sha3+norng+nossbs+dotprod+i8mm+nosve`.
+  llama.cpp's compiled `HAVE_SVE` probe failed as intended, yet a later `+sve`
+  substring search selected KleidiAI SVE assembly and broke the build.
+- Confirmed the same string-based selection remains in current upstream source;
+  no existing issue or commit found by the exact failure terms fixes it.
+- Authored a five-line behavioral patch: remove the four string searches and use
+  the already-computed `HAVE_DOTPROD`, `HAVE_MATMUL_INT8`, `HAVE_SME`, and
+  `HAVE_SVE` results. The patch applies cleanly to the exact pinned llama.cpp
+  commit and introduces no new probe or runtime branch.
+- Frozen E6a to require the exact unpatched failure, a clean patched rebuild,
+  exclusion of the invalid SVE sources, the upstream functional test, and real
+  model inference. This is source-correctness evidence; no performance benefit
+  will be claimed from a failed-build baseline.
