@@ -9,7 +9,8 @@ Last verified: 2026-07-31 UTC. Authoritative source links are collected in
 - Sponsor and administrator: Arm, San Jose, California.
 - Format: public, online.
 - Published submission deadline: **August 14, 2026, 4:00 PM Pacific Daylight
-  Time**, which is **August 14, 2026, 23:00 UTC**.
+  Time**, which is **August 14, 2026, 23:00 UTC** and **August 15, 2026, 04:30
+  IST**.
 - Judging: August 17, 9:00 AM PT through September 4, 4:00 PM PT.
 - Winners: on/about September 15, 2026; the exact time conflicts across official
   pages and is not submission-critical.
@@ -132,6 +133,24 @@ depth the dominant optimization target.
 The detailed rules mistakenly call the final category “Edge AI.” The overview
 and track page consistently say Mobile AI. See `open-questions.md`.
 
+## Late organizer guidance
+
+The July 17 office-hours recap and July 24 “Strengthen Your Optimization Story”
+update remove an important strategic ambiguity: merely running AI on Arm is not
+enough. Arm asks entrants to expose the baseline, technical changes, measured
+improvement, and why it matters. The organizer explicitly names latency,
+throughput, memory, model size, power, deployment time, developer workflow, and
+setup complexity as acceptable evidence.
+
+The July 24 update also says judges will look beyond the pitch to the actual
+implementation and artifacts. Reusable optimized models, scripts, tools,
+migration notes, templates, benchmarks, and lessons are specifically encouraged.
+
+An official July 31 session reviews concepts and the judging criteria at 09:00
+PDT (16:00 UTC), followed by judge office hours on August 3 at 10:00 PDT (17:00
+UTC) in the Arm Developer Program Discord. These are the best channels to resolve
+the rule defects in `open-questions.md`.
+
 ## Conservative compliance checklist
 
 - [ ] User confirms eligibility and chosen entrant/team representative.
@@ -142,7 +161,7 @@ and track page consistently say Mobile AI. See `open-questions.md`.
       a changelog.
 - [x] Public GitHub repository exists.
 - [x] Apache-2.0 license is present in the local project.
-- [ ] GitHub About section detects the license after push.
+- [x] GitHub detects the repository license as Apache-2.0 after push.
 - [ ] All dependencies, models, datasets, and generated assets have provenance
       and compatible rights.
 - [ ] Clean-checkout setup/run/validation succeeds on the intended Arm target.
@@ -153,4 +172,3 @@ and track page consistently say Mobile AI. See `open-questions.md`.
 - [ ] English Devpost write-up is complete.
 - [ ] Public demo video is under three minutes and shows the intended device.
 - [ ] Submission is finalized before August 14, 2026, 23:00 UTC.
-

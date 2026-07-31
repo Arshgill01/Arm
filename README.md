@@ -5,7 +5,8 @@ Optimization Challenge 2026**.
 
 The event asks entrants to create, migrate, or optimize an AI solution on Arm
 architecture in one of three published tracks: Physical AI, Cloud AI, or Mobile
-AI. The submission deadline is **August 14, 2026 at 4:00 PM PDT** (23:00 UTC).
+AI. The submission deadline is **August 14, 2026 at 4:00 PM PDT** (23:00 UTC;
+August 15 at 04:30 IST).
 
 ## Current phase
 
@@ -15,8 +16,9 @@ AI. The submission deadline is **August 14, 2026 at 4:00 PM PDT** (23:00 UTC).
 4. Run repeatable baselines and increasingly aggressive Arm-specific variants.
 5. Validate the winning implementation end to end on real Arm hardware.
 
-No project concept is selected yet. This is deliberate: the initial checkpoint
-captures what the challenge actually rewards before implementation bias sets in.
+The provisional concept is **Pareto64**, a quality-constrained cross-runtime
+planner for Arm AI inference. It becomes the final Cloud AI direction only if the
+native feasibility and novelty gates in `docs/strategy.md` pass.
 
 ## Repository map
 
@@ -24,6 +26,16 @@ captures what the challenge actually rewards before implementation bias sets in.
   deliverables, judging, dates, and compliance checklist.
 - [`docs/track-analysis.md`](docs/track-analysis.md): published track boundaries
   and cross-front optimization opportunities.
+- [`docs/strategy.md`](docs/strategy.md): concept comparison and the leading
+  single-project hypothesis.
+- [`docs/experiment-plan.md`](docs/experiment-plan.md): ordered, gated benchmark
+  program.
+- [`docs/environment.md`](docs/environment.md): current host, native Arm routes,
+  and measurement constraints.
+- [`docs/relevant-resources.md`](docs/relevant-resources.md): vetted frameworks,
+  profiling tools, starters, environments, and license traps.
+- [`docs/competitive-landscape.md`](docs/competitive-landscape.md): prior winning
+  patterns and current public competitor intelligence.
 - [`docs/open-questions.md`](docs/open-questions.md): contradictions that require
   organizer clarification or a conservative working assumption.
 - [`docs/source-registry.md`](docs/source-registry.md): URLs and source authority.
@@ -35,4 +47,3 @@ captures what the challenge actually rewards before implementation bias sets in.
 ## License
 
 Apache License 2.0. See [`LICENSE`](LICENSE).
-

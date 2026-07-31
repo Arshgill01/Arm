@@ -29,6 +29,13 @@ These are evidence gaps, not permission to ignore a requirement.
 7. **Performix scope.** The overview says developers “can” use Arm Performix. Is
    it optional for final benchmark proof, and what devices/metrics are supported
    during this event?
+8. **Multiple-prize eligibility.** The rules say a project can win only one
+   “grand prize” and up to one blog-post prize, but the listed overall and track
+   awards do not use that taxonomy consistently. Can one project win both an
+   overall and a best-in-track award?
+9. **Unfilled eligibility template.** The eligibility section includes an
+   unfinished “Other” placeholder. Confirm that it imposes no additional tool or
+   country restriction.
 
 ## Working assumptions until clarified
 
@@ -40,3 +47,9 @@ These are evidence gaps, not permission to ignore a requirement.
   upstream code change and show the Arm device/environment.
 - Treat Performix as optional until its access and scope are verified.
 
+## Confirmed organizer clarification
+
+Arm Staff Developer Evangelist Avin Zarlez answered in the event discussion that
+optimizations for Apple Silicon count. An Apple Silicon Mac is therefore a valid
+Mobile AI target even though the track examples emphasize Android, iOS, and
+Windows on Arm.
