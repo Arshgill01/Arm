@@ -1,0 +1,130 @@
+name: Arm E5a planner API concurrency
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  planner_api:
+    name: Fail-closed HTTP planning under concurrency
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 20
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e5a-${{ github.run_id }}-${{ github.run_attempt }}
+
+    steps:
+      - name: Check out experiment repository
+        uses: actions/checkout@v7
+
+      - name: Select pinned Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Capture host and verify frozen inputs
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          cp experiments/e5_contract.json "$EVIDENCE_DIR/contract.json"
+          cp results/manifests/e3-30635472160.json \
+            "$EVIDENCE_DIR/planner-manifest.json"
+          cp configs/cloud-balanced.json "$EVIDENCE_DIR/planner-policy.json"
+          echo 'e29b0b81fd4aeaa8cc6ec092cac9400ade31945e541081e90eae0cb8efd98af4  results/manifests/e3-30635472160.json' \
+            | sha256sum --check --strict
+          echo '946692148731e086f8005551751c1a0347be1935da554495ee5b6bc9c35b859b  configs/cloud-balanced.json' \
+            | sha256sum --check --strict
+
+      - name: Run product tests
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -v \
+            2>&1 | tee "$EVIDENCE_DIR/tests.log"
+
+      - name: Run mixed concurrent HTTP probe
+        run: |
+          set -euo pipefail
+          cleanup() {
+            if [ -n "${server_job_pid:-}" ] && kill -0 "$server_job_pid" 2>/dev/null; then
+              pkill -TERM -P "$server_job_pid" 2>/dev/null || true
+              kill -TERM "$server_job_pid" 2>/dev/null || true
+            fi
+          }
+          trap cleanup EXIT
+          /usr/bin/time --verbose --output "$EVIDENCE_DIR/server-time.log" \
+            python3 -m pareto64 serve \
+            --manifest results/manifests/e3-30635472160.json \
+            --constraints configs/cloud-balanced.json \
+            --host 127.0.0.1 \
+            --port 8765 \
+            --max-requests 422 \
+            > "$EVIDENCE_DIR/server.stdout.log" \
+            2> "$EVIDENCE_DIR/server.stderr.log" &
+          server_job_pid=$!
+          for attempt in $(seq 1 50); do
+            if curl --fail --silent http://127.0.0.1:8765/healthz \
+              > "$EVIDENCE_DIR/health.json"; then
+              break
+            fi
+            if ! kill -0 "$server_job_pid" 2>/dev/null; then
+              echo 'Pareto64 exited before readiness' >&2
+              exit 1
+            fi
+            sleep 0.1
+          done
+          jq -e '.status == "ok" and .default_plan_status == "no_feasible_candidate"' \
+            "$EVIDENCE_DIR/health.json" > /dev/null
+          python3 experiments/e5_http_probe.py \
+            --url http://127.0.0.1:8765 \
+            --policy configs/cloud-balanced.json \
+            --output "$EVIDENCE_DIR/probe.json" \
+            --warmups 20 \
+            --requests 400 \
+            --concurrency 8 \
+            --timeout 5.0
+          curl --fail --silent http://127.0.0.1:8765/metrics \
+            > "$EVIDENCE_DIR/service-metrics.json"
+          wait "$server_job_pid"
+          trap - EXIT
+
+      - name: Record provenance and independently validate evidence
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          provenance = {
+              "schema_version": 1,
+              "experiment_id": "E5a",
+              "git_commit": os.environ["GITHUB_SHA"],
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+          }
+          (evidence / "provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          python3 experiments/e5_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract experiments/e5_contract.json \
+            --manifest results/manifests/e3-30635472160.json \
+            --policy configs/cloud-balanced.json \
+            --output "$EVIDENCE_DIR/summary.json"
+          jq '{status, validation, performance, process}' \
+            "$EVIDENCE_DIR/summary.json"
+
+      - name: Upload E5a evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e5a-planner-api-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90

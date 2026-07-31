@@ -264,3 +264,18 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - The generated plan hashes both source inputs and is committed as a product
   artifact. Twenty-four local tests pass, including the actual E3 integration
   and synthetic non-dominated selection cases.
+
+## 2026-07-31 — E5a planner API frozen after local E2E probe
+
+- Added a bounded threaded HTTP service over the same planner function: health,
+  default plan, posted-policy evaluation, and process metrics. JSON request
+  bodies are capped at 64 KiB; invalid policies and routes return structured
+  errors without tracebacks.
+- Added an automatic maximum-request shutdown for reproducible `/usr/bin/time`
+  evidence and a mixed GET/POST concurrency probe that validates every response.
+- The real CLI server passed a local 200-request/concurrency-four probe with zero
+  failures, 3.921 ms median, 6.697 ms p95, and 914.0 requests/s. This x86 result
+  is integration calibration only.
+- Frozen native E5a at 400 measured requests, concurrency eight, zero failures,
+  at least 100 requests/s, p95 at most 50 ms, and process RSS at most 256 MiB.
+  It explicitly validates the planner decision plane, not model serving.

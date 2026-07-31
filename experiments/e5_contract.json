@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E5a",
+  "scope": "Pareto64 planner HTTP API concurrency screening, not model inference serving",
+  "inputs": {
+    "manifest_path": "results/manifests/e3-30635472160.json",
+    "manifest_sha256": "e29b0b81fd4aeaa8cc6ec092cac9400ade31945e541081e90eae0cb8efd98af4",
+    "policy_path": "configs/cloud-balanced.json",
+    "policy_sha256": "946692148731e086f8005551751c1a0347be1935da554495ee5b6bc9c35b859b"
+  },
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8765,
+    "python_version": "3.13",
+    "maximum_requests": 422
+  },
+  "probe": {
+    "readiness_requests": 1,
+    "warmups": 20,
+    "measured_requests": 400,
+    "concurrency": 8,
+    "timeout_seconds": 5.0,
+    "method_mix": "alternating GET and POST",
+    "expected_plan_status": "no_feasible_candidate"
+  },
+  "acceptance": {
+    "failures": 0,
+    "http_status": 200,
+    "minimum_requests_per_second": 100.0,
+    "maximum_p95_latency_ms": 50.0,
+    "maximum_process_rss_kib": 262144,
+    "service_error_count": 0,
+    "process_exit_status": 0
+  }
+}

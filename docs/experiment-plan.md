@@ -120,6 +120,22 @@ status is `valid_source_correctness_fix`. E6a is accepted as build-correctness
 evidence; E6b remains required for a performance claim. See
 [`../results/reports/e6a-native-feature-fix.md`](../results/reports/e6a-native-feature-fix.md).
 
+## E5a frozen planner-API protocol
+
+E5a is a product/API concurrency gate, not the final inference-server E5 result.
+It runs the real fail-closed Pareto64 service on one native Arm runner using the
+checksum-pinned E3 manifest and `cloud-balanced` policy. After one readiness and
+20 warm-up requests, the probe issues 400 alternating GET/POST plan requests at
+concurrency eight. Every response must remain HTTP 200 with
+`no_feasible_candidate` and no selected deployment.
+
+The frozen service SLO requires zero request/service failures, at least 100
+requests/s, p95 HTTP latency no greater than 50 ms, service maximum RSS no
+greater than 256 MiB, and a clean bounded shutdown. The exact contract is
+[`../experiments/e5_contract.json`](../experiments/e5_contract.json). Passing
+E5a validates the decision plane and DX; it does not substitute for later model
+inference concurrency, TTFT, token throughput, and quality evidence.
+
 ## First workload scope
 
 Start with the smallest public, permissively licensed text path already supported
