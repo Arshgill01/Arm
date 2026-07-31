@@ -120,6 +120,31 @@ status is `valid_source_correctness_fix`. E6a is accepted as build-correctness
 evidence; E6b remains required for a performance claim. See
 [`../results/reports/e6a-native-feature-fix.md`](../results/reports/e6a-native-feature-fix.md).
 
+## E6b frozen Q8 vector-store protocol
+
+E6b targets `quantize_row_q8_0`, the activation quantizer used by generic Arm
+Q4_0 matrix multiplication. The pinned implementation converts eight NEON
+vectors to integer lanes, then extracts and writes all 32 bytes individually.
+The single source change narrows those vectors in registers and emits two
+128-bit stores. Cross-compiled GCC 15 preflight reduced the function from 124 to
+69 static instructions and from 36 to 3 stores; an emulated Arm execution over
+8,224 finite values was byte-identical. These are mechanism and harness checks,
+not native performance results.
+
+The frozen native experiment builds baseline and patched copies from the same
+llama.cpp commit with KleidiAI off, so the controlled path is ggml's generic Arm
+Q4_0 implementation. It requires exact standalone equivalence, both upstream
+quantization suites to pass, emitted-assembly proof, and unchanged outputs on
+the same 30 Qwen tasks. Four alternating paired rounds measure upstream Q8_0
+quantizer throughput at 4,096, 65,536, and 655,360 values and real Qwen Q4_0
+inference at 128 input and 64 output tokens.
+
+A hot-path win requires at least 1.25x median throughput at 4,096 values, 1.15x
+at 65,536, no material regression at 655,360, improvement in the predeclared
+number of rounds, no inference metric below 0.98x, and no more than 32 MiB extra
+RSS. No weighted score is used. Exact inputs, ordering, and gates are frozen in
+[`../experiments/e6b_contract.json`](../experiments/e6b_contract.json).
+
 ## E5a frozen planner-API protocol
 
 E5a is a product/API concurrency gate, not the final inference-server E5 result.

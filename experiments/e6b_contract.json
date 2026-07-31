@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E6b",
+  "hypothesis": "Replacing scalar lane extraction in Arm quantize_row_q8_0 with NEON vector narrowing and two 128-bit stores materially improves the activation-quantization hot path without changing output bytes or regressing end-to-end Q4_0 inference.",
+  "upstream": {
+    "llm_runner_commit": "8ba39e40fa754b87deb99a998c31de3b850094d5",
+    "llama_cpp_commit": "eed25bc6b052c363aa760d0055282cc2222ccf6e",
+    "llama_cpp_tag": "b7870"
+  },
+  "patch": {
+    "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+    "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+    "target": "ggml/src/ggml-cpu/arch/arm/quants.c",
+    "function": "quantize_row_q8_0",
+    "source_sha256_before": "bca39e4a4dca6aee63c880e1174346d9da0fdbcec592937b106fbe8335bd0a22",
+    "source_sha256_after": "b2c655909e2c4ca66368f0c81d12b8f63930c3f76df9422ed0f9683049ae441b"
+  },
+  "configuration": {
+    "cpu_arch": "Armv8.6_1",
+    "ggml_native": false,
+    "framework": "llama.cpp",
+    "use_kleidiai": false,
+    "build_type": "Release",
+    "threads": 4
+  },
+  "correctness": {
+    "equivalence_source": "experiments/e6b_quantizer_equivalence.c",
+    "finite_values": 8224,
+    "includes_zero_block": true,
+    "upstream_test": "test-quantize-fns",
+    "quality_tasks_path": "experiments/e3_tasks.json",
+    "quality_tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "quality_task_count": 30,
+    "quality_max_output_tokens": 8
+  },
+  "model": {
+    "id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "repository": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+    "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+    "path": "qwen2.5-1.5b-instruct-q4_0.gguf",
+    "sha256": "dcd819ff094852c38faba6873d8ff0c9d51eadb2844539e52042ae5d647bbfdb",
+    "size_bytes": 1066227232,
+    "quantization": "Q4_0",
+    "license": "Apache-2.0"
+  },
+  "execution_order": [
+    ["baseline", "patched"],
+    ["patched", "baseline"],
+    ["baseline", "patched"],
+    ["patched", "baseline"]
+  ],
+  "direct_benchmark": {
+    "tool": "upstream test-quantize-perf",
+    "operation": "quantize_row_q",
+    "type": "q8_0",
+    "sizes": [4096, 65536, 655360],
+    "warmup_iterations": 5,
+    "measured_iterations": 20000,
+    "cpu_affinity": 0,
+    "metric": "float32_throughput_gib_per_second"
+  },
+  "inference_benchmark": {
+    "input_tokens": 128,
+    "output_tokens": 64,
+    "context": 2048,
+    "threads": 4,
+    "warmup_iterations": 1,
+    "measured_iterations": 3
+  },
+  "selection": {
+    "primary": "paired direct quantize_row_q q8_0 throughput",
+    "weighted_score_used": false
+  },
+  "acceptance": {
+    "process_exit_status": 0,
+    "direct_minimum_median_improvement_ratio_by_size": {
+      "4096": 1.25,
+      "65536": 1.15,
+      "655360": 0.98
+    },
+    "direct_minimum_improved_rounds_by_size": {
+      "4096": 3,
+      "65536": 3,
+      "655360": 2
+    },
+    "minimum_inference_improvement_ratio": 0.98,
+    "maximum_patched_rss_increase_kib": 32768,
+    "minimum_baseline_byte_stores": 16,
+    "maximum_patched_byte_stores": 4,
+    "minimum_patched_vector_narrows": 2,
+    "minimum_patched_vector_stores": 2
+  }
+}

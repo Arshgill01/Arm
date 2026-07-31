@@ -1,0 +1,30 @@
+diff --git a/ggml/src/ggml-cpu/arch/arm/quants.c b/ggml/src/ggml-cpu/arch/arm/quants.c
+index b390ab61..79ca1106 100644
+--- a/ggml/src/ggml-cpu/arch/arm/quants.c
++++ b/ggml/src/ggml-cpu/arch/arm/quants.c
+@@ -65,15 +65,18 @@ void quantize_row_q8_0(const float * GGML_RESTRICT x, void * GGML_RESTRICT vy, i
+ 
+         y[i].d = GGML_CPU_FP32_TO_FP16(d);
+ 
++        int32x4_t q[8];
+         for (int j = 0; j < 8; j++) {
+-            const float32x4_t v  = vmulq_n_f32(srcv[j], id);
+-            const int32x4_t   vi = vcvtnq_s32_f32(v);
+-
+-            y[i].qs[4*j + 0] = vgetq_lane_s32(vi, 0);
+-            y[i].qs[4*j + 1] = vgetq_lane_s32(vi, 1);
+-            y[i].qs[4*j + 2] = vgetq_lane_s32(vi, 2);
+-            y[i].qs[4*j + 3] = vgetq_lane_s32(vi, 3);
++            q[j] = vcvtnq_s32_f32(vmulq_n_f32(srcv[j], id));
+         }
++
++        const int16x8_t q0 = vcombine_s16(vmovn_s32(q[0]), vmovn_s32(q[1]));
++        const int16x8_t q1 = vcombine_s16(vmovn_s32(q[2]), vmovn_s32(q[3]));
++        const int16x8_t q2 = vcombine_s16(vmovn_s32(q[4]), vmovn_s32(q[5]));
++        const int16x8_t q3 = vcombine_s16(vmovn_s32(q[6]), vmovn_s32(q[7]));
++
++        vst1q_s8(y[i].qs,      vcombine_s8(vmovn_s16(q0), vmovn_s16(q1)));
++        vst1q_s8(y[i].qs + 16, vcombine_s8(vmovn_s16(q2), vmovn_s16(q3)));
+     }
+ #else
+     GGML_UNUSED(nb);

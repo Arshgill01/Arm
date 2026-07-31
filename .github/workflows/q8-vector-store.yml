@@ -1,0 +1,281 @@
+name: Arm E6b Q8 vector-store optimization
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  LLM_RUNNER_SHA: 8ba39e40fa754b87deb99a998c31de3b850094d5
+  LLAMA_CPP_SHA: eed25bc6b052c363aa760d0055282cc2222ccf6e
+  PATCH_SHA256: 54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab
+  QWEN_SHA256: dcd819ff094852c38faba6873d8ff0c9d51eadb2844539e52042ae5d647bbfdb
+  QWEN_SIZE: "1066227232"
+  QWEN_REVISION: 91cad51170dc346986eccefdc2dd33a9da36ead9
+
+jobs:
+  optimize:
+    name: Paired NEON Q8 quantizer validation
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e6b-${{ github.run_id }}-${{ github.run_attempt }}
+      LLM_RUNNER_DIR: /tmp/LLM-Runner-E6b
+      MODEL_PATH: /tmp/Pareto64-E6b/qwen2.5-1.5b-instruct-q4_0.gguf
+      PATCH_PATH: ${{ github.workspace }}/patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch
+
+    steps:
+      - name: Check out experiment repository
+        uses: actions/checkout@v7
+
+      - name: Select supported Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Capture host and pin inputs
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR/variants/baseline" \
+            "$EVIDENCE_DIR/variants/patched" "$EVIDENCE_DIR/rounds"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          cc --version | tee "$EVIDENCE_DIR/compiler.txt"
+          cp experiments/e6b_contract.json "$EVIDENCE_DIR/contract.json"
+          cp experiments/e3_tasks.json "$EVIDENCE_DIR/quality-tasks.json"
+          cp "$PATCH_PATH" "$EVIDENCE_DIR/patch.patch"
+          echo "$PATCH_SHA256  $PATCH_PATH" | sha256sum --check --strict
+          echo 'beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346  experiments/e3_tasks.json' \
+            | sha256sum --check --strict
+          git clone --filter=blob:none \
+            https://github.com/Arm-Examples/LLM-Runner.git "$LLM_RUNNER_DIR"
+          git -C "$LLM_RUNNER_DIR" checkout --detach "$LLM_RUNNER_SHA"
+          test "$(git -C "$LLM_RUNNER_DIR" rev-parse HEAD)" = "$LLM_RUNNER_SHA"
+
+      - name: Restore pinned Qwen model
+        id: model-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ${{ env.MODEL_PATH }}
+          key: e6b-qwen25-q4-0-${{ env.QWEN_SHA256 }}
+
+      - name: Fetch and verify pinned Qwen model
+        run: |
+          set -euo pipefail
+          mkdir -p "$(dirname "$MODEL_PATH")"
+          if [ ! -f "$MODEL_PATH" ]; then
+            curl --fail --location --retry 5 --retry-all-errors \
+              --output "$MODEL_PATH" \
+              "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/$QWEN_REVISION/qwen2.5-1.5b-instruct-q4_0.gguf?download=true"
+          fi
+          test "$(stat --format='%s' "$MODEL_PATH")" = "$QWEN_SIZE"
+          echo "$QWEN_SHA256  $MODEL_PATH" | sha256sum --check --strict
+          stat --format='%n %s bytes' "$MODEL_PATH" | tee "$EVIDENCE_DIR/model.txt"
+          sha256sum "$MODEL_PATH" | tee -a "$EVIDENCE_DIR/model.txt"
+
+      - name: Save verified Qwen model
+        if: steps.model-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: ${{ env.MODEL_PATH }}
+          key: e6b-qwen25-q4-0-${{ env.QWEN_SHA256 }}
+
+      - name: Configure controlled baseline and patched builds
+        run: |
+          set -euo pipefail
+          for variant in baseline patched; do
+            build="$LLM_RUNNER_DIR/build-$variant"
+            cmake -S experiments/e3_quality_runner -B "$build" -G Ninja \
+              -DBUILD_BENCHMARK=ON \
+              -DBUILD_JNI_LIB=OFF \
+              -DBUILD_LLM_TESTING=ON \
+              -DBUILD_SHARED_LIBS=OFF \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_TOOLCHAIN_FILE="$LLM_RUNNER_DIR/scripts/cmake/toolchains/native-dispatch.cmake" \
+              -DCPU_ARCH=Armv8.6_1 \
+              -DDOWNLOAD_LLM_MODELS=OFF \
+              -DGGML_BACKEND_DL=OFF \
+              -DGGML_NATIVE=OFF \
+              -DLLAMA_BUILD_TESTS=ON \
+              -DLLM_FRAMEWORK=llama.cpp \
+              -DLLM_LOG_LEVEL=INFO \
+              -DLLM_RUNNER_SOURCE_DIR="$LLM_RUNNER_DIR" \
+              -DPython3_EXECUTABLE="$(command -v python3)" \
+              -DUSE_KLEIDIAI=OFF \
+              2>&1 | tee "$EVIDENCE_DIR/variants/$variant/configure.log"
+            git -C "$build/llama.cpp" rev-parse HEAD \
+              | tee "$EVIDENCE_DIR/variants/$variant/llama-cpp-commit.txt"
+            test "$(git -C "$build/llama.cpp" rev-parse HEAD)" = "$LLAMA_CPP_SHA"
+            git -C "$build/llama.cpp" apply --check "$PATCH_PATH"
+          done
+          git -C "$LLM_RUNNER_DIR/build-baseline/llama.cpp" diff -- \
+            ggml/src/ggml-cpu/arch/arm/quants.c \
+            > "$EVIDENCE_DIR/variants/baseline/source-diff.patch"
+          test ! -s "$EVIDENCE_DIR/variants/baseline/source-diff.patch"
+          git -C "$LLM_RUNNER_DIR/build-baseline/llama.cpp" diff --name-only \
+            > "$EVIDENCE_DIR/variants/baseline/changed-files.txt"
+          sha256sum "$LLM_RUNNER_DIR/build-baseline/llama.cpp/ggml/src/ggml-cpu/arch/arm/quants.c" \
+            | tee "$EVIDENCE_DIR/variants/baseline/source-sha256.txt"
+          echo 'bca39e4a4dca6aee63c880e1174346d9da0fdbcec592937b106fbe8335bd0a22  /tmp/LLM-Runner-E6b/build-baseline/llama.cpp/ggml/src/ggml-cpu/arch/arm/quants.c' \
+            | sha256sum --check --strict
+          git -C "$LLM_RUNNER_DIR/build-patched/llama.cpp" apply "$PATCH_PATH"
+          git -C "$LLM_RUNNER_DIR/build-patched/llama.cpp" diff --check
+          git -C "$LLM_RUNNER_DIR/build-patched/llama.cpp" diff -- \
+            ggml/src/ggml-cpu/arch/arm/quants.c \
+            > "$EVIDENCE_DIR/variants/patched/applied.patch"
+          git -C "$LLM_RUNNER_DIR/build-patched/llama.cpp" diff --name-only \
+            > "$EVIDENCE_DIR/variants/patched/changed-files.txt"
+          test "$(cat "$EVIDENCE_DIR/variants/patched/changed-files.txt")" = \
+            'ggml/src/ggml-cpu/arch/arm/quants.c'
+          sha256sum "$LLM_RUNNER_DIR/build-patched/llama.cpp/ggml/src/ggml-cpu/arch/arm/quants.c" \
+            | tee "$EVIDENCE_DIR/variants/patched/source-sha256.txt"
+          echo 'b2c655909e2c4ca66368f0c81d12b8f63930c3f76df9422ed0f9683049ae441b  /tmp/LLM-Runner-E6b/build-patched/llama.cpp/ggml/src/ggml-cpu/arch/arm/quants.c' \
+            | sha256sum --check --strict
+
+      - name: Build both source variants
+        run: |
+          set -euo pipefail
+          for variant in baseline patched; do
+            build="$LLM_RUNNER_DIR/build-$variant"
+            cmake --build "$build" \
+              --target e3-quality-cli llm-bench-cli llm-cpp-tests \
+                test-quantize-fns test-quantize-perf \
+              --parallel "$(nproc)" \
+              2>&1 | tee "$EVIDENCE_DIR/variants/$variant/build.log"
+            echo 0 > "$EVIDENCE_DIR/variants/$variant/build-exit.txt"
+          done
+
+      - name: Prove exact finite-input equivalence
+        run: |
+          set -euo pipefail
+          cc -O3 -Wall -Wextra -Werror \
+            -march=armv8.6-a+dotprod+fp16+i8mm \
+            experiments/e6b_quantizer_equivalence.c \
+            -o "$RUNNER_TEMP/e6b-quantizer-equivalence"
+          "$RUNNER_TEMP/e6b-quantizer-equivalence" \
+            | tee "$EVIDENCE_DIR/equivalence.log"
+
+      - name: Run upstream tests and capture emitted assembly
+        run: |
+          set -euo pipefail
+          for variant in baseline patched; do
+            build="$LLM_RUNNER_DIR/build-$variant"
+            "$build/bin/test-quantize-fns" -v \
+              2>&1 | tee "$EVIDENCE_DIR/variants/$variant/quantize-test.log"
+            echo 0 > "$EVIDENCE_DIR/variants/$variant/quantize-test-exit.txt"
+            library="$(find "$build" -type f -name 'libggml-cpu.a' -print -quit)"
+            test -n "$library"
+            objdump -d --no-show-raw-insn \
+              --disassemble=quantize_row_q8_0 "$library" \
+              > "$EVIDENCE_DIR/variants/$variant/assembly.txt"
+            grep -q '<quantize_row_q8_0>:' \
+              "$EVIDENCE_DIR/variants/$variant/assembly.txt"
+          done
+
+      - name: Verify unchanged deterministic task outputs
+        run: |
+          set -euo pipefail
+          for variant in baseline patched; do
+            build="$LLM_RUNNER_DIR/build-$variant"
+            output="$EVIDENCE_DIR/variants/$variant"
+            (
+              cd "$build/bin"
+              export LD_LIBRARY_PATH="$build/bin:$build/lib:${LD_LIBRARY_PATH:-}"
+              /usr/bin/time --verbose --output "$output/quality-time.log" \
+                "$build/e3-quality-cli" \
+                --model "$MODEL_PATH" \
+                --tasks "$GITHUB_WORKSPACE/experiments/e3_tasks.json" \
+                --output "$output/quality.json" \
+                --threads 4 \
+                --context 2048 \
+                --max-output-tokens 8 \
+                --shared-library-path "$build/bin"
+            ) > "$output/quality.stdout.log" 2> "$output/quality.stderr.log"
+            echo 0 > "$output/quality-exit.txt"
+          done
+
+      - name: Execute frozen paired performance rounds
+        run: |
+          set -euo pipefail
+          run_variant() {
+            local variant="$1"
+            local round="$2"
+            local position="$3"
+            local build="$LLM_RUNNER_DIR/build-$variant"
+            local output="$EVIDENCE_DIR/rounds/round-$round-position-$position-$variant"
+            mkdir -p "$output"
+            /usr/bin/time --verbose --output "$output/perf-time.log" \
+              taskset --cpu-list 0 "$build/bin/test-quantize-perf" \
+                --type q8_0 \
+                --op quantize_row_q \
+                -3 \
+                --iterations 20000 \
+                > "$output/perf.log" 2> "$output/perf.stderr.log"
+            echo 0 > "$output/perf-exit.txt"
+            (
+              cd "$build/bin"
+              export LD_LIBRARY_PATH="$build/bin:$build/lib:${LD_LIBRARY_PATH:-}"
+              /usr/bin/time --verbose --output "$output/inference-time.log" \
+                ./llm-bench-cli \
+                --model "$MODEL_PATH" \
+                --input 128 \
+                --output 64 \
+                --context 2048 \
+                --threads 4 \
+                --iterations 3 \
+                --warmup 1 \
+                --json-output "$output/benchmark.json"
+            ) > "$output/inference.stdout.log" \
+              2> "$output/inference.stderr.log"
+          }
+          run_variant baseline 1 1
+          run_variant patched 1 2
+          run_variant patched 2 1
+          run_variant baseline 2 2
+          run_variant baseline 3 1
+          run_variant patched 3 2
+          run_variant patched 4 1
+          run_variant baseline 4 2
+
+      - name: Record provenance and apply frozen decision rule
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          provenance = {
+              "schema_version": 1,
+              "experiment_id": "E6b",
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "git_commit": os.environ["GITHUB_SHA"],
+              "llm_runner_commit": os.environ["LLM_RUNNER_SHA"],
+              "llama_cpp_commit": os.environ["LLAMA_CPP_SHA"],
+              "patch_sha256": os.environ["PATCH_SHA256"],
+              "controlled_difference": "frozen q8_0 vector-store patch only",
+          }
+          (evidence / "provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          python3 experiments/e6b_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract experiments/e6b_contract.json \
+            --patch "$PATCH_PATH" \
+            --tasks experiments/e3_tasks.json \
+            --output "$EVIDENCE_DIR/summary.json"
+          jq '{status, assembly, direct_benchmark, inference_benchmark, validation}' \
+            "$EVIDENCE_DIR/summary.json"
+
+      - name: Upload E6b evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e6b-q8-vector-store-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90

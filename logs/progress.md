@@ -335,3 +335,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Every frozen acceptance criterion passed. Backlog 64 is now the Pareto64
   product default, remains explicitly overrideable, and is supported only as a
   decision-plane admission optimization—not an inference-throughput claim.
+
+## 2026-07-31 — E6b NEON quantizer patch frozen
+
+- Audited the pinned and current upstream llama.cpp Arm quantizer. Both still
+  extract 32 integer lanes and issue scalar byte stores in
+  `quantize_row_q8_0`; no later upstream commit has replaced the path.
+- Added a narrowly scoped patch that preserves the existing NEON conversion,
+  narrows the eight integer vectors in registers, and writes two 128-bit
+  vectors. It changes no quantization formula, dispatch, dependency, or model.
+- GCC 15 AArch64 cross-assembly reduced the function from 124 to 69 static
+  instructions and from 36 to 3 stores. A QEMU Arm execution compared 8,224
+  deterministic finite inputs, including a zero block, byte for byte and passed.
+- Frozen E6b before native measurement: exact and upstream correctness tests,
+  assembly obligations, unchanged 30-task Qwen outputs, four alternating direct
+  benchmark rounds, and four paired real-inference rounds. The direct hot-path
+  threshold is 1.25x at L1 scale and 1.15x at L2 scale, with inference and RSS
+  guardrails and no weighted score.

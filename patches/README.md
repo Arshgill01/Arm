@@ -20,5 +20,19 @@ but end in `+nosve`; the substring search nevertheless includes SVE assembly,
 which the final compiler flags reject.
 
 The patch uses the existing validated feature results directly. It adds no new
-runtime branch, dependency, or feature assumption. Upstream status is pending
-native E6 validation; no external pull request has been opened.
+runtime branch, dependency, or feature assumption. Native E6a validation passed;
+no external pull request has been opened.
+
+## llama.cpp Arm Q8 vector narrowing stores
+
+[`llama.cpp/0002-arm-q8-vector-narrowing-stores.patch`](llama.cpp/0002-arm-q8-vector-narrowing-stores.patch)
+targets the same pinned llama.cpp revision. In `quantize_row_q8_0`, the existing
+NEON path extracts four lanes from each of eight `int32x4_t` values and writes
+32 scalar bytes. The patch uses narrowing intrinsics and two vector stores while
+leaving scale calculation and float-to-integer conversion unchanged.
+
+GCC 15 cross-assembly preflight reduced static instructions from 124 to 69 and
+stores from 36 to 3. An Arm-emulated finite-input equivalence test was
+byte-identical. Native performance, upstream tests, emitted assembly, Qwen task
+outputs, and end-to-end inference remain governed by the frozen E6b workflow;
+the preflight alone does not authorize a speedup claim.
