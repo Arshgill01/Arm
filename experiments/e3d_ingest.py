@@ -33,12 +33,13 @@ def validate_inputs(
     contract = load_object(contract_path)
     models = load_object(models_path)
     provenance = load_object(evidence_dir / "provenance.json")
-    if contract.get("schema_version") != 1 or contract.get("experiment_id") != "E3d":
-        raise ValueError("contract does not identify schema-1 E3d")
+    experiment_id = contract.get("experiment_id")
+    if contract.get("schema_version") != 1 or experiment_id not in {"E3d", "E3f"}:
+        raise ValueError("contract does not identify a supported current-runtime experiment")
     if load_object(evidence_dir / "contract.json") != contract:
-        raise ValueError("artifact contract differs from frozen E3d contract")
+        raise ValueError(f"artifact contract differs from frozen {experiment_id} contract")
     if load_object(evidence_dir / "models-manifest.json") != models:
-        raise ValueError("artifact model manifest differs from frozen E3d models")
+        raise ValueError(f"artifact model manifest differs from frozen {experiment_id} models")
     source_model = models.get("source_model")
     quantization_repository = models.get("quantization_repository")
     if (
@@ -48,7 +49,7 @@ def validate_inputs(
         or quantization_repository.get("license") != "Apache-2.0"
         or quantization_repository.get("base_model") != source_model.get("repository")
     ):
-        raise ValueError("E3d source or quantization provenance is invalid")
+        raise ValueError(f"{experiment_id} source or quantization provenance is invalid")
     quantizations: list[str] = []
     for model in models.get("variants", {}).values():
         if (
@@ -57,12 +58,12 @@ def validate_inputs(
             or model.get("parameter_scale") != source_model.get("parameter_scale")
             or not isinstance(model.get("quantization"), str)
         ):
-            raise ValueError("E3d variants do not share frozen model provenance")
+            raise ValueError(f"{experiment_id} variants do not share frozen model provenance")
         quantizations.append(model["quantization"])
     if len(quantizations) != len(set(quantizations)):
-        raise ValueError("E3d quantization labels must be unique")
+        raise ValueError(f"{experiment_id} quantization labels must be unique")
     if sha256_file(tasks_path) != contract["quality"]["tasks_sha256"]:
-        raise ValueError("task manifest checksum differs from E3d contract")
+        raise ValueError(f"task manifest checksum differs from {experiment_id} contract")
     if sha256_file(evidence_dir / "tasks-manifest.json") != sha256_file(tasks_path):
         raise ValueError("artifact task manifest differs")
     policy = contract["deployment_policy"]
@@ -71,9 +72,9 @@ def validate_inputs(
         sha256_file(policy_path) != policy["sha256"]
         or sha256_file(evidence_dir / policy["artifact_path"]) != policy["sha256"]
     ):
-        raise ValueError("deployment policy differs from E3d frozen input")
+        raise ValueError(f"deployment policy differs from {experiment_id} frozen input")
     expected_provenance = {
-        "experiment_id": "E3d",
+        "experiment_id": experiment_id,
         "llama_cpp_commit": contract["upstream"]["llama_cpp_commit"],
         "llama_cpp_tag": contract["upstream"]["llama_cpp_tag"],
         "kleidiai_release": contract["upstream"]["kleidiai_release"],
@@ -88,12 +89,12 @@ def validate_inputs(
     }
     for key, value in expected_provenance.items():
         if provenance.get(key) != value:
-            raise ValueError(f"provenance {key} differs from E3d contract")
+            raise ValueError(f"provenance {key} differs from {experiment_id} contract")
     if (evidence_dir / "build-exit.txt").read_text().strip() != "0":
-        raise ValueError("E3d build failed")
+        raise ValueError(f"{experiment_id} build failed")
     configure_log = (evidence_dir / "configure.log").read_text(encoding="utf-8")
     if "Using KleidiAI optimized kernels if applicable" not in configure_log:
-        raise ValueError("E3d configure log does not prove KleidiAI enabled")
+        raise ValueError(f"{experiment_id} configure log does not prove KleidiAI enabled")
     cache = (evidence_dir / "CMakeCache.txt").read_text(encoding="utf-8")
     for setting in (
         "GGML_CPU_KLEIDIAI:BOOL=ON",
@@ -101,9 +102,9 @@ def validate_inputs(
         "LLAMA_BUILD_SERVER:BOOL=ON",
     ):
         if setting not in cache:
-            raise ValueError(f"E3d build cache lacks {setting}")
+            raise ValueError(f"{experiment_id} build cache lacks {setting}")
     if not re.search(r"^LLAMA_CURL:(?:BOOL|UNINITIALIZED)=OFF$", cache, re.MULTILINE):
-        raise ValueError("E3d build cache lacks LLAMA_CURL=OFF")
+        raise ValueError(f"{experiment_id} build cache lacks LLAMA_CURL=OFF")
     return contract, models, provenance
 
 
@@ -116,26 +117,26 @@ def validate_model_artifacts(
     for variant in variants:
         model = models["variants"][variant]
         if model.get("license") != "Apache-2.0":
-            raise ValueError(f"{variant} violates the E3d license policy")
+            raise ValueError(f"{variant} violates the Apache-2.0 license policy")
         package_sizes[variant] = sum(item["size_bytes"] for item in model["files"])
         for item in model["files"]:
             relative = f"{variant}/{item['path']}"
             expected_sizes.append(f"{relative} {item['size_bytes']} bytes")
             expected_hashes[relative] = item["sha256"]
     if (evidence_dir / "model-files.txt").read_text().splitlines() != sorted(expected_sizes):
-        raise ValueError("E3d model size evidence differs from frozen packages")
+        raise ValueError("model size evidence differs from frozen packages")
     observed: dict[str, str] = {}
     for line in (evidence_dir / "model-sha256.txt").read_text().splitlines():
         fields = line.split(maxsplit=1)
         if len(fields) != 2:
-            raise ValueError("malformed E3d model checksum evidence")
+            raise ValueError("malformed model checksum evidence")
         digest, path = fields
         matches = [name for name in expected_hashes if path.endswith(f"/{name}")]
         if len(matches) != 1 or matches[0] in observed:
-            raise ValueError("E3d model checksum path differs")
+            raise ValueError("model checksum path differs")
         observed[matches[0]] = digest
     if observed != expected_hashes:
-        raise ValueError("E3d model checksums differ from frozen packages")
+        raise ValueError("model checksums differ from frozen packages")
     return package_sizes
 
 
@@ -160,7 +161,7 @@ def benchmark_round(
         None,
     )
     if prompt is None or generation is None:
-        raise ValueError(f"{path} benchmark parameters differ from E3d")
+        raise ValueError(f"{path} benchmark parameters differ from the contract")
     for record in records:
         if (
             record.get("n_threads") != threads
@@ -217,8 +218,9 @@ def build_manifest(
         evidence_dir, contract_path, models_path, tasks_path
     )
     variants = contract["variants"]
+    experiment_id = contract["experiment_id"]
     if set(variants) != set(models.get("variants", {})):
-        raise ValueError("E3d contract and model variants differ")
+        raise ValueError(f"{experiment_id} contract and model variants differ")
     order = validate_execution_order(
         contract["benchmark"]["execution_order"],
         variants,
@@ -227,7 +229,7 @@ def build_manifest(
     package_sizes = validate_model_artifacts(evidence_dir, variants, models)
 
     quality = build_summary(models_path, tasks_path, evidence_dir)
-    quality["experiment_id"] = "E3d"
+    quality["experiment_id"] = experiment_id
     normalize_quality_sources(quality, variants)
     expected_quality = contract["quality"]
     if quality["acceptance_policy"] != {
@@ -237,7 +239,7 @@ def build_manifest(
         "absolute_accuracy_floor": expected_quality["absolute_accuracy_floor"],
         "maximum_task_deficit_from_best": expected_quality["maximum_task_deficit_from_best"],
     }:
-        raise ValueError("E3d quality scorer policy differs from the contract")
+        raise ValueError(f"{experiment_id} quality scorer policy differs from the contract")
 
     application: dict[str, Any] = {}
     benchmark_variants: dict[str, Any] = {}
@@ -267,6 +269,8 @@ def build_manifest(
                 or run.get("context_size") != contract["configuration"]["context"]
                 or run.get("max_output_tokens") != expected_quality["max_output_tokens"]
                 or run.get("chat_template_mode") != contract["configuration"]["chat_template_mode"]
+                or run.get("instruction_role", "user_prefix")
+                != contract["configuration"].get("instruction_role", "user_prefix")
                 or run.get("temperature") != contract["configuration"]["temperature"]
                 or run.get("seed") != contract["configuration"]["seed"]
                 or float(run.get("model_load_ms", -1)) != expected_load_ms
@@ -287,7 +291,7 @@ def build_manifest(
         runtime_patterns = model["runtime_buffer_patterns"]
         matched_patterns = sorted(pattern for pattern in runtime_patterns if pattern in runtime_log)
         if not matched_patterns:
-            raise ValueError(f"{variant} lacks KleidiAI runtime buffer proof")
+            raise ValueError(f"{variant} lacks runtime buffer proof")
         process = parse_time_output((variant_dir / "server.time.log").read_text())
         if process["exit_status"] not in {0, 130, 143} or process["maximum_rss_kib"] is None:
             raise ValueError(f"{variant} server process evidence is invalid")
@@ -368,9 +372,34 @@ def build_manifest(
         "uname": (evidence_dir / "uname.txt").read_text().strip(),
         "lscpu": parse_lscpu((evidence_dir / "lscpu.txt").read_text()),
     }
+    validation = {
+        "quality_policy_predeclared": True,
+        "deployment_policy_predeclared": True,
+        "same_tasks_and_instruction_as_e3": True,
+        "current_llama_cpp_pinned": True,
+        "kleidiai_build_enabled": True,
+        "kleidiai_runtime_buffer_proven": all(
+            application[name]["runtime_buffer_evidence"] for name in variants
+        ),
+        "performance_comparison_allowed": True,
+        "quality_eligible_variants": sorted(
+            name for name in variants if application[name]["quality_eligible"]
+        ),
+    }
+    if experiment_id == "E3f":
+        validation["runtime_buffer_proven"] = all(
+            application[name]["runtime_buffer_evidence"] for name in variants
+        )
+        validation["kleidiai_runtime_buffer_proven"] = all(
+            application[name]["runtime_buffer_evidence"]
+            for name in variants
+            if models["variants"][name].get(
+                "requires_kleidiai_runtime_buffer", True
+            )
+        )
     return {
         "schema_version": 1,
-        "experiment_id": "E3d",
+        "experiment_id": experiment_id,
         "status": "valid_frontier" if frontier else "valid_no_quality_eligible_variant",
         "source": {
             "github_run_url": f"https://github.com/Arshgill01/Arm/actions/runs/{provenance['github_run_id']}",
@@ -391,20 +420,7 @@ def build_manifest(
             "frontier": frontier,
             "weighted_score_used": False,
         },
-        "validation": {
-            "quality_policy_predeclared": True,
-            "deployment_policy_predeclared": True,
-            "same_tasks_and_instruction_as_e3": True,
-            "current_llama_cpp_pinned": True,
-            "kleidiai_build_enabled": True,
-            "kleidiai_runtime_buffer_proven": all(
-                application[name]["runtime_buffer_evidence"] for name in variants
-            ),
-            "performance_comparison_allowed": True,
-            "quality_eligible_variants": sorted(
-                name for name in variants if application[name]["quality_eligible"]
-            ),
-        },
+        "validation": validation,
     }
 
 

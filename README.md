@@ -21,7 +21,7 @@ planner for Arm AI inference. It becomes the final Cloud AI direction only if th
 native feasibility and novelty gates in `docs/strategy.md` pass.
 
 The product core is now executable: it validates schema-1 E3, E3b, E3c, E3d,
-or E3e evidence, applies explicit quality and SLO gates, recomputes the Pareto
+E3e, or E3f evidence, applies explicit quality and SLO gates, recomputes the Pareto
 frontier, and emits a hashed deployment decision without a hidden weighted
 score.
 
@@ -32,7 +32,9 @@ reasoning run was correctly rejected: budget 0 failed the runtime's documented
 immediate-end mechanism. That failure exposed a reproducible upstream sampler
 state bug; no E3e frontier or deployment plan is accepted. E6c validated the
 exact source correction and zero-reasoning behavior on Arm, but its frozen
-eight-token standalone-answer gate rejected the application run.
+eight-token standalone-answer gate rejected the application run. E3f now
+freezes a roughly 2.1 GB Ministral 3 Q4_0/Q4_K_M quality frontier without
+changing the 75% acceptance floor.
 
 ```bash
 python3 -m pareto64 plan \

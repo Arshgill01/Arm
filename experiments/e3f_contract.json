@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E3f",
+  "title": "Ministral 3 quality-per-byte frontier",
+  "artifact_name_prefix": "e3f-ministral3-frontier",
+  "hypothesis": "The Apache-2.0 Ministral 3 3B Instruct model can clear the unchanged 75% task floor and cloud SLOs in a roughly 2.1 GB package, while Q4_0 exposes a KleidiAI-accelerated performance option and Q4_K_M provides a quality-oriented anchor.",
+  "selection_basis": "Mistral's official immutable model card reports 0.830 MATH Maj@1 for the 3B instruct model, describes it as edge-optimized with strong system-prompt and JSON adherence, and recommends temperature below 0.1 for production. The source and both evaluated GGUF derivatives are Apache-2.0. Published aggregate scores select the candidate only and are not submission evidence.",
+  "controlled_difference": "Both candidates derive from the same pinned source model and quantization producer and use the same semantic instruction, system-role prompt mapping, runtime, host, tasks, greedy decoding, threads, and context. GGUF weight quantization is the only candidate-level difference.",
+  "upstream": {
+    "llama_cpp_commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+    "llama_cpp_tag": "b10208",
+    "kleidiai_release": "v1.24.0",
+    "kleidiai_archive_md5": "2f02ebe29573d45813e671eb304f2a00"
+  },
+  "configuration": {
+    "threads": 4,
+    "context": 2048,
+    "server_parallel_slots": 1,
+    "chat_template_mode": "model_jinja_system_instruction",
+    "instruction_role": "system",
+    "temperature": 0.0,
+    "seed": 424242,
+    "build": {
+      "GGML_CPU_KLEIDIAI": true,
+      "GGML_NATIVE": true,
+      "LLAMA_BUILD_SERVER": true,
+      "LLAMA_CURL": false
+    }
+  },
+  "variants": [
+    "ministral3_3b_q4_0",
+    "ministral3_3b_q4_k_m"
+  ],
+  "quality": {
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "task_count": 30,
+    "repetitions": 2,
+    "max_output_tokens": 8,
+    "prediction_parser": "first standalone uppercase A-D after case folding",
+    "predictions_must_be_stable": true,
+    "absolute_accuracy_floor": 0.75,
+    "maximum_task_deficit_from_best": 1
+  },
+  "benchmark": {
+    "input_tokens": 128,
+    "output_tokens": 64,
+    "threads": 4,
+    "rounds_per_variant": 3,
+    "warmup_enabled": true,
+    "measured_repetitions_per_round": 3,
+    "execution_order": [
+      [
+        "ministral3_3b_q4_0",
+        "ministral3_3b_q4_k_m"
+      ],
+      [
+        "ministral3_3b_q4_k_m",
+        "ministral3_3b_q4_0"
+      ],
+      [
+        "ministral3_3b_q4_0",
+        "ministral3_3b_q4_k_m"
+      ]
+    ]
+  },
+  "deployment_policy": {
+    "path": "configs/cloud-quality.json",
+    "artifact_path": "deployment-policy.json",
+    "sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33"
+  },
+  "pareto": {
+    "directions": {
+      "minimum_accuracy": "higher",
+      "same_text_total_ms_median": "lower",
+      "maximum_quality_process_rss_kib": "lower",
+      "package_size_bytes": "lower"
+    }
+  }
+}

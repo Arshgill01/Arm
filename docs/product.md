@@ -69,7 +69,7 @@ The schema-1 policy has two explicit parts:
   Pareto filtering.
 
 Every numeric metric must be finite and non-negative. Schema-1 E3, E3b, E3c,
-E3d, and E3e quality-frontier manifests are accepted. Candidate sets, quality
+E3d, E3e, and E3f quality-frontier manifests are accepted. Candidate sets, quality
 decisions, experiment status, and the experiment's declared eligible set must
 agree or the planner rejects the manifest. The output records hashes of both
 input files, all observed metrics, all rejection reasons, the feasible set,

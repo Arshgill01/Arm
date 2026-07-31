@@ -104,9 +104,10 @@ def extract_e3_candidates(manifest: dict[str, Any]) -> dict[str, dict[str, Any]]
         "E3c",
         "E3d",
         "E3e",
+        "E3f",
     }:
         raise ValueError(
-            "planner input must be a schema-1 E3, E3b, E3c, E3d, or E3e manifest"
+            "planner input must be a schema-1 E3, E3b, E3c, E3d, E3e, or E3f manifest"
         )
     if not str(manifest.get("status", "")).startswith("valid_"):
         raise ValueError("planner input is not a valid experiment result")

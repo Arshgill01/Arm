@@ -1,0 +1,347 @@
+name: Arm E3f Ministral quality frontier
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  LLAMA_CPP_SHA: 9d9a6d29f6b981cc7f41983d26e56485c6af1811
+  LLAMA_CPP_TAG: b10208
+  KLEIDIAI_RELEASE: v1.24.0
+  KLEIDIAI_ARCHIVE_MD5: 2f02ebe29573d45813e671eb304f2a00
+  POLICY_SHA256: 7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33
+
+jobs:
+  frontier:
+    name: Ministral 3 quality-per-byte frontier
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 90
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e3f-${{ github.run_id }}-${{ github.run_attempt }}
+      LLAMA_CPP_DIR: /tmp/llama.cpp-E3f
+      BUILD_DIR: /tmp/llama.cpp-E3f-build
+      MODEL_ROOT: /tmp/Pareto64-E3f/models
+
+    steps:
+      - name: Check out experiment repository
+        uses: actions/checkout@v7
+
+      - name: Select supported Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Capture host and frozen inputs
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR" "$MODEL_ROOT"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          cp experiments/e3f_contract.json "$EVIDENCE_DIR/contract.json"
+          cp experiments/e3f_models.json "$EVIDENCE_DIR/models-manifest.json"
+          cp experiments/e3_tasks.json "$EVIDENCE_DIR/tasks-manifest.json"
+          cp configs/cloud-quality.json "$EVIDENCE_DIR/deployment-policy.json"
+          echo "$POLICY_SHA256  configs/cloud-quality.json" | sha256sum --check --strict
+          echo 'beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346  experiments/e3_tasks.json' \
+            | sha256sum --check --strict
+          git clone --filter=blob:none \
+            https://github.com/ggml-org/llama.cpp.git "$LLAMA_CPP_DIR"
+          git -C "$LLAMA_CPP_DIR" checkout --detach "$LLAMA_CPP_SHA"
+          test "$(git -C "$LLAMA_CPP_DIR" rev-parse HEAD)" = "$LLAMA_CPP_SHA"
+          test "$(git -C "$LLAMA_CPP_DIR" describe --tags --exact-match)" = "$LLAMA_CPP_TAG"
+          test -z "$(git -C "$LLAMA_CPP_DIR" status --short)"
+          test -f "$LLAMA_CPP_DIR/src/models/mistral3.cpp"
+          grep -q 'set(KLEIDIAI_COMMIT_TAG "v1.24.0")' \
+            "$LLAMA_CPP_DIR/ggml/src/ggml-cpu/CMakeLists.txt"
+          grep -q 'set(KLEIDIAI_RELEASE_ARCHIVE_MD5  "2f02ebe29573d45813e671eb304f2a00")' \
+            "$LLAMA_CPP_DIR/ggml/src/ggml-cpu/CMakeLists.txt"
+
+      - name: Fetch and verify pinned Ministral quantizations
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' > "$RUNNER_TEMP/e3f-models.tsv"
+          import json
+          from pathlib import Path
+
+          manifest = json.loads(Path("experiments/e3f_models.json").read_text())
+          for variant, model in manifest["variants"].items():
+              for item in model["files"]:
+                  print(
+                      variant,
+                      model["repository"],
+                      model["revision"],
+                      item["path"],
+                      item["sha256"],
+                      item["size_bytes"],
+                      sep="\t",
+                  )
+          PY
+          while IFS=$'\t' read -r variant repository revision path sha256 size; do
+            target="$MODEL_ROOT/$variant/$path"
+            mkdir -p "$(dirname "$target")"
+            curl --fail --location --retry 5 --retry-all-errors \
+              --output "$target" \
+              "https://huggingface.co/$repository/resolve/$revision/$path?download=true"
+            test "$(stat --format='%s' "$target")" = "$size"
+            echo "$sha256  $target" | sha256sum --check --strict
+          done < "$RUNNER_TEMP/e3f-models.tsv"
+          find "$MODEL_ROOT" -type f -printf '%P %s bytes\n' | sort \
+            | tee "$EVIDENCE_DIR/model-files.txt"
+          find "$MODEL_ROOT" -type f -print0 | sort -z | xargs -0 sha256sum \
+            | tee "$EVIDENCE_DIR/model-sha256.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after-models.txt"
+
+      - name: Configure pinned current llama.cpp with KleidiAI
+        run: |
+          set -euo pipefail
+          cmake -S "$LLAMA_CPP_DIR" -B "$BUILD_DIR" -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DGGML_CPU_KLEIDIAI=ON \
+            -DGGML_NATIVE=ON \
+            -DLLAMA_BUILD_EXAMPLES=OFF \
+            -DLLAMA_BUILD_SERVER=ON \
+            -DLLAMA_BUILD_TESTS=OFF \
+            -DLLAMA_CURL=OFF \
+            2>&1 | tee "$EVIDENCE_DIR/configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' \
+            "$EVIDENCE_DIR/configure.log"
+          grep -q 'ARM detected' "$EVIDENCE_DIR/configure.log"
+          cp "$BUILD_DIR/CMakeCache.txt" "$EVIDENCE_DIR/CMakeCache.txt"
+          grep -q '^GGML_CPU_KLEIDIAI:BOOL=ON$' "$EVIDENCE_DIR/CMakeCache.txt"
+          grep -q '^GGML_NATIVE:BOOL=ON$' "$EVIDENCE_DIR/CMakeCache.txt"
+          grep -q '^LLAMA_BUILD_SERVER:BOOL=ON$' "$EVIDENCE_DIR/CMakeCache.txt"
+          grep -Eq '^LLAMA_CURL:(BOOL|UNINITIALIZED)=OFF$' \
+            "$EVIDENCE_DIR/CMakeCache.txt"
+
+      - name: Build current server and benchmark tools
+        run: |
+          set -euo pipefail
+          cmake --build "$BUILD_DIR" \
+            --target llama-server llama-bench \
+            --parallel "$(nproc)" \
+            2>&1 | tee "$EVIDENCE_DIR/build.log"
+          echo 0 > "$EVIDENCE_DIR/build-exit.txt"
+          "$BUILD_DIR/bin/llama-server" --version \
+            | tee "$EVIDENCE_DIR/server-version.txt"
+          "$BUILD_DIR/bin/llama-bench" --help \
+            > "$EVIDENCE_DIR/bench-help.txt"
+
+      - name: Run frozen quality tasks through llama-server
+        run: |
+          set -euo pipefail
+          require_runtime_buffer() {
+            local variant="$1"
+            shift
+            python3 - "$variant" "$@" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          models = json.loads(Path("experiments/e3f_models.json").read_text())
+          patterns = models["variants"][sys.argv[1]]["runtime_buffer_patterns"]
+          text = "\n".join(Path(path).read_text(errors="replace") for path in sys.argv[2:])
+          if not any(pattern in text for pattern in patterns):
+              raise SystemExit(f"missing runtime buffer proof for {sys.argv[1]}")
+          PY
+          }
+          run_quality() {
+            local variant="$1"
+            local entrypoint
+            entrypoint="$(jq -r --arg variant "$variant" '.variants[$variant].entrypoint' experiments/e3f_models.json)"
+            local model="$MODEL_ROOT/$variant/$entrypoint"
+            local output_dir="$EVIDENCE_DIR/variants/$variant"
+            mkdir -p "$output_dir"
+            "$BUILD_DIR/bin/llama-bench" \
+              --model "$model" \
+              --n-prompt 8 \
+              --n-gen 1 \
+              --threads 4 \
+              --repetitions 1 \
+              --output json \
+              --verbose \
+              > "$output_dir/runtime-proof.json" \
+              2> "$output_dir/runtime-proof.stderr.log"
+            require_runtime_buffer "$variant" \
+              "$output_dir/runtime-proof.stderr.log"
+            /usr/bin/time --verbose --output "$output_dir/server.time.log" \
+              "$BUILD_DIR/bin/llama-server" \
+              --model "$model" \
+              --alias "$variant" \
+              --threads 4 \
+              --threads-batch 4 \
+              --ctx-size 2048 \
+              --parallel 1 \
+              --cont-batching \
+              --no-cache-prompt \
+              --host 127.0.0.1 \
+              --port 18080 \
+              --no-webui \
+              --metrics \
+              --slots \
+              --jinja \
+              --temp 0 \
+              --seed 424242 \
+              --log-file "$output_dir/server.core.log" \
+              --log-colors off \
+              > "$output_dir/server.stdout.log" \
+              2> "$output_dir/server.stderr.log" &
+            local timer_pid=$!
+            echo "$timer_pid" > "$output_dir/timer-pid.txt"
+            python3 experiments/e3d_http_quality.py wait \
+              --url http://127.0.0.1:18080 \
+              --timeout 45 \
+              --output "$output_dir/readiness.json"
+            local server_pid=""
+            for _ in $(seq 1 50); do
+              server_pid="$(pgrep -P "$timer_pid" -x llama-server || true)"
+              if [[ -n "$server_pid" ]]; then
+                break
+              fi
+              sleep 0.1
+            done
+            test -n "$server_pid"
+            echo "$server_pid" > "$output_dir/server-pid.txt"
+            local load_ms
+            load_ms="$(jq -r '.ready_ms' "$output_dir/readiness.json")"
+            for repetition in 1 2; do
+              python3 experiments/e3d_http_quality.py run \
+                --url http://127.0.0.1:18080 \
+                --tasks experiments/e3_tasks.json \
+                --model "$variant" \
+                --model-path "$model" \
+                --load-ms "$load_ms" \
+                --threads 4 \
+                --context 2048 \
+                --max-output-tokens 8 \
+                --seed 424242 \
+                --timeout 30 \
+                --instruction-role system \
+                --output "$output_dir/quality-repeat-$repetition.json"
+            done
+            curl --fail --silent http://127.0.0.1:18080/metrics \
+              > "$output_dir/metrics.txt"
+            curl --fail --silent http://127.0.0.1:18080/slots \
+              > "$output_dir/slots.json"
+            kill -INT "$server_pid"
+            set +e
+            wait "$timer_pid"
+            local server_status=$?
+            set -e
+            echo "$server_status" > "$output_dir/server-shell-exit.txt"
+            [[ "$server_status" -eq 0 || "$server_status" -eq 130 ]]
+            require_runtime_buffer "$variant" \
+              "$output_dir/runtime-proof.stderr.log" \
+              "$output_dir/server.core.log" \
+              "$output_dir/server.stdout.log" \
+              "$output_dir/server.stderr.log"
+          }
+          while read -r variant; do
+            run_quality "$variant"
+          done < <(jq -r '.variants[]' experiments/e3f_contract.json)
+
+      - name: Run cyclic current-runtime token benchmarks
+        run: |
+          set -euo pipefail
+          run_benchmark() {
+            local variant="$1"
+            local round="$2"
+            local position="$3"
+            local entrypoint
+            entrypoint="$(jq -r --arg variant "$variant" '.variants[$variant].entrypoint' experiments/e3f_models.json)"
+            local model="$MODEL_ROOT/$variant/$entrypoint"
+            local output_dir="$EVIDENCE_DIR/variants/$variant/round-$round-position-$position"
+            mkdir -p "$output_dir"
+            /usr/bin/time --verbose --output "$output_dir/time.log" \
+              "$BUILD_DIR/bin/llama-bench" \
+              --model "$model" \
+              --n-prompt 128 \
+              --n-gen 64 \
+              --threads 4 \
+              --repetitions 3 \
+              --output json \
+              > "$output_dir/benchmark.json" \
+              2> "$output_dir/stderr.log"
+          }
+          python3 - <<'PY' > "$RUNNER_TEMP/e3f-order.tsv"
+          import json
+          from pathlib import Path
+
+          contract = json.loads(Path("experiments/e3f_contract.json").read_text())
+          for round_number, variants in enumerate(
+              contract["benchmark"]["execution_order"], start=1
+          ):
+              for position, variant in enumerate(variants, start=1):
+                  print(variant, round_number, position, sep="\t")
+          PY
+          while IFS=$'\t' read -r variant round position; do
+            run_benchmark "$variant" "$round" "$position"
+          done < "$RUNNER_TEMP/e3f-order.tsv"
+
+      - name: Apply frozen quality and deployment policies
+        run: |
+          set -euo pipefail
+          python3 experiments/e3_score.py \
+            --models experiments/e3f_models.json \
+            --tasks experiments/e3_tasks.json \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --output "$EVIDENCE_DIR/quality-summary.json"
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          contract = json.loads(Path("experiments/e3f_contract.json").read_text())
+          models = json.loads(Path("experiments/e3f_models.json").read_text())
+          provenance = {
+              "schema_version": 1,
+              "experiment_id": "E3f",
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "git_commit": os.environ["GITHUB_SHA"],
+              "llama_cpp_commit": os.environ["LLAMA_CPP_SHA"],
+              "llama_cpp_tag": os.environ["LLAMA_CPP_TAG"],
+              "kleidiai_release": os.environ["KLEIDIAI_RELEASE"],
+              "kleidiai_archive_md5": os.environ["KLEIDIAI_ARCHIVE_MD5"],
+              "deployment_policy_sha256": os.environ["POLICY_SHA256"],
+              "model_revisions": {
+                  name: model["revision"]
+                  for name, model in models["variants"].items()
+              },
+              "source_model_revision": models["source_model"]["revision"],
+              "execution_order": contract["benchmark"]["execution_order"],
+              "controlled_difference": contract["controlled_difference"],
+          }
+          (evidence / "provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          python3 experiments/e3f_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract experiments/e3f_contract.json \
+            --models experiments/e3f_models.json \
+            --tasks experiments/e3_tasks.json \
+            --output "$EVIDENCE_DIR/summary.json"
+          python3 -m pareto64 plan \
+            --manifest "$EVIDENCE_DIR/summary.json" \
+            --constraints configs/cloud-quality.json \
+            --output "$EVIDENCE_DIR/deployment-plan.json"
+          jq '{status, validation, application: [.application | to_entries[] | {variant: .key, accuracy: .value.minimum_accuracy, eligible: .value.quality_eligible, size: .value.package_size_bytes, latency_ms: .value.same_text_total_ms.median, http_ms: .value.http_round_trip_ms.median, rss_kib: .value.quality_process.maximum_rss_kib.max, runtime_buffer: .value.runtime_buffer_evidence}], frontier: .pareto.frontier}' \
+            "$EVIDENCE_DIR/summary.json"
+          jq '{status, feasible_candidates, selected: .selected.name}' \
+            "$EVIDENCE_DIR/deployment-plan.json"
+          free -h | tee "$EVIDENCE_DIR/memory-after.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+
+      - name: Upload E3f evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e3f-ministral3-frontier-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90

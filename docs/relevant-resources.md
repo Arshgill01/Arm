@@ -164,6 +164,15 @@ links its base model to the exact official Qwen model, but it is not
 Qwen-maintained; that distinction and every package hash are retained in
 `experiments/e3c_models.json`.
 
+E3f uses official Apache-2.0 Ministral 3 3B Instruct at revision
+`b35d4dfe56c142746f54dbd64f579faab2744308`. Mistral's immutable card reports
+0.830 MATH Maj@1 for the 3B instruct release, recommends a clear system prompt
+and temperature below 0.1 for production, and describes the family as intended
+for edge deployment. These are candidate-selection priors, not Pareto64
+results. The Q4_0 and Q4_K_M GGUF files come from one Apache-2.0 Unsloth
+derivative revision, total 2,046,375,200 and 2,146,497,824 bytes, and have exact
+hashes pinned in `experiments/e3f_models.json`.
+
 - Runtime licenses do not grant model/data licenses. Record exact weight source,
   license, version, and SHA-256.
 - [AI-on-Arm](https://github.com/arm-education/AI-on-Arm) uses an Arm Education

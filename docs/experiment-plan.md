@@ -240,6 +240,31 @@ of 13/30, 11/30, and 7/30; they do not rescue the invalid matrix. Source and
 unit-test analysis reproduces an unchecked forced-token state transition. See
 [`../results/reports/e3e-bounded-reasoning.md`](../results/reports/e3e-bounded-reasoning.md).
 
+## E3f frozen Ministral 3 quality-per-byte protocol
+
+E3f is a new model-family hypothesis selected from primary evidence rather than
+from the observed E3 task answers. Official Apache-2.0 Ministral 3 3B Instruct
+reports 0.830 MATH Maj@1, emphasizes system-prompt adherence and edge
+deployment, and recommends temperature below 0.1 for production. Those
+published results select the candidate only; the unchanged native task suite
+remains the acceptance evidence.
+
+Both candidates derive from source revision
+`b35d4dfe56c142746f54dbd64f579faab2744308` and one pinned Apache-2.0 GGUF
+producer revision. Q4_0 is 2,046,375,200 bytes and must prove a
+`CPU_KLEIDIAI` model buffer. Q4_K_M is 2,146,497,824 bytes and is the
+quality-oriented anchor. Weight quantization is the only candidate-level
+difference.
+
+The task instruction text, all 30 tasks and answers, eight-token cap, parser,
+two repetitions, greedy decoding, four threads, context, 75% floor, one-task
+best rule, current llama.cpp/KleidiAI revisions, cyclic benchmark, and cloud
+deployment policy remain fixed. The instruction is placed in the model's
+supported system role and each task alone in the user role; this mapping is
+frozen before any Ministral response and avoids silently invoking the GGUF
+template's large general-purpose default preamble. Exact inputs and order are
+in [`../experiments/e3f_contract.json`](../experiments/e3f_contract.json).
+
 ## Experimental discipline
 
 - E0–E3 establish feasibility; they do not prove a winning product.

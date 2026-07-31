@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "source_model": {
+    "repository": "mistralai/Ministral-3-3B-Instruct-2512",
+    "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+    "license": "Apache-2.0",
+    "parameter_scale": "3.4B language model"
+  },
+  "quantization_repository": {
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "license": "Apache-2.0",
+    "base_model": "mistralai/Ministral-3-3B-Instruct-2512"
+  },
+  "variants": {
+    "ministral3_3b_q4_0": {
+      "display_name": "Ministral 3 3B Instruct Q4_0",
+      "framework": "llama.cpp",
+      "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+      "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+      "license": "Apache-2.0",
+      "entrypoint": "Ministral-3-3B-Instruct-2512-Q4_0.gguf",
+      "files": [
+        {
+          "path": "Ministral-3-3B-Instruct-2512-Q4_0.gguf",
+          "sha256": "bd1eef40a7fdb1ba9728ec977bd4aab40fb76993d6ec37377fd6522703dc88a5",
+          "size_bytes": 2046375200
+        }
+      ],
+      "parameter_scale": "3.4B language model",
+      "quantization": "Q4_0",
+      "requires_kleidiai_runtime_buffer": true,
+      "runtime_buffer_patterns": [
+        "CPU_KLEIDIAI model buffer size"
+      ]
+    },
+    "ministral3_3b_q4_k_m": {
+      "display_name": "Ministral 3 3B Instruct Q4_K_M",
+      "framework": "llama.cpp",
+      "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+      "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+      "license": "Apache-2.0",
+      "entrypoint": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "files": [
+        {
+          "path": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+          "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+          "size_bytes": 2146497824
+        }
+      ],
+      "parameter_scale": "3.4B language model",
+      "quantization": "Q4_K_M",
+      "requires_kleidiai_runtime_buffer": false,
+      "runtime_buffer_patterns": [
+        "CPU_REPACK model buffer size",
+        "CPU_Mapped model buffer size",
+        "CPU model buffer size"
+      ]
+    }
+  }
+}

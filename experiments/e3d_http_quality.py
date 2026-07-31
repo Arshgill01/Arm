@@ -76,6 +76,7 @@ def run_quality(
     max_output_tokens: int,
     seed: int,
     timeout: float,
+    instruction_role: str = "user_prefix",
 ) -> dict[str, Any]:
     if tasks.get("schema_version") != 1 or not isinstance(tasks.get("tasks"), list):
         raise ValueError("invalid E3 task manifest")
@@ -85,14 +86,29 @@ def run_quality(
 
     cases: list[dict[str, Any]] = []
     for task in tasks["tasks"]:
-        prompt = f"{instruction}\n\n{task['prompt']}"
+        if instruction_role == "user_prefix":
+            messages = [
+                {
+                    "role": "user",
+                    "content": f"{instruction}\n\n{task['prompt']}",
+                }
+            ]
+            chat_template_mode = "model_jinja_enable_thinking_false"
+        elif instruction_role == "system":
+            messages = [
+                {"role": "system", "content": instruction},
+                {"role": "user", "content": task["prompt"]},
+            ]
+            chat_template_mode = "model_jinja_system_instruction"
+        else:
+            raise ValueError("instruction role must be user_prefix or system")
         status, response, http_ms = request_json(
             base_url,
             "POST",
             "/v1/chat/completions",
             {
                 "model": model,
-                "messages": [{"role": "user", "content": prompt}],
+                "messages": messages,
                 "temperature": 0.0,
                 "seed": seed,
                 "max_tokens": max_output_tokens,
@@ -136,7 +152,8 @@ def run_quality(
         "threads": threads,
         "context_size": context,
         "max_output_tokens": max_output_tokens,
-        "chat_template_mode": "model_jinja_enable_thinking_false",
+        "chat_template_mode": chat_template_mode,
+        "instruction_role": instruction_role,
         "temperature": 0.0,
         "seed": seed,
         "model_load_ms": load_ms,
@@ -168,6 +185,11 @@ def parse_args() -> argparse.Namespace:
     run.add_argument("--max-output-tokens", type=int, default=8)
     run.add_argument("--seed", type=int, default=424242)
     run.add_argument("--timeout", type=float, default=30.0)
+    run.add_argument(
+        "--instruction-role",
+        choices=("user_prefix", "system"),
+        default="user_prefix",
+    )
     run.add_argument("--output", type=Path, required=True)
     return parser.parse_args()
 
@@ -204,6 +226,7 @@ def main() -> int:
                 arguments.max_output_tokens,
                 arguments.seed,
                 arguments.timeout,
+                arguments.instruction_role,
             ),
         )
         return 0

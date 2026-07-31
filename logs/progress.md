@@ -579,3 +579,21 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   candidate is accepted, and the 75% deployment floor remains unchanged. The
   source-level correction evidence and application failure are retained
   separately rather than weakening the post-observation gate.
+
+## 2026-07-31 — E3f Ministral quality-per-byte frontier frozen
+
+- Selected official Apache-2.0 Ministral 3 3B Instruct from immutable primary
+  evidence: the card reports 0.830 MATH Maj@1, strong system-prompt behavior,
+  edge deployment intent, and production temperature below 0.1. Published
+  aggregate scores are a selection prior only.
+- Pinned the official source revision and a single Apache-2.0 GGUF producer
+  revision. Exact Q4_0 and Q4_K_M packages are 2,046,375,200 and 2,146,497,824
+  bytes with immutable SHA-256 values.
+- Froze the existing 30 tasks, answers, semantic instruction, eight-token cap,
+  parser, deterministic decoding, quality thresholds, current runtime, cyclic
+  token benchmark, and deployment policy. Only quantization differs between
+  candidates.
+- Mapped the unchanged instruction to the model's system role before observing
+  any Ministral output. This uses the model's documented prompt interface and
+  suppresses its unrelated large default preamble; tasks remain user messages.
+  Q4_0 additionally requires direct KleidiAI runtime-buffer proof.

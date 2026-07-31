@@ -8,7 +8,7 @@ import threading
 import unittest
 
 from experiments.e3d_http_quality import run_quality, wait_for_health
-from experiments.e3d_ingest import benchmark_round, build_manifest
+from experiments.e3d_ingest import benchmark_round, build_manifest, validate_inputs
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -89,6 +89,44 @@ class E3dTests(unittest.TestCase):
             server.server_close()
             thread.join(timeout=5)
 
+    def test_http_quality_can_place_instruction_in_system_role(self) -> None:
+        server = ThreadingHTTPServer(("127.0.0.1", 0), FakeLlamaHandler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            result = run_quality(
+                f"http://127.0.0.1:{server.server_address[1]}",
+                {
+                    "schema_version": 1,
+                    "instruction": "Choose one.",
+                    "tasks": [{"id": "one", "prompt": "A or B?"}],
+                },
+                "model",
+                "/models/model.gguf",
+                123.0,
+                4,
+                2048,
+                8,
+                424242,
+                2.0,
+                "system",
+            )
+            self.assertEqual(
+                [
+                    {"role": "system", "content": "Choose one."},
+                    {"role": "user", "content": "A or B?"},
+                ],
+                server.last_request["messages"],  # type: ignore[attr-defined]
+            )
+            self.assertEqual("system", result["instruction_role"])
+            self.assertEqual(
+                "model_jinja_system_instruction", result["chat_template_mode"]
+            )
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=5)
+
     def test_current_llama_benchmark_shape_is_validated(self) -> None:
         common = {
             "build_commit": "9d9a6d29f",
@@ -117,6 +155,63 @@ class E3dTests(unittest.TestCase):
             )
             self.assertEqual([2.0, 4.0, 6.0], result["total_ms"])
             self.assertEqual(1234, result["process"]["maximum_rss_kib"])
+
+    def test_e3f_frozen_inputs_use_shared_current_runtime_validator(self) -> None:
+        contract_path = ROOT / "experiments/e3f_contract.json"
+        models_path = ROOT / "experiments/e3f_models.json"
+        tasks_path = ROOT / "experiments/e3_tasks.json"
+        policy_path = ROOT / "configs/cloud-quality.json"
+        contract = json.loads(contract_path.read_text())
+        models = json.loads(models_path.read_text())
+        with tempfile.TemporaryDirectory() as temporary:
+            evidence = Path(temporary)
+            (evidence / "contract.json").write_text(contract_path.read_text())
+            (evidence / "models-manifest.json").write_text(models_path.read_text())
+            (evidence / "tasks-manifest.json").write_text(tasks_path.read_text())
+            (evidence / "deployment-policy.json").write_text(policy_path.read_text())
+            (evidence / "build-exit.txt").write_text("0\n")
+            (evidence / "configure.log").write_text(
+                "Using KleidiAI optimized kernels if applicable\n"
+            )
+            (evidence / "CMakeCache.txt").write_text(
+                "GGML_CPU_KLEIDIAI:BOOL=ON\n"
+                "GGML_NATIVE:BOOL=ON\n"
+                "LLAMA_BUILD_SERVER:BOOL=ON\n"
+                "LLAMA_CURL:UNINITIALIZED=OFF\n"
+            )
+            (evidence / "provenance.json").write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "experiment_id": "E3f",
+                        "github_run_id": "123",
+                        "github_run_attempt": "1",
+                        "git_commit": "test",
+                        "llama_cpp_commit": contract["upstream"]["llama_cpp_commit"],
+                        "llama_cpp_tag": contract["upstream"]["llama_cpp_tag"],
+                        "kleidiai_release": contract["upstream"]["kleidiai_release"],
+                        "kleidiai_archive_md5": contract["upstream"][
+                            "kleidiai_archive_md5"
+                        ],
+                        "deployment_policy_sha256": contract["deployment_policy"][
+                            "sha256"
+                        ],
+                        "source_model_revision": models["source_model"]["revision"],
+                        "model_revisions": {
+                            name: model["revision"]
+                            for name, model in models["variants"].items()
+                        },
+                        "execution_order": contract["benchmark"]["execution_order"],
+                        "controlled_difference": contract["controlled_difference"],
+                    }
+                )
+            )
+            validated_contract, validated_models, provenance = validate_inputs(
+                evidence, contract_path, models_path, tasks_path
+            )
+            self.assertEqual("E3f", validated_contract["experiment_id"])
+            self.assertEqual(models, validated_models)
+            self.assertEqual("E3f", provenance["experiment_id"])
 
     def test_complete_current_runtime_artifact_builds_frontier(self) -> None:
         contract_path = ROOT / "experiments/e3d_contract.json"
