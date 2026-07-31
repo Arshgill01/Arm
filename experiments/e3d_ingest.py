@@ -243,7 +243,9 @@ def build_manifest(
             ):
                 raise ValueError(f"quality runtime parameters differ for {variant}")
         runtime_log = (
-            (variant_dir / "server.stdout.log").read_text(encoding="utf-8")
+            (variant_dir / "server.core.log").read_text(encoding="utf-8")
+            + "\n"
+            + (variant_dir / "server.stdout.log").read_text(encoding="utf-8")
             + "\n"
             + (variant_dir / "server.stderr.log").read_text(encoding="utf-8")
         )

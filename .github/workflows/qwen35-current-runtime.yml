@@ -157,6 +157,8 @@ jobs:
               --jinja \
               --temp 0 \
               --seed 424242 \
+              --log-file "$output_dir/server.core.log" \
+              --log-colors off \
               > "$output_dir/server.stdout.log" \
               2> "$output_dir/server.stderr.log" &
             local timer_pid=$!
@@ -203,7 +205,9 @@ jobs:
             echo "$server_status" > "$output_dir/server-shell-exit.txt"
             [[ "$server_status" -eq 0 || "$server_status" -eq 130 ]]
             grep -q 'CPU_KLEIDIAI model buffer size' \
-              "$output_dir/server.stdout.log" "$output_dir/server.stderr.log"
+              "$output_dir/server.core.log" \
+              "$output_dir/server.stdout.log" \
+              "$output_dir/server.stderr.log"
           }
           while read -r variant; do
             run_quality "$variant"

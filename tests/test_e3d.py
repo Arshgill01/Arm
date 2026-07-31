@@ -187,9 +187,10 @@ class E3dTests(unittest.TestCase):
                 (variant_dir / "readiness.json").write_text(
                     json.dumps({"status": "ok", "ready_ms": 100.0})
                 )
-                (variant_dir / "server.stdout.log").write_text(
+                (variant_dir / "server.core.log").write_text(
                     "CPU_KLEIDIAI model buffer size = 1 MiB\n"
                 )
+                (variant_dir / "server.stdout.log").write_text("")
                 (variant_dir / "server.stderr.log").write_text("")
                 (variant_dir / "server.time.log").write_text(time_log)
                 cases = [
