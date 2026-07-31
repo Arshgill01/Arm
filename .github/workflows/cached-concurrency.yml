@@ -1,0 +1,270 @@
+name: Arm E5d cached inference concurrency
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  LLAMA_CPP_SHA: 9d9a6d29f6b981cc7f41983d26e56485c6af1811
+  LLAMA_CPP_TAG: b10208
+  SELECTED_CANDIDATE: ministral3_3b_q4_k_m
+
+jobs:
+  cached_concurrency:
+    name: Quality-gated cached two-slot interaction
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 45
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e5d-${{ github.run_id }}-${{ github.run_attempt }}
+      LLAMA_CPP_DIR: /tmp/llama.cpp-E5d
+      BUILD_DIR: /tmp/llama.cpp-E5d-build
+      MODEL_ROOT: /tmp/Pareto64-E5d/models
+
+    steps:
+      - name: Check out frozen experiment
+        uses: actions/checkout@v7
+
+      - name: Select supported Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Capture host and verify frozen inputs
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR" "$MODEL_ROOT"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          cp experiments/e5d_contract.json "$EVIDENCE_DIR/contract.json"
+          cp results/manifests/e3f-30656151957.json "$EVIDENCE_DIR/selected-manifest.json"
+          cp configs/cloud-quality.json "$EVIDENCE_DIR/deployment-policy.json"
+          cp experiments/e3f_models.json "$EVIDENCE_DIR/models-manifest.json"
+          cp experiments/e3f_contract.json "$EVIDENCE_DIR/runtime-contract.json"
+          cp experiments/e3_tasks.json "$EVIDENCE_DIR/tasks-manifest.json"
+          echo '54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c  results/manifests/e3f-30656151957.json' \
+            | sha256sum --check --strict
+          echo '7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33  configs/cloud-quality.json' \
+            | sha256sum --check --strict
+          echo '31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d  experiments/e3f_models.json' \
+            | sha256sum --check --strict
+          echo 'a43ebf2b44aba9bac7e44e18a979901715cd23855df0d2c16c93375382977551  experiments/e3f_contract.json' \
+            | sha256sum --check --strict
+          echo 'beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346  experiments/e3_tasks.json' \
+            | sha256sum --check --strict
+
+      - name: Fetch pinned runtime and selected model
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/ggml-org/llama.cpp.git "$LLAMA_CPP_DIR"
+          git -C "$LLAMA_CPP_DIR" checkout --detach "$LLAMA_CPP_SHA"
+          test "$(git -C "$LLAMA_CPP_DIR" rev-parse HEAD)" = "$LLAMA_CPP_SHA"
+          test "$(git -C "$LLAMA_CPP_DIR" describe --tags --exact-match)" = "$LLAMA_CPP_TAG"
+          test -z "$(git -C "$LLAMA_CPP_DIR" status --short)"
+          grep -q 'set(KLEIDIAI_COMMIT_TAG "v1.24.0")' \
+            "$LLAMA_CPP_DIR/ggml/src/ggml-cpu/CMakeLists.txt"
+          grep -q '`id_slot`' "$LLAMA_CPP_DIR/tools/server/README.md"
+          grep -q 'not.*guaranteed to be bit-for-bit identical' \
+            "$LLAMA_CPP_DIR/tools/server/README.md"
+
+          repository="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].repository' experiments/e3f_models.json)"
+          revision="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].revision' experiments/e3f_models.json)"
+          model_path="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].path' experiments/e3f_models.json)"
+          model_sha="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].sha256' experiments/e3f_models.json)"
+          model_size="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].size_bytes' experiments/e3f_models.json)"
+          target="$MODEL_ROOT/$SELECTED_CANDIDATE/$model_path"
+          mkdir -p "$(dirname "$target")"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$target" \
+            "https://huggingface.co/$repository/resolve/$revision/$model_path?download=true"
+          test "$(stat --format='%s' "$target")" = "$model_size"
+          echo "$model_sha  $target" | sha256sum --check --strict
+          find "$MODEL_ROOT" -type f -printf '%P %s bytes\n' \
+            | tee "$EVIDENCE_DIR/model-files.txt"
+          find "$MODEL_ROOT" -type f -print0 | sort -z | xargs -0 sha256sum \
+            | tee "$EVIDENCE_DIR/model-sha256.txt"
+
+      - name: Build pinned KleidiAI llama-server
+        run: |
+          set -euo pipefail
+          cmake -S "$LLAMA_CPP_DIR" -B "$BUILD_DIR" -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DGGML_CPU_KLEIDIAI=ON \
+            -DGGML_NATIVE=ON \
+            -DLLAMA_BUILD_EXAMPLES=OFF \
+            -DLLAMA_BUILD_SERVER=ON \
+            -DLLAMA_BUILD_TESTS=OFF \
+            -DLLAMA_CURL=OFF \
+            2>&1 | tee "$EVIDENCE_DIR/configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' \
+            "$EVIDENCE_DIR/configure.log"
+          grep -q 'ARM detected' "$EVIDENCE_DIR/configure.log"
+          cp "$BUILD_DIR/CMakeCache.txt" "$EVIDENCE_DIR/CMakeCache.txt"
+          grep -q '^GGML_CPU_KLEIDIAI:BOOL=ON$' "$EVIDENCE_DIR/CMakeCache.txt"
+          grep -q '^GGML_NATIVE:BOOL=ON$' "$EVIDENCE_DIR/CMakeCache.txt"
+          grep -q '^LLAMA_BUILD_SERVER:BOOL=ON$' "$EVIDENCE_DIR/CMakeCache.txt"
+          cmake --build "$BUILD_DIR" --target llama-server llama-bench --parallel "$(nproc)" \
+            2>&1 | tee "$EVIDENCE_DIR/build.log"
+          "$BUILD_DIR/bin/llama-server" --version \
+            | tee "$EVIDENCE_DIR/server-version.txt"
+          "$BUILD_DIR/bin/llama-server" --help \
+            > "$EVIDENCE_DIR/server-help.txt"
+          grep -q -- '--cache-prompt' "$EVIDENCE_DIR/server-help.txt"
+          grep -q -- '--parallel' "$EVIDENCE_DIR/server-help.txt"
+
+      - name: Capture unmeasured runtime buffer proof
+        run: |
+          set -euo pipefail
+          entrypoint="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].entrypoint' experiments/e3f_models.json)"
+          "$BUILD_DIR/bin/llama-bench" \
+            --model "$MODEL_ROOT/$SELECTED_CANDIDATE/$entrypoint" \
+            --n-prompt 8 \
+            --n-gen 1 \
+            --threads 4 \
+            --repetitions 1 \
+            --output json \
+            --verbose \
+            > "$EVIDENCE_DIR/runtime-proof.json" \
+            2> "$EVIDENCE_DIR/runtime-proof.stderr.log"
+          grep -q 'CPU_REPACK model buffer size' \
+            "$EVIDENCE_DIR/runtime-proof.stderr.log"
+          grep -q 'CPU_Mapped model buffer size' \
+            "$EVIDENCE_DIR/runtime-proof.stderr.log"
+
+      - name: Run balanced cached concurrency matrix
+        run: |
+          set -euo pipefail
+          active_timer_pid=""
+          active_server_pid=""
+          cleanup() {
+            if [ -n "$active_server_pid" ] && kill -0 "$active_server_pid" 2>/dev/null; then
+              kill -INT "$active_server_pid" 2>/dev/null || true
+            fi
+            if [ -n "$active_timer_pid" ] && kill -0 "$active_timer_pid" 2>/dev/null; then
+              wait "$active_timer_pid" 2>/dev/null || true
+            fi
+          }
+          trap cleanup EXIT
+
+          run_cell() {
+            local index="$1"
+            local configuration="$2"
+            local repetition="$3"
+            local slots="$4"
+            local concurrency="$5"
+            local second_warmup_slot="$6"
+            local output_dir="$EVIDENCE_DIR/cells/${index}-${configuration}-r${repetition}"
+            mkdir -p "$output_dir"
+            /usr/bin/time --verbose --output "$output_dir/server-time.log" \
+              python3 -m pareto64 launch \
+              --manifest results/manifests/e3f-30656151957.json \
+              --constraints configs/cloud-quality.json \
+              --models experiments/e3f_models.json \
+              --contract experiments/e3f_contract.json \
+              --model-root "$MODEL_ROOT" \
+              --llama-server "$BUILD_DIR/bin/llama-server" \
+              --recipe-output "$output_dir/recipe.json" \
+              --host 127.0.0.1 \
+              --port 18081 \
+              --parallel "$slots" \
+              > "$output_dir/server.stdout.log" \
+              2> "$output_dir/server.stderr.log" &
+            active_timer_pid=$!
+            python3 experiments/e3d_http_quality.py wait \
+              --url http://127.0.0.1:18081 \
+              --timeout 45 \
+              --output "$output_dir/readiness.json"
+            active_server_pid=""
+            for _ in $(seq 1 50); do
+              active_server_pid="$(pgrep -P "$active_timer_pid" -x llama-server || true)"
+              if [ -n "$active_server_pid" ]; then
+                break
+              fi
+              sleep 0.1
+            done
+            test -n "$active_server_pid"
+            echo "$active_server_pid" > "$output_dir/server-pid.txt"
+            python3 experiments/e5b_inference_probe.py \
+              --url http://127.0.0.1:18081 \
+              --tasks experiments/e3_tasks.json \
+              --reference-manifest results/manifests/e3f-30656151957.json \
+              --candidate "$SELECTED_CANDIDATE" \
+              --configuration "$configuration" \
+              --repetition "$repetition" \
+              --warmup-task arithmetic-02 \
+              --warmup-task logic-01 \
+              --warmup-slot 0 \
+              --warmup-slot "$second_warmup_slot" \
+              --concurrency "$concurrency" \
+              --max-output-tokens 8 \
+              --seed 424242 \
+              --timeout 30 \
+              --experiment-id E5d \
+              --cache-prompt \
+              --output "$output_dir/probe.json"
+            curl --fail --silent http://127.0.0.1:18081/metrics \
+              > "$output_dir/metrics.txt"
+            curl --fail --silent http://127.0.0.1:18081/slots \
+              > "$output_dir/slots.json"
+            kill -INT "$active_server_pid"
+            set +e
+            wait "$active_timer_pid"
+            local server_status=$?
+            set -e
+            echo "$server_status" > "$output_dir/server-shell-exit.txt"
+            [[ "$server_status" -eq 0 || "$server_status" -eq 130 ]]
+            active_timer_pid=""
+            active_server_pid=""
+          }
+
+          run_cell 01 cached_single 1 1 1 0
+          run_cell 02 cached_dual 1 2 2 1
+          run_cell 03 cached_dual 2 2 2 1
+          run_cell 04 cached_single 2 1 1 0
+          trap - EXIT
+
+      - name: Record provenance and independently validate evidence
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          provenance = {
+              "schema_version": 1,
+              "experiment_id": "E5d",
+              "git_commit": os.environ["GITHUB_SHA"],
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+          }
+          (evidence / "provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          python3 experiments/e5d_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract experiments/e5d_contract.json \
+            --manifest results/manifests/e3f-30656151957.json \
+            --policy configs/cloud-quality.json \
+            --models experiments/e3f_models.json \
+            --runtime-contract experiments/e3f_contract.json \
+            --tasks experiments/e3_tasks.json \
+            --output "$EVIDENCE_DIR/summary.json"
+          jq '{status, validation, selection, throughput_improvement_ratio, rss_increase_kib, performance}' \
+            "$EVIDENCE_DIR/summary.json"
+
+      - name: Upload E5d evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e5d-cached-concurrency-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90

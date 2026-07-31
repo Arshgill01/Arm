@@ -703,3 +703,21 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `036a65d276a3e49b9ca4cfa3f8e8817d55a00e9a2ba66d5b25cfefc46ac31747`.
 - Clean-checkout submission run `30663277762` passed all 72 tests, retained
   evidence verification, plan checks, and the demo smoke test on native Arm.
+
+## 2026-07-31 — E5d cached-concurrency interaction frozen
+
+- E5b's two-slot rejection was measured without the later E5c prompt-cache win.
+  Since caching changes the prompt/decode balance, froze a separate interaction
+  experiment instead of assuming that either earlier result transfers.
+- The only measured change is cached one-slot/one-client versus cached
+  two-slot/two-client serving. Both use the exact promoted model/runtime path,
+  four threads, 2,048 tokens per slot, identical requests, and normal automatic
+  slot scheduling during measurement.
+- Each two-slot server preloads the common prefix into slot 0 and slot 1 with
+  two unmeasured, explicitly routed warmups. The one-slot baseline receives the
+  same warmup tasks, both on slot 0. This isolates steady-state concurrency
+  without assigning measured requests to slots manually.
+- Promotion requires all 120 answers and 23/30 quality to remain exact, cached
+  reuse on every measured request, at least 1.10x repeated median throughput,
+  5/10-second median/p95 latency ceilings, at most 512 MiB incremental RSS,
+  and the existing readiness and 8 GiB absolute RSS ceilings.

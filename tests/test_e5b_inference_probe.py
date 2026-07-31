@@ -64,12 +64,14 @@ class E5bInferenceProbeTests(unittest.TestCase):
                 424242,
                 5.0,
                 True,
+                1,
             )
         finally:
             server.shutdown()
             thread.join()
             server.server_close()
         self.assertIs(ProbeHandler.payload["cache_prompt"], True)
+        self.assertEqual(1, ProbeHandler.payload["id_slot"])
         self.assertEqual(24, case["cached_tokens"])
         self.assertEqual(80, case["evaluated_prompt_tokens"])
         self.assertEqual("A", case["predicted"])

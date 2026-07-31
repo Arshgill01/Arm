@@ -486,6 +486,32 @@ HTTP latency fell 41.3%, p95 fell 22.1%, and maximum RSS increased by only 6,308
 KiB. Prompt caching cleared both 1.10x gates and is eligible for promotion. See
 [`../results/reports/e5c-prompt-cache.md`](../results/reports/e5c-prompt-cache.md).
 
+## E5d frozen cached-concurrency interaction protocol
+
+E5d tests whether E5c changes the E5b concurrency conclusion; it does not
+reinterpret either result. E5b showed that two uncached slots improved
+throughput only 1.0189x, while E5c subsequently removed a large share of prompt
+work. Because that changes the prompt/decode balance presented to continuous
+batching, the combined setting is a separately testable cross-layer
+interaction.
+
+Both configurations use the promoted prompt cache, exact selected model and
+runtime, four threads, 2,048 tokens of context per slot, system instruction,
+task order, seed, and eight-token output cap. The only measured difference is
+one slot/client versus two slots/clients. Each fresh server receives the same
+two unmeasured warmups. The single-slot cell routes both to slot 0; the two-slot
+cell routes one to each slot so both caches contain the frozen shared prefix.
+All measured requests are then auto-scheduled by the normal server scheduler.
+
+Four cells use balanced single/dual/dual/single order. Every one of the 120
+measured responses must remain HTTP 200, stop normally, be an exact standalone
+A-D letter, match E3f, and reproduce 23/30. Every measured request must report
+real prefix reuse. A two-slot win additionally requires at least 1.10x repeated
+median throughput, median/p95 HTTP latency below 5/10 seconds, no more than 512
+MiB additional maximum RSS, readiness below 15 seconds, and absolute process
+RSS below 8 GiB. Exact inputs and order are frozen in
+[`../experiments/e5d_contract.json`](../experiments/e5d_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

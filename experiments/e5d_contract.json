@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E5d",
+  "title": "Cached selected-model inference concurrency",
+  "artifact_name_prefix": "e5d-cached-concurrency",
+  "scope": "Quality-gated interaction between verified prompt caching and continuous-batching concurrency on the exact selected native Arm service",
+  "hypothesis": "After shared-prefix caching removes redundant prompt evaluation, two llama.cpp slots and two clients can improve repeated median completed-request throughput by at least 10 percent over the promoted cached single-slot service without changing any E3f prediction or violating latency and memory ceilings.",
+  "prior_evidence": {
+    "e5b_run": "30659829983",
+    "e5b_outcome": "Two uncached slots improved throughput only 1.0189x and were rejected.",
+    "e5c_run": "30662037235",
+    "e5c_outcome": "Single-slot shared-prefix caching improved throughput 1.6718x with all 120 answers unchanged.",
+    "interaction_rationale": "Caching changes the prompt/decode work balance, so the earlier concurrency result does not establish the combined configuration."
+  },
+  "inputs": {
+    "manifest_path": "results/manifests/e3f-30656151957.json",
+    "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "policy_path": "configs/cloud-quality.json",
+    "policy_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "runtime_contract_path": "experiments/e3f_contract.json",
+    "runtime_contract_sha256": "a43ebf2b44aba9bac7e44e18a979901715cd23855df0d2c16c93375382977551",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "reference_correct": 23,
+    "reference_total": 30,
+    "reference_accuracy": 0.7666666666666667,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "llama_cpp_commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+    "llama_cpp_tag": "b10208",
+    "required_runtime_buffer_patterns": [
+      "CPU_REPACK model buffer size",
+      "CPU_Mapped model buffer size"
+    ]
+  },
+  "request": {
+    "instruction_role": "system",
+    "chat_template_mode": "model_jinja_system_instruction",
+    "temperature": 0.0,
+    "seed": 424242,
+    "max_output_tokens": 8,
+    "timeout_seconds": 30.0,
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ],
+    "measured_tasks": 30,
+    "measured_slot_assignment": "automatic"
+  },
+  "execution": {
+    "fresh_server_per_cell": true,
+    "repetitions_per_configuration": 2,
+    "configurations": {
+      "cached_single": {
+        "server_parallel_slots": 1,
+        "client_concurrency": 1,
+        "prompt_cache": true,
+        "warmup_slot_ids": [
+          0,
+          0
+        ]
+      },
+      "cached_dual": {
+        "server_parallel_slots": 2,
+        "client_concurrency": 2,
+        "prompt_cache": true,
+        "warmup_slot_ids": [
+          0,
+          1
+        ]
+      }
+    },
+    "order": [
+      {
+        "configuration": "cached_single",
+        "repetition": 1
+      },
+      {
+        "configuration": "cached_dual",
+        "repetition": 1
+      },
+      {
+        "configuration": "cached_dual",
+        "repetition": 2
+      },
+      {
+        "configuration": "cached_single",
+        "repetition": 2
+      }
+    ]
+  },
+  "acceptance": {
+    "http_status": 200,
+    "termination_reason": "stop",
+    "request_failures": 0,
+    "reference_prediction_mismatches": 0,
+    "minimum_candidate_cached_tokens_per_request": 1,
+    "minimum_throughput_improvement_ratio": 1.1,
+    "maximum_candidate_median_http_latency_ms": 5000.0,
+    "maximum_candidate_p95_http_latency_ms": 10000.0,
+    "maximum_candidate_rss_increase_kib": 524288,
+    "maximum_ready_ms": 15000.0,
+    "maximum_process_rss_kib": 8388608,
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ]
+  }
+}

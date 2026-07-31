@@ -148,6 +148,11 @@ def validate_probe(
         if parameters.get(key) != expected:
             raise ValueError(f"probe parameter {key} differs from the contract")
     if (
+        "warmup_slot_ids" in config
+        and parameters.get("warmup_slot_ids") != config["warmup_slot_ids"]
+    ):
+        raise ValueError("probe warmup slot IDs differ from the contract")
+    if (
         "prompt_cache" in config
         and parameters.get("prompt_cache") is not config["prompt_cache"]
     ):

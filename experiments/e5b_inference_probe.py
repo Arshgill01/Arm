@@ -60,6 +60,7 @@ def request_case(
     seed: int,
     timeout: float,
     cache_prompt: bool | None = None,
+    id_slot: int | None = None,
 ) -> dict[str, Any]:
     parsed = urlsplit(base_url)
     connection = http.client.HTTPConnection(
@@ -79,6 +80,8 @@ def request_case(
     }
     if cache_prompt is not None:
         request["cache_prompt"] = cache_prompt
+    if id_slot is not None:
+        request["id_slot"] = id_slot
     body = json.dumps(request).encode("utf-8")
     started = time.perf_counter_ns()
     try:
@@ -169,6 +172,7 @@ def run_probe(
     timeout: float,
     experiment_id: str = "E5b",
     cache_prompt: bool | None = None,
+    warmup_slot_ids: list[int] | None = None,
 ) -> dict[str, Any]:
     parsed = urlsplit(base_url)
     if parsed.scheme != "http" or not parsed.hostname or parsed.path not in {"", "/"}:
@@ -184,6 +188,11 @@ def run_probe(
         raise ValueError("task IDs differ from the selected reference predictions")
     if any(task_id not in tasks for task_id in warmup_task_ids):
         raise ValueError("unknown warmup task ID")
+    if warmup_slot_ids is not None and (
+        len(warmup_slot_ids) != len(warmup_task_ids)
+        or any(slot_id < 0 for slot_id in warmup_slot_ids)
+    ):
+        raise ValueError("warmup slot IDs must be non-negative and match warmup tasks")
 
     warmups = [
         request_case(
@@ -197,6 +206,7 @@ def run_probe(
             seed,
             timeout,
             cache_prompt,
+            warmup_slot_ids[index] if warmup_slot_ids is not None else None,
         )
         for index, task_id in enumerate(warmup_task_ids)
     ]
@@ -228,25 +238,28 @@ def run_probe(
         or case["predicted"] is None
     ]
     valid_timings = [case for case in cases if case["encode_ms"] is not None]
+    parameters = {
+        "base_url": base_url,
+        "candidate": candidate,
+        "configuration": configuration,
+        "repetition": repetition,
+        "warmup_task_ids": warmup_task_ids,
+        "measured_tasks": len(raw_tasks),
+        "client_concurrency": concurrency,
+        "max_output_tokens": max_output_tokens,
+        "instruction_role": "system",
+        "chat_template_mode": "model_jinja_system_instruction",
+        "temperature": 0.0,
+        "seed": seed,
+        "timeout_seconds": timeout,
+        "prompt_cache": cache_prompt,
+    }
+    if warmup_slot_ids is not None:
+        parameters["warmup_slot_ids"] = warmup_slot_ids
     return {
         "schema_version": 1,
         "experiment_id": experiment_id,
-        "parameters": {
-            "base_url": base_url,
-            "candidate": candidate,
-            "configuration": configuration,
-            "repetition": repetition,
-            "warmup_task_ids": warmup_task_ids,
-            "measured_tasks": len(raw_tasks),
-            "client_concurrency": concurrency,
-            "max_output_tokens": max_output_tokens,
-            "instruction_role": "system",
-            "chat_template_mode": "model_jinja_system_instruction",
-            "temperature": 0.0,
-            "seed": seed,
-            "timeout_seconds": timeout,
-            "prompt_cache": cache_prompt,
-        },
+        "parameters": parameters,
         "warmups": warmups,
         "cases": cases,
         "result": {
@@ -301,6 +314,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--configuration", required=True)
     parser.add_argument("--repetition", type=int, required=True)
     parser.add_argument("--warmup-task", action="append", default=[])
+    parser.add_argument("--warmup-slot", type=int, action="append")
     parser.add_argument("--concurrency", type=int, required=True)
     parser.add_argument("--max-output-tokens", type=int, default=8)
     parser.add_argument("--seed", type=int, default=424242)
@@ -342,6 +356,7 @@ def main() -> int:
         timeout=arguments.timeout,
         experiment_id=arguments.experiment_id,
         cache_prompt=arguments.cache_prompt,
+        warmup_slot_ids=arguments.warmup_slot,
     )
     arguments.output.parent.mkdir(parents=True, exist_ok=True)
     arguments.output.write_text(
