@@ -1,0 +1,208 @@
+name: Arm E2 KleidiAI ablation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  LLM_RUNNER_SHA: 8ba39e40fa754b87deb99a998c31de3b850094d5
+  PHI2_SHA256: a6f246baa29a776acbc9a1638088c33d8f7b6a044cc7dd09fb4b0374e1582ae0
+  PHI2_URL: https://huggingface.co/TheBloke/phi-2-GGUF/resolve/main/phi-2.Q4_0.gguf?download=true
+
+jobs:
+  ablation:
+    name: Paired generic and KleidiAI benchmark
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e2-${{ github.run_id }}-${{ github.run_attempt }}
+      LLM_RUNNER_DIR: /tmp/LLM-Runner-E2
+      MODEL_PATH: /tmp/LLM-Runner-E2/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf
+
+    steps:
+      - name: Check out experiment repository
+        uses: actions/checkout@v7
+
+      - name: Select supported Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Capture host and pin upstream source
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          git clone --filter=blob:none https://github.com/Arm-Examples/LLM-Runner.git "$LLM_RUNNER_DIR"
+          git -C "$LLM_RUNNER_DIR" checkout --detach "$LLM_RUNNER_SHA"
+          test "$(git -C "$LLM_RUNNER_DIR" rev-parse HEAD)" = "$LLM_RUNNER_SHA"
+
+      - name: Restore pinned model
+        id: model-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ${{ env.MODEL_PATH }}
+          key: phi2-q4-0-${{ env.PHI2_SHA256 }}
+
+      - name: Fetch and verify pinned model
+        run: |
+          set -euo pipefail
+          mkdir -p "$(dirname "$MODEL_PATH")"
+          if [ ! -f "$MODEL_PATH" ]; then
+            curl --fail --location --retry 5 --retry-all-errors \
+              --output "$MODEL_PATH" "$PHI2_URL"
+          fi
+          echo "$PHI2_SHA256  $MODEL_PATH" | sha256sum --check --strict
+          stat --format='%n %s bytes' "$MODEL_PATH" | tee "$EVIDENCE_DIR/model.txt"
+          sha256sum "$MODEL_PATH" | tee -a "$EVIDENCE_DIR/model.txt"
+
+      - name: Save verified model
+        if: steps.model-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: ${{ env.MODEL_PATH }}
+          key: phi2-q4-0-${{ env.PHI2_SHA256 }}
+
+      - name: Configure paired builds
+        working-directory: ${{ env.LLM_RUNNER_DIR }}
+        run: |
+          set -euo pipefail
+          for variant in generic kleidiai; do
+            if [ "$variant" = kleidiai ]; then
+              use_kleidiai=ON
+            else
+              use_kleidiai=OFF
+            fi
+            mkdir -p "$EVIDENCE_DIR/$variant"
+            cmake --preset=native -B "build-$variant" \
+              -DCPU_ARCH=Armv8.6_1 \
+              -DBUILD_BENCHMARK=ON \
+              -DBUILD_JNI_LIB=OFF \
+              -DBUILD_LLM_TESTING=ON \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DDOWNLOAD_LLM_MODELS=OFF \
+              -DGGML_NATIVE=OFF \
+              -DLLM_FRAMEWORK=llama.cpp \
+              -DPython3_EXECUTABLE="$(command -v python3)" \
+              -DUSE_KLEIDIAI="$use_kleidiai" \
+              2>&1 | tee "$EVIDENCE_DIR/$variant/configure.log"
+          done
+          grep -q 'KleidiAI: OFF' "$EVIDENCE_DIR/generic/configure.log"
+          grep -q 'KleidiAI: ON' "$EVIDENCE_DIR/kleidiai/configure.log"
+
+      - name: Build paired binaries
+        working-directory: ${{ env.LLM_RUNNER_DIR }}
+        run: |
+          set -euo pipefail
+          for variant in generic kleidiai; do
+            cmake --build "build-$variant" \
+              --target llm-bench-cli llm-cpp-tests --parallel 4 \
+              2>&1 | tee "$EVIDENCE_DIR/$variant/build.log"
+          done
+
+      - name: Run functional tests on both variants
+        working-directory: ${{ env.LLM_RUNNER_DIR }}
+        run: |
+          set -euo pipefail
+          for variant in generic kleidiai; do
+            ctest --test-dir "build-$variant" \
+              -R 'llamatextconfig_phi_2_json' --output-on-failure \
+              2>&1 | tee "$EVIDENCE_DIR/$variant/ctest.log"
+          done
+
+      - name: Run alternating paired benchmarks
+        working-directory: ${{ env.LLM_RUNNER_DIR }}
+        run: |
+          set -euo pipefail
+
+          run_variant() {
+            variant=$1
+            round=$2
+            position=$3
+            run_dir="$EVIDENCE_DIR/$variant/round-$round-position-$position"
+            mkdir -p "$run_dir"
+            /usr/bin/time -v -o "$run_dir/time.log" \
+              "./build-$variant/bin/llm-bench-cli" \
+              -m "$MODEL_PATH" \
+              -i 64 -o 32 -c 512 -t 4 -n 3 -w 1 \
+              -J "$run_dir/benchmark.json" \
+              > "$run_dir/stdout.log" \
+              2> "$run_dir/stderr.log"
+          }
+
+          for round in 1 2 3 4; do
+            if ((round % 2 == 1)); then
+              run_variant generic "$round" 1
+              run_variant kleidiai "$round" 2
+            else
+              run_variant kleidiai "$round" 1
+              run_variant generic "$round" 2
+            fi
+          done
+
+          grep -R -q 'CPU_KLEIDIAI model buffer size' "$EVIDENCE_DIR/kleidiai"
+          if grep -R -q 'CPU_KLEIDIAI model buffer size' "$EVIDENCE_DIR/generic"; then
+            echo 'generic build unexpectedly reported a KleidiAI runtime buffer' >&2
+            exit 1
+          fi
+
+      - name: Record experiment contract
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          evidence_dir = Path(os.environ["EVIDENCE_DIR"])
+          evidence_dir.mkdir(parents=True, exist_ok=True)
+          provenance = {
+              "experiment_id": "E2",
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "git_commit": os.environ["GITHUB_SHA"],
+              "llm_runner_commit": os.environ["LLM_RUNNER_SHA"],
+              "model_sha256": os.environ["PHI2_SHA256"],
+              "controlled_difference": "USE_KLEIDIAI only",
+              "common_build": {
+                  "framework": "llama.cpp",
+                  "cpu_arch": "Armv8.6_1",
+                  "ggml_native": False,
+                  "build_type": "Release",
+              },
+              "variants": {
+                  "generic": {"use_kleidiai": False},
+                  "kleidiai": {"use_kleidiai": True},
+              },
+              "benchmark": {
+                  "rounds_per_variant": 4,
+                  "measured_iterations_per_round": 3,
+                  "warmup_iterations_per_round": 1,
+                  "input_tokens": 64,
+                  "output_tokens": 32,
+                  "context": 512,
+                  "threads": 4,
+                  "execution_order": [
+                      ["generic", "kleidiai"],
+                      ["kleidiai", "generic"],
+                      ["generic", "kleidiai"],
+                      ["kleidiai", "generic"],
+                  ],
+              },
+          }
+          (evidence_dir / "provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+
+      - name: Upload E2 evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2-kleidiai-ablation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90

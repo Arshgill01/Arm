@@ -16,6 +16,19 @@ No headline result is accepted until the experiment contract in
 | E6 | Can profiler/compiler evidence drive a source-level Arm improvement? | Stable hot path | Patch has tests, before/after result, assembly/profile evidence, and no quality regression |
 | E7 | Is the whole project reproducible and judge-readable? | Clean native Arm job | One command emits manifest, raw data, summary, Pareto front, and demo assets |
 
+## E2 frozen protocol
+
+E2 uses one `ubuntu-24.04-arm` job and two builds from the same pinned source.
+Every configuration value is identical except `USE_KLEIDIAI`. Both variants run
+the same upstream functional test before measurement. Four benchmark rounds per
+variant alternate order (`generic/KleidiAI`, then `KleidiAI/generic`) to reduce
+time-order bias; each round includes one warm-up and three measured iterations.
+
+The comparison must retain all 12 measured iterations per variant, process RSS,
+and runtime proof that only the optimized build created a `CPU_KLEIDIAI` model
+buffer. A speedup is accepted only from this paired evidence. The legacy Phi-2
+artifact remains a performance-ablation workload, not a quality benchmark.
+
 ## Experimental discipline
 
 - E0–E3 establish feasibility; they do not prove a winning product.
