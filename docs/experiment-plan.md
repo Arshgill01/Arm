@@ -695,6 +695,23 @@ ready within 15 seconds. The default remains repack enabled even if the memory
 tier passes. Exact order and gates are frozen in
 [`../experiments/e5h_contract.json`](../experiments/e5h_contract.json).
 
+### E5h outcome
+
+Native run `30672633366` passed both mechanism proofs and all four measured
+cells. No-repack reproduced every selected prediction twice, retained cached
+prefix reuse, removed the 2,038.92 MiB `CPU_REPACK` buffer, and reduced maximum
+RSS from 4,453,532 to 2,381,264 KiB. The 2,072,268 KiB process saving clears
+the frozen 1.5 GiB gate and the candidate stays below the 3 GiB tier ceiling.
+
+Throughput retention is 0.4847x; median and p95 HTTP latency are 2.416 and
+3.304 seconds, inside the absolute 5/10-second ceilings. The result therefore
+retains `repack_off` as an explicit memory tier while `repack_on` remains the
+default. Independent Python 3.10 ingestion matched the uploaded summary byte
+for byte at SHA-256
+`e048f3e25d513430b49fd2ee0a140e8a0f82fe31d79b5fb0aafb36b470190faa`.
+See
+[`../results/reports/e5h-weight-repack-boundary.md`](../results/reports/e5h-weight-repack-boundary.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

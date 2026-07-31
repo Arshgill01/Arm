@@ -352,6 +352,46 @@
             process-memory gate.
           </p>
         </div>
+
+        <div class="cache-interaction">
+          <table>
+            <caption>
+              <strong>One model. Two qualified memory envelopes.</strong>
+              We isolated Arm weight repacking without changing model bits,
+              context, prompt batch, cache mode, or request order.
+            </caption>
+            <thead>
+              <tr>
+                <th>Weight layout</th>
+                <th>Model buffers</th>
+                <th>Maximum RSS</th>
+                <th>Throughput</th>
+                <th>Decision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Arm repack on</td>
+                <td>4,063.28 MiB</td>
+                <td>4,453,532 KiB</td>
+                <td>0.930 req/s</td>
+                <td class="select-text">Fast default</td>
+              </tr>
+              <tr>
+                <td>Repack off</td>
+                <td>2,039.54 MiB</td>
+                <td>2,381,264 KiB</td>
+                <td>0.451 req/s</td>
+                <td class="select-text">Memory tier</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            <strong>2,072,268 KiB less maximum RSS</strong> with all 120 answers
+            exact. The no-repack tier fits below 3 GiB, but retains 48.47%
+            throughput—so Pareto64 keeps the Arm-optimized layout as default.
+          </p>
+        </div>
       </section>
 
       <section class="optimization-section" id="optimization" aria-labelledby="optimization-title">
@@ -446,6 +486,11 @@
             <span class="evidence-result reject-text">Not promoted</span>
           </li>
           <li>
+            <span class="evidence-id">E5h</span>
+            <div><strong>Arm repack boundary</strong><p>1.98 GiB RSS saved with an explicit 48.47%-throughput tradeoff.</p></div>
+            <span class="evidence-result select-text">Memory tier</span>
+          </li>
+          <li>
             <span class="evidence-id">E6b</span>
             <div><strong>NEON vector-store patch</strong><p>2.029× direct hot-path throughput.</p></div>
             <span class="evidence-result select-text">Accepted</span>
@@ -468,13 +513,30 @@
     <footer>
       <p>Pareto64 · Apache-2.0 · Arm Create AI Optimization Challenge 2026</p>
       <div>
-        <a href="../results/reports/e3f-ministral-frontier.md">Selected frontier</a>
-        <a href="../results/reports/e5c-prompt-cache.md">Serving optimization</a>
-        <a href="../results/reports/e5d-cached-concurrency.md">Concurrency boundary</a>
-        <a href="../results/reports/e5e-kv-context-profile.md">Memory profile</a>
-        <a href="../results/reports/e5f-prompt-batch-profile.md">Batch profile</a>
-        <a href="../results/reports/e5g-prompt-batch-floor.md">Batch floor</a>
-        <a href="../results/reports/e6b-q8-vector-store.md">Arm patch</a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e3f-ministral-frontier.md">
+          Selected frontier
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5c-prompt-cache.md">
+          Serving optimization
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5d-cached-concurrency.md">
+          Concurrency boundary
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5e-kv-context-profile.md">
+          Memory profile
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5f-prompt-batch-profile.md">
+          Batch profile
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5g-prompt-batch-floor.md">
+          Batch floor
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5h-weight-repack-boundary.md">
+          Repack tier
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e6b-q8-vector-store.md">
+          Arm patch
+        </a>
       </div>
     </footer>
   </body>

@@ -143,6 +143,16 @@ prediction, 1.0116x throughput, and both latency gates. Conservative maximum
 RSS increased by 660 KiB, however, so it failed the frozen 4 MiB process-memory
 gate. Pareto64 retains 64/64 and, per the staged contract, does not test 16/16.
 
+E5h then isolated the selected service's Arm weight-repack allocation. Repack
+enabled produced 2,024.36 MiB mapped plus 2,038.92 MiB repacked model buffers
+and reached 0.9295 requests/s at 4,453,532 KiB maximum RSS. The no-repack path
+preserved every selected prediction and prefix reuse, removed the repack buffer,
+and lowered maximum RSS by 2,072,268 KiB to 2,381,264 KiB. Its throughput fell
+to 0.4505 requests/s, or 48.47% retention, with 2.416/3.304-second median/p95
+HTTP latency. It clears the frozen low-memory gates but does not replace the
+faster default; operators opt into the separately validated tier with
+`--no-weight-repack`.
+
 ## Constraint contract
 
 The schema-1 policy has two explicit parts:

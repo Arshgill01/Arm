@@ -938,3 +938,18 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   or below 3 GiB RSS, retains at least 30% throughput, and meets 5/10-second
   median/p95 plus 15-second readiness ceilings. It never replaces the faster
   default through a weighted score.
+
+## 2026-07-31 — E5h selects an explicit low-memory tier
+
+- Native run `30672633366` passed the source proof, two mechanism launches,
+  and four-cell A–B–B–A matrix in 8m57s. All 120 measured requests returned
+  normally, reused at least 25 tokens, and matched the selected prediction.
+- Repack on exposed 2,024.36 MiB mapped plus 2,038.92 MiB `CPU_REPACK` model
+  buffers. Repack off exposed only a 2,039.54 MiB mapped buffer.
+- No-repack reduced maximum RSS from 4,453,532 to 2,381,264 KiB, a 2,072,268
+  KiB saving, and stayed below the 3 GiB tier ceiling. It retained 0.4847x
+  throughput with 2.416/3.304-second median/p95 HTTP latency.
+- Pareto64 retains no-repack only as an opt-in memory tier. Repacking remains
+  the faster default. Independent Python 3.10 ingestion matched the uploaded
+  summary byte for byte at SHA-256
+  `e048f3e25d513430b49fd2ee0a140e8a0f82fe31d79b5fb0aafb36b470190faa`.

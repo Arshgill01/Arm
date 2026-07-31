@@ -111,6 +111,14 @@ the frozen process-memory gate, so 64/64 remains the default. The staged
 contract allowed testing batch 16 only if 32 passed; we stopped instead of
 searching past a negative result.
 
+The remaining large allocation was Arm-specific weight repacking. In a frozen
+A–B–B–A test, the default exposed a 2,038.92 MiB `CPU_REPACK` buffer and
+reached 0.9295 requests/s at 4,453,532 KiB maximum RSS. Disabling repack
+preserved all 120 answers and cached-prefix reuse while lowering maximum RSS by
+2,072,268 KiB to 2,381,264 KiB. The cost was explicit: throughput fell to
+0.4505 requests/s, or 48.47% retention. Pareto64 keeps repack as the fast
+default and exposes the qualified no-repack path only as an opt-in memory tier.
+
 ### Arm-specific source work
 
 We fixed a llama.cpp/KleidiAI feature-selection defect where a substring search
@@ -169,6 +177,8 @@ without changing measured inputs or post-observation thresholds.
 - context right-sizing that saves 183.36 MiB without KV quantization or drift;
 - prompt-batch right-sizing that cuts the compute buffer 75% and saves another
   14.48 MiB maximum RSS without answer drift;
+- an explicit no-repack tier that saves 2,072,268 KiB maximum RSS while the
+  2.06x-faster repacked layout remains the default;
 - two reviewable Arm source patches with correctness evidence;
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
@@ -189,6 +199,10 @@ visible before deployment.
 The same discipline applied to prompt batches: a reported allocation reduction
 was insufficient until process RSS, quality, throughput, and latency all
 cleared their independent gates.
+Weight repacking showed the complementary tradeoff: a two-gigabyte allocation
+can be removed safely, but doing so gives up more than half of serving
+throughput. A product should expose both qualified operating points instead of
+pretending one profile dominates every deployment envelope.
 
 ## What's next
 

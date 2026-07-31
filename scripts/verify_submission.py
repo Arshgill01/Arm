@@ -39,6 +39,9 @@ EXPECTED_HASHES = {
     "results/manifests/e5g-30671733556.json": (
         "374e5af3d8af8c022d76ff51f614c50e1dd25f8948fcc727fe3f983afad984b6"
     ),
+    "results/manifests/e5h-30672633366.json": (
+        "e048f3e25d513430b49fd2ee0a140e8a0f82fe31d79b5fb0aafb36b470190faa"
+    ),
     "results/manifests/e6b-30640282768.json": (
         "e870ad9cf7b7d1f89f0fa745383f555d54f62b3caf2fc635cbcb76ca4ef7e210"
     ),
@@ -250,6 +253,39 @@ def main() -> int:
         or batch32.get("gates", {}).get("eligible") is not False
     ):
         raise ValueError("retained marginal batch boundary differs from E5g evidence")
+
+    repack_boundary = load_object(ROOT / "results/manifests/e5h-30672633366.json")
+    repack_on = repack_boundary.get("performance", {}).get("repack_on", {})
+    repack_off = repack_boundary.get("performance", {}).get("repack_off", {})
+    hypothesis = repack_boundary.get("hypothesis", {})
+    if (
+        repack_boundary.get("status") != "valid_selected_inference_memory_tier"
+        or repack_boundary.get("validation", {}).get("memory_tier_claim_allowed")
+        is not True
+        or repack_boundary.get("selection", {}).get("default_configuration")
+        != "repack_on"
+        or repack_boundary.get("selection", {}).get("memory_tier_configuration")
+        != "repack_off"
+        or hypothesis.get("passed") is not True
+        or hypothesis.get("quality_passed") is not True
+        or hypothesis.get("process_rss_reduction_passed") is not True
+        or hypothesis.get("memory_tier_rss_ceiling_passed") is not True
+        or hypothesis.get("throughput_retention_passed") is not True
+        or hypothesis.get("latency_ceilings_passed") is not True
+        or hypothesis.get("weighted_score_used") is not False
+        or hypothesis.get("process_rss_reduction_kib", 0) < 1_572_864
+        or hypothesis.get("throughput_retention_ratio", 0) < 0.3
+        or repack_off.get("maximum_rss_kib", {}).get("max", 0) > 3_145_728
+        or repack_on.get("weight_repack") is not True
+        or repack_off.get("weight_repack") is not False
+        or repack_on.get("quality", {}).get("exact_selected_predictions")
+        is not True
+        or repack_off.get("quality", {}).get("exact_selected_predictions")
+        is not True
+        or repack_on.get("mechanism", {}).get("repack_buffer_mib", 0) <= 0
+        or repack_off.get("mechanism", {}).get("repack_buffer_mib") != 0
+    ):
+        raise ValueError("retained weight-repack boundary differs from E5h evidence")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

@@ -34,6 +34,8 @@ authoritative, timestamped record; this file groups the significant additions.
   quality/performance but increased observed maximum RSS by 660 KiB.
 - Added a fail-closed weight-repack launcher control and froze E5h to test the
   two-gigabyte Arm repack buffer as a separate memory-tier tradeoff.
+- Retained no-repack as an explicit memory tier after it preserved every answer
+  and cut maximum RSS by 2,072,268 KiB; repack remains the 2.06x-faster default.
 
 ### Native evidence
 

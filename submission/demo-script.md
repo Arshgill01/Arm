@@ -42,8 +42,9 @@ prefix caching was different: all 120 answers stayed identical, throughput rose
 cached slots gained only 6.2% and nearly doubled latency, so one slot stayed the
 default. Then we right-sized its context from 2,048 to 256 tokens: all answers
 stayed exact, throughput stayed at 99.6%, and maximum RSS fell 183 MiB. q4 KV
-saved more but changed an answer, so f16 stayed. Finally, batch 64 cut the
-compute buffer 75% and saved another 14.5 MiB with every answer exact.”
+saved more but changed an answer, so f16 stayed. Batch 64 then cut the compute
+buffer 75%. Finally, disabling Arm weight repacking saved another 1.98 GiB but
+halved throughput, so we expose it as a low-memory tier—not the default.”
 
 ## 1:43–2:08 — Arm-specific patch
 
@@ -58,7 +59,7 @@ whole-model speedup.”
 
 ## 2:08–2:32 — Exact serving
 
-**Screen:** Show the E5b through E5f rows, then the terminal.
+**Screen:** Show the E5b through E5h rows, then the terminal.
 
 ```bash
 python3 scripts/verify_submission.py
@@ -66,8 +67,8 @@ python3 scripts/verify_submission.py
 
 **Voice:** “The product launches through a hash-verifying adapter. The verifier
 pins the model, runtime, selected plan, serving evidence, and Arm patch. Cache
-mode is written into the recipe, and there is an explicit no-cache escape hatch
-for workloads that have not passed the same correctness gate.”
+and repack modes are written into the recipe, and bounded escape hatches remain
+explicit for workloads with a different validated envelope.”
 
 ## 2:32–2:50 — Close
 
