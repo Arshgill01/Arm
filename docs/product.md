@@ -1,0 +1,65 @@
+# Pareto64 product core
+
+Pareto64 turns validated native Arm experiment manifests into an explicit,
+quality-constrained deployment decision. The planner is standard-library Python
+and has no network, model, or runtime dependency at decision time.
+
+```text
+validated E3 manifest
+        │
+        ▼
+evidence consistency checks ──reject──► invalid input
+        │
+        ▼
+predeclared quality gate ──────reject──► recorded reason
+        │
+        ▼
+named SLO requirements ────────reject──► recorded reason
+        │
+        ▼
+recomputed Pareto frontier
+        │
+        ▼
+explicit lexicographic priority ───────► deployment plan
+```
+
+No weighted score is used. A candidate can enter the frontier only after the
+source experiment declares it quality-eligible and it passes every named SLO.
+The planner then removes only dominated candidates and chooses from the remaining
+frontier using the user-visible priority order.
+
+## Run the current plan
+
+```bash
+python3 -m pareto64 plan \
+  --manifest results/manifests/e3-30635472160.json \
+  --constraints configs/cloud-balanced.json \
+  --output results/plans/e3-cloud-balanced.json
+```
+
+The current real result is `no_feasible_candidate`. Q4_0, Q4_K_M, and MNN int4
+all fail the frozen E3 quality gate, so Pareto64 selects none of them even though
+MNN has attractive latency, package-size, and RSS measurements.
+
+## Constraint contract
+
+The schema-1 policy has two explicit parts:
+
+- `requirements`: `at_least` for higher-is-better accuracy and `at_most` for
+  lower-is-better latency, RSS, package size, and model-load time;
+- `selection_priority`: a unique ordered list used only after quality, SLO, and
+  Pareto filtering.
+
+Every numeric metric must be finite and non-negative. Candidate sets, quality
+decisions, experiment status, and the experiment's declared eligible set must
+agree or the planner rejects the manifest. The output records hashes of both
+input files, all observed metrics, all rejection reasons, the feasible set,
+frontier, selected candidate, and the fact that no weighted score was used.
+
+## Current boundary
+
+This is the evidence-to-decision core, not yet the full E5 product. The next
+vertical slice exposes the same deterministic function through a bounded HTTP
+API and measures request p50/p95, concurrency, failures, and process RSS. A
+runtime launch adapter is intentionally deferred until a candidate passes the
+quality gate; Pareto64 must not turn an invalid measurement into a deployment.

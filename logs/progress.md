@@ -247,3 +247,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - No speedup is claimed because the unpatched configuration does not build, and
   no quality claim is allowed for the legacy tokenizer metadata. E6b remains a
   separate paired hot-path optimization requirement.
+
+## 2026-07-31 — Pareto64 fail-closed planner vertical slice
+
+- Implemented the first product code rather than another experiment wrapper.
+  The standard-library CLI consumes a validated E3 manifest plus an explicit SLO
+  policy, checks evidence consistency, applies quality and SLO gates, recomputes
+  the Pareto frontier, and selects lexicographically from visible priorities.
+- Weighted scores are structurally absent. Non-finite metrics, unknown policy
+  keys, conflicting quality decisions, duplicate priorities, and invalid
+  experiment status fail closed.
+- Ran the planner on the real E3 evidence with the `cloud-balanced` policy. It
+  correctly emitted `no_feasible_candidate`, retained individual rejection
+  reasons for Q4_0, Q4_K_M, and MNN int4, and did not let MNN's resource wins
+  bypass its 13.33% quality result.
+- The generated plan hashes both source inputs and is committed as a product
+  artifact. Twenty-four local tests pass, including the actual E3 integration
+  and synthetic non-dominated selection cases.

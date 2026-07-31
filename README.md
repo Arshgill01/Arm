@@ -20,6 +20,17 @@ The provisional concept is **Pareto64**, a quality-constrained cross-runtime
 planner for Arm AI inference. It becomes the final Cloud AI direction only if the
 native feasibility and novelty gates in `docs/strategy.md` pass.
 
+The product core is now executable: it validates an E3 evidence manifest,
+applies explicit quality and SLO gates, recomputes the Pareto frontier, and emits
+a hashed deployment decision without a hidden weighted score.
+
+```bash
+python3 -m pareto64 plan \
+  --manifest results/manifests/e3-30635472160.json \
+  --constraints configs/cloud-balanced.json \
+  --output results/plans/e3-cloud-balanced.json
+```
+
 ## Native evidence so far
 
 | Gate | Outcome |
@@ -41,6 +52,8 @@ planner until it passes a predeclared quality/SLO contract.
   and cross-front optimization opportunities.
 - [`docs/strategy.md`](docs/strategy.md): concept comparison and the leading
   single-project hypothesis.
+- [`docs/product.md`](docs/product.md): executable planner behavior, policy
+  contract, and current E2E boundary.
 - [`docs/experiment-plan.md`](docs/experiment-plan.md): ordered, gated benchmark
   program.
 - [`docs/environment.md`](docs/environment.md): current host, native Arm routes,
@@ -54,6 +67,10 @@ planner until it passes a predeclared quality/SLO contract.
 - [`docs/source-registry.md`](docs/source-registry.md): URLs and source authority.
 - [`experiments/README.md`](experiments/README.md): evidence contract for every
   benchmark.
+- [`configs/cloud-balanced.json`](configs/cloud-balanced.json): explicit example
+  quality/SLO and selection policy.
+- [`patches/README.md`](patches/README.md): reviewable source-patch inputs and
+  validation status.
 - [`logs/progress.md`](logs/progress.md): chronological project journal.
 - [`ops/telegram.md`](ops/telegram.md): phone notification and decision workflow.
 - [`ops/telegram_decisions.py`](ops/telegram_decisions.py): authenticated,

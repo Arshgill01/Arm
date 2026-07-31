@@ -1,0 +1,129 @@
+{
+  "decision": "No measured candidate passed both the predeclared quality gate and SLOs.",
+  "evaluated": {
+    "llama_q4_0": {
+      "framework": "llama.cpp",
+      "metrics": {
+        "maximum_quality_process_rss_kib": 2133640.0,
+        "minimum_accuracy": 0.4666666666666667,
+        "model_load_ms_median": 701.5635515,
+        "package_size_bytes": 1066227232.0,
+        "same_text_total_ms_median": 712.210263
+      },
+      "name": "llama_q4_0",
+      "quality_eligible": false,
+      "rejections": [
+        {
+          "detail": "quality_ineligible",
+          "kind": "quality_gate"
+        },
+        {
+          "kind": "slo",
+          "metric": "minimum_accuracy",
+          "observed": 0.4666666666666667,
+          "operator": "at_least",
+          "threshold": 0.75
+        }
+      ]
+    },
+    "llama_q4_k_m": {
+      "framework": "llama.cpp",
+      "metrics": {
+        "maximum_quality_process_rss_kib": 2108640.0,
+        "minimum_accuracy": 0.5333333333333333,
+        "model_load_ms_median": 777.3444850000001,
+        "package_size_bytes": 1117320736.0,
+        "same_text_total_ms_median": 1119.681552
+      },
+      "name": "llama_q4_k_m",
+      "quality_eligible": false,
+      "rejections": [
+        {
+          "detail": "quality_ineligible",
+          "kind": "quality_gate"
+        },
+        {
+          "kind": "slo",
+          "metric": "minimum_accuracy",
+          "observed": 0.5333333333333333,
+          "operator": "at_least",
+          "threshold": 0.75
+        }
+      ]
+    },
+    "mnn_int4": {
+      "framework": "mnn",
+      "metrics": {
+        "maximum_quality_process_rss_kib": 1076400.0,
+        "minimum_accuracy": 0.13333333333333333,
+        "model_load_ms_median": 3518.8098605,
+        "package_size_bytes": 879481306.0,
+        "same_text_total_ms_median": 402.4541775
+      },
+      "name": "mnn_int4",
+      "quality_eligible": false,
+      "rejections": [
+        {
+          "detail": "quality_ineligible",
+          "kind": "quality_gate"
+        },
+        {
+          "kind": "slo",
+          "metric": "minimum_accuracy",
+          "observed": 0.13333333333333333,
+          "operator": "at_least",
+          "threshold": 0.75
+        }
+      ]
+    }
+  },
+  "feasible_candidates": [],
+  "inputs": {
+    "constraints_path": "configs/cloud-balanced.json",
+    "constraints_sha256": "946692148731e086f8005551751c1a0347be1935da554495ee5b6bc9c35b859b",
+    "experiment_id": "E3",
+    "experiment_status": "valid_no_quality_eligible_variant",
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30635472160",
+    "manifest_path": "results/manifests/e3-30635472160.json",
+    "manifest_sha256": "e29b0b81fd4aeaa8cc6ec092cac9400ade31945e541081e90eae0cb8efd98af4"
+  },
+  "pareto_frontier": [],
+  "planner": "Pareto64",
+  "policy": {
+    "directions": {
+      "maximum_quality_process_rss_kib": "lower",
+      "minimum_accuracy": "higher",
+      "model_load_ms_median": "lower",
+      "package_size_bytes": "lower",
+      "same_text_total_ms_median": "lower"
+    },
+    "requirements": {
+      "maximum_quality_process_rss_kib": {
+        "at_most": 2621440.0
+      },
+      "minimum_accuracy": {
+        "at_least": 0.75
+      },
+      "model_load_ms_median": {
+        "at_most": 4000.0
+      },
+      "package_size_bytes": {
+        "at_most": 1250000000.0
+      },
+      "same_text_total_ms_median": {
+        "at_most": 1200.0
+      }
+    },
+    "selection_priority": [
+      "same_text_total_ms_median",
+      "maximum_quality_process_rss_kib",
+      "package_size_bytes",
+      "model_load_ms_median",
+      "minimum_accuracy"
+    ],
+    "weighted_score_used": false
+  },
+  "schema_version": 1,
+  "selected": null,
+  "status": "no_feasible_candidate"
+}
