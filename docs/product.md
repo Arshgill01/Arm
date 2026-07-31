@@ -133,6 +133,12 @@ selected predictions, reduced the CPU compute buffer 40.13→10.03 MiB, lowered
 maximum RSS by 14,824 KiB, and retained 1.0226x throughput. It is selected for
 promotion and is now the launcher default; 128/128 missed the process-RSS gate.
 
+E5g tested the next batch floor without changing that default. Batch 32 reduced
+the reported compute buffer from 10.03 to 5.02 MiB and preserved every selected
+prediction, 1.0116x throughput, and both latency gates. Conservative maximum
+RSS increased by 660 KiB, however, so it failed the frozen 4 MiB process-memory
+gate. Pareto64 retains 64/64 and, per the staged contract, does not test 16/16.
+
 ## Constraint contract
 
 The schema-1 policy has two explicit parts:

@@ -904,3 +904,17 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - The promoted batch64 cells omit the outer Pareto64 flags but must retain
   explicit 64/64 values in the generated llama.cpp recipe. E5g reuses the
   promotion-aware ingester and adds no new runtime knob.
+
+## 2026-07-31 — E5g closes the marginal batch floor
+
+- Native run `30671733556` passed both mechanism proofs and the four-cell
+  A–B–B–A matrix in 7m40s. All 120 measured requests returned normally, reused
+  at least 25 prompt tokens, and matched the selected prediction.
+- Batch 32 reduced the CPU compute buffer from 10.03 to 5.02 MiB, retained
+  1.0116x throughput, and kept median/p95 latency at 1.0095x/0.9061x baseline.
+- Conservative maximum RSS increased by 660 KiB, missing the frozen requirement
+  to save 4,096 KiB. The result is a valid no-win; 64/64 remains the default.
+- Per the staged contract, batch 16 is not tested after the 32 profile fails.
+  Independent Python 3.10 ingestion matched the uploaded summary byte for byte
+  at SHA-256
+  `374e5af3d8af8c022d76ff51f614c50e1dd25f8948fcc727fe3f983afad984b6`.

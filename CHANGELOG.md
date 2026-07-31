@@ -30,6 +30,8 @@ authoritative, timestamped record; this file groups the significant additions.
   every answer matched again and the independently ingested summary was exact.
 - Froze a staged E5g 64/64-versus-32/32 boundary; 16/16 remains out of scope
   unless 32/32 first clears every quality, performance, and memory gate.
+- Retained 64/64 after 32/32 halved the remaining compute buffer and preserved
+  quality/performance but increased observed maximum RSS by 660 KiB.
 
 ### Native evidence
 

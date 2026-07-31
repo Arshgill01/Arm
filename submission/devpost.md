@@ -104,6 +104,13 @@ run repeated all six cells with no Pareto64 batch flags on the 64/64 cells: all
 180 answers matched again, throughput retention was 1.0240x, and maximum RSS
 fell 17,264 KiB.
 
+We then tested the next boundary without opening an arbitrary sweep. Batch 32
+halved the remaining compute buffer to 5.02 MiB, preserved every answer, and
+retained 1.0116x throughput, but maximum RSS increased by 660 KiB. It failed
+the frozen process-memory gate, so 64/64 remains the default. The staged
+contract allowed testing batch 16 only if 32 passed; we stopped instead of
+searching past a negative result.
+
 ### Arm-specific source work
 
 We fixed a llama.cpp/KleidiAI feature-selection defect where a substring search

@@ -657,6 +657,20 @@ latency within 1.05x, become ready within 15 seconds, and stay below 8 GiB
 RSS. Exact evidence order and the no-weighted-score selector are frozen in
 [`../experiments/e5g_contract.json`](../experiments/e5g_contract.json).
 
+### E5g outcome
+
+Native run `30671733556` passed all four measured cells and both mechanism
+proofs. Batch 32 preserved every selected prediction twice, reduced the CPU
+compute buffer from 10.03 to 5.02 MiB, retained 1.0116x throughput, and kept
+median/p95 latency within the frozen ratios. Maximum RSS increased by 660 KiB,
+so the candidate failed the 4 MiB process-memory gate and is not promoted.
+
+The staged study therefore stops before batch 16 and retains 64/64. Independent
+Python 3.10 ingestion matched the uploaded summary byte for byte at SHA-256
+`374e5af3d8af8c022d76ff51f614c50e1dd25f8948fcc727fe3f983afad984b6`.
+See
+[`../results/reports/e5g-prompt-batch-floor.md`](../results/reports/e5g-prompt-batch-floor.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

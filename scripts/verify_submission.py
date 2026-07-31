@@ -36,6 +36,9 @@ EXPECTED_HASHES = {
     "results/manifests/e5f-30669700602.json": (
         "396222dd2ec0d66c0985392b0c2b65e4fa1b8a3100f57c4d1d30d50a41f92d4b"
     ),
+    "results/manifests/e5g-30671733556.json": (
+        "374e5af3d8af8c022d76ff51f614c50e1dd25f8948fcc727fe3f983afad984b6"
+    ),
     "results/manifests/e6b-30640282768.json": (
         "e870ad9cf7b7d1f89f0fa745383f555d54f62b3caf2fc635cbcb76ca4ef7e210"
     ),
@@ -231,6 +234,22 @@ def main() -> int:
         raise ValueError("retained prompt-batch decision differs from E5f evidence")
     if resolve_batch_profile(None, None) != (64, 64):
         raise ValueError("launcher default differs from the E5f batch selection")
+
+    batch_floor = load_object(ROOT / "results/manifests/e5g-30671733556.json")
+    batch32 = batch_floor.get("performance", {}).get("batch32", {})
+    if (
+        batch_floor.get("status") != "valid_selected_inference_no_batch_profile_win"
+        or batch_floor.get("validation", {}).get("batch_profile_claim_allowed")
+        is not False
+        or batch_floor.get("selection", {}).get("configuration") is not None
+        or batch32.get("quality", {}).get("exact_selected_predictions") is not True
+        or batch32.get("gates", {}).get("compute_buffer_reduction_passed") is not True
+        or batch32.get("gates", {}).get("throughput_retention_passed") is not True
+        or batch32.get("gates", {}).get("latency_retention_passed") is not True
+        or batch32.get("gates", {}).get("process_rss_reduction_passed") is not False
+        or batch32.get("gates", {}).get("eligible") is not False
+    ):
+        raise ValueError("retained marginal batch boundary differs from E5g evidence")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")
