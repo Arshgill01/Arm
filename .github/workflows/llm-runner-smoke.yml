@@ -44,7 +44,8 @@ jobs:
           git -C "$LLM_RUNNER_DIR" submodule status --recursive > "$EVIDENCE_DIR/submodules.txt"
 
       - name: Restore pinned model
-        uses: actions/cache@v6
+        id: model-cache
+        uses: actions/cache/restore@v6
         with:
           path: ${{ env.MODEL_PATH }}
           key: phi2-q4-0-${{ env.PHI2_SHA256 }}
@@ -61,6 +62,13 @@ jobs:
           stat --format='%n %s bytes' "$MODEL_PATH" | tee "$EVIDENCE_DIR/model.txt"
           sha256sum "$MODEL_PATH" | tee -a "$EVIDENCE_DIR/model.txt"
 
+      - name: Save verified model
+        if: steps.model-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: ${{ env.MODEL_PATH }}
+          key: phi2-q4-0-${{ env.PHI2_SHA256 }}
+
       - name: Configure KleidiAI build
         working-directory: ${{ env.LLM_RUNNER_DIR }}
         run: |
@@ -72,6 +80,7 @@ jobs:
             -DBUILD_LLM_TESTING=ON \
             -DCMAKE_BUILD_TYPE=Release \
             -DDOWNLOAD_LLM_MODELS=OFF \
+            -DGGML_NATIVE=OFF \
             -DLLM_FRAMEWORK=llama.cpp \
             -DPython3_EXECUTABLE="$(command -v python3)" \
             -DUSE_KLEIDIAI=ON \
@@ -99,6 +108,7 @@ jobs:
           /usr/bin/time -v ./build/bin/llm-bench-cli \
             -m "$MODEL_PATH" \
             -i 64 -o 32 -c 512 -t 4 -n 3 -w 1 \
+            -J "$EVIDENCE_DIR/benchmark.json" \
             > >(tee "$EVIDENCE_DIR/benchmark.stdout.log") \
             2> >(tee "$EVIDENCE_DIR/benchmark.stderr.log" >&2)
           grep -Eiq 'kleidi' \
@@ -128,6 +138,7 @@ jobs:
               "build": {
                   "framework": "llama.cpp",
                   "cpu_arch": "Armv8.6_1",
+                  "ggml_native": False,
                   "use_kleidiai": True,
                   "build_type": "Release",
               },

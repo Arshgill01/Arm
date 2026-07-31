@@ -104,3 +104,19 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Installed and started the hardened user service, then sent a live two-button
   canary. A user reply is intentionally required before bounded replies are
   considered approved for ongoing use.
+
+## 2026-07-31 — E1 LLM-Runner smoke, attempt 4
+
+- Workflow run `30631429898` passed the pinned-model and full CMake configuration
+  gates, then compiled 42% of the native Arm build.
+- Compilation failed because llama.cpp's `GGML_NATIVE` detection emitted a
+  Neoverse N2 feature string containing both SVE2 feature names and a final
+  `+nosve`. Its KleidiAI source selection used a substring search, selected SVE
+  assembly, then compiled it with SVE disabled.
+- The next attempt sets `GGML_NATIVE=OFF` so the explicit LLM-Runner
+  `Armv8.6_1` target remains authoritative and selects only the advertised
+  DotProd/I8MM KleidiAI kernels. This is also a credible upstream bug/patch
+  candidate for the project's source-level optimization story.
+- Split cache restore/save now persists the checksum-verified model before
+  compilation, even if a later build step fails. The benchmark will also emit
+  machine-readable JSON.
