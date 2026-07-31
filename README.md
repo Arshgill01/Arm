@@ -32,15 +32,15 @@ reasoning run was correctly rejected: budget 0 failed the runtime's documented
 immediate-end mechanism. That failure exposed a reproducible upstream sampler
 state bug; no E3e frontier or deployment plan is accepted. E6c validated the
 exact source correction and zero-reasoning behavior on Arm, but its frozen
-eight-token standalone-answer gate rejected the application run. E3f now
-freezes a roughly 2.1 GB Ministral 3 Q4_0/Q4_K_M quality frontier without
-changing the 75% acceptance floor.
+eight-token standalone-answer gate rejected the application run. E3f's
+Ministral 3 Q4_K_M is the first candidate to clear the unchanged quality and
+cloud SLO gates, so the inference-serving stage is now unlocked.
 
 ```bash
 python3 -m pareto64 plan \
-  --manifest results/manifests/e3c-30647831008.json \
+  --manifest results/manifests/e3f-30656151957.json \
   --constraints configs/cloud-quality.json \
-  --output results/plans/e3c-cloud-quality.json
+  --output results/plans/e3f-cloud-quality.json
 ```
 
 ## Native evidence so far
@@ -55,6 +55,7 @@ python3 -m pareto64 plan \
 | [E3c](results/reports/e3c-quality-per-byte.md) | Q4_K_M led a stable 4B quantization sweep at 66.67%; the unchanged quality gate rejected all variants |
 | [E3d](results/reports/e3d-current-runtime.md) | Current Qwen3.5 Q4_0/Q8_0 both reached a stable 66.67%; Q8_0 was faster but exceeded load and RSS ceilings |
 | [E3e](results/reports/e3e-bounded-reasoning.md) | Invalid mechanism run exposed a reproducible zero-budget forced-token state bug; no frontier was created |
+| [E3f](results/reports/e3f-ministral-frontier.md) | Q4_K_M reached a stable 76.67% and passed every frozen quality, latency, load, RSS, and package gate |
 | [E4a](results/reports/e4a-backlog-tuner.md) | Native bounded tuner selected backlog 64 with zero failures or tail breaches |
 | [E5a](results/reports/e5a-planner-api.md) | Native fail-closed API passed load SLOs; one-second tail retained for tuning |
 | [E6a](results/reports/e6a-native-feature-fix.md) | Reproduced and fixed invalid native KleidiAI SVE source selection |

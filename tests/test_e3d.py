@@ -284,8 +284,8 @@ class E3dTests(unittest.TestCase):
                 (variant_dir / "readiness.json").write_text(
                     json.dumps({"status": "ok", "ready_ms": 100.0})
                 )
-                (variant_dir / "runtime-proof.stderr.log").write_text(
-                    "CPU_KLEIDIAI model buffer size = 1 MiB\n"
+                (variant_dir / "runtime-proof.stderr.log").write_bytes(
+                    b"CPU_KLEIDIAI model buffer size = 1 MiB\n\xc4"
                 )
                 proof_common = {
                     "build_commit": "9d9a6d29f",

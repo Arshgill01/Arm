@@ -1,0 +1,3479 @@
+{
+  "application": {
+    "ministral3_3b_q4_0": {
+      "display_name": "Ministral 3 3B Instruct Q4_0",
+      "http_round_trip_ms": {
+        "coefficient_of_variation": 0.1763794524322821,
+        "max": 1864.876964,
+        "mean": 1308.4355098499998,
+        "median": 1286.719803,
+        "min": 796.539709,
+        "p95": 1855.961974,
+        "population_stddev": 230.78113877029682
+      },
+      "minimum_accuracy": 0.7,
+      "model_load_ms": {
+        "coefficient_of_variation": 0.0,
+        "max": 1179.307961,
+        "mean": 1179.307961,
+        "median": 1179.307961,
+        "min": 1179.307961,
+        "p95": 1179.307961,
+        "population_stddev": 0.0
+      },
+      "package_size_bytes": 2046375200,
+      "quality_eligible": false,
+      "quality_process": {
+        "maximum_rss_kib": {
+          "coefficient_of_variation": 0.0,
+          "max": 4446724.0,
+          "mean": 4446724.0,
+          "median": 4446724.0,
+          "min": 4446724.0,
+          "p95": 4446724.0,
+          "population_stddev": 0.0
+        },
+        "repetitions": [
+          {
+            "elapsed": "1:20.95",
+            "exit_status": 0,
+            "maximum_rss_kib": 4446724,
+            "percent_cpu": "387%"
+          }
+        ]
+      },
+      "quality_repetitions": [
+        {
+          "accuracy": 0.7,
+          "cases": [
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "arithmetic-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "arithmetic-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "arithmetic-03",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "arithmetic-04",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "arithmetic-05",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-02",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "logic-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "logic-05",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "code-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "data-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "data-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "data-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "systems-03",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-04",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "systems-05",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "evidence-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "evidence-03",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "D",
+              "id": "evidence-04",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-05",
+              "predicted": "B",
+              "response": "B"
+            }
+          ],
+          "category_accuracy": {
+            "arithmetic": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            },
+            "code_reasoning": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            },
+            "data_reasoning": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            },
+            "evidence_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "logic": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "systems_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            }
+          },
+          "correct": 21,
+          "framework": "llama.cpp",
+          "model_path": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_0/Ministral-3-3B-Instruct-2512-Q4_0.gguf",
+          "predictions": {
+            "arithmetic-01": "B",
+            "arithmetic-02": "C",
+            "arithmetic-03": "C",
+            "arithmetic-04": "B",
+            "arithmetic-05": "A",
+            "code-01": "C",
+            "code-02": "C",
+            "code-03": "B",
+            "code-04": "C",
+            "code-05": "B",
+            "data-01": "B",
+            "data-02": "B",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "B",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "C",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "B",
+            "logic-04": "C",
+            "logic-05": "C",
+            "systems-01": "B",
+            "systems-02": "B",
+            "systems-03": "C",
+            "systems-04": "B",
+            "systems-05": "C"
+          },
+          "source": "variants/ministral3_3b_q4_0/quality-repeat-1.json",
+          "total": 30
+        },
+        {
+          "accuracy": 0.7,
+          "cases": [
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "arithmetic-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "arithmetic-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "arithmetic-03",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "arithmetic-04",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "arithmetic-05",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-02",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "logic-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "logic-05",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "code-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "data-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "data-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "data-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "systems-03",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-04",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "systems-05",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "evidence-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "evidence-03",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "D",
+              "id": "evidence-04",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-05",
+              "predicted": "B",
+              "response": "B"
+            }
+          ],
+          "category_accuracy": {
+            "arithmetic": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            },
+            "code_reasoning": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            },
+            "data_reasoning": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            },
+            "evidence_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "logic": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "systems_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            }
+          },
+          "correct": 21,
+          "framework": "llama.cpp",
+          "model_path": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_0/Ministral-3-3B-Instruct-2512-Q4_0.gguf",
+          "predictions": {
+            "arithmetic-01": "B",
+            "arithmetic-02": "C",
+            "arithmetic-03": "C",
+            "arithmetic-04": "B",
+            "arithmetic-05": "A",
+            "code-01": "C",
+            "code-02": "C",
+            "code-03": "B",
+            "code-04": "C",
+            "code-05": "B",
+            "data-01": "B",
+            "data-02": "B",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "B",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "C",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "B",
+            "logic-04": "C",
+            "logic-05": "C",
+            "systems-01": "B",
+            "systems-02": "B",
+            "systems-03": "C",
+            "systems-04": "B",
+            "systems-05": "C"
+          },
+          "source": "variants/ministral3_3b_q4_0/quality-repeat-2.json",
+          "total": 30
+        }
+      ],
+      "runtime_buffer_evidence": [
+        "CPU_KLEIDIAI model buffer size"
+      ],
+      "same_text_decode_ms": {
+        "coefficient_of_variation": 0.06375773678609516,
+        "max": 88.845,
+        "mean": 60.1904,
+        "median": 59.674,
+        "min": 58.209,
+        "p95": 61.286,
+        "population_stddev": 3.8376036802497815
+      },
+      "same_text_encode_ms": {
+        "coefficient_of_variation": 0.18626047707857546,
+        "max": 1801.286,
+        "mean": 1243.3278,
+        "median": 1222.581,
+        "min": 731.646,
+        "p95": 1792.987,
+        "population_stddev": 231.58282919305566
+      },
+      "same_text_total_ms": {
+        "coefficient_of_variation": 0.1771688989083823,
+        "max": 1862.181,
+        "mean": 1303.5182,
+        "median": 1282.214,
+        "min": 790.771,
+        "p95": 1852.6750000000002,
+        "population_stddev": 230.94288420103646
+      }
+    },
+    "ministral3_3b_q4_k_m": {
+      "display_name": "Ministral 3 3B Instruct Q4_K_M",
+      "http_round_trip_ms": {
+        "coefficient_of_variation": 0.17682744632758265,
+        "max": 2720.836369,
+        "mean": 1858.4838037833333,
+        "median": 1803.0994775,
+        "min": 1210.49626,
+        "p95": 2643.018221,
+        "population_stddev": 328.630945064179
+      },
+      "minimum_accuracy": 0.7666666666666667,
+      "model_load_ms": {
+        "coefficient_of_variation": 0.0,
+        "max": 2731.70159,
+        "mean": 2731.70159,
+        "median": 2731.70159,
+        "min": 2731.70159,
+        "p95": 2731.70159,
+        "population_stddev": 0.0
+      },
+      "package_size_bytes": 2146497824,
+      "quality_eligible": true,
+      "quality_process": {
+        "maximum_rss_kib": {
+          "coefficient_of_variation": 0.0,
+          "max": 4696108.0,
+          "mean": 4696108.0,
+          "median": 4696108.0,
+          "min": 4696108.0,
+          "p95": 4696108.0,
+          "population_stddev": 0.0
+        },
+        "repetitions": [
+          {
+            "elapsed": "1:54.64",
+            "exit_status": 0,
+            "maximum_rss_kib": 4696108,
+            "percent_cpu": "388%"
+          }
+        ]
+      },
+      "quality_repetitions": [
+        {
+          "accuracy": 0.7666666666666667,
+          "cases": [
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "arithmetic-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "arithmetic-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "arithmetic-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "arithmetic-04",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "arithmetic-05",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-02",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "logic-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "logic-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "code-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "data-01",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "data-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "data-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "systems-03",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-04",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "systems-05",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "evidence-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "evidence-03",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "D",
+              "id": "evidence-04",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-05",
+              "predicted": "B",
+              "response": "B"
+            }
+          ],
+          "category_accuracy": {
+            "arithmetic": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "code_reasoning": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            },
+            "data_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "evidence_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "logic": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "systems_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            }
+          },
+          "correct": 23,
+          "framework": "llama.cpp",
+          "model_path": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_k_m/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+          "predictions": {
+            "arithmetic-01": "B",
+            "arithmetic-02": "C",
+            "arithmetic-03": "B",
+            "arithmetic-04": "B",
+            "arithmetic-05": "A",
+            "code-01": "C",
+            "code-02": "C",
+            "code-03": "B",
+            "code-04": "C",
+            "code-05": "B",
+            "data-01": "A",
+            "data-02": "B",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "B",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "C",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "B",
+            "logic-04": "C",
+            "logic-05": "B",
+            "systems-01": "B",
+            "systems-02": "B",
+            "systems-03": "C",
+            "systems-04": "B",
+            "systems-05": "C"
+          },
+          "source": "variants/ministral3_3b_q4_k_m/quality-repeat-1.json",
+          "total": 30
+        },
+        {
+          "accuracy": 0.7666666666666667,
+          "cases": [
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "arithmetic-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "arithmetic-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "arithmetic-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "arithmetic-04",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "arithmetic-05",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-02",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "logic-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "logic-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "code-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "data-01",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "data-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "data-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "systems-03",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-04",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "systems-05",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "evidence-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "evidence-03",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "D",
+              "id": "evidence-04",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-05",
+              "predicted": "B",
+              "response": "B"
+            }
+          ],
+          "category_accuracy": {
+            "arithmetic": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "code_reasoning": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            },
+            "data_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "evidence_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "logic": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "systems_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            }
+          },
+          "correct": 23,
+          "framework": "llama.cpp",
+          "model_path": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_k_m/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+          "predictions": {
+            "arithmetic-01": "B",
+            "arithmetic-02": "C",
+            "arithmetic-03": "B",
+            "arithmetic-04": "B",
+            "arithmetic-05": "A",
+            "code-01": "C",
+            "code-02": "C",
+            "code-03": "B",
+            "code-04": "C",
+            "code-05": "B",
+            "data-01": "A",
+            "data-02": "B",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "B",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "C",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "B",
+            "logic-04": "C",
+            "logic-05": "B",
+            "systems-01": "B",
+            "systems-02": "B",
+            "systems-03": "C",
+            "systems-04": "B",
+            "systems-05": "C"
+          },
+          "source": "variants/ministral3_3b_q4_k_m/quality-repeat-2.json",
+          "total": 30
+        }
+      ],
+      "runtime_buffer_evidence": [
+        "CPU_Mapped model buffer size",
+        "CPU_REPACK model buffer size"
+      ],
+      "same_text_decode_ms": {
+        "coefficient_of_variation": 0.08262657208924544,
+        "max": 96.255,
+        "mean": 66.58456666666667,
+        "median": 65.3195,
+        "min": 64.019,
+        "p95": 67.692,
+        "population_stddev": 5.501654497714503
+      },
+      "same_text_encode_ms": {
+        "coefficient_of_variation": 0.1835279925158081,
+        "max": 2652.187,
+        "mean": 1787.0268166666667,
+        "median": 1733.943,
+        "min": 1140.442,
+        "p95": 2572.298,
+        "population_stddev": 327.9694442347484
+      },
+      "same_text_total_ms": {
+        "coefficient_of_variation": 0.1774111319367971,
+        "max": 2718.144,
+        "mean": 1853.6113833333334,
+        "median": 1798.7155,
+        "min": 1207.338,
+        "p95": 2638.321,
+        "population_stddev": 328.851293688099
+      }
+    }
+  },
+  "experiment_id": "E3f",
+  "pareto": {
+    "directions": {
+      "maximum_quality_process_rss_kib": "lower",
+      "minimum_accuracy": "higher",
+      "package_size_bytes": "lower",
+      "same_text_total_ms_median": "lower"
+    },
+    "frontier": [
+      "ministral3_3b_q4_k_m"
+    ],
+    "inputs": {
+      "ministral3_3b_q4_k_m": {
+        "maximum_quality_process_rss_kib": 4696108.0,
+        "minimum_accuracy": 0.7666666666666667,
+        "package_size_bytes": 2146497824.0,
+        "same_text_total_ms_median": 1798.7155
+      }
+    },
+    "weighted_score_used": false
+  },
+  "platform": {
+    "lscpu": {
+      "architecture": "aarch64",
+      "logical_cpus": 4,
+      "model_name": "Neoverse-N2",
+      "relevant_features": [
+        "asimd",
+        "asimddp",
+        "bf16",
+        "i8mm",
+        "sve",
+        "sve2",
+        "svebf16",
+        "svei8mm"
+      ],
+      "sockets": 1,
+      "threads_per_core": 1
+    },
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "controlled_difference": "Both candidates derive from the same pinned source model and quantization producer and use the same semantic instruction, system-role prompt mapping, runtime, host, tasks, greedy decoding, threads, and context. GGUF weight quantization is the only candidate-level difference.",
+    "deployment_policy_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+    "execution_order": [
+      [
+        "ministral3_3b_q4_0",
+        "ministral3_3b_q4_k_m"
+      ],
+      [
+        "ministral3_3b_q4_k_m",
+        "ministral3_3b_q4_0"
+      ],
+      [
+        "ministral3_3b_q4_0",
+        "ministral3_3b_q4_k_m"
+      ]
+    ],
+    "experiment_id": "E3f",
+    "git_commit": "3bfac33e07ef77366c2adc9280d992d23cdf1bb5",
+    "github_run_attempt": "1",
+    "github_run_id": "30656151957",
+    "kleidiai_archive_md5": "2f02ebe29573d45813e671eb304f2a00",
+    "kleidiai_release": "v1.24.0",
+    "llama_cpp_commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+    "llama_cpp_tag": "b10208",
+    "model_revisions": {
+      "ministral3_3b_q4_0": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+      "ministral3_3b_q4_k_m": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+    },
+    "schema_version": 1,
+    "source_model_revision": "b35d4dfe56c142746f54dbd64f579faab2744308"
+  },
+  "quality": {
+    "acceptance_policy": {
+      "absolute_accuracy_floor": 0.75,
+      "maximum_task_deficit_from_best": 1,
+      "prediction_parser": "first standalone uppercase A-D after case folding",
+      "predictions_must_be_stable": true,
+      "repetitions": 2
+    },
+    "best_minimum_correct": 23,
+    "experiment_id": "E3f",
+    "schema_version": 1,
+    "tasks": {
+      "count": 30,
+      "path": "experiments/e3_tasks.json",
+      "sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    },
+    "variants": {
+      "ministral3_3b_q4_0": {
+        "absolute_floor_met": false,
+        "framework": "llama.cpp",
+        "minimum_accuracy": 0.7,
+        "minimum_correct": 21,
+        "predictions_stable": true,
+        "quality_eligible": false,
+        "repetitions": [
+          {
+            "accuracy": 0.7,
+            "cases": [
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "arithmetic-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "arithmetic-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "arithmetic-03",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "arithmetic-04",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "arithmetic-05",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-02",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "logic-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "logic-05",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "code-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "data-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "data-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "data-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "systems-03",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-04",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "systems-05",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "evidence-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "evidence-03",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "D",
+                "id": "evidence-04",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-05",
+                "predicted": "B",
+                "response": "B"
+              }
+            ],
+            "category_accuracy": {
+              "arithmetic": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              },
+              "code_reasoning": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              },
+              "data_reasoning": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              },
+              "evidence_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "logic": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "systems_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              }
+            },
+            "correct": 21,
+            "framework": "llama.cpp",
+            "model_path": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_0/Ministral-3-3B-Instruct-2512-Q4_0.gguf",
+            "predictions": {
+              "arithmetic-01": "B",
+              "arithmetic-02": "C",
+              "arithmetic-03": "C",
+              "arithmetic-04": "B",
+              "arithmetic-05": "A",
+              "code-01": "C",
+              "code-02": "C",
+              "code-03": "B",
+              "code-04": "C",
+              "code-05": "B",
+              "data-01": "B",
+              "data-02": "B",
+              "data-03": "B",
+              "data-04": "C",
+              "data-05": "B",
+              "evidence-01": "B",
+              "evidence-02": "C",
+              "evidence-03": "C",
+              "evidence-04": "D",
+              "evidence-05": "B",
+              "logic-01": "C",
+              "logic-02": "A",
+              "logic-03": "B",
+              "logic-04": "C",
+              "logic-05": "C",
+              "systems-01": "B",
+              "systems-02": "B",
+              "systems-03": "C",
+              "systems-04": "B",
+              "systems-05": "C"
+            },
+            "source": "variants/ministral3_3b_q4_0/quality-repeat-1.json",
+            "total": 30
+          },
+          {
+            "accuracy": 0.7,
+            "cases": [
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "arithmetic-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "arithmetic-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "arithmetic-03",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "arithmetic-04",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "arithmetic-05",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-02",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "logic-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "logic-05",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "code-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "data-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "data-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "data-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "systems-03",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-04",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "systems-05",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "evidence-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "evidence-03",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "D",
+                "id": "evidence-04",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-05",
+                "predicted": "B",
+                "response": "B"
+              }
+            ],
+            "category_accuracy": {
+              "arithmetic": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              },
+              "code_reasoning": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              },
+              "data_reasoning": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              },
+              "evidence_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "logic": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "systems_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              }
+            },
+            "correct": 21,
+            "framework": "llama.cpp",
+            "model_path": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_0/Ministral-3-3B-Instruct-2512-Q4_0.gguf",
+            "predictions": {
+              "arithmetic-01": "B",
+              "arithmetic-02": "C",
+              "arithmetic-03": "C",
+              "arithmetic-04": "B",
+              "arithmetic-05": "A",
+              "code-01": "C",
+              "code-02": "C",
+              "code-03": "B",
+              "code-04": "C",
+              "code-05": "B",
+              "data-01": "B",
+              "data-02": "B",
+              "data-03": "B",
+              "data-04": "C",
+              "data-05": "B",
+              "evidence-01": "B",
+              "evidence-02": "C",
+              "evidence-03": "C",
+              "evidence-04": "D",
+              "evidence-05": "B",
+              "logic-01": "C",
+              "logic-02": "A",
+              "logic-03": "B",
+              "logic-04": "C",
+              "logic-05": "C",
+              "systems-01": "B",
+              "systems-02": "B",
+              "systems-03": "C",
+              "systems-04": "B",
+              "systems-05": "C"
+            },
+            "source": "variants/ministral3_3b_q4_0/quality-repeat-2.json",
+            "total": 30
+          }
+        ],
+        "within_one_task_of_best": false
+      },
+      "ministral3_3b_q4_k_m": {
+        "absolute_floor_met": true,
+        "framework": "llama.cpp",
+        "minimum_accuracy": 0.7666666666666667,
+        "minimum_correct": 23,
+        "predictions_stable": true,
+        "quality_eligible": true,
+        "repetitions": [
+          {
+            "accuracy": 0.7666666666666667,
+            "cases": [
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "arithmetic-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "arithmetic-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "arithmetic-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "arithmetic-04",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "arithmetic-05",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-02",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "logic-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "logic-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "code-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "data-01",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "data-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "data-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "systems-03",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-04",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "systems-05",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "evidence-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "evidence-03",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "D",
+                "id": "evidence-04",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-05",
+                "predicted": "B",
+                "response": "B"
+              }
+            ],
+            "category_accuracy": {
+              "arithmetic": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "code_reasoning": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              },
+              "data_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "evidence_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "logic": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "systems_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              }
+            },
+            "correct": 23,
+            "framework": "llama.cpp",
+            "model_path": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_k_m/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+            "predictions": {
+              "arithmetic-01": "B",
+              "arithmetic-02": "C",
+              "arithmetic-03": "B",
+              "arithmetic-04": "B",
+              "arithmetic-05": "A",
+              "code-01": "C",
+              "code-02": "C",
+              "code-03": "B",
+              "code-04": "C",
+              "code-05": "B",
+              "data-01": "A",
+              "data-02": "B",
+              "data-03": "B",
+              "data-04": "C",
+              "data-05": "B",
+              "evidence-01": "B",
+              "evidence-02": "C",
+              "evidence-03": "C",
+              "evidence-04": "D",
+              "evidence-05": "B",
+              "logic-01": "C",
+              "logic-02": "A",
+              "logic-03": "B",
+              "logic-04": "C",
+              "logic-05": "B",
+              "systems-01": "B",
+              "systems-02": "B",
+              "systems-03": "C",
+              "systems-04": "B",
+              "systems-05": "C"
+            },
+            "source": "variants/ministral3_3b_q4_k_m/quality-repeat-1.json",
+            "total": 30
+          },
+          {
+            "accuracy": 0.7666666666666667,
+            "cases": [
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "arithmetic-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "arithmetic-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "arithmetic-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "arithmetic-04",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "arithmetic-05",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-02",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "logic-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "logic-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "code-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "data-01",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "data-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "data-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "systems-03",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-04",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "systems-05",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "evidence-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "evidence-03",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "D",
+                "id": "evidence-04",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-05",
+                "predicted": "B",
+                "response": "B"
+              }
+            ],
+            "category_accuracy": {
+              "arithmetic": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "code_reasoning": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              },
+              "data_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "evidence_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "logic": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "systems_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              }
+            },
+            "correct": 23,
+            "framework": "llama.cpp",
+            "model_path": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_k_m/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+            "predictions": {
+              "arithmetic-01": "B",
+              "arithmetic-02": "C",
+              "arithmetic-03": "B",
+              "arithmetic-04": "B",
+              "arithmetic-05": "A",
+              "code-01": "C",
+              "code-02": "C",
+              "code-03": "B",
+              "code-04": "C",
+              "code-05": "B",
+              "data-01": "A",
+              "data-02": "B",
+              "data-03": "B",
+              "data-04": "C",
+              "data-05": "B",
+              "evidence-01": "B",
+              "evidence-02": "C",
+              "evidence-03": "C",
+              "evidence-04": "D",
+              "evidence-05": "B",
+              "logic-01": "C",
+              "logic-02": "A",
+              "logic-03": "B",
+              "logic-04": "C",
+              "logic-05": "B",
+              "systems-01": "B",
+              "systems-02": "B",
+              "systems-03": "C",
+              "systems-04": "B",
+              "systems-05": "C"
+            },
+            "source": "variants/ministral3_3b_q4_k_m/quality-repeat-2.json",
+            "total": 30
+          }
+        ],
+        "within_one_task_of_best": true
+      }
+    }
+  },
+  "schema_version": 1,
+  "source": {
+    "artifact_name": "e3f-ministral3-frontier-30656151957-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30656151957"
+  },
+  "status": "valid_frontier",
+  "synthetic_token_benchmark": {
+    "parameters": {
+      "execution_order": [
+        [
+          "ministral3_3b_q4_0",
+          "ministral3_3b_q4_k_m"
+        ],
+        [
+          "ministral3_3b_q4_k_m",
+          "ministral3_3b_q4_0"
+        ],
+        [
+          "ministral3_3b_q4_0",
+          "ministral3_3b_q4_k_m"
+        ]
+      ],
+      "input_tokens": 128,
+      "measured_repetitions_per_round": 3,
+      "output_tokens": 64,
+      "rounds_per_variant": 3,
+      "threads": 4,
+      "warmup_enabled": true
+    },
+    "variants": {
+      "ministral3_3b_q4_0": {
+        "metrics": {
+          "decode_tokens_per_sec": {
+            "coefficient_of_variation": 0.012424079651288387,
+            "max": 17.2234,
+            "mean": 16.875444444444444,
+            "median": 16.8437,
+            "min": 16.5045,
+            "p95": 17.2234,
+            "population_stddev": 0.20966186592866987
+          },
+          "encode_tokens_per_sec": {
+            "coefficient_of_variation": 0.00363984139929829,
+            "max": 75.9936,
+            "mean": 75.62827777777778,
+            "median": 75.6349,
+            "min": 75.0474,
+            "p95": 75.9936,
+            "population_stddev": 0.27527493641318646
+          },
+          "total_ms": {
+            "coefficient_of_variation": 0.009335303193583165,
+            "max": 5574.0030449999995,
+            "mean": 5485.587198333333,
+            "median": 5496.117489,
+            "min": 5403.327966,
+            "p95": 5574.0030449999995,
+            "population_stddev": 51.20961969128008
+          },
+          "ttft_ms": {
+            "coefficient_of_variation": 0.003649070130305664,
+            "max": 1705.589196,
+            "mean": 1692.5111103333334,
+            "median": 1692.340959,
+            "min": 1684.351765,
+            "p95": 1705.589196,
+            "population_stddev": 6.176091737927841
+          }
+        },
+        "process": {
+          "elapsed_seconds": {
+            "coefficient_of_variation": 0.009349465120782052,
+            "max": 19.99,
+            "mean": 19.779999999999998,
+            "median": 19.81,
+            "min": 19.54,
+            "p95": 19.99,
+            "population_stddev": 0.184932420089069
+          },
+          "maximum_rss_kib": {
+            "coefficient_of_variation": 1.823435315818518e-05,
+            "max": 4030416.0,
+            "mean": 4030345.3333333335,
+            "median": 4030376.0,
+            "min": 4030244.0,
+            "p95": 4030416.0,
+            "population_stddev": 73.49074015744357
+          }
+        },
+        "rounds": {
+          "1": {
+            "generation": {
+              "avg_ns": 3735354312,
+              "avg_ts": 17.13384,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_0/Ministral-3-3B-Instruct-2512-Q4_0.gguf",
+              "model_n_params": 3429006336,
+              "model_size": 2038493184,
+              "model_type": "mistral3 3B Q4_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 64,
+              "n_gpu_layers": -1,
+              "n_prompt": 0,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                3750533459,
+                3715873872,
+                3739655605
+              ],
+              "samples_ts": [
+                17.0642,
+                17.2234,
+                17.1139
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 17725619,
+              "stddev_ts": 0.081439,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T18:51:56Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "generation_ms": [
+              3750.533459,
+              3715.873872,
+              3739.655605
+            ],
+            "position": 1,
+            "process": {
+              "elapsed": "0:19.54",
+              "exit_status": 0,
+              "maximum_rss_kib": 4030376,
+              "percent_cpu": "373%"
+            },
+            "prompt": {
+              "avg_ns": 1686185213,
+              "avg_ts": 75.911044,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_0/Ministral-3-3B-Instruct-2512-Q4_0.gguf",
+              "model_n_params": 3429006336,
+              "model_size": 2038493184,
+              "model_type": "mistral3 3B Q4_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 0,
+              "n_gpu_layers": -1,
+              "n_prompt": 128,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                1686749782,
+                1687454094,
+                1684351765
+              ],
+              "samples_ts": [
+                75.8856,
+                75.8539,
+                75.9936
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 1627432,
+              "stddev_ts": 0.073252,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T18:51:49Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "prompt_ms": [
+              1686.749782,
+              1687.454094,
+              1684.351765
+            ],
+            "total_ms": [
+              5437.283241,
+              5403.327966,
+              5424.007369999999
+            ]
+          },
+          "2": {
+            "generation": {
+              "avg_ns": 3838342026,
+              "avg_ts": 16.674807,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_0/Ministral-3-3B-Instruct-2512-Q4_0.gguf",
+              "model_n_params": 3429006336,
+              "model_size": 2038493184,
+              "model_type": "mistral3 3B Q4_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 64,
+              "n_gpu_layers": -1,
+              "n_prompt": 0,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                3828040812,
+                3877724307,
+                3809260961
+              ],
+              "samples_ts": [
+                16.7187,
+                16.5045,
+                16.8012
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 35375152,
+              "stddev_ts": 0.153118,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T18:53:06Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "generation_ms": [
+              3828.040812,
+              3877.724307,
+              3809.260961
+            ],
+            "position": 2,
+            "process": {
+              "elapsed": "0:19.99",
+              "exit_status": 0,
+              "maximum_rss_kib": 4030416,
+              "percent_cpu": "372%"
+            },
+            "prompt": {
+              "avg_ns": 1698553640,
+              "avg_ts": 75.358905,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_0/Ministral-3-3B-Instruct-2512-Q4_0.gguf",
+              "model_n_params": 3429006336,
+              "model_size": 2038493184,
+              "model_type": "mistral3 3B Q4_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 0,
+              "n_gpu_layers": -1,
+              "n_prompt": 128,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                1693792986,
+                1696278738,
+                1705589196
+              ],
+              "samples_ts": [
+                75.57,
+                75.4593,
+                75.0474
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 6218442,
+              "stddev_ts": 0.275412,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T18:52:59Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "prompt_ms": [
+              1693.792986,
+              1696.278738,
+              1705.589196
+            ],
+            "total_ms": [
+              5521.833798,
+              5574.0030449999995,
+              5514.850157
+            ]
+          },
+          "3": {
+            "generation": {
+              "avg_ns": 3805531925,
+              "avg_ts": 16.81771,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_0/Ministral-3-3B-Instruct-2512-Q4_0.gguf",
+              "model_n_params": 3429006336,
+              "model_size": 2038493184,
+              "model_type": "mistral3 3B Q4_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 64,
+              "n_gpu_layers": -1,
+              "n_prompt": 0,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                3817772079,
+                3799189093,
+                3799634604
+              ],
+              "samples_ts": [
+                16.7637,
+                16.8457,
+                16.8437
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 10602803,
+              "stddev_ts": 0.046781,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T18:53:26Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "generation_ms": [
+              3817.772079,
+              3799.189093,
+              3799.634604
+            ],
+            "position": 1,
+            "process": {
+              "elapsed": "0:19.81",
+              "exit_status": 0,
+              "maximum_rss_kib": 4030244,
+              "percent_cpu": "373%"
+            },
+            "prompt": {
+              "avg_ns": 1692794477,
+              "avg_ts": 75.614885,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_0/Ministral-3-3B-Instruct-2512-Q4_0.gguf",
+              "model_n_params": 3429006336,
+              "model_size": 2038493184,
+              "model_type": "mistral3 3B Q4_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 0,
+              "n_gpu_layers": -1,
+              "n_prompt": 128,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                1692340959,
+                1696928396,
+                1689114077
+              ],
+              "samples_ts": [
+                75.6349,
+                75.4304,
+                75.7794
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 3927065,
+              "stddev_ts": 0.175338,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T18:53:19Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "prompt_ms": [
+              1692.340959,
+              1696.928396,
+              1689.114077
+            ],
+            "total_ms": [
+              5510.1130379999995,
+              5496.117489,
+              5488.748681
+            ]
+          }
+        }
+      },
+      "ministral3_3b_q4_k_m": {
+        "metrics": {
+          "decode_tokens_per_sec": {
+            "coefficient_of_variation": 0.006608477610831374,
+            "max": 15.6496,
+            "mean": 15.5122,
+            "median": 15.5046,
+            "min": 15.3489,
+            "p95": 15.6496,
+            "population_stddev": 0.10251202639473844
+          },
+          "encode_tokens_per_sec": {
+            "coefficient_of_variation": 0.0027958629673569737,
+            "max": 49.1727,
+            "mean": 48.98696666666667,
+            "median": 48.989,
+            "min": 48.7502,
+            "p95": 49.1727,
+            "population_stddev": 0.13696084598648384
+          },
+          "total_ms": {
+            "coefficient_of_variation": 0.004003615159473959,
+            "max": 6777.873965999999,
+            "mean": 6738.9271100000005,
+            "median": 6743.8287,
+            "min": 6696.957779,
+            "p95": 6777.873965999999,
+            "population_stddev": 26.980070736186033
+          },
+          "ttft_ms": {
+            "coefficient_of_variation": 0.002799637025852083,
+            "max": 2625.629657,
+            "mean": 2612.959366,
+            "median": 2612.832573,
+            "min": 2603.068327,
+            "p95": 2625.629657,
+            "population_stddev": 7.315337788100584
+          }
+        },
+        "process": {
+          "elapsed_seconds": {
+            "coefficient_of_variation": 0.0022779896638079338,
+            "max": 25.16,
+            "mean": 25.09,
+            "median": 25.09,
+            "min": 25.02,
+            "p95": 25.16,
+            "population_stddev": 0.05715476066494105
+          },
+          "maximum_rss_kib": {
+            "coefficient_of_variation": 1.3579687723459127e-05,
+            "max": 4277620.0,
+            "mean": 4277569.333333333,
+            "median": 4277600.0,
+            "min": 4277488.0,
+            "p95": 4277620.0,
+            "population_stddev": 58.08805576211191
+          }
+        },
+        "rounds": {
+          "1": {
+            "generation": {
+              "avg_ns": 4129011717,
+              "avg_ts": 15.50105,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_k_m/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+              "model_n_params": 3429006336,
+              "model_size": 2138615808,
+              "model_type": "mistral3 3B Q4_K - Medium",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 64,
+              "n_gpu_layers": -1,
+              "n_prompt": 0,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                4169680659,
+                4127794919,
+                4089559574
+              ],
+              "samples_ts": [
+                15.3489,
+                15.5046,
+                15.6496
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 40074451,
+              "stddev_ts": 0.150387,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T18:52:20Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "generation_ms": [
+              4169.680659,
+              4127.794919,
+              4089.559574
+            ],
+            "position": 2,
+            "process": {
+              "elapsed": "0:25.09",
+              "exit_status": 0,
+              "maximum_rss_kib": 4277488,
+              "percent_cpu": "370%"
+            },
+            "prompt": {
+              "avg_ns": 2615551845,
+              "avg_ts": 48.938436,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_k_m/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+              "model_n_params": 3429006336,
+              "model_size": 2138615808,
+              "model_type": "mistral3 3B Q4_K - Medium",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 0,
+              "n_gpu_layers": -1,
+              "n_prompt": 128,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                2608193307,
+                2625629657,
+                2612832573
+              ],
+              "samples_ts": [
+                49.0761,
+                48.7502,
+                48.989
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 9030926,
+              "stddev_ts": 0.168729,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T18:52:09Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "prompt_ms": [
+              2608.193307,
+              2625.629657,
+              2612.832573
+            ],
+            "total_ms": [
+              6777.873965999999,
+              6753.424575999999,
+              6702.3921470000005
+            ]
+          },
+          "2": {
+            "generation": {
+              "avg_ns": 4116951790,
+              "avg_ts": 15.545962,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_k_m/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+              "model_n_params": 3429006336,
+              "model_size": 2138615808,
+              "model_type": "mistral3 3B Q4_K - Medium",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 64,
+              "n_gpu_layers": -1,
+              "n_prompt": 0,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                4093889452,
+                4108785207,
+                4148180712
+              ],
+              "samples_ts": [
+                15.6331,
+                15.5764,
+                15.4285
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 28051901,
+              "stddev_ts": 0.10564,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T18:52:45Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "generation_ms": [
+              4093.889452,
+              4108.785207,
+              4148.180712
+            ],
+            "position": 1,
+            "process": {
+              "elapsed": "0:25.02",
+              "exit_status": 0,
+              "maximum_rss_kib": 4277620,
+              "percent_cpu": "371%"
+            },
+            "prompt": {
+              "avg_ns": 2606726688,
+              "avg_ts": 49.103871,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_k_m/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+              "model_n_params": 3429006336,
+              "model_size": 2138615808,
+              "model_type": "mistral3 3B Q4_K - Medium",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 0,
+              "n_gpu_layers": -1,
+              "n_prompt": 128,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                2603068327,
+                2612974037,
+                2604137701
+              ],
+              "samples_ts": [
+                49.1727,
+                48.9863,
+                49.1525
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 5436958,
+              "stddev_ts": 0.102296,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T18:52:35Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "prompt_ms": [
+              2603.068327,
+              2612.974037,
+              2604.137701
+            ],
+            "total_ms": [
+              6696.957779,
+              6721.759244,
+              6752.318413000001
+            ]
+          },
+          "3": {
+            "generation": {
+              "avg_ns": 4131939724,
+              "avg_ts": 15.489561,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_k_m/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+              "model_n_params": 3429006336,
+              "model_size": 2138615808,
+              "model_type": "mistral3 3B Q4_K - Medium",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 64,
+              "n_gpu_layers": -1,
+              "n_prompt": 0,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                4129839801,
+                4160740085,
+                4105239287
+              ],
+              "samples_ts": [
+                15.497,
+                15.3819,
+                15.5898
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 27809998,
+              "stddev_ts": 0.104175,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T18:53:50Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "generation_ms": [
+              4129.839801,
+              4160.740085,
+              4105.239287
+            ],
+            "position": 2,
+            "process": {
+              "elapsed": "0:25.16",
+              "exit_status": 0,
+              "maximum_rss_kib": 4277600,
+              "percent_cpu": "369%"
+            },
+            "prompt": {
+              "avg_ns": 2616599564,
+              "avg_ts": 48.918649,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3f/models/ministral3_3b_q4_k_m/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+              "model_n_params": 3429006336,
+              "model_size": 2138615808,
+              "model_type": "mistral3 3B Q4_K - Medium",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 0,
+              "n_gpu_layers": -1,
+              "n_prompt": 128,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                2613988899,
+                2611874610,
+                2623935183
+              ],
+              "samples_ts": [
+                48.9673,
+                49.0069,
+                48.7817
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 6440188,
+              "stddev_ts": 0.120252,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T18:53:39Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "prompt_ms": [
+              2613.988899,
+              2611.87461,
+              2623.935183
+            ],
+            "total_ms": [
+              6743.8287,
+              6772.614695,
+              6729.17447
+            ]
+          }
+        }
+      }
+    }
+  },
+  "validation": {
+    "current_llama_cpp_pinned": true,
+    "deployment_policy_predeclared": true,
+    "kleidiai_build_enabled": true,
+    "kleidiai_runtime_buffer_proven": true,
+    "performance_comparison_allowed": true,
+    "quality_eligible_variants": [
+      "ministral3_3b_q4_k_m"
+    ],
+    "quality_policy_predeclared": true,
+    "runtime_buffer_proven": true,
+    "same_tasks_and_instruction_as_e3": true
+  }
+}

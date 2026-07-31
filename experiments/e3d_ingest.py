@@ -280,13 +280,21 @@ def build_manifest(
             ):
                 raise ValueError(f"quality runtime parameters differ for {variant}")
         runtime_log = (
-            (variant_dir / "runtime-proof.stderr.log").read_text(encoding="utf-8")
+            (variant_dir / "runtime-proof.stderr.log").read_text(
+                encoding="utf-8", errors="replace"
+            )
             + "\n"
-            + (variant_dir / "server.core.log").read_text(encoding="utf-8")
+            + (variant_dir / "server.core.log").read_text(
+                encoding="utf-8", errors="replace"
+            )
             + "\n"
-            + (variant_dir / "server.stdout.log").read_text(encoding="utf-8")
+            + (variant_dir / "server.stdout.log").read_text(
+                encoding="utf-8", errors="replace"
+            )
             + "\n"
-            + (variant_dir / "server.stderr.log").read_text(encoding="utf-8")
+            + (variant_dir / "server.stderr.log").read_text(
+                encoding="utf-8", errors="replace"
+            )
         )
         runtime_patterns = model["runtime_buffer_patterns"]
         matched_patterns = sorted(pattern for pattern in runtime_patterns if pattern in runtime_log)

@@ -1,0 +1,120 @@
+{
+  "decision": "Selected lexicographically from the Pareto frontier using the explicit priority list.",
+  "evaluated": {
+    "ministral3_3b_q4_0": {
+      "framework": "llama.cpp",
+      "metrics": {
+        "maximum_quality_process_rss_kib": 4446724.0,
+        "minimum_accuracy": 0.7,
+        "model_load_ms_median": 1179.307961,
+        "package_size_bytes": 2046375200.0,
+        "same_text_total_ms_median": 1282.214
+      },
+      "name": "ministral3_3b_q4_0",
+      "quality_eligible": false,
+      "rejections": [
+        {
+          "detail": "quality_ineligible",
+          "kind": "quality_gate"
+        },
+        {
+          "kind": "slo",
+          "metric": "minimum_accuracy",
+          "observed": 0.7,
+          "operator": "at_least",
+          "threshold": 0.75
+        }
+      ]
+    },
+    "ministral3_3b_q4_k_m": {
+      "framework": "llama.cpp",
+      "metrics": {
+        "maximum_quality_process_rss_kib": 4696108.0,
+        "minimum_accuracy": 0.7666666666666667,
+        "model_load_ms_median": 2731.70159,
+        "package_size_bytes": 2146497824.0,
+        "same_text_total_ms_median": 1798.7155
+      },
+      "name": "ministral3_3b_q4_k_m",
+      "quality_eligible": true,
+      "rejections": []
+    }
+  },
+  "feasible_candidates": [
+    "ministral3_3b_q4_k_m"
+  ],
+  "inputs": {
+    "constraints_path": "configs/cloud-quality.json",
+    "constraints_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+    "experiment_id": "E3f",
+    "experiment_status": "valid_frontier",
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30656151957",
+    "manifest_path": "results/manifests/e3f-30656151957.json",
+    "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c"
+  },
+  "pareto_frontier": [
+    {
+      "framework": "llama.cpp",
+      "metrics": {
+        "maximum_quality_process_rss_kib": 4696108.0,
+        "minimum_accuracy": 0.7666666666666667,
+        "model_load_ms_median": 2731.70159,
+        "package_size_bytes": 2146497824.0,
+        "same_text_total_ms_median": 1798.7155
+      },
+      "name": "ministral3_3b_q4_k_m",
+      "quality_eligible": true,
+      "rejections": []
+    }
+  ],
+  "planner": "Pareto64",
+  "policy": {
+    "directions": {
+      "maximum_quality_process_rss_kib": "lower",
+      "minimum_accuracy": "higher",
+      "model_load_ms_median": "lower",
+      "package_size_bytes": "lower",
+      "same_text_total_ms_median": "lower"
+    },
+    "requirements": {
+      "maximum_quality_process_rss_kib": {
+        "at_most": 8388608.0
+      },
+      "minimum_accuracy": {
+        "at_least": 0.75
+      },
+      "model_load_ms_median": {
+        "at_most": 10000.0
+      },
+      "package_size_bytes": {
+        "at_most": 5000000000.0
+      },
+      "same_text_total_ms_median": {
+        "at_most": 5000.0
+      }
+    },
+    "selection_priority": [
+      "minimum_accuracy",
+      "same_text_total_ms_median",
+      "maximum_quality_process_rss_kib",
+      "package_size_bytes",
+      "model_load_ms_median"
+    ],
+    "weighted_score_used": false
+  },
+  "schema_version": 1,
+  "selected": {
+    "framework": "llama.cpp",
+    "metrics": {
+      "maximum_quality_process_rss_kib": 4696108.0,
+      "minimum_accuracy": 0.7666666666666667,
+      "model_load_ms_median": 2731.70159,
+      "package_size_bytes": 2146497824.0,
+      "same_text_total_ms_median": 1798.7155
+    },
+    "name": "ministral3_3b_q4_k_m",
+    "quality_eligible": true,
+    "rejections": []
+  },
+  "status": "selected"
+}

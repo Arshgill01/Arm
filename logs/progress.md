@@ -597,3 +597,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   any Ministral output. This uses the model's documented prompt interface and
   suppresses its unrelated large default preamble; tasks remain user messages.
   Q4_0 additionally requires direct KleidiAI runtime-buffer proof.
+
+## 2026-07-31 — E3f selects the first deployable candidate
+
+- Run `30656151957` completed every native cell. Q4_0 was stable at 21/30
+  (70.00%); Q4_K_M was stable at 23/30 (76.67%) and crossed the unchanged 75%
+  floor by one task.
+- Q4_K_M also passed all frozen resource SLOs: 2,146,497,824-byte package,
+  2,731.7 ms load, 1,798.7 ms median model time, and 4,696,108 KiB peak quality
+  process RSS. The planner selected it as the only feasible frontier member.
+- Q4_0 proved a real `CPU_KLEIDIAI` model buffer and was materially faster, but
+  its quality miss kept it out of the frontier. The result demonstrates the
+  quality-first planner behavior rather than simply choosing the fastest path.
+- Native post-processing encountered a non-UTF-8 metadata byte after all
+  measurements. Replacement decoding for diagnostic logs fixed the mechanical
+  assumption without changing any experiment input or gate. Independent Python
+  3.10 ingestion retained manifest SHA-256
+  `54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c`.

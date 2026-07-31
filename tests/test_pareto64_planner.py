@@ -201,6 +201,27 @@ class Pareto64PlannerTests(unittest.TestCase):
             ],
         )
 
+    def test_real_e3f_manifest_selects_only_quality_passing_candidate(self) -> None:
+        data = json.loads(
+            (ROOT / "results/manifests/e3f-30656151957.json").read_text()
+        )
+        policy = json.loads((ROOT / "configs/cloud-quality.json").read_text())
+        result = build_plan(data, policy)
+        self.assertEqual("selected", result["status"])
+        self.assertEqual(
+            ["ministral3_3b_q4_k_m"], result["feasible_candidates"]
+        )
+        self.assertEqual("ministral3_3b_q4_k_m", result["selected"]["name"])
+        self.assertEqual(
+            ["quality_gate", "slo"],
+            [
+                reason["kind"]
+                for reason in result["evaluated"]["ministral3_3b_q4_0"][
+                    "rejections"
+                ]
+            ],
+        )
+
     def test_nonfinite_metrics_and_unknown_directions_are_rejected(self) -> None:
         with self.assertRaisesRegex(ValueError, "finite"):
             finite_metric(float("nan"), "latency")

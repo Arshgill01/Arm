@@ -265,6 +265,16 @@ frozen before any Ministral response and avoids silently invoking the GGUF
 template's large general-purpose default preamble. Exact inputs and order are
 in [`../experiments/e3f_contract.json`](../experiments/e3f_contract.json).
 
+### E3f outcome
+
+Native run `30656151957` produced stable Q4_0 and Q4_K_M scores of 21/30 and
+23/30. Q4_K_M cleared the unchanged quality floor and every cloud SLO with a
+2,146,497,824-byte package, 2,731.7 ms load, 1,798.7 ms median task time, and
+4,696,108 KiB maximum quality-process RSS. Pareto64 selected it as the sole
+feasible frontier member. Q4_0 directly proved a faster KleidiAI path but was
+correctly rejected at 70% accuracy. See
+[`../results/reports/e3f-ministral-frontier.md`](../results/reports/e3f-ministral-frontier.md).
+
 ## Experimental discipline
 
 - E0–E3 establish feasibility; they do not prove a winning product.
