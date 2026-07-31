@@ -1,0 +1,34 @@
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Native builds and generated artifacts
+build/
+dist/
+cmake-build-*/
+*.o
+*.so
+
+# Models and large results
+models/
+*.gguf
+*.onnx
+*.pt
+*.pth
+results/raw/
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+
