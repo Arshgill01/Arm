@@ -22,10 +22,11 @@ public workflow run; compact manifests and reports are committed permanently.
 | Context right-sizing saves 183.36 MiB without drift | [E5e `30667019678`](https://github.com/Arshgill01/Arm/actions/runs/30667019678) | [`e5e` manifest](../results/manifests/e5e-30667019678.json) · [`report`](../results/reports/e5e-kv-context-profile.md) | `6312dc78…5ed2c` |
 | E5e promoted-default reproduction | [`30668306694`](https://github.com/Arshgill01/Arm/actions/runs/30668306694) | 23/30 twice; unflagged f16/256 cells; 187,468 KiB saved | `51f1e704…96e8ac` byte-identical ingest |
 | Prompt batch 64/64 cuts compute buffer 75% | [E5f `30669700602`](https://github.com/Arshgill01/Arm/actions/runs/30669700602) | [`e5f` manifest](../results/manifests/e5f-30669700602.json) · [`report`](../results/reports/e5f-prompt-batch-profile.md) | `396222dd…f92d4b` |
+| E5f promoted-default reproduction | [`30670972497`](https://github.com/Arshgill01/Arm/actions/runs/30670972497) | 180 exact responses; unflagged 64/64 cells; 17,264 KiB saved | `4b0e4632…42135a` byte-identical ingest |
 | KleidiAI native feature-selection fix | [E6a `30636911078`](https://github.com/Arshgill01/Arm/actions/runs/30636911078) | [`e6a` manifest](../results/manifests/e6a-30636911078.json) · [`report`](../results/reports/e6a-native-feature-fix.md) | `9a5951ae…24ae` |
 | NEON Q8_0 vector-store patch: 2.029x | [E6b `30640282768`](https://github.com/Arshgill01/Arm/actions/runs/30640282768) | [`e6b` manifest](../results/manifests/e6b-30640282768.json) · [`report`](../results/reports/e6b-q8-vector-store.md) | `e870ad9c…e210` |
 | Reasoning-budget source fix/app rejection | [E6c `30654805236`](https://github.com/Arshgill01/Arm/actions/runs/30654805236) | [`report`](../results/reports/e6c-reasoning-budget-fix.md) | mixed result; no deployment manifest |
-| Public clean-checkout package validation | [`30670520081`](https://github.com/Arshgill01/Arm/actions/runs/30670520081) | 85 tests, all eight evidence hashes, exact plan, demo smoke test | passed on native `aarch64` |
+| Public clean-checkout package validation | [`30670951208`](https://github.com/Arshgill01/Arm/actions/runs/30670951208) | 87 tests, all eight evidence hashes, exact plan, demo smoke test | passed on native `aarch64` |
 
 ## Final selected package
 

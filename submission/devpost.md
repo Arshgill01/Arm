@@ -99,7 +99,10 @@ MiB CPU compute buffer. A frozen forward/reverse 256/128/64 study promoted
 compute buffer fell to 10.03 MiB, maximum RSS fell 14.48 MiB, and throughput
 rose 2.26%. The 128/128
 profile was not promoted because its maximum-RSS reduction missed the frozen 8
-MiB process gate despite a smaller reported buffer.
+MiB process gate despite a smaller reported buffer. A clean promoted-default
+run repeated all six cells with no Pareto64 batch flags on the 64/64 cells: all
+180 answers matched again, throughput retention was 1.0240x, and maximum RSS
+fell 17,264 KiB.
 
 ### Arm-specific source work
 

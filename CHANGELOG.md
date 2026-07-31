@@ -26,6 +26,8 @@ authoritative, timestamped record; this file groups the significant additions.
   effective 256/256 default with 128/128 and 64/64 on native Arm.
 - Promoted 64/64 after it preserved every answer, cut the CPU compute buffer
   75%, saved 14.48 MiB maximum RSS, and retained 1.0226x throughput.
+- Reproduced the promoted unflagged 64/64 path across all six native cells;
+  every answer matched again and the independently ingested summary was exact.
 
 ### Native evidence
 

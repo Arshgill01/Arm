@@ -55,6 +55,13 @@ The retained manifest is
 [`e5f-30669700602.json`](../manifests/e5f-30669700602.json). Independent local
 Python 3.10 ingestion reproduced the uploaded summary byte for byte at SHA-256
 `396222dd2ec0d66c0985392b0c2b65e4fa1b8a3100f57c4d1d30d50a41f92d4b`.
+After promotion, native run
+[`30670972497`](https://github.com/Arshgill01/Arm/actions/runs/30670972497)
+repeated the complete matrix with the `batch64` Pareto64 invocation omitting
+both batch flags. All 180 answers matched again; `batch64` retained 1.0240x
+throughput and saved 17,264 KiB maximum RSS. Independent Python 3.10 ingestion
+again matched the uploaded summary byte for byte at SHA-256
+`4b0e4632306829c4d3fa0ce5b01351bf4e2f9dec6cdc4e4f48f8e40a0542135a`.
 The exact forward/reverse order, immutable inputs, invocation binding, selection
 policy, and acceptance gates are in
 [`../../experiments/e5f_contract.json`](../../experiments/e5f_contract.json).

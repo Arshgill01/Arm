@@ -872,3 +872,19 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - The promotion-aware ingester parses the timed outer command and validates the
   generated recipe separately. Re-ingesting the original artifact still
   reproduced retained SHA-256 `396222dd…f92d4b` byte for byte.
+
+## 2026-07-31 — E5f promoted default reproduces cleanly
+
+- Promotion commit `1c7cb63` passed clean-checkout validation on native Arm in
+  run `30670951208`: 87 tests, eight retained evidence hashes, exact plan, and
+  the dependency-free demo smoke test all passed.
+- Native run `30670972497` repeated the six-cell forward/reverse matrix in
+  9m02s. The two `batch64` cells exercised the unflagged Pareto64 default while
+  every generated llama.cpp recipe still pinned its effective batch pair.
+- All 180 measured requests returned normally and matched the selected E3f
+  prediction. `batch64` was again the only eligible profile: 1.0240x throughput
+  retention, 1.0060x median and 0.9088x p95 latency ratios, and 17,264 KiB less
+  maximum RSS than the 256/256 baseline.
+- Independent Python 3.10 ingestion matched the uploaded summary byte for byte
+  at SHA-256
+  `4b0e4632306829c4d3fa0ce5b01351bf4e2f9dec6cdc4e4f48f8e40a0542135a`.
