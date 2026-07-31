@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Pareto64 is a quality-constrained deployment planner proven on native Arm64 inference."
+    />
+    <title>Pareto64 — quality before speed on Arm64</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to evidence</a>
+
+    <header class="site-header">
+      <a class="wordmark" href="#main" aria-label="Pareto64 home">Pareto64</a>
+      <nav aria-label="Primary navigation">
+        <a href="#decision">Decision lab</a>
+        <a href="#optimization">Arm patch</a>
+        <a href="#evidence">Evidence</a>
+      </nav>
+      <a
+        class="repository-link"
+        href="https://github.com/Arshgill01/Arm"
+        target="_blank"
+        rel="noreferrer"
+        >Source ↗</a
+      >
+    </header>
+
+    <main id="main">
+      <section class="opening" aria-labelledby="opening-title">
+        <div class="opening-copy">
+          <p class="project-line">Cloud AI · native four-core Neoverse N2</p>
+          <h1 id="opening-title">The fastest model lost.</h1>
+          <p class="opening-summary">
+            Pareto64 rejects speedups that break the workload. It measures real
+            Arm inference, locks quality and resource obligations, computes the
+            Pareto frontier, and launches only the package that clears every
+            gate.
+          </p>
+          <dl class="selected-ledger" aria-label="Selected deployment metrics">
+            <div>
+              <dt>Selected quality</dt>
+              <dd>76.67%</dd>
+            </div>
+            <div>
+              <dt>Model package</dt>
+              <dd>2.15 GB</dd>
+            </div>
+            <div>
+              <dt>Median inference</dt>
+              <dd>1.80 s</dd>
+            </div>
+            <div>
+              <dt>Peak RSS</dt>
+              <dd>4.70 GB</dd>
+            </div>
+          </dl>
+        </div>
+
+        <figure class="quality-figure" aria-labelledby="quality-caption">
+          <figcaption id="quality-caption">
+            Same model family. The 75% quality line decides deployment.
+          </figcaption>
+          <div class="quality-axis" aria-hidden="true">
+            <span>60%</span><span>65%</span><span>70%</span><span>75%</span><span>80%</span>
+          </div>
+          <div class="quality-track rejected">
+            <div class="track-name">
+              <strong>Q4_0 + KleidiAI</strong>
+              <span>1.28 s · 2.05 GB</span>
+            </div>
+            <div class="track-line">
+              <span class="gate-line"></span>
+              <span class="track-point" style="--position: 50%"></span>
+              <span class="track-value" style="--position: 50%">70.00%</span>
+            </div>
+            <p>Rejected despite being 29% faster.</p>
+          </div>
+          <div class="quality-track selected">
+            <div class="track-name">
+              <strong>Q4_K_M</strong>
+              <span>1.80 s · 2.15 GB</span>
+            </div>
+            <div class="track-line">
+              <span class="gate-line"></span>
+              <span class="track-point" style="--position: 83.35%"></span>
+              <span class="track-value" style="--position: 83.35%">76.67%</span>
+            </div>
+            <p>Selected: the only candidate above every frozen gate.</p>
+          </div>
+          <div class="gate-key"><span></span> Frozen quality floor: 75%</div>
+        </figure>
+      </section>
+
+      <section class="decision-section" id="decision" aria-labelledby="decision-title">
+        <header class="section-heading">
+          <h2 id="decision-title">Try the deployment policy</h2>
+          <p>
+            Change the operator SLOs. Experiment-level quality eligibility stays
+            immutable, so lowering a policy after measurement cannot rescue a
+            rejected model.
+          </p>
+        </header>
+
+        <div class="decision-lab">
+          <form class="policy-controls" id="policy-form">
+            <label for="quality-floor">
+              Minimum accuracy
+              <output id="quality-value" for="quality-floor">75.00%</output>
+            </label>
+            <input
+              id="quality-floor"
+              type="range"
+              min="70"
+              max="80"
+              step="0.5"
+              value="75"
+            />
+
+            <label for="latency-ceiling">
+              Maximum median inference
+              <output id="latency-value" for="latency-ceiling">5.0 s</output>
+            </label>
+            <input
+              id="latency-ceiling"
+              type="range"
+              min="1"
+              max="5"
+              step="0.1"
+              value="5"
+            />
+
+            <div class="presets" aria-label="Policy presets">
+              <button type="button" data-quality="75" data-latency="5">
+                Quality deployment
+              </button>
+              <button type="button" data-quality="70" data-latency="1.5">
+                Latency temptation
+              </button>
+              <button type="button" data-quality="78" data-latency="5">
+                Strict quality
+              </button>
+            </div>
+          </form>
+
+          <div class="decision-output" aria-live="polite" aria-atomic="true">
+            <p class="decision-status" id="decision-status">Selected</p>
+            <h3 id="decision-model">Ministral 3 3B · Q4_K_M</h3>
+            <p id="decision-explanation">
+              The package is quality-eligible and clears the active accuracy,
+              latency, memory, load, and size obligations.
+            </p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Candidate</th>
+                  <th>Quality</th>
+                  <th>Latency</th>
+                  <th>Decision</th>
+                </tr>
+              </thead>
+              <tbody id="candidate-table"></tbody>
+            </table>
+            <p class="score-note">No weighted score is used.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="optimization-section" id="optimization" aria-labelledby="optimization-title">
+        <header class="section-heading">
+          <h2 id="optimization-title">Six vector instructions replaced 32 scalar stores</h2>
+          <p>
+            A bounded Arm NEON patch doubled the isolated Q8_0 activation
+            quantizer and preserved every tested output byte. Whole-model
+            inference stayed neutral, so Pareto64 claims only the measured hot
+            path win.
+          </p>
+        </header>
+
+        <div class="assembly-comparison">
+          <div class="assembly-side before">
+            <h3>Before</h3>
+            <div class="assembly-number">5.09 <span>GB/s</span></div>
+            <dl>
+              <div><dt>Function instructions</dt><dd>155</dd></div>
+              <div><dt>Scalar byte stores</dt><dd>32</dd></div>
+              <div><dt>Vector stores</dt><dd>0</dd></div>
+            </dl>
+            <code>lane extract × 32 → byte store × 32</code>
+          </div>
+          <div class="assembly-divider" aria-hidden="true">→</div>
+          <div class="assembly-side after">
+            <h3>After</h3>
+            <div class="assembly-number">10.33 <span>GB/s</span></div>
+            <dl>
+              <div><dt>Function instructions</dt><dd>98</dd></div>
+              <div><dt>Vector narrowing</dt><dd>6</dd></div>
+              <div><dt>128-bit stores</dt><dd>2</dd></div>
+            </dl>
+            <code>narrow in registers → vector store × 2</code>
+          </div>
+        </div>
+        <p class="guardrail">
+          2.029× median direct throughput · 20,000 iterations per round · 4/4
+          improved rounds · bit-identical correctness · ≥0.98× inference guardrail
+        </p>
+      </section>
+
+      <section class="evidence-section" id="evidence" aria-labelledby="evidence-title">
+        <header class="section-heading">
+          <h2 id="evidence-title">Failures are part of the result</h2>
+          <p>
+            The planner is useful because it refuses attractive near-misses and
+            records why. Every result below came from native Arm execution with
+            immutable inputs and independent ingestion.
+          </p>
+        </header>
+
+        <ol class="evidence-list">
+          <li>
+            <span class="evidence-id">E3b</span>
+            <div><strong>7B quality anchor</strong><p>73.33% — one task below the floor.</p></div>
+            <span class="evidence-result reject-text">Rejected</span>
+          </li>
+          <li>
+            <span class="evidence-id">E3f</span>
+            <div><strong>Ministral Q4_K_M</strong><p>76.67% plus every cloud SLO.</p></div>
+            <span class="evidence-result select-text">Selected</span>
+          </li>
+          <li>
+            <span class="evidence-id">E5b</span>
+            <div><strong>Two inference slots</strong><p>1.019× throughput — below the 1.10× gate.</p></div>
+            <span class="evidence-result reject-text">Not promoted</span>
+          </li>
+          <li>
+            <span class="evidence-id">E6b</span>
+            <div><strong>NEON vector-store patch</strong><p>2.029× direct hot-path throughput.</p></div>
+            <span class="evidence-result select-text">Accepted</span>
+          </li>
+        </ol>
+
+        <div class="reproduce">
+          <div>
+            <h3>Recompute the selected plan</h3>
+            <p>Standard-library Python. No service, token, or model download required.</p>
+          </div>
+          <pre><code id="reproduce-command">python3 -m pareto64 plan \
+  --manifest results/manifests/e3f-30656151957.json \
+  --constraints configs/cloud-quality.json</code></pre>
+          <button type="button" id="copy-command">Copy command</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Pareto64 · Apache-2.0 · Arm Create AI Optimization Challenge 2026</p>
+      <div>
+        <a href="../results/reports/e3f-ministral-frontier.md">Selected frontier</a>
+        <a href="../results/reports/e5b-selected-inference.md">Serving proof</a>
+        <a href="../results/reports/e6b-q8-vector-store.md">Arm patch</a>
+      </div>
+    </footer>
+  </body>
+</html>

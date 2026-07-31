@@ -1,0 +1,152 @@
+# Pareto64
+
+**Tagline:** Quality-constrained Arm64 inference: measure every tradeoff, reject
+broken speedups, launch only the proven deployment.
+
+**Track:** Cloud AI
+
+**Source:** <https://github.com/Arshgill01/Arm>
+
+**Interactive demo:** `<ADD PUBLIC DEMO URL>`
+
+**Public video:** `<ADD PUBLIC VIDEO URL>`
+
+## Project overview
+
+The fastest AI configuration is often the wrong one. Quantization, backend
+selection, batching, and low-level kernels can all improve a benchmark while
+quietly reducing answer quality, breaking a target architecture, or shifting
+cost into memory and tail latency.
+
+Pareto64 is an evidence-first deployment planner for CPU inference on Arm64. It
+takes native experiment evidence plus an explicit quality/SLO policy, rejects
+invalid or quality-ineligible candidates, computes the non-dominated frontier,
+and emits a reproducible deployment plan. Once a candidate passes, a fail-closed
+launch adapter verifies its exact model hash, source revisions, policy, runtime
+contract, and llama.cpp commit before starting the OpenAI-compatible server.
+
+The memorable result is simple: our faster 2.05 GB KleidiAI model lost. It was
+29% faster but scored only 70% on the frozen workload. Pareto64 selected the
+2.15 GB Q4_K_M package because it reached a stable 76.67% and cleared every
+latency, load, memory, and package-size obligation.
+
+## What it does
+
+- runs checksum-pinned AI experiments on native four-core Neoverse N2 hosts;
+- preserves raw per-request/per-round data and independently re-ingests it;
+- enforces stable quality before comparing latency, RSS, load time, or size;
+- builds a Pareto frontier without a hidden weighted score;
+- serves the decision through a bounded standard-library HTTP API;
+- verifies and launches the exact selected GGUF with pinned llama.cpp settings;
+- retains negative results and near-misses instead of rewriting thresholds; and
+- packages reports, manifests, source patches, CI workflows, and an interactive
+  judge demo in one Apache-2.0 repository.
+
+## Native Arm results
+
+### Quality-per-byte selection
+
+Ministral 3 3B Instruct Q4_K_M scored 23/30 (76.67%) in both quality
+repetitions. Its 2,146,497,824-byte package loaded in 2.73 seconds, used
+4,696,108 KiB peak RSS, and completed the same-text workload in a 1.80-second
+median. It was the only candidate to clear the unchanged 75% quality floor and
+all Cloud AI SLOs.
+
+The Q4_0/KleidiAI alternative was smaller (2.05 GB) and faster (1.28-second
+median), but stable at 70%. Pareto64 rejected it before resource ranking.
+
+### Exact inference serving
+
+The product launch path served 120 measured OpenAI-compatible requests across
+four fresh-server cells. Every response was HTTP 200, an exact standalone answer
+letter, normally terminated, and identical to the selected experiment. Every
+cell reproduced 23/30 with zero failures or drift. Readiness stayed below 4.1
+seconds and maximum RSS below 4.91 million KiB.
+
+A two-slot tuning candidate improved repeated median throughput only 1.019x,
+below its predeclared 1.10x gate, and nearly doubled median request latency.
+Pareto64 retained one slot rather than marketing a marginal concurrency win.
+
+### Arm-specific source work
+
+We fixed a llama.cpp/KleidiAI feature-selection defect where a substring search
+could compile SVE assembly even after the final compiler flags disabled SVE.
+The source now uses the build's validated feature probes. A native clean build,
+functional model test, runtime-buffer proof, and real inference all passed.
+
+We then optimized the Arm `quantize_row_q8_0` hot path. The baseline extracted
+and stored 32 individual byte lanes. The patch narrows values in NEON registers
+and emits two 128-bit stores:
+
+- 155 → 98 static instructions;
+- 32 → 0 scalar byte stores;
+- 0 → 6 vector narrowing instructions;
+- 0 → 2 vector stores; and
+- 5.09 → 10.33 GB/s, a 2.029x repeated median direct speedup.
+
+The standalone output was bit-identical, upstream quantization tests passed,
+and every real-model response remained unchanged. Whole-model inference was
+neutral, so we claim the measured quantizer win—not a model-wide speedup.
+
+## How we built it
+
+Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
+selection, the decision API, and the launch adapter. Native workflows build
+immutable Arm LLM-Runner or llama.cpp revisions with KleidiAI, download exact
+Apache-2.0 model packages, execute balanced experiments, retain raw results, and
+run a second validator that recomputes every statistic and decision.
+
+The selected runtime is llama.cpp `b10208` at commit
+`9d9a6d29f6b981cc7f41983d26e56485c6af1811`, built with native Arm and
+KleidiAI enabled. The selected model is Apache-2.0 Ministral 3 3B Instruct at a
+pinned source revision and pinned GGUF producer revision.
+
+## Challenges
+
+The hardest work was keeping evidence stronger than the story. Several
+promising directions failed honestly: a 7B model missed the quality floor by one
+task; Qwen quantization sweeps left empty frontiers; a documented zero-reasoning
+budget exposed a real sampler state bug; its source fix passed all 13 tests but
+the unchanged eight-token application contract still rejected verbose final
+answers; and two inference slots failed to create a meaningful throughput win.
+
+We also found and corrected mechanical evidence assumptions—non-UTF-8 diagnostic
+bytes, changing upstream commit abbreviations, and INFO-level buffer records—
+without changing measured inputs or post-observation thresholds.
+
+## Accomplishments
+
+- first deployable quality/SLO frontier after multiple valid empty frontiers;
+- exact model-to-runtime launch with cryptographic fail-closed checks;
+- stable end-to-end native Arm inference service with zero response drift;
+- two reviewable Arm source patches with correctness evidence;
+- roughly 2x direct NEON quantizer throughput;
+- a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
+  and clean-checkout validation workflow; and
+- 65 local tests plus native Arm workflows for the final evidence path.
+
+## What we learned
+
+Optimization is a sequence of obligations, not a leaderboard. Quantization can
+save time and lose the task. A locally dramatic kernel win can be invisible at
+model level. More server slots can divide fixed compute rather than increase
+throughput. The reusable contribution is the machinery that makes those limits
+visible before deployment.
+
+## What's next
+
+- rebase the two small llama.cpp patches onto current upstream and run its full
+  CI matrix;
+- expand the workload beyond the compact deterministic acceptance suite;
+- add cost and energy evidence on a host with available counters;
+- evaluate the same evidence contract across additional LLM-Runner backends;
+  and
+- package more planner policies for common Graviton, Cobalt, Axion, and Ampere
+  deployment envelopes.
+
+## Significant challenge-period updates
+
+This repository and Pareto64 implementation were created during the challenge
+period. The complete commit history records the research dossier, native
+baseline, every frozen contract, failed and successful runs, planner/API,
+runtime launcher, Arm source patches, interactive demo, and submission package.

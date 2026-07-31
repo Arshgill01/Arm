@@ -1,0 +1,48 @@
+# Judge evidence index
+
+All performance claims below come from native `aarch64` GitHub-hosted runners
+with four Neoverse N2 cores. Each compact manifest is generated from raw evidence
+by a fail-closed ingester. Raw artifacts are retained for 90 days by the linked
+public workflow run; compact manifests and reports are committed permanently.
+
+| Claim | Native run | Compact evidence | SHA-256 |
+| --- | --- | --- | --- |
+| Native host and repeatability | [E0 `30630496081`](https://github.com/Arshgill01/Arm/actions/runs/30630496081) | [`e0` manifest](../results/manifests/e0-30630496081.json) · [`report`](../results/reports/e0-native-arm.md) | `b9e97153…78361` |
+| Sponsor LLM-Runner end-to-end smoke | [E1 `30631789118`](https://github.com/Arshgill01/Arm/actions/runs/30631789118) | [`e1` manifest](../results/manifests/e1-30631789118.json) · [`report`](../results/reports/e1-llm-runner-smoke.md) | `121034d9…3cc8` |
+| Paired KleidiAI ablation | [E2 `30632406883`](https://github.com/Arshgill01/Arm/actions/runs/30632406883) | [`e2` manifest](../results/manifests/e2-30632406883.json) · [`report`](../results/reports/e2-kleidiai-ablation.md) | `c9733b47…f88c` |
+| 7B quality near-miss: 73.33% | [E3b `30643977955`](https://github.com/Arshgill01/Arm/actions/runs/30643977955) | [`e3b` manifest](../results/manifests/e3b-30643977955.json) · [`report`](../results/reports/e3b-quality-anchor.md) | `8fd89b9e…b628` |
+| Selected Ministral frontier: 76.67% | [E3f `30656151957`](https://github.com/Arshgill01/Arm/actions/runs/30656151957) | [`e3f` manifest](../results/manifests/e3f-30656151957.json) · [`report`](../results/reports/e3f-ministral-frontier.md) | `54adb3d4…aff9c` |
+| E3f clean end-to-end reproduction | [`30657209779`](https://github.com/Arshgill01/Arm/actions/runs/30657209779) | Uploaded summary matched independently at `268cc0ec…6932` | byte-identical |
+| Planner API concurrency | [E5a `30638049776`](https://github.com/Arshgill01/Arm/actions/runs/30638049776) | [`e5a` manifest](../results/manifests/e5a-30638049776.json) · [`report`](../results/reports/e5a-planner-api.md) | `637bd829…b7ae` |
+| Backlog 64 removes observed admission failures/tails | [E4a `30638730535`](https://github.com/Arshgill01/Arm/actions/runs/30638730535) | [`e4a` manifest](../results/manifests/e4a-30638730535.json) · [`report`](../results/reports/e4a-backlog-tuner.md) | `fdaf1064…8f4e` |
+| Exact selected-model serving; two slots not promoted | [E5b `30659829983`](https://github.com/Arshgill01/Arm/actions/runs/30659829983) | [`e5b` manifest](../results/manifests/e5b-30659829983.json) · [`report`](../results/reports/e5b-selected-inference.md) | `aa529b16…f66c` |
+| KleidiAI native feature-selection fix | [E6a `30636911078`](https://github.com/Arshgill01/Arm/actions/runs/30636911078) | [`e6a` manifest](../results/manifests/e6a-30636911078.json) · [`report`](../results/reports/e6a-native-feature-fix.md) | `9a5951ae…24ae` |
+| NEON Q8_0 vector-store patch: 2.029x | [E6b `30640282768`](https://github.com/Arshgill01/Arm/actions/runs/30640282768) | [`e6b` manifest](../results/manifests/e6b-30640282768.json) · [`report`](../results/reports/e6b-q8-vector-store.md) | `e870ad9c…e210` |
+| Reasoning-budget source fix/app rejection | [E6c `30654805236`](https://github.com/Arshgill01/Arm/actions/runs/30654805236) | [`report`](../results/reports/e6c-reasoning-budget-fix.md) | mixed result; no deployment manifest |
+
+## Final selected package
+
+- Model: `mistralai/Ministral-3-3B-Instruct-2512`
+- Source revision: `b35d4dfe56c142746f54dbd64f579faab2744308`
+- GGUF producer: `unsloth/Ministral-3-3B-Instruct-2512-GGUF`
+- Producer revision: `7564922f37fa5bbb62b87f09a55c12f1f91d7a6a`
+- File: `Ministral-3-3B-Instruct-2512-Q4_K_M.gguf`
+- Size: `2,146,497,824` bytes
+- SHA-256: `fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4`
+- License: Apache-2.0
+- Runtime: llama.cpp `b10208`, commit
+  `9d9a6d29f6b981cc7f41983d26e56485c6af1811`
+
+## Recompute locally
+
+```bash
+python3 scripts/verify_submission.py
+python3 -m unittest discover -s tests -v
+python3 -m pareto64 plan \
+  --manifest results/manifests/e3f-30656151957.json \
+  --constraints configs/cloud-quality.json
+```
+
+The compact package check downloads nothing and uses only Python's standard
+library. Exact model/runtime reproduction is defined by
+[`selected-inference.yml`](../.github/workflows/selected-inference.yml).

@@ -1,0 +1,155 @@
+#!/usr/bin/env python3
+"""Verify the compact Pareto64 submission package from a clean checkout."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import sys
+from html.parser import HTMLParser
+from importlib import import_module
+from pathlib import Path
+from typing import Any
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+build_plan = import_module("pareto64.planner").build_plan
+
+
+EXPECTED_HASHES = {
+    "results/manifests/e3f-30656151957.json": (
+        "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c"
+    ),
+    "results/manifests/e5b-30659829983.json": (
+        "aa529b16094ab398bf1d7c6aa698b452eeea6217f8016c280a5f2b6f947bf66c"
+    ),
+    "results/manifests/e6b-30640282768.json": (
+        "e870ad9cf7b7d1f89f0fa745383f555d54f62b3caf2fc635cbcb76ca4ef7e210"
+    ),
+    "results/plans/e3f-cloud-quality.json": (
+        "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
+    ),
+}
+REQUIRED_SUBMISSION_FILES = (
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md",
+    "submission/README.md",
+    "demo/index.html",
+    "demo/styles.css",
+    "demo/app.js",
+    "demo/favicon.svg",
+    "output/playwright/pareto64-overview.png",
+    "output/playwright/pareto64-policy-lab.png",
+    "submission/devpost.md",
+    "submission/evidence.md",
+    "submission/demo-script.md",
+    "submission/compliance.md",
+)
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def load_object(path: Path) -> dict[str, Any]:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError(f"{path} must contain a JSON object")
+    return value
+
+
+class LocalAssetParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.assets: set[str] = set()
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        attributes = dict(attrs)
+        attribute = (
+            "href" if tag in {"a", "link"} else "src" if tag == "script" else None
+        )
+        if attribute is None:
+            return
+        value = attributes.get(attribute)
+        if value and not value.startswith(
+            ("#", "http://", "https://", "mailto:", "data:")
+        ):
+            self.assets.add(value)
+
+
+def verify_demo() -> int:
+    index = ROOT / "demo/index.html"
+    parser = LocalAssetParser()
+    parser.feed(index.read_text(encoding="utf-8"))
+    missing = []
+    for asset in parser.assets:
+        candidate = (index.parent / asset).resolve()
+        if not candidate.is_relative_to(ROOT) or not candidate.is_file():
+            missing.append(asset)
+    if missing:
+        raise ValueError(f"demo references missing local assets: {missing}")
+    if "<h1" not in index.read_text(encoding="utf-8"):
+        raise ValueError("demo lacks a primary heading")
+    return len(parser.assets)
+
+
+def main() -> int:
+    missing = [
+        path for path in REQUIRED_SUBMISSION_FILES if not (ROOT / path).is_file()
+    ]
+    if missing:
+        raise ValueError(f"submission package is missing files: {missing}")
+    license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
+    if "Apache License" not in license_text or "Version 2.0" not in license_text:
+        raise ValueError("repository-level Apache-2.0 license is missing")
+
+    for relative, expected in EXPECTED_HASHES.items():
+        observed = sha256_file(ROOT / relative)
+        if observed != expected:
+            raise ValueError(f"retained evidence hash differs for {relative}")
+
+    manifest_path = ROOT / "results/manifests/e3f-30656151957.json"
+    policy_path = ROOT / "configs/cloud-quality.json"
+    plan = build_plan(
+        load_object(manifest_path),
+        load_object(policy_path),
+        manifest_path=manifest_path.relative_to(ROOT),
+        constraints_path=policy_path.relative_to(ROOT),
+    )
+    retained_plan = load_object(ROOT / "results/plans/e3f-cloud-quality.json")
+    if plan != retained_plan:
+        raise ValueError("recomputed selected plan differs from the retained plan")
+    if (
+        plan.get("status") != "selected"
+        or plan.get("selected", {}).get("name") != "ministral3_3b_q4_k_m"
+        or plan.get("policy", {}).get("weighted_score_used") is not False
+    ):
+        raise ValueError("submission plan does not select the frozen Ministral package")
+
+    serving = load_object(ROOT / "results/manifests/e5b-30659829983.json")
+    if (
+        serving.get("status") != "valid_selected_inference_no_concurrency_win"
+        or serving.get("validation", {}).get("inference_server_claim_allowed")
+        is not True
+        or serving.get("validation", {}).get("two_slot_optimization_claim_allowed")
+        is not False
+        or serving.get("selection", {}).get("correct") != 23
+    ):
+        raise ValueError("retained serving decision differs from E5b evidence")
+
+    local_assets = verify_demo()
+    print("Pareto64 submission verification passed")
+    print(f"selected candidate: {plan['selected']['name']}")
+    print(f"selected accuracy: {plan['selected']['metrics']['minimum_accuracy']:.4f}")
+    print(f"verified evidence files: {len(EXPECTED_HASHES)}")
+    print(f"verified demo links/assets: {local_assets}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

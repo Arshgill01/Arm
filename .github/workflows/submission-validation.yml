@@ -1,0 +1,74 @@
+name: Arm submission clean-checkout validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "pareto64/**"
+      - "scripts/verify_submission.py"
+      - "submission/**"
+      - "demo/**"
+      - "results/manifests/**"
+      - "results/plans/**"
+      - "configs/**"
+      - "tests/**"
+      - ".github/workflows/submission-validation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify judge package on native Arm
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out public repository
+        uses: actions/checkout@v7
+
+      - name: Select supported Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Run complete product and evidence tests
+        run: |
+          set -euo pipefail
+          uname -m
+          test "$(uname -m)" = "aarch64"
+          python3 -m unittest discover -s tests -v
+
+      - name: Verify retained evidence and judge package
+        run: |
+          set -euo pipefail
+          python3 scripts/verify_submission.py
+          python3 -m pareto64 plan \
+            --manifest results/manifests/e3f-30656151957.json \
+            --constraints configs/cloud-quality.json \
+            --output /tmp/pareto64-clean-plan.json
+          cmp /tmp/pareto64-clean-plan.json results/plans/e3f-cloud-quality.json
+
+      - name: Smoke-test dependency-free demo
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4174 --bind 127.0.0.1 --directory demo \
+            > /tmp/pareto64-demo-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in $(seq 1 20); do
+            if curl --fail --silent http://127.0.0.1:4174/ \
+              > /tmp/pareto64-demo.html; then
+              break
+            fi
+            sleep 0.1
+          done
+          grep -q 'The fastest model lost' /tmp/pareto64-demo.html
+          curl --fail --silent http://127.0.0.1:4174/app.js \
+            > /tmp/pareto64-demo-app.js
+          grep -q 'renderDecision' /tmp/pareto64-demo-app.js
+          curl --fail --silent http://127.0.0.1:4174/styles.css \
+            > /tmp/pareto64-demo-styles.css
+          grep -q -- '--paper' /tmp/pareto64-demo-styles.css

@@ -25,6 +25,16 @@ E3e, or E3f evidence, applies explicit quality and SLO gates, recomputes the Par
 frontier, and emits a hashed deployment decision without a hidden weighted
 score.
 
+The judge-facing package is available in [`submission/`](submission/), and the
+dependency-free interactive evidence demo is in [`demo/`](demo/). Verify the
+compact submission from a clean checkout with:
+
+```bash
+python3 scripts/verify_submission.py
+python3 -m unittest discover -s tests -v
+python3 -m http.server 4174 --directory demo
+```
+
 E3c and E3d measured exact quantizations of Apache-2.0 Qwen3-4B and Qwen3.5-4B.
 Their best stable score was 66.67% under the unchanged 75% task floor, so no
 inference adapter may launch from either result. E3e's predeclared bounded-
