@@ -58,3 +58,14 @@ Python 3.10 ingestion reproduced the uploaded summary byte for byte at SHA-256
 `27a426dd9ed0ed8e4b9ef513a5ced7418f7a722b91e94ca1bc10f8f76d84bfa7`.
 The exact ABBA order, immutable inputs, risk statement, and acceptance gates are
 in [`../../experiments/e5c_contract.json`](../../experiments/e5c_contract.json).
+
+After promotion, clean run
+[`30663285866`](https://github.com/Arshgill01/Arm/actions/runs/30663285866)
+repeated the same contract at commit `c68cb7e`. Its cache cells intentionally
+omitted an enable override, and their hashed recipes still recorded
+`prompt_cache: true` plus `--cache-prompt`, proving that the promoted launcher
+default was exercised. All 120 answers again matched, throughput improved
+1.681x, prompt encoding improved 1.765x, and every cached request reused at
+least 25 tokens. A second Python 3.10 ingestion matched the uploaded summary
+byte for byte at SHA-256
+`036a65d276a3e49b9ca4cfa3f8e8817d55a00e9a2ba66d5b25cfefc46ac31747`.

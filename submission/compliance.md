@@ -21,7 +21,7 @@ Last technical review: 2026-07-31 UTC. The submission deadline is August 14,
 - [x] Interactive no-dependency demo is implemented and browser-tested.
 - [x] Video script is under three minutes (2m50s).
 - [x] Clean-checkout native Arm validation passes in public workflow run
-      [`30661309115`](https://github.com/Arshgill01/Arm/actions/runs/30661309115).
+      [`30663277762`](https://github.com/Arshgill01/Arm/actions/runs/30663277762).
 
 The demo, favicon, and screenshots are first-party assets created for this
 repository. They use no third-party imagery, fonts, music, or footage.

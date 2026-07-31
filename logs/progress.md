@@ -685,3 +685,21 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   passed. Independent local ingestion matched the uploaded summary byte for
   byte at SHA-256
   `27a426dd9ed0ed8e4b9ef513a5ced7418f7a722b91e94ca1bc10f8f76d84bfa7`.
+
+## 2026-07-31 — E5c promoted default reproduces cleanly
+
+- Enabled prompt caching by default in the fail-closed launcher, retained an
+  explicit `--no-prompt-cache` escape hatch, and bound the mode into the hashed
+  recipe. The historical E5b baseline remains explicitly cache-disabled.
+- Native run `30663285866` exercised cache-on without an enable override from
+  promoted commit `c68cb7e`. Every one of 120 responses again matched E3f and
+  every cell reproduced 23/30 with zero request failures or drift.
+- Repeated median throughput improved from 0.5382 to 0.9047 requests/s
+  (1.6809x), and repeated median prompt encode improved from 1,734.4 to
+  982.7 ms (1.7650x). Candidate median/p95 HTTP latency was
+  1,053.1/2,048.2 ms.
+- Every candidate request reused at least 25 tokens. Independent Python 3.10
+  ingestion matched the uploaded summary byte for byte at SHA-256
+  `036a65d276a3e49b9ca4cfa3f8e8817d55a00e9a2ba66d5b25cfefc46ac31747`.
+- Clean-checkout submission run `30663277762` passed all 72 tests, retained
+  evidence verification, plan checks, and the demo smoke test on native Arm.
