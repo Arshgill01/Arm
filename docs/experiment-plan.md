@@ -339,6 +339,18 @@ load, RSS, and generated tokens remain diagnostic and cannot create a planner
 candidate. Exact hashes and gates are frozen in
 [`../experiments/e6c_contract.json`](../experiments/e6c_contract.json).
 
+### E6c outcome
+
+Native run `30654805236` reproduced the untouched-source abort, reconstructed
+the frozen patch byte for byte, and passed all 13 upstream reasoning-budget
+tests. All 60 real Qwen requests emitted zero reasoning characters through the
+KleidiAI-backed server. The application contract nevertheless failed: only 5
+of 30 stable responses per repetition were standalone A-D answers ending by
+`stop`; the other 25 began final-channel explanations and exhausted the frozen
+eight-token cap. The validator remains unchanged, so no E6c manifest is
+accepted. See
+[`../results/reports/e6c-reasoning-budget-fix.md`](../results/reports/e6c-reasoning-budget-fix.md).
+
 ## E5a frozen planner-API protocol
 
 E5a is a product/API concurrency gate, not the final inference-server E5 result.

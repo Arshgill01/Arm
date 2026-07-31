@@ -563,3 +563,19 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   with nine characters while the frozen patch used seven. The workflow now
   pins `git diff --abbrev=7`; source hunks, patch hash, and all gates are
   unchanged.
+
+## 2026-07-31 — E6c source fix validated; application gate rejected
+
+- Run `30654805236` reproduced the untouched-source regression with exit 134,
+  applied the frozen patch byte for byte, and passed all 13 upstream
+  reasoning-budget tests on native Arm.
+- The exact Qwen3.5 Q4_0 model used a `CPU_KLEIDIAI` buffer. All 60 real HTTP
+  requests emitted zero reasoning characters, so the patch corrected the
+  pre-generation forcing-state transition exposed by E3e.
+- Only 5/30 responses per repetition were standalone A-D answers ending by
+  `stop`. The other 25 entered final-channel explanatory text and reached the
+  unchanged eight-token cap. Both repetitions were text-identical.
+- The frozen validator correctly rejected the run. No E6c manifest or planner
+  candidate is accepted, and the 75% deployment floor remains unchanged. The
+  source-level correction evidence and application failure are retained
+  separately rather than weakening the post-observation gate.

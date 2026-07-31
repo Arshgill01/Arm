@@ -30,8 +30,9 @@ Their best stable score was 66.67% under the unchanged 75% task floor, so no
 inference adapter may launch from either result. E3e's predeclared bounded-
 reasoning run was correctly rejected: budget 0 failed the runtime's documented
 immediate-end mechanism. That failure exposed a reproducible upstream sampler
-state bug; no E3e frontier or deployment plan is accepted. E6c separately
-freezes the exact source fix, upstream regression, and real-model Arm proof.
+state bug; no E3e frontier or deployment plan is accepted. E6c validated the
+exact source correction and zero-reasoning behavior on Arm, but its frozen
+eight-token standalone-answer gate rejected the application run.
 
 ```bash
 python3 -m pareto64 plan \
@@ -56,6 +57,7 @@ python3 -m pareto64 plan \
 | [E5a](results/reports/e5a-planner-api.md) | Native fail-closed API passed load SLOs; one-second tail retained for tuning |
 | [E6a](results/reports/e6a-native-feature-fix.md) | Reproduced and fixed invalid native KleidiAI SVE source selection |
 | [E6b](results/reports/e6b-q8-vector-store.md) | NEON vector narrowing doubled isolated Q8_0 quantizer throughput with neutral real-model inference |
+| [E6c](results/reports/e6c-reasoning-budget-fix.md) | Source fix passed 13 upstream tests and removed all reasoning output; the frozen final-answer gate still rejected the real-model run |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.

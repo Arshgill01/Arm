@@ -85,4 +85,6 @@ gate; Pareto64 must not turn an invalid measurement into a deployment. E3b,
 E3c, and E3d all produced valid empty frontiers. E3d's current-runtime Qwen3.5
 candidates both reached a stable 66.67%. E3e was rejected before frontier
 creation because budget 0 violated the runtime's documented immediate-end
-mechanism; a source fix requires separate native validation.
+mechanism. E6c subsequently validated the exact source correction and zero
+reasoning output on native Arm, but failed its frozen eight-token standalone
+final-answer obligation; it creates no deployable candidate.
