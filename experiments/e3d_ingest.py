@@ -184,6 +184,31 @@ def benchmark_round(
     }
 
 
+def validate_runtime_proof(
+    variant_dir: Path, model_suffix: str, threads: int
+) -> None:
+    records = json.loads(
+        (variant_dir / "runtime-proof.json").read_text(encoding="utf-8")
+    )
+    if not isinstance(records, list) or len(records) != 2:
+        raise ValueError(f"{variant_dir} runtime proof has an invalid shape")
+    expected_tests = {(8, 0), (0, 1)}
+    observed_tests = {
+        (record.get("n_prompt"), record.get("n_gen")) for record in records
+    }
+    if observed_tests != expected_tests:
+        raise ValueError(f"{variant_dir} runtime proof parameters differ")
+    for record in records:
+        if (
+            record.get("build_commit") != "9d9a6d29"
+            or record.get("n_threads") != threads
+            or not str(record.get("model_filename", "")).endswith(model_suffix)
+            or len(record.get("samples_ns", [])) != 1
+            or len(record.get("samples_ts", [])) != 1
+        ):
+            raise ValueError(f"{variant_dir} runtime proof identity differs")
+
+
 def build_manifest(
     evidence_dir: Path, contract_path: Path, models_path: Path, tasks_path: Path
 ) -> dict[str, Any]:
@@ -218,6 +243,11 @@ def build_manifest(
     for variant in variants:
         model = models["variants"][variant]
         variant_dir = evidence_dir / "variants" / variant
+        validate_runtime_proof(
+            variant_dir,
+            f"/{variant}/{model['entrypoint']}",
+            contract["configuration"]["threads"],
+        )
         readiness = load_object(variant_dir / "readiness.json")
         if readiness.get("status") != "ok" or float(readiness.get("ready_ms", -1)) < 0:
             raise ValueError(f"{variant} lacks valid server readiness evidence")
@@ -243,7 +273,9 @@ def build_manifest(
             ):
                 raise ValueError(f"quality runtime parameters differ for {variant}")
         runtime_log = (
-            (variant_dir / "server.core.log").read_text(encoding="utf-8")
+            (variant_dir / "runtime-proof.stderr.log").read_text(encoding="utf-8")
+            + "\n"
+            + (variant_dir / "server.core.log").read_text(encoding="utf-8")
             + "\n"
             + (variant_dir / "server.stdout.log").read_text(encoding="utf-8")
             + "\n"

@@ -187,9 +187,25 @@ class E3dTests(unittest.TestCase):
                 (variant_dir / "readiness.json").write_text(
                     json.dumps({"status": "ok", "ready_ms": 100.0})
                 )
-                (variant_dir / "server.core.log").write_text(
+                (variant_dir / "runtime-proof.stderr.log").write_text(
                     "CPU_KLEIDIAI model buffer size = 1 MiB\n"
                 )
+                proof_common = {
+                    "build_commit": "9d9a6d29",
+                    "model_filename": f"/tmp/models/{variant}/{item['path']}",
+                    "n_threads": 4,
+                    "samples_ns": [1_000_000],
+                    "samples_ts": [10.0],
+                }
+                (variant_dir / "runtime-proof.json").write_text(
+                    json.dumps(
+                        [
+                            {**proof_common, "n_prompt": 8, "n_gen": 0},
+                            {**proof_common, "n_prompt": 0, "n_gen": 1},
+                        ]
+                    )
+                )
+                (variant_dir / "server.core.log").write_text("")
                 (variant_dir / "server.stdout.log").write_text("")
                 (variant_dir / "server.stderr.log").write_text("")
                 (variant_dir / "server.time.log").write_text(time_log)
