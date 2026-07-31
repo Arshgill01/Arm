@@ -1,0 +1,417 @@
+{
+  "candidates": {
+    "16": {
+      "backlog": 16,
+      "maximum_rss_kib": 23996,
+      "median_round_requests_per_second": 365.14243310347126,
+      "pooled_latency_ms": {
+        "coefficient_of_variation": 3.9960509538542053,
+        "max": 1070.247993,
+        "mean": 47.47221434583333,
+        "median": 10.730754000000001,
+        "min": 1.906746,
+        "p95": 16.755164,
+        "population_stddev": 189.70138741823857
+      },
+      "rounds": [
+        {
+          "backlog": 16,
+          "failures": 0,
+          "latency_ms": {
+            "coefficient_of_variation": 4.0078476838401595,
+            "max": 1026.136049,
+            "mean": 46.10668455,
+            "median": 11.088892999999999,
+            "min": 2.732194,
+            "p95": 15.014305,
+            "population_stddev": 184.78856888326635
+          },
+          "maximum_rss_kib": 23988,
+          "position": 2,
+          "process": {
+            "elapsed": "0:01.68",
+            "exit_status": 0,
+            "maximum_rss_kib": 23988,
+            "percent_cpu": "24%"
+          },
+          "requests_per_second": 380.03052462178346,
+          "round": 1,
+          "tail_breaches": 14
+        },
+        {
+          "backlog": 16,
+          "failures": 0,
+          "latency_ms": {
+            "coefficient_of_variation": 4.026584148910721,
+            "max": 1070.247993,
+            "mean": 47.8181309375,
+            "median": 10.497951,
+            "min": 1.906746,
+            "p95": 17.919473,
+            "population_stddev": 192.54372806347484
+          },
+          "maximum_rss_kib": 23992,
+          "position": 1,
+          "process": {
+            "elapsed": "0:01.72",
+            "exit_status": 0,
+            "maximum_rss_kib": 23992,
+            "percent_cpu": "23%"
+          },
+          "requests_per_second": 365.14243310347126,
+          "round": 2,
+          "tail_breaches": 15
+        },
+        {
+          "backlog": 16,
+          "failures": 0,
+          "latency_ms": {
+            "coefficient_of_variation": 3.952599723176303,
+            "max": 1033.685974,
+            "mean": 48.49182755,
+            "median": 10.6326325,
+            "min": 2.160953,
+            "p95": 16.562405,
+            "population_stddev": 191.668784150443
+          },
+          "maximum_rss_kib": 23996,
+          "position": 3,
+          "process": {
+            "elapsed": "0:01.74",
+            "exit_status": 0,
+            "maximum_rss_kib": 23996,
+            "percent_cpu": "23%"
+          },
+          "requests_per_second": 360.5063511422311,
+          "round": 3,
+          "tail_breaches": 15
+        }
+      ],
+      "total_failures": 0,
+      "total_tail_breaches": 44
+    },
+    "5": {
+      "backlog": 5,
+      "maximum_rss_kib": 24252,
+      "median_round_requests_per_second": 310.34915391572616,
+      "pooled_latency_ms": {
+        "coefficient_of_variation": 3.6215249085556382,
+        "max": 1270.126293,
+        "mean": 73.364370865,
+        "median": 4.309455,
+        "min": 1.407437,
+        "p95": 1033.809715,
+        "population_stddev": 265.69089648811104
+      },
+      "rounds": [
+        {
+          "backlog": 5,
+          "failures": 5,
+          "latency_ms": {
+            "coefficient_of_variation": 3.643826138395133,
+            "max": 1262.917996,
+            "mean": 73.394533165,
+            "median": 4.4495405,
+            "min": 1.641624,
+            "p95": 1033.809715,
+            "population_stddev": 267.43691836193545
+          },
+          "maximum_rss_kib": 23996,
+          "position": 1,
+          "process": {
+            "elapsed": "0:03.40",
+            "exit_status": 0,
+            "maximum_rss_kib": 23996,
+            "percent_cpu": "11%"
+          },
+          "requests_per_second": 310.34915391572616,
+          "round": 1,
+          "tail_breaches": 25
+        },
+        {
+          "backlog": 5,
+          "failures": 8,
+          "latency_ms": {
+            "coefficient_of_variation": 3.636606492181948,
+            "max": 1270.126293,
+            "mean": 72.41176127,
+            "median": 4.414419,
+            "min": 1.916535,
+            "p95": 1051.45921,
+            "population_stddev": 263.33308114481133
+          },
+          "maximum_rss_kib": 24120,
+          "position": 3,
+          "process": {
+            "elapsed": "0:03.42",
+            "exit_status": 0,
+            "maximum_rss_kib": 24120,
+            "percent_cpu": "11%"
+          },
+          "requests_per_second": 303.9145421086437,
+          "round": 2,
+          "tail_breaches": 25
+        },
+        {
+          "backlog": 5,
+          "failures": 6,
+          "latency_ms": {
+            "coefficient_of_variation": 3.5845191384342634,
+            "max": 1247.594662,
+            "mean": 74.28681816,
+            "median": 4.0858025,
+            "min": 1.407437,
+            "p95": 1023.328856,
+            "population_stddev": 266.282521427906
+          },
+          "maximum_rss_kib": 24252,
+          "position": 2,
+          "process": {
+            "elapsed": "0:03.39",
+            "exit_status": 0,
+            "maximum_rss_kib": 24252,
+            "percent_cpu": "11%"
+          },
+          "requests_per_second": 311.79782723731574,
+          "round": 3,
+          "tail_breaches": 26
+        }
+      ],
+      "total_failures": 19,
+      "total_tail_breaches": 76
+    },
+    "64": {
+      "backlog": 64,
+      "maximum_rss_kib": 24372,
+      "median_round_requests_per_second": 1560.0477572739792,
+      "pooled_latency_ms": {
+        "coefficient_of_variation": 0.20576791029996244,
+        "max": 24.938818,
+        "mean": 18.6552404875,
+        "median": 19.63865,
+        "min": 1.418302,
+        "p95": 21.862285,
+        "population_stddev": 3.838649851256127
+      },
+      "rounds": [
+        {
+          "backlog": 64,
+          "failures": 0,
+          "latency_ms": {
+            "coefficient_of_variation": 0.20013994212491906,
+            "max": 23.042416,
+            "mean": 18.494504035,
+            "median": 19.472919,
+            "min": 1.916441,
+            "p95": 21.39564,
+            "population_stddev": 3.7014889671939817
+          },
+          "maximum_rss_kib": 23992,
+          "position": 3,
+          "process": {
+            "elapsed": "0:00.88",
+            "exit_status": 0,
+            "maximum_rss_kib": 23992,
+            "percent_cpu": "45%"
+          },
+          "requests_per_second": 1560.0477572739792,
+          "round": 1,
+          "tail_breaches": 0
+        },
+        {
+          "backlog": 64,
+          "failures": 0,
+          "latency_ms": {
+            "coefficient_of_variation": 0.20768398856289955,
+            "max": 24.938818,
+            "mean": 19.120803905,
+            "median": 20.0629485,
+            "min": 1.418302,
+            "p95": 22.486128,
+            "population_stddev": 3.971084819519465
+          },
+          "maximum_rss_kib": 23992,
+          "position": 2,
+          "process": {
+            "elapsed": "0:00.89",
+            "exit_status": 0,
+            "maximum_rss_kib": 23992,
+            "percent_cpu": "46%"
+          },
+          "requests_per_second": 1501.8259218330472,
+          "round": 2,
+          "tail_breaches": 0
+        },
+        {
+          "backlog": 64,
+          "failures": 0,
+          "latency_ms": {
+            "coefficient_of_variation": 0.20679033221893747,
+            "max": 24.177572,
+            "mean": 18.350413522500002,
+            "median": 19.2844085,
+            "min": 1.686596,
+            "p95": 21.40088,
+            "population_stddev": 3.794688108672658
+          },
+          "maximum_rss_kib": 24372,
+          "position": 1,
+          "process": {
+            "elapsed": "0:00.88",
+            "exit_status": 0,
+            "maximum_rss_kib": 24372,
+            "percent_cpu": "45%"
+          },
+          "requests_per_second": 1567.103427533357,
+          "round": 3,
+          "tail_breaches": 0
+        }
+      ],
+      "total_failures": 0,
+      "total_tail_breaches": 0
+    }
+  },
+  "contract": {
+    "acceptance": {
+      "http_status": 200,
+      "maximum_rss_increase_kib": 10240,
+      "maximum_selected_failures": 0,
+      "maximum_selected_p95_latency_ms": 50.0,
+      "maximum_selected_total_breaches": 0,
+      "minimum_default_breaches_per_round": 1,
+      "minimum_throughput_ratio_to_default": 0.9,
+      "process_exit_status": 0
+    },
+    "candidates": [
+      5,
+      16,
+      64
+    ],
+    "execution_order": [
+      [
+        5,
+        16,
+        64
+      ],
+      [
+        16,
+        64,
+        5
+      ],
+      [
+        64,
+        5,
+        16
+      ]
+    ],
+    "experiment_id": "E4a",
+    "hypothesis": "Increasing the TCP accept backlog above concurrent fresh-connection demand eliminates the one-second planner API tail without material throughput or RSS regression.",
+    "inputs": {
+      "manifest_path": "results/manifests/e3-30635472160.json",
+      "manifest_sha256": "e29b0b81fd4aeaa8cc6ec092cac9400ade31945e541081e90eae0cb8efd98af4",
+      "policy_path": "configs/cloud-balanced.json",
+      "policy_sha256": "946692148731e086f8005551751c1a0347be1935da554495ee5b6bc9c35b859b"
+    },
+    "probe": {
+      "concurrency": 32,
+      "expected_plan_status": "no_feasible_candidate",
+      "measured_requests": 400,
+      "method_mix": "alternating GET and POST",
+      "readiness_requests": 1,
+      "tail_breach_ms": 50.0,
+      "timeout_seconds": 5.0,
+      "warmups": 20
+    },
+    "schema_version": 1,
+    "selection": {
+      "lexicographic_objectives": [
+        "total_failures",
+        "total_tail_breaches",
+        "backlog_capacity",
+        "pooled_p95_latency_ms"
+      ],
+      "weighted_score_used": false
+    },
+    "server": {
+      "host": "127.0.0.1",
+      "port": 8765,
+      "python_version": "3.13"
+    }
+  },
+  "experiment_id": "E4a",
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "python": "Python 3.13.14",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "experiment_id": "E4a",
+    "git_commit": "e5b25489fac75c862de6aa5cfcc06b8ef0a668a1",
+    "github_run_attempt": "1",
+    "github_run_id": "30638730535",
+    "schema_version": 1
+  },
+  "schema_version": 1,
+  "search": {
+    "elapsed_seconds": 18.087748313,
+    "evaluated_configurations": 9,
+    "execution_order": [
+      [
+        5,
+        16,
+        64
+      ],
+      [
+        16,
+        64,
+        5
+      ],
+      [
+        64,
+        5,
+        16
+      ]
+    ],
+    "unique_candidates": 3
+  },
+  "selection": {
+    "criteria": {
+      "default_tail_reproduced_each_round": true,
+      "rss_guardrail_met": true,
+      "selected_eliminates_tail_breaches": true,
+      "selected_has_zero_failures": true,
+      "selected_is_larger_than_default": true,
+      "selected_p95_within_slo": true,
+      "throughput_guardrail_met": true
+    },
+    "lexicographic_objectives": [
+      "total_failures",
+      "total_tail_breaches",
+      "backlog_capacity",
+      "pooled_p95_latency_ms"
+    ],
+    "selected_backlog": 64,
+    "validated_win": true,
+    "weighted_score_used": false
+  },
+  "source": {
+    "artifact_name": "e4a-backlog-tuner-30638730535-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30638730535"
+  },
+  "status": "valid_tuner_win"
+}

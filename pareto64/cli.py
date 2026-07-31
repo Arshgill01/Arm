@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from .planner import build_plan, load_object
-from .server import PlannerHTTPServer, PlannerState
+from .server import DEFAULT_ACCEPT_BACKLOG, PlannerHTTPServer, PlannerState
 
 
 def parse_args() -> argparse.Namespace:
@@ -25,7 +25,7 @@ def parse_args() -> argparse.Namespace:
     serve.add_argument(
         "--backlog",
         type=int,
-        default=5,
+        default=DEFAULT_ACCEPT_BACKLOG,
         help="TCP accept backlog for fresh concurrent connections",
     )
     serve.add_argument(

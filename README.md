@@ -39,6 +39,7 @@ python3 -m pareto64 plan \
 | [E1](results/reports/e1-llm-runner-smoke.md) | Pinned LLM-Runner built and executed end to end on Arm |
 | [E2](results/reports/e2-kleidiai-ablation.md) | Primary KleidiAI threshold missed; smaller decode/latency benefits retained |
 | [E3](results/reports/e3-qwen-frontier.md) | Three Qwen packages measured; frozen quality gate rejected all three |
+| [E4a](results/reports/e4a-backlog-tuner.md) | Native bounded tuner selected backlog 64 with zero failures or tail breaches |
 | [E5a](results/reports/e5a-planner-api.md) | Native fail-closed API passed load SLOs; one-second tail retained for tuning |
 | [E6a](results/reports/e6a-native-feature-fix.md) | Reproduced and fixed invalid native KleidiAI SVE source selection |
 

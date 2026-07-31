@@ -41,6 +41,21 @@ The current real result is `no_feasible_candidate`. Q4_0, Q4_K_M, and MNN int4
 all fail the frozen E3 quality gate, so Pareto64 selects none of them even though
 MNN has attractive latency, package-size, and RSS measurements.
 
+The same decision is available through the bounded HTTP service:
+
+```bash
+python3 -m pareto64 serve \
+  --manifest results/manifests/e3-30635472160.json \
+  --constraints configs/cloud-balanced.json \
+  --host 127.0.0.1 \
+  --port 8080
+```
+
+The service exposes `/healthz`, `GET /v1/plan`, `POST /v1/plan`, and `/metrics`.
+Its default TCP accept backlog is 64, selected by frozen E4a native Arm evidence
+after capacities 5, 16, and 64 were each evaluated in three cyclic rounds. The
+`--backlog` option remains available for an explicit deployment override.
+
 ## Constraint contract
 
 The schema-1 policy has two explicit parts:
@@ -58,8 +73,8 @@ frontier, selected candidate, and the fact that no weighted score was used.
 
 ## Current boundary
 
-This is the evidence-to-decision core, not yet the full E5 product. The next
-vertical slice exposes the same deterministic function through a bounded HTTP
-API and measures request p50/p95, concurrency, failures, and process RSS. A
-runtime launch adapter is intentionally deferred until a candidate passes the
-quality gate; Pareto64 must not turn an invalid measurement into a deployment.
+This is the evidence-to-decision core and HTTP decision plane, not yet an
+inference server. E5a validated its correctness, concurrency, latency, and RSS;
+E4a then eliminated the observed admission tail under a stricter load. A runtime
+launch adapter is intentionally deferred until a candidate passes the quality
+gate; Pareto64 must not turn an invalid measurement into a deployment.

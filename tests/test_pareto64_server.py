@@ -6,7 +6,7 @@ from pathlib import Path
 import threading
 import unittest
 
-from pareto64.server import PlannerHTTPServer, PlannerState
+from pareto64.server import DEFAULT_ACCEPT_BACKLOG, PlannerHTTPServer, PlannerState
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -89,16 +89,22 @@ class Pareto64ServerTests(unittest.TestCase):
         server.server_close()
         self.assertFalse(thread.is_alive())
 
-    def test_accept_backlog_is_explicit(self) -> None:
+    def test_validated_accept_backlog_is_default_and_overrideable(self) -> None:
         state = PlannerState.from_paths(
             ROOT / "results/manifests/e3-30635472160.json",
             ROOT / "configs/cloud-balanced.json",
         )
-        server = PlannerHTTPServer(("127.0.0.1", 0), state, backlog=64)
+        server = PlannerHTTPServer(("127.0.0.1", 0), state)
         try:
-            self.assertEqual(64, server.request_queue_size)
+            self.assertEqual(64, DEFAULT_ACCEPT_BACKLOG)
+            self.assertEqual(DEFAULT_ACCEPT_BACKLOG, server.request_queue_size)
         finally:
             server.server_close()
+        overridden = PlannerHTTPServer(("127.0.0.1", 0), state, backlog=16)
+        try:
+            self.assertEqual(16, overridden.request_queue_size)
+        finally:
+            overridden.server_close()
 
 
 if __name__ == "__main__":

@@ -320,3 +320,18 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   12 failures and 77 tail breaches, backlog 16 had zero failures but 43 tail
   breaches, and backlog 64 had neither. This x86 result validates the harness;
   only the frozen native Arm run can validate the experiment hypothesis.
+
+## 2026-07-31 — E4a native backlog tuner passed
+
+- Run `30638730535` completed all nine configurations in 18.088 seconds on the
+  four-core Neoverse N2. The workflow summary and a separate local ingestion of
+  the downloaded raw artifact were byte-identical.
+- Backlog 5 reproduced the problem in every round: 19 total connection resets
+  and 76 requests above 50 ms. Backlog 16 removed failures but retained 44
+  approximately one-second tail requests.
+- Backlog 64 had zero failures and zero tail breaches. Its pooled p95 was 21.862
+  ms, maximum latency 24.939 ms, median-round throughput 1,560.048 requests/s,
+  and maximum RSS 24,372 KiB.
+- Every frozen acceptance criterion passed. Backlog 64 is now the Pareto64
+  product default, remains explicitly overrideable, and is supported only as a
+  decision-plane admission optimization—not an inference-throughput claim.

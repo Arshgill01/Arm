@@ -164,6 +164,15 @@ The search evaluates all nine configurations even if an early candidate looks
 good; total search overhead is reported. Exact details are frozen in
 [`../experiments/e4_contract.json`](../experiments/e4_contract.json).
 
+### E4a outcome
+
+Native run `30638730535` validated backlog 64. Across three rounds, backlog 5
+had 19 failed requests and 76 tail breaches; backlog 16 had no failures but 44
+tail breaches; backlog 64 had neither. Its pooled p95 was 21.862 ms and maximum
+RSS was only 120 KiB above the default candidate. The independently re-ingested
+result is
+[`../results/manifests/e4a-30638730535.json`](../results/manifests/e4a-30638730535.json).
+
 ## First workload scope
 
 Start with the smallest public, permissively licensed text path already supported

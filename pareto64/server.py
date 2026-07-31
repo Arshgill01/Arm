@@ -14,6 +14,7 @@ from .planner import build_plan, load_object
 
 
 MAX_REQUEST_BYTES = 64 * 1024
+DEFAULT_ACCEPT_BACKLOG = 64
 
 
 @dataclass
@@ -87,7 +88,7 @@ class PlannerHTTPServer(ThreadingHTTPServer):
         address: tuple[str, int],
         state: PlannerState,
         max_requests: int = 0,
-        backlog: int = 5,
+        backlog: int = DEFAULT_ACCEPT_BACKLOG,
     ):
         self.state = state
         self.max_requests = max_requests
