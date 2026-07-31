@@ -153,6 +153,35 @@ author—to find a feasible candidate before model-serving integration begins.
 Exact inputs and order are in
 [`../experiments/e3c_contract.json`](../experiments/e3c_contract.json).
 
+## E3d frozen current-runtime KleidiAI protocol
+
+E3d is a separate calibration, not a reinterpretation of E3c. It tests official
+Apache-2.0 Qwen3.5-4B because the pinned model card reports a materially stronger
+current reasoning and instruction-following prior. The older LLM-Runner-pinned
+llama.cpp predates this architecture, so E3d pins upstream llama.cpp tag
+`b10208` and its declared KleidiAI v1.24 dependency rather than moving a branch.
+
+Only Q4_0 and Q8_0 are candidates because source inspection of the pinned
+runtime shows that these are the quantized weight types handled by its KleidiAI
+backend. The workflow requires a `CPU_KLEIDIAI` model buffer for every candidate;
+a build flag alone is insufficient proof. Source model, quantization producer,
+chat template, HTTP endpoint, non-thinking template argument, greedy sampling,
+seed, thread count, context, tasks, parser, repetitions, and thresholds are
+identical across candidates. Quantization is the only candidate-level change.
+
+The unchanged 30-task quality workload runs through the real OpenAI-compatible
+`llama-server` path with prompt and generation timings retained per request.
+Three cyclic rounds then run the pinned upstream `llama-bench` prompt and token
+tests with one warm-up and three retained repetitions. Exact source/package
+hashes, the CMake cache, server logs, process RSS, readiness, HTTP responses,
+and raw benchmark samples are required by the ingester.
+
+The existing `cloud-quality` policy remains byte-identical. No E3d candidate
+can be selected below 75% stable accuracy or above the 5-second latency, 8 GiB
+RSS, 5 GB package, or 10-second model-load ceilings. Exact inputs and order are
+frozen in
+[`../experiments/e3d_contract.json`](../experiments/e3d_contract.json).
+
 ## Experimental discipline
 
 - E0–E3 establish feasibility; they do not prove a winning product.

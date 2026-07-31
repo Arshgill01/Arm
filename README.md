@@ -20,9 +20,9 @@ The provisional concept is **Pareto64**, a quality-constrained cross-runtime
 planner for Arm AI inference. It becomes the final Cloud AI direction only if the
 native feasibility and novelty gates in `docs/strategy.md` pass.
 
-The product core is now executable: it validates schema-1 E3, E3b, or E3c evidence,
-applies explicit quality and SLO gates, recomputes the Pareto frontier, and emits
-a hashed deployment decision without a hidden weighted score.
+The product core is now executable: it validates schema-1 E3, E3b, E3c, or E3d
+evidence, applies explicit quality and SLO gates, recomputes the Pareto frontier,
+and emits a hashed deployment decision without a hidden weighted score.
 
 E3c is frozen as the next quality-per-byte gate: three exact quantizations of
 the same Apache-2.0 Qwen3-4B-Instruct-2507 source model will be measured under

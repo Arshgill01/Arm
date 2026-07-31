@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E3d",
+  "title": "Current-runtime Qwen3.5 KleidiAI frontier",
+  "artifact_name_prefix": "e3d-qwen35-kleidiai",
+  "hypothesis": "A current Apache-2.0 Qwen3.5 4B quantization running through a pinned current llama.cpp and KleidiAI build will clear the unchanged quality floor and the frozen cloud SLOs.",
+  "selection_basis": "Qwen3.5-4B is the smallest current official Qwen3.5 release with materially stronger published reasoning and instruction-following results than the earlier calibration candidates. Q4_0 and Q8_0 are the two quantizations accelerated by the pinned llama.cpp KleidiAI backend.",
+  "controlled_difference": "The two candidates use the same source model, prompts, current llama.cpp revision, KleidiAI revision, HTTP chat path, non-thinking template mode, sampling settings, thread count, context, and execution host; weight quantization is the only candidate-level difference.",
+  "upstream": {
+    "llama_cpp_commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+    "llama_cpp_tag": "b10208",
+    "kleidiai_release": "v1.24.0",
+    "kleidiai_archive_md5": "2f02ebe29573d45813e671eb304f2a00"
+  },
+  "configuration": {
+    "threads": 4,
+    "context": 2048,
+    "server_parallel_slots": 1,
+    "chat_template_mode": "model_jinja_enable_thinking_false",
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "temperature": 0.0,
+    "seed": 424242,
+    "build": {
+      "GGML_CPU_KLEIDIAI": true,
+      "GGML_NATIVE": true,
+      "LLAMA_BUILD_SERVER": true,
+      "LLAMA_CURL": false
+    }
+  },
+  "variants": [
+    "qwen35_4b_q4_0",
+    "qwen35_4b_q8_0"
+  ],
+  "quality": {
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "task_count": 30,
+    "repetitions": 2,
+    "max_output_tokens": 8,
+    "prediction_parser": "first standalone uppercase A-D after case folding",
+    "predictions_must_be_stable": true,
+    "absolute_accuracy_floor": 0.75,
+    "maximum_task_deficit_from_best": 1
+  },
+  "benchmark": {
+    "input_tokens": 128,
+    "output_tokens": 64,
+    "threads": 4,
+    "rounds_per_variant": 3,
+    "warmup_enabled": true,
+    "measured_repetitions_per_round": 3,
+    "execution_order": [
+      [
+        "qwen35_4b_q4_0",
+        "qwen35_4b_q8_0"
+      ],
+      [
+        "qwen35_4b_q8_0",
+        "qwen35_4b_q4_0"
+      ],
+      [
+        "qwen35_4b_q4_0",
+        "qwen35_4b_q8_0"
+      ]
+    ]
+  },
+  "deployment_policy": {
+    "path": "configs/cloud-quality.json",
+    "artifact_path": "deployment-policy.json",
+    "sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33"
+  },
+  "pareto": {
+    "directions": {
+      "minimum_accuracy": "higher",
+      "same_text_total_ms_median": "lower",
+      "maximum_quality_process_rss_kib": "lower",
+      "package_size_bytes": "lower"
+    }
+  }
+}

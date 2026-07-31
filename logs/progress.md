@@ -448,3 +448,23 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Reused the existing cloud policy without adjustment and pinned its SHA-256 in
   the E3c contract. The native artifact will contain both the independently
   derivable frontier and a fail-closed Pareto64 deployment plan.
+
+## 2026-07-31 — E3d current Qwen3.5 KleidiAI frontier frozen
+
+- Audited all 30 fixed tasks and confirmed their answer keys; no task or answer
+  was changed after the E3b/E3c observations.
+- Selected official Apache-2.0 Qwen3.5-4B from primary-source benchmark evidence
+  as the next quality-per-byte hypothesis. Pinned source revision
+  `851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a` and the separate Unsloth GGUF
+  producer revision `e87f176479d0855a907a41277aca2f8ee7a09523`.
+- The sponsor LLM-Runner still pins a 2025 llama.cpp that predates Qwen3.5.
+  Pinned current upstream tag `b10208` at commit
+  `9d9a6d29f6b981cc7f41983d26e56485c6af1811`; its CMake source pins KleidiAI
+  v1.24.0 and its backend source supports Q4_0/Q8_0 quantized weights.
+- Frozen only those two KleidiAI-supported quantizations, exact hashes and sizes,
+  model-Jinja non-thinking mode, deterministic decoding, real HTTP quality,
+  three cyclic upstream benchmark rounds, runtime-buffer proof, and the
+  unchanged quality/deployment policies before native measurement.
+- Added a fail-closed E3d ingester, current llama.cpp benchmark-shape validation,
+  HTTP response/timing capture, planner support, and a complete synthetic
+  artifact test. No E3d model output has been measured before this freeze.
