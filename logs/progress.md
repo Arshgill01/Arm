@@ -541,3 +541,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   134 at the exact state assertion. A one-condition token-equality guard made
   all 13 upstream reasoning-budget tests pass locally. Native validation is not
   yet claimed, and the E3e validator was not weakened.
+
+## 2026-07-31 — E6c reasoning-budget correctness fix frozen
+
+- Pinned the exact two-file patch at SHA-256
+  `2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783`.
+  The source change only advances `force_pos` when the accepted token equals
+  the current forced token; the second hunk is the already-failing regression.
+- The native workflow first applies only the test hunk and requires the
+  untouched source to fail at the exact assertion. It then applies only the
+  source hunk, requires the reconstructed diff and changed-file set to match,
+  and runs the complete upstream unit target.
+- Real-model validation keeps E3e's exact Qwen3.5 Q4_0 hash, runtime, tasks,
+  prompt, deterministic settings, four threads, context, budget 0, and
+  eight-token cap. All 60 patched requests must have zero reasoning characters,
+  a standalone final answer, normal termination, and stable predictions.
+- Accuracy and resource metrics remain diagnostic. Patch correctness does not
+  waive the 75% deployment quality floor or create a planner candidate.

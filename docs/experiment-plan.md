@@ -317,6 +317,28 @@ inference was neutral and stayed above the 0.98 guardrail in every round; peak
 RSS was identical. See
 [`../results/reports/e6b-q8-vector-store.md`](../results/reports/e6b-q8-vector-store.md).
 
+## E6c frozen reasoning-budget correctness protocol
+
+E6c is a separately frozen source-correctness experiment derived from E3e's
+invalid mechanism result. On the exact current llama.cpp tag, it first applies
+only the new regression-test hunk. The untouched source must abort at the exact
+forcing-state assertion. It then applies only the one-condition source hunk,
+requires the complete patch diff and two-file change set to match byte for byte,
+rebuilds, and requires all 13 upstream reasoning-budget tests to pass.
+
+The patched server then loads the same checksum-pinned Qwen3.5 Q4_0 package on
+the four-core native Arm runner with KleidiAI proven through a verbose runtime
+probe. Two unchanged 30-task repetitions send real OpenAI-compatible requests
+with thinking enabled, budget 0, and an eight-token cap. Every request must emit
+zero reasoning characters, terminate normally, contain a standalone A-D final
+answer, and remain stable across repetitions.
+
+Patch acceptance depends on those source and runtime correctness obligations,
+not on reaching the separate 75% quality reference floor. Accuracy, latency,
+load, RSS, and generated tokens remain diagnostic and cannot create a planner
+candidate. Exact hashes and gates are frozen in
+[`../experiments/e6c_contract.json`](../experiments/e6c_contract.json).
+
 ## E5a frozen planner-API protocol
 
 E5a is a product/API concurrency gate, not the final inference-server E5 result.

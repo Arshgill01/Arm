@@ -30,7 +30,8 @@ Their best stable score was 66.67% under the unchanged 75% task floor, so no
 inference adapter may launch from either result. E3e's predeclared bounded-
 reasoning run was correctly rejected: budget 0 failed the runtime's documented
 immediate-end mechanism. That failure exposed a reproducible upstream sampler
-state bug; no E3e frontier or deployment plan is accepted.
+state bug; no E3e frontier or deployment plan is accepted. E6c separately
+freezes the exact source fix, upstream regression, and real-model Arm proof.
 
 ```bash
 python3 -m pareto64 plan \

@@ -52,6 +52,6 @@ prefill newline without checking the accepted token.
 The patch adds that equality guard and one exact regression test. On the
 untouched source, the new test aborts at the expected forcing-state assertion;
 with the guard, all 13 upstream reasoning-budget tests pass. This is local
-functional preflight only. A separate frozen native experiment is required
-before the patch is considered validated; no external pull request has been
-opened.
+functional preflight only. E6c now freezes the native source and real-model
+correctness obligations; it must pass before the patch is considered validated.
+No external pull request has been opened.
