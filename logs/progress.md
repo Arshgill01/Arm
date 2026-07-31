@@ -757,3 +757,5 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Captured the first-party 1,440×900 serving-boundary gallery image at
   `output/playwright/pareto64-serving-boundary.png` and added it to the compact
   package verifier.
+- Clean-checkout native Arm run `30665760895` passed all 75 tests, six pinned
+  evidence hashes, package verification, and the strengthened demo smoke test.
