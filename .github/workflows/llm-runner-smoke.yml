@@ -18,8 +18,8 @@ jobs:
     timeout-minutes: 60
     env:
       EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e1-${{ github.run_id }}-${{ github.run_attempt }}
-      LLM_RUNNER_DIR: ${{ runner.temp }}/LLM-Runner
-      MODEL_PATH: ${{ runner.temp }}/LLM-Runner/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf
+      LLM_RUNNER_DIR: /tmp/LLM-Runner
+      MODEL_PATH: /tmp/LLM-Runner/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf
 
     steps:
       - name: Check out experiment repository
