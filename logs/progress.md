@@ -120,3 +120,19 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Split cache restore/save now persists the checksum-verified model before
   compilation, even if a later build step fails. The benchmark will also emit
   machine-readable JSON.
+
+## 2026-07-31 — E1 LLM-Runner smoke passed
+
+- Workflow run `30631789118` passed in 5m47s on a four-core Neoverse N2: pinned
+  build, upstream Phi-2 functional test, real KleidiAI inference, provenance,
+  and artifact upload all completed.
+- The three measured iterations produced a 113.578 tokens/s median prompt rate,
+  22.165 tokens/s median decode rate, 606.448 ms median TTFT, and 2,007.211 ms
+  median total latency. Maximum RSS was 3,243,448 KiB.
+- Configure, compiled kernel paths, and the runtime `CPU_KLEIDIAI` buffer provide
+  independent backend evidence.
+- The run is explicitly not a speedup claim because there is no same-job generic
+  baseline. It is also excluded from quality claims because the legacy GGUF
+  reports a missing pre-tokenizer and degraded generation quality.
+- Added a tested artifact ingester, compact manifest, and reviewable E1 report.
+  E1 passes; E2 is now unblocked.

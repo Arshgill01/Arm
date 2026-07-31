@@ -1,0 +1,168 @@
+{
+  "benchmark": {
+    "derived_summary": {
+      "decode_tokens_per_sec": {
+        "coefficient_of_variation": 0.006590156080635296,
+        "max": 22.417,
+        "mean": 22.217333333333332,
+        "median": 22.165,
+        "min": 22.07,
+        "p95": 22.417,
+        "population_stddev": 0.14641569436216792
+      },
+      "encode_tokens_per_sec": {
+        "coefficient_of_variation": 0.05773681019015329,
+        "max": 113.916,
+        "mean": 109.28633333333333,
+        "median": 113.578,
+        "min": 100.365,
+        "p95": 113.916,
+        "population_stddev": 6.309844284044489
+      },
+      "total_ms": {
+        "coefficient_of_variation": 0.021070518617492436,
+        "max": 2087.58,
+        "mean": 2028.0373333333334,
+        "median": 2007.211,
+        "min": 1989.321,
+        "p95": 2087.58,
+        "population_stddev": 42.731798388969715
+      },
+      "ttft_ms": {
+        "coefficient_of_variation": 0.056331872691784204,
+        "max": 681.307,
+        "mean": 631.039,
+        "median": 606.448,
+        "min": 605.362,
+        "p95": 681.307,
+        "population_stddev": 35.547608611550814
+      }
+    },
+    "iterations": [
+      {
+        "decode_time_sec": 1.444,
+        "decode_tokens_per_sec": 22.165,
+        "encode_time_sec": 0.563,
+        "encode_tokens_per_sec": 113.578,
+        "time_to_first_token_ms": 606.448,
+        "tokens_generated": 32,
+        "total_time_ms": 2007.211
+      },
+      {
+        "decode_time_sec": 1.428,
+        "decode_tokens_per_sec": 22.417,
+        "encode_time_sec": 0.562,
+        "encode_tokens_per_sec": 113.916,
+        "time_to_first_token_ms": 605.362,
+        "tokens_generated": 32,
+        "total_time_ms": 1989.321
+      },
+      {
+        "decode_time_sec": 1.45,
+        "decode_tokens_per_sec": 22.07,
+        "encode_time_sec": 0.638,
+        "encode_tokens_per_sec": 100.365,
+        "time_to_first_token_ms": 681.307,
+        "tokens_generated": 32,
+        "total_time_ms": 2087.58
+      }
+    ],
+    "parameters": {
+      "context_size": 512,
+      "model_path": "/tmp/LLM-Runner/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf",
+      "model_size": "1.60 GB",
+      "num_input_tokens": 64,
+      "num_iterations": 3,
+      "num_output_tokens": 32,
+      "num_threads": 4,
+      "num_warmup": 1
+    },
+    "process": {
+      "elapsed": "0:09.07",
+      "exit_status": 0,
+      "maximum_rss_kib": 3243448,
+      "percent_cpu": "361%"
+    },
+    "tool_reported_results": {
+      "mean": {
+        "decode_tokens_per_sec": 22.217,
+        "encode_tokens_per_sec": 109.286,
+        "total_ms": 2028.037,
+        "ttft_ms": 631.039
+      },
+      "stddev": {
+        "decode_tokens_per_sec": 0.146,
+        "encode_tokens_per_sec": 6.309,
+        "total_ms": 42.732,
+        "ttft_ms": 35.548
+      }
+    }
+  },
+  "experiment_id": "E1",
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "benchmark": {
+      "context": 512,
+      "input_tokens": 64,
+      "measured_iterations": 3,
+      "output_tokens": 32,
+      "threads": 4,
+      "warmup_iterations": 1
+    },
+    "build": {
+      "build_type": "Release",
+      "cpu_arch": "Armv8.6_1",
+      "framework": "llama.cpp",
+      "ggml_native": false,
+      "use_kleidiai": true
+    },
+    "experiment_id": "E1",
+    "git_commit": "adbf7ffc0f03f28f822f276a4f50ed0c23602fe4",
+    "github_run_attempt": "1",
+    "github_run_id": "30631789118",
+    "llm_runner_commit": "8ba39e40fa754b87deb99a998c31de3b850094d5",
+    "model_sha256": "a6f246baa29a776acbc9a1638088c33d8f7b6a044cc7dd09fb4b0374e1582ae0",
+    "model_url": "https://huggingface.co/TheBloke/phi-2-GGUF/resolve/main/phi-2.Q4_0.gguf?download=true"
+  },
+  "schema_version": 1,
+  "source": {
+    "artifact_name": "e1-llm-runner-30631789118-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30631789118"
+  },
+  "status": "valid_performance_smoke_with_quality_warning",
+  "validation": {
+    "assertions": {
+      "benchmark_exit_zero": true,
+      "build_completed": true,
+      "kleidiai_built": true,
+      "kleidiai_runtime_buffer": true,
+      "model_checksum_matches": true,
+      "phi2_upstream_test_passed": true
+    },
+    "headline_comparison_allowed": false,
+    "notes": [
+      "This run establishes build, test, and inference feasibility.",
+      "It has no same-job generic baseline and therefore proves no speedup.",
+      "The pinned legacy GGUF emitted a missing pre-tokenizer warning; use a modern model artifact before quality comparisons."
+    ],
+    "quality_claims_allowed": false
+  }
+}
