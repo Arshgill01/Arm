@@ -70,3 +70,12 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - This is an environment-contract failure, not a benchmark or Arm-kernel result.
   The next attempt explicitly selects Python 3.11 and preserves the original
   run as evidence rather than treating it as a performance datapoint.
+
+## 2026-07-31 — E1 LLM-Runner smoke, attempt 2
+
+- Workflow run `30630895263` successfully installed Python 3.11, but upstream's
+  native toolchain continued to seed CMake's interpreter discovery with
+  `/bin/python`, which is outside LLM-Runner's supported range.
+- The next attempt supplies the setup action's `python3` path through the
+  documented `Python3_EXECUTABLE` CMake cache variable. No compilation or
+  inference datapoint was produced by this attempt.

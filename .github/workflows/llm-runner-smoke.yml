@@ -71,6 +71,7 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DDOWNLOAD_LLM_MODELS=OFF \
             -DLLM_FRAMEWORK=llama.cpp \
+            -DPython3_EXECUTABLE="$(command -v python3)" \
             -DUSE_KLEIDIAI=ON \
             2>&1 | tee "$EVIDENCE_DIR/configure.log"
 
