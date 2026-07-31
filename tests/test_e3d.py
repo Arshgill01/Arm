@@ -143,7 +143,7 @@ class E3dTests(unittest.TestCase):
                 "GGML_CPU_KLEIDIAI:BOOL=ON\n"
                 "GGML_NATIVE:BOOL=ON\n"
                 "LLAMA_BUILD_SERVER:BOOL=ON\n"
-                "LLAMA_CURL:BOOL=OFF\n"
+                "LLAMA_CURL:UNINITIALIZED=OFF\n"
             )
             (evidence / "lscpu.txt").write_text(
                 "Architecture: aarch64\nCPU(s): 4\nModel name: Test\n"

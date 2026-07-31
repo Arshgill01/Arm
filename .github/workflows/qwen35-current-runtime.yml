@@ -113,7 +113,8 @@ jobs:
           grep -q '^GGML_CPU_KLEIDIAI:BOOL=ON$' "$EVIDENCE_DIR/CMakeCache.txt"
           grep -q '^GGML_NATIVE:BOOL=ON$' "$EVIDENCE_DIR/CMakeCache.txt"
           grep -q '^LLAMA_BUILD_SERVER:BOOL=ON$' "$EVIDENCE_DIR/CMakeCache.txt"
-          grep -q '^LLAMA_CURL:BOOL=OFF$' "$EVIDENCE_DIR/CMakeCache.txt"
+          grep -Eq '^LLAMA_CURL:(BOOL|UNINITIALIZED)=OFF$' \
+            "$EVIDENCE_DIR/CMakeCache.txt"
 
       - name: Build current server and benchmark tools
         run: |

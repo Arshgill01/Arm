@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import re
 from typing import Any
 
 try:
@@ -98,10 +99,11 @@ def validate_inputs(
         "GGML_CPU_KLEIDIAI:BOOL=ON",
         "GGML_NATIVE:BOOL=ON",
         "LLAMA_BUILD_SERVER:BOOL=ON",
-        "LLAMA_CURL:BOOL=OFF",
     ):
         if setting not in cache:
             raise ValueError(f"E3d build cache lacks {setting}")
+    if not re.search(r"^LLAMA_CURL:(?:BOOL|UNINITIALIZED)=OFF$", cache, re.MULTILINE):
+        raise ValueError("E3d build cache lacks LLAMA_CURL=OFF")
     return contract, models, provenance
 
 
