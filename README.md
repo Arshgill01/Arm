@@ -20,15 +20,18 @@ The provisional concept is **Pareto64**, a quality-constrained cross-runtime
 planner for Arm AI inference. It becomes the final Cloud AI direction only if the
 native feasibility and novelty gates in `docs/strategy.md` pass.
 
-The product core is now executable: it validates schema-1 E3, E3b, E3c, or E3d
-evidence, applies explicit quality and SLO gates, recomputes the Pareto frontier,
-and emits a hashed deployment decision without a hidden weighted score.
+The product core is now executable: it validates schema-1 E3, E3b, E3c, E3d,
+or E3e evidence, applies explicit quality and SLO gates, recomputes the Pareto
+frontier, and emits a hashed deployment decision without a hidden weighted
+score.
 
 E3c measured three exact quantizations of the same Apache-2.0
 Qwen3-4B-Instruct-2507 source model. All were stable, but the best reached only
 66.67% under the unchanged 75% task floor, so no inference adapter may launch
 from that result. E3d is the separately frozen current-runtime calibration over
-official Qwen3.5-4B; it preserves the same tasks and policy.
+official Qwen3.5-4B; it preserves the same tasks and policy. E3e predeclares a
+0/16/32/48-token forced-reasoning frontier on the same Q4_0 file, using measured
+Arm latency to bound added computation before any thinking output is observed.
 
 ```bash
 python3 -m pareto64 plan \

@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "source_model": {
+    "repository": "Qwen/Qwen3.5-4B",
+    "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "license": "Apache-2.0",
+    "parameter_scale": "4B"
+  },
+  "quantization_repository": {
+    "repository": "unsloth/Qwen3.5-4B-GGUF",
+    "revision": "e87f176479d0855a907a41277aca2f8ee7a09523",
+    "license": "Apache-2.0",
+    "base_model": "Qwen/Qwen3.5-4B"
+  },
+  "shared_model": {
+    "display_name": "Qwen3.5-4B Q4_0",
+    "framework": "llama.cpp",
+    "repository": "unsloth/Qwen3.5-4B-GGUF",
+    "revision": "e87f176479d0855a907a41277aca2f8ee7a09523",
+    "license": "Apache-2.0",
+    "entrypoint": "Qwen3.5-4B-Q4_0.gguf",
+    "files": [
+      {
+        "path": "Qwen3.5-4B-Q4_0.gguf",
+        "sha256": "298fcb5fe7a77ccc79745ae24751560c5ac56874caff4bb39b1f2055bd72b8bb",
+        "size_bytes": 2583221408
+      }
+    ],
+    "parameter_scale": "4B",
+    "quantization": "Q4_0",
+    "runtime_buffer_patterns": [
+      "CPU_KLEIDIAI model buffer size"
+    ]
+  },
+  "variants": {
+    "qwen35_q4_think_0": {
+      "display_name": "Qwen3.5-4B Q4_0, forced reasoning budget 0",
+      "framework": "llama.cpp",
+      "reasoning_budget_tokens": 0,
+      "max_output_tokens": 8
+    },
+    "qwen35_q4_think_16": {
+      "display_name": "Qwen3.5-4B Q4_0, forced reasoning budget 16",
+      "framework": "llama.cpp",
+      "reasoning_budget_tokens": 16,
+      "max_output_tokens": 24
+    },
+    "qwen35_q4_think_32": {
+      "display_name": "Qwen3.5-4B Q4_0, forced reasoning budget 32",
+      "framework": "llama.cpp",
+      "reasoning_budget_tokens": 32,
+      "max_output_tokens": 40
+    },
+    "qwen35_q4_think_48": {
+      "display_name": "Qwen3.5-4B Q4_0, forced reasoning budget 48",
+      "framework": "llama.cpp",
+      "reasoning_budget_tokens": 48,
+      "max_output_tokens": 56
+    }
+  }
+}

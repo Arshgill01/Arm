@@ -33,7 +33,7 @@ how heavily the source should control a project decision.
 | [Unsloth Qwen3-4B-Instruct-2507 GGUF](https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF/tree/a06e946bb6b655725eafa393f4a9745d460374c9) | Quantization producer, pinned derivative repository | Apache-2.0 E3c Q4_K_M/Q5_K_M/Q8_0 packages, base-model provenance, sizes, and immutable hashes |
 | [Qwen3.5-4B](https://huggingface.co/Qwen/Qwen3.5-4B/tree/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a) | Official Qwen model repository, pinned revision | Apache-2.0 E3d source model, non-thinking template control, architecture, and published benchmark prior |
 | [Unsloth Qwen3.5-4B GGUF](https://huggingface.co/unsloth/Qwen3.5-4B-GGUF/tree/e87f176479d0855a907a41277aca2f8ee7a09523) | Quantization producer, pinned derivative repository | Apache-2.0 E3d Q4_0/Q8_0 packages, base-model provenance, sizes, and immutable hashes |
-| [llama.cpp b10208](https://github.com/ggml-org/llama.cpp/tree/9d9a6d29f6b981cc7f41983d26e56485c6af1811) | Upstream repository, immutable release tag | E3d Qwen3.5 runtime support, OpenAI-compatible server, benchmark tool, and pinned KleidiAI v1.24 integration |
+| [llama.cpp b10208](https://github.com/ggml-org/llama.cpp/tree/9d9a6d29f6b981cc7f41983d26e56485c6af1811) | Upstream repository, immutable release tag | E3d/E3e Qwen3.5 support, OpenAI-compatible server, forced-end reasoning-budget sampler, benchmark tool, and pinned KleidiAI v1.24 integration |
 
 ## Evidence policy
 

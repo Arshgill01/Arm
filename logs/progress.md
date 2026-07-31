@@ -484,3 +484,22 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   KiB.
 - The retained planner result is `no_feasible_candidate`. No task, output,
   parser, threshold, execution order, or policy was changed after observation.
+
+## 2026-07-31 — E3e bounded-reasoning frontier frozen
+
+- Used only the completed non-thinking Q4_0 portion of the separately frozen
+  E3d artifact as calibration: two identical 20/30 outputs, 1,620.8 ms median
+  prompt time, and about 40.4 ms per generated token. No thinking-mode response
+  had been requested or observed before selecting E3e budgets.
+- Source inspection of pinned llama.cpp tag `b10208` found its explicit
+  per-request `reasoning_budget_tokens` path and sampler-enforced end-of-thinking
+  sequence. This gives a runtime mechanism for bounding quality-seeking compute
+  rather than relying on an instruction that the model may ignore.
+- Froze budgets 0, 16, 32, and 48 with exactly eight additional output tokens
+  per candidate. The 48-token case projects below five seconds from native
+  timing, but it must pass the unchanged measured latency, RSS, package, load,
+  stability, and 75% quality gates to enter the frontier.
+- Kept the Q4_0 hash, current runtime, KleidiAI revision, tasks, answers,
+  instruction, final-answer parser, temperature, seed, threads, context, and
+  cloud policy unchanged. Added reverse-balanced repetitions, separated
+  reasoning capture, independent ingestion, and fail-closed planner support.

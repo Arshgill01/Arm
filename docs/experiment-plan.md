@@ -194,6 +194,33 @@ RSS, 5 GB package, or 10-second model-load ceilings. Exact inputs and order are
 frozen in
 [`../experiments/e3d_contract.json`](../experiments/e3d_contract.json).
 
+## E3e frozen bounded-reasoning protocol
+
+E3e is a separately predeclared follow-up to the E3d immediate-answer
+calibration. Before any thinking-mode output was observed, the completed Q4_0
+portion of E3d showed stable 20/30 immediate answers, a 1,620.8 ms median prompt,
+and about 40.4 ms per generated token. Its errors were concentrated in
+arithmetic, code, data, and systems questions rather than the already-perfect
+logic and evidence categories. This supports testing bounded computation, not
+editing prompts or answers after observation.
+
+All candidates use the exact E3d Q4_0 file and pinned current llama.cpp/KleidiAI
+build. The runtime's forced-end reasoning sampler is the only mechanism under
+test. Exact budgets 0, 16, 32, and 48 tokens have output caps of 8, 24, 40, and
+56 tokens respectively, leaving eight tokens after a forced end tag for the
+final answer. The largest budget projects below the existing five-second median
+ceiling from pre-experiment native timing; this projection is a hypothesis, not
+a result.
+
+The two quality repetitions use reverse-balanced execution order and restart
+the real server for every candidate/repetition. The unchanged 30 tasks,
+instruction, final-content parser, 75% floor, one-task-best rule, deterministic
+sampling, four threads, 2,048-token context, and `cloud-quality` policy remain
+fixed. Raw final content, separated reasoning content, timing, generated-token
+count, process RSS, model load, and verbose `CPU_KLEIDIAI` buffer proof are all
+required. Exact inputs are frozen in
+[`../experiments/e3e_contract.json`](../experiments/e3e_contract.json).
+
 ## Experimental discipline
 
 - E0–E3 establish feasibility; they do not prove a winning product.

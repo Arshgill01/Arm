@@ -87,7 +87,7 @@ class Pareto64PlannerTests(unittest.TestCase):
         )
 
     def test_later_quality_frontiers_are_accepted(self) -> None:
-        for experiment_id in ("E3b", "E3c", "E3d"):
+        for experiment_id in ("E3b", "E3c", "E3d", "E3e"):
             with self.subTest(experiment_id=experiment_id):
                 data = manifest()
                 data["experiment_id"] = experiment_id
