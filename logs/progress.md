@@ -806,3 +806,19 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Replaced the serving-boundary gallery image with a first-party 1,440×900
   capture that shows context right-sizing beside the retained concurrency
   rejection.
+
+## 2026-07-31 — E5e promoted default reproduces cleanly
+
+- Promoted the 256-token context in both the CLI and runtime API while retaining
+  f16 K/V cache, explicit `auto` flash attention, shared-prefix caching, and one
+  slot. Historical E5b–E5d workflows now bind 2,048 tokens explicitly, so their
+  frozen commands remain reproducible.
+- Native run `30668306694` omitted all context/KV overrides for the two selected
+  E5e cells. Artifact provenance bound the launcher default to
+  `ctx256_k_f16`, and the independent validator accepted the full matrix.
+- The selected profile again reproduced 23/30 twice with zero drift, retained
+  1.0001x repeated median throughput, and reduced maximum RSS by 187,468 KiB.
+  q4_0 again produced 22/30 and remained ineligible.
+- Independent Python 3.10 ingestion matched the uploaded summary byte for byte
+  at SHA-256
+  `51f1e704259d300a460fb8f386f893dd2c86cd3d2e62c54071d48b099a96e8ac`.

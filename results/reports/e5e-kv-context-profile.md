@@ -56,6 +56,16 @@ The retained manifest is
 [`e5e-30667019678.json`](../manifests/e5e-30667019678.json). Independent local
 Python 3.10 ingestion reproduced the uploaded summary byte for byte at SHA-256
 `6312dc789eefad276b20d3204d9a5144251d49e3f04b9a767d9125dceaa5ed2c`.
+
+Promoted-default run
+[`30668306694`](https://github.com/Arshgill01/Arm/actions/runs/30668306694)
+then omitted context and KV overrides for both selected-profile cells. Artifact
+provenance binds `promoted_default_configuration` to `ctx256_k_f16`; both cells
+again reproduced 23/30 with zero drift. Repeated median throughput retention
+was 1.0001x, conservative maximum RSS fell 187,468 KiB, and q4_0 again drifted
+to 22/30. Independent Python 3.10 ingestion matched its uploaded summary at
+SHA-256 `51f1e704259d300a460fb8f386f893dd2c86cd3d2e62c54071d48b099a96e8ac`.
+
 The exact forward/reverse order, immutable inputs, factor controls, selection
 policy, and acceptance gates are in
 [`../../experiments/e5e_contract.json`](../../experiments/e5e_contract.json).

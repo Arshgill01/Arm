@@ -88,7 +88,9 @@ from 208 to 26 MiB and maximum process RSS by 183.36 MiB while preserving every
 answer, 99.62% of throughput, and essentially identical latency. q8_0 also
 qualified, but the precision-first selector kept f16. q4_0 reproducibly changed
 one correct answer in all four cells, so its larger memory and speed gains were
-rejected.
+rejected. A clean promoted-default run then repeated the full matrix with the
+selected cells using no context/KV overrides; 23/30, throughput retention, and
+the memory win all reproduced.
 
 ### Arm-specific source work
 

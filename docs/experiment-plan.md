@@ -573,6 +573,13 @@ to 22/30, proving that KV precision can affect application quality even under
 deterministic decoding. See
 [`../results/reports/e5e-kv-context-profile.md`](../results/reports/e5e-kv-context-profile.md).
 
+Promoted-default run `30668306694` subsequently omitted context/KV flags for
+the selected-profile cells and reproduced the result: 23/30 twice, 1.0001x
+throughput retention, and 187,468 KiB lower maximum RSS. Its provenance binds
+the launcher default to `ctx256_k_f16`; independent Python 3.10 ingestion
+matched the uploaded summary at SHA-256
+`51f1e704259d300a460fb8f386f893dd2c86cd3d2e62c54071d48b099a96e8ac`.
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server
