@@ -1,0 +1,997 @@
+{
+  "benchmark": {
+    "paired_comparison": {
+      "decode_tokens_per_sec": {
+        "direction": "higher_is_better",
+        "improved_rounds": 4,
+        "material_1_05x_and_3_of_4": false,
+        "median_improvement_percent": 4.420103437799816,
+        "median_improvement_ratio": 1.0442010343779982,
+        "round_improvement_ratios": [
+          1.0629739893450327,
+          1.0508900749699195,
+          1.0178089666252386,
+          1.0375119937860768
+        ],
+        "round_means": [
+          {
+            "generic": 21.273333333333337,
+            "improvement_ratio": 1.0629739893450327,
+            "kleidiai": 22.613,
+            "round": 1
+          },
+          {
+            "generic": 21.608666666666664,
+            "improvement_ratio": 1.0508900749699195,
+            "kleidiai": 22.708333333333332,
+            "round": 2
+          },
+          {
+            "generic": 21.99266666666667,
+            "improvement_ratio": 1.0178089666252386,
+            "kleidiai": 22.384333333333334,
+            "round": 3
+          },
+          {
+            "generic": 21.88633333333333,
+            "improvement_ratio": 1.0375119937860768,
+            "kleidiai": 22.707333333333334,
+            "round": 4
+          }
+        ],
+        "total_rounds": 4
+      },
+      "encode_tokens_per_sec": {
+        "direction": "higher_is_better",
+        "improved_rounds": 3,
+        "material_1_05x_and_3_of_4": false,
+        "median_improvement_percent": 1.0348361476600676,
+        "median_improvement_ratio": 1.0103483614766007,
+        "round_improvement_ratios": [
+          1.0125048255382332,
+          1.0140149373642395,
+          0.9758621304836493,
+          1.0081918974149682
+        ],
+        "round_means": [
+          {
+            "generic": 112.25,
+            "improvement_ratio": 1.0125048255382332,
+            "kleidiai": 113.65366666666667,
+            "round": 1
+          },
+          {
+            "generic": 112.02333333333333,
+            "improvement_ratio": 1.0140149373642395,
+            "kleidiai": 113.59333333333332,
+            "round": 2
+          },
+          {
+            "generic": 112.106,
+            "improvement_ratio": 0.9758621304836493,
+            "kleidiai": 109.39999999999999,
+            "round": 3
+          },
+          {
+            "generic": 112.71300000000001,
+            "improvement_ratio": 1.0081918974149682,
+            "kleidiai": 113.63633333333333,
+            "round": 4
+          }
+        ],
+        "total_rounds": 4
+      },
+      "total_ms": {
+        "direction": "lower_is_better",
+        "improved_rounds": 4,
+        "material_1_05x_and_3_of_4": false,
+        "median_improvement_percent": 3.4761835889432824,
+        "median_improvement_ratio": 1.0347618358894328,
+        "round_improvement_ratios": [
+          1.0495094132336265,
+          1.0403920700528237,
+          1.0044584179846603,
+          1.0291316017260417
+        ],
+        "round_means": [
+          {
+            "generic": 2076.185,
+            "improvement_ratio": 1.0495094132336265,
+            "kleidiai": 1978.243333333333,
+            "round": 1
+          },
+          {
+            "generic": 2052.2843333333335,
+            "improvement_ratio": 1.0403920700528237,
+            "kleidiai": 1972.6066666666666,
+            "round": 2
+          },
+          {
+            "generic": 2025.9260000000002,
+            "improvement_ratio": 1.0044584179846603,
+            "kleidiai": 2016.9336666666666,
+            "round": 3
+          },
+          {
+            "generic": 2029.912,
+            "improvement_ratio": 1.0291316017260417,
+            "kleidiai": 1972.4513333333334,
+            "round": 4
+          }
+        ],
+        "total_rounds": 4
+      },
+      "ttft_ms": {
+        "direction": "lower_is_better",
+        "improved_rounds": 3,
+        "material_1_05x_and_3_of_4": false,
+        "median_improvement_percent": 1.2360535563913366,
+        "median_improvement_ratio": 1.0123605355639134,
+        "round_improvement_ratios": [
+          1.0143262115227196,
+          1.0172449789135245,
+          0.9764992003383691,
+          1.0103948596051073
+        ],
+        "round_means": [
+          {
+            "generic": 615.4356666666666,
+            "improvement_ratio": 1.0143262115227196,
+            "kleidiai": 606.7433333333333,
+            "round": 1
+          },
+          {
+            "generic": 617.1706666666666,
+            "improvement_ratio": 1.0172449789135245,
+            "kleidiai": 606.708,
+            "round": 2
+          },
+          {
+            "generic": 615.6583333333333,
+            "improvement_ratio": 0.9764992003383691,
+            "kleidiai": 630.475,
+            "round": 3
+          },
+          {
+            "generic": 612.952,
+            "improvement_ratio": 1.0103948596051073,
+            "kleidiai": 606.6460000000001,
+            "round": 4
+          }
+        ],
+        "total_rounds": 4
+      }
+    },
+    "paired_process_comparison": {
+      "elapsed_seconds": {
+        "direction": "lower_is_better",
+        "improved_rounds": 3,
+        "material_1_05x_and_3_of_4": false,
+        "median_improvement_percent": 1.9122609673790647,
+        "median_improvement_ratio": 1.0191226096737906,
+        "round_improvement_ratios": [
+          1.0325842696629213,
+          1.0236220472440944,
+          1.0,
+          1.0146231721034868
+        ],
+        "round_means": [
+          {
+            "generic": 9.19,
+            "improvement_ratio": 1.0325842696629213,
+            "kleidiai": 8.9,
+            "round": 1
+          },
+          {
+            "generic": 9.1,
+            "improvement_ratio": 1.0236220472440944,
+            "kleidiai": 8.89,
+            "round": 2
+          },
+          {
+            "generic": 9.02,
+            "improvement_ratio": 1.0,
+            "kleidiai": 9.02,
+            "round": 3
+          },
+          {
+            "generic": 9.02,
+            "improvement_ratio": 1.0146231721034868,
+            "kleidiai": 8.89,
+            "round": 4
+          }
+        ],
+        "total_rounds": 4
+      },
+      "maximum_rss_kib": {
+        "direction": "lower_is_better",
+        "improved_rounds": 1,
+        "material_1_05x_and_3_of_4": false,
+        "median_improvement_percent": -0.0013565781314728298,
+        "median_improvement_ratio": 0.9999864342186853,
+        "round_improvement_ratios": [
+          0.9999469700146264,
+          0.9999790347603673,
+          1.0000320661055098,
+          0.9999938336770031
+        ],
+        "round_means": [
+          {
+            "generic": 3243276.0,
+            "improvement_ratio": 0.9999469700146264,
+            "kleidiai": 3243448.0,
+            "round": 1
+          },
+          {
+            "generic": 3243396.0,
+            "improvement_ratio": 0.9999790347603673,
+            "kleidiai": 3243464.0,
+            "round": 2
+          },
+          {
+            "generic": 3243404.0,
+            "improvement_ratio": 1.0000320661055098,
+            "kleidiai": 3243300.0,
+            "round": 3
+          },
+          {
+            "generic": 3243404.0,
+            "improvement_ratio": 0.9999938336770031,
+            "kleidiai": 3243424.0,
+            "round": 4
+          }
+        ],
+        "total_rounds": 4
+      }
+    },
+    "parameters": {
+      "context_size": 512,
+      "model_path": "/tmp/LLM-Runner-E2/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf",
+      "model_size": "1.60 GB",
+      "num_input_tokens": 64,
+      "num_iterations": 3,
+      "num_output_tokens": 32,
+      "num_threads": 4,
+      "num_warmup": 1
+    },
+    "pooled_summary": {
+      "generic": {
+        "decode_tokens_per_sec": {
+          "coefficient_of_variation": 0.02142016062846847,
+          "max": 22.026,
+          "mean": 21.690250000000002,
+          "median": 21.819499999999998,
+          "min": 20.248,
+          "p95": 22.026,
+          "population_stddev": 0.46460863907163824
+        },
+        "encode_tokens_per_sec": {
+          "coefficient_of_variation": 0.0041831321526276935,
+          "max": 112.854,
+          "mean": 112.27308333333333,
+          "median": 112.3365,
+          "min": 111.619,
+          "p95": 112.854,
+          "population_stddev": 0.4696531447663151
+        },
+        "total_ms": {
+          "coefficient_of_variation": 0.016659987384552113,
+          "max": 2151.616,
+          "mean": 2046.0768333333333,
+          "median": 2034.282,
+          "min": 2022.644,
+          "p95": 2151.616,
+          "population_stddev": 34.08761423115767
+        },
+        "ttft_ms": {
+          "coefficient_of_variation": 0.00410215107469085,
+          "max": 619.855,
+          "mean": 615.3041666666667,
+          "median": 615.1145,
+          "min": 612.025,
+          "p95": 619.855,
+          "population_stddev": 2.524070648553425
+        }
+      },
+      "kleidiai": {
+        "decode_tokens_per_sec": {
+          "coefficient_of_variation": 0.010250098362063073,
+          "max": 22.802,
+          "mean": 22.603250000000003,
+          "median": 22.6445,
+          "min": 21.876,
+          "p95": 22.802,
+          "population_stddev": 0.2316855358023022
+        },
+        "encode_tokens_per_sec": {
+          "coefficient_of_variation": 0.03214322909074256,
+          "max": 114.047,
+          "mean": 112.57083333333333,
+          "median": 113.797,
+          "min": 100.621,
+          "p95": 114.047,
+          "population_stddev": 3.618390084769132
+        },
+        "total_ms": {
+          "coefficient_of_variation": 0.01221487656753416,
+          "max": 2049.353,
+          "mean": 1985.0587500000001,
+          "median": 1975.8415,
+          "min": 1966.913,
+          "p95": 2049.353,
+          "population_stddev": 24.24724761055365
+        },
+        "ttft_ms": {
+          "coefficient_of_variation": 0.03298438154192666,
+          "max": 679.399,
+          "mean": 612.6430833333333,
+          "median": 605.645,
+          "min": 604.619,
+          "p95": 679.399,
+          "population_stddev": 20.207653209689035
+        }
+      }
+    },
+    "process_summary": {
+      "generic": {
+        "elapsed_seconds": {
+          "coefficient_of_variation": 0.0077218607977459575,
+          "max": 9.19,
+          "mean": 9.0825,
+          "median": 9.059999999999999,
+          "min": 9.02,
+          "p95": 9.19,
+          "population_stddev": 0.07013380069552766
+        },
+        "maximum_rss_kib": {
+          "coefficient_of_variation": 1.6763153410271647e-05,
+          "max": 3243404.0,
+          "mean": 3243370.0,
+          "median": 3243400.0,
+          "min": 3243276.0,
+          "p95": 3243404.0,
+          "population_stddev": 54.36910887627275
+        }
+      },
+      "kleidiai": {
+        "elapsed_seconds": {
+          "coefficient_of_variation": 0.0061624649859943524,
+          "max": 9.02,
+          "mean": 8.925,
+          "median": 8.895,
+          "min": 8.89,
+          "p95": 9.02,
+          "population_stddev": 0.0549999999999996
+        },
+        "maximum_rss_kib": {
+          "coefficient_of_variation": 1.9893055210660805e-05,
+          "max": 3243464.0,
+          "mean": 3243409.0,
+          "median": 3243436.0,
+          "min": 3243300.0,
+          "p95": 3243464.0,
+          "population_stddev": 64.52131430775415
+        }
+      }
+    },
+    "rounds": {
+      "generic": {
+        "1": {
+          "iterations": [
+            {
+              "decode_time_sec": 1.468,
+              "decode_tokens_per_sec": 21.792,
+              "encode_time_sec": 0.571,
+              "encode_tokens_per_sec": 112.118,
+              "time_to_first_token_ms": 616.501,
+              "tokens_generated": 32,
+              "total_time_ms": 2039.277
+            },
+            {
+              "decode_time_sec": 1.469,
+              "decode_tokens_per_sec": 21.78,
+              "encode_time_sec": 0.568,
+              "encode_tokens_per_sec": 112.593,
+              "time_to_first_token_ms": 613.445,
+              "tokens_generated": 32,
+              "total_time_ms": 2037.662
+            },
+            {
+              "decode_time_sec": 1.58,
+              "decode_tokens_per_sec": 20.248,
+              "encode_time_sec": 0.571,
+              "encode_tokens_per_sec": 112.039,
+              "time_to_first_token_ms": 616.361,
+              "tokens_generated": 32,
+              "total_time_ms": 2151.616
+            }
+          ],
+          "kleidiai_runtime_buffer": false,
+          "parameters": {
+            "context_size": 512,
+            "model_path": "/tmp/LLM-Runner-E2/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf",
+            "model_size": "1.60 GB",
+            "num_input_tokens": 64,
+            "num_iterations": 3,
+            "num_output_tokens": 32,
+            "num_threads": 4,
+            "num_warmup": 1
+          },
+          "position": 1,
+          "process": {
+            "elapsed": "0:09.19",
+            "exit_status": 0,
+            "maximum_rss_kib": 3243276,
+            "percent_cpu": "365%"
+          },
+          "quality_warning": true,
+          "tool_reported_results": {
+            "mean": {
+              "decode_tokens_per_sec": 21.273,
+              "encode_tokens_per_sec": 112.25,
+              "total_ms": 2076.185,
+              "ttft_ms": 615.435
+            },
+            "stddev": {
+              "decode_tokens_per_sec": 0.725,
+              "encode_tokens_per_sec": 0.245,
+              "total_ms": 53.342,
+              "ttft_ms": 1.409
+            }
+          }
+        },
+        "2": {
+          "iterations": [
+            {
+              "decode_time_sec": 1.491,
+              "decode_tokens_per_sec": 21.457,
+              "encode_time_sec": 0.573,
+              "encode_tokens_per_sec": 111.713,
+              "time_to_first_token_ms": 618.227,
+              "tokens_generated": 32,
+              "total_time_ms": 2064.226
+            },
+            {
+              "decode_time_sec": 1.485,
+              "decode_tokens_per_sec": 21.546,
+              "encode_time_sec": 0.573,
+              "encode_tokens_per_sec": 111.619,
+              "time_to_first_token_ms": 619.855,
+              "tokens_generated": 32,
+              "total_time_ms": 2058.577
+            },
+            {
+              "decode_time_sec": 1.466,
+              "decode_tokens_per_sec": 21.823,
+              "encode_time_sec": 0.568,
+              "encode_tokens_per_sec": 112.738,
+              "time_to_first_token_ms": 613.43,
+              "tokens_generated": 32,
+              "total_time_ms": 2034.05
+            }
+          ],
+          "kleidiai_runtime_buffer": false,
+          "parameters": {
+            "context_size": 512,
+            "model_path": "/tmp/LLM-Runner-E2/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf",
+            "model_size": "1.60 GB",
+            "num_input_tokens": 64,
+            "num_iterations": 3,
+            "num_output_tokens": 32,
+            "num_threads": 4,
+            "num_warmup": 1
+          },
+          "position": 2,
+          "process": {
+            "elapsed": "0:09.10",
+            "exit_status": 0,
+            "maximum_rss_kib": 3243396,
+            "percent_cpu": "367%"
+          },
+          "quality_warning": true,
+          "tool_reported_results": {
+            "mean": {
+              "decode_tokens_per_sec": 21.609,
+              "encode_tokens_per_sec": 112.023,
+              "total_ms": 2052.285,
+              "ttft_ms": 617.171
+            },
+            "stddev": {
+              "decode_tokens_per_sec": 0.156,
+              "encode_tokens_per_sec": 0.507,
+              "total_ms": 13.099,
+              "ttft_ms": 2.727
+            }
+          }
+        },
+        "3": {
+          "iterations": [
+            {
+              "decode_time_sec": 1.457,
+              "decode_tokens_per_sec": 21.966,
+              "encode_time_sec": 0.573,
+              "encode_tokens_per_sec": 111.768,
+              "time_to_first_token_ms": 616.869,
+              "tokens_generated": 32,
+              "total_time_ms": 2029.421
+            },
+            {
+              "decode_time_sec": 1.455,
+              "decode_tokens_per_sec": 21.986,
+              "encode_time_sec": 0.567,
+              "encode_tokens_per_sec": 112.835,
+              "time_to_first_token_ms": 612.154,
+              "tokens_generated": 32,
+              "total_time_ms": 2022.644
+            },
+            {
+              "decode_time_sec": 1.453,
+              "decode_tokens_per_sec": 22.026,
+              "encode_time_sec": 0.573,
+              "encode_tokens_per_sec": 111.715,
+              "time_to_first_token_ms": 617.952,
+              "tokens_generated": 32,
+              "total_time_ms": 2025.713
+            }
+          ],
+          "kleidiai_runtime_buffer": false,
+          "parameters": {
+            "context_size": 512,
+            "model_path": "/tmp/LLM-Runner-E2/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf",
+            "model_size": "1.60 GB",
+            "num_input_tokens": 64,
+            "num_iterations": 3,
+            "num_output_tokens": 32,
+            "num_threads": 4,
+            "num_warmup": 1
+          },
+          "position": 1,
+          "process": {
+            "elapsed": "0:09.02",
+            "exit_status": 0,
+            "maximum_rss_kib": 3243404,
+            "percent_cpu": "367%"
+          },
+          "quality_warning": true,
+          "tool_reported_results": {
+            "mean": {
+              "decode_tokens_per_sec": 21.993,
+              "encode_tokens_per_sec": 112.106,
+              "total_ms": 2025.926,
+              "ttft_ms": 615.658
+            },
+            "stddev": {
+              "decode_tokens_per_sec": 0.025,
+              "encode_tokens_per_sec": 0.516,
+              "total_ms": 2.771,
+              "ttft_ms": 2.517
+            }
+          }
+        },
+        "4": {
+          "iterations": [
+            {
+              "decode_time_sec": 1.467,
+              "decode_tokens_per_sec": 21.816,
+              "encode_time_sec": 0.568,
+              "encode_tokens_per_sec": 112.73,
+              "time_to_first_token_ms": 612.963,
+              "tokens_generated": 32,
+              "total_time_ms": 2034.514
+            },
+            {
+              "decode_time_sec": 1.46,
+              "decode_tokens_per_sec": 21.92,
+              "encode_time_sec": 0.567,
+              "encode_tokens_per_sec": 112.854,
+              "time_to_first_token_ms": 612.025,
+              "tokens_generated": 32,
+              "total_time_ms": 2026.956
+            },
+            {
+              "decode_time_sec": 1.46,
+              "decode_tokens_per_sec": 21.923,
+              "encode_time_sec": 0.569,
+              "encode_tokens_per_sec": 112.555,
+              "time_to_first_token_ms": 613.868,
+              "tokens_generated": 32,
+              "total_time_ms": 2028.266
+            }
+          ],
+          "kleidiai_runtime_buffer": false,
+          "parameters": {
+            "context_size": 512,
+            "model_path": "/tmp/LLM-Runner-E2/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf",
+            "model_size": "1.60 GB",
+            "num_input_tokens": 64,
+            "num_iterations": 3,
+            "num_output_tokens": 32,
+            "num_threads": 4,
+            "num_warmup": 1
+          },
+          "position": 2,
+          "process": {
+            "elapsed": "0:09.02",
+            "exit_status": 0,
+            "maximum_rss_kib": 3243404,
+            "percent_cpu": "367%"
+          },
+          "quality_warning": true,
+          "tool_reported_results": {
+            "mean": {
+              "decode_tokens_per_sec": 21.886,
+              "encode_tokens_per_sec": 112.713,
+              "total_ms": 2029.912,
+              "ttft_ms": 612.952
+            },
+            "stddev": {
+              "decode_tokens_per_sec": 0.05,
+              "encode_tokens_per_sec": 0.122,
+              "total_ms": 3.298,
+              "ttft_ms": 0.752
+            }
+          }
+        }
+      },
+      "kleidiai": {
+        "1": {
+          "iterations": [
+            {
+              "decode_time_sec": 1.422,
+              "decode_tokens_per_sec": 22.507,
+              "encode_time_sec": 0.565,
+              "encode_tokens_per_sec": 113.265,
+              "time_to_first_token_ms": 608.94,
+              "tokens_generated": 32,
+              "total_time_ms": 1986.847
+            },
+            {
+              "decode_time_sec": 1.41,
+              "decode_tokens_per_sec": 22.694,
+              "encode_time_sec": 0.562,
+              "encode_tokens_per_sec": 113.802,
+              "time_to_first_token_ms": 605.616,
+              "tokens_generated": 32,
+              "total_time_ms": 1972.429
+            },
+            {
+              "decode_time_sec": 1.414,
+              "decode_tokens_per_sec": 22.638,
+              "encode_time_sec": 0.562,
+              "encode_tokens_per_sec": 113.894,
+              "time_to_first_token_ms": 605.674,
+              "tokens_generated": 32,
+              "total_time_ms": 1975.454
+            }
+          ],
+          "kleidiai_runtime_buffer": true,
+          "parameters": {
+            "context_size": 512,
+            "model_path": "/tmp/LLM-Runner-E2/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf",
+            "model_size": "1.60 GB",
+            "num_input_tokens": 64,
+            "num_iterations": 3,
+            "num_output_tokens": 32,
+            "num_threads": 4,
+            "num_warmup": 1
+          },
+          "position": 2,
+          "process": {
+            "elapsed": "0:08.90",
+            "exit_status": 0,
+            "maximum_rss_kib": 3243448,
+            "percent_cpu": "364%"
+          },
+          "quality_warning": true,
+          "tool_reported_results": {
+            "mean": {
+              "decode_tokens_per_sec": 22.613,
+              "encode_tokens_per_sec": 113.654,
+              "total_ms": 1978.243,
+              "ttft_ms": 606.743
+            },
+            "stddev": {
+              "decode_tokens_per_sec": 0.079,
+              "encode_tokens_per_sec": 0.277,
+              "total_ms": 6.208,
+              "ttft_ms": 1.553
+            }
+          }
+        },
+        "2": {
+          "iterations": [
+            {
+              "decode_time_sec": 1.405,
+              "decode_tokens_per_sec": 22.782,
+              "encode_time_sec": 0.562,
+              "encode_tokens_per_sec": 113.825,
+              "time_to_first_token_ms": 605.526,
+              "tokens_generated": 32,
+              "total_time_ms": 1966.913
+            },
+            {
+              "decode_time_sec": 1.413,
+              "decode_tokens_per_sec": 22.647,
+              "encode_time_sec": 0.562,
+              "encode_tokens_per_sec": 113.938,
+              "time_to_first_token_ms": 604.745,
+              "tokens_generated": 32,
+              "total_time_ms": 1974.678
+            },
+            {
+              "decode_time_sec": 1.41,
+              "decode_tokens_per_sec": 22.696,
+              "encode_time_sec": 0.566,
+              "encode_tokens_per_sec": 113.017,
+              "time_to_first_token_ms": 609.853,
+              "tokens_generated": 32,
+              "total_time_ms": 1976.229
+            }
+          ],
+          "kleidiai_runtime_buffer": true,
+          "parameters": {
+            "context_size": 512,
+            "model_path": "/tmp/LLM-Runner-E2/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf",
+            "model_size": "1.60 GB",
+            "num_input_tokens": 64,
+            "num_iterations": 3,
+            "num_output_tokens": 32,
+            "num_threads": 4,
+            "num_warmup": 1
+          },
+          "position": 1,
+          "process": {
+            "elapsed": "0:08.89",
+            "exit_status": 0,
+            "maximum_rss_kib": 3243464,
+            "percent_cpu": "364%"
+          },
+          "quality_warning": true,
+          "tool_reported_results": {
+            "mean": {
+              "decode_tokens_per_sec": 22.708,
+              "encode_tokens_per_sec": 113.593,
+              "total_ms": 1972.607,
+              "ttft_ms": 606.708
+            },
+            "stddev": {
+              "decode_tokens_per_sec": 0.055,
+              "encode_tokens_per_sec": 0.41,
+              "total_ms": 4.075,
+              "ttft_ms": 2.247
+            }
+          }
+        },
+        "3": {
+          "iterations": [
+            {
+              "decode_time_sec": 1.413,
+              "decode_tokens_per_sec": 22.642,
+              "encode_time_sec": 0.636,
+              "encode_tokens_per_sec": 100.621,
+              "time_to_first_token_ms": 679.399,
+              "tokens_generated": 32,
+              "total_time_ms": 2049.353
+            },
+            {
+              "decode_time_sec": 1.414,
+              "decode_tokens_per_sec": 22.635,
+              "encode_time_sec": 0.563,
+              "encode_tokens_per_sec": 113.657,
+              "time_to_first_token_ms": 606.61,
+              "tokens_generated": 32,
+              "total_time_ms": 1976.858
+            },
+            {
+              "decode_time_sec": 1.463,
+              "decode_tokens_per_sec": 21.876,
+              "encode_time_sec": 0.562,
+              "encode_tokens_per_sec": 113.922,
+              "time_to_first_token_ms": 605.416,
+              "tokens_generated": 32,
+              "total_time_ms": 2024.59
+            }
+          ],
+          "kleidiai_runtime_buffer": true,
+          "parameters": {
+            "context_size": 512,
+            "model_path": "/tmp/LLM-Runner-E2/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf",
+            "model_size": "1.60 GB",
+            "num_input_tokens": 64,
+            "num_iterations": 3,
+            "num_output_tokens": 32,
+            "num_threads": 4,
+            "num_warmup": 1
+          },
+          "position": 2,
+          "process": {
+            "elapsed": "0:09.02",
+            "exit_status": 0,
+            "maximum_rss_kib": 3243300,
+            "percent_cpu": "361%"
+          },
+          "quality_warning": true,
+          "tool_reported_results": {
+            "mean": {
+              "decode_tokens_per_sec": 22.384,
+              "encode_tokens_per_sec": 109.4,
+              "total_ms": 2016.934,
+              "ttft_ms": 630.475
+            },
+            "stddev": {
+              "decode_tokens_per_sec": 0.359,
+              "encode_tokens_per_sec": 6.208,
+              "total_ms": 30.087,
+              "ttft_ms": 34.598
+            }
+          }
+        },
+        "4": {
+          "iterations": [
+            {
+              "decode_time_sec": 1.415,
+              "decode_tokens_per_sec": 22.607,
+              "encode_time_sec": 0.562,
+              "encode_tokens_per_sec": 113.792,
+              "time_to_first_token_ms": 605.577,
+              "tokens_generated": 32,
+              "total_time_ms": 1977.894
+            },
+            {
+              "decode_time_sec": 1.409,
+              "decode_tokens_per_sec": 22.713,
+              "encode_time_sec": 0.561,
+              "encode_tokens_per_sec": 114.047,
+              "time_to_first_token_ms": 604.619,
+              "tokens_generated": 32,
+              "total_time_ms": 1970.045
+            },
+            {
+              "decode_time_sec": 1.403,
+              "decode_tokens_per_sec": 22.802,
+              "encode_time_sec": 0.566,
+              "encode_tokens_per_sec": 113.07,
+              "time_to_first_token_ms": 609.742,
+              "tokens_generated": 32,
+              "total_time_ms": 1969.415
+            }
+          ],
+          "kleidiai_runtime_buffer": true,
+          "parameters": {
+            "context_size": 512,
+            "model_path": "/tmp/LLM-Runner-E2/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf",
+            "model_size": "1.60 GB",
+            "num_input_tokens": 64,
+            "num_iterations": 3,
+            "num_output_tokens": 32,
+            "num_threads": 4,
+            "num_warmup": 1
+          },
+          "position": 1,
+          "process": {
+            "elapsed": "0:08.89",
+            "exit_status": 0,
+            "maximum_rss_kib": 3243424,
+            "percent_cpu": "363%"
+          },
+          "quality_warning": true,
+          "tool_reported_results": {
+            "mean": {
+              "decode_tokens_per_sec": 22.708,
+              "encode_tokens_per_sec": 113.636,
+              "total_ms": 1972.451,
+              "ttft_ms": 606.646
+            },
+            "stddev": {
+              "decode_tokens_per_sec": 0.079,
+              "encode_tokens_per_sec": 0.414,
+              "total_ms": 3.857,
+              "ttft_ms": 2.224
+            }
+          }
+        }
+      }
+    }
+  },
+  "experiment_id": "E2",
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "benchmark": {
+      "context": 512,
+      "execution_order": [
+        [
+          "generic",
+          "kleidiai"
+        ],
+        [
+          "kleidiai",
+          "generic"
+        ],
+        [
+          "generic",
+          "kleidiai"
+        ],
+        [
+          "kleidiai",
+          "generic"
+        ]
+      ],
+      "input_tokens": 64,
+      "measured_iterations_per_round": 3,
+      "output_tokens": 32,
+      "rounds_per_variant": 4,
+      "threads": 4,
+      "warmup_iterations_per_round": 1
+    },
+    "common_build": {
+      "build_type": "Release",
+      "cpu_arch": "Armv8.6_1",
+      "framework": "llama.cpp",
+      "ggml_native": false
+    },
+    "controlled_difference": "USE_KLEIDIAI only",
+    "experiment_id": "E2",
+    "git_commit": "2b4e1e78655a469f475f8394d3f4445b9bff3362",
+    "github_run_attempt": "1",
+    "github_run_id": "30632406883",
+    "llm_runner_commit": "8ba39e40fa754b87deb99a998c31de3b850094d5",
+    "model_sha256": "a6f246baa29a776acbc9a1638088c33d8f7b6a044cc7dd09fb4b0374e1582ae0",
+    "variants": {
+      "generic": {
+        "use_kleidiai": false
+      },
+      "kleidiai": {
+        "use_kleidiai": true
+      }
+    }
+  },
+  "schema_version": 1,
+  "source": {
+    "artifact_name": "e2-kleidiai-ablation-30632406883-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30632406883"
+  },
+  "status": "valid_no_primary_win",
+  "validation": {
+    "assertions": {
+      "both_builds_completed": true,
+      "both_functional_tests_passed": true,
+      "generic_config_is_off": true,
+      "generic_has_no_kleidiai_buffer": true,
+      "kleidiai_config_is_on": true,
+      "kleidiai_has_runtime_buffer_every_round": true,
+      "model_checksum_matches": true,
+      "single_controlled_difference_declared": true
+    },
+    "notes": [
+      "The only intended build difference is USE_KLEIDIAI.",
+      "The legacy GGUF warning excludes quality claims but not this same-model performance ablation."
+    ],
+    "performance_comparison_allowed": true,
+    "predeclared_threshold": {
+      "median_paired_improvement_ratio": 1.05,
+      "minimum_improved_rounds": 3,
+      "total_rounds": 4
+    },
+    "primary_metric": "encode_tokens_per_sec",
+    "primary_threshold_met": false,
+    "quality_claims_allowed": false
+  }
+}

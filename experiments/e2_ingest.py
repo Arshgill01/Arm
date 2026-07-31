@@ -10,7 +10,12 @@ import statistics
 from pathlib import Path
 from typing import Any, Sequence
 
-from experiments.e1_ingest import parse_lscpu, parse_time_output, summarize
+try:
+    from experiments.e1_ingest import parse_lscpu, parse_time_output, summarize
+except ModuleNotFoundError as error:
+    if error.name != "experiments":
+        raise
+    from e1_ingest import parse_lscpu, parse_time_output, summarize
 
 
 VARIANTS = ("generic", "kleidiai")
@@ -21,6 +26,17 @@ METRICS = {
     "total_ms": ("total_time_ms", "lower"),
 }
 ROUND_PATTERN = re.compile(r"^round-(\d+)-position-(\d+)$")
+
+
+def elapsed_seconds(value: str) -> float:
+    parts = value.split(":")
+    if len(parts) == 2:
+        minutes, seconds = parts
+        return int(minutes) * 60 + float(seconds)
+    if len(parts) == 3:
+        hours, minutes, seconds = parts
+        return int(hours) * 3600 + int(minutes) * 60 + float(seconds)
+    raise ValueError(f"invalid elapsed time {value!r}")
 
 
 def load_object(path: Path) -> dict[str, Any]:
@@ -206,6 +222,41 @@ def build_manifest(evidence_dir: Path) -> dict[str, Any]:
         )
         for metric, (_field, direction) in METRICS.items()
     }
+    process_values: dict[str, dict[str, dict[int, list[float]]]] = {
+        metric: {variant: {} for variant in VARIANTS}
+        for metric in ("elapsed_seconds", "maximum_rss_kib")
+    }
+    for variant in VARIANTS:
+        for round_number, round_data in variants[variant]["rounds"].items():
+            process = round_data["process"]
+            elapsed = process["elapsed"]
+            maximum_rss_kib = process["maximum_rss_kib"]
+            if elapsed is None or maximum_rss_kib is None:
+                raise ValueError(
+                    f"missing process metric for {variant} round {round_number}"
+                )
+            process_values["elapsed_seconds"][variant][round_number] = [
+                elapsed_seconds(elapsed)
+            ]
+            process_values["maximum_rss_kib"][variant][round_number] = [
+                float(maximum_rss_kib)
+            ]
+    process_summaries = {
+        variant: {
+            metric: summarize(
+                [
+                    round_values[0]
+                    for round_values in process_values[metric][variant].values()
+                ]
+            )
+            for metric in process_values
+        }
+        for variant in VARIANTS
+    }
+    process_comparisons = {
+        metric: paired_effect(values["generic"], values["kleidiai"], "lower")
+        for metric, values in process_values.items()
+    }
     primary = comparisons["encode_tokens_per_sec"]
     primary_accepted = bool(primary["material_1_05x_and_3_of_4"])
     run_id = str(provenance["github_run_id"])
@@ -243,6 +294,8 @@ def build_manifest(evidence_dir: Path) -> dict[str, Any]:
             "parameters": common_parameters,
             "pooled_summary": summaries,
             "paired_comparison": comparisons,
+            "process_summary": process_summaries,
+            "paired_process_comparison": process_comparisons,
             "rounds": {
                 variant: variants[variant]["rounds"] for variant in VARIANTS
             },

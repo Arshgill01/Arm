@@ -136,3 +136,23 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   reports a missing pre-tokenizer and degraded generation quality.
 - Added a tested artifact ingester, compact manifest, and reviewable E1 report.
   E1 passes; E2 is now unblocked.
+
+## 2026-07-31 — E2 paired KleidiAI ablation
+
+- Workflow run `30632406883` passed both controlled builds, both upstream
+  functional tests, four alternating benchmark rounds, evidence validation, and
+  artifact upload on the same native Neoverse N2 job.
+- The predeclared primary prompt-throughput criterion did not pass: the median
+  paired-round improvement was 1.03%, with improvement in three of four rounds,
+  below the required 5% effect.
+- Secondary signals were modest but consistent: decode throughput improved
+  4.42% in all four rounds, total iteration latency improved 3.48% in all four,
+  and whole-process wall time improved 1.91% in three rounds with one tie.
+- Maximum RSS was effectively unchanged. One transient KleidiAI prompt outlier
+  remains included; no post-result exclusions or threshold changes were made.
+- The direct artifact-ingester invocation exposed and received a narrow import
+  fix. Twelve local tests pass, including process-time parsing and the E2
+  predeclared decision rule.
+- E2 supports retaining generic and KleidiAI profiles in a workload-aware
+  multi-objective planner, but not a blanket or quality claim. E3 remains gated
+  on a modern, license-checked model artifact.

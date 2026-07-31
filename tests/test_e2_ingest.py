@@ -15,6 +15,10 @@ SPEC.loader.exec_module(INGEST)
 
 
 class E2IngestTests(unittest.TestCase):
+    def test_elapsed_seconds_supports_time_output_formats(self) -> None:
+        self.assertEqual(69.25, INGEST.elapsed_seconds("1:09.25"))
+        self.assertEqual(3723.5, INGEST.elapsed_seconds("1:02:03.5"))
+
     def test_paired_effect_applies_metric_direction(self) -> None:
         generic = {round_number: [100.0] for round_number in range(1, 5)}
         faster = {round_number: [120.0] for round_number in range(1, 5)}
@@ -96,6 +100,7 @@ class E2IngestTests(unittest.TestCase):
                         "GENERATION QUALITY WILL BE DEGRADED"
                     )
                     (run_dir / "time.log").write_text(
+                        "Elapsed (wall clock) time (h:mm:ss or m:ss): 0:09.00\n"
                         "Maximum resident set size (kbytes): 100\nExit status: 0\n"
                     )
 
