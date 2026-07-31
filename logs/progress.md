@@ -558,3 +558,8 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   a standalone final answer, normal termination, and stable predictions.
 - Accuracy and resource metrics remain diagnostic. Patch correctness does not
   waive the 75% deployment quality floor or create a planner candidate.
+- Native attempt `30654443116` reproduced the expected baseline assertion, then
+  stopped before the patched build because the runner rendered diff object IDs
+  with nine characters while the frozen patch used seven. The workflow now
+  pins `git diff --abbrev=7`; source hunks, patch hash, and all gates are
+  unchanged.

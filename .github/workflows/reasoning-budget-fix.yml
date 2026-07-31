@@ -155,7 +155,7 @@ jobs:
           git -C "$LLAMA_CPP_DIR" apply \
             --include=common/reasoning-budget.cpp "$PATCH_PATH"
           git -C "$LLAMA_CPP_DIR" diff --check
-          git -C "$LLAMA_CPP_DIR" diff > "$EVIDENCE_DIR/applied.patch"
+          git -C "$LLAMA_CPP_DIR" diff --abbrev=7 > "$EVIDENCE_DIR/applied.patch"
           cmp "$PATCH_PATH" "$EVIDENCE_DIR/applied.patch"
           git -C "$LLAMA_CPP_DIR" diff --name-only | sort \
             | tee "$EVIDENCE_DIR/changed-files.txt"
