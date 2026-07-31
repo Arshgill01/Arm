@@ -5,7 +5,7 @@ quality-constrained deployment decision. The planner is standard-library Python
 and has no network, model, or runtime dependency at decision time.
 
 ```text
-validated E3 manifest
+validated E3/E3b manifest
         │
         ▼
 evidence consistency checks ──reject──► invalid input
@@ -65,9 +65,10 @@ The schema-1 policy has two explicit parts:
 - `selection_priority`: a unique ordered list used only after quality, SLO, and
   Pareto filtering.
 
-Every numeric metric must be finite and non-negative. Candidate sets, quality
-decisions, experiment status, and the experiment's declared eligible set must
-agree or the planner rejects the manifest. The output records hashes of both
+Every numeric metric must be finite and non-negative. Schema-1 E3 and E3b
+quality-frontier manifests are accepted. Candidate sets, quality decisions,
+experiment status, and the experiment's declared eligible set must agree or the
+planner rejects the manifest. The output records hashes of both
 input files, all observed metrics, all rejection reasons, the feasible set,
 frontier, selected candidate, and the fact that no weighted score was used.
 
@@ -77,4 +78,5 @@ This is the evidence-to-decision core and HTTP decision plane, not yet an
 inference server. E5a validated its correctness, concurrency, latency, and RSS;
 E4a then eliminated the observed admission tail under a stricter load. A runtime
 launch adapter is intentionally deferred until a candidate passes the quality
-gate; Pareto64 must not turn an invalid measurement into a deployment.
+gate; Pareto64 must not turn an invalid measurement into a deployment. E3b is
+the frozen quality-anchor gate for that next transition.

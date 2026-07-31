@@ -79,6 +79,35 @@ preambles. The cap and parser will not be changed retroactively; any calibration
 is a separately versioned experiment. See
 [`../results/reports/e3-qwen-frontier.md`](../results/reports/e3-qwen-frontier.md).
 
+## E3b frozen quality-anchor protocol
+
+E3b is a separately versioned model-scale calibration; it does not reinterpret
+E3. A local x86 diagnostic gave the failed 1.5B Q4_K_M candidate 64 output
+tokens instead of eight and it still scored 16/30 (53.33%), confirming that
+truncation alone did not explain the quality failure. A local 7B run was stopped
+without a result after the already swap-saturated host read 166 GB through the
+storage layer; this protects the machine and supplies no performance or quality
+evidence.
+
+The native protocol compares the existing Apache-2.0 Qwen2.5-1.5B-Instruct
+Q4_K_M package with the official Apache-2.0 7B Q4_K_M package. Model scale and
+package files are the only candidate difference. Both use one patched,
+KleidiAI-enabled llama.cpp build, four threads, and a 2,048-token context. The
+30 tasks, answers, instruction, greedy decoding, eight-token cap, parser, two
+repetitions, 75% absolute floor, and one-task best-candidate rule are unchanged
+from E3.
+
+Four alternating paired rounds measure 128-token prompt and 64-token generation
+performance with one warm-up and three retained iterations. Only stable
+quality-eligible candidates enter the accuracy, same-text latency, peak RSS,
+and package-size frontier; no weighted score is used. E3b is a valid calibration
+even if its frontier remains empty. Exact files, hashes, order, and rules are
+frozen in [`../experiments/e3b_contract.json`](../experiments/e3b_contract.json).
+If E3b yields a frontier, deployment selection uses the separately frozen
+[`../configs/cloud-quality.json`](../configs/cloud-quality.json) policy: at
+least 75% task accuracy, at most 5 seconds median same-text latency, 8 GiB
+process RSS, a 5 GB package, and 10 seconds model load on the 16 GiB target.
+
 ## Experimental discipline
 
 - E0–E3 establish feasibility; they do not prove a winning product.

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E3b",
+  "hypothesis": "A larger permissively licensed model can cross the unchanged quality floor on the identical E3 tasks, producing a deployable quality/latency/size tradeoff without relaxing the failed E3 result.",
+  "upstream": {
+    "llm_runner_commit": "8ba39e40fa754b87deb99a998c31de3b850094d5",
+    "llama_cpp_commit": "eed25bc6b052c363aa760d0055282cc2222ccf6e",
+    "llama_cpp_tag": "b7870"
+  },
+  "configuration": {
+    "framework": "llama.cpp",
+    "build_type": "Release",
+    "cpu_arch": "Armv8.6_1",
+    "ggml_native": false,
+    "use_kleidiai": true,
+    "threads": 4,
+    "context": 2048,
+    "patches": [
+      {
+        "path": "patches/llama.cpp/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "75089ddea4d834133316f4a22f6909d3af87e4d8eadafdf631729bfbf80acbf9"
+      },
+      {
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      }
+    ]
+  },
+  "models_path": "experiments/e3b_models.json",
+  "variants": [
+    "qwen_1_5b_q4_k_m",
+    "qwen_7b_q4_k_m"
+  ],
+  "quality": {
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "tasks_unchanged_from_e3": true,
+    "task_count": 30,
+    "prompt_instruction_unchanged_from_e3": true,
+    "repetitions": 2,
+    "greedy": true,
+    "max_output_tokens": 8,
+    "prediction_parser": "first standalone uppercase A-D after case folding",
+    "predictions_must_be_stable": true,
+    "absolute_accuracy_floor": 0.75,
+    "maximum_task_deficit_from_best": 1
+  },
+  "benchmark": {
+    "input_tokens": 128,
+    "output_tokens": 64,
+    "context": 2048,
+    "threads": 4,
+    "rounds_per_variant": 4,
+    "warmup_iterations_per_round": 1,
+    "measured_iterations_per_round": 3,
+    "execution_order": [
+      [
+        "qwen_1_5b_q4_k_m",
+        "qwen_7b_q4_k_m"
+      ],
+      [
+        "qwen_7b_q4_k_m",
+        "qwen_1_5b_q4_k_m"
+      ],
+      [
+        "qwen_1_5b_q4_k_m",
+        "qwen_7b_q4_k_m"
+      ],
+      [
+        "qwen_7b_q4_k_m",
+        "qwen_1_5b_q4_k_m"
+      ]
+    ]
+  },
+  "pareto": {
+    "directions": {
+      "minimum_accuracy": "higher",
+      "same_text_total_ms_median": "lower",
+      "maximum_quality_process_rss_kib": "lower",
+      "package_size_bytes": "lower"
+    },
+    "quality_ineligible_variants_excluded": true,
+    "weighted_score_used": false
+  }
+}

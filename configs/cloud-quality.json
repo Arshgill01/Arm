@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "name": "cloud-quality",
+  "requirements": {
+    "minimum_accuracy": {
+      "at_least": 0.75
+    },
+    "same_text_total_ms_median": {
+      "at_most": 5000.0
+    },
+    "maximum_quality_process_rss_kib": {
+      "at_most": 8388608
+    },
+    "package_size_bytes": {
+      "at_most": 5000000000
+    },
+    "model_load_ms_median": {
+      "at_most": 10000.0
+    }
+  },
+  "selection_priority": [
+    "minimum_accuracy",
+    "same_text_total_ms_median",
+    "maximum_quality_process_rss_kib",
+    "package_size_bytes",
+    "model_load_ms_median"
+  ]
+}

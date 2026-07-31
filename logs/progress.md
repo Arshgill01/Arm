@@ -380,3 +380,30 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - The result is accepted as an isolated Arm hot-path win, not a whole-model
   speedup, cycles, energy, or quality claim. No threshold or observation was
   changed after measurement.
+
+## 2026-07-31 — E3b quality anchor frozen
+
+- Tested the simplest E3 failure hypothesis locally before designing another
+  native run. Raising the 1.5B Q4_K_M output cap from 8 to 64 tokens left it at
+  16/30 (53.33%) on the identical tasks, so truncation alone is not the cause of
+  the empty frontier. This x86 result is calibration only.
+- Downloaded and checksum-verified the official Apache-2.0 Qwen2.5-7B-Instruct
+  Q4_K_M split package. A local quality attempt was stopped without a result
+  after 20m31s because the host's pre-existing full swap caused 166 GB of block
+  reads for roughly four GiB RSS. No partial output or quality inference is
+  retained from the stopped run.
+- Frozen E3b as a controlled model-scale comparison: official 1.5B and 7B
+  Q4_K_M packages, the same llama.cpp runtime and validated Pareto64 patch set,
+  and no change to the 30 tasks, instruction, parser, eight-token cap, two
+  repetitions, or 75% quality floor from E3.
+- Added four alternating native performance rounds and an independent ingester
+  that validates artifacts, model hashes and sizes, patch provenance, runtime
+  buffer proof, raw quality processes, benchmark parameters, eligibility, and
+  the unweighted frontier.
+- Generalized the fail-closed planner input boundary narrowly from E3 to E3 or
+  E3b schema-1 quality-frontier evidence. No candidate is promoted before the
+  native E3b result passes.
+- Predeclared a quality-first 16 GiB cloud policy before E3b measurement: 75%
+  accuracy, 5-second median same-text latency, 8 GiB RSS, 5 GB package, and
+  10-second model-load ceilings, with accuracy first in the visible
+  lexicographic priority. No post-result threshold adjustment is permitted.

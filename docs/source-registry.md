@@ -28,6 +28,7 @@ how heavily the source should control a project decision.
 | [KleidiAI](https://github.com/ARM-software/kleidiai) | Official Arm mirror | Arm-specific AI microkernels and supported extensions |
 | [Qwen2.5-1.5B-Instruct GGUF](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/tree/91cad51170dc346986eccefdc2dd33a9da36ead9) | Official Qwen model repository, pinned revision | Apache-2.0 E3 base model, GGUF quantizations, model card, and immutable file metadata |
 | [Qwen2.5-1.5B-Instruct MNN](https://huggingface.co/taobao-mnn/Qwen2.5-1.5B-Instruct-MNN/tree/4ed860971cc9268355e31e26e6034e2d28e3dc7a) | Official MNN export, pinned revision | Apache-2.0 E3 cross-runtime package and configuration |
+| [Qwen2.5-7B-Instruct GGUF](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct-GGUF/tree/bb5d59e06d9551d752d08b292a50eb208b07ab1f) | Official Qwen model repository, pinned revision | Apache-2.0 E3b quality anchor, split Q4_K_M package, license, and immutable metadata |
 
 ## Evidence policy
 

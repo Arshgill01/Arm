@@ -20,7 +20,7 @@ The provisional concept is **Pareto64**, a quality-constrained cross-runtime
 planner for Arm AI inference. It becomes the final Cloud AI direction only if the
 native feasibility and novelty gates in `docs/strategy.md` pass.
 
-The product core is now executable: it validates an E3 evidence manifest,
+The product core is now executable: it validates schema-1 E3 or E3b evidence,
 applies explicit quality and SLO gates, recomputes the Pareto frontier, and emits
 a hashed deployment decision without a hidden weighted score.
 
@@ -72,6 +72,8 @@ planner until it passes a predeclared quality/SLO contract.
   benchmark.
 - [`configs/cloud-balanced.json`](configs/cloud-balanced.json): explicit example
   quality/SLO and selection policy.
+- [`configs/cloud-quality.json`](configs/cloud-quality.json): predeclared
+  quality-first policy for the E3b model-scale frontier.
 - [`patches/README.md`](patches/README.md): reviewable source-patch inputs and
   validation status.
 - [`logs/progress.md`](logs/progress.md): chronological project journal.

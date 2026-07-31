@@ -142,6 +142,13 @@ not map a nominal token count to identical text. Therefore E3 treats the same-
 text quality suite's latency as the cross-runtime comparison and token-rate
 measurements as secondary diagnostics.
 
+E3b adds the official Qwen2.5-7B-Instruct Q4_K_M package at pinned revision
+`bb5d59e06d9551d752d08b292a50eb208b07ab1f`. Its two files total
+4,683,073,632 bytes and declare Apache-2.0. It is a quality anchor against the
+unchanged 1.5B Q4_K_M task protocol, not a post-hoc replacement for the E3
+cross-runtime result. Exact sizes and SHA-256 values are in
+`experiments/e3b_models.json`.
+
 - Runtime licenses do not grant model/data licenses. Record exact weight source,
   license, version, and SHA-256.
 - [AI-on-Arm](https://github.com/arm-education/AI-on-Arm) uses an Arm Education

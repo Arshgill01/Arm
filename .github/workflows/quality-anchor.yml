@@ -1,0 +1,267 @@
+name: Arm E3b quality anchor
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  LLM_RUNNER_SHA: 8ba39e40fa754b87deb99a998c31de3b850094d5
+  LLAMA_CPP_SHA: eed25bc6b052c363aa760d0055282cc2222ccf6e
+  FEATURE_PATCH_SHA256: 75089ddea4d834133316f4a22f6909d3af87e4d8eadafdf631729bfbf80acbf9
+  Q8_PATCH_SHA256: 54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab
+
+jobs:
+  frontier:
+    name: Same-task 1.5B versus 7B quality frontier
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 90
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e3b-${{ github.run_id }}-${{ github.run_attempt }}
+      LLM_RUNNER_DIR: /tmp/LLM-Runner-E3b
+      MODEL_ROOT: /tmp/Pareto64-E3b/models
+      BUILD_DIR: /tmp/LLM-Runner-E3b/build
+      FEATURE_PATCH: ${{ github.workspace }}/patches/llama.cpp/0001-kleidiai-use-validated-arm-features.patch
+      Q8_PATCH: ${{ github.workspace }}/patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch
+
+    steps:
+      - name: Check out experiment repository
+        uses: actions/checkout@v7
+
+      - name: Select supported Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Capture host and pin inputs
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR" "$MODEL_ROOT"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          cp experiments/e3b_contract.json "$EVIDENCE_DIR/contract.json"
+          cp experiments/e3b_models.json "$EVIDENCE_DIR/models-manifest.json"
+          cp experiments/e3_tasks.json "$EVIDENCE_DIR/tasks-manifest.json"
+          echo "$FEATURE_PATCH_SHA256  $FEATURE_PATCH" | sha256sum --check --strict
+          echo "$Q8_PATCH_SHA256  $Q8_PATCH" | sha256sum --check --strict
+          echo 'beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346  experiments/e3_tasks.json' \
+            | sha256sum --check --strict
+          git clone --filter=blob:none \
+            https://github.com/Arm-Examples/LLM-Runner.git "$LLM_RUNNER_DIR"
+          git -C "$LLM_RUNNER_DIR" checkout --detach "$LLM_RUNNER_SHA"
+          test "$(git -C "$LLM_RUNNER_DIR" rev-parse HEAD)" = "$LLM_RUNNER_SHA"
+
+      - name: Fetch and verify pinned Qwen models
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' > "$RUNNER_TEMP/e3b-models.tsv"
+          import json
+          from pathlib import Path
+
+          manifest = json.loads(Path("experiments/e3b_models.json").read_text())
+          for variant, model in manifest["variants"].items():
+              for item in model["files"]:
+                  print(
+                      variant,
+                      model["repository"],
+                      model["revision"],
+                      item["path"],
+                      item["sha256"],
+                      item["size_bytes"],
+                      sep="\t",
+                  )
+          PY
+          while IFS=$'\t' read -r variant repository revision path sha256 size; do
+            target="$MODEL_ROOT/$variant/$path"
+            mkdir -p "$(dirname "$target")"
+            if [ ! -f "$target" ]; then
+              curl --fail --location --retry 5 --retry-all-errors \
+                --output "$target" \
+                "https://huggingface.co/$repository/resolve/$revision/$path?download=true"
+            fi
+            test "$(stat --format='%s' "$target")" = "$size"
+            echo "$sha256  $target" | sha256sum --check --strict
+          done < "$RUNNER_TEMP/e3b-models.tsv"
+          find "$MODEL_ROOT" -type f -printf '%P %s bytes\n' | sort \
+            | tee "$EVIDENCE_DIR/model-files.txt"
+          find "$MODEL_ROOT" -type f -print0 | sort -z | xargs -0 sha256sum \
+            | tee "$EVIDENCE_DIR/model-sha256.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after-models.txt"
+
+      - name: Configure and apply validated Pareto64 patches
+        run: |
+          set -euo pipefail
+          configure() {
+            cmake -S experiments/e3_quality_runner -B "$BUILD_DIR" -G Ninja \
+              -DBUILD_BENCHMARK=ON \
+              -DBUILD_JNI_LIB=OFF \
+              -DBUILD_LLM_TESTING=OFF \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_TOOLCHAIN_FILE="$LLM_RUNNER_DIR/scripts/cmake/toolchains/native-dispatch.cmake" \
+              -DCPU_ARCH=Armv8.6_1 \
+              -DDOWNLOAD_LLM_MODELS=OFF \
+              -DGGML_BACKEND_DL=OFF \
+              -DGGML_NATIVE=OFF \
+              -DLLM_FRAMEWORK=llama.cpp \
+              -DLLM_LOG_LEVEL=INFO \
+              -DLLM_RUNNER_SOURCE_DIR="$LLM_RUNNER_DIR" \
+              -DPython3_EXECUTABLE="$(command -v python3)" \
+              -DUSE_KLEIDIAI=ON
+          }
+          configure 2>&1 | tee "$EVIDENCE_DIR/configure-initial.log"
+          test "$(git -C "$BUILD_DIR/llama.cpp" rev-parse HEAD)" = "$LLAMA_CPP_SHA"
+          git -C "$BUILD_DIR/llama.cpp" apply --check "$FEATURE_PATCH"
+          git -C "$BUILD_DIR/llama.cpp" apply --check "$Q8_PATCH"
+          git -C "$BUILD_DIR/llama.cpp" apply "$FEATURE_PATCH"
+          git -C "$BUILD_DIR/llama.cpp" apply "$Q8_PATCH"
+          git -C "$BUILD_DIR/llama.cpp" diff --check
+          git -C "$BUILD_DIR/llama.cpp" diff --name-only \
+            | tee "$EVIDENCE_DIR/changed-files.txt"
+          test "$(sed -n '1p' "$EVIDENCE_DIR/changed-files.txt")" = \
+            'ggml/src/ggml-cpu/CMakeLists.txt'
+          test "$(sed -n '2p' "$EVIDENCE_DIR/changed-files.txt")" = \
+            'ggml/src/ggml-cpu/arch/arm/quants.c'
+          test "$(wc -l < "$EVIDENCE_DIR/changed-files.txt")" = 2
+          git -C "$BUILD_DIR/llama.cpp" diff > "$EVIDENCE_DIR/applied.patch"
+          configure 2>&1 | tee "$EVIDENCE_DIR/configure.log"
+          grep -q 'KleidiAI: ON' "$EVIDENCE_DIR/configure.log"
+
+      - name: Build common quality and benchmark harnesses
+        run: |
+          set -euo pipefail
+          cmake --build "$BUILD_DIR" \
+            --target e3-quality-cli llm-bench-cli \
+            --parallel "$(nproc)" \
+            2>&1 | tee "$EVIDENCE_DIR/build.log"
+          echo 0 > "$EVIDENCE_DIR/build-exit.txt"
+
+      - name: Run unchanged quality task repetitions
+        run: |
+          set -euo pipefail
+          run_quality() {
+            local variant="$1"
+            local entrypoint
+            entrypoint="$(jq -r --arg variant "$variant" '.variants[$variant].entrypoint' experiments/e3b_models.json)"
+            local model="$MODEL_ROOT/$variant/$entrypoint"
+            local output_dir="$EVIDENCE_DIR/variants/$variant"
+            mkdir -p "$output_dir"
+            for repetition in 1 2; do
+              (
+                cd "$BUILD_DIR/bin"
+                export LD_LIBRARY_PATH="$BUILD_DIR/bin:$BUILD_DIR/lib:${LD_LIBRARY_PATH:-}"
+                /usr/bin/time --verbose \
+                  --output "$output_dir/quality-repeat-$repetition.time.log" \
+                  "$BUILD_DIR/e3-quality-cli" \
+                  --model "$model" \
+                  --tasks "$GITHUB_WORKSPACE/experiments/e3_tasks.json" \
+                  --output "$output_dir/quality-repeat-$repetition.json" \
+                  --threads 4 \
+                  --context 2048 \
+                  --max-output-tokens 8 \
+                  --shared-library-path "$BUILD_DIR/bin"
+              ) > "$output_dir/quality-repeat-$repetition.stdout.log" \
+                2> "$output_dir/quality-repeat-$repetition.stderr.log"
+            done
+          }
+          run_quality qwen_1_5b_q4_k_m
+          run_quality qwen_7b_q4_k_m
+
+      - name: Run alternating model-scale performance rounds
+        run: |
+          set -euo pipefail
+          run_benchmark() {
+            local variant="$1"
+            local round="$2"
+            local position="$3"
+            local entrypoint
+            entrypoint="$(jq -r --arg variant "$variant" '.variants[$variant].entrypoint' experiments/e3b_models.json)"
+            local model="$MODEL_ROOT/$variant/$entrypoint"
+            local output_dir="$EVIDENCE_DIR/variants/$variant/round-$round-position-$position"
+            mkdir -p "$output_dir"
+            (
+              cd "$BUILD_DIR/bin"
+              export LD_LIBRARY_PATH="$BUILD_DIR/bin:$BUILD_DIR/lib:${LD_LIBRARY_PATH:-}"
+              /usr/bin/time --verbose --output "$output_dir/time.log" \
+                ./llm-bench-cli \
+                --model "$model" \
+                --input 128 \
+                --output 64 \
+                --context 2048 \
+                --threads 4 \
+                --iterations 3 \
+                --warmup 1 \
+                --json-output "$output_dir/benchmark.json"
+            ) > "$output_dir/stdout.log" 2> "$output_dir/stderr.log"
+          }
+          run_benchmark qwen_1_5b_q4_k_m 1 1
+          run_benchmark qwen_7b_q4_k_m 1 2
+          run_benchmark qwen_7b_q4_k_m 2 1
+          run_benchmark qwen_1_5b_q4_k_m 2 2
+          run_benchmark qwen_1_5b_q4_k_m 3 1
+          run_benchmark qwen_7b_q4_k_m 3 2
+          run_benchmark qwen_7b_q4_k_m 4 1
+          run_benchmark qwen_1_5b_q4_k_m 4 2
+
+      - name: Record provenance and apply frozen frontier rule
+        run: |
+          set -euo pipefail
+          python3 experiments/e3_score.py \
+            --models experiments/e3b_models.json \
+            --tasks experiments/e3_tasks.json \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --output "$EVIDENCE_DIR/quality-summary.json"
+          jq '{best_minimum_correct, variants: [.variants | to_entries[] | {variant: .key, minimum_correct: .value.minimum_correct, minimum_accuracy: .value.minimum_accuracy, stable: .value.predictions_stable, eligible: .value.quality_eligible}]}' \
+            "$EVIDENCE_DIR/quality-summary.json"
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          contract = json.loads(Path("experiments/e3b_contract.json").read_text())
+          models = json.loads(Path("experiments/e3b_models.json").read_text())
+          provenance = {
+              "schema_version": 1,
+              "experiment_id": "E3b",
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "git_commit": os.environ["GITHUB_SHA"],
+              "llm_runner_commit": os.environ["LLM_RUNNER_SHA"],
+              "llama_cpp_commit": os.environ["LLAMA_CPP_SHA"],
+              "patch_sha256": [
+                  os.environ["FEATURE_PATCH_SHA256"],
+                  os.environ["Q8_PATCH_SHA256"],
+              ],
+              "model_revisions": {
+                  name: model["revision"]
+                  for name, model in models["variants"].items()
+              },
+              "execution_order": contract["benchmark"]["execution_order"],
+              "controlled_difference": "Qwen parameter scale and package only",
+          }
+          (evidence / "provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          python3 experiments/e3b_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract experiments/e3b_contract.json \
+            --models experiments/e3b_models.json \
+            --tasks experiments/e3_tasks.json \
+            --output "$EVIDENCE_DIR/summary.json"
+          jq '{status, validation, application: [.application | to_entries[] | {variant: .key, accuracy: .value.minimum_accuracy, eligible: .value.quality_eligible, size: .value.package_size_bytes, latency_ms: .value.same_text_total_ms.median, rss_kib: .value.quality_process.maximum_rss_kib.max}], frontier: .pareto.frontier}' \
+            "$EVIDENCE_DIR/summary.json"
+          free -h | tee "$EVIDENCE_DIR/memory-after.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+
+      - name: Upload E3b evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e3b-quality-anchor-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90
