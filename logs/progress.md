@@ -230,3 +230,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   exclusion of the invalid SVE sources, the upstream functional test, and real
   model inference. This is source-correctness evidence; no performance benefit
   will be claimed from a failed-build baseline.
+
+## 2026-07-31 — E6a source-correctness fix validated
+
+- Run `30636911078` passed the entire frozen contract in 6m03s on the native
+  Neoverse N2 runner. The unpatched build exited 2 with the exact KleidiAI SVE
+  assembly and unsupported-instruction signatures.
+- The applied source diff is byte-for-byte identical to the frozen patch. After
+  reconfiguration and a clean of all generated objects, the full patched build
+  passed and compiled DotProd/I8MM—but no invalid SVE—KleidiAI kernels.
+- The pinned upstream Phi-2 test passed 1/1. Real inference loaded a
+  `CPU_KLEIDIAI` model buffer and completed every requested output token.
+- The independent ingester accepted the artifact as
+  `valid_source_correctness_fix`. Patched smoke medians were 113.847 prompt
+  tokens/s, 22.748 decode tokens/s, 605.278 ms TTFT, and 1,977.464 ms total.
+- No speedup is claimed because the unpatched configuration does not build, and
+  no quality claim is allowed for the legacy tokenizer metadata. E6b remains a
+  separate paired hot-path optimization requirement.

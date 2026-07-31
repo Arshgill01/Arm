@@ -1,0 +1,183 @@
+{
+  "benchmark": {
+    "iterations": [
+      {
+        "decode_time_sec": 1.514,
+        "decode_tokens_per_sec": 21.138,
+        "encode_time_sec": 0.562,
+        "encode_tokens_per_sec": 113.92,
+        "time_to_first_token_ms": 605.025,
+        "tokens_generated": 32,
+        "total_time_ms": 2075.659
+      },
+      {
+        "decode_time_sec": 1.395,
+        "decode_tokens_per_sec": 22.935,
+        "encode_time_sec": 0.562,
+        "encode_tokens_per_sec": 113.847,
+        "time_to_first_token_ms": 605.278,
+        "tokens_generated": 32,
+        "total_time_ms": 1957.397
+      },
+      {
+        "decode_time_sec": 1.407,
+        "decode_tokens_per_sec": 22.748,
+        "encode_time_sec": 0.571,
+        "encode_tokens_per_sec": 112.138,
+        "time_to_first_token_ms": 613.691,
+        "tokens_generated": 32,
+        "total_time_ms": 1977.464
+      }
+    ],
+    "metrics": {
+      "decode_tokens_per_sec": {
+        "coefficient_of_variation": 0.03621578236268763,
+        "max": 22.935,
+        "mean": 22.273666666666667,
+        "median": 22.748,
+        "min": 21.138,
+        "p95": 22.935,
+        "population_stddev": 0.8066582644190501
+      },
+      "encode_tokens_per_sec": {
+        "coefficient_of_variation": 0.007267113860481278,
+        "max": 113.92,
+        "mean": 113.30166666666666,
+        "median": 113.847,
+        "min": 112.138,
+        "p95": 113.92,
+        "population_stddev": 0.8233761122489629
+      },
+      "time_to_first_token_ms": {
+        "coefficient_of_variation": 0.006623185835133442,
+        "max": 613.691,
+        "mean": 607.998,
+        "median": 605.278,
+        "min": 605.025,
+        "p95": 613.691,
+        "population_stddev": 4.0268837413894625
+      },
+      "total_time_ms": {
+        "coefficient_of_variation": 0.025791253959864754,
+        "max": 2075.659,
+        "mean": 2003.506666666667,
+        "median": 1977.464,
+        "min": 1957.397,
+        "p95": 2075.659,
+        "population_stddev": 51.67294925028211
+      }
+    },
+    "parameters": {
+      "context_size": 512,
+      "model_path": "/tmp/LLM-Runner-E6a/resources_downloaded/models/llama.cpp/phi-2/phi2_Q4_model.gguf",
+      "model_size": "1.60 GB",
+      "num_input_tokens": 64,
+      "num_iterations": 3,
+      "num_output_tokens": 32,
+      "num_threads": 4,
+      "num_warmup": 1
+    },
+    "process": {
+      "elapsed": "0:08.95",
+      "elapsed_seconds": 8.95,
+      "exit_status": 0,
+      "maximum_rss_kib": 3243392,
+      "percent_cpu": "361%"
+    }
+  },
+  "contract": {
+    "acceptance": {
+      "patch_must_apply_cleanly": true,
+      "patched_build_must_exclude_sve_kleidiai_assembly": true,
+      "patched_clean_build_must_pass": true,
+      "pinned_model_benchmark_must_pass": true,
+      "pinned_upstream_text_test_must_pass": true,
+      "unpatched_build_must_fail": true,
+      "unpatched_log_must_contain_unsupported_instruction": true,
+      "unpatched_log_must_name_sve_kleidiai_assembly": true
+    },
+    "benchmark": {
+      "context": 512,
+      "input_tokens": 64,
+      "measured_iterations": 3,
+      "model_sha256": "a6f246baa29a776acbc9a1638088c33d8f7b6a044cc7dd09fb4b0374e1582ae0",
+      "output_tokens": 32,
+      "threads": 4,
+      "warmup_iterations": 1
+    },
+    "configuration": {
+      "build_type": "Release",
+      "cpu_arch": "Armv8.6_1",
+      "framework": "llama.cpp",
+      "ggml_native": true,
+      "threads": 4,
+      "use_kleidiai": true
+    },
+    "experiment_id": "E6a",
+    "hypothesis": "KleidiAI source selection must use llama.cpp's compiled HAVE_* feature probes instead of matching architecture-flag substrings.",
+    "patch": {
+      "path": "patches/llama.cpp/0001-kleidiai-use-validated-arm-features.patch",
+      "sha256": "75089ddea4d834133316f4a22f6909d3af87e4d8eadafdf631729bfbf80acbf9"
+    },
+    "schema_version": 1,
+    "upstream": {
+      "llama_cpp_commit": "eed25bc6b052c363aa760d0055282cc2222ccf6e",
+      "llama_cpp_tag": "b7870",
+      "llm_runner_commit": "8ba39e40fa754b87deb99a998c31de3b850094d5"
+    }
+  },
+  "experiment_id": "E6a",
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "experiment_id": "E6a",
+    "git_commit": "0a11afd69005cd62a647416b7ee4b45fc94fd813",
+    "github_run_attempt": "1",
+    "github_run_id": "30636911078",
+    "llama_cpp_commit": "eed25bc6b052c363aa760d0055282cc2222ccf6e",
+    "llm_runner_commit": "8ba39e40fa754b87deb99a998c31de3b850094d5",
+    "patch_sha256": "75089ddea4d834133316f4a22f6909d3af87e4d8eadafdf631729bfbf80acbf9",
+    "schema_version": 1,
+    "step_outcomes": {
+      "benchmark": "success",
+      "expected_unpatched_failure": "success",
+      "functional_test": "success",
+      "patched_clean_build": "success"
+    }
+  },
+  "schema_version": 1,
+  "source": {
+    "artifact_name": "e6a-native-feature-fix-30636911078-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30636911078"
+  },
+  "status": "valid_source_correctness_fix",
+  "validation": {
+    "applied_patch_matches_frozen_sha256": true,
+    "functional_test_passed": true,
+    "invalid_sve_sources_excluded": true,
+    "kleidiai_runtime_buffer_observed": true,
+    "patched_clean_build_passed": true,
+    "quality_claim_allowed": false,
+    "real_model_inference_passed": true,
+    "speedup_claim_allowed": false,
+    "unpatched_exit_status": 2,
+    "unpatched_failure_reproduced": true
+  }
+}

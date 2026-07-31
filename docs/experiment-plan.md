@@ -111,6 +111,15 @@ pinned upstream Phi-2 text test, and runs the fixed real-model benchmark. E6a is
 a build/source-correctness result, not a speedup claim; a later hot-path E6b
 still needs paired performance and mechanism evidence.
 
+### E6a outcome
+
+Native run `30636911078` reproduced the unpatched SVE assembler failure, applied
+the byte-identical frozen patch, completed a clean build, passed the pinned
+upstream test, and ran real KleidiAI inference. The independently validated
+status is `valid_source_correctness_fix`. E6a is accepted as build-correctness
+evidence; E6b remains required for a performance claim. See
+[`../results/reports/e6a-native-feature-fix.md`](../results/reports/e6a-native-feature-fix.md).
+
 ## First workload scope
 
 Start with the smallest public, permissively licensed text path already supported
