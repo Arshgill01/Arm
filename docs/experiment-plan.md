@@ -449,6 +449,32 @@ ratio versus the frozen 1.10x minimum. Two-slot pooled median/p95 latency were
 selected-model inference serving but retains the single-slot default. See
 [`../results/reports/e5b-selected-inference.md`](../results/reports/e5b-selected-inference.md).
 
+## E5c frozen shared-prefix cache protocol
+
+E5c tests the next inference-server hypothesis on the exact E5b service. The
+single slot, single client, selected model, pinned runtime, four threads,
+2,048-token context, system instruction, task order, seed, and eight-token cap
+do not change. The only variable is llama.cpp's `cache_prompt`: the baseline
+explicitly disables it, while the candidate enables it in both the hashed
+launch recipe and every request.
+
+The 30 tasks share the system instruction and chat-template prefix. The pinned
+runtime documents that caching can skip evaluation of this common prefix, but
+also warns that different prompt batch sizes can change logits. Its own
+cache-versus-no-cache equality test is skipped on Linux. E5c therefore treats
+output stability as an obligation, not an assumption.
+
+Four fresh servers run in balanced order: no-cache, cache, cache, no-cache.
+Every one of the 120 measured responses must remain HTTP 200, stop normally,
+contain an exact standalone A-D letter, match the frozen E3f prediction, and
+reproduce 23/30. The baseline must report zero reused prompt tokens; every
+cached request must report at least one reused token. Only after those gates may
+the cache claim at least 1.10x repeated median request throughput and at least
+1.10x improvement in repeated median prompt-encode time. The unchanged 5/10
+second median/p95 latency, 15-second readiness, and 8 GiB RSS ceilings also
+apply. Exact inputs and order are frozen in
+[`../experiments/e5c_contract.json`](../experiments/e5c_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

@@ -123,7 +123,7 @@ def validate_probe(
     result = probe.get("result")
     if (
         probe.get("schema_version") != 1
-        or probe.get("experiment_id") != "E5b"
+        or probe.get("experiment_id") != contract["experiment_id"]
         or not isinstance(parameters, dict)
         or not isinstance(cases, list)
         or not isinstance(warmups, list)
@@ -147,6 +147,11 @@ def validate_probe(
     for key, expected in expected_parameters.items():
         if parameters.get(key) != expected:
             raise ValueError(f"probe parameter {key} differs from the contract")
+    if (
+        "prompt_cache" in config
+        and parameters.get("prompt_cache") is not config["prompt_cache"]
+    ):
+        raise ValueError("probe prompt cache setting differs from the contract")
     task_by_id = {task["id"]: task for task in tasks}
     if len(warmups) != len(request_contract["warmup_task_ids"]):
         raise ValueError("warmup count differs from the contract")
@@ -193,6 +198,29 @@ def validate_probe(
         "encode_ms": summarize([float(case["encode_ms"]) for case in cases]),
         "decode_ms": summarize([float(case["decode_ms"]) for case in cases]),
     }
+    if "prompt_cache" in config:
+        cached_tokens = [case.get("cached_tokens") for case in cases]
+        evaluated_tokens = [case.get("evaluated_prompt_tokens") for case in cases]
+        if any(type(value) is not int or value < 0 for value in cached_tokens):
+            raise ValueError("probe has invalid cached-token evidence")
+        if any(type(value) is not int or value <= 0 for value in evaluated_tokens):
+            raise ValueError("probe has invalid evaluated-prompt-token evidence")
+        minimum_cached = contract["acceptance"].get(
+            "minimum_candidate_cached_tokens_per_request", 1
+        )
+        if config["prompt_cache"]:
+            if any(value < minimum_cached for value in cached_tokens):
+                raise ValueError("prompt-cache cell did not reuse the frozen prefix")
+        elif any(value != 0 for value in cached_tokens):
+            raise ValueError("no-cache cell unexpectedly reused prompt tokens")
+        observed_summaries.update(
+            {
+                "cached_tokens": summarize([float(value) for value in cached_tokens]),
+                "evaluated_prompt_tokens": summarize(
+                    [float(value) for value in evaluated_tokens]
+                ),
+            }
+        )
     for key, value in observed_summaries.items():
         if result.get(key) != value:
             raise ValueError(f"probe {key} summary differs from raw cases")
@@ -281,14 +309,24 @@ def validate_recipe(
     ):
         raise ValueError("launch recipe runtime differs from the frozen configuration")
     argv = runtime.get("argv")
+    prompt_cache = config.get("prompt_cache", False)
+    prompt_cache_argument = "--cache-prompt" if prompt_cache else "--no-cache-prompt"
+    forbidden_cache_argument = "--no-cache-prompt" if prompt_cache else "--cache-prompt"
     required_arguments = {
         "--cont-batching",
-        "--no-cache-prompt",
+        prompt_cache_argument,
         "--metrics",
         "--slots",
         "--jinja",
     }
-    if not isinstance(argv, list) or not required_arguments.issubset(argv):
+    if (
+        not isinstance(argv, list)
+        or not required_arguments.issubset(argv)
+        or forbidden_cache_argument in argv
+        or (
+            "prompt_cache" in config and runtime.get("prompt_cache") is not prompt_cache
+        )
+    ):
         raise ValueError("launch recipe lacks required serving arguments")
 
 

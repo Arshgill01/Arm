@@ -650,3 +650,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   claim is rejected and Pareto64 retains one slot by default. Independent
   ingestion matched the uploaded summary at SHA-256
   `aa529b16094ab398bf1d7c6aa698b452eeea6217f8016c280a5f2b6f947bf66c`.
+
+## 2026-07-31 — E5c shared-prefix prompt cache frozen
+
+- Audited the selected serving path and found that Pareto64 explicitly disables
+  llama.cpp prompt caching, even though all requests share the same system and
+  chat-template prefix.
+- The pinned runtime documents common-prefix KV reuse as a performance feature,
+  but warns that prompt batching can change logits; its cache-equivalence test
+  is skipped on Linux. This makes the hypothesis performance-positive but
+  correctness-sensitive.
+- Froze a four-cell no-cache/cache/cache/no-cache experiment with one slot and
+  client throughout. Both the hashed server recipe and request payload bind the
+  cache mode, and raw timing evidence must prove zero reuse in the baseline and
+  real prefix reuse in every candidate request.
+- Promotion requires all 120 responses to reproduce E3f's stable 23/30 result,
+  at least 1.10x repeated median throughput, at least 1.10x prompt-encode
+  improvement, and the unchanged latency, readiness, and RSS ceilings.

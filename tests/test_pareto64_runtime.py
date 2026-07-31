@@ -72,7 +72,30 @@ class Pareto64RuntimeTests(unittest.TestCase):
             self.assertEqual(digest, recipe["model"]["files"][0]["sha256"])
             self.assertEqual(4096, recipe["runtime"]["context_total"])
             self.assertIn("--cont-batching", recipe["runtime"]["argv"])
+            self.assertIn("--no-cache-prompt", recipe["runtime"]["argv"])
+            self.assertFalse(recipe["runtime"]["prompt_cache"])
             self.assertFalse(recipe["weighted_score_used"])
+
+            cached_recipe = prepare_launch(
+                manifest=manifest,
+                constraints=constraints,
+                models=models,
+                contract=contract,
+                manifest_path=manifest_path,
+                constraints_path=constraints_path,
+                models_path=models_path,
+                contract_path=contract_path,
+                model_root=model_root,
+                server_path=server_path,
+                version_output="version b10208 (9d9a6d29f)",
+                host="127.0.0.1",
+                port=18081,
+                parallel=1,
+                prompt_cache=True,
+            )
+            self.assertIn("--cache-prompt", cached_recipe["runtime"]["argv"])
+            self.assertNotIn("--no-cache-prompt", cached_recipe["runtime"]["argv"])
+            self.assertTrue(cached_recipe["runtime"]["prompt_cache"])
 
     def test_model_hash_mismatch_fails_closed(self) -> None:
         manifest = load_object(ROOT / "results/manifests/e3f-30656151957.json")

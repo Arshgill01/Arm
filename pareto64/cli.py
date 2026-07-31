@@ -49,6 +49,11 @@ def parse_args() -> argparse.Namespace:
     launch.add_argument("--host", default="127.0.0.1")
     launch.add_argument("--port", type=int, default=8081)
     launch.add_argument("--parallel", type=int, default=1)
+    launch.add_argument(
+        "--prompt-cache",
+        action="store_true",
+        help="experimentally reuse a shared prompt prefix; disabled by default",
+    )
     launch.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 
@@ -110,6 +115,7 @@ def main() -> int:
             host=arguments.host,
             port=arguments.port,
             parallel=arguments.parallel,
+            prompt_cache=arguments.prompt_cache,
         )
         write_recipe(arguments.recipe_output, recipe)
         print(arguments.recipe_output, flush=True)

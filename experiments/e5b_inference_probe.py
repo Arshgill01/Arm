@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Measure selected-model inference serving under frozen bounded concurrency."""
+"""Measure selected-model inference serving under a frozen configuration."""
 
 from __future__ import annotations
 
@@ -59,25 +59,27 @@ def request_case(
     max_output_tokens: int,
     seed: int,
     timeout: float,
+    cache_prompt: bool | None = None,
 ) -> dict[str, Any]:
     parsed = urlsplit(base_url)
     connection = http.client.HTTPConnection(
         parsed.hostname, parsed.port, timeout=timeout
     )
-    body = json.dumps(
-        {
-            "model": candidate,
-            "messages": [
-                {"role": "system", "content": instruction},
-                {"role": "user", "content": task["prompt"]},
-            ],
-            "temperature": 0.0,
-            "seed": seed,
-            "max_tokens": max_output_tokens,
-            "stream": False,
-            "chat_template_kwargs": {"enable_thinking": False},
-        }
-    ).encode("utf-8")
+    request = {
+        "model": candidate,
+        "messages": [
+            {"role": "system", "content": instruction},
+            {"role": "user", "content": task["prompt"]},
+        ],
+        "temperature": 0.0,
+        "seed": seed,
+        "max_tokens": max_output_tokens,
+        "stream": False,
+        "chat_template_kwargs": {"enable_thinking": False},
+    }
+    if cache_prompt is not None:
+        request["cache_prompt"] = cache_prompt
+    body = json.dumps(request).encode("utf-8")
     started = time.perf_counter_ns()
     try:
         connection.request(
@@ -112,6 +114,12 @@ def request_case(
             "generated_tokens": timings.get("predicted_n")
             if isinstance(timings, dict)
             else None,
+            "cached_tokens": timings.get("cache_n")
+            if isinstance(timings, dict)
+            else None,
+            "evaluated_prompt_tokens": timings.get("prompt_n")
+            if isinstance(timings, dict)
+            else None,
             "encode_ms": timings.get("prompt_ms")
             if isinstance(timings, dict)
             else None,
@@ -135,6 +143,8 @@ def request_case(
             "reference_match": False,
             "termination_reason": None,
             "generated_tokens": None,
+            "cached_tokens": None,
+            "evaluated_prompt_tokens": None,
             "encode_ms": None,
             "decode_ms": None,
             "http_ms": (time.perf_counter_ns() - started) / 1_000_000,
@@ -157,6 +167,8 @@ def run_probe(
     max_output_tokens: int,
     seed: int,
     timeout: float,
+    experiment_id: str = "E5b",
+    cache_prompt: bool | None = None,
 ) -> dict[str, Any]:
     parsed = urlsplit(base_url)
     if parsed.scheme != "http" or not parsed.hostname or parsed.path not in {"", "/"}:
@@ -184,6 +196,7 @@ def run_probe(
             max_output_tokens,
             seed,
             timeout,
+            cache_prompt,
         )
         for index, task_id in enumerate(warmup_task_ids)
     ]
@@ -201,6 +214,7 @@ def run_probe(
                     max_output_tokens,
                     seed,
                     timeout,
+                    cache_prompt,
                 ),
                 enumerate(raw_tasks),
             )
@@ -216,7 +230,7 @@ def run_probe(
     valid_timings = [case for case in cases if case["encode_ms"] is not None]
     return {
         "schema_version": 1,
-        "experiment_id": "E5b",
+        "experiment_id": experiment_id,
         "parameters": {
             "base_url": base_url,
             "candidate": candidate,
@@ -231,6 +245,7 @@ def run_probe(
             "temperature": 0.0,
             "seed": seed,
             "timeout_seconds": timeout,
+            "prompt_cache": cache_prompt,
         },
         "warmups": warmups,
         "cases": cases,
@@ -252,6 +267,18 @@ def run_probe(
             ),
             "decode_ms": (
                 summarize([float(case["decode_ms"]) for case in valid_timings])
+                if valid_timings
+                else None
+            ),
+            "cached_tokens": (
+                summarize([float(case["cached_tokens"]) for case in valid_timings])
+                if valid_timings
+                else None
+            ),
+            "evaluated_prompt_tokens": (
+                summarize(
+                    [float(case["evaluated_prompt_tokens"]) for case in valid_timings]
+                )
                 if valid_timings
                 else None
             ),
@@ -278,6 +305,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-output-tokens", type=int, default=8)
     parser.add_argument("--seed", type=int, default=424242)
     parser.add_argument("--timeout", type=float, default=30.0)
+    parser.add_argument("--experiment-id", default="E5b")
+    cache = parser.add_mutually_exclusive_group()
+    cache.add_argument("--cache-prompt", dest="cache_prompt", action="store_true")
+    cache.add_argument("--no-cache-prompt", dest="cache_prompt", action="store_false")
+    parser.set_defaults(cache_prompt=None)
     parser.add_argument("--output", type=Path, required=True)
     return parser.parse_args()
 
@@ -289,6 +321,7 @@ def main() -> int:
         or arguments.concurrency <= 0
         or arguments.max_output_tokens <= 0
         or arguments.timeout <= 0
+        or not arguments.experiment_id.strip()
     ):
         raise ValueError(
             "repetition, concurrency, output cap, and timeout must be positive"
@@ -307,6 +340,8 @@ def main() -> int:
         max_output_tokens=arguments.max_output_tokens,
         seed=arguments.seed,
         timeout=arguments.timeout,
+        experiment_id=arguments.experiment_id,
+        cache_prompt=arguments.cache_prompt,
     )
     arguments.output.parent.mkdir(parents=True, exist_ok=True)
     arguments.output.write_text(

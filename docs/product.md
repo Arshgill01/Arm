@@ -89,6 +89,12 @@ context proportionally so each slot retains the frozen context allocation.
 `--dry-run` performs every integrity and selection check and writes the recipe
 without starting the server.
 
+Prompt-prefix reuse remains disabled by default because the pinned llama.cpp
+runtime warns that cache-dependent prompt batch sizes can alter logits. The
+launcher exposes `--prompt-cache` only as an auditable experimental override;
+E5c must reproduce every selected answer and clear frozen throughput and encode
+gates before the default can change.
+
 E5b validated the full launch path on native Arm with zero answer drift across
 120 measured requests. Its two-slot candidate improved repeated median
 throughput by only 1.89%, below the frozen 10% minimum, while pooled median

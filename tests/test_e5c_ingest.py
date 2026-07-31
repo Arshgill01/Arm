@@ -7,30 +7,33 @@ from pathlib import Path
 
 from experiments.e1_ingest import summarize
 from experiments.e5b_ingest import (
-    evaluate_hypothesis,
     load_tasks,
     reference_predictions,
     validate_probe,
     validate_recipe,
 )
+from experiments.e5c_ingest import evaluate_hypothesis
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-class E5bIngestTests(unittest.TestCase):
+class E5cIngestTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.contract = json.loads((ROOT / "experiments/e5b_contract.json").read_text())
+        cls.contract = json.loads((ROOT / "experiments/e5c_contract.json").read_text())
         cls.manifest = json.loads(
             (ROOT / "results/manifests/e3f-30656151957.json").read_text()
         )
-        tasks_manifest = json.loads((ROOT / "experiments/e3_tasks.json").read_text())
-        cls.tasks = load_tasks(tasks_manifest)
+        cls.tasks = load_tasks(
+            json.loads((ROOT / "experiments/e3_tasks.json").read_text())
+        )
         cls.references = reference_predictions(
             cls.manifest, cls.contract["selected"]["candidate"]
         )
 
-    def make_case(self, index: int, task: dict, reference: str) -> dict:
+    def make_case(
+        self, index: int, task: dict, reference: str, cached_tokens: int
+    ) -> dict:
         return {
             "index": index,
             "id": task["id"],
@@ -44,32 +47,40 @@ class E5bIngestTests(unittest.TestCase):
             "reference_match": True,
             "termination_reason": "stop",
             "generated_tokens": 1,
+            "cached_tokens": cached_tokens,
+            "evaluated_prompt_tokens": 80 + index,
             "encode_ms": 10.0 + index,
             "decode_ms": 1.0,
             "http_ms": 12.0 + index,
             "error": None,
         }
 
-    def probe(self) -> dict:
+    def probe(self, configuration: str) -> dict:
         request = self.contract["request"]
-        config = self.contract["execution"]["configurations"]["baseline"]
+        config = self.contract["execution"]["configurations"][configuration]
+        cached_tokens = 24 if config["prompt_cache"] else 0
         task_by_id = {task["id"]: task for task in self.tasks}
         warmups = [
-            self.make_case(index, task_by_id[task_id], self.references[task_id])
+            self.make_case(
+                index,
+                task_by_id[task_id],
+                self.references[task_id],
+                cached_tokens,
+            )
             for index, task_id in enumerate(request["warmup_task_ids"])
         ]
         cases = [
-            self.make_case(index, task, self.references[task["id"]])
+            self.make_case(index, task, self.references[task["id"]], cached_tokens)
             for index, task in enumerate(self.tasks)
         ]
         elapsed = 60.0
         return {
             "schema_version": 1,
-            "experiment_id": "E5b",
+            "experiment_id": "E5c",
             "parameters": {
                 "base_url": "http://127.0.0.1:18081",
                 "candidate": self.contract["selected"]["candidate"],
-                "configuration": "baseline",
+                "configuration": configuration,
                 "repetition": 1,
                 "warmup_task_ids": request["warmup_task_ids"],
                 "measured_tasks": request["measured_tasks"],
@@ -80,6 +91,7 @@ class E5bIngestTests(unittest.TestCase):
                 "temperature": request["temperature"],
                 "seed": request["seed"],
                 "timeout_seconds": request["timeout_seconds"],
+                "prompt_cache": config["prompt_cache"],
             },
             "warmups": warmups,
             "cases": cases,
@@ -94,64 +106,69 @@ class E5bIngestTests(unittest.TestCase):
                 "http_ms": summarize([case["http_ms"] for case in cases]),
                 "encode_ms": summarize([case["encode_ms"] for case in cases]),
                 "decode_ms": summarize([case["decode_ms"] for case in cases]),
+                "cached_tokens": summarize([case["cached_tokens"] for case in cases]),
+                "evaluated_prompt_tokens": summarize(
+                    [case["evaluated_prompt_tokens"] for case in cases]
+                ),
                 "status_counts": {"200": len(cases)},
             },
         }
 
-    def test_valid_probe_reproduces_selected_quality(self) -> None:
+    def test_valid_cached_probe_reuses_prefix_and_preserves_quality(self) -> None:
+        configuration = "prompt_cache"
         result = validate_probe(
-            self.probe(),
-            configuration="baseline",
+            self.probe(configuration),
+            configuration=configuration,
             repetition=1,
-            config=self.contract["execution"]["configurations"]["baseline"],
+            config=self.contract["execution"]["configurations"][configuration],
             contract=self.contract,
             tasks=self.tasks,
             references=self.references,
         )
         self.assertEqual(23, result["correct"])
-        self.assertEqual(0, result["reference_prediction_mismatches"])
+        self.assertEqual(24.0, result["cached_tokens"]["median"])
 
-    def test_answer_drift_fails_closed(self) -> None:
-        probe = self.probe()
-        case = probe["cases"][0]
-        replacement = "A" if case["reference_prediction"] != "A" else "B"
-        case["response"] = replacement
-        case["predicted"] = replacement
-        case["correct"] = replacement == case["expected"]
-        case["reference_match"] = False
-        probe["result"]["correct"] = sum(item["correct"] for item in probe["cases"])
-        probe["result"]["accuracy"] = probe["result"]["correct"] / len(probe["cases"])
-        probe["result"]["reference_prediction_mismatches"] = 1
-        with self.assertRaisesRegex(ValueError, "selected E3f quality"):
+    def test_missing_prefix_reuse_fails_closed(self) -> None:
+        configuration = "prompt_cache"
+        probe = self.probe(configuration)
+        probe["cases"][0]["cached_tokens"] = 0
+        probe["result"]["cached_tokens"] = summarize(
+            [case["cached_tokens"] for case in probe["cases"]]
+        )
+        with self.assertRaisesRegex(ValueError, "did not reuse"):
             validate_probe(
                 probe,
-                configuration="baseline",
+                configuration=configuration,
                 repetition=1,
-                config=self.contract["execution"]["configurations"]["baseline"],
+                config=self.contract["execution"]["configurations"][configuration],
                 contract=self.contract,
                 tasks=self.tasks,
                 references=self.references,
             )
 
-    def test_raw_summary_tampering_fails_closed(self) -> None:
-        probe = copy.deepcopy(self.probe())
-        probe["result"]["http_ms"]["median"] += 1
-        with self.assertRaisesRegex(ValueError, "summary differs"):
+    def test_no_cache_cell_rejects_hidden_reuse(self) -> None:
+        configuration = "no_cache"
+        probe = self.probe(configuration)
+        probe["cases"][0]["cached_tokens"] = 1
+        probe["result"]["cached_tokens"] = summarize(
+            [case["cached_tokens"] for case in probe["cases"]]
+        )
+        with self.assertRaisesRegex(ValueError, "unexpectedly reused"):
             validate_probe(
                 probe,
-                configuration="baseline",
+                configuration=configuration,
                 repetition=1,
-                config=self.contract["execution"]["configurations"]["baseline"],
+                config=self.contract["execution"]["configurations"][configuration],
                 contract=self.contract,
                 tasks=self.tasks,
                 references=self.references,
             )
 
-    def test_launch_recipe_is_bound_to_frozen_inputs(self) -> None:
+    def recipe(self, prompt_cache: bool) -> dict:
         selected = self.contract["selected"]
         inputs = self.contract["inputs"]
-        server_version = f"version b10208 ({selected['llama_cpp_commit'][:9]})"
-        recipe = {
+        cache_argument = "--cache-prompt" if prompt_cache else "--no-cache-prompt"
+        return {
             "schema_version": 1,
             "service": "Pareto64",
             "status": "ready_to_launch",
@@ -174,40 +191,55 @@ class E5bIngestTests(unittest.TestCase):
             },
             "runtime": {
                 "llama_cpp_commit": selected["llama_cpp_commit"],
-                "server_version": server_version,
+                "server_version": (
+                    f"version b10208 ({selected['llama_cpp_commit'][:9]})"
+                ),
                 "threads": 4,
                 "parallel_slots": 1,
+                "prompt_cache": prompt_cache,
                 "context_per_slot": 2048,
                 "context_total": 2048,
-                "prompt_cache": False,
                 "argv": [
                     "llama-server",
                     "--cont-batching",
-                    "--no-cache-prompt",
+                    cache_argument,
                     "--metrics",
                     "--slots",
                     "--jinja",
                 ],
             },
         }
-        config = self.contract["execution"]["configurations"]["baseline"]
-        validate_recipe(recipe, config=config, contract=self.contract)
-        recipe["inputs"]["models_sha256"] = "0" * 64
-        with self.assertRaisesRegex(ValueError, "models hash"):
-            validate_recipe(recipe, config=config, contract=self.contract)
 
-    def test_valid_negative_throughput_result_is_retained(self) -> None:
+    def test_launch_recipe_binds_each_cache_mode(self) -> None:
+        for name in ("no_cache", "prompt_cache"):
+            config = self.contract["execution"]["configurations"][name]
+            validate_recipe(
+                self.recipe(config["prompt_cache"]),
+                config=config,
+                contract=self.contract,
+            )
+            wrong = copy.deepcopy(self.recipe(not config["prompt_cache"]))
+            with self.assertRaisesRegex(ValueError, "serving arguments"):
+                validate_recipe(wrong, config=config, contract=self.contract)
+
+    def test_predeclared_improvement_gates(self) -> None:
         performance = {
-            "baseline": {"requests_per_second": {"median": 0.54}},
-            "concurrent_2": {
-                "requests_per_second": {"median": 0.55},
-                "http_ms": {"median": 3550.0, "p95": 4510.0},
+            "no_cache": {
+                "requests_per_second": {"median": 0.5},
+                "repetition_encode_median_ms": {"median": 1800.0},
+            },
+            "prompt_cache": {
+                "requests_per_second": {"median": 0.6},
+                "repetition_encode_median_ms": {"median": 1400.0},
+                "http_ms": {"median": 1500.0, "p95": 2200.0},
             },
         }
         result = evaluate_hypothesis(performance, self.contract["acceptance"])
+        self.assertTrue(result["passed"])
+        performance["prompt_cache"]["requests_per_second"]["median"] = 0.52
+        result = evaluate_hypothesis(performance, self.contract["acceptance"])
         self.assertFalse(result["passed"])
         self.assertFalse(result["throughput_improvement_passed"])
-        self.assertTrue(result["latency_ceilings_passed"])
 
 
 if __name__ == "__main__":

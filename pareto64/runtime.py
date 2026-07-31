@@ -95,6 +95,7 @@ def prepare_launch(
     host: str,
     port: int,
     parallel: int,
+    prompt_cache: bool = False,
 ) -> dict[str, Any]:
     plan = build_plan(
         manifest,
@@ -139,6 +140,8 @@ def prepare_launch(
         raise ValueError("runtime port must be between 1 and 65535")
     if not isinstance(parallel, int) or parallel <= 0 or parallel > 16:
         raise ValueError("runtime parallel slots must be between 1 and 16")
+    if not isinstance(prompt_cache, bool):
+        raise ValueError("runtime prompt cache setting must be boolean")
     configuration = contract.get("configuration", {})
     threads = configuration.get("threads")
     slot_context = configuration.get("context")
@@ -179,7 +182,7 @@ def prepare_launch(
         "--parallel",
         str(parallel),
         "--cont-batching",
-        "--no-cache-prompt",
+        "--cache-prompt" if prompt_cache else "--no-cache-prompt",
         "--host",
         host,
         "--port",
@@ -230,6 +233,7 @@ def prepare_launch(
             "port": port,
             "threads": threads,
             "parallel_slots": parallel,
+            "prompt_cache": prompt_cache,
             "context_per_slot": slot_context,
             "context_total": slot_context * parallel,
             "argv": argv,
