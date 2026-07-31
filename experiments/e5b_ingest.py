@@ -359,6 +359,31 @@ def validate_recipe(
             or argv[argv.index(argument) + 1] != expected
         ):
             raise ValueError("launch recipe KV cache type differs from the contract")
+    if "batch_size" in config:
+        batch_size = config["batch_size"]
+        micro_batch_size = config["micro_batch_size"]
+        explicit = config["explicit_batch_arguments"]
+        if (
+            runtime.get("batch_size") != batch_size
+            or runtime.get("micro_batch_size") != micro_batch_size
+            or runtime.get("batch_size_requested")
+            != (batch_size if explicit else None)
+            or runtime.get("micro_batch_size_requested")
+            != (micro_batch_size if explicit else None)
+        ):
+            raise ValueError("launch recipe batch sizes differ from the contract")
+        for argument, expected in (
+            ("--batch-size", batch_size),
+            ("--ubatch-size", micro_batch_size),
+        ):
+            if explicit and (
+                argv.count(argument) != 1
+                or argv.index(argument) == len(argv) - 1
+                or argv[argv.index(argument) + 1] != str(expected)
+            ):
+                raise ValueError("launch recipe lacks explicit batch arguments")
+            if not explicit and argument in argv:
+                raise ValueError("baseline recipe unexpectedly pins batch arguments")
 
 
 def validate_cell(

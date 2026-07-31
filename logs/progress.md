@@ -822,3 +822,21 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Independent Python 3.10 ingestion matched the uploaded summary byte for byte
   at SHA-256
   `51f1e704259d300a460fb8f386f893dd2c86cd3d2e62c54071d48b099a96e8ac`.
+
+## 2026-07-31 — E5f prompt batch profile frozen
+
+- Audited pinned llama.cpp `b10208`: upstream logical/physical prompt-batch
+  defaults are 2,048/512, causal attention clamps them to the 256-token
+  context, and compute-graph reservation uses the effective microbatch. The
+  retained E5e mechanism log confirms an effective 256/256 baseline and a
+  40.13 MiB CPU compute buffer.
+- Froze 256/256, 128/128, and 64/64 profiles in forward then reverse order with
+  two repetitions each. The 128 profile covers the retained 127-token maximum
+  prompt in one batch; 64 intentionally tests split-prompt behavior.
+- Added bounded paired launcher overrides and recipe fields for requested and
+  effective batch sizes. The baseline must omit both flags, while candidate
+  recipes must bind both explicitly.
+- Promotion requires exact selected predictions and prefix reuse, at least 8
+  MiB lower compute buffer and conservative maximum RSS, at least 98%
+  throughput retention, median/p95 latency within 1.05x, and the existing
+  readiness/RSS ceilings. The selector uses no weighted score.

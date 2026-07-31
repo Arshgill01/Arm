@@ -580,6 +580,39 @@ the launcher default to `ctx256_k_f16`; independent Python 3.10 ingestion
 matched the uploaded summary at SHA-256
 `51f1e704259d300a460fb8f386f893dd2c86cd3d2e62c54071d48b099a96e8ac`.
 
+## E5f frozen prompt batch and microbatch profile
+
+E5f asks whether the promoted f16/256 cached single-slot service reserves an
+oversized prompt compute graph. Pinned llama.cpp defaults the logical batch to
+2,048 and physical microbatch to 512, but causal attention clamps them to the
+256-token context, yielding the observed 256/256 baseline and a 40.13 MiB CPU
+compute buffer. The source reserves its worst-case prompt graph from the
+effective microbatch.
+
+The frozen profiles are the unflagged 256/256 product default, explicit
+128/128, and explicit 64/64. The largest retained prompt is 127 tokens, so 128
+tests the first one-batch workload boundary; 64 deliberately exercises the
+server's split-prompt path. Six fresh servers run the three profiles forward
+then in exact reverse. The selected model, 256-token context, f16 K/V cache,
+automatic flash attention, shared-prefix cache, one slot/client, four threads,
+request order, seed, and output cap do not change.
+
+INFO-level mechanism launches must bind the requested launcher arguments to
+the runtime-reported effective logical/physical batches and parse the CPU
+compute-buffer allocation. The monotonic trend is reported but does not decide
+artifact validity; each candidate's reduction gate decides eligibility. Answer
+drift likewise makes only that profile ineligible, because pinned upstream
+explicitly warns that caching and different prompt batch sizes can change logits.
+
+A candidate must reproduce every E3f prediction and cached-prefix reuse, save
+at least 8 MiB in both the reported compute buffer and conservative maximum
+RSS, retain at least 98% of throughput, keep pooled median and p95 latency
+within 1.05x, become ready within 15 seconds, and stay below 8 GiB RSS.
+Selection is unweighted and lexicographic: lower maximum RSS, smaller physical
+microbatch, smaller logical batch, then configuration name. Exact inputs and
+order are frozen in
+[`../experiments/e5f_contract.json`](../experiments/e5f_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

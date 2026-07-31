@@ -88,6 +88,11 @@ configuration and defaults to the E5e-selected 256-token context per slot.
 Increasing `--parallel` increases total context proportionally so each slot
 retains that allocation. `--context-per-slot` remains an explicit bounded
 override for a separately validated workload profile.
+`--batch-size` and `--micro-batch-size` are an optional bounded pair. Omitting
+both preserves the pinned llama.cpp defaults, which the selected one-slot
+256-token context clamps to an effective 256/256. E5f is the frozen native
+quality/performance study for any smaller pair; no smaller batch is a product
+default before that evidence passes.
 `--dry-run` performs every integrity and selection check and writes the recipe
 without starting the server.
 

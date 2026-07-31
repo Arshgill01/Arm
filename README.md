@@ -52,6 +52,9 @@ E5e then right-sizes the validated application context from 2,048 to 256 tokens,
 reducing maximum process RSS by 183.36 MiB while preserving every answer and
 99.62% of throughput. Lower-precision q4_0 KV cache was faster but changed a
 stable answer, so the product promotes the f16 right-sized profile instead.
+E5f is now frozen to test the remaining llama.cpp compute-buffer headroom: the
+promoted service's implicit effective 256/256 logical/physical prompt batch is
+compared with 128/128 and 64/64 in a quality-gated forward/reverse study.
 
 ```bash
 python3 -m pareto64 plan \
@@ -85,6 +88,10 @@ python3 -m pareto64 plan \
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
+The active E5f contract is
+[`experiments/e5f_contract.json`](experiments/e5f_contract.json); it has no
+claimed outcome until the frozen native workflow and independent ingestion
+complete.
 
 ## Repository map
 

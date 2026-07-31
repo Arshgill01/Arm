@@ -22,6 +22,8 @@ authoritative, timestamped record; this file groups the significant additions.
   only 1.0619x two-slot throughput with 93.3% higher median latency.
 - Promoted a 256-token f16 context profile after it preserved every answer and
   saved 183.36 MiB maximum RSS; rejected q4_0 after reproducible answer drift.
+- Added bounded paired prompt-batch controls and froze E5f to compare the
+  effective 256/256 default with 128/128 and 64/64 on native Arm.
 
 ### Native evidence
 
@@ -46,7 +48,7 @@ authoritative, timestamped record; this file groups the significant additions.
 ### Submission and developer experience
 
 - Added immutable experiment contracts, raw-data ingesters, compact manifests,
-  reports, CI workflows, source patches, and 81 tests.
+  reports, CI workflows, source patches, and 85 tests.
 - Added a dependency-free interactive evidence demo, browser screenshots,
   paste-ready Devpost draft, video script, claim index, compliance checklist,
   and clean-checkout package verifier.

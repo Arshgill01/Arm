@@ -65,6 +65,16 @@ def parse_args() -> argparse.Namespace:
         choices=("f16",),
         default="f16",
     )
+    launch.add_argument(
+        "--batch-size",
+        type=int,
+        help="logical prompt batch size (default: pinned llama.cpp behavior)",
+    )
+    launch.add_argument(
+        "--micro-batch-size",
+        type=int,
+        help="physical prompt batch size (must be set with --batch-size)",
+    )
     launch.add_argument("--log-verbosity", type=int)
     launch.add_argument(
         "--prompt-cache",
@@ -137,6 +147,8 @@ def main() -> int:
             context_per_slot=arguments.context_per_slot,
             kv_cache_type_k=arguments.kv_cache_type_k,
             kv_cache_type_v=arguments.kv_cache_type_v,
+            batch_size=arguments.batch_size,
+            micro_batch_size=arguments.micro_batch_size,
             log_verbosity=arguments.log_verbosity,
         )
         write_recipe(arguments.recipe_output, recipe)

@@ -71,7 +71,13 @@ class Pareto64RuntimeTests(unittest.TestCase):
             self.assertEqual(digest, recipe["model"]["files"][0]["sha256"])
             self.assertEqual(512, recipe["runtime"]["context_total"])
             self.assertEqual(256, recipe["runtime"]["context_per_slot"])
+            self.assertEqual(512, recipe["runtime"]["batch_size"])
+            self.assertEqual(512, recipe["runtime"]["micro_batch_size"])
+            self.assertIsNone(recipe["runtime"]["batch_size_requested"])
+            self.assertIsNone(recipe["runtime"]["micro_batch_size_requested"])
             self.assertIn("--cont-batching", recipe["runtime"]["argv"])
+            self.assertNotIn("--batch-size", recipe["runtime"]["argv"])
+            self.assertNotIn("--ubatch-size", recipe["runtime"]["argv"])
             self.assertIn("--cache-prompt", recipe["runtime"]["argv"])
             self.assertTrue(recipe["runtime"]["prompt_cache"])
             self.assertEqual("f16", recipe["runtime"]["kv_cache_type_k"])
@@ -118,13 +124,39 @@ class Pareto64RuntimeTests(unittest.TestCase):
                 parallel=1,
                 context_per_slot=256,
                 kv_cache_type_k="q8_0",
+                batch_size=128,
+                micro_batch_size=128,
                 log_verbosity=3,
             )
             self.assertEqual(256, profiled_recipe["runtime"]["context_total"])
             self.assertEqual("q8_0", profiled_recipe["runtime"]["kv_cache_type_k"])
+            self.assertEqual(128, profiled_recipe["runtime"]["batch_size"])
+            self.assertEqual(128, profiled_recipe["runtime"]["micro_batch_size"])
+            self.assertEqual(128, profiled_recipe["runtime"]["batch_size_requested"])
+            self.assertIn("--batch-size", profiled_recipe["runtime"]["argv"])
+            self.assertIn("--ubatch-size", profiled_recipe["runtime"]["argv"])
             self.assertEqual(3, profiled_recipe["runtime"]["log_verbosity"])
             self.assertIn("--cache-type-k", profiled_recipe["runtime"]["argv"])
             self.assertIn("--log-verbosity", profiled_recipe["runtime"]["argv"])
+
+            with self.assertRaisesRegex(ValueError, "must be set together"):
+                prepare_launch(
+                    manifest=manifest,
+                    constraints=constraints,
+                    models=models,
+                    contract=contract,
+                    manifest_path=manifest_path,
+                    constraints_path=constraints_path,
+                    models_path=models_path,
+                    contract_path=contract_path,
+                    model_root=model_root,
+                    server_path=server_path,
+                    version_output="version b10208 (9d9a6d29f)",
+                    host="127.0.0.1",
+                    port=18081,
+                    parallel=1,
+                    batch_size=128,
+                )
 
     def test_model_hash_mismatch_fails_closed(self) -> None:
         manifest = load_object(ROOT / "results/manifests/e3f-30656151957.json")

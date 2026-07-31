@@ -10,6 +10,8 @@ from .planner import build_plan, sha256_file
 
 K_CACHE_TYPES = {"f16", "q8_0", "q4_0"}
 V_CACHE_TYPES = {"f16"}
+UPSTREAM_DEFAULT_BATCH_SIZE = 2048
+UPSTREAM_DEFAULT_MICRO_BATCH_SIZE = 512
 
 
 def server_version(server_path: Path) -> str:
@@ -102,6 +104,8 @@ def prepare_launch(
     context_per_slot: int | None = 256,
     kv_cache_type_k: str = "f16",
     kv_cache_type_v: str = "f16",
+    batch_size: int | None = None,
+    micro_batch_size: int | None = None,
     log_verbosity: int | None = None,
 ) -> dict[str, Any]:
     plan = build_plan(
@@ -175,6 +179,32 @@ def prepare_launch(
         )
     if kv_cache_type_k not in K_CACHE_TYPES or kv_cache_type_v not in V_CACHE_TYPES:
         raise ValueError("KV cache type is not allowed by the verified launcher")
+    if (batch_size is None) != (micro_batch_size is None):
+        raise ValueError("batch size and micro-batch size must be set together")
+    context_total = slot_context * parallel
+    if batch_size is None:
+        effective_batch_size = min(context_total, UPSTREAM_DEFAULT_BATCH_SIZE)
+        effective_micro_batch_size = min(
+            effective_batch_size,
+            UPSTREAM_DEFAULT_MICRO_BATCH_SIZE,
+        )
+    else:
+        if (
+            type(batch_size) is not int
+            or type(micro_batch_size) is not int
+            or batch_size < 32
+            or batch_size > context_total
+            or batch_size % 32 != 0
+            or micro_batch_size < 32
+            or micro_batch_size > batch_size
+            or micro_batch_size % 32 != 0
+        ):
+            raise ValueError(
+                "batch sizes must be multiples of 32, the micro-batch must not "
+                "exceed the batch, and the batch must fit the total context"
+            )
+        effective_batch_size = batch_size
+        effective_micro_batch_size = micro_batch_size
     if log_verbosity is not None and (
         type(log_verbosity) is not int or not 0 <= log_verbosity <= 5
     ):
@@ -227,6 +257,15 @@ def prepare_launch(
         "--log-colors",
         "off",
     ]
+    if batch_size is not None:
+        argv.extend(
+            [
+                "--batch-size",
+                str(batch_size),
+                "--ubatch-size",
+                str(micro_batch_size),
+            ]
+        )
     if log_verbosity is not None:
         argv.extend(["--log-verbosity", str(log_verbosity)])
     return {
@@ -269,7 +308,11 @@ def prepare_launch(
             "kv_cache_type_v": kv_cache_type_v,
             "flash_attention": "auto",
             "context_per_slot": slot_context,
-            "context_total": slot_context * parallel,
+            "context_total": context_total,
+            "batch_size_requested": batch_size,
+            "micro_batch_size_requested": micro_batch_size,
+            "batch_size": effective_batch_size,
+            "micro_batch_size": effective_micro_batch_size,
             "log_verbosity": log_verbosity,
             "argv": argv,
         },
