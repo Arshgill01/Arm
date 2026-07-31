@@ -99,7 +99,7 @@ def prepare_launch(
     port: int,
     parallel: int,
     prompt_cache: bool = True,
-    context_per_slot: int | None = None,
+    context_per_slot: int | None = 256,
     kv_cache_type_k: str = "f16",
     kv_cache_type_v: str = "f16",
     log_verbosity: int | None = None,

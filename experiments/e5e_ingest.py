@@ -433,6 +433,12 @@ def build_manifest(
     provenance = load_object(evidence_dir / "provenance.json")
     if provenance.get("experiment_id") != "E5e":
         raise ValueError("provenance does not identify E5e")
+    promoted_default = provenance.get("promoted_default_configuration")
+    if (
+        promoted_default is not None
+        and promoted_default != hypothesis["selected_configuration"]
+    ):
+        raise ValueError("promoted launcher default differs from E5e selection")
     run_id = str(provenance["github_run_id"])
     artifact_name = (
         f"{contract['artifact_name_prefix']}-{run_id}-"

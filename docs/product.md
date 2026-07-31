@@ -83,9 +83,11 @@ python3 -m pareto64 launch \
   --parallel 1
 ```
 
-The adapter preserves the measured four-thread, 2,048-token-per-slot,
-deterministic serving configuration. Increasing `--parallel` increases total
-context proportionally so each slot retains the frozen context allocation.
+The adapter preserves the measured four-thread deterministic serving
+configuration and defaults to the E5e-selected 256-token context per slot.
+Increasing `--parallel` increases total context proportionally so each slot
+retains that allocation. `--context-per-slot` remains an explicit bounded
+override for a separately validated workload profile.
 `--dry-run` performs every integrity and selection check and writes the recipe
 without starting the server.
 
@@ -113,6 +115,13 @@ All 120 answers remained exact and both slots demonstrated prefix reuse, but
 throughput improved only 1.0619x while pooled median latency rose 93.3% and
 maximum RSS increased 244,524 KiB. The cross-layer candidate missed the same
 1.10x gate, confirming cached single-slot serving as the default.
+
+E5e profiled 2,048/256-token contexts against f16, q8_0, and q4_0 K caches while
+holding the selected model, f16 V cache, request set, and serving path fixed.
+The 256-token f16 profile preserved all selected predictions, retained 99.62%
+of baseline throughput, and reduced maximum RSS by 187,760 KiB. q8_0 also met
+every gate, but the precision-first selector kept f16. q4_0 reproducibly changed
+one correct answer, so it was excluded. The 256-token f16 profile is promoted.
 
 ## Constraint contract
 
@@ -152,3 +161,5 @@ is validated while the single-slot default is retained. E5c subsequently
 validated quality-preserving shared-prefix caching at 1.672x throughput and
 promoted it within that single-slot default. E5d separately tested their
 interaction and rejected cached two-slot serving at only 1.0619x throughput.
+E5e then selected a 256-token f16 context, saving 183.36 MiB maximum RSS without
+answer drift or material performance loss.

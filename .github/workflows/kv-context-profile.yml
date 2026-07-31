@@ -232,6 +232,15 @@ jobs:
             local repetition="$3"
             local context="$4"
             local k_type="$5"
+            local use_promoted_default="$6"
+            local -a profile_arguments=(
+              --context-per-slot "$context"
+              --kv-cache-type-k "$k_type"
+              --kv-cache-type-v f16
+            )
+            if [[ "$use_promoted_default" == "true" ]]; then
+              profile_arguments=()
+            fi
             local output_dir="$EVIDENCE_DIR/cells/${index}-${configuration}-r${repetition}"
             mkdir -p "$output_dir"
             /usr/bin/time --verbose --output "$output_dir/server-time.log" \
@@ -246,9 +255,7 @@ jobs:
               --host 127.0.0.1 \
               --port 18081 \
               --parallel 1 \
-              --context-per-slot "$context" \
-              --kv-cache-type-k "$k_type" \
-              --kv-cache-type-v f16 \
+              "${profile_arguments[@]}" \
               > "$output_dir/server.stdout.log" \
               2> "$output_dir/server.stderr.log" &
             active_timer_pid=$!
@@ -299,18 +306,18 @@ jobs:
             active_server_pid=""
           }
 
-          run_cell 01 ctx2048_k_f16 1 2048 f16
-          run_cell 02 ctx2048_k_q8_0 1 2048 q8_0
-          run_cell 03 ctx2048_k_q4_0 1 2048 q4_0
-          run_cell 04 ctx256_k_f16 1 256 f16
-          run_cell 05 ctx256_k_q8_0 1 256 q8_0
-          run_cell 06 ctx256_k_q4_0 1 256 q4_0
-          run_cell 07 ctx256_k_q4_0 2 256 q4_0
-          run_cell 08 ctx256_k_q8_0 2 256 q8_0
-          run_cell 09 ctx256_k_f16 2 256 f16
-          run_cell 10 ctx2048_k_q4_0 2 2048 q4_0
-          run_cell 11 ctx2048_k_q8_0 2 2048 q8_0
-          run_cell 12 ctx2048_k_f16 2 2048 f16
+          run_cell 01 ctx2048_k_f16 1 2048 f16 false
+          run_cell 02 ctx2048_k_q8_0 1 2048 q8_0 false
+          run_cell 03 ctx2048_k_q4_0 1 2048 q4_0 false
+          run_cell 04 ctx256_k_f16 1 256 f16 true
+          run_cell 05 ctx256_k_q8_0 1 256 q8_0 false
+          run_cell 06 ctx256_k_q4_0 1 256 q4_0 false
+          run_cell 07 ctx256_k_q4_0 2 256 q4_0 false
+          run_cell 08 ctx256_k_q8_0 2 256 q8_0 false
+          run_cell 09 ctx256_k_f16 2 256 f16 true
+          run_cell 10 ctx2048_k_q4_0 2 2048 q4_0 false
+          run_cell 11 ctx2048_k_q8_0 2 2048 q8_0 false
+          run_cell 12 ctx2048_k_f16 2 2048 f16 false
           trap - EXIT
 
       - name: Record provenance and independently validate evidence
@@ -328,6 +335,7 @@ jobs:
               "git_commit": os.environ["GITHUB_SHA"],
               "github_run_id": os.environ["GITHUB_RUN_ID"],
               "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "promoted_default_configuration": "ctx256_k_f16",
           }
           (evidence / "provenance.json").write_text(
               json.dumps(provenance, indent=2, sort_keys=True) + "\n"

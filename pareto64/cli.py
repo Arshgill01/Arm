@@ -52,7 +52,8 @@ def parse_args() -> argparse.Namespace:
     launch.add_argument(
         "--context-per-slot",
         type=int,
-        help="reduce the validated per-slot context for a measured workload profile",
+        default=256,
+        help="per-slot context (default: 256, selected by native E5e evidence)",
     )
     launch.add_argument(
         "--kv-cache-type-k",

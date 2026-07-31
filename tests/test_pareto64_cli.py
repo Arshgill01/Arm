@@ -29,7 +29,9 @@ class Pareto64CLITests(unittest.TestCase):
 
     def test_prompt_cache_is_default_with_explicit_escape_hatch(self) -> None:
         with patch("sys.argv", self.launch_arguments()):
-            self.assertTrue(parse_args().prompt_cache)
+            arguments = parse_args()
+            self.assertTrue(arguments.prompt_cache)
+            self.assertEqual(256, arguments.context_per_slot)
         with patch("sys.argv", self.launch_arguments() + ["--no-prompt-cache"]):
             self.assertFalse(parse_args().prompt_cache)
 

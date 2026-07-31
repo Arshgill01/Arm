@@ -20,6 +20,8 @@ authoritative, timestamped record; this file groups the significant additions.
   answers, raised throughput 1.672x, and cut median HTTP latency 41.3%.
 - Retained cached single-slot serving after a separate interaction test found
   only 1.0619x two-slot throughput with 93.3% higher median latency.
+- Promoted a 256-token f16 context profile after it preserved every answer and
+  saved 183.36 MiB maximum RSS; rejected q4_0 after reproducible answer drift.
 
 ### Native evidence
 
@@ -44,9 +46,11 @@ authoritative, timestamped record; this file groups the significant additions.
 ### Submission and developer experience
 
 - Added immutable experiment contracts, raw-data ingesters, compact manifests,
-  reports, CI workflows, source patches, and 75 tests.
+  reports, CI workflows, source patches, and 81 tests.
 - Added a dependency-free interactive evidence demo, browser screenshots,
   paste-ready Devpost draft, video script, claim index, compliance checklist,
   and clean-checkout package verifier.
 - Extended the demo and video narrative with the independently validated E5d
   cache/concurrency boundary and a dedicated 1,440×900 gallery screenshot.
+- Added the E5e context/KV memory boundary to the demo, evidence index, and
+  under-three-minute video narrative.
