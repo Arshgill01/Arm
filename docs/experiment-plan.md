@@ -613,6 +613,23 @@ microbatch, smaller logical batch, then configuration name. Exact inputs and
 order are frozen in
 [`../experiments/e5f_contract.json`](../experiments/e5f_contract.json).
 
+### E5f outcome
+
+Native run `30669700602` passed all six measured cells and three mechanism
+proofs. The 64/64 profile preserved every E3f prediction twice, reduced the CPU
+compute buffer from 40.13 to 10.03 MiB, and lowered conservative maximum RSS by
+14,824 KiB. It retained 1.0226x throughput; median latency was 1.0044x baseline
+and p95 fell to 0.9095x. It is the only eligible profile and is selected for
+promotion.
+
+The 128/128 profile also preserved quality and reduced the compute buffer by
+20.06 MiB, but maximum RSS fell by only 1,076 KiB. It missed the frozen 8 MiB
+process gate and is not promoted. Independent Python 3.10 ingestion matched
+the uploaded summary byte for byte at SHA-256
+`396222dd2ec0d66c0985392b0c2b65e4fa1b8a3100f57c4d1d30d50a41f92d4b`.
+See
+[`../results/reports/e5f-prompt-batch-profile.md`](../results/reports/e5f-prompt-batch-profile.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

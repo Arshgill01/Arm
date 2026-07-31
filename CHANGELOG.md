@@ -24,6 +24,8 @@ authoritative, timestamped record; this file groups the significant additions.
   saved 183.36 MiB maximum RSS; rejected q4_0 after reproducible answer drift.
 - Added bounded paired prompt-batch controls and froze E5f to compare the
   effective 256/256 default with 128/128 and 64/64 on native Arm.
+- Selected 64/64 after it preserved every answer, cut the CPU compute buffer
+  75%, saved 14.48 MiB maximum RSS, and retained 1.0226x throughput.
 
 ### Native evidence
 

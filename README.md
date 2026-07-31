@@ -52,9 +52,10 @@ E5e then right-sizes the validated application context from 2,048 to 256 tokens,
 reducing maximum process RSS by 183.36 MiB while preserving every answer and
 99.62% of throughput. Lower-precision q4_0 KV cache was faster but changed a
 stable answer, so the product promotes the f16 right-sized profile instead.
-E5f is now frozen to test the remaining llama.cpp compute-buffer headroom: the
-promoted service's implicit effective 256/256 logical/physical prompt batch is
-compared with 128/128 and 64/64 in a quality-gated forward/reverse study.
+E5f then selects a 64/64 logical/physical prompt batch: every answer remains
+exact, the CPU compute buffer falls 75%, maximum RSS falls 14.48 MiB, and
+throughput rises 2.26%. The intermediate 128/128 profile is rejected because
+its process-RSS reduction misses the frozen 8 MiB gate.
 
 ```bash
 python3 -m pareto64 plan \
@@ -82,16 +83,15 @@ python3 -m pareto64 plan \
 | [E5c](results/reports/e5c-prompt-cache.md) | Quality-gated shared-prefix caching preserved all 120 answers and raised throughput 1.672x while cutting median HTTP latency 41.3% |
 | [E5d](results/reports/e5d-cached-concurrency.md) | Cached two-slot serving preserved all answers but reached only 1.0619x throughput while nearly doubling median latency; one slot remains the default |
 | [E5e](results/reports/e5e-kv-context-profile.md) | A 256-token f16 context preserved all answers and saved 183.36 MiB maximum RSS; q4_0 drifted and was rejected |
+| [E5f](results/reports/e5f-prompt-batch-profile.md) | A 64/64 prompt batch preserved all answers, cut the compute buffer 75%, and saved 14.48 MiB maximum RSS |
 | [E6a](results/reports/e6a-native-feature-fix.md) | Reproduced and fixed invalid native KleidiAI SVE source selection |
 | [E6b](results/reports/e6b-q8-vector-store.md) | NEON vector narrowing doubled isolated Q8_0 quantizer throughput with neutral real-model inference |
 | [E6c](results/reports/e6c-reasoning-budget-fix.md) | Source fix passed 13 upstream tests and removed all reasoning output; the frozen final-answer gate still rejected the real-model run |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
-The active E5f contract is
-[`experiments/e5f_contract.json`](experiments/e5f_contract.json); it has no
-claimed outcome until the frozen native workflow and independent ingestion
-complete.
+The E5f result is retained under its exact frozen contract and independently
+re-ingested byte for byte.
 
 ## Repository map
 

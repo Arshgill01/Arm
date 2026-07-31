@@ -128,6 +128,12 @@ of baseline throughput, and reduced maximum RSS by 187,760 KiB. q8_0 also met
 every gate, but the precision-first selector kept f16. q4_0 reproducibly changed
 one correct answer, so it was excluded. The 256-token f16 profile is promoted.
 
+E5f held that selected service fixed and profiled effective prompt batches of
+256/256, 128/128, and 64/64. Only 64/64 passed every gate: it preserved all 60
+selected predictions, reduced the CPU compute buffer 40.13→10.03 MiB, lowered
+maximum RSS by 14,824 KiB, and retained 1.0226x throughput. It is selected for
+the next product-default checkpoint; 128/128 missed the process-RSS gate.
+
 ## Constraint contract
 
 The schema-1 policy has two explicit parts:

@@ -32,6 +32,9 @@ EXPECTED_HASHES = {
     "results/manifests/e5e-30667019678.json": (
         "6312dc789eefad276b20d3204d9a5144251d49e3f04b9a767d9125dceaa5ed2c"
     ),
+    "results/manifests/e5f-30669700602.json": (
+        "396222dd2ec0d66c0985392b0c2b65e4fa1b8a3100f57c4d1d30d50a41f92d4b"
+    ),
     "results/manifests/e6b-30640282768.json": (
         "e870ad9cf7b7d1f89f0fa745383f555d54f62b3caf2fc635cbcb76ca4ef7e210"
     ),
@@ -202,6 +205,32 @@ def main() -> int:
         or q4_profile.get("gates", {}).get("eligible") is not False
     ):
         raise ValueError("retained context/KV decision differs from E5e evidence")
+
+    batch_profile = load_object(ROOT / "results/manifests/e5f-30669700602.json")
+    selected_batch = batch_profile.get("performance", {}).get("batch64", {})
+    batch128 = batch_profile.get("performance", {}).get("batch128", {})
+    if (
+        batch_profile.get("status") != "valid_selected_inference_batch_profile"
+        or batch_profile.get("validation", {}).get("batch_profile_claim_allowed")
+        is not True
+        or batch_profile.get("validation", {}).get(
+            "compute_buffer_sizes_microbatch_monotonic"
+        )
+        is not True
+        or batch_profile.get("selection", {}).get("configuration") != "batch64"
+        or selected_batch.get("quality", {}).get("exact_selected_predictions")
+        is not True
+        or selected_batch.get("gates", {}).get("eligible") is not True
+        or selected_batch.get("gates", {}).get("compute_buffer_reduction_mib", 0)
+        < 8
+        or selected_batch.get("gates", {}).get("process_rss_reduction_kib", 0)
+        < 8192
+        or selected_batch.get("gates", {}).get("throughput_retention_ratio", 0)
+        < 0.98
+        or batch128.get("gates", {}).get("eligible") is not False
+        or batch128.get("gates", {}).get("process_rss_reduction_passed") is not False
+    ):
+        raise ValueError("retained prompt-batch decision differs from E5f evidence")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

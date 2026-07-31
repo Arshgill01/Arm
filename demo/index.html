@@ -49,12 +49,12 @@
               <dd>76.67%</dd>
             </div>
             <div>
-              <dt>Cached throughput</dt>
-              <dd>0.899 req/s</dd>
+              <dt>Final throughput</dt>
+              <dd>0.918 req/s</dd>
             </div>
             <div>
-              <dt>Serving median</dt>
-              <dd>1.06 s</dd>
+              <dt>Compute buffer</dt>
+              <dd>10.03 MiB</dd>
             </div>
             <div>
               <dt>Model package</dt>
@@ -304,6 +304,54 @@
             q4_0 saved more, but reproducibly changed a correct answer.
           </p>
         </div>
+
+        <div class="cache-interaction">
+          <table>
+            <caption>
+              <strong>Shrink transient work, not context capacity.</strong>
+              With the 256-token f16 service fixed, we profiled the logical and
+              physical prompt batch together.
+            </caption>
+            <thead>
+              <tr>
+                <th>Prompt batch</th>
+                <th>Compute buffer</th>
+                <th>Maximum RSS</th>
+                <th>Throughput</th>
+                <th>Decision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>256 / 256</td>
+                <td>40.13 MiB</td>
+                <td>4,468,380 KiB</td>
+                <td>0.898 req/s</td>
+                <td>Baseline</td>
+              </tr>
+              <tr>
+                <td>128 / 128</td>
+                <td>20.07 MiB</td>
+                <td>4,467,304 KiB</td>
+                <td>0.896 req/s</td>
+                <td class="reject-text">RSS gate missed</td>
+              </tr>
+              <tr>
+                <td>64 / 64</td>
+                <td>10.03 MiB</td>
+                <td>4,453,556 KiB</td>
+                <td>0.918 req/s</td>
+                <td class="select-text">Selected</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            <strong>75% less compute-buffer allocation</strong> and 14.48 MiB
+            less maximum RSS, with every answer exact and 1.0226× throughput.
+            A smaller log allocation alone was not enough: 128 missed the
+            process-memory gate.
+          </p>
+        </div>
       </section>
 
       <section class="optimization-section" id="optimization" aria-labelledby="optimization-title">
@@ -388,6 +436,11 @@
             <span class="evidence-result select-text">Promoted</span>
           </li>
           <li>
+            <span class="evidence-id">E5f</span>
+            <div><strong>Prompt batch profile</strong><p>64/64 cut the compute buffer 75%; 128 missed the RSS gate.</p></div>
+            <span class="evidence-result select-text">Selected</span>
+          </li>
+          <li>
             <span class="evidence-id">E6b</span>
             <div><strong>NEON vector-store patch</strong><p>2.029× direct hot-path throughput.</p></div>
             <span class="evidence-result select-text">Accepted</span>
@@ -414,6 +467,7 @@
         <a href="../results/reports/e5c-prompt-cache.md">Serving optimization</a>
         <a href="../results/reports/e5d-cached-concurrency.md">Concurrency boundary</a>
         <a href="../results/reports/e5e-kv-context-profile.md">Memory profile</a>
+        <a href="../results/reports/e5f-prompt-batch-profile.md">Batch profile</a>
         <a href="../results/reports/e6b-q8-vector-store.md">Arm patch</a>
       </div>
     </footer>

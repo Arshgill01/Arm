@@ -92,6 +92,14 @@ rejected. A clean promoted-default run then repeated the full matrix with the
 selected cells using no context/KV overrides; 23/30, throughput retention, and
 the memory win all reproduced.
 
+With the context fixed, we profiled the remaining prompt compute-graph
+reservation. The effective 256/256 logical/physical batch allocated a 40.13
+MiB CPU compute buffer. A frozen forward/reverse 256/128/64 study selected
+64/64: all 60 measured answers remained exact, the compute buffer fell to
+10.03 MiB, maximum RSS fell 14.48 MiB, and throughput rose 2.26%. The 128/128
+profile was not promoted because its maximum-RSS reduction missed the frozen 8
+MiB process gate despite a smaller reported buffer.
+
 ### Arm-specific source work
 
 We fixed a llama.cpp/KleidiAI feature-selection defect where a substring search
@@ -148,11 +156,13 @@ without changing measured inputs or post-observation thresholds.
   median HTTP latency;
 - a cross-layer cache/concurrency test that rejected a marginal 1.0619x gain;
 - context right-sizing that saves 183.36 MiB without KV quantization or drift;
+- prompt-batch right-sizing that cuts the compute buffer 75% and saves another
+  14.48 MiB maximum RSS without answer drift;
 - two reviewable Arm source patches with correctness evidence;
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 81 local tests plus native Arm workflows for the final evidence path.
+- 85 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 
@@ -165,6 +175,9 @@ enough to clear the deployment gate. Workload right-sizing can remove reserved
 memory without changing precision, while KV quantization can alter a stable
 answer. The reusable contribution is the machinery that makes those limits
 visible before deployment.
+The same discipline applied to prompt batches: a reported allocation reduction
+was insufficient until process RSS, quality, throughput, and latency all
+cleared their independent gates.
 
 ## What's next
 

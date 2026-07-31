@@ -840,3 +840,22 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   MiB lower compute buffer and conservative maximum RSS, at least 98%
   throughput retention, median/p95 latency within 1.05x, and the existing
   readiness/RSS ceilings. The selector uses no weighted score.
+
+## 2026-07-31 — E5f selects the 64-token prompt batch
+
+- Native run `30669700602` passed the six-cell matrix and three mechanism
+  launches in 9m27s. Independent Python 3.10 ingestion matched the uploaded
+  summary byte for byte at SHA-256
+  `396222dd2ec0d66c0985392b0c2b65e4fa1b8a3100f57c4d1d30d50a41f92d4b`.
+- Every profile reproduced 23/30 in both repetitions with zero selected-answer
+  mismatches and at least 25 cached prompt tokens per measured request.
+- The 64/64 profile reduced the CPU compute buffer from 40.13 to 10.03 MiB and
+  conservative maximum RSS by 14,824 KiB. It retained 1.0226x throughput;
+  median latency was 1.0044x and p95 was 0.9095x baseline.
+- The 128/128 profile saved 20.06 MiB of reported compute-buffer allocation but
+  only 1,076 KiB maximum RSS, so it missed the predeclared 8 MiB process gate.
+  Only 64/64 is eligible for product promotion.
+- Added E5f to the judge demo, evidence ledger, Devpost draft, and video script.
+  Real-browser checks at 1,440×900 and 390×844 retained the fail-closed policy
+  interaction, reported zero console errors/warnings, and kept document width
+  at 390 pixels while all three 760-pixel evidence tables scroll locally.
