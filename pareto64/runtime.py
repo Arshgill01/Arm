@@ -106,6 +106,7 @@ def prepare_launch(
     kv_cache_type_v: str = "f16",
     batch_size: int | None = 64,
     micro_batch_size: int | None = 64,
+    weight_repack: bool = True,
     log_verbosity: int | None = None,
 ) -> dict[str, Any]:
     plan = build_plan(
@@ -181,6 +182,8 @@ def prepare_launch(
         raise ValueError("KV cache type is not allowed by the verified launcher")
     if (batch_size is None) != (micro_batch_size is None):
         raise ValueError("batch size and micro-batch size must be set together")
+    if not isinstance(weight_repack, bool):
+        raise ValueError("runtime weight repack setting must be boolean")
     context_total = slot_context * parallel
     if batch_size is None:
         effective_batch_size = min(context_total, UPSTREAM_DEFAULT_BATCH_SIZE)
@@ -266,6 +269,8 @@ def prepare_launch(
                 str(micro_batch_size),
             ]
         )
+    if not weight_repack:
+        argv.append("--no-repack")
     if log_verbosity is not None:
         argv.extend(["--log-verbosity", str(log_verbosity)])
     return {
@@ -313,6 +318,7 @@ def prepare_launch(
             "micro_batch_size_requested": micro_batch_size,
             "batch_size": effective_batch_size,
             "micro_batch_size": effective_micro_batch_size,
+            "weight_repack": weight_repack,
             "log_verbosity": log_verbosity,
             "argv": argv,
         },

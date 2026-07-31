@@ -34,8 +34,11 @@ class Pareto64CLITests(unittest.TestCase):
             self.assertEqual(256, arguments.context_per_slot)
             self.assertIsNone(arguments.batch_size)
             self.assertIsNone(arguments.micro_batch_size)
+            self.assertTrue(arguments.weight_repack)
         with patch("sys.argv", self.launch_arguments() + ["--no-prompt-cache"]):
             self.assertFalse(parse_args().prompt_cache)
+        with patch("sys.argv", self.launch_arguments() + ["--no-weight-repack"]):
+            self.assertFalse(parse_args().weight_repack)
 
     def test_launch_accepts_bounded_context_and_kv_profile(self) -> None:
         with patch(

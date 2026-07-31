@@ -921,3 +921,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Retained-evidence run `30672258413` passed clean-checkout validation on native
   Arm: 89 tests, all nine evidence hashes, ten demo links/assets, exact plan,
   and the dependency-free demo smoke test.
+
+## 2026-07-31 — E5h Arm weight-repack boundary frozen
+
+- Audited pinned llama.cpp's `--no-repack` path. The flag sets
+  `no_extra_bufts`; model loading then skips the KleidiAI and generic CPU extra
+  buffer types offered ahead of the ordinary CPU buffer.
+- The retained selected-service log reports a 2,024.36 MiB `CPU_Mapped` buffer
+  and a distinct 2,038.92 MiB `CPU_REPACK` buffer, making this a materially
+  different memory mechanism rather than another small allocator fluctuation.
+- Added a bounded launcher boolean that defaults on, records the choice in the
+  recipe, and maps the disabled path to upstream `--no-repack`. Historical
+  recipes remain repack enabled.
+- Froze a four-cell A–B–B–A study. A no-repack candidate becomes a separate
+  memory tier only if it is exact, saves at least 1.5 GiB maximum RSS, stays at
+  or below 3 GiB RSS, retains at least 30% throughput, and meets 5/10-second
+  median/p95 plus 15-second readiness ceilings. It never replaces the faster
+  default through a weighted score.

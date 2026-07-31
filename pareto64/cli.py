@@ -91,6 +91,12 @@ def parse_args() -> argparse.Namespace:
         default=True,
         help="reuse a shared prompt prefix; validated and enabled by default",
     )
+    launch.add_argument(
+        "--weight-repack",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="use Arm-optimized repacked weights; enabled by default",
+    )
     launch.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 
@@ -162,6 +168,7 @@ def main() -> int:
             kv_cache_type_v=arguments.kv_cache_type_v,
             batch_size=batch_size,
             micro_batch_size=micro_batch_size,
+            weight_repack=arguments.weight_repack,
             log_verbosity=arguments.log_verbosity,
         )
         write_recipe(arguments.recipe_output, recipe)

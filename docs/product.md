@@ -92,6 +92,10 @@ override for a separately validated workload profile.
 E5f-selected 64/64 profile. Both requested and effective values are written to
 the hashed recipe. Explicit paired overrides reproduce larger profiles when a
 different workload has passed its own application-level quality gate.
+Weight repacking remains enabled by default. `--no-weight-repack` is a bounded
+escape hatch that records `weight_repack: false` in the recipe and passes the
+pinned runtime's `--no-repack` flag; E5h is the frozen quality, memory, and
+performance boundary for treating that path as a separate memory tier.
 `--dry-run` performs every integrity and selection check and writes the recipe
 without starting the server.
 

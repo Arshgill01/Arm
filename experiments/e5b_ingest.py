@@ -366,8 +366,7 @@ def validate_recipe(
         if (
             runtime.get("batch_size") != batch_size
             or runtime.get("micro_batch_size") != micro_batch_size
-            or runtime.get("batch_size_requested")
-            != (batch_size if explicit else None)
+            or runtime.get("batch_size_requested") != (batch_size if explicit else None)
             or runtime.get("micro_batch_size_requested")
             != (micro_batch_size if explicit else None)
         ):
@@ -384,6 +383,15 @@ def validate_recipe(
                 raise ValueError("launch recipe lacks explicit batch arguments")
             if not explicit and argument in argv:
                 raise ValueError("baseline recipe unexpectedly pins batch arguments")
+    if "weight_repack" in config:
+        weight_repack = config["weight_repack"]
+        if (
+            not isinstance(weight_repack, bool)
+            or runtime.get("weight_repack") is not weight_repack
+            or (weight_repack and "--no-repack" in argv)
+            or (not weight_repack and argv.count("--no-repack") != 1)
+        ):
+            raise ValueError("launch recipe weight repack differs from the contract")
 
 
 def validate_cell(

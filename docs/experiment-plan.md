@@ -671,6 +671,30 @@ Python 3.10 ingestion matched the uploaded summary byte for byte at SHA-256
 See
 [`../results/reports/e5g-prompt-batch-floor.md`](../results/reports/e5g-prompt-batch-floor.md).
 
+## E5h frozen Arm weight-repack boundary
+
+E5h asks whether the selected Arm service can expose a memory-constrained tier
+without changing its model or numerical representation. The promoted baseline
+uses llama.cpp's default extra CPU buffer types. Its retained mechanism log
+shows 2,024.36 MiB of mapped weights plus a separate 2,038.92 MiB
+`CPU_REPACK` buffer created for optimized Arm weight layouts.
+
+Pinned llama.cpp exposes one clean controlled difference: `--no-repack` sets
+`no_extra_bufts`, preventing KleidiAI and generic CPU repack buffer types from
+being offered to the model loader. Four fresh servers compare repack enabled
+and disabled in A–B–B–A order. Model, runtime build, request order, f16/256/64
+serving profile, prompt cache, flash attention, slots, threads, seed, and output
+cap remain fixed. Mechanism logs must show both mapped and repack buffers for
+the baseline and no repack buffer for the candidate.
+
+The candidate is a separate Pareto memory tier, not a default replacement. It
+must reproduce every selected prediction and prefix reuse, save at least 1.5
+GiB maximum RSS, stay at or below 3 GiB RSS, retain at least 30% of baseline
+throughput, keep median/p95 HTTP latency at or below 5/10 seconds, and become
+ready within 15 seconds. The default remains repack enabled even if the memory
+tier passes. Exact order and gates are frozen in
+[`../experiments/e5h_contract.json`](../experiments/e5h_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

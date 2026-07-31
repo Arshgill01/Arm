@@ -84,6 +84,8 @@ class Pareto64RuntimeTests(unittest.TestCase):
             self.assertEqual("f16", recipe["runtime"]["kv_cache_type_v"])
             self.assertEqual("auto", recipe["runtime"]["flash_attention"])
             self.assertIn("--flash-attn", recipe["runtime"]["argv"])
+            self.assertTrue(recipe["runtime"]["weight_repack"])
+            self.assertNotIn("--no-repack", recipe["runtime"]["argv"])
             self.assertFalse(recipe["weighted_score_used"])
 
             uncached_recipe = prepare_launch(
@@ -106,6 +108,28 @@ class Pareto64RuntimeTests(unittest.TestCase):
             self.assertIn("--no-cache-prompt", uncached_recipe["runtime"]["argv"])
             self.assertNotIn("--cache-prompt", uncached_recipe["runtime"]["argv"])
             self.assertFalse(uncached_recipe["runtime"]["prompt_cache"])
+
+            no_repack_recipe = prepare_launch(
+                manifest=manifest,
+                constraints=constraints,
+                models=models,
+                contract=contract,
+                manifest_path=manifest_path,
+                constraints_path=constraints_path,
+                models_path=models_path,
+                contract_path=contract_path,
+                model_root=model_root,
+                server_path=server_path,
+                version_output="version b10208 (9d9a6d29f)",
+                host="127.0.0.1",
+                port=18081,
+                parallel=1,
+                weight_repack=False,
+            )
+            self.assertFalse(no_repack_recipe["runtime"]["weight_repack"])
+            self.assertEqual(
+                1, no_repack_recipe["runtime"]["argv"].count("--no-repack")
+            )
 
             profiled_recipe = prepare_launch(
                 manifest=manifest,
@@ -157,6 +181,25 @@ class Pareto64RuntimeTests(unittest.TestCase):
                     parallel=1,
                     batch_size=128,
                     micro_batch_size=None,
+                )
+
+            with self.assertRaisesRegex(ValueError, "repack setting"):
+                prepare_launch(
+                    manifest=manifest,
+                    constraints=constraints,
+                    models=models,
+                    contract=contract,
+                    manifest_path=manifest_path,
+                    constraints_path=constraints_path,
+                    models_path=models_path,
+                    contract_path=contract_path,
+                    model_root=model_root,
+                    server_path=server_path,
+                    version_output="version b10208 (9d9a6d29f)",
+                    host="127.0.0.1",
+                    port=18081,
+                    parallel=1,
+                    weight_repack=1,
                 )
 
     def test_model_hash_mismatch_fails_closed(self) -> None:

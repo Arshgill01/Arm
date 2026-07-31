@@ -173,7 +173,7 @@ without changing measured inputs or post-observation thresholds.
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 89 local tests plus native Arm workflows for the final evidence path.
+- 93 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 

@@ -32,6 +32,8 @@ authoritative, timestamped record; this file groups the significant additions.
   unless 32/32 first clears every quality, performance, and memory gate.
 - Retained 64/64 after 32/32 halved the remaining compute buffer and preserved
   quality/performance but increased observed maximum RSS by 660 KiB.
+- Added a fail-closed weight-repack launcher control and froze E5h to test the
+  two-gigabyte Arm repack buffer as a separate memory-tier tradeoff.
 
 ### Native evidence
 
@@ -56,7 +58,7 @@ authoritative, timestamped record; this file groups the significant additions.
 ### Submission and developer experience
 
 - Added immutable experiment contracts, raw-data ingesters, compact manifests,
-  reports, CI workflows, source patches, and 89 tests.
+  reports, CI workflows, source patches, and 93 tests.
 - Added a dependency-free interactive evidence demo, browser screenshots,
   paste-ready Devpost draft, video script, claim index, compliance checklist,
   and clean-checkout package verifier.
