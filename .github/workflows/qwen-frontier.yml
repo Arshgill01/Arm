@@ -179,7 +179,7 @@ jobs:
           run_quality \
             mnn_int4 \
             "$LLM_RUNNER_DIR/build-mnn" \
-            "$MODEL_ROOT/mnn_int4"
+            "$MODEL_ROOT/mnn_int4/"
 
       - name: Run cyclic performance rounds
         run: |
@@ -201,7 +201,7 @@ jobs:
                 ;;
               mnn_int4)
                 build="$LLM_RUNNER_DIR/build-mnn"
-                model="$MODEL_ROOT/mnn_int4"
+                model="$MODEL_ROOT/mnn_int4/"
                 ;;
               *)
                 echo "Unknown variant $variant" >&2

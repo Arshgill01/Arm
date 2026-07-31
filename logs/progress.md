@@ -177,3 +177,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - A local configure attempt exposed LLM-Runner's eager default-model download.
   The E3 workflow disables it and fetches only the explicit, checksum-pinned
   Qwen packages.
+
+## 2026-07-31 — E3 native attempt 1 retained as calibration evidence
+
+- GitHub Actions run `30634585010` fetched and checksum-verified every model
+  artifact, then built both optimized llama.cpp and MNN paths with KleidiAI
+  enabled on the native Arm runner.
+- The run stopped during the first MNN quality repetition because LLM-Runner's
+  MNN adapter concatenates package filenames onto the supplied directory. The
+  workflow omitted the required trailing path separator, so it attempted to
+  open `mnn_int4llm_config.json` and `mnn_int4tokenizer.txt`.
+- Before that failure, both llama.cpp variants completed both frozen quality
+  repetitions. Q4_0 was stable at 14/30 (46.67%) and Q4_K_M was stable at
+  16/30 (53.33%). These partial results are retained rather than discarded.
+- The retry changes only the MNN directory argument to end in `/`. The frozen
+  tasks, two repetitions, eight-token output cap, 75% eligibility threshold,
+  performance protocol, and Pareto rule remain unchanged after observing the
+  partial results.
