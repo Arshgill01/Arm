@@ -781,3 +781,28 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   maximum RSS, at least 95% throughput retention, no more than 1.10x median or
   p95 latency, and the existing readiness/RSS ceilings. Lexicographic selection
   preserves K precision before taking additional memory savings.
+
+## 2026-07-31 — E5e selects context right-sizing without quantization
+
+- Native run `30667019678` passed the full 12-cell workflow in 13m33s. All six
+  mechanism launches proved the expected precision- and context-monotonic KV
+  allocations; independent Python 3.10 ingestion matched the uploaded summary
+  at SHA-256
+  `6312dc789eefad276b20d3204d9a5144251d49e3f04b9a767d9125dceaa5ed2c`.
+- The selected 256-token f16 profile reduced the runtime KV allocation from
+  208 to 26 MiB and maximum process RSS by 187,760 KiB (183.36 MiB, 4.03%). It
+  retained 99.62% throughput, slightly reduced pooled median/p95 latency, and
+  reproduced 23/30 with zero answer drift in both repetitions.
+- The 256-token q8_0 profile also passed every gate and saved 247,636 KiB, but
+  the frozen selector preserved f16 because f16 already exceeded the 128 MiB
+  target. The product therefore avoids unnecessary numerical compression.
+- q4_0 was faster and saved more memory, but every q4_0 cell reproducibly
+  changed `systems-04` from B to C and reduced quality to 22/30. Those valid
+  negative measurements are retained and excluded from promotion.
+- Added the memory profile and q4_0 quality boundary to the judge demo and
+  under-three-minute script. Real-browser checks at 1,440×900 and 390×844 found
+  zero console errors/warnings and no global mobile overflow; both evidence
+  tables remain locally scrollable at 348/760 pixels.
+- Replaced the serving-boundary gallery image with a first-party 1,440×900
+  capture that shows context right-sizing beside the retained concurrency
+  rejection.

@@ -80,6 +80,16 @@ answers and prefix reuse, but improved throughput only 1.0619x while raising
 median latency 93.3% and maximum RSS by about 239 MiB. It missed the frozen
 1.10x promotion gate, so the product still defaults to one slot.
 
+We then profiled the service's KV memory against the real application envelope.
+The workload needed at most 127 prompt tokens plus an eight-token output cap,
+yet the server reserved 2,048 tokens. A frozen 2×3 context/K-precision
+factorial showed that a 256-token f16 profile reduced the runtime KV allocation
+from 208 to 26 MiB and maximum process RSS by 183.36 MiB while preserving every
+answer, 99.62% of throughput, and essentially identical latency. q8_0 also
+qualified, but the precision-first selector kept f16. q4_0 reproducibly changed
+one correct answer in all four cells, so its larger memory and speed gains were
+rejected.
+
 ### Arm-specific source work
 
 We fixed a llama.cpp/KleidiAI feature-selection defect where a substring search
@@ -135,11 +145,12 @@ without changing measured inputs or post-observation thresholds.
 - quality-gated prompt reuse delivering 1.672x serving throughput and 41% lower
   median HTTP latency;
 - a cross-layer cache/concurrency test that rejected a marginal 1.0619x gain;
+- context right-sizing that saves 183.36 MiB without KV quantization or drift;
 - two reviewable Arm source patches with correctness evidence;
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 75 local tests plus native Arm workflows for the final evidence path.
+- 81 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 
@@ -148,8 +159,10 @@ save time and lose the task. A locally dramatic kernel win can be invisible at
 model level. More server slots can divide fixed compute rather than increase
 throughput, while removing redundant shared-prefix work can produce a large win
 with almost no memory cost. Even then, caching and concurrency did not compose
-enough to clear the deployment gate. The reusable contribution is the machinery
-that makes those limits visible before deployment.
+enough to clear the deployment gate. Workload right-sizing can remove reserved
+memory without changing precision, while KV quantization can alter a stable
+answer. The reusable contribution is the machinery that makes those limits
+visible before deployment.
 
 ## What's next
 

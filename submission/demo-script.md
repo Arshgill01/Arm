@@ -30,18 +30,20 @@ model stays rejected because its frozen experiment gate failed. Tightening the
 latency SLO makes the selected model fail too, so Pareto64 refuses deployment
 instead of moving the goalposts.”
 
-## 1:08–1:35 — Serving optimization
+## 1:08–1:43 — Serving optimization
 
 **Screen:** Scroll to “Reuse 25 tokens. Keep all 120 answers.” Point to the
-throughput bars and the zero-drift guardrail.
+throughput bars, concurrency boundary, and context/KV profile.
 
 **Voice:** “More server slots gained only 1.9%, so we rejected them. Shared
 prefix caching was different: all 120 answers stayed identical, throughput rose
 1.67 times, and median latency fell 41%. We then tested both together. Two
 cached slots gained only 6.2% and nearly doubled latency, so one slot stayed the
-default.”
+default. Then we right-sized its context from 2,048 to 256 tokens: all answers
+stayed exact, throughput stayed at 99.6%, and maximum RSS fell 183 MiB. q4 KV
+saved more but changed an answer, so f16 stayed.”
 
-## 1:35–2:02 — Arm-specific patch
+## 1:43–2:08 — Arm-specific patch
 
 **Screen:** Scroll to the before/after assembly section.
 
@@ -52,9 +54,9 @@ about 5.1 to 10.3 gigabytes per second. Outputs were bit-identical, upstream
 tests passed, and real-model inference did not regress. We do not claim a
 whole-model speedup.”
 
-## 2:02–2:30 — Exact serving
+## 2:08–2:32 — Exact serving
 
-**Screen:** Show the E5b, E5c, and E5d rows, then the terminal.
+**Screen:** Show the E5b through E5e rows, then the terminal.
 
 ```bash
 python3 scripts/verify_submission.py
@@ -65,7 +67,7 @@ pins the model, runtime, selected plan, serving evidence, and Arm patch. Cache
 mode is written into the recipe, and there is an explicit no-cache escape hatch
 for workloads that have not passed the same correctness gate.”
 
-## 2:30–2:50 — Close
+## 2:32–2:50 — Close
 
 **Screen:** Run the planner command, show `ministral3_3b_q4_k_m`, then end on the
 top of the demo.

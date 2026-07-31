@@ -256,6 +256,54 @@
             Pareto64 kept the cached single-slot recipe.
           </p>
         </div>
+
+        <div class="cache-interaction">
+          <table>
+            <caption>
+              <strong>Right-size before quantizing.</strong>
+              The workload needed at most 135 prompt-plus-output tokens. We
+              profiled context and K-cache precision without changing the model,
+              f16 V cache, or serving path.
+            </caption>
+            <thead>
+              <tr>
+                <th>Serving profile</th>
+                <th>KV allocation</th>
+                <th>Maximum RSS</th>
+                <th>Quality</th>
+                <th>Decision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2,048 tokens · K f16</td>
+                <td>208.00 MiB</td>
+                <td>4,656,020 KiB</td>
+                <td>23/30 · exact</td>
+                <td>Baseline</td>
+              </tr>
+              <tr>
+                <td>256 tokens · K f16</td>
+                <td>26.00 MiB</td>
+                <td>4,468,260 KiB</td>
+                <td>23/30 · exact</td>
+                <td class="select-text">Promoted</td>
+              </tr>
+              <tr>
+                <td>256 tokens · K q4_0</td>
+                <td>16.66 MiB</td>
+                <td>4,383,792 KiB</td>
+                <td>22/30 · one drift</td>
+                <td class="reject-text">Rejected</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            <strong>183.36 MiB less maximum RSS</strong> with f16 precision,
+            99.62% throughput retention, and essentially unchanged latency.
+            q4_0 saved more, but reproducibly changed a correct answer.
+          </p>
+        </div>
       </section>
 
       <section class="optimization-section" id="optimization" aria-labelledby="optimization-title">
@@ -335,6 +383,11 @@
             <span class="evidence-result reject-text">Not promoted</span>
           </li>
           <li>
+            <span class="evidence-id">E5e</span>
+            <div><strong>Context and KV profile</strong><p>183.36 MiB saved with f16; q4_0 answer drift rejected.</p></div>
+            <span class="evidence-result select-text">Promoted</span>
+          </li>
+          <li>
             <span class="evidence-id">E6b</span>
             <div><strong>NEON vector-store patch</strong><p>2.029× direct hot-path throughput.</p></div>
             <span class="evidence-result select-text">Accepted</span>
@@ -360,6 +413,7 @@
         <a href="../results/reports/e3f-ministral-frontier.md">Selected frontier</a>
         <a href="../results/reports/e5c-prompt-cache.md">Serving optimization</a>
         <a href="../results/reports/e5d-cached-concurrency.md">Concurrency boundary</a>
+        <a href="../results/reports/e5e-kv-context-profile.md">Memory profile</a>
         <a href="../results/reports/e6b-q8-vector-store.md">Arm patch</a>
       </div>
     </footer>

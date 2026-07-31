@@ -558,6 +558,21 @@ before lossy cache quantization when both solve the memory problem. Exact
 inputs and order are frozen in
 [`../experiments/e5e_contract.json`](../experiments/e5e_contract.json).
 
+### E5e outcome
+
+Run `30667019678` passed all 12 measured cells and six allocation proofs. The
+256-token f16 profile preserved every E3f prediction, retained 99.62% of
+throughput, slightly reduced median and p95 latency, and lowered conservative
+maximum RSS by 187,760 KiB (183.36 MiB). Its context headroom was 1.896x, so it
+cleared every frozen gate and is selected for promotion.
+
+The 256-token q8_0 profile also qualified and saved 247,636 KiB, but the frozen
+precision-first selector preferred f16 once f16 met the memory target. Both
+q4_0 profiles reproducibly changed `systems-04` from B to C and fell from 23/30
+to 22/30, proving that KV precision can affect application quality even under
+deterministic decoding. See
+[`../results/reports/e5e-kv-context-profile.md`](../results/reports/e5e-kv-context-profile.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

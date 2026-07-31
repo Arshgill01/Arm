@@ -29,6 +29,9 @@ EXPECTED_HASHES = {
     "results/manifests/e5d-30664666945.json": (
         "a844e58ea3f89e8fd9d9e8697ad6c680865a6719d2f6b34298af0d56be7d76e5"
     ),
+    "results/manifests/e5e-30667019678.json": (
+        "6312dc789eefad276b20d3204d9a5144251d49e3f04b9a767d9125dceaa5ed2c"
+    ),
     "results/manifests/e6b-30640282768.json": (
         "e870ad9cf7b7d1f89f0fa745383f555d54f62b3caf2fc635cbcb76ca4ef7e210"
     ),
@@ -180,6 +183,25 @@ def main() -> int:
         raise ValueError(
             "retained cached-concurrency decision differs from E5d evidence"
         )
+
+    memory_profile = load_object(ROOT / "results/manifests/e5e-30667019678.json")
+    selected_profile = memory_profile.get("performance", {}).get("ctx256_k_f16", {})
+    q4_profile = memory_profile.get("performance", {}).get("ctx256_k_q4_0", {})
+    if (
+        memory_profile.get("status") != "valid_selected_inference_memory_profile"
+        or memory_profile.get("validation", {}).get("memory_profile_claim_allowed")
+        is not True
+        or memory_profile.get("selection", {}).get("configuration") != "ctx256_k_f16"
+        or memory_profile.get("maximum_required_context") != 135
+        or selected_profile.get("quality", {}).get("exact_selected_predictions")
+        is not True
+        or selected_profile.get("gates", {}).get("eligible") is not True
+        or selected_profile.get("gates", {}).get("rss_reduction_kib", 0) < 131072
+        or selected_profile.get("gates", {}).get("throughput_retention_ratio", 0) < 0.95
+        or q4_profile.get("quality", {}).get("exact_selected_predictions") is not False
+        or q4_profile.get("gates", {}).get("eligible") is not False
+    ):
+        raise ValueError("retained context/KV decision differs from E5e evidence")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")
