@@ -7,6 +7,7 @@ from pathlib import Path
 
 from experiments.e1_ingest import summarize
 from experiments.e5b_ingest import (
+    evaluate_hypothesis,
     load_tasks,
     reference_predictions,
     validate_probe,
@@ -193,6 +194,19 @@ class E5bIngestTests(unittest.TestCase):
         recipe["inputs"]["models_sha256"] = "0" * 64
         with self.assertRaisesRegex(ValueError, "models hash"):
             validate_recipe(recipe, config=config, contract=self.contract)
+
+    def test_valid_negative_throughput_result_is_retained(self) -> None:
+        performance = {
+            "baseline": {"requests_per_second": {"median": 0.54}},
+            "concurrent_2": {
+                "requests_per_second": {"median": 0.55},
+                "http_ms": {"median": 3550.0, "p95": 4510.0},
+            },
+        }
+        result = evaluate_hypothesis(performance, self.contract["acceptance"])
+        self.assertFalse(result["passed"])
+        self.assertFalse(result["throughput_improvement_passed"])
+        self.assertTrue(result["latency_ceilings_passed"])
 
 
 if __name__ == "__main__":

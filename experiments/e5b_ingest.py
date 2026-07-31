@@ -335,13 +335,6 @@ def validate_cell(
         > contract["acceptance"]["maximum_process_rss_kib"]
     ):
         raise ValueError(f"{cell_dir.name} process evidence missed the contract")
-    log_text = "\n".join(
-        (cell_dir / name).read_text(encoding="utf-8", errors="replace")
-        for name in ("server.stdout.log", "server.stderr.log")
-    )
-    for pattern in contract["selected"]["required_runtime_buffer_patterns"]:
-        if pattern not in log_text:
-            raise ValueError(f"{cell_dir.name} lacks runtime buffer proof: {pattern}")
     slots = json.loads((cell_dir / "slots.json").read_text(encoding="utf-8"))
     if not isinstance(slots, list) or len(slots) != config["server_parallel_slots"]:
         raise ValueError(f"{cell_dir.name} slot count differs from the contract")
@@ -355,10 +348,32 @@ def validate_cell(
         "probe": probe,
         "process": process,
         "server_shell_exit_status": shell_exit,
-        "runtime_buffer_patterns_observed": contract["selected"][
-            "required_runtime_buffer_patterns"
-        ],
         "slots_observed": len(slots),
+    }
+
+
+def evaluate_hypothesis(
+    performance: dict[str, Any], acceptance: dict[str, Any]
+) -> dict[str, Any]:
+    throughput_ratio = (
+        performance["concurrent_2"]["requests_per_second"]["median"]
+        / performance["baseline"]["requests_per_second"]["median"]
+    )
+    concurrent_http = performance["concurrent_2"]["http_ms"]
+    throughput_passed = (
+        throughput_ratio >= acceptance["minimum_throughput_improvement_ratio"]
+    )
+    latency_passed = (
+        concurrent_http["median"]
+        <= acceptance["maximum_concurrent_median_http_latency_ms"]
+        and concurrent_http["p95"]
+        <= acceptance["maximum_concurrent_p95_http_latency_ms"]
+    )
+    return {
+        "passed": throughput_passed and latency_passed,
+        "throughput_improvement_passed": throughput_passed,
+        "latency_ceilings_passed": latency_passed,
+        "throughput_improvement_ratio": throughput_ratio,
     }
 
 
@@ -389,6 +404,14 @@ def build_manifest(
             raise ValueError(f"source {name} hash differs from the contract")
         if sha256_file(evidence_dir / ARTIFACT_INPUTS[name]) != expected:
             raise ValueError(f"artifact {name} hash differs from the contract")
+
+    runtime_proof = (evidence_dir / "runtime-proof.stderr.log").read_text(
+        encoding="utf-8", errors="replace"
+    )
+    required_patterns = contract["selected"]["required_runtime_buffer_patterns"]
+    for pattern in required_patterns:
+        if pattern not in runtime_proof:
+            raise ValueError(f"unmeasured runtime proof lacks buffer: {pattern}")
 
     selected_manifest = load_object(manifest_path)
     tasks = load_tasks(load_object(tasks_path))
@@ -459,20 +482,8 @@ def build_manifest(
                 [float(cell["process"]["maximum_rss_kib"]) for cell in config_cells]
             ),
         }
-    throughput_ratio = (
-        performance["concurrent_2"]["requests_per_second"]["median"]
-        / performance["baseline"]["requests_per_second"]["median"]
-    )
-    concurrent_http = performance["concurrent_2"]["http_ms"]
     acceptance = contract["acceptance"]
-    if throughput_ratio < acceptance["minimum_throughput_improvement_ratio"]:
-        raise ValueError("two-slot throughput missed the frozen improvement ratio")
-    if (
-        concurrent_http["median"]
-        > acceptance["maximum_concurrent_median_http_latency_ms"]
-        or concurrent_http["p95"] > acceptance["maximum_concurrent_p95_http_latency_ms"]
-    ):
-        raise ValueError("two-slot request latency missed the frozen ceilings")
+    hypothesis = evaluate_hypothesis(performance, acceptance)
 
     provenance = load_object(evidence_dir / "provenance.json")
     if provenance.get("experiment_id") != "E5b":
@@ -485,7 +496,11 @@ def build_manifest(
     return {
         "schema_version": 1,
         "experiment_id": "E5b",
-        "status": "valid_selected_inference_concurrency",
+        "status": (
+            "valid_selected_inference_concurrency"
+            if hypothesis["passed"]
+            else "valid_selected_inference_no_concurrency_win"
+        ),
         "scope": contract["scope"],
         "source": {
             "artifact_name": artifact_name,
@@ -518,14 +533,19 @@ def build_manifest(
             "zero_request_failures": True,
             "fresh_server_per_cell": True,
             "runtime_buffer_proof_observed": True,
-            "throughput_improvement_passed": True,
-            "latency_ceilings_passed": True,
+            "throughput_improvement_passed": hypothesis[
+                "throughput_improvement_passed"
+            ],
+            "latency_ceilings_passed": hypothesis["latency_ceilings_passed"],
             "readiness_ceiling_passed": True,
             "rss_ceiling_passed": True,
             "inference_server_claim_allowed": True,
+            "two_slot_optimization_claim_allowed": hypothesis["passed"],
         },
         "performance": performance,
-        "throughput_improvement_ratio": throughput_ratio,
+        "runtime_buffer_patterns_observed": required_patterns,
+        "hypothesis": hypothesis,
+        "throughput_improvement_ratio": hypothesis["throughput_improvement_ratio"],
     }
 
 

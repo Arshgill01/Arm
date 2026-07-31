@@ -109,12 +109,31 @@ jobs:
           grep -q '^LLAMA_BUILD_SERVER:BOOL=ON$' "$EVIDENCE_DIR/CMakeCache.txt"
           grep -Eq '^LLAMA_CURL:(BOOL|UNINITIALIZED)=OFF$' \
             "$EVIDENCE_DIR/CMakeCache.txt"
-          cmake --build "$BUILD_DIR" --target llama-server --parallel "$(nproc)" \
+          cmake --build "$BUILD_DIR" --target llama-server llama-bench --parallel "$(nproc)" \
             2>&1 | tee "$EVIDENCE_DIR/build.log"
           "$BUILD_DIR/bin/llama-server" --version \
             | tee "$EVIDENCE_DIR/server-version.txt"
           "$BUILD_DIR/bin/llama-server" --help \
             > "$EVIDENCE_DIR/server-help.txt"
+
+      - name: Capture unmeasured runtime buffer proof
+        run: |
+          set -euo pipefail
+          entrypoint="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].entrypoint' experiments/e3f_models.json)"
+          "$BUILD_DIR/bin/llama-bench" \
+            --model "$MODEL_ROOT/$SELECTED_CANDIDATE/$entrypoint" \
+            --n-prompt 8 \
+            --n-gen 1 \
+            --threads 4 \
+            --repetitions 1 \
+            --output json \
+            --verbose \
+            > "$EVIDENCE_DIR/runtime-proof.json" \
+            2> "$EVIDENCE_DIR/runtime-proof.stderr.log"
+          grep -q 'CPU_REPACK model buffer size' \
+            "$EVIDENCE_DIR/runtime-proof.stderr.log"
+          grep -q 'CPU_Mapped model buffer size' \
+            "$EVIDENCE_DIR/runtime-proof.stderr.log"
 
       - name: Run balanced selected-model serving matrix
         run: |
