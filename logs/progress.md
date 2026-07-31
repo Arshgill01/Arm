@@ -79,3 +79,28 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - The next attempt supplies the setup action's `python3` path through the
   documented `Python3_EXECUTABLE` CMake cache variable. No compilation or
   inference datapoint was produced by this attempt.
+
+## 2026-07-31 — E1 LLM-Runner smoke, attempt 3
+
+- Workflow run `30631079879` proved that explicit interpreter binding works.
+- It also exposed an upstream version-range edge: CMake interprets the declared
+  inclusive maximum `3.11` as lower than the runner's `3.11.15` patch release.
+- The next attempt pins Python 3.10, which is unambiguously inside the declared
+  range. This remains setup evidence, not a performance result.
+
+## 2026-07-31 — bounded Telegram decision bridge
+
+- Implemented a standard-library-only Telegram receiver with exact chat/user
+  authentication, two-or-three-option inline buttons, opaque one-time tokens,
+  expiry, update deduplication, and a mode-0600 SQLite audit trail.
+- Verified the current Codex app-server contract from version-matched schemas
+  and a read-only canary over its WebSocket-framed Unix socket. The canary
+  returned the exact current thread with active status and direct input enabled.
+- Added fail-closed delivery: decisions wait while a turn is active, target an
+  exact thread (never `--last`), and enter manual-reconciliation state if a
+  dispatch response is ambiguous.
+- Seven local tests pass, including unauthorized, expired, duplicate, active
+  thread, and exact registered-option cases.
+- Installed and started the hardened user service, then sent a live two-button
+  canary. A user reply is intentionally required before bounded replies are
+  considered approved for ongoing use.

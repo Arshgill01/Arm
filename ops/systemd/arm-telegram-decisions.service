@@ -1,0 +1,23 @@
+[Unit]
+Description=Bounded Telegram decisions for the Arm Codex thread
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/work/Arm
+ExecStart=/usr/bin/python3 %h/work/Arm/ops/telegram_decisions.py serve
+Restart=on-failure
+RestartSec=5s
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/.local/state/arm-telegram-decisions
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictSUIDSGID=true
+LockPersonality=true
+
+[Install]
+WantedBy=default.target

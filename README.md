@@ -43,6 +43,8 @@ native feasibility and novelty gates in `docs/strategy.md` pass.
   benchmark.
 - [`logs/progress.md`](logs/progress.md): chronological project journal.
 - [`ops/telegram.md`](ops/telegram.md): phone notification and decision workflow.
+- [`ops/telegram_decisions.py`](ops/telegram_decisions.py): authenticated,
+  bounded Telegram-to-Codex decision bridge.
 
 ## License
 

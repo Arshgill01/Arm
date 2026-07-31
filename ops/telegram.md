@@ -22,34 +22,52 @@ arguments in alerts.
 
 ## Bidirectional decisions
 
-Outbound notification is operational. The installed stack has no inbound poller,
-webhook, user service, or scheduled receiver; its only Telegram `getUpdates` use
-is setup-time discovery. Replies therefore do not reach Codex today. Until the
-bridge is implemented and tested, alerts are one-way and decisions return through
-the Codex thread.
+The bounded decision bridge is now implemented by
+[`telegram_decisions.py`](telegram_decisions.py) and installed on this machine as
+the enabled `arm-telegram-decisions.service` user unit. It uses long polling, so
+there is no public webhook or inbound network listener. Private configuration and
+SQLite state live outside Git with mode `0600` permissions.
 
-Any bidirectional implementation must:
+The implementation:
 
-- keep the bot token outside Git;
-- authenticate the permitted chat/user ID;
-- avoid exposing a public unauthenticated command endpoint;
-- persist an auditable decision ID and timestamp;
-- support a small allow-list of responses rather than arbitrary shell commands;
-- tolerate duplicate Telegram updates; and
-- fall back cleanly to the Codex thread.
+- keeps the existing bot token outside Git;
+- requires both the configured private chat ID and originating user ID;
+- persists decisions, one-time opaque option tokens, update IDs, and delivery
+  state in SQLite;
+- accepts only two or three registered inline-button options and ignores
+  arbitrary chat text;
+- deduplicates Telegram updates and rejects expired or already-used choices;
+- queues responses while the exact Codex thread is active;
+- marks a delivery ambiguous after a post-send connection failure instead of
+  blindly submitting it twice; and
+- starts a turn only through the mode-`0600` app-server Unix socket.
+
+Operational commands:
+
+```text
+python3 ops/telegram_decisions.py probe
+python3 ops/telegram_decisions.py status
+python3 ops/telegram_decisions.py ask \
+  --question "Choose a path" --option "Path A" --option "Path B"
+systemctl --user status arm-telegram-decisions.service
+```
+
+The first live canary was sent on July 31. Its reply remains a user choice: the
+bridge does not interpret lack of response as consent.
 
 ## Secure bridge design
 
 Use Telegram long polling with the existing Codex app-server. The managed daemon
-already exposes a mode-0600 Unix control socket and the supported transport
-helper is `codex app-server proxy --sock <socket>`. This keeps Telegram decisions
-inside the same live thread instead of launching a competing `codex exec resume`
-process.
+already exposes a mode-0600 Unix control socket. Its Unix transport is WebSocket
+framed (the `proxy` helper forwards raw bytes; it does not convert JSONL), so the
+bridge performs the local WebSocket handshake and then uses the version-matched
+`thread/read`, `thread/resume`, and `turn/start` JSON-RPC methods. This keeps
+Telegram decisions inside the same live thread instead of launching a competing
+`codex exec resume` process.
 
-`codex-decision ask` should capture the exact `CODEX_THREAD_ID`, create an opaque
-one-time decision token, persist the mapping in a mode-0600 SQLite database, and
-send two or three inline callback buttons. Callback data contains only the token
-and option number, never a thread UUID or command.
+The setup command captures the exact `CODEX_THREAD_ID`. The `ask` command creates
+opaque one-time option tokens and sends two or three inline callback buttons.
+Callback data contains only a random token, never a thread UUID or command.
 
 The receiver must:
 
@@ -68,6 +86,6 @@ Do not resolve with `--last`: the local Codex session index is incomplete and
 does not contain this active thread. The exact environment thread ID is the only
 safe routing key.
 
-The first implementation should reject mid-turn steering and arbitrary free-form
+This first implementation rejects mid-turn steering and arbitrary free-form
 messages. A later, separately tested version can evaluate app-server item
 injection.
