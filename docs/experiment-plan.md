@@ -29,6 +29,13 @@ and runtime proof that only the optimized build created a `CPU_KLEIDIAI` model
 buffer. A speedup is accepted only from this paired evidence. The legacy Phi-2
 artifact remains a performance-ablation workload, not a quality benchmark.
 
+Before inspecting E2 results, prompt-processing throughput is declared the
+primary metric because this Q4 matrix-multiplication path is the direct KleidiAI
+target. A material primary win requires a median paired-round speedup of at least
+1.05x, improvement in at least three of four paired rounds, and passing tests in
+both builds. Decode rate, TTFT, total latency, wall time, and RSS are secondary
+metrics and must all be reported even when their direction is unfavorable.
+
 ## Experimental discipline
 
 - E0–E3 establish feasibility; they do not prove a winning product.
