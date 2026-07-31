@@ -106,6 +106,7 @@ def prepare_launch(
     kv_cache_type_v: str = "f16",
     batch_size: int | None = 64,
     micro_batch_size: int | None = 64,
+    flash_attention: str = "auto",
     weight_repack: bool = True,
     log_verbosity: int | None = None,
 ) -> dict[str, Any]:
@@ -180,6 +181,8 @@ def prepare_launch(
         )
     if kv_cache_type_k not in K_CACHE_TYPES or kv_cache_type_v not in V_CACHE_TYPES:
         raise ValueError("KV cache type is not allowed by the verified launcher")
+    if flash_attention not in {"auto", "on", "off"}:
+        raise ValueError("flash attention must be auto, on, or off")
     if (batch_size is None) != (micro_batch_size is None):
         raise ValueError("batch size and micro-batch size must be set together")
     if not isinstance(weight_repack, bool):
@@ -240,7 +243,7 @@ def prepare_launch(
         "--cache-type-v",
         kv_cache_type_v,
         "--flash-attn",
-        "auto",
+        flash_attention,
         "--parallel",
         str(parallel),
         "--cont-batching",
@@ -311,7 +314,7 @@ def prepare_launch(
             "prompt_cache": prompt_cache,
             "kv_cache_type_k": kv_cache_type_k,
             "kv_cache_type_v": kv_cache_type_v,
-            "flash_attention": "auto",
+            "flash_attention": flash_attention,
             "context_per_slot": slot_context,
             "context_total": context_total,
             "batch_size_requested": batch_size,

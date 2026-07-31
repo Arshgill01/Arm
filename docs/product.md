@@ -96,6 +96,10 @@ Weight repacking remains enabled by default. `--no-weight-repack` is a bounded
 escape hatch that records `weight_repack: false` in the recipe and passes the
 pinned runtime's `--no-repack` flag; E5h is the frozen quality, memory, and
 performance boundary for treating that path as a separate memory tier.
+Flash Attention remains `auto` by default. `--flash-attention auto|on|off`
+records the exact upstream mode in the recipe; E5i is the frozen Arm ablation
+that must prove the resolved auto graph materially outperforms the disabled
+graph before Pareto64 adds a performance claim for that default.
 `--dry-run` performs every integrity and selection check and writes the recipe
 without starting the server.
 

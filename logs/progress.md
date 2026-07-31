@@ -956,3 +956,18 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Retained-product run `30673396572` passed clean-checkout validation on native
   Arm: 93 tests, all ten immutable evidence hashes, exact plan recomputation,
   and the standalone demo smoke test.
+
+## 2026-07-31 — E5i Arm Flash Attention ablation frozen
+
+- Audited pinned llama.cpp `b10208`: `--flash-attn off` maps to the disabled
+  context path, while auto begins with the fused operation enabled and retains
+  it only after `resolve_fused_ops` successfully probes backend allocation and
+  computation.
+- The retained selected-service mechanism log proves auto resolves on this Arm
+  build: it records `flash_attn = auto` followed by `Flash Attention enabled`.
+- Added a bounded `--flash-attention auto|on|off` launcher control. Auto remains
+  the default and every generated recipe records the exact upstream mode.
+- Froze an off–auto–auto–off study. Auto must preserve every selected prediction
+  and cached prefix, improve throughput by at least 1.05x, avoid median/p95
+  latency regression, and add no more than 16 MiB maximum RSS. Separate
+  verbosity-four launches must prove the disabled and resolved-enabled graphs.

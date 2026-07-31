@@ -712,6 +712,29 @@ for byte at SHA-256
 See
 [`../results/reports/e5h-weight-repack-boundary.md`](../results/reports/e5h-weight-repack-boundary.md).
 
+## E5i frozen Arm Flash Attention ablation
+
+E5i asks whether the selected service's `--flash-attn auto` default delivers a
+material end-to-end benefit on Arm. Pinned source maps `off` to
+`LLAMA_FLASH_ATTN_TYPE_DISABLED`; auto begins with the fused operation enabled
+and resolves it only after a backend allocation and compute probe. The retained
+E5h mechanism log records both `flash_attn = auto` and `Flash Attention
+enabled`, so this is a resolved graph change rather than a label-only flag.
+
+Four fresh servers run off–auto–auto–off. Both profiles keep the exact model,
+runtime build, repacked weights, f16/256/64 service, prompt cache, one slot and
+client, four threads, request order, seed, and output cap. Mechanism launches
+must record `disabled` without a fused-op success for the baseline and `auto`
+plus a successful Flash Attention resolution for the candidate. The hashed
+recipe and timed outer command bind the mode independently.
+
+Auto must reproduce every selected prediction and cached-prefix reuse, improve
+repeated median throughput by at least 1.05x, avoid median and p95 HTTP latency
+regression, add no more than 16 MiB maximum RSS, become ready within 15 seconds,
+and stay below 8 GiB RSS. No weighted score is used and no threshold changes
+after observation. Exact order and gates are frozen in
+[`../experiments/e5i_contract.json`](../experiments/e5i_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

@@ -36,6 +36,8 @@ authoritative, timestamped record; this file groups the significant additions.
   two-gigabyte Arm repack buffer as a separate memory-tier tradeoff.
 - Retained no-repack as an explicit memory tier after it preserved every answer
   and cut maximum RSS by 2,072,268 KiB; repack remains the 2.06x-faster default.
+- Added a bounded Flash Attention mode control and froze E5i to test whether the
+  resolved Arm auto graph earns a material serving-performance claim.
 
 ### Native evidence
 
@@ -60,7 +62,7 @@ authoritative, timestamped record; this file groups the significant additions.
 ### Submission and developer experience
 
 - Added immutable experiment contracts, raw-data ingesters, compact manifests,
-  reports, CI workflows, source patches, and 93 tests.
+  reports, CI workflows, source patches, and 97 tests.
 - Added a dependency-free interactive evidence demo, browser screenshots,
   paste-ready Devpost draft, video script, claim index, compliance checklist,
   and clean-checkout package verifier.

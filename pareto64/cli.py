@@ -75,6 +75,12 @@ def parse_args() -> argparse.Namespace:
         default="f16",
     )
     launch.add_argument(
+        "--flash-attention",
+        choices=("auto", "on", "off"),
+        default="auto",
+        help="flash-attention mode (default: auto)",
+    )
+    launch.add_argument(
         "--batch-size",
         type=int,
         help="logical prompt batch size (default: 64, selected by native E5f)",
@@ -168,6 +174,7 @@ def main() -> int:
             kv_cache_type_v=arguments.kv_cache_type_v,
             batch_size=batch_size,
             micro_batch_size=micro_batch_size,
+            flash_attention=arguments.flash_attention,
             weight_repack=arguments.weight_repack,
             log_verbosity=arguments.log_verbosity,
         )

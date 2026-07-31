@@ -34,6 +34,7 @@ class Pareto64CLITests(unittest.TestCase):
             self.assertEqual(256, arguments.context_per_slot)
             self.assertIsNone(arguments.batch_size)
             self.assertIsNone(arguments.micro_batch_size)
+            self.assertEqual("auto", arguments.flash_attention)
             self.assertTrue(arguments.weight_repack)
         with patch("sys.argv", self.launch_arguments() + ["--no-prompt-cache"]):
             self.assertFalse(parse_args().prompt_cache)
@@ -51,6 +52,8 @@ class Pareto64CLITests(unittest.TestCase):
                 "q8_0",
                 "--kv-cache-type-v",
                 "f16",
+                "--flash-attention",
+                "off",
                 "--batch-size",
                 "128",
                 "--micro-batch-size",
@@ -65,6 +68,7 @@ class Pareto64CLITests(unittest.TestCase):
         self.assertEqual(128, arguments.micro_batch_size)
         self.assertEqual("q8_0", arguments.kv_cache_type_k)
         self.assertEqual("f16", arguments.kv_cache_type_v)
+        self.assertEqual("off", arguments.flash_attention)
         self.assertEqual(3, arguments.log_verbosity)
 
     def test_unflagged_launch_resolves_selected_batch_pair(self) -> None:

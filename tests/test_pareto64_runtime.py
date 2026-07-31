@@ -131,6 +131,31 @@ class Pareto64RuntimeTests(unittest.TestCase):
                 1, no_repack_recipe["runtime"]["argv"].count("--no-repack")
             )
 
+            flash_off_recipe = prepare_launch(
+                manifest=manifest,
+                constraints=constraints,
+                models=models,
+                contract=contract,
+                manifest_path=manifest_path,
+                constraints_path=constraints_path,
+                models_path=models_path,
+                contract_path=contract_path,
+                model_root=model_root,
+                server_path=server_path,
+                version_output="version b10208 (9d9a6d29f)",
+                host="127.0.0.1",
+                port=18081,
+                parallel=1,
+                flash_attention="off",
+            )
+            self.assertEqual("off", flash_off_recipe["runtime"]["flash_attention"])
+            flash_argument = flash_off_recipe["runtime"]["argv"].index(
+                "--flash-attn"
+            )
+            self.assertEqual(
+                "off", flash_off_recipe["runtime"]["argv"][flash_argument + 1]
+            )
+
             profiled_recipe = prepare_launch(
                 manifest=manifest,
                 constraints=constraints,
@@ -200,6 +225,25 @@ class Pareto64RuntimeTests(unittest.TestCase):
                     port=18081,
                     parallel=1,
                     weight_repack=1,
+                )
+
+            with self.assertRaisesRegex(ValueError, "flash attention"):
+                prepare_launch(
+                    manifest=manifest,
+                    constraints=constraints,
+                    models=models,
+                    contract=contract,
+                    manifest_path=manifest_path,
+                    constraints_path=constraints_path,
+                    models_path=models_path,
+                    contract_path=contract_path,
+                    model_root=model_root,
+                    server_path=server_path,
+                    version_output="version b10208 (9d9a6d29f)",
+                    host="127.0.0.1",
+                    port=18081,
+                    parallel=1,
+                    flash_attention="sometimes",
                 )
 
     def test_model_hash_mismatch_fails_closed(self) -> None:
