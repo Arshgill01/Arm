@@ -630,6 +630,33 @@ the uploaded summary byte for byte at SHA-256
 See
 [`../results/reports/e5f-prompt-batch-profile.md`](../results/reports/e5f-prompt-batch-profile.md).
 
+## E5g frozen marginal prompt batch floor
+
+E5g asks whether the promoted 64/64 profile is still oversized. It is a staged
+boundary test, not an open-ended sweep: the only candidate is 32/32. Batch 16
+is excluded unless 32 first clears every frozen gate.
+
+The retained E5f requests make the cost of this step explicit. After shared
+prefix reuse, batch 64 requires 34 prompt chunks across the 30 measured
+requests and splits 4 requests. Batch 32 would require 63 chunks and split 28
+requests; batch 16 would require 113 chunks and split 29. E5g therefore tests
+whether the marginal compute-buffer and RSS savings survive a 1.85x increase
+in prompt-chunk work before considering the still smaller profile.
+
+Four fresh servers run 64/64 then 32/32 and immediately reverse that order.
+The promoted baseline omits both Pareto64 batch flags, while its generated
+llama.cpp recipe must still pin 64/64. The 32/32 candidate binds both layers
+explicitly. Model, runtime, request set and order, 256-token context, f16 K/V
+cache, automatic flash attention, shared-prefix cache, one slot/client, four
+threads, seed, and output cap remain fixed.
+
+The candidate must reproduce every E3f prediction and cached-prefix reuse,
+save at least 4 MiB in both the reported compute buffer and conservative
+maximum RSS, retain at least 98% of throughput, keep pooled median and p95
+latency within 1.05x, become ready within 15 seconds, and stay below 8 GiB
+RSS. Exact evidence order and the no-weighted-score selector are frozen in
+[`../experiments/e5g_contract.json`](../experiments/e5g_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

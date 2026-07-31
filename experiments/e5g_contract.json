@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E5g",
+  "title": "Promoted-service marginal prompt batch floor",
+  "artifact_name_prefix": "e5g-prompt-batch-floor",
+  "scope": "Quality-gated marginal compute-buffer right-sizing on the promoted 64/64 f16/256 cached single-slot native Arm service",
+  "hypothesis": "A 32/32 prompt batch can reduce both llama.cpp's observed compute buffer and maximum process RSS versus the promoted 64/64 profile while retaining at least 98 percent of throughput, preserving median and p95 latency within 5 percent, and reproducing every selected E3f prediction.",
+  "prior_evidence": {
+    "selected_service": "E5f promoted a 64/64 prompt batch with f16 K/V cache, a 256-token context, automatic flash attention, shared-prefix caching, and one slot.",
+    "source_run": "30670972497",
+    "maximum_observed_prompt_tokens": 127,
+    "baseline_compute_buffer_mib": 10.03,
+    "measured_prompt_chunk_geometry": {
+      "requests": 30,
+      "evaluated_prompt_tokens_min": 1,
+      "evaluated_prompt_tokens_max": 100,
+      "batch64_total_chunks": 34,
+      "batch64_split_requests": 4,
+      "batch32_total_chunks": 63,
+      "batch32_split_requests": 28,
+      "batch16_total_chunks": 113,
+      "batch16_split_requests": 29,
+      "decision": "Test 64 versus 32 first. Do not test 16 unless 32 clears every frozen gate."
+    },
+    "runtime_source": {
+      "repository": "ggml-org/llama.cpp",
+      "commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+      "default_source": "common/common.h",
+      "context_source": "src/llama-context.cpp",
+      "server_source": "tools/server/server-context.cpp",
+      "mechanism": "The promoted launcher resolves an omitted Pareto64 batch pair to 64/64 and pins both values in the generated llama.cpp recipe. The scheduler reserves its worst-case prompt graph from the effective microbatch and reports the resulting CPU compute-buffer allocation.",
+      "declared_risk": "Batch 32 nearly doubles measured prompt chunks versus batch 64, and pinned llama.cpp warns that prompt caching and different prompt batch sizes can change logits. Performance and exact selected predictions are therefore measured obligations."
+    }
+  },
+  "inputs": {
+    "manifest_path": "results/manifests/e3f-30656151957.json",
+    "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "policy_path": "configs/cloud-quality.json",
+    "policy_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "runtime_contract_path": "experiments/e3f_contract.json",
+    "runtime_contract_sha256": "a43ebf2b44aba9bac7e44e18a979901715cd23855df0d2c16c93375382977551",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "reference_correct": 23,
+    "reference_total": 30,
+    "reference_accuracy": 0.7666666666666667,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "llama_cpp_commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+    "llama_cpp_tag": "b10208",
+    "required_runtime_buffer_patterns": [
+      "CPU_REPACK model buffer size",
+      "CPU_Mapped model buffer size"
+    ]
+  },
+  "request": {
+    "instruction_role": "system",
+    "chat_template_mode": "model_jinja_system_instruction",
+    "temperature": 0.0,
+    "seed": 424242,
+    "max_output_tokens": 8,
+    "timeout_seconds": 30.0,
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ],
+    "measured_tasks": 30
+  },
+  "mechanism": {
+    "proof_log_verbosity": 4,
+    "required_log_patterns": [
+      "llama_context: n_batch",
+      "llama_context: n_ubatch",
+      "CPU compute buffer size"
+    ]
+  },
+  "execution": {
+    "fresh_server_per_cell": true,
+    "repetitions_per_configuration": 2,
+    "baseline_configuration": "batch64",
+    "configurations": {
+      "batch64": {
+        "server_parallel_slots": 1,
+        "client_concurrency": 1,
+        "prompt_cache": true,
+        "warmup_slot_ids": [
+          0,
+          0
+        ],
+        "context_per_slot": 256,
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16",
+        "flash_attention": "auto",
+        "batch_size": 64,
+        "micro_batch_size": 64,
+        "explicit_batch_arguments": true
+      },
+      "batch32": {
+        "server_parallel_slots": 1,
+        "client_concurrency": 1,
+        "prompt_cache": true,
+        "warmup_slot_ids": [
+          0,
+          0
+        ],
+        "context_per_slot": 256,
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16",
+        "flash_attention": "auto",
+        "batch_size": 32,
+        "micro_batch_size": 32,
+        "explicit_batch_arguments": true
+      }
+    },
+    "order": [
+      {
+        "configuration": "batch64",
+        "repetition": 1
+      },
+      {
+        "configuration": "batch32",
+        "repetition": 1
+      },
+      {
+        "configuration": "batch32",
+        "repetition": 2
+      },
+      {
+        "configuration": "batch64",
+        "repetition": 2
+      }
+    ]
+  },
+  "selection_policy": {
+    "weighted_score_used": false,
+    "eligible_profiles": "The batch32 candidate must pass every quality, prefix-reuse, throughput, latency, compute-buffer, process-memory, readiness, and RSS gate",
+    "tie_breakers": [
+      "lower maximum process RSS",
+      "smaller physical microbatch",
+      "smaller logical batch",
+      "configuration name"
+    ]
+  },
+  "acceptance": {
+    "http_status": 200,
+    "termination_reason": "stop",
+    "request_failures": 0,
+    "reference_prediction_mismatches": 0,
+    "minimum_candidate_cached_tokens_per_request": 1,
+    "minimum_throughput_retention_ratio": 0.98,
+    "maximum_median_http_latency_ratio": 1.05,
+    "maximum_p95_http_latency_ratio": 1.05,
+    "minimum_compute_buffer_reduction_mib": 4.0,
+    "minimum_process_rss_reduction_kib": 4096,
+    "maximum_ready_ms": 15000.0,
+    "maximum_process_rss_kib": 8388608,
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ]
+  }
+}

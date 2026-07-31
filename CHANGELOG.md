@@ -28,6 +28,8 @@ authoritative, timestamped record; this file groups the significant additions.
   75%, saved 14.48 MiB maximum RSS, and retained 1.0226x throughput.
 - Reproduced the promoted unflagged 64/64 path across all six native cells;
   every answer matched again and the independently ingested summary was exact.
+- Froze a staged E5g 64/64-versus-32/32 boundary; 16/16 remains out of scope
+  unless 32/32 first clears every quality, performance, and memory gate.
 
 ### Native evidence
 
@@ -52,7 +54,7 @@ authoritative, timestamped record; this file groups the significant additions.
 ### Submission and developer experience
 
 - Added immutable experiment contracts, raw-data ingesters, compact manifests,
-  reports, CI workflows, source patches, and 87 tests.
+  reports, CI workflows, source patches, and 89 tests.
 - Added a dependency-free interactive evidence demo, browser screenshots,
   paste-ready Devpost draft, video script, claim index, compliance checklist,
   and clean-checkout package verifier.

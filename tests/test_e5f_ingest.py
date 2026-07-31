@@ -22,6 +22,9 @@ class E5fIngestTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.contract = json.loads((ROOT / "experiments/e5f_contract.json").read_text())
+        cls.floor_contract = json.loads(
+            (ROOT / "experiments/e5g_contract.json").read_text()
+        )
 
     def recipe(self, configuration: str) -> dict:
         selected = self.contract["selected"]
@@ -137,6 +140,35 @@ class E5fIngestTests(unittest.TestCase):
             "the frozen first-run contract must not be mutated",
         )
 
+    def test_all_explicit_floor_contract_keeps_recipe_binding(self) -> None:
+        configurations = self.floor_contract["execution"]["configurations"]
+        rebound = bind_promoted_default(configurations, "batch64")
+        self.assertTrue(rebound["batch64"]["explicit_batch_arguments"])
+        self.assertTrue(rebound["batch32"]["explicit_batch_arguments"])
+        self.assertFalse(rebound["batch64"]["pareto64_batch_arguments"])
+        self.assertTrue(rebound["batch32"]["pareto64_batch_arguments"])
+
+    def test_floor_contract_is_staged_reverse_balanced_study(self) -> None:
+        execution = self.floor_contract["execution"]
+        self.assertEqual("batch64", execution["baseline_configuration"])
+        self.assertEqual(
+            {"batch64": 64, "batch32": 32},
+            {
+                name: config["batch_size"]
+                for name, config in execution["configurations"].items()
+            },
+        )
+        self.assertEqual(
+            ["batch64", "batch32", "batch32", "batch64"],
+            [item["configuration"] for item in execution["order"]],
+        )
+        geometry = self.floor_contract["prior_evidence"][
+            "measured_prompt_chunk_geometry"
+        ]
+        self.assertEqual(34, geometry["batch64_total_chunks"])
+        self.assertEqual(63, geometry["batch32_total_chunks"])
+        self.assertIn("Do not test 16", geometry["decision"])
+
     def test_recipe_binds_implicit_baseline_and_explicit_candidates(self) -> None:
         for name, config in self.contract["execution"]["configurations"].items():
             validate_recipe(self.recipe(name), config=config, contract=self.contract)
@@ -207,6 +239,18 @@ class E5fIngestTests(unittest.TestCase):
         self.assertTrue(compute_buffers_microbatch_monotonic(observed, configurations))
         observed["batch64"]["compute_buffer_mib"] = 24.0
         self.assertFalse(compute_buffers_microbatch_monotonic(observed, configurations))
+
+        floor_configurations = self.floor_contract["execution"]["configurations"]
+        floor_observed = {
+            "batch64": {"compute_buffer_mib": 10.03},
+            "batch32": {"compute_buffer_mib": 5.02},
+        }
+        self.assertTrue(
+            compute_buffers_microbatch_monotonic(
+                floor_observed,
+                floor_configurations,
+            )
+        )
 
     def test_selector_prefers_lower_rss_after_all_gates(self) -> None:
         def profile(

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate native E5f prompt batch and microbatch profile evidence."""
+"""Validate native prompt batch and microbatch profile evidence."""
 
 from __future__ import annotations
 
@@ -40,6 +40,7 @@ except ModuleNotFoundError as error:
 BATCH_PATTERN = re.compile(r"llama_context:\s+n_batch\s*=\s*(\d+)")
 MICRO_BATCH_PATTERN = re.compile(r"llama_context:\s+n_ubatch\s*=\s*(\d+)")
 COMPUTE_BUFFER_PATTERN = re.compile(r"CPU compute buffer size\s*=\s*([0-9.]+)\s+MiB")
+SUPPORTED_EXPERIMENTS = {"E5f", "E5g"}
 
 
 def bind_promoted_default(
@@ -54,8 +55,8 @@ def bind_promoted_default(
         for name, configuration in configurations.items()
         if not configuration["explicit_batch_arguments"]
     }
-    if len(frozen_implicit) != 1:
-        raise ValueError("frozen batch contract lacks one implicit recipe")
+    if len(frozen_implicit) > 1:
+        raise ValueError("frozen batch contract has multiple implicit recipes")
     for name, configuration in bound.items():
         configuration["pareto64_batch_arguments"] = name != promoted_default
         if promoted_default not in frozen_implicit:
@@ -162,9 +163,13 @@ def compute_buffers_microbatch_monotonic(
         key=lambda name: configurations[name]["micro_batch_size"],
         reverse=True,
     )
-    return len(ordered) == 3 and all(
-        observed[left]["compute_buffer_mib"] > observed[right]["compute_buffer_mib"]
-        for left, right in zip(ordered, ordered[1:])
+    return (
+        len(ordered) >= 2
+        and len(ordered) == len(configurations)
+        and all(
+            observed[left]["compute_buffer_mib"] > observed[right]["compute_buffer_mib"]
+            for left, right in zip(ordered, ordered[1:])
+        )
     )
 
 
@@ -271,10 +276,14 @@ def build_manifest(
     tasks_path: Path,
 ) -> dict[str, Any]:
     contract = load_object(contract_path)
-    if contract.get("schema_version") != 1 or contract.get("experiment_id") != "E5f":
-        raise ValueError("unsupported E5f contract")
+    experiment_id = contract.get("experiment_id")
+    if (
+        contract.get("schema_version") != 1
+        or experiment_id not in SUPPORTED_EXPERIMENTS
+    ):
+        raise ValueError("unsupported prompt-batch contract")
     if load_object(evidence_dir / "contract.json") != contract:
-        raise ValueError("artifact contract differs from frozen E5f contract")
+        raise ValueError("artifact contract differs from frozen prompt-batch contract")
 
     source_paths = {
         "manifest": manifest_path,
@@ -317,8 +326,8 @@ def build_manifest(
     if baseline_configuration not in configurations:
         raise ValueError("baseline configuration is absent")
     provenance = load_object(evidence_dir / "provenance.json")
-    if provenance.get("experiment_id") != "E5f":
-        raise ValueError("provenance does not identify E5f")
+    if provenance.get("experiment_id") != experiment_id:
+        raise ValueError("provenance does not identify the prompt-batch experiment")
     promoted_default = provenance.get("promoted_default_configuration")
     if not isinstance(promoted_default, str):
         raise ValueError("provenance lacks the promoted batch default")
@@ -447,14 +456,14 @@ def build_manifest(
         maximum_prompt_tokens
         != contract["prior_evidence"]["maximum_observed_prompt_tokens"]
     ):
-        raise ValueError("observed prompt bound differs from the retained E5e evidence")
+        raise ValueError("observed prompt bound differs from prior evidence")
     baseline_buffer = mechanisms[baseline_configuration]["compute_buffer_mib"]
     if not math.isclose(
         baseline_buffer,
         contract["prior_evidence"]["baseline_compute_buffer_mib"],
         abs_tol=0.01,
     ):
-        raise ValueError("baseline compute buffer differs from retained E5e evidence")
+        raise ValueError("baseline compute buffer differs from prior evidence")
 
     hypothesis = evaluate_profiles(
         performance,
@@ -476,7 +485,7 @@ def build_manifest(
     )
     return {
         "schema_version": 1,
-        "experiment_id": "E5f",
+        "experiment_id": experiment_id,
         "status": (
             "valid_selected_inference_batch_profile"
             if hypothesis["passed"]

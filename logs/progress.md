@@ -888,3 +888,19 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Independent Python 3.10 ingestion matched the uploaded summary byte for byte
   at SHA-256
   `4b0e4632306829c4d3fa0ce5b01351bf4e2f9dec6cdc4e4f48f8e40a0542135a`.
+
+## 2026-07-31 — E5g marginal batch floor frozen
+
+- The retained request traces show the remaining tradeoff directly. Across 30
+  measured requests, batch 64 needs 34 evaluated-prompt chunks and splits 4
+  requests; batch 32 would need 63 chunks and split 28. Batch 16 would need 113
+  chunks and split 29.
+- Froze a staged 64/64-versus-32/32 A–B–B–A study. Batch 16 is not measured
+  unless 32 first passes, avoiding a post-result sweep for a favorable cutoff.
+- The 32/32 candidate must preserve every selected prediction and prefix reuse,
+  retain at least 98% throughput, keep median and p95 latency within 1.05x, and
+  reduce both the 10.03 MiB baseline compute buffer and maximum process RSS by
+  at least 4 MiB.
+- The promoted batch64 cells omit the outer Pareto64 flags but must retain
+  explicit 64/64 values in the generated llama.cpp recipe. E5g reuses the
+  promotion-aware ingester and adds no new runtime knob.
