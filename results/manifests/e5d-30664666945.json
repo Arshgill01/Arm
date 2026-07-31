@@ -1,0 +1,631 @@
+{
+  "contract": {
+    "acceptance": {
+      "accepted_server_shell_exit_statuses": [
+        0,
+        130
+      ],
+      "http_status": 200,
+      "maximum_candidate_median_http_latency_ms": 5000.0,
+      "maximum_candidate_p95_http_latency_ms": 10000.0,
+      "maximum_candidate_rss_increase_kib": 524288,
+      "maximum_process_rss_kib": 8388608,
+      "maximum_ready_ms": 15000.0,
+      "minimum_candidate_cached_tokens_per_request": 1,
+      "minimum_throughput_improvement_ratio": 1.1,
+      "reference_prediction_mismatches": 0,
+      "request_failures": 0,
+      "termination_reason": "stop"
+    },
+    "artifact_name_prefix": "e5d-cached-concurrency",
+    "execution": {
+      "configurations": {
+        "cached_dual": {
+          "client_concurrency": 2,
+          "prompt_cache": true,
+          "server_parallel_slots": 2,
+          "warmup_slot_ids": [
+            0,
+            1
+          ]
+        },
+        "cached_single": {
+          "client_concurrency": 1,
+          "prompt_cache": true,
+          "server_parallel_slots": 1,
+          "warmup_slot_ids": [
+            0,
+            0
+          ]
+        }
+      },
+      "fresh_server_per_cell": true,
+      "order": [
+        {
+          "configuration": "cached_single",
+          "repetition": 1
+        },
+        {
+          "configuration": "cached_dual",
+          "repetition": 1
+        },
+        {
+          "configuration": "cached_dual",
+          "repetition": 2
+        },
+        {
+          "configuration": "cached_single",
+          "repetition": 2
+        }
+      ],
+      "repetitions_per_configuration": 2
+    },
+    "experiment_id": "E5d",
+    "hypothesis": "After shared-prefix caching removes redundant prompt evaluation, two llama.cpp slots and two clients can improve repeated median completed-request throughput by at least 10 percent over the promoted cached single-slot service without changing any E3f prediction or violating latency and memory ceilings.",
+    "inputs": {
+      "manifest_path": "results/manifests/e3f-30656151957.json",
+      "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+      "models_path": "experiments/e3f_models.json",
+      "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+      "policy_path": "configs/cloud-quality.json",
+      "policy_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+      "runtime_contract_path": "experiments/e3f_contract.json",
+      "runtime_contract_sha256": "a43ebf2b44aba9bac7e44e18a979901715cd23855df0d2c16c93375382977551",
+      "tasks_path": "experiments/e3_tasks.json",
+      "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    },
+    "prior_evidence": {
+      "e5b_outcome": "Two uncached slots improved throughput only 1.0189x and were rejected.",
+      "e5b_run": "30659829983",
+      "e5c_outcome": "Single-slot shared-prefix caching improved throughput 1.6718x with all 120 answers unchanged.",
+      "e5c_run": "30662037235",
+      "interaction_rationale": "Caching changes the prompt/decode work balance, so the earlier concurrency result does not establish the combined configuration."
+    },
+    "request": {
+      "chat_template_mode": "model_jinja_system_instruction",
+      "instruction_role": "system",
+      "max_output_tokens": 8,
+      "measured_slot_assignment": "automatic",
+      "measured_tasks": 30,
+      "seed": 424242,
+      "temperature": 0.0,
+      "timeout_seconds": 30.0,
+      "warmup_task_ids": [
+        "arithmetic-02",
+        "logic-01"
+      ]
+    },
+    "schema_version": 1,
+    "scope": "Quality-gated interaction between verified prompt caching and continuous-batching concurrency on the exact selected native Arm service",
+    "selected": {
+      "candidate": "ministral3_3b_q4_k_m",
+      "llama_cpp_commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+      "llama_cpp_tag": "b10208",
+      "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "model_size_bytes": 2146497824,
+      "reference_accuracy": 0.7666666666666667,
+      "reference_correct": 23,
+      "reference_total": 30,
+      "required_runtime_buffer_patterns": [
+        "CPU_REPACK model buffer size",
+        "CPU_Mapped model buffer size"
+      ]
+    },
+    "title": "Cached selected-model inference concurrency"
+  },
+  "experiment_id": "E5d",
+  "hypothesis": {
+    "latency_ceilings_passed": true,
+    "passed": false,
+    "rss_increase_ceiling_passed": true,
+    "rss_increase_kib": 244524.0,
+    "throughput_improvement_passed": false,
+    "throughput_improvement_ratio": 1.0619077525300185
+  },
+  "performance": {
+    "cached_dual": {
+      "cached_tokens": {
+        "coefficient_of_variation": 0.52431794083422,
+        "max": 92.0,
+        "mean": 30.733333333333334,
+        "median": 25.0,
+        "min": 25.0,
+        "p95": 80.0,
+        "population_stddev": 16.11403804830503
+      },
+      "client_concurrency": 2,
+      "encode_ms": {
+        "coefficient_of_variation": 0.31076835294156985,
+        "max": 2948.464,
+        "mean": 1920.3191333333334,
+        "median": 1906.8405,
+        "min": 725.907,
+        "p95": 2945.419,
+        "population_stddev": 596.7744141881828
+      },
+      "evaluated_prompt_tokens": {
+        "coefficient_of_variation": 0.3761975556682155,
+        "max": 100.0,
+        "mean": 50.266666666666666,
+        "median": 51.0,
+        "min": 1.0,
+        "p95": 85.0,
+        "population_stddev": 18.910197131588966
+      },
+      "http_ms": {
+        "coefficient_of_variation": 0.2737840796097336,
+        "max": 3080.407487,
+        "mean": 2079.3307648833334,
+        "median": 2034.352812,
+        "min": 912.241337,
+        "p95": 3076.51425,
+        "population_stddev": 569.2876596677868
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 0.0025454225561017925,
+        "max": 4900432.0,
+        "mean": 4887990.0,
+        "median": 4887990.0,
+        "min": 4875548.0,
+        "p95": 4900432.0,
+        "population_stddev": 12442.0
+      },
+      "measured_slot_assignment": "automatic",
+      "prompt_cache": true,
+      "ready_ms": {
+        "coefficient_of_variation": 7.792291200470743e-05,
+        "max": 3839.792503,
+        "mean": 3839.4933185,
+        "median": 3839.4933185,
+        "min": 3839.194134,
+        "p95": 3839.792503,
+        "population_stddev": 0.29918450000013763
+      },
+      "repetition_encode_median_ms": {
+        "coefficient_of_variation": 0.011422951811786061,
+        "max": 1928.6225,
+        "mean": 1906.8407499999998,
+        "median": 1906.8407499999998,
+        "min": 1885.059,
+        "p95": 1928.6225,
+        "population_stddev": 21.781749999999988
+      },
+      "repetitions": [
+        {
+          "configuration": "cached_dual",
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.52431794083422,
+              "max": 92.0,
+              "mean": 30.733333333333334,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 16.11403804830503
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.005093419165564402,
+              "max": 123.372,
+              "mean": 121.8608,
+              "median": 121.9305,
+              "min": 120.866,
+              "p95": 123.354,
+              "population_stddev": 0.6206881342510104
+            },
+            "elapsed_seconds": 31.195638573,
+            "encode_ms": {
+              "coefficient_of_variation": 0.2901869120593962,
+              "max": 2948.464,
+              "mean": 1950.0833,
+              "median": 1928.6225,
+              "min": 800.567,
+              "p95": 2948.288,
+              "population_stddev": 565.8886510855971
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3761975556682155,
+              "max": 100.0,
+              "mean": 50.266666666666666,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 18.910197131588966
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.2724575565133899,
+              "max": 3080.407487,
+              "mean": 2079.3532881666665,
+              "median": 2055.438008,
+              "min": 927.854375,
+              "p95": 3080.395703,
+              "population_stddev": 566.5355160219726
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9616728931449144,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:38.46",
+            "exit_status": 0,
+            "maximum_rss_kib": 4900432,
+            "percent_cpu": "365%"
+          },
+          "ready_ms": 3839.194134,
+          "repetition": 1,
+          "server_shell_exit_status": 0,
+          "slots_observed": 2
+        },
+        {
+          "configuration": "cached_dual",
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.52431794083422,
+              "max": 92.0,
+              "mean": 30.733333333333334,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 16.11403804830503
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 1.1405417344489763,
+              "max": 1104.49,
+              "mean": 154.90243333333333,
+              "median": 121.6805,
+              "min": 74.534,
+              "p95": 147.389,
+              "population_stddev": 176.6726899843669
+            },
+            "elapsed_seconds": 31.194800385,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3304437322176197,
+              "max": 2945.598,
+              "mean": 1890.5549666666666,
+              "median": 1885.059,
+              "min": 725.907,
+              "p95": 2945.419,
+              "population_stddev": 624.7220391478909
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3761975556682155,
+              "max": 100.0,
+              "mean": 50.266666666666666,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 18.910197131588966
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.27510426303166446,
+              "max": 3076.5441,
+              "mean": 2079.3082416,
+              "median": 2013.181446,
+              "min": 912.241337,
+              "p95": 3076.51425,
+              "population_stddev": 572.0265614210342
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.961698732793478,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:38.45",
+            "exit_status": 0,
+            "maximum_rss_kib": 4875548,
+            "percent_cpu": "365%"
+          },
+          "ready_ms": 3839.792503,
+          "repetition": 2,
+          "server_shell_exit_status": 0,
+          "slots_observed": 2
+        }
+      ],
+      "requests_per_second": {
+        "coefficient_of_variation": 1.343455846755631e-05,
+        "max": 0.961698732793478,
+        "mean": 0.9616858129691962,
+        "median": 0.9616858129691962,
+        "min": 0.9616728931449144,
+        "p95": 0.961698732793478,
+        "population_stddev": 1.2919824281754089e-05
+      },
+      "server_parallel_slots": 2,
+      "warmup_slot_ids": [
+        0,
+        1
+      ]
+    },
+    "cached_single": {
+      "cached_tokens": {
+        "coefficient_of_variation": 0.509021083039616,
+        "max": 92.0,
+        "mean": 29.766666666666666,
+        "median": 25.0,
+        "min": 25.0,
+        "p95": 80.0,
+        "population_stddev": 15.151860905145904
+      },
+      "client_concurrency": 1,
+      "encode_ms": {
+        "coefficient_of_variation": 0.3921123628931876,
+        "max": 2227.26,
+        "mean": 1033.2790833333333,
+        "median": 983.288,
+        "min": 63.998,
+        "p95": 1975.046,
+        "population_stddev": 405.1615028939403
+      },
+      "evaluated_prompt_tokens": {
+        "coefficient_of_variation": 0.3300763243464773,
+        "max": 100.0,
+        "mean": 51.233333333333334,
+        "median": 51.0,
+        "min": 1.0,
+        "p95": 85.0,
+        "population_stddev": 16.91091035068452
+      },
+      "http_ms": {
+        "coefficient_of_variation": 0.3673826174479181,
+        "max": 2297.350272,
+        "mean": 1104.0096823833333,
+        "median": 1052.694744,
+        "min": 134.043276,
+        "p95": 2045.13402,
+        "population_stddev": 405.5939668018337
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 1.15983018367844e-05,
+        "max": 4655908.0,
+        "mean": 4655854.0,
+        "median": 4655854.0,
+        "min": 4655800.0,
+        "p95": 4655908.0,
+        "population_stddev": 54.0
+      },
+      "measured_slot_assignment": "automatic",
+      "prompt_cache": true,
+      "ready_ms": {
+        "coefficient_of_variation": 0.01024249866728062,
+        "max": 3941.069089,
+        "mean": 3901.1119550000003,
+        "median": 3901.1119550000003,
+        "min": 3861.154821,
+        "p95": 3941.069089,
+        "population_stddev": 39.957133999999996
+      },
+      "repetition_encode_median_ms": {
+        "coefficient_of_variation": 5.7965413969681415e-05,
+        "max": 983.402,
+        "mean": 983.345,
+        "median": 983.345,
+        "min": 983.288,
+        "p95": 983.402,
+        "population_stddev": 0.05700000000001637
+      },
+      "repetitions": [
+        {
+          "configuration": "cached_single",
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.02175970600316963,
+              "max": 70.521,
+              "mean": 65.5154,
+              "median": 65.5335,
+              "min": 63.369,
+              "p95": 66.861,
+              "population_stddev": 1.4255958426800597
+            },
+            "elapsed_seconds": 33.135516958,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3922590143966846,
+              "max": 2227.26,
+              "mean": 1033.471,
+              "median": 983.402,
+              "min": 64.252,
+              "p95": 1977.817,
+              "population_stddev": 405.388315867556
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.3676490541925168,
+              "max": 2297.350272,
+              "mean": 1104.3113774333333,
+              "median": 1054.4891754999999,
+              "min": 134.72168,
+              "p95": 2049.038455,
+              "population_stddev": 405.99903344740045
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9053729277266345,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:40.03",
+            "exit_status": 0,
+            "maximum_rss_kib": 4655908,
+            "percent_cpu": "362%"
+          },
+          "ready_ms": 3861.154821,
+          "repetition": 1,
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "configuration": "cached_single",
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.019775801518317777,
+              "max": 69.495,
+              "mean": 65.58473333333333,
+              "median": 65.75450000000001,
+              "min": 63.946,
+              "p95": 67.169,
+              "population_stddev": 1.2969906690317998
+            },
+            "elapsed_seconds": 33.117378809,
+            "encode_ms": {
+              "coefficient_of_variation": 0.391965445883821,
+              "max": 2225.115,
+              "mean": 1033.0871666666667,
+              "median": 983.288,
+              "min": 63.998,
+              "p95": 1975.046,
+              "population_stddev": 404.9344719193533
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.36711546462085265,
+              "max": 2295.356425,
+              "mean": 1103.7079873333334,
+              "median": 1052.694744,
+              "min": 134.043276,
+              "p95": 2045.13402,
+              "population_stddev": 405.1882705756229
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9058687939350798,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:39.71",
+            "exit_status": 0,
+            "maximum_rss_kib": 4655800,
+            "percent_cpu": "365%"
+          },
+          "ready_ms": 3941.069089,
+          "repetition": 2,
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        }
+      ],
+      "requests_per_second": {
+        "coefficient_of_variation": 0.00027377141466816376,
+        "max": 0.9058687939350798,
+        "mean": 0.9056208608308571,
+        "median": 0.9056208608308571,
+        "min": 0.9053729277266345,
+        "p95": 0.9058687939350798,
+        "population_stddev": 0.000247933104222664
+      },
+      "server_parallel_slots": 1,
+      "warmup_slot_ids": [
+        0,
+        0
+      ]
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "python": "Python 3.10.20",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "experiment_id": "E5d",
+    "git_commit": "23c72f800fc29d32d413fce18388cf315c27f4d7",
+    "github_run_attempt": "1",
+    "github_run_id": "30664666945",
+    "schema_version": 1
+  },
+  "rss_increase_kib": 244524.0,
+  "runtime_buffer_patterns_observed": [
+    "CPU_REPACK model buffer size",
+    "CPU_Mapped model buffer size"
+  ],
+  "schema_version": 1,
+  "scope": "Quality-gated interaction between verified prompt caching and continuous-batching concurrency on the exact selected native Arm service",
+  "selection": {
+    "accuracy": 0.7666666666666667,
+    "candidate": "ministral3_3b_q4_k_m",
+    "correct": 23,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "total": 30
+  },
+  "source": {
+    "artifact_name": "e5d-cached-concurrency-30664666945-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30664666945"
+  },
+  "status": "valid_selected_inference_no_cached_concurrency_win",
+  "throughput_improvement_ratio": 1.0619077525300185,
+  "validation": {
+    "all_input_hashes_match": true,
+    "all_responses_match_selected_e3f_predictions": true,
+    "both_slots_preloaded_before_measurement": true,
+    "cache_mode_bound_in_recipe_and_request": true,
+    "cached_prefix_observed_in_every_measured_request": true,
+    "cached_two_slot_optimization_claim_allowed": false,
+    "exact_model_and_runtime_verified": true,
+    "fresh_server_per_cell": true,
+    "latency_ceilings_passed": true,
+    "launch_recomputed_selected_plan": true,
+    "measured_requests_auto_scheduled": true,
+    "readiness_ceiling_passed": true,
+    "rss_ceiling_passed": true,
+    "rss_increase_ceiling_passed": true,
+    "runtime_buffer_proof_observed": true,
+    "selected_quality_reproduced_in_every_cell": true,
+    "throughput_improvement_passed": false,
+    "zero_request_failures": true
+  }
+}

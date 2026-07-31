@@ -26,6 +26,9 @@ EXPECTED_HASHES = {
     "results/manifests/e5c-30662037235.json": (
         "27a426dd9ed0ed8e4b9ef513a5ced7418f7a722b91e94ca1bc10f8f76d84bfa7"
     ),
+    "results/manifests/e5d-30664666945.json": (
+        "a844e58ea3f89e8fd9d9e8697ad6c680865a6719d2f6b34298af0d56be7d76e5"
+    ),
     "results/manifests/e6b-30640282768.json": (
         "e870ad9cf7b7d1f89f0fa745383f555d54f62b3caf2fc635cbcb76ca4ef7e210"
     ),
@@ -157,6 +160,25 @@ def main() -> int:
         or prompt_cache.get("prompt_encode_improvement_ratio", 0) < 1.1
     ):
         raise ValueError("retained prompt-cache decision differs from E5c evidence")
+
+    cached_concurrency = load_object(ROOT / "results/manifests/e5d-30664666945.json")
+    if (
+        cached_concurrency.get("status")
+        != "valid_selected_inference_no_cached_concurrency_win"
+        or cached_concurrency.get("validation", {}).get(
+            "cached_two_slot_optimization_claim_allowed"
+        )
+        is not False
+        or cached_concurrency.get("validation", {}).get(
+            "all_responses_match_selected_e3f_predictions"
+        )
+        is not True
+        or cached_concurrency.get("selection", {}).get("correct") != 23
+        or cached_concurrency.get("throughput_improvement_ratio", 0) >= 1.1
+    ):
+        raise ValueError(
+            "retained cached-concurrency decision differs from E5d evidence"
+        )
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

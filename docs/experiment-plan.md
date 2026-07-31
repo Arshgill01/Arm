@@ -512,6 +512,18 @@ MiB additional maximum RSS, readiness below 15 seconds, and absolute process
 RSS below 8 GiB. Exact inputs and order are frozen in
 [`../experiments/e5d_contract.json`](../experiments/e5d_contract.json).
 
+### E5d outcome
+
+Run `30664666945` passed every validity, quality, mechanism, latency, readiness,
+and memory obligation. All 120 responses matched E3f, every cell reproduced
+23/30, both dual slots were preloaded, and every measured request reused at
+least 25 prompt tokens. Repeated median throughput rose from 0.9056 to 0.9617
+requests/s, only 1.0619x and below the frozen 1.10x gate. Pooled median latency
+rose 93.3% to 2,034.4 ms and maximum RSS increased 244,524 KiB. Cached two-slot
+serving is rejected; the promoted cached single-slot default remains unchanged.
+See
+[`../results/reports/e5d-cached-concurrency.md`](../results/reports/e5d-cached-concurrency.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

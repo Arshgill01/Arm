@@ -108,6 +108,12 @@ requests/s and pooled median latency fell from 1.807 to 1.062 seconds. Unlike
 the two-slot candidate, prompt caching cleared both frozen 1.10x performance
 gates and is promoted.
 
+E5d then tested whether the promoted cache makes two-slot serving worthwhile.
+All 120 answers remained exact and both slots demonstrated prefix reuse, but
+throughput improved only 1.0619x while pooled median latency rose 93.3% and
+maximum RSS increased 244,524 KiB. The cross-layer candidate missed the same
+1.10x gate, confirming cached single-slot serving as the default.
+
 ## Constraint contract
 
 The schema-1 policy has two explicit parts:
@@ -144,4 +150,5 @@ two-slot inference service. The service passed every quality and resource gate,
 but two slots missed the throughput-improvement threshold, so inference serving
 is validated while the single-slot default is retained. E5c subsequently
 validated quality-preserving shared-prefix caching at 1.672x throughput and
-promoted it within that single-slot default.
+promoted it within that single-slot default. E5d separately tested their
+interaction and rejected cached two-slot serving at only 1.0619x throughput.

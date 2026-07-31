@@ -18,6 +18,8 @@ authoritative, timestamped record; this file groups the significant additions.
   response drift; rejected a marginal two-slot optimization.
 - Promoted quality-gated shared-prefix caching after it preserved all 120
   answers, raised throughput 1.672x, and cut median HTTP latency 41.3%.
+- Retained cached single-slot serving after a separate interaction test found
+  only 1.0619x two-slot throughput with 93.3% higher median latency.
 
 ### Native evidence
 
@@ -42,7 +44,7 @@ authoritative, timestamped record; this file groups the significant additions.
 ### Submission and developer experience
 
 - Added immutable experiment contracts, raw-data ingesters, compact manifests,
-  reports, CI workflows, source patches, and 72 tests.
+  reports, CI workflows, source patches, and 75 tests.
 - Added a dependency-free interactive evidence demo, browser screenshots,
   paste-ready Devpost draft, video script, claim index, compliance checklist,
   and clean-checkout package verifier.

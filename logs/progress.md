@@ -721,3 +721,21 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   reuse on every measured request, at least 1.10x repeated median throughput,
   5/10-second median/p95 latency ceilings, at most 512 MiB incremental RSS,
   and the existing readiness and 8 GiB absolute RSS ceilings.
+
+## 2026-07-31 — E5d rejects cached two-slot serving
+
+- Native run `30664666945` passed the frozen workflow in 7m51s. Both dual slots
+  were preloaded before measurement, measured requests were automatically
+  scheduled, and every measured request reused at least 25 prompt tokens.
+- All 120 responses matched E3f exactly. Every cell reproduced 23/30 with zero
+  request failures or drift, and every validity and resource gate passed.
+- Repeated median throughput improved from 0.9056 to 0.9617 requests/s, only
+  1.0619x and below the frozen 1.10x promotion threshold.
+- Pooled median HTTP latency rose from 1,052.7 to 2,034.4 ms, and maximum RSS
+  increased 244,524 KiB (about 239 MiB). Both remained inside their absolute
+  ceilings, but do not justify the marginal throughput gain.
+- Independent Python 3.10 ingestion matched the uploaded summary byte for byte
+  at SHA-256
+  `a844e58ea3f89e8fd9d9e8697ad6c680865a6719d2f6b34298af0d56be7d76e5`.
+  Cached two-slot promotion is rejected; cached single-slot serving remains the
+  verified default.
