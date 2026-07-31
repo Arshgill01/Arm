@@ -29,7 +29,7 @@ repository. They use no third-party imagery, fonts, music, or footage.
 ## Entrant actions still required
 
 - [ ] Confirm personal/team eligibility and appoint the submitting representative.
-- [ ] Join the Devpost event with the submission account.
+- [x] Devpost account is registered for the event (live check, July 31, 2026).
 - [ ] Join/confirm the Arm Developer Program with an Arm ID.
 - [ ] Host the static `demo/` directory at a free public URL.
 - [ ] Verify that URL works without credentials and will remain available through
@@ -40,6 +40,8 @@ repository. They use no third-party imagery, fonts, music, or footage.
 - [ ] Replace `<ADD PUBLIC VIDEO URL>` in `submission/devpost.md`.
 - [ ] Add screenshots from `output/playwright/` to the Devpost gallery.
 - [ ] Confirm all required Devpost fields and the **Cloud AI** category.
+- [ ] Answer the four entrant-only survey fields about build difficulty,
+      missing support, future Arm use, and plans to continue the project.
 - [ ] Review the final text for entrant name/team and contact information.
 - [ ] Submit before August 14, 2026 at 23:00 UTC.
 

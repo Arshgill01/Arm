@@ -101,7 +101,9 @@ The entry instructions include:
 - joining the Arm Developer Program using an Arm ID; and
 - completing all required Devpost submission fields.
 
-The current machine cannot prove that the human account steps are complete.
+The authenticated Devpost account was verified as already registered for this
+challenge on July 31, 2026. The current machine cannot prove Arm Developer
+Program membership or the entrant's eligibility declarations.
 
 ## Judging
 
@@ -154,7 +156,8 @@ the rule defects in `open-questions.md`.
 ## Conservative compliance checklist
 
 - [ ] User confirms eligibility and chosen entrant/team representative.
-- [ ] User joins Devpost event.
+- [x] Authenticated user is registered for the Devpost event (live check,
+      2026-07-31).
 - [ ] User joins/confirms Arm Developer Program account.
 - [x] One and only one published track is selected on the submission: Cloud AI.
 - [x] Work performed during the submission period is identified by commits and
@@ -165,7 +168,7 @@ the rule defects in `open-questions.md`.
 - [x] All dependencies, models, datasets, and generated assets have provenance
       and compatible rights.
 - [x] Clean-checkout setup/run/validation succeeds on the intended Arm target
-      ([native run `30661309115`](https://github.com/Arshgill01/Arm/actions/runs/30661309115)).
+      ([native run `30663277762`](https://github.com/Arshgill01/Arm/actions/runs/30663277762)).
 - [x] Repeated before/after results and raw evidence are published.
 - [x] Correctness or quality guardrails show optimization did not silently break
       the workload.
