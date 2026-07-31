@@ -667,3 +667,21 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Promotion requires all 120 responses to reproduce E3f's stable 23/30 result,
   at least 1.10x repeated median throughput, at least 1.10x prompt-encode
   improvement, and the unchanged latency, readiness, and RSS ceilings.
+
+## 2026-07-31 — E5c shared-prefix cache wins
+
+- Native run `30662037235` passed the full workflow in 9m41s. All 120 measured
+  responses matched E3f, and each fresh-server cell reproduced 23/30 with zero
+  failures or drift.
+- Cache-disabled cells reused zero prompt tokens. Every cache-enabled request
+  reused at least 25; the candidate median was 25 and maximum was 92.
+- Repeated median throughput improved from 0.5378 to 0.8991 requests/s
+  (1.6718x). Repeated median prompt encode improved from 1,738.0 to 989.0 ms
+  (1.7574x).
+- Pooled median/p95 HTTP latency fell from 1,807.0/2,644.6 ms to
+  1,061.6/2,060.5 ms. Maximum RSS increased by only 6,308 KiB, and readiness
+  remained below four seconds.
+- Both predeclared 1.10x performance gates and every quality/resource gate
+  passed. Independent local ingestion matched the uploaded summary byte for
+  byte at SHA-256
+  `27a426dd9ed0ed8e4b9ef513a5ced7418f7a722b91e94ca1bc10f8f76d84bfa7`.

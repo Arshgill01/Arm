@@ -68,6 +68,7 @@ python3 -m pareto64 plan \
 | [E4a](results/reports/e4a-backlog-tuner.md) | Native bounded tuner selected backlog 64 with zero failures or tail breaches |
 | [E5a](results/reports/e5a-planner-api.md) | Native fail-closed API passed load SLOs; one-second tail retained for tuning |
 | [E5b](results/reports/e5b-selected-inference.md) | Exact selected-model serving reproduced 23/30 with zero drift; two slots missed the 1.10x throughput gate |
+| [E5c](results/reports/e5c-prompt-cache.md) | Quality-gated shared-prefix caching preserved all 120 answers and raised throughput 1.672x while cutting median HTTP latency 41.3% |
 | [E6a](results/reports/e6a-native-feature-fix.md) | Reproduced and fixed invalid native KleidiAI SVE source selection |
 | [E6b](results/reports/e6b-q8-vector-store.md) | NEON vector narrowing doubled isolated Q8_0 quantizer throughput with neutral real-model inference |
 | [E6c](results/reports/e6c-reasoning-budget-fix.md) | Source fix passed 13 upstream tests and removed all reasoning output; the frozen final-answer gate still rejected the real-model run |

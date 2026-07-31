@@ -475,6 +475,17 @@ second median/p95 latency, 15-second readiness, and 8 GiB RSS ceilings also
 apply. Exact inputs and order are frozen in
 [`../experiments/e5c_contract.json`](../experiments/e5c_contract.json).
 
+### E5c outcome
+
+Run `30662037235` passed every frozen obligation. All 120 responses matched the
+selected E3f predictions and every cell reproduced 23/30. The baseline reported
+zero cached tokens; every candidate request reused at least 25. Repeated median
+throughput rose from 0.5378 to 0.8991 requests/s (1.672x), while repeated median
+prompt encode fell from 1,738.0 to 989.0 ms (1.757x improvement). Pooled median
+HTTP latency fell 41.3%, p95 fell 22.1%, and maximum RSS increased by only 6,308
+KiB. Prompt caching cleared both 1.10x gates and is eligible for promotion. See
+[`../results/reports/e5c-prompt-cache.md`](../results/reports/e5c-prompt-cache.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server
