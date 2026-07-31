@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import math
 import re
@@ -39,6 +40,52 @@ except ModuleNotFoundError as error:
 BATCH_PATTERN = re.compile(r"llama_context:\s+n_batch\s*=\s*(\d+)")
 MICRO_BATCH_PATTERN = re.compile(r"llama_context:\s+n_ubatch\s*=\s*(\d+)")
 COMPUTE_BUFFER_PATTERN = re.compile(r"CPU compute buffer size\s*=\s*([0-9.]+)\s+MiB")
+
+
+def bind_promoted_default(
+    configurations: dict[str, dict[str, Any]],
+    promoted_default: str,
+) -> dict[str, dict[str, Any]]:
+    if promoted_default not in configurations:
+        raise ValueError("promoted batch default is not a frozen configuration")
+    bound = copy.deepcopy(configurations)
+    frozen_implicit = {
+        name
+        for name, configuration in configurations.items()
+        if not configuration["explicit_batch_arguments"]
+    }
+    if len(frozen_implicit) != 1:
+        raise ValueError("frozen batch contract lacks one implicit recipe")
+    for name, configuration in bound.items():
+        configuration["pareto64_batch_arguments"] = name != promoted_default
+        if promoted_default not in frozen_implicit:
+            configuration["explicit_batch_arguments"] = True
+    return bound
+
+
+def validate_pareto64_invocation(cell_dir: Path, config: dict[str, Any]) -> None:
+    time_log = (cell_dir / "server-time.log").read_text(
+        encoding="utf-8", errors="replace"
+    )
+    commands = [
+        line for line in time_log.splitlines() if "Command being timed:" in line
+    ]
+    if len(commands) != 1:
+        raise ValueError(f"{cell_dir.name} lacks one timed launcher command")
+    command = commands[0]
+    has_batch = " --batch-size " in command
+    has_micro_batch = " --micro-batch-size " in command
+    explicit = config.get(
+        "pareto64_batch_arguments",
+        config["explicit_batch_arguments"],
+    )
+    if has_batch is not explicit or has_micro_batch is not explicit:
+        raise ValueError(f"{cell_dir.name} Pareto64 batch invocation differs")
+    if explicit and (
+        f" --batch-size {config['batch_size']}" not in command
+        or f" --micro-batch-size {config['micro_batch_size']}" not in command
+    ):
+        raise ValueError(f"{cell_dir.name} Pareto64 batch values differ")
 
 
 def unique_match(pattern: re.Pattern[str], text: str, label: str) -> str:
@@ -84,6 +131,7 @@ def validate_mechanisms(
         proof_dir = evidence_dir / "mechanisms" / name
         recipe = load_object(proof_dir / "recipe.json")
         validate_recipe(recipe, config=config, contract=contract)
+        validate_pareto64_invocation(proof_dir, config)
         runtime = recipe["runtime"]
         argv = runtime["argv"]
         verbosity = mechanism_contract["proof_log_verbosity"]
@@ -268,6 +316,16 @@ def build_manifest(
     baseline_configuration = execution["baseline_configuration"]
     if baseline_configuration not in configurations:
         raise ValueError("baseline configuration is absent")
+    provenance = load_object(evidence_dir / "provenance.json")
+    if provenance.get("experiment_id") != "E5f":
+        raise ValueError("provenance does not identify E5f")
+    promoted_default = provenance.get("promoted_default_configuration")
+    if not isinstance(promoted_default, str):
+        raise ValueError("provenance lacks the promoted batch default")
+    invocation_configurations = bind_promoted_default(
+        configurations,
+        promoted_default,
+    )
     order = execution["order"]
     expected_pairs = {
         (name, repetition)
@@ -282,7 +340,7 @@ def build_manifest(
 
     mechanisms = validate_mechanisms(
         evidence_dir,
-        configurations=configurations,
+        configurations=invocation_configurations,
         contract=contract,
     )
     mechanism_monotonic = compute_buffers_microbatch_monotonic(
@@ -296,18 +354,20 @@ def build_manifest(
         repetition = item["repetition"]
         cell_dir = evidence_dir / "cells" / f"{index:02d}-{configuration}-r{repetition}"
         cell_paths[(configuration, repetition)] = cell_dir
+        config = invocation_configurations[configuration]
         cells.append(
             validate_cell(
                 cell_dir,
                 configuration=configuration,
                 repetition=repetition,
-                config=configurations[configuration],
+                config=config,
                 contract=contract,
                 tasks=tasks,
                 references=references,
                 require_selected_quality=False,
             )
         )
+        validate_pareto64_invocation(cell_dir, config)
 
     performance: dict[str, Any] = {}
     maximum_prompt_tokens = 0
@@ -343,7 +403,9 @@ def build_manifest(
             "flash_attention": configuration["flash_attention"],
             "batch_size": configuration["batch_size"],
             "micro_batch_size": configuration["micro_batch_size"],
-            "explicit_batch_arguments": configuration["explicit_batch_arguments"],
+            "explicit_batch_arguments": invocation_configurations[name][
+                "explicit_batch_arguments"
+            ],
             "mechanism": mechanisms[name],
             "quality": {
                 "correct_per_repetition": [
@@ -401,12 +463,12 @@ def build_manifest(
     )
     for name, profile in performance.items():
         profile["gates"] = hypothesis["profile_gates"][name]
-
-    provenance = load_object(evidence_dir / "provenance.json")
-    if provenance.get("experiment_id") != "E5f":
-        raise ValueError("provenance does not identify E5f")
-    if provenance.get("promoted_default_configuration") != baseline_configuration:
-        raise ValueError("provenance does not bind the promoted batch default")
+    allowed_promoted_defaults = {
+        baseline_configuration,
+        hypothesis["selected_configuration"],
+    }
+    if promoted_default not in allowed_promoted_defaults:
+        raise ValueError("provenance binds an unselected batch default")
     run_id = str(provenance["github_run_id"])
     artifact_name = (
         f"{contract['artifact_name_prefix']}-{run_id}-"

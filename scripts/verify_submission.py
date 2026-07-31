@@ -14,6 +14,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 build_plan = import_module("pareto64.planner").build_plan
+resolve_batch_profile = import_module("pareto64.cli").resolve_batch_profile
 
 
 EXPECTED_HASHES = {
@@ -221,16 +222,15 @@ def main() -> int:
         or selected_batch.get("quality", {}).get("exact_selected_predictions")
         is not True
         or selected_batch.get("gates", {}).get("eligible") is not True
-        or selected_batch.get("gates", {}).get("compute_buffer_reduction_mib", 0)
-        < 8
-        or selected_batch.get("gates", {}).get("process_rss_reduction_kib", 0)
-        < 8192
-        or selected_batch.get("gates", {}).get("throughput_retention_ratio", 0)
-        < 0.98
+        or selected_batch.get("gates", {}).get("compute_buffer_reduction_mib", 0) < 8
+        or selected_batch.get("gates", {}).get("process_rss_reduction_kib", 0) < 8192
+        or selected_batch.get("gates", {}).get("throughput_retention_ratio", 0) < 0.98
         or batch128.get("gates", {}).get("eligible") is not False
         or batch128.get("gates", {}).get("process_rss_reduction_passed") is not False
     ):
         raise ValueError("retained prompt-batch decision differs from E5f evidence")
+    if resolve_batch_profile(None, None) != (64, 64):
+        raise ValueError("launcher default differs from the E5f batch selection")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

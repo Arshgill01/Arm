@@ -10,6 +10,15 @@ from .runtime import prepare_launch, server_version, write_recipe
 from .server import DEFAULT_ACCEPT_BACKLOG, PlannerHTTPServer, PlannerState
 
 
+def resolve_batch_profile(
+    batch_size: int | None,
+    micro_batch_size: int | None,
+) -> tuple[int | None, int | None]:
+    if batch_size is None and micro_batch_size is None:
+        return 64, 64
+    return batch_size, micro_batch_size
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(prog="pareto64")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -68,12 +77,12 @@ def parse_args() -> argparse.Namespace:
     launch.add_argument(
         "--batch-size",
         type=int,
-        help="logical prompt batch size (default: pinned llama.cpp behavior)",
+        help="logical prompt batch size (default: 64, selected by native E5f)",
     )
     launch.add_argument(
         "--micro-batch-size",
         type=int,
-        help="physical prompt batch size (must be set with --batch-size)",
+        help="physical prompt batch size (default: 64; set both sizes together)",
     )
     launch.add_argument("--log-verbosity", type=int)
     launch.add_argument(
@@ -128,6 +137,10 @@ def main() -> int:
             server.server_close()
         return 0
     if arguments.command == "launch":
+        batch_size, micro_batch_size = resolve_batch_profile(
+            arguments.batch_size,
+            arguments.micro_batch_size,
+        )
         recipe = prepare_launch(
             manifest=load_object(arguments.manifest),
             constraints=load_object(arguments.constraints),
@@ -147,8 +160,8 @@ def main() -> int:
             context_per_slot=arguments.context_per_slot,
             kv_cache_type_k=arguments.kv_cache_type_k,
             kv_cache_type_v=arguments.kv_cache_type_v,
-            batch_size=arguments.batch_size,
-            micro_batch_size=arguments.micro_batch_size,
+            batch_size=batch_size,
+            micro_batch_size=micro_batch_size,
             log_verbosity=arguments.log_verbosity,
         )
         write_recipe(arguments.recipe_output, recipe)

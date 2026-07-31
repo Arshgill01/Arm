@@ -3,7 +3,7 @@ from __future__ import annotations
 import unittest
 from unittest.mock import patch
 
-from pareto64.cli import parse_args
+from pareto64.cli import parse_args, resolve_batch_profile
 
 
 class Pareto64CLITests(unittest.TestCase):
@@ -63,6 +63,10 @@ class Pareto64CLITests(unittest.TestCase):
         self.assertEqual("q8_0", arguments.kv_cache_type_k)
         self.assertEqual("f16", arguments.kv_cache_type_v)
         self.assertEqual(3, arguments.log_verbosity)
+
+    def test_unflagged_launch_resolves_selected_batch_pair(self) -> None:
+        self.assertEqual((64, 64), resolve_batch_profile(None, None))
+        self.assertEqual((128, None), resolve_batch_profile(128, None))
 
 
 if __name__ == "__main__":

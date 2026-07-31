@@ -859,3 +859,16 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   Real-browser checks at 1,440×900 and 390×844 retained the fail-closed policy
   interaction, reported zero console errors/warnings, and kept document width
   at 390 pixels while all three 760-pixel evidence tables scroll locally.
+
+## 2026-07-31 — E5f 64/64 promotion prepared
+
+- Changed the runtime API and unflagged CLI launch path to the selected 64/64
+  prompt batch while keeping paired overrides bounded and fail-closed.
+- Pinned the historical effective 2,048/512 and 256/256 batches explicitly in
+  E5b–E5e workflows, so those frozen commands do not inherit the new default.
+- Updated E5f reproduction binding at both layers: selected cells omit Pareto64
+  batch flags, while the generated llama.cpp recipe must contain explicit
+  64/64 flags because upstream defaults remain 2,048/512.
+- The promotion-aware ingester parses the timed outer command and validates the
+  generated recipe separately. Re-ingesting the original artifact still
+  reproduced retained SHA-256 `396222dd…f92d4b` byte for byte.

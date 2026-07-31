@@ -178,6 +178,8 @@ jobs:
               --port 18081 \
               --parallel 1 \
               --context-per-slot 2048 \
+              --batch-size 2048 \
+              --micro-batch-size 512 \
               "${launch_cache_arguments[@]}" \
               > "$output_dir/server.stdout.log" \
               2> "$output_dir/server.stderr.log" &

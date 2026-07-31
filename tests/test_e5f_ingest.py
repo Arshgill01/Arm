@@ -8,6 +8,7 @@ from pathlib import Path
 
 from experiments.e5b_ingest import validate_recipe
 from experiments.e5f_ingest import (
+    bind_promoted_default,
     compute_buffers_microbatch_monotonic,
     evaluate_profiles,
     parse_batch_mechanism,
@@ -122,6 +123,20 @@ class E5fIngestTests(unittest.TestCase):
         self.assertTrue(all(item["repetition"] == 1 for item in first))
         self.assertTrue(all(item["repetition"] == 2 for item in second))
 
+    def test_promoted_default_controls_only_invocation_binding(self) -> None:
+        configurations = self.contract["execution"]["configurations"]
+        rebound = bind_promoted_default(configurations, "batch64")
+        self.assertTrue(rebound["batch64"]["explicit_batch_arguments"])
+        self.assertTrue(rebound["batch128"]["explicit_batch_arguments"])
+        self.assertTrue(rebound["batch256"]["explicit_batch_arguments"])
+        self.assertFalse(rebound["batch64"]["pareto64_batch_arguments"])
+        self.assertTrue(rebound["batch128"]["pareto64_batch_arguments"])
+        self.assertTrue(rebound["batch256"]["pareto64_batch_arguments"])
+        self.assertFalse(
+            configurations["batch256"]["explicit_batch_arguments"],
+            "the frozen first-run contract must not be mutated",
+        )
+
     def test_recipe_binds_implicit_baseline_and_explicit_candidates(self) -> None:
         for name, config in self.contract["execution"]["configurations"].items():
             validate_recipe(self.recipe(name), config=config, contract=self.contract)
@@ -166,6 +181,16 @@ class E5fIngestTests(unittest.TestCase):
                 proof = evidence / "mechanisms" / name
                 proof.mkdir(parents=True)
                 (proof / "recipe.json").write_text(json.dumps(self.recipe(name)))
+                batch_arguments = ""
+                if profile["explicit_batch_arguments"]:
+                    batch_arguments = (
+                        f" --batch-size {profile['batch_size']}"
+                        f" --micro-batch-size {profile['micro_batch_size']}"
+                    )
+                (proof / "server-time.log").write_text(
+                    'Command being timed: "python3 -m pareto64 launch'
+                    f'{batch_arguments}"\n'
+                )
                 (proof / "server.stderr.log").write_text(
                     f"llama_context: n_batch = {profile['batch_size']}\n"
                     f"llama_context: n_ubatch = {profile['micro_batch_size']}\n"

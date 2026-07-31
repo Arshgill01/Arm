@@ -94,9 +94,10 @@ the memory win all reproduced.
 
 With the context fixed, we profiled the remaining prompt compute-graph
 reservation. The effective 256/256 logical/physical batch allocated a 40.13
-MiB CPU compute buffer. A frozen forward/reverse 256/128/64 study selected
-64/64: all 60 measured answers remained exact, the compute buffer fell to
-10.03 MiB, maximum RSS fell 14.48 MiB, and throughput rose 2.26%. The 128/128
+MiB CPU compute buffer. A frozen forward/reverse 256/128/64 study promoted
+64/64 as the launcher default: all 60 measured answers remained exact, the
+compute buffer fell to 10.03 MiB, maximum RSS fell 14.48 MiB, and throughput
+rose 2.26%. The 128/128
 profile was not promoted because its maximum-RSS reduction missed the frozen 8
 MiB process gate despite a smaller reported buffer.
 
@@ -162,7 +163,7 @@ without changing measured inputs or post-observation thresholds.
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 85 local tests plus native Arm workflows for the final evidence path.
+- 87 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 

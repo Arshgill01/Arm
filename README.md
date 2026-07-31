@@ -52,7 +52,7 @@ E5e then right-sizes the validated application context from 2,048 to 256 tokens,
 reducing maximum process RSS by 183.36 MiB while preserving every answer and
 99.62% of throughput. Lower-precision q4_0 KV cache was faster but changed a
 stable answer, so the product promotes the f16 right-sized profile instead.
-E5f then selects a 64/64 logical/physical prompt batch: every answer remains
+E5f then promotes a 64/64 logical/physical prompt batch: every answer remains
 exact, the CPU compute buffer falls 75%, maximum RSS falls 14.48 MiB, and
 throughput rises 2.26%. The intermediate 128/128 profile is rejected because
 its process-RSS reduction misses the frozen 8 MiB gate.

@@ -104,8 +104,8 @@ def prepare_launch(
     context_per_slot: int | None = 256,
     kv_cache_type_k: str = "f16",
     kv_cache_type_v: str = "f16",
-    batch_size: int | None = None,
-    micro_batch_size: int | None = None,
+    batch_size: int | None = 64,
+    micro_batch_size: int | None = 64,
     log_verbosity: int | None = None,
 ) -> dict[str, Any]:
     plan = build_plan(

@@ -212,9 +212,9 @@ jobs:
             active_server_pid=""
           }
 
-          prove_profile batch256 256 false
+          prove_profile batch256 256 true
           prove_profile batch128 128 true
-          prove_profile batch64 64 true
+          prove_profile batch64 64 false
           trap - EXIT
 
       - name: Run reverse-balanced prompt batch matrix
@@ -310,12 +310,12 @@ jobs:
             active_server_pid=""
           }
 
-          run_cell 01 batch256 1 256 false
+          run_cell 01 batch256 1 256 true
           run_cell 02 batch128 1 128 true
-          run_cell 03 batch64 1 64 true
-          run_cell 04 batch64 2 64 true
+          run_cell 03 batch64 1 64 false
+          run_cell 04 batch64 2 64 false
           run_cell 05 batch128 2 128 true
-          run_cell 06 batch256 2 256 false
+          run_cell 06 batch256 2 256 true
           trap - EXIT
 
       - name: Record provenance and independently validate evidence
@@ -333,7 +333,7 @@ jobs:
               "git_commit": os.environ["GITHUB_SHA"],
               "github_run_id": os.environ["GITHUB_RUN_ID"],
               "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
-              "promoted_default_configuration": "batch256",
+              "promoted_default_configuration": "batch64",
           }
           (evidence / "provenance.json").write_text(
               json.dumps(provenance, indent=2, sort_keys=True) + "\n"

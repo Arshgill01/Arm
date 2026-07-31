@@ -71,13 +71,13 @@ class Pareto64RuntimeTests(unittest.TestCase):
             self.assertEqual(digest, recipe["model"]["files"][0]["sha256"])
             self.assertEqual(512, recipe["runtime"]["context_total"])
             self.assertEqual(256, recipe["runtime"]["context_per_slot"])
-            self.assertEqual(512, recipe["runtime"]["batch_size"])
-            self.assertEqual(512, recipe["runtime"]["micro_batch_size"])
-            self.assertIsNone(recipe["runtime"]["batch_size_requested"])
-            self.assertIsNone(recipe["runtime"]["micro_batch_size_requested"])
+            self.assertEqual(64, recipe["runtime"]["batch_size"])
+            self.assertEqual(64, recipe["runtime"]["micro_batch_size"])
+            self.assertEqual(64, recipe["runtime"]["batch_size_requested"])
+            self.assertEqual(64, recipe["runtime"]["micro_batch_size_requested"])
             self.assertIn("--cont-batching", recipe["runtime"]["argv"])
-            self.assertNotIn("--batch-size", recipe["runtime"]["argv"])
-            self.assertNotIn("--ubatch-size", recipe["runtime"]["argv"])
+            self.assertIn("--batch-size", recipe["runtime"]["argv"])
+            self.assertIn("--ubatch-size", recipe["runtime"]["argv"])
             self.assertIn("--cache-prompt", recipe["runtime"]["argv"])
             self.assertTrue(recipe["runtime"]["prompt_cache"])
             self.assertEqual("f16", recipe["runtime"]["kv_cache_type_k"])
@@ -156,6 +156,7 @@ class Pareto64RuntimeTests(unittest.TestCase):
                     port=18081,
                     parallel=1,
                     batch_size=128,
+                    micro_batch_size=None,
                 )
 
     def test_model_hash_mismatch_fails_closed(self) -> None:

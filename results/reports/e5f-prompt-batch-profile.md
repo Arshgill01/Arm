@@ -43,7 +43,7 @@ can change logits.
 
 ## Decision
 
-`batch64` is selected for product promotion. It is the only non-baseline
+Pareto64 promotes `batch64`. It is the only non-baseline
 profile to clear every gate, lowers both the reported allocation and observed
 process RSS, and improves rather than merely retains throughput in this run.
 The 256-token context remains unchanged; the smaller batch reduces transient

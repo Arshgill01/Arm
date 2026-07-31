@@ -24,7 +24,7 @@ authoritative, timestamped record; this file groups the significant additions.
   saved 183.36 MiB maximum RSS; rejected q4_0 after reproducible answer drift.
 - Added bounded paired prompt-batch controls and froze E5f to compare the
   effective 256/256 default with 128/128 and 64/64 on native Arm.
-- Selected 64/64 after it preserved every answer, cut the CPU compute buffer
+- Promoted 64/64 after it preserved every answer, cut the CPU compute buffer
   75%, saved 14.48 MiB maximum RSS, and retained 1.0226x throughput.
 
 ### Native evidence
@@ -50,7 +50,7 @@ authoritative, timestamped record; this file groups the significant additions.
 ### Submission and developer experience
 
 - Added immutable experiment contracts, raw-data ingesters, compact manifests,
-  reports, CI workflows, source patches, and 85 tests.
+  reports, CI workflows, source patches, and 87 tests.
 - Added a dependency-free interactive evidence demo, browser screenshots,
   paste-ready Devpost draft, video script, claim index, compliance checklist,
   and clean-checkout package verifier.

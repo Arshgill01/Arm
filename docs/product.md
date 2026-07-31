@@ -88,11 +88,10 @@ configuration and defaults to the E5e-selected 256-token context per slot.
 Increasing `--parallel` increases total context proportionally so each slot
 retains that allocation. `--context-per-slot` remains an explicit bounded
 override for a separately validated workload profile.
-`--batch-size` and `--micro-batch-size` are an optional bounded pair. Omitting
-both preserves the pinned llama.cpp defaults, which the selected one-slot
-256-token context clamps to an effective 256/256. E5f is the frozen native
-quality/performance study for any smaller pair; no smaller batch is a product
-default before that evidence passes.
+`--batch-size` and `--micro-batch-size` are a bounded pair that default to the
+E5f-selected 64/64 profile. Both requested and effective values are written to
+the hashed recipe. Explicit paired overrides reproduce larger profiles when a
+different workload has passed its own application-level quality gate.
 `--dry-run` performs every integrity and selection check and writes the recipe
 without starting the server.
 
@@ -132,7 +131,7 @@ E5f held that selected service fixed and profiled effective prompt batches of
 256/256, 128/128, and 64/64. Only 64/64 passed every gate: it preserved all 60
 selected predictions, reduced the CPU compute buffer 40.13→10.03 MiB, lowered
 maximum RSS by 14,824 KiB, and retained 1.0226x throughput. It is selected for
-the next product-default checkpoint; 128/128 missed the process-RSS gate.
+promotion and is now the launcher default; 128/128 missed the process-RSS gate.
 
 ## Constraint contract
 

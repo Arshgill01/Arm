@@ -156,6 +156,12 @@ jobs:
             local configuration="$1"
             local context="$2"
             local k_type="$3"
+            local batch_size=2048
+            local micro_batch_size=512
+            if [[ "$context" -eq 256 ]]; then
+              batch_size=256
+              micro_batch_size=256
+            fi
             local output_dir="$EVIDENCE_DIR/mechanisms/$configuration"
             mkdir -p "$output_dir"
             /usr/bin/time --verbose --output "$output_dir/server-time.log" \
@@ -173,6 +179,8 @@ jobs:
               --context-per-slot "$context" \
               --kv-cache-type-k "$k_type" \
               --kv-cache-type-v f16 \
+              --batch-size "$batch_size" \
+              --micro-batch-size "$micro_batch_size" \
               --log-verbosity 4 \
               > "$output_dir/server.stdout.log" \
               2> "$output_dir/server.stderr.log" &
@@ -238,8 +246,13 @@ jobs:
               --kv-cache-type-k "$k_type"
               --kv-cache-type-v f16
             )
+            if [[ "$context" -eq 256 ]]; then
+              profile_arguments+=(--batch-size 256 --micro-batch-size 256)
+            else
+              profile_arguments+=(--batch-size 2048 --micro-batch-size 512)
+            fi
             if [[ "$use_promoted_default" == "true" ]]; then
-              profile_arguments=()
+              profile_arguments=(--batch-size 256 --micro-batch-size 256)
             fi
             local output_dir="$EVIDENCE_DIR/cells/${index}-${configuration}-r${repetition}"
             mkdir -p "$output_dir"
