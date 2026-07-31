@@ -194,6 +194,16 @@ RSS, 5 GB package, or 10-second model-load ceilings. Exact inputs and order are
 frozen in
 [`../experiments/e3d_contract.json`](../experiments/e3d_contract.json).
 
+Run `30650734222` completed every native measurement. Q4_0 and Q8_0 were both
+stable at 20/30 (66.67%), leaving an empty quality-eligible set. Q8_0 improved
+the secondary prompt/decode medians to 112.774/14.961 tokens/s, but exceeded
+the frozen load and RSS ceilings. The red workflow conclusion is a retained
+post-processing-only defect: `llama-bench` emitted a nine-character commit
+abbreviation while the ingester expected eight. Python 3.10 independently
+validated the complete uploaded artifact after deriving that abbreviation
+from the frozen full commit. See
+[`../results/reports/e3d-current-runtime.md`](../results/reports/e3d-current-runtime.md).
+
 ## E3e frozen bounded-reasoning protocol
 
 E3e is a separately predeclared follow-up to the E3d immediate-answer

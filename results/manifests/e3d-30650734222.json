@@ -1,0 +1,3466 @@
+{
+  "application": {
+    "qwen35_4b_q4_0": {
+      "display_name": "Qwen3.5-4B Q4_0",
+      "http_round_trip_ms": {
+        "coefficient_of_variation": 0.15647867095971024,
+        "max": 2649.215586,
+        "mean": 1831.5769933666668,
+        "median": 1743.667321,
+        "min": 1446.549522,
+        "p95": 2614.712197,
+        "population_stddev": 286.602733682398
+      },
+      "minimum_accuracy": 0.6666666666666666,
+      "model_load_ms": {
+        "coefficient_of_variation": 0.0,
+        "max": 2259.529733,
+        "mean": 2259.529733,
+        "median": 2259.529733,
+        "min": 2259.529733,
+        "p95": 2259.529733,
+        "population_stddev": 0.0
+      },
+      "package_size_bytes": 2583221408,
+      "quality_eligible": false,
+      "quality_process": {
+        "maximum_rss_kib": {
+          "coefficient_of_variation": 0.0,
+          "max": 7827612.0,
+          "mean": 7827612.0,
+          "median": 7827612.0,
+          "min": 7827612.0,
+          "p95": 7827612.0,
+          "population_stddev": 0.0
+        },
+        "repetitions": [
+          {
+            "elapsed": "1:52.98",
+            "exit_status": 0,
+            "maximum_rss_kib": 7827612,
+            "percent_cpu": "376%"
+          }
+        ]
+      },
+      "quality_repetitions": [
+        {
+          "accuracy": 0.6666666666666666,
+          "cases": [
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "arithmetic-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "arithmetic-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "arithmetic-03",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "arithmetic-04",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "arithmetic-05",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-02",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "logic-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-05",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "code-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "code-04",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "data-01",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "data-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "data-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "systems-03",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-04",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "systems-05",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "evidence-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "evidence-03",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "D",
+              "id": "evidence-04",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-05",
+              "predicted": "B",
+              "response": "B"
+            }
+          ],
+          "category_accuracy": {
+            "arithmetic": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "code_reasoning": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "data_reasoning": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            },
+            "evidence_reasoning": {
+              "accuracy": 1.0,
+              "correct": 5,
+              "total": 5
+            },
+            "logic": {
+              "accuracy": 1.0,
+              "correct": 5,
+              "total": 5
+            },
+            "systems_reasoning": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            }
+          },
+          "correct": 20,
+          "framework": "llama.cpp",
+          "model_path": "/tmp/Pareto64-E3d/models/qwen35_4b_q4_0/Qwen3.5-4B-Q4_0.gguf",
+          "predictions": {
+            "arithmetic-01": "B",
+            "arithmetic-02": "B",
+            "arithmetic-03": "C",
+            "arithmetic-04": "B",
+            "arithmetic-05": "A",
+            "code-01": "C",
+            "code-02": "C",
+            "code-03": "B",
+            "code-04": "D",
+            "code-05": "B",
+            "data-01": "D",
+            "data-02": "B",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "B",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "A",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "B",
+            "logic-04": "C",
+            "logic-05": "A",
+            "systems-01": "B",
+            "systems-02": "B",
+            "systems-03": "D",
+            "systems-04": "B",
+            "systems-05": "C"
+          },
+          "source": "variants/qwen35_4b_q4_0/quality-repeat-1.json",
+          "total": 30
+        },
+        {
+          "accuracy": 0.6666666666666666,
+          "cases": [
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "arithmetic-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "arithmetic-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "arithmetic-03",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "arithmetic-04",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "arithmetic-05",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-02",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "logic-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-05",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "code-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "code-04",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "A",
+              "id": "data-01",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "data-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "data-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "systems-03",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-04",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "systems-05",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "evidence-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "evidence-03",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "D",
+              "id": "evidence-04",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-05",
+              "predicted": "B",
+              "response": "B"
+            }
+          ],
+          "category_accuracy": {
+            "arithmetic": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "code_reasoning": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "data_reasoning": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            },
+            "evidence_reasoning": {
+              "accuracy": 1.0,
+              "correct": 5,
+              "total": 5
+            },
+            "logic": {
+              "accuracy": 1.0,
+              "correct": 5,
+              "total": 5
+            },
+            "systems_reasoning": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            }
+          },
+          "correct": 20,
+          "framework": "llama.cpp",
+          "model_path": "/tmp/Pareto64-E3d/models/qwen35_4b_q4_0/Qwen3.5-4B-Q4_0.gguf",
+          "predictions": {
+            "arithmetic-01": "B",
+            "arithmetic-02": "B",
+            "arithmetic-03": "C",
+            "arithmetic-04": "B",
+            "arithmetic-05": "A",
+            "code-01": "C",
+            "code-02": "C",
+            "code-03": "B",
+            "code-04": "D",
+            "code-05": "B",
+            "data-01": "D",
+            "data-02": "B",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "B",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "A",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "B",
+            "logic-04": "C",
+            "logic-05": "A",
+            "systems-01": "B",
+            "systems-02": "B",
+            "systems-03": "D",
+            "systems-04": "B",
+            "systems-05": "C"
+          },
+          "source": "variants/qwen35_4b_q4_0/quality-repeat-2.json",
+          "total": 30
+        }
+      ],
+      "runtime_buffer_evidence": [
+        "CPU_KLEIDIAI model buffer size"
+      ],
+      "same_text_decode_ms": {
+        "coefficient_of_variation": 0.035953398668145446,
+        "max": 100.681,
+        "mean": 81.21936666666667,
+        "median": 80.65899999999999,
+        "min": 79.914,
+        "p95": 82.218,
+        "population_stddev": 2.92011226934095
+      },
+      "same_text_encode_ms": {
+        "coefficient_of_variation": 0.16981163918934233,
+        "max": 2534.105,
+        "mean": 1703.0593000000001,
+        "median": 1619.786,
+        "min": 1322.06,
+        "p95": 2514.881,
+        "population_stddev": 289.19929136965396
+      },
+      "same_text_total_ms": {
+        "coefficient_of_variation": 0.16205936787555242,
+        "max": 2615.003,
+        "mean": 1784.2786666666666,
+        "median": 1700.0430000000001,
+        "min": 1403.211,
+        "p95": 2595.6479999999997,
+        "population_stddev": 289.1590728338335
+      }
+    },
+    "qwen35_4b_q8_0": {
+      "display_name": "Qwen3.5-4B Q8_0",
+      "http_round_trip_ms": {
+        "coefficient_of_variation": 0.12669430507245144,
+        "max": 1485.899278,
+        "mean": 1076.1915985,
+        "median": 1038.817018,
+        "min": 898.257123,
+        "p95": 1453.41445,
+        "population_stddev": 136.34734669676817
+      },
+      "minimum_accuracy": 0.6666666666666666,
+      "model_load_ms": {
+        "coefficient_of_variation": 0.0,
+        "max": 16590.009414,
+        "mean": 16590.009414,
+        "median": 16590.009414,
+        "min": 16590.009414,
+        "p95": 16590.009414,
+        "population_stddev": 0.0
+      },
+      "package_size_bytes": 4482403488,
+      "quality_eligible": false,
+      "quality_process": {
+        "maximum_rss_kib": {
+          "coefficient_of_variation": 0.0,
+          "max": 11368620.0,
+          "mean": 11368620.0,
+          "median": 11368620.0,
+          "min": 11368620.0,
+          "p95": 11368620.0,
+          "population_stddev": 0.0
+        },
+        "repetitions": [
+          {
+            "elapsed": "1:21.79",
+            "exit_status": 0,
+            "maximum_rss_kib": 11368620,
+            "percent_cpu": "315%"
+          }
+        ]
+      },
+      "quality_repetitions": [
+        {
+          "accuracy": 0.6666666666666666,
+          "cases": [
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "arithmetic-01",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "arithmetic-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "arithmetic-03",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "arithmetic-04",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "arithmetic-05",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-02",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "logic-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "logic-04",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-05",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "code-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "code-04",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "data-01",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "data-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "data-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "systems-03",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-04",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "systems-05",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "evidence-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "evidence-03",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "D",
+              "id": "evidence-04",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-05",
+              "predicted": "B",
+              "response": "B"
+            }
+          ],
+          "category_accuracy": {
+            "arithmetic": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "code_reasoning": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "data_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "evidence_reasoning": {
+              "accuracy": 1.0,
+              "correct": 5,
+              "total": 5
+            },
+            "logic": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "systems_reasoning": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            }
+          },
+          "correct": 20,
+          "framework": "llama.cpp",
+          "model_path": "/tmp/Pareto64-E3d/models/qwen35_4b_q8_0/Qwen3.5-4B-Q8_0.gguf",
+          "predictions": {
+            "arithmetic-01": "A",
+            "arithmetic-02": "B",
+            "arithmetic-03": "C",
+            "arithmetic-04": "A",
+            "arithmetic-05": "A",
+            "code-01": "C",
+            "code-02": "C",
+            "code-03": "B",
+            "code-04": "D",
+            "code-05": "B",
+            "data-01": "A",
+            "data-02": "B",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "B",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "A",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "B",
+            "logic-04": "A",
+            "logic-05": "A",
+            "systems-01": "B",
+            "systems-02": "B",
+            "systems-03": "D",
+            "systems-04": "B",
+            "systems-05": "C"
+          },
+          "source": "variants/qwen35_4b_q8_0/quality-repeat-1.json",
+          "total": 30
+        },
+        {
+          "accuracy": 0.6666666666666666,
+          "cases": [
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "arithmetic-01",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "arithmetic-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "arithmetic-03",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "B",
+              "id": "arithmetic-04",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "arithmetic-05",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "logic-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-02",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "logic-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "logic-04",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "logic-05",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "code-01",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "code-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "code-04",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "code-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "data-01",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "data-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-03",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "data-04",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "data-05",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-02",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "C",
+              "id": "systems-03",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "systems-04",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": false,
+              "expected": "D",
+              "id": "systems-05",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-01",
+              "predicted": "B",
+              "response": "B"
+            },
+            {
+              "correct": true,
+              "expected": "C",
+              "id": "evidence-02",
+              "predicted": "C",
+              "response": "C"
+            },
+            {
+              "correct": true,
+              "expected": "A",
+              "id": "evidence-03",
+              "predicted": "A",
+              "response": "A"
+            },
+            {
+              "correct": true,
+              "expected": "D",
+              "id": "evidence-04",
+              "predicted": "D",
+              "response": "D"
+            },
+            {
+              "correct": true,
+              "expected": "B",
+              "id": "evidence-05",
+              "predicted": "B",
+              "response": "B"
+            }
+          ],
+          "category_accuracy": {
+            "arithmetic": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "code_reasoning": {
+              "accuracy": 0.4,
+              "correct": 2,
+              "total": 5
+            },
+            "data_reasoning": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "evidence_reasoning": {
+              "accuracy": 1.0,
+              "correct": 5,
+              "total": 5
+            },
+            "logic": {
+              "accuracy": 0.8,
+              "correct": 4,
+              "total": 5
+            },
+            "systems_reasoning": {
+              "accuracy": 0.6,
+              "correct": 3,
+              "total": 5
+            }
+          },
+          "correct": 20,
+          "framework": "llama.cpp",
+          "model_path": "/tmp/Pareto64-E3d/models/qwen35_4b_q8_0/Qwen3.5-4B-Q8_0.gguf",
+          "predictions": {
+            "arithmetic-01": "A",
+            "arithmetic-02": "B",
+            "arithmetic-03": "C",
+            "arithmetic-04": "A",
+            "arithmetic-05": "A",
+            "code-01": "C",
+            "code-02": "C",
+            "code-03": "B",
+            "code-04": "D",
+            "code-05": "B",
+            "data-01": "A",
+            "data-02": "B",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "B",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "A",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "B",
+            "logic-04": "A",
+            "logic-05": "A",
+            "systems-01": "B",
+            "systems-02": "B",
+            "systems-03": "D",
+            "systems-04": "B",
+            "systems-05": "C"
+          },
+          "source": "variants/qwen35_4b_q8_0/quality-repeat-2.json",
+          "total": 30
+        }
+      ],
+      "runtime_buffer_evidence": [
+        "CPU_KLEIDIAI model buffer size"
+      ],
+      "same_text_decode_ms": {
+        "coefficient_of_variation": 0.025242344156664112,
+        "max": 78.152,
+        "mean": 68.55271666666665,
+        "median": 68.1495,
+        "min": 66.806,
+        "p95": 71.571,
+        "population_stddev": 1.7304312669742834
+      },
+      "same_text_encode_ms": {
+        "coefficient_of_variation": 0.14519411738130847,
+        "max": 1378.377,
+        "mean": 959.4165666666667,
+        "median": 919.0699999999999,
+        "min": 783.781,
+        "p95": 1365.361,
+        "population_stddev": 139.30164159817195
+      },
+      "same_text_total_ms": {
+        "coefficient_of_variation": 0.13554947182315116,
+        "max": 1446.954,
+        "mean": 1027.9692833333334,
+        "median": 988.1265000000001,
+        "min": 851.8509999999999,
+        "p95": 1432.3560000000002,
+        "population_stddev": 139.34069340625658
+      }
+    }
+  },
+  "experiment_id": "E3d",
+  "pareto": {
+    "directions": {
+      "maximum_quality_process_rss_kib": "lower",
+      "minimum_accuracy": "higher",
+      "package_size_bytes": "lower",
+      "same_text_total_ms_median": "lower"
+    },
+    "frontier": [],
+    "inputs": {},
+    "weighted_score_used": false
+  },
+  "platform": {
+    "lscpu": {
+      "architecture": "aarch64",
+      "logical_cpus": 4,
+      "model_name": "Neoverse-N2",
+      "relevant_features": [
+        "asimd",
+        "asimddp",
+        "bf16",
+        "i8mm",
+        "sve",
+        "sve2",
+        "svebf16",
+        "svei8mm"
+      ],
+      "sockets": 1,
+      "threads_per_core": 1
+    },
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "controlled_difference": "The two candidates use the same source model, prompts, current llama.cpp revision, KleidiAI revision, HTTP chat path, non-thinking template mode, sampling settings, thread count, context, and execution host; weight quantization is the only candidate-level difference.",
+    "deployment_policy_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+    "execution_order": [
+      [
+        "qwen35_4b_q4_0",
+        "qwen35_4b_q8_0"
+      ],
+      [
+        "qwen35_4b_q8_0",
+        "qwen35_4b_q4_0"
+      ],
+      [
+        "qwen35_4b_q4_0",
+        "qwen35_4b_q8_0"
+      ]
+    ],
+    "experiment_id": "E3d",
+    "git_commit": "cfa6eaedabb45305e7616d6822edf4633efc3656",
+    "github_run_attempt": "1",
+    "github_run_id": "30650734222",
+    "kleidiai_archive_md5": "2f02ebe29573d45813e671eb304f2a00",
+    "kleidiai_release": "v1.24.0",
+    "llama_cpp_commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+    "llama_cpp_tag": "b10208",
+    "model_revisions": {
+      "qwen35_4b_q4_0": "e87f176479d0855a907a41277aca2f8ee7a09523",
+      "qwen35_4b_q8_0": "e87f176479d0855a907a41277aca2f8ee7a09523"
+    },
+    "schema_version": 1,
+    "source_model_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
+  },
+  "quality": {
+    "acceptance_policy": {
+      "absolute_accuracy_floor": 0.75,
+      "maximum_task_deficit_from_best": 1,
+      "prediction_parser": "first standalone uppercase A-D after case folding",
+      "predictions_must_be_stable": true,
+      "repetitions": 2
+    },
+    "best_minimum_correct": 20,
+    "experiment_id": "E3d",
+    "schema_version": 1,
+    "tasks": {
+      "count": 30,
+      "path": "experiments/e3_tasks.json",
+      "sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    },
+    "variants": {
+      "qwen35_4b_q4_0": {
+        "absolute_floor_met": false,
+        "framework": "llama.cpp",
+        "minimum_accuracy": 0.6666666666666666,
+        "minimum_correct": 20,
+        "predictions_stable": true,
+        "quality_eligible": false,
+        "repetitions": [
+          {
+            "accuracy": 0.6666666666666666,
+            "cases": [
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "arithmetic-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "arithmetic-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "arithmetic-03",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "arithmetic-04",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "arithmetic-05",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-02",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "logic-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-05",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "code-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "code-04",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "data-01",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "data-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "data-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "systems-03",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-04",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "systems-05",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "evidence-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "evidence-03",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "D",
+                "id": "evidence-04",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-05",
+                "predicted": "B",
+                "response": "B"
+              }
+            ],
+            "category_accuracy": {
+              "arithmetic": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "code_reasoning": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "data_reasoning": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              },
+              "evidence_reasoning": {
+                "accuracy": 1.0,
+                "correct": 5,
+                "total": 5
+              },
+              "logic": {
+                "accuracy": 1.0,
+                "correct": 5,
+                "total": 5
+              },
+              "systems_reasoning": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              }
+            },
+            "correct": 20,
+            "framework": "llama.cpp",
+            "model_path": "/tmp/Pareto64-E3d/models/qwen35_4b_q4_0/Qwen3.5-4B-Q4_0.gguf",
+            "predictions": {
+              "arithmetic-01": "B",
+              "arithmetic-02": "B",
+              "arithmetic-03": "C",
+              "arithmetic-04": "B",
+              "arithmetic-05": "A",
+              "code-01": "C",
+              "code-02": "C",
+              "code-03": "B",
+              "code-04": "D",
+              "code-05": "B",
+              "data-01": "D",
+              "data-02": "B",
+              "data-03": "B",
+              "data-04": "C",
+              "data-05": "B",
+              "evidence-01": "B",
+              "evidence-02": "C",
+              "evidence-03": "A",
+              "evidence-04": "D",
+              "evidence-05": "B",
+              "logic-01": "C",
+              "logic-02": "A",
+              "logic-03": "B",
+              "logic-04": "C",
+              "logic-05": "A",
+              "systems-01": "B",
+              "systems-02": "B",
+              "systems-03": "D",
+              "systems-04": "B",
+              "systems-05": "C"
+            },
+            "source": "variants/qwen35_4b_q4_0/quality-repeat-1.json",
+            "total": 30
+          },
+          {
+            "accuracy": 0.6666666666666666,
+            "cases": [
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "arithmetic-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "arithmetic-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "arithmetic-03",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "arithmetic-04",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "arithmetic-05",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-02",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "logic-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-05",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "code-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "code-04",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "A",
+                "id": "data-01",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "data-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "data-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "systems-03",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-04",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "systems-05",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "evidence-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "evidence-03",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "D",
+                "id": "evidence-04",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-05",
+                "predicted": "B",
+                "response": "B"
+              }
+            ],
+            "category_accuracy": {
+              "arithmetic": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "code_reasoning": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "data_reasoning": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              },
+              "evidence_reasoning": {
+                "accuracy": 1.0,
+                "correct": 5,
+                "total": 5
+              },
+              "logic": {
+                "accuracy": 1.0,
+                "correct": 5,
+                "total": 5
+              },
+              "systems_reasoning": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              }
+            },
+            "correct": 20,
+            "framework": "llama.cpp",
+            "model_path": "/tmp/Pareto64-E3d/models/qwen35_4b_q4_0/Qwen3.5-4B-Q4_0.gguf",
+            "predictions": {
+              "arithmetic-01": "B",
+              "arithmetic-02": "B",
+              "arithmetic-03": "C",
+              "arithmetic-04": "B",
+              "arithmetic-05": "A",
+              "code-01": "C",
+              "code-02": "C",
+              "code-03": "B",
+              "code-04": "D",
+              "code-05": "B",
+              "data-01": "D",
+              "data-02": "B",
+              "data-03": "B",
+              "data-04": "C",
+              "data-05": "B",
+              "evidence-01": "B",
+              "evidence-02": "C",
+              "evidence-03": "A",
+              "evidence-04": "D",
+              "evidence-05": "B",
+              "logic-01": "C",
+              "logic-02": "A",
+              "logic-03": "B",
+              "logic-04": "C",
+              "logic-05": "A",
+              "systems-01": "B",
+              "systems-02": "B",
+              "systems-03": "D",
+              "systems-04": "B",
+              "systems-05": "C"
+            },
+            "source": "variants/qwen35_4b_q4_0/quality-repeat-2.json",
+            "total": 30
+          }
+        ],
+        "within_one_task_of_best": true
+      },
+      "qwen35_4b_q8_0": {
+        "absolute_floor_met": false,
+        "framework": "llama.cpp",
+        "minimum_accuracy": 0.6666666666666666,
+        "minimum_correct": 20,
+        "predictions_stable": true,
+        "quality_eligible": false,
+        "repetitions": [
+          {
+            "accuracy": 0.6666666666666666,
+            "cases": [
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "arithmetic-01",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "arithmetic-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "arithmetic-03",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "arithmetic-04",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "arithmetic-05",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-02",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "logic-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "logic-04",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-05",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "code-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "code-04",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "data-01",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "data-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "data-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "systems-03",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-04",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "systems-05",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "evidence-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "evidence-03",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "D",
+                "id": "evidence-04",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-05",
+                "predicted": "B",
+                "response": "B"
+              }
+            ],
+            "category_accuracy": {
+              "arithmetic": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "code_reasoning": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "data_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "evidence_reasoning": {
+                "accuracy": 1.0,
+                "correct": 5,
+                "total": 5
+              },
+              "logic": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "systems_reasoning": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              }
+            },
+            "correct": 20,
+            "framework": "llama.cpp",
+            "model_path": "/tmp/Pareto64-E3d/models/qwen35_4b_q8_0/Qwen3.5-4B-Q8_0.gguf",
+            "predictions": {
+              "arithmetic-01": "A",
+              "arithmetic-02": "B",
+              "arithmetic-03": "C",
+              "arithmetic-04": "A",
+              "arithmetic-05": "A",
+              "code-01": "C",
+              "code-02": "C",
+              "code-03": "B",
+              "code-04": "D",
+              "code-05": "B",
+              "data-01": "A",
+              "data-02": "B",
+              "data-03": "B",
+              "data-04": "C",
+              "data-05": "B",
+              "evidence-01": "B",
+              "evidence-02": "C",
+              "evidence-03": "A",
+              "evidence-04": "D",
+              "evidence-05": "B",
+              "logic-01": "C",
+              "logic-02": "A",
+              "logic-03": "B",
+              "logic-04": "A",
+              "logic-05": "A",
+              "systems-01": "B",
+              "systems-02": "B",
+              "systems-03": "D",
+              "systems-04": "B",
+              "systems-05": "C"
+            },
+            "source": "variants/qwen35_4b_q8_0/quality-repeat-1.json",
+            "total": 30
+          },
+          {
+            "accuracy": 0.6666666666666666,
+            "cases": [
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "arithmetic-01",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "arithmetic-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "arithmetic-03",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "B",
+                "id": "arithmetic-04",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "arithmetic-05",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "logic-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-02",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "logic-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "logic-04",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "logic-05",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "code-01",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "code-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "code-04",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "code-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "data-01",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "data-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-03",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "data-04",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "data-05",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-02",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "C",
+                "id": "systems-03",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "systems-04",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": false,
+                "expected": "D",
+                "id": "systems-05",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-01",
+                "predicted": "B",
+                "response": "B"
+              },
+              {
+                "correct": true,
+                "expected": "C",
+                "id": "evidence-02",
+                "predicted": "C",
+                "response": "C"
+              },
+              {
+                "correct": true,
+                "expected": "A",
+                "id": "evidence-03",
+                "predicted": "A",
+                "response": "A"
+              },
+              {
+                "correct": true,
+                "expected": "D",
+                "id": "evidence-04",
+                "predicted": "D",
+                "response": "D"
+              },
+              {
+                "correct": true,
+                "expected": "B",
+                "id": "evidence-05",
+                "predicted": "B",
+                "response": "B"
+              }
+            ],
+            "category_accuracy": {
+              "arithmetic": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "code_reasoning": {
+                "accuracy": 0.4,
+                "correct": 2,
+                "total": 5
+              },
+              "data_reasoning": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "evidence_reasoning": {
+                "accuracy": 1.0,
+                "correct": 5,
+                "total": 5
+              },
+              "logic": {
+                "accuracy": 0.8,
+                "correct": 4,
+                "total": 5
+              },
+              "systems_reasoning": {
+                "accuracy": 0.6,
+                "correct": 3,
+                "total": 5
+              }
+            },
+            "correct": 20,
+            "framework": "llama.cpp",
+            "model_path": "/tmp/Pareto64-E3d/models/qwen35_4b_q8_0/Qwen3.5-4B-Q8_0.gguf",
+            "predictions": {
+              "arithmetic-01": "A",
+              "arithmetic-02": "B",
+              "arithmetic-03": "C",
+              "arithmetic-04": "A",
+              "arithmetic-05": "A",
+              "code-01": "C",
+              "code-02": "C",
+              "code-03": "B",
+              "code-04": "D",
+              "code-05": "B",
+              "data-01": "A",
+              "data-02": "B",
+              "data-03": "B",
+              "data-04": "C",
+              "data-05": "B",
+              "evidence-01": "B",
+              "evidence-02": "C",
+              "evidence-03": "A",
+              "evidence-04": "D",
+              "evidence-05": "B",
+              "logic-01": "C",
+              "logic-02": "A",
+              "logic-03": "B",
+              "logic-04": "A",
+              "logic-05": "A",
+              "systems-01": "B",
+              "systems-02": "B",
+              "systems-03": "D",
+              "systems-04": "B",
+              "systems-05": "C"
+            },
+            "source": "variants/qwen35_4b_q8_0/quality-repeat-2.json",
+            "total": 30
+          }
+        ],
+        "within_one_task_of_best": true
+      }
+    }
+  },
+  "schema_version": 1,
+  "source": {
+    "artifact_name": "e3d-qwen35-kleidiai-30650734222-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30650734222"
+  },
+  "status": "valid_no_quality_eligible_variant",
+  "synthetic_token_benchmark": {
+    "parameters": {
+      "execution_order": [
+        [
+          "qwen35_4b_q4_0",
+          "qwen35_4b_q8_0"
+        ],
+        [
+          "qwen35_4b_q8_0",
+          "qwen35_4b_q4_0"
+        ],
+        [
+          "qwen35_4b_q4_0",
+          "qwen35_4b_q8_0"
+        ]
+      ],
+      "input_tokens": 128,
+      "measured_repetitions_per_round": 3,
+      "output_tokens": 64,
+      "rounds_per_variant": 3,
+      "threads": 4,
+      "warmup_enabled": true
+    },
+    "variants": {
+      "qwen35_4b_q4_0": {
+        "metrics": {
+          "decode_tokens_per_sec": {
+            "coefficient_of_variation": 0.013230466881811596,
+            "max": 12.6578,
+            "mean": 12.55341111111111,
+            "median": 12.6198,
+            "min": 12.0959,
+            "p95": 12.6578,
+            "population_stddev": 0.16608748995932124
+          },
+          "encode_tokens_per_sec": {
+            "coefficient_of_variation": 0.010264498688520446,
+            "max": 59.6363,
+            "mean": 59.20203333333333,
+            "median": 59.3296,
+            "min": 57.5199,
+            "p95": 59.6363,
+            "population_stddev": 0.6076791935077437
+          },
+          "total_ms": {
+            "coefficient_of_variation": 0.009954839618278836,
+            "max": 7451.510677,
+            "mean": 7261.454115777778,
+            "median": 7225.357984,
+            "min": 7204.752129,
+            "p95": 7451.510677,
+            "population_stddev": 72.28661111805853
+          },
+          "ttft_ms": {
+            "coefficient_of_variation": 0.010510096541033352,
+            "max": 2225.315599,
+            "mean": 2162.3210824444445,
+            "median": 2157.438092,
+            "min": 2146.344803,
+            "p95": 2225.315599,
+            "population_stddev": 22.72620332920285
+          }
+        },
+        "process": {
+          "elapsed_seconds": {
+            "coefficient_of_variation": 0.005270759216688802,
+            "max": 26.25,
+            "mean": 26.060000000000002,
+            "median": 26.0,
+            "min": 25.93,
+            "p95": 26.25,
+            "population_stddev": 0.1373559851869102
+          },
+          "maximum_rss_kib": {
+            "coefficient_of_variation": 1.2307295185508321e-05,
+            "max": 5148084.0,
+            "mean": 5147994.666666667,
+            "median": 5147956.0,
+            "min": 5147944.0,
+            "p95": 5148084.0,
+            "population_stddev": 63.35788997608918
+          }
+        },
+        "rounds": {
+          "1": {
+            "generation": {
+              "avg_ns": 5164452509,
+              "avg_ts": 12.396087,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3d/models/qwen35_4b_q4_0/Qwen3.5-4B-Q4_0.gguf",
+              "model_n_params": 4205751296,
+              "model_size": 2572253184,
+              "model_type": "qwen35 4B Q4_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 64,
+              "n_gpu_layers": -1,
+              "n_prompt": 0,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                5291030818,
+                5102878171,
+                5099448540
+              ],
+              "samples_ts": [
+                12.0959,
+                12.5419,
+                12.5504
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 109633489,
+              "stddev_ts": 0.259967,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T17:32:32Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "generation_ms": [
+              5291.030818,
+              5102.878171,
+              5099.44854
+            ],
+            "position": 1,
+            "process": {
+              "elapsed": "0:26.25",
+              "exit_status": 0,
+              "maximum_rss_kib": 5147956,
+              "percent_cpu": "370%"
+            },
+            "prompt": {
+              "avg_ns": 2157293786,
+              "avg_ts": 59.333767,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3d/models/qwen35_4b_q4_0/Qwen3.5-4B-Q4_0.gguf",
+              "model_n_params": 4205751296,
+              "model_size": 2572253184,
+              "model_type": "qwen35 4B Q4_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 0,
+              "n_gpu_layers": -1,
+              "n_prompt": 128,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                2160479859,
+                2152184539,
+                2159216962
+              ],
+              "samples_ts": [
+                59.2461,
+                59.4745,
+                59.2807
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 4470050,
+              "stddev_ts": 0.123064,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T17:32:23Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "prompt_ms": [
+              2160.479859,
+              2152.184539,
+              2159.216962
+            ],
+            "total_ms": [
+              7451.510677,
+              7255.06271,
+              7258.665502
+            ]
+          },
+          "2": {
+            "generation": {
+              "avg_ns": 5067463853,
+              "avg_ts": 12.629624,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3d/models/qwen35_4b_q4_0/Qwen3.5-4B-Q4_0.gguf",
+              "model_n_params": 4205751296,
+              "model_size": 2572253184,
+              "model_type": "qwen35 4B Q4_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 64,
+              "n_gpu_layers": -1,
+              "n_prompt": 0,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                5074821416,
+                5056171290,
+                5071398853
+              ],
+              "samples_ts": [
+                12.6113,
+                12.6578,
+                12.6198
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 9928240,
+              "stddev_ts": 0.024768,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T17:34:06Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "generation_ms": [
+              5074.821416,
+              5056.17129,
+              5071.398853
+            ],
+            "position": 2,
+            "process": {
+              "elapsed": "0:26.00",
+              "exit_status": 0,
+              "maximum_rss_kib": 5147944,
+              "percent_cpu": "370%"
+            },
+            "prompt": {
+              "avg_ns": 2173413747,
+              "avg_ts": 58.910136,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3d/models/qwen35_4b_q4_0/Qwen3.5-4B-Q4_0.gguf",
+              "model_n_params": 4205751296,
+              "model_size": 2572253184,
+              "model_type": "qwen35 4B Q4_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 0,
+              "n_gpu_layers": -1,
+              "n_prompt": 128,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                2146344803,
+                2148580839,
+                2225315599
+              ],
+              "samples_ts": [
+                59.6363,
+                59.5742,
+                57.5199
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 44962224,
+              "stddev_ts": 1.204353,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T17:33:57Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "prompt_ms": [
+              2146.344803,
+              2148.580839,
+              2225.315599
+            ],
+            "total_ms": [
+              7221.166219,
+              7204.752129,
+              7296.714452
+            ]
+          },
+          "3": {
+            "generation": {
+              "avg_ns": 5065482737,
+              "avg_ts": 12.634542,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3d/models/qwen35_4b_q4_0/Qwen3.5-4B-Q4_0.gguf",
+              "model_n_params": 4205751296,
+              "model_size": 2572253184,
+              "model_type": "qwen35 4B Q4_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 64,
+              "n_gpu_layers": -1,
+              "n_prompt": 0,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                5058962876,
+                5067726273,
+                5069759063
+              ],
+              "samples_ts": [
+                12.6508,
+                12.6289,
+                12.6239
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 5737557,
+              "stddev_ts": 0.014318,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T17:34:32Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "generation_ms": [
+              5058.962876,
+              5067.726273,
+              5069.759063
+            ],
+            "position": 1,
+            "process": {
+              "elapsed": "0:25.93",
+              "exit_status": 0,
+              "maximum_rss_kib": 5148084,
+              "percent_cpu": "371%"
+            },
+            "prompt": {
+              "avg_ns": 2156255713,
+              "avg_ts": 59.362203,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3d/models/qwen35_4b_q4_0/Qwen3.5-4B-Q4_0.gguf",
+              "model_n_params": 4205751296,
+              "model_size": 2572253184,
+              "model_type": "qwen35 4B Q4_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 0,
+              "n_gpu_layers": -1,
+              "n_prompt": 128,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                2157438092,
+                2157631711,
+                2153697338
+              ],
+              "samples_ts": [
+                59.3296,
+                59.3243,
+                59.4327
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 2218704,
+              "stddev_ts": 0.061091,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T17:34:23Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "prompt_ms": [
+              2157.438092,
+              2157.631711,
+              2153.697338
+            ],
+            "total_ms": [
+              7216.400968,
+              7225.357984,
+              7223.456401
+            ]
+          }
+        }
+      },
+      "qwen35_4b_q8_0": {
+        "metrics": {
+          "decode_tokens_per_sec": {
+            "coefficient_of_variation": 0.035869463799551506,
+            "max": 15.0987,
+            "mean": 14.786566666666667,
+            "median": 14.9606,
+            "min": 13.3079,
+            "p95": 15.0987,
+            "population_stddev": 0.530386217769655
+          },
+          "encode_tokens_per_sec": {
+            "coefficient_of_variation": 0.0032310248696170957,
+            "max": 113.57,
+            "mean": 112.99977777777778,
+            "median": 112.774,
+            "min": 112.63,
+            "p95": 113.57,
+            "population_stddev": 0.36510509226120524
+          },
+          "total_ms": {
+            "coefficient_of_variation": 0.03127019050754889,
+            "max": 5944.196433,
+            "mean": 5467.094710666667,
+            "median": 5414.26181,
+            "min": 5367.388855,
+            "p95": 5944.196433,
+            "population_stddev": 170.95709312535956
+          },
+          "ttft_ms": {
+            "coefficient_of_variation": 0.003225465021120037,
+            "max": 1136.464814,
+            "mean": 1132.7578999999998,
+            "median": 1135.01446,
+            "min": 1127.057889,
+            "p95": 1136.464814,
+            "population_stddev": 3.653670983847388
+          }
+        },
+        "process": {
+          "elapsed_seconds": {
+            "coefficient_of_variation": 0.008976050820099784,
+            "max": 34.15,
+            "mean": 33.74666666666667,
+            "median": 33.67,
+            "min": 33.42,
+            "p95": 34.15,
+            "population_stddev": 0.3029117950089674
+          },
+          "maximum_rss_kib": {
+            "coefficient_of_variation": 6.841969577893117e-06,
+            "max": 8684592.0,
+            "mean": 8684548.0,
+            "median": 8684588.0,
+            "min": 8684464.0,
+            "p95": 8684592.0,
+            "population_stddev": 59.41941321375251
+          }
+        },
+        "rounds": {
+          "1": {
+            "generation": {
+              "avg_ns": 4279252212,
+              "avg_ts": 14.956131,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3d/models/qwen35_4b_q8_0/Qwen3.5-4B-Q8_0.gguf",
+              "model_n_params": 4205751296,
+              "model_size": 4471435264,
+              "model_type": "qwen35 4B Q8_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 64,
+              "n_gpu_layers": -1,
+              "n_prompt": 0,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                4258676672,
+                4301190881,
+                4277889085
+              ],
+              "samples_ts": [
+                15.0281,
+                14.8796,
+                14.9606
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 21290059,
+              "stddev_ts": 0.074374,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T17:33:08Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "generation_ms": [
+              4258.676672,
+              4301.190881,
+              4277.889085
+            ],
+            "position": 2,
+            "process": {
+              "elapsed": "0:33.67",
+              "exit_status": 0,
+              "maximum_rss_kib": 8684592,
+              "percent_cpu": "251%"
+            },
+            "prompt": {
+              "avg_ns": 1136035849,
+              "avg_ts": 112.672526,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3d/models/qwen35_4b_q8_0/Qwen3.5-4B-Q8_0.gguf",
+              "model_n_params": 4205751296,
+              "model_size": 4471435264,
+              "model_type": "qwen35 4B Q8_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 0,
+              "n_gpu_layers": -1,
+              "n_prompt": 128,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                1135270009,
+                1136464814,
+                1136372725
+              ],
+              "samples_ts": [
+                112.749,
+                112.63,
+                112.639
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 665687,
+              "stddev_ts": 0.06596,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T17:33:03Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "prompt_ms": [
+              1135.270009,
+              1136.464814,
+              1136.372725
+            ],
+            "total_ms": [
+              5393.946680999999,
+              5437.655695,
+              5414.26181
+            ]
+          },
+          "2": {
+            "generation": {
+              "avg_ns": 4473503374,
+              "avg_ts": 14.345567,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3d/models/qwen35_4b_q8_0/Qwen3.5-4B-Q8_0.gguf",
+              "model_n_params": 4205751296,
+              "model_size": 4471435264,
+              "model_type": "qwen35 4B Q8_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 64,
+              "n_gpu_layers": -1,
+              "n_prompt": 0,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                4809181973,
+                4324052727,
+                4287275422
+              ],
+              "samples_ts": [
+                13.3079,
+                14.8009,
+                14.9279
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 291287201,
+              "stddev_ts": 0.900906,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T17:33:41Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "generation_ms": [
+              4809.181973,
+              4324.052727,
+              4287.275422
+            ],
+            "position": 1,
+            "process": {
+              "elapsed": "0:34.15",
+              "exit_status": 0,
+              "maximum_rss_kib": 8684588,
+              "percent_cpu": "253%"
+            },
+            "prompt": {
+              "avg_ns": 1134447861,
+              "avg_ts": 112.830311,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3d/models/qwen35_4b_q8_0/Qwen3.5-4B-Q8_0.gguf",
+              "model_n_params": 4205751296,
+              "model_size": 4471435264,
+              "model_type": "qwen35 4B Q8_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 0,
+              "n_gpu_layers": -1,
+              "n_prompt": 128,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                1135014460,
+                1133004936,
+                1135324189
+              ],
+              "samples_ts": [
+                112.774,
+                112.974,
+                112.743
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 1260070,
+              "stddev_ts": 0.12531,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T17:33:37Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "prompt_ms": [
+              1135.01446,
+              1133.004936,
+              1135.324189
+            ],
+            "total_ms": [
+              5944.196433,
+              5457.0576630000005,
+              5422.599611
+            ]
+          },
+          "3": {
+            "generation": {
+              "avg_ns": 4250254845,
+              "avg_ts": 15.058071,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3d/models/qwen35_4b_q8_0/Qwen3.5-4B-Q8_0.gguf",
+              "model_n_params": 4205751296,
+              "model_size": 4471435264,
+              "model_type": "qwen35 4B Q8_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 64,
+              "n_gpu_layers": -1,
+              "n_prompt": 0,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                4238762902,
+                4269136011,
+                4242865623
+              ],
+              "samples_ts": [
+                15.0987,
+                14.9913,
+                15.0841
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 16479870,
+              "stddev_ts": 0.058264,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T17:35:08Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "generation_ms": [
+              4238.762902,
+              4269.136011,
+              4242.865623
+            ],
+            "position": 2,
+            "process": {
+              "elapsed": "0:33.42",
+              "exit_status": 0,
+              "maximum_rss_kib": 8684464,
+              "percent_cpu": "252%"
+            },
+            "prompt": {
+              "avg_ns": 1127789989,
+              "avg_ts": 113.496345,
+              "backends": "CPU",
+              "build_commit": "9d9a6d29f",
+              "build_number": 10208,
+              "cpu_info": "CPU",
+              "cpu_mask": "0x0",
+              "cpu_strict": false,
+              "devices": "auto",
+              "embeddings": false,
+              "fit_min_ctx": 0,
+              "fit_target": 0,
+              "flash_attn": -1,
+              "gpu_info": "",
+              "load_mode": "mmap",
+              "main_gpu": 0,
+              "model_filename": "/tmp/Pareto64-E3d/models/qwen35_4b_q8_0/Qwen3.5-4B-Q8_0.gguf",
+              "model_n_params": 4205751296,
+              "model_size": 4471435264,
+              "model_type": "qwen35 4B Q8_0",
+              "n_batch": 2048,
+              "n_cpu_moe": 0,
+              "n_depth": 0,
+              "n_gen": 0,
+              "n_gpu_layers": -1,
+              "n_prompt": 128,
+              "n_threads": 4,
+              "n_ubatch": 512,
+              "no_host": false,
+              "no_kv_offload": false,
+              "no_op_offload": 0,
+              "poll": 50,
+              "samples_ns": [
+                1128625953,
+                1127686125,
+                1127057889
+              ],
+              "samples_ts": [
+                113.412,
+                113.507,
+                113.57
+              ],
+              "split_mode": "layer",
+              "stddev_ns": 789174,
+              "stddev_ts": 0.079409,
+              "tensor_buft_overrides": "none",
+              "tensor_split": "0.00",
+              "test_time": "2026-07-31T17:35:03Z",
+              "type_k": "f16",
+              "type_v": "f16"
+            },
+            "prompt_ms": [
+              1128.625953,
+              1127.686125,
+              1127.057889
+            ],
+            "total_ms": [
+              5367.388855,
+              5396.822136,
+              5369.923511999999
+            ]
+          }
+        }
+      }
+    }
+  },
+  "validation": {
+    "current_llama_cpp_pinned": true,
+    "deployment_policy_predeclared": true,
+    "kleidiai_build_enabled": true,
+    "kleidiai_runtime_buffer_proven": true,
+    "performance_comparison_allowed": true,
+    "quality_eligible_variants": [],
+    "quality_policy_predeclared": true,
+    "same_tasks_and_instruction_as_e3": true
+  }
+}

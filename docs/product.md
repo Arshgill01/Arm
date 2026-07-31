@@ -81,7 +81,7 @@ This is the evidence-to-decision core and HTTP decision plane, not yet an
 inference server. E5a validated its correctness, concurrency, latency, and RSS;
 E4a then eliminated the observed admission tail under a stricter load. A runtime
 launch adapter is intentionally deferred until a candidate passes the quality
-gate; Pareto64 must not turn an invalid measurement into a deployment. E3b and
-E3c both produced valid empty frontiers. E3d is therefore a separately frozen
-current-runtime calibration over a stronger official 4B source model, not a
-relaxed policy.
+gate; Pareto64 must not turn an invalid measurement into a deployment. E3b,
+E3c, and E3d all produced valid empty frontiers. E3d's current-runtime Qwen3.5
+candidates both reached a stable 66.67%; the separate E3e contract now tests
+bounded reasoning without relaxing the policy.

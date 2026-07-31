@@ -91,7 +91,7 @@ class E3dTests(unittest.TestCase):
 
     def test_current_llama_benchmark_shape_is_validated(self) -> None:
         common = {
-            "build_commit": "9d9a6d29",
+            "build_commit": "9d9a6d29f",
             "model_filename": "/models/variant/model.gguf",
             "n_threads": 4,
             "samples_ns": [1_000_000, 2_000_000, 3_000_000],
@@ -112,7 +112,9 @@ class E3dTests(unittest.TestCase):
                 "Maximum resident set size (kbytes): 1234\n"
                 "Exit status: 0\n"
             )
-            result = benchmark_round(root, "/variant/model.gguf", 128, 64, 4, 3)
+            result = benchmark_round(
+                root, "/variant/model.gguf", "9d9a6d29f", 128, 64, 4, 3
+            )
             self.assertEqual([2.0, 4.0, 6.0], result["total_ms"])
             self.assertEqual(1234, result["process"]["maximum_rss_kib"])
 
@@ -191,7 +193,7 @@ class E3dTests(unittest.TestCase):
                     "CPU_KLEIDIAI model buffer size = 1 MiB\n"
                 )
                 proof_common = {
-                    "build_commit": "9d9a6d29",
+                    "build_commit": "9d9a6d29f",
                     "model_filename": f"/tmp/models/{variant}/{item['path']}",
                     "n_threads": 4,
                     "samples_ns": [1_000_000],
@@ -249,7 +251,7 @@ class E3dTests(unittest.TestCase):
                     )
                     round_dir.mkdir()
                     common = {
-                        "build_commit": "9d9a6d29",
+                        "build_commit": "9d9a6d29f",
                         "model_filename": f"/tmp/models/{variant}/{item['path']}",
                         "n_threads": 4,
                         "samples_ns": [1_000_000, 2_000_000, 3_000_000],

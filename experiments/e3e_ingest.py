@@ -169,6 +169,7 @@ def build_manifest(
         raise ValueError("E3e quality scorer policy differs from the contract")
 
     application: dict[str, Any] = {}
+    build_commit = contract["upstream"]["llama_cpp_commit"][:9]
     for variant in variants:
         variant_config = models["variants"][variant]
         variant_dir = evidence_dir / "variants" / variant
@@ -182,6 +183,7 @@ def build_manifest(
             validate_runtime_proof(
                 round_dir,
                 f"/{model['entrypoint']}",
+                build_commit,
                 contract["configuration"]["threads"],
             )
             readiness = load_object(round_dir / "readiness.json")

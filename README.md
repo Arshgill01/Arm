@@ -25,12 +25,10 @@ or E3e evidence, applies explicit quality and SLO gates, recomputes the Pareto
 frontier, and emits a hashed deployment decision without a hidden weighted
 score.
 
-E3c measured three exact quantizations of the same Apache-2.0
-Qwen3-4B-Instruct-2507 source model. All were stable, but the best reached only
-66.67% under the unchanged 75% task floor, so no inference adapter may launch
-from that result. E3d is the separately frozen current-runtime calibration over
-official Qwen3.5-4B; it preserves the same tasks and policy. E3e predeclares a
-0/16/32/48-token forced-reasoning frontier on the same Q4_0 file, using measured
+E3c and E3d measured exact quantizations of Apache-2.0 Qwen3-4B and Qwen3.5-4B.
+Their best stable score was 66.67% under the unchanged 75% task floor, so no
+inference adapter may launch from either result. E3e predeclares a
+0/16/32/48-token forced-reasoning frontier on the E3d Q4_0 file, using measured
 Arm latency to bound added computation before any thinking output is observed.
 
 ```bash
@@ -50,6 +48,7 @@ python3 -m pareto64 plan \
 | [E3](results/reports/e3-qwen-frontier.md) | Three Qwen packages measured; frozen quality gate rejected all three |
 | [E3b](results/reports/e3b-quality-anchor.md) | 7B improved to a stable 73.33% but missed the unchanged quality floor by one task |
 | [E3c](results/reports/e3c-quality-per-byte.md) | Q4_K_M led a stable 4B quantization sweep at 66.67%; the unchanged quality gate rejected all variants |
+| [E3d](results/reports/e3d-current-runtime.md) | Current Qwen3.5 Q4_0/Q8_0 both reached a stable 66.67%; Q8_0 was faster but exceeded load and RSS ceilings |
 | [E4a](results/reports/e4a-backlog-tuner.md) | Native bounded tuner selected backlog 64 with zero failures or tail breaches |
 | [E5a](results/reports/e5a-planner-api.md) | Native fail-closed API passed load SLOs; one-second tail retained for tuning |
 | [E6a](results/reports/e6a-native-feature-fix.md) | Reproduced and fixed invalid native KleidiAI SVE source selection |

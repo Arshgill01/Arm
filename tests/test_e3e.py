@@ -185,7 +185,7 @@ class E3eTests(unittest.TestCase):
                         json.dumps({"status": "ok", "ready_ms": ready_ms})
                     )
                     proof_common = {
-                        "build_commit": "9d9a6d29",
+                        "build_commit": "9d9a6d29f",
                         "model_filename": f"/tmp/models/{item['path']}",
                         "n_threads": 4,
                         "samples_ns": [1_000_000],

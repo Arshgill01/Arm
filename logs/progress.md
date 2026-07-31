@@ -503,3 +503,21 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   instruction, final-answer parser, temperature, seed, threads, context, and
   cloud policy unchanged. Added reverse-balanced repetitions, separated
   reasoning capture, independent ingestion, and fail-closed planner support.
+
+## 2026-07-31 — E3d current-runtime result retained
+
+- Run `30650734222` completed the full native measurement matrix in 15m35s.
+  Dedicated verbose probes proved `CPU_KLEIDIAI` model buffers for both exact
+  Qwen3.5 packages.
+- Q4_0 and Q8_0 were each stable at 20/30 (66.67%). Neither met the unchanged
+  75% floor, so the eligible set and frontier remain empty.
+- Q8_0 reached 112.774 prompt and 14.961 decode tokens/s versus Q4_0's 59.330
+  and 12.620, but its 16,590.0 ms load and 11,368,620 KiB RSS exceeded the
+  frozen ceilings. Q4_0 met all resource ceilings and failed only quality.
+- Post-processing rejected current llama.cpp's nine-character benchmark commit
+  abbreviation because the synthetic fixture expected eight. The raw artifact
+  remained complete. The ingester now derives the prefix from the frozen full
+  commit, and an independent Python 3.10 run validated the artifact at SHA-256
+  `887f202cb150348a0dfd0029b0f1dc2256809c66acc710194b336ef73aba044b`.
+- The independent planner returned `no_feasible_candidate`; no task, output,
+  parser, order, threshold, or policy was changed after observation.

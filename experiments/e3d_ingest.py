@@ -142,6 +142,7 @@ def validate_model_artifacts(
 def benchmark_round(
     path: Path,
     model_suffix: str,
+    build_commit: str,
     input_tokens: int,
     output_tokens: int,
     threads: int,
@@ -164,7 +165,7 @@ def benchmark_round(
         if (
             record.get("n_threads") != threads
             or not str(record.get("model_filename", "")).endswith(model_suffix)
-            or record.get("build_commit") != "9d9a6d29"
+            or record.get("build_commit") != build_commit
             or len(record.get("samples_ns", [])) != repetitions
             or len(record.get("samples_ts", [])) != repetitions
         ):
@@ -185,7 +186,7 @@ def benchmark_round(
 
 
 def validate_runtime_proof(
-    variant_dir: Path, model_suffix: str, threads: int
+    variant_dir: Path, model_suffix: str, build_commit: str, threads: int
 ) -> None:
     records = json.loads(
         (variant_dir / "runtime-proof.json").read_text(encoding="utf-8")
@@ -200,7 +201,7 @@ def validate_runtime_proof(
         raise ValueError(f"{variant_dir} runtime proof parameters differ")
     for record in records:
         if (
-            record.get("build_commit") != "9d9a6d29"
+            record.get("build_commit") != build_commit
             or record.get("n_threads") != threads
             or not str(record.get("model_filename", "")).endswith(model_suffix)
             or len(record.get("samples_ns", [])) != 1
@@ -240,12 +241,14 @@ def build_manifest(
 
     application: dict[str, Any] = {}
     benchmark_variants: dict[str, Any] = {}
+    build_commit = contract["upstream"]["llama_cpp_commit"][:9]
     for variant in variants:
         model = models["variants"][variant]
         variant_dir = evidence_dir / "variants" / variant
         validate_runtime_proof(
             variant_dir,
             f"/{variant}/{model['entrypoint']}",
+            build_commit,
             contract["configuration"]["threads"],
         )
         readiness = load_object(variant_dir / "readiness.json")
@@ -323,6 +326,7 @@ def build_manifest(
             result = benchmark_round(
                 variant_dir / f"round-{round_number}-position-{position}",
                 f"/{variant}/{model['entrypoint']}",
+                build_commit,
                 contract["benchmark"]["input_tokens"],
                 contract["benchmark"]["output_tokens"],
                 contract["benchmark"]["threads"],
