@@ -382,6 +382,28 @@ class E3bIngestTests(unittest.TestCase):
                 ],
             )
 
+            models["variants"]["small"]["runtime_buffer_patterns"] = [
+                "CPU model buffer size"
+            ]
+            self.write_json(models_path, models)
+            self.write_json(evidence / "models-manifest.json", models)
+            for repetition in (1, 2):
+                (
+                    evidence
+                    / "variants"
+                    / "small"
+                    / f"quality-repeat-{repetition}.stdout.log"
+                ).write_text("CPU_KLEIDIAI model buffer size = 1 MiB\n")
+            e3c_kleidiai_result = build_manifest(
+                evidence, contract_path, models_path, frozen_tasks
+            )
+            self.assertEqual(
+                ["CPU_KLEIDIAI model buffer size"],
+                e3c_kleidiai_result["application"]["small"][
+                    "runtime_buffer_evidence"
+                ],
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

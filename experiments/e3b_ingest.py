@@ -28,6 +28,12 @@ PERFORMANCE_FIELDS = {
     "ttft_ms": "time_to_first_token_ms",
     "total_ms": "total_time_ms",
 }
+RUNTIME_BUFFER_ALIASES = {
+    "CPU model buffer size": [
+        "CPU model buffer size",
+        "CPU_KLEIDIAI model buffer size",
+    ],
+}
 
 
 def normalize_quality_sources(
@@ -416,7 +422,14 @@ def build_manifest(
         ):
             raise ValueError(f"{variant} has invalid runtime buffer patterns")
         matched_runtime_patterns = sorted(
-            pattern for pattern in runtime_patterns if pattern in runtime_proof
+            {
+                observed_pattern
+                for declared_pattern in runtime_patterns
+                for observed_pattern in RUNTIME_BUFFER_ALIASES.get(
+                    declared_pattern, [declared_pattern]
+                )
+                if observed_pattern in runtime_proof
+            }
         )
         if not matched_runtime_patterns:
             raise ValueError(f"{variant} lacks frozen runtime buffer proof")
