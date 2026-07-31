@@ -1,0 +1,117 @@
+{
+  "contract": {
+    "acceptance": {
+      "failures": 0,
+      "http_status": 200,
+      "maximum_p95_latency_ms": 50.0,
+      "maximum_process_rss_kib": 262144,
+      "minimum_requests_per_second": 100.0,
+      "process_exit_status": 0,
+      "service_error_count": 0
+    },
+    "experiment_id": "E5a",
+    "inputs": {
+      "manifest_path": "results/manifests/e3-30635472160.json",
+      "manifest_sha256": "e29b0b81fd4aeaa8cc6ec092cac9400ade31945e541081e90eae0cb8efd98af4",
+      "policy_path": "configs/cloud-balanced.json",
+      "policy_sha256": "946692148731e086f8005551751c1a0347be1935da554495ee5b6bc9c35b859b"
+    },
+    "probe": {
+      "concurrency": 8,
+      "expected_plan_status": "no_feasible_candidate",
+      "measured_requests": 400,
+      "method_mix": "alternating GET and POST",
+      "readiness_requests": 1,
+      "timeout_seconds": 5.0,
+      "warmups": 20
+    },
+    "schema_version": 1,
+    "scope": "Pareto64 planner HTTP API concurrency screening, not model inference serving",
+    "server": {
+      "host": "127.0.0.1",
+      "maximum_requests": 422,
+      "port": 8765,
+      "python_version": "3.13"
+    }
+  },
+  "experiment_id": "E5a",
+  "performance": {
+    "elapsed_seconds": 1.08200262,
+    "failures": 0,
+    "latency_ms": {
+      "coefficient_of_variation": 8.457477934372978,
+      "max": 1053.691019,
+      "mean": 8.56438749,
+      "median": 3.3609735,
+      "min": 0.880756,
+      "p95": 5.152944,
+      "population_stddev": 72.43311821809498
+    },
+    "requests": 400,
+    "requests_per_second": 369.6848719275745,
+    "status_counts": {
+      "200": 400
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "python": "Python 3.13.14",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "process": {
+    "elapsed": "0:01.87",
+    "exit_status": 0,
+    "maximum_rss_kib": 23868,
+    "percent_cpu": "19%"
+  },
+  "provenance": {
+    "experiment_id": "E5a",
+    "git_commit": "e363b67dacfcb835099b80f984f07ce3bc621926",
+    "github_run_attempt": "1",
+    "github_run_id": "30638049776",
+    "schema_version": 1
+  },
+  "schema_version": 1,
+  "scope": "Pareto64 planner HTTP API concurrency screening, not model inference serving",
+  "service_metrics_before_final_request": {
+    "errors": 0,
+    "mean_handler_ms": 1.1146719762470307,
+    "requests": 421,
+    "schema_version": 1,
+    "service": "Pareto64",
+    "status_counts": {
+      "200": 421
+    },
+    "uptime_ms": 1306.656023
+  },
+  "source": {
+    "artifact_name": "e5a-planner-api-30638049776-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30638049776"
+  },
+  "status": "valid_planner_api_concurrency",
+  "validation": {
+    "all_responses_fail_closed": true,
+    "inference_server_claim_allowed": false,
+    "input_hashes_match": true,
+    "latency_slo_passed": true,
+    "rss_slo_passed": true,
+    "service_counters_match": true,
+    "throughput_slo_passed": true,
+    "zero_request_failures": true
+  }
+}

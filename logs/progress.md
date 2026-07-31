@@ -279,3 +279,19 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Frozen native E5a at 400 measured requests, concurrency eight, zero failures,
   at least 100 requests/s, p95 at most 50 ms, and process RSS at most 256 MiB.
   It explicitly validates the planner decision plane, not model serving.
+
+## 2026-07-31 — E5a native decision-plane load passed with a tail lead
+
+- Run `30638049776` passed in 11 seconds. The independent ingester accepted all
+  400 raw responses, both input hashes, service counters, process evidence, and
+  the clean bounded shutdown.
+- Native throughput was 369.685 requests/s; latency was 3.361 ms median and
+  5.153 ms p95; RSS was 23,868 KiB. All responses remained fail-closed with no
+  selected runtime, and all frozen gates passed.
+- Two POST requests measured 1,006.317 ms and 1,053.691 ms while all other
+  requests stayed below 7 ms. Both outliers remain included; E5a had no maximum
+  latency gate and will not be reinterpreted after observation.
+- The one-second step is consistent with fresh TCP connections overflowing
+  `ThreadingHTTPServer`'s default accept backlog of five at concurrency eight.
+  This is a mechanism hypothesis, not a conclusion. A separate paired backlog
+  experiment can now test it without changing E5a.

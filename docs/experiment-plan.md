@@ -136,6 +136,15 @@ greater than 256 MiB, and a clean bounded shutdown. The exact contract is
 E5a validates the decision plane and DX; it does not substitute for later model
 inference concurrency, TTFT, token throughput, and quality evidence.
 
+### E5a outcome
+
+Run `30638049776` returned 400/400 correct responses with zero failures,
+369.685 requests/s, 3.361 ms median, 5.153 ms p95, and 23,868 KiB maximum RSS.
+It passed every frozen gate. Two retained POST outliers exceeded one second,
+creating a separately testable accept-backlog hypothesis rather than a reason to
+rewrite E5a. See
+[`../results/reports/e5a-planner-api.md`](../results/reports/e5a-planner-api.md).
+
 ## First workload scope
 
 Start with the smallest public, permissively licensed text path already supported
