@@ -352,3 +352,8 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   benchmark rounds, and four paired real-inference rounds. The direct hot-path
   threshold is 1.25x at L1 scale and 1.15x at L2 scale, with inference and RSS
   guardrails and no weighted score.
+- Native attempt `30640069346` stopped during configuration, before any build or
+  benchmark, because LLM-Runner's optional test layer requires downloaded
+  fixture models. The harness now disables that unrelated layer while retaining
+  the pinned llama.cpp quantizer tests; no experimental input, patch, order, or
+  acceptance threshold changed.

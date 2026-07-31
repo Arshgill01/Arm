@@ -89,7 +89,7 @@ jobs:
             cmake -S experiments/e3_quality_runner -B "$build" -G Ninja \
               -DBUILD_BENCHMARK=ON \
               -DBUILD_JNI_LIB=OFF \
-              -DBUILD_LLM_TESTING=ON \
+              -DBUILD_LLM_TESTING=OFF \
               -DBUILD_SHARED_LIBS=OFF \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_TOOLCHAIN_FILE="$LLM_RUNNER_DIR/scripts/cmake/toolchains/native-dispatch.cmake" \
@@ -139,7 +139,7 @@ jobs:
           for variant in baseline patched; do
             build="$LLM_RUNNER_DIR/build-$variant"
             cmake --build "$build" \
-              --target e3-quality-cli llm-bench-cli llm-cpp-tests \
+              --target e3-quality-cli llm-bench-cli \
                 test-quantize-fns test-quantize-perf \
               --parallel "$(nproc)" \
               2>&1 | tee "$EVIDENCE_DIR/variants/$variant/build.log"

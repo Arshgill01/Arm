@@ -133,9 +133,9 @@ not native performance results.
 
 The frozen native experiment builds baseline and patched copies from the same
 llama.cpp commit with KleidiAI off, so the controlled path is ggml's generic Arm
-Q4_0 implementation. It requires exact standalone equivalence, both upstream
-quantization suites to pass, emitted-assembly proof, and unchanged outputs on
-the same 30 Qwen tasks. Four alternating paired rounds measure upstream Q8_0
+Q4_0 implementation. It requires exact standalone equivalence, the upstream
+quantization test to pass on both builds, emitted-assembly proof, and unchanged
+outputs on the same 30 Qwen tasks. Four alternating paired rounds measure upstream Q8_0
 quantizer throughput at 4,096, 65,536, and 655,360 values and real Qwen Q4_0
 inference at 128 input and 64 output tokens.
 
