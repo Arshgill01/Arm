@@ -3,22 +3,19 @@
 Research, experiments, and the eventual submission for the **Arm Create: AI
 Optimization Challenge 2026**.
 
+[![Native Arm submission validation](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml/badge.svg)](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml)
+
 The event asks entrants to create, migrate, or optimize an AI solution on Arm
 architecture in one of three published tracks: Physical AI, Cloud AI, or Mobile
 AI. The submission deadline is **August 14, 2026 at 4:00 PM PDT** (23:00 UTC;
 August 15 at 04:30 IST).
 
-## Current phase
+## Final Cloud AI project
 
-1. Freeze the authoritative requirements and identify organizer-page conflicts.
-2. Score candidate concepts against all judging criteria and optimization fronts.
-3. Establish a correctness-first benchmark harness.
-4. Run repeatable baselines and increasingly aggressive Arm-specific variants.
-5. Validate the winning implementation end to end on real Arm hardware.
-
-The provisional concept is **Pareto64**, a quality-constrained cross-runtime
-planner for Arm AI inference. It becomes the final Cloud AI direction only if the
-native feasibility and novelty gates in `docs/strategy.md` pass.
+**Pareto64** is the final Cloud AI direction: a quality-constrained deployment
+planner and verified launch path for Arm64 AI inference. Native feasibility,
+quality, serving, and novelty gates have passed; rejected speedups and empty
+frontiers remain part of the public evidence.
 
 The product core is now executable: it validates schema-1 E3, E3b, E3c, E3d,
 E3e, or E3f evidence, applies explicit quality and SLO gates, recomputes the Pareto

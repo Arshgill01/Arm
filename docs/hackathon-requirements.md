@@ -156,19 +156,20 @@ the rule defects in `open-questions.md`.
 - [ ] User confirms eligibility and chosen entrant/team representative.
 - [ ] User joins Devpost event.
 - [ ] User joins/confirms Arm Developer Program account.
-- [ ] One and only one published track is selected on the submission.
-- [ ] Work performed during the submission period is identified by commits and
+- [x] One and only one published track is selected on the submission: Cloud AI.
+- [x] Work performed during the submission period is identified by commits and
       a changelog.
 - [x] Public GitHub repository exists.
 - [x] Apache-2.0 license is present in the local project.
 - [x] GitHub detects the repository license as Apache-2.0 after push.
-- [ ] All dependencies, models, datasets, and generated assets have provenance
+- [x] All dependencies, models, datasets, and generated assets have provenance
       and compatible rights.
-- [ ] Clean-checkout setup/run/validation succeeds on the intended Arm target.
-- [ ] Repeated before/after results and raw evidence are published.
-- [ ] Correctness or quality guardrails show optimization did not silently break
+- [x] Clean-checkout setup/run/validation succeeds on the intended Arm target
+      ([native run `30661309115`](https://github.com/Arshgill01/Arm/actions/runs/30661309115)).
+- [x] Repeated before/after results and raw evidence are published.
+- [x] Correctness or quality guardrails show optimization did not silently break
       the workload.
 - [ ] Working demo remains freely accessible through September 4, 2026.
-- [ ] English Devpost write-up is complete.
+- [x] English Devpost write-up is complete.
 - [ ] Public demo video is under three minutes and shows the intended device.
 - [ ] Submission is finalized before August 14, 2026, 23:00 UTC.
