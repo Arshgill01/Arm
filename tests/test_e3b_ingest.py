@@ -135,6 +135,7 @@ class E3bIngestTests(unittest.TestCase):
             "configuration": {
                 "threads": 4,
                 "context": 2048,
+                "chat_template_mode": "framework_auto",
                 "patches": [
                     {"sha256": "patch-one"},
                     {"sha256": "patch-two"},
@@ -265,6 +266,7 @@ class E3bIngestTests(unittest.TestCase):
                             "threads": 4,
                             "context_size": 2048,
                             "max_output_tokens": 8,
+                            "chat_template_mode": "framework_auto",
                             "model_load_ms": 20.0,
                             "cases": cases,
                         },
@@ -304,6 +306,81 @@ class E3bIngestTests(unittest.TestCase):
                 result["validation"]["quality_eligible_variants"],
             )
             self.assertEqual(["small"], result["pareto"]["frontier"])
+
+            policy_path = root / "policy.json"
+            policy = {
+                "schema_version": 1,
+                "requirements": {"minimum_accuracy": {"at_least": 0.75}},
+                "selection_priority": ["minimum_accuracy"],
+            }
+            self.write_json(policy_path, policy)
+            contract["experiment_id"] = "E3c"
+            contract["artifact_name_prefix"] = "e3c-quality-per-byte"
+            contract["controlled_difference"] = "quantization only"
+            contract["deployment_policy"] = {
+                "artifact_path": "deployment-policy.json",
+                "path": str(policy_path),
+                "sha256": sha256_file(policy_path),
+            }
+            models["source_model"] = {
+                "repository": "example/source",
+                "revision": "source-revision",
+                "license": "Apache-2.0",
+                "parameter_scale": "test",
+            }
+            models["quantization_repository"] = {
+                "repository": "example/quantized",
+                "revision": "quantized-revision",
+                "license": "Apache-2.0",
+                "base_model": "example/source",
+            }
+            for index, model in enumerate(models["variants"].values(), start=1):
+                model["repository"] = "example/quantized"
+                model["revision"] = "quantized-revision"
+                model["parameter_scale"] = "test"
+                model["quantization"] = f"Q{index}"
+                model["runtime_buffer_patterns"] = [
+                    "CPU_REPACK model buffer size"
+                ]
+            provenance = json.loads((evidence / "provenance.json").read_text())
+            provenance.update(
+                {
+                    "controlled_difference": "quantization only",
+                    "deployment_policy_sha256": sha256_file(policy_path),
+                    "experiment_id": "E3c",
+                    "model_revisions": {
+                        variant: "quantized-revision" for variant in variants
+                    },
+                    "source_model_revision": "source-revision",
+                }
+            )
+            self.write_json(contract_path, contract)
+            self.write_json(models_path, models)
+            self.write_json(evidence / "contract.json", contract)
+            self.write_json(evidence / "models-manifest.json", models)
+            self.write_json(evidence / "provenance.json", provenance)
+            self.write_json(evidence / "deployment-policy.json", policy)
+
+            e3c_result = build_manifest(
+                evidence, contract_path, models_path, frozen_tasks
+            )
+            self.assertEqual("E3c", e3c_result["experiment_id"])
+            self.assertEqual(
+                "e3c-quality-per-byte-123-1",
+                e3c_result["source"]["artifact_name"],
+            )
+            self.assertTrue(
+                e3c_result["validation"]["deployment_policy_predeclared"]
+            )
+            self.assertTrue(
+                e3c_result["validation"]["runtime_model_buffer_proven"]
+            )
+            self.assertEqual(
+                ["CPU_REPACK model buffer size"],
+                e3c_result["application"]["small"][
+                    "runtime_buffer_evidence"
+                ],
+            )
 
 
 if __name__ == "__main__":

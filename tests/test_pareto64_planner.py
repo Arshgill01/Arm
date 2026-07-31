@@ -86,12 +86,16 @@ class Pareto64PlannerTests(unittest.TestCase):
             all(item["rejections"][0]["detail"] == "quality_ineligible" for item in result["evaluated"].values())
         )
 
-    def test_e3b_quality_frontier_is_accepted(self) -> None:
-        data = manifest()
-        data["experiment_id"] = "E3b"
-        result = build_plan(data, constraints())
-        self.assertEqual("selected", result["status"])
-        self.assertEqual("E3b", result["inputs"]["experiment_id"])
+    def test_later_quality_frontiers_are_accepted(self) -> None:
+        for experiment_id in ("E3b", "E3c"):
+            with self.subTest(experiment_id=experiment_id):
+                data = manifest()
+                data["experiment_id"] = experiment_id
+                result = build_plan(data, constraints())
+                self.assertEqual("selected", result["status"])
+                self.assertEqual(
+                    experiment_id, result["inputs"]["experiment_id"]
+                )
 
     def test_real_e3b_manifest_preserves_near_miss_reasons(self) -> None:
         data = json.loads(

@@ -149,6 +149,21 @@ unchanged 1.5B Q4_K_M task protocol, not a post-hoc replacement for the E3
 cross-runtime result. Exact sizes and SHA-256 values are in
 `experiments/e3b_models.json`.
 
+E3c uses the official Apache-2.0 Qwen3-4B-Instruct-2507 source model at revision
+`cdbee75f17c01a7cc42f958dc650907174af0554`. The official card identifies it as
+a 4B, non-thinking model and reports strong improvements over the original
+Qwen3-4B non-thinking release across knowledge, reasoning, coding, and
+instruction-following evaluations. Those aggregate benchmarks are only a
+candidate-selection prior; they do not substitute for Pareto64's tasks.
+
+The three E3c GGUF packages come from the Apache-2.0 Unsloth derivative
+repository at immutable revision
+`a06e946bb6b655725eafa393f4a9745d460374c9`. Q4_K_M, Q5_K_M, and Q8_0 are
+2,497,281,120, 2,889,514,080, and 4,280,405,600 bytes. The supplier repository
+links its base model to the exact official Qwen model, but it is not
+Qwen-maintained; that distinction and every package hash are retained in
+`experiments/e3c_models.json`.
+
 - Runtime licenses do not grant model/data licenses. Record exact weight source,
   license, version, and SHA-256.
 - [AI-on-Arm](https://github.com/arm-education/AI-on-Arm) uses an Arm Education

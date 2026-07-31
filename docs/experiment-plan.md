@@ -119,6 +119,40 @@ empty. Under the separately frozen cloud policy, 7B also exceeded the
 KiB. No threshold is relaxed. See
 [`../results/reports/e3b-quality-anchor.md`](../results/reports/e3b-quality-anchor.md).
 
+## E3c frozen quality-per-byte protocol
+
+E3c does not modify either empty-frontier result. It tests the stronger-model
+hypothesis with the official Apache-2.0 Qwen3-4B-Instruct-2507 source model,
+selected before measurement because its official card identifies a non-thinking
+4B architecture and reports substantially stronger reasoning and instruction
+following than the original Qwen3-4B release. The measured GGUF files are
+Apache-2.0 derivatives from one immutable Unsloth revision. Source and
+quantization-producer provenance are recorded separately.
+
+Q4_K_M, Q5_K_M, and Q8_0 are the only candidates. Model architecture, chat
+template, prompt text, runtime build, patches, thread count, context, and greedy
+decoding remain identical; weight quantization is the controlled difference.
+The 30 tasks, instruction, parser, two repetitions, eight-token cap, 75%
+absolute floor, and one-task best-candidate rule are unchanged from E3 and E3b.
+Framework-auto templating uses the chat template embedded in each GGUF and is
+now recorded explicitly in every raw quality result.
+
+Three cyclic rounds rotate all candidates through every execution position.
+Every round retains one warm-up and three measured 128-input/64-output
+iterations. The ingester requires exact model sizes and hashes, source and
+producer revisions, both validated source patches, an observed runtime model
+buffer for every quantization, and the complete raw quality and performance
+records. Only quality-eligible variants enter the unweighted accuracy,
+same-text latency, RSS, and package-size frontier.
+
+The previously frozen `cloud-quality` policy is reused byte for byte: at least
+75% accuracy, at most 5 seconds median same-text latency, 8 GiB process RSS, a
+5 GB package, and 10 seconds model load. The policy checksum is part of the E3c
+contract and evidence. Passing E3c requires the planner—not the experiment
+author—to find a feasible candidate before model-serving integration begins.
+Exact inputs and order are in
+[`../experiments/e3c_contract.json`](../experiments/e3c_contract.json).
+
 ## Experimental discipline
 
 - E0–E3 establish feasibility; they do not prove a winning product.

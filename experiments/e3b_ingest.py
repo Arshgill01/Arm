@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate E3b model-scale evidence and derive its quality-gated frontier."""
+"""Validate E3b/E3c evidence and derive a quality-gated frontier."""
 
 from __future__ import annotations
 
@@ -46,11 +46,11 @@ def validate_execution_order(
     order: Any, variants: Sequence[str], expected_rounds: int
 ) -> list[list[str]]:
     if not isinstance(order, list) or len(order) != expected_rounds:
-        raise ValueError("invalid E3b execution-order round count")
+        raise ValueError("invalid execution-order round count")
     normalized: list[list[str]] = []
     for round_order in order:
         if not isinstance(round_order, list) or sorted(round_order) != sorted(variants):
-            raise ValueError("every E3b round must contain every variant once")
+            raise ValueError("every round must contain every variant once")
         normalized.append(round_order)
     return normalized
 
@@ -179,18 +179,19 @@ def validate_frozen_inputs(
     contract = load_object(contract_path)
     models = load_object(models_path)
     provenance = load_object(evidence_dir / "provenance.json")
-    if contract.get("experiment_id") != "E3b":
-        raise ValueError("contract does not identify E3b")
+    experiment_id = contract.get("experiment_id")
+    if experiment_id not in {"E3b", "E3c"}:
+        raise ValueError("contract does not identify a supported experiment")
     if load_object(evidence_dir / "contract.json") != contract:
-        raise ValueError("artifact contract differs from frozen E3b contract")
+        raise ValueError("artifact contract differs from frozen contract")
     if load_object(evidence_dir / "models-manifest.json") != models:
         raise ValueError("artifact model manifest differs")
     if sha256_file(tasks_path) != contract["quality"]["tasks_sha256"]:
-        raise ValueError("task manifest checksum differs from E3b contract")
+        raise ValueError("task manifest checksum differs from frozen contract")
     if sha256_file(evidence_dir / "tasks-manifest.json") != sha256_file(tasks_path):
         raise ValueError("artifact task manifest differs")
-    if provenance.get("experiment_id") != "E3b":
-        raise ValueError("provenance does not identify E3b")
+    if provenance.get("experiment_id") != experiment_id:
+        raise ValueError("provenance experiment differs from the contract")
     if provenance.get("llm_runner_commit") != contract["upstream"]["llm_runner_commit"]:
         raise ValueError("LLM-Runner revision differs")
     if provenance.get("llama_cpp_commit") != contract["upstream"]["llama_cpp_commit"]:
@@ -206,8 +207,44 @@ def validate_frozen_inputs(
     }
     if provenance.get("model_revisions") != expected_revisions:
         raise ValueError("provenance model revisions differ")
+    source_model = models.get("source_model")
+    if source_model is not None and provenance.get(
+        "source_model_revision"
+    ) != source_model.get("revision"):
+        raise ValueError("provenance source-model revision differs")
+    if "controlled_difference" in contract and provenance.get(
+        "controlled_difference"
+    ) != contract["controlled_difference"]:
+        raise ValueError("provenance controlled difference differs")
+    if experiment_id == "E3c":
+        quantization_repository = models.get("quantization_repository")
+        if (
+            not isinstance(source_model, dict)
+            or source_model.get("license") != "Apache-2.0"
+            or not isinstance(quantization_repository, dict)
+            or quantization_repository.get("license") != "Apache-2.0"
+            or quantization_repository.get("base_model")
+            != source_model.get("repository")
+        ):
+            raise ValueError("E3c source or quantization provenance differs")
+        quantizations: set[str] = set()
+        for model in models.get("variants", {}).values():
+            if (
+                model.get("repository")
+                != quantization_repository.get("repository")
+                or model.get("revision")
+                != quantization_repository.get("revision")
+                or model.get("license") != "Apache-2.0"
+                or model.get("parameter_scale")
+                != source_model.get("parameter_scale")
+                or not isinstance(model.get("quantization"), str)
+            ):
+                raise ValueError("E3c variant provenance differs")
+            quantizations.add(model["quantization"])
+        if len(quantizations) != len(models["variants"]):
+            raise ValueError("E3c quantization candidates are not unique")
     if (evidence_dir / "build-exit.txt").read_text(encoding="utf-8").strip() != "0":
-        raise ValueError("E3b build did not pass")
+        raise ValueError(f"{experiment_id} build did not pass")
     changed_files = (
         (evidence_dir / "changed-files.txt")
         .read_text(encoding="utf-8")
@@ -221,6 +258,24 @@ def validate_frozen_inputs(
     configure_log = (evidence_dir / "configure.log").read_text(encoding="utf-8")
     if "KleidiAI: ON" not in configure_log:
         raise ValueError("configured build does not prove KleidiAI enabled")
+    deployment_policy = contract.get("deployment_policy")
+    if deployment_policy is not None:
+        if not isinstance(deployment_policy, dict) or set(deployment_policy) != {
+            "artifact_path",
+            "path",
+            "sha256",
+        }:
+            raise ValueError("invalid frozen deployment policy declaration")
+        policy_path = Path(deployment_policy["path"])
+        artifact_policy_path = evidence_dir / deployment_policy["artifact_path"]
+        if (
+            sha256_file(policy_path) != deployment_policy["sha256"]
+            or sha256_file(artifact_policy_path) != deployment_policy["sha256"]
+            or load_object(policy_path) != load_object(artifact_policy_path)
+        ):
+            raise ValueError("deployment policy differs from frozen input")
+        if provenance.get("deployment_policy_sha256") != deployment_policy["sha256"]:
+            raise ValueError("provenance deployment policy checksum differs")
     return contract, models, provenance
 
 
@@ -233,6 +288,7 @@ def build_manifest(
     contract, models, provenance = validate_frozen_inputs(
         evidence_dir, contract_path, models_path, tasks_path
     )
+    experiment_id = contract["experiment_id"]
     variants = contract["variants"]
     if set(variants) != set(models.get("variants", {})):
         raise ValueError("contract and model variant sets differ")
@@ -254,7 +310,7 @@ def build_manifest(
     )
     package_sizes: dict[str, int] = {}
     expected_size_lines: list[str] = []
-    expected_hashes: list[str] = []
+    expected_hashes: dict[str, str] = {}
     for variant in variants:
         model = models["variants"][variant]
         if model.get("license") != "Apache-2.0":
@@ -265,16 +321,28 @@ def build_manifest(
             expected_size_lines.append(
                 f"{artifact_path} {item['size_bytes']} bytes"
             )
-            expected_hashes.append(item["sha256"])
+            expected_hashes[artifact_path] = item["sha256"]
     if model_size_lines != sorted(expected_size_lines):
         raise ValueError("model size evidence differs from the frozen packages")
-    if len(model_hash_lines) != len(expected_hashes) or sorted(
-        line.split()[0] for line in model_hash_lines
-    ) != sorted(expected_hashes):
+    observed_hashes: dict[str, str] = {}
+    for line in model_hash_lines:
+        fields = line.split(maxsplit=1)
+        if len(fields) != 2:
+            raise ValueError("malformed model checksum evidence")
+        digest, path = fields
+        matches = [
+            artifact_path
+            for artifact_path in expected_hashes
+            if path.endswith(f"/{artifact_path}")
+        ]
+        if len(matches) != 1 or matches[0] in observed_hashes:
+            raise ValueError("model checksum path differs from frozen packages")
+        observed_hashes[matches[0]] = digest
+    if observed_hashes != expected_hashes:
         raise ValueError("model checksum evidence differs from the frozen packages")
 
     quality = build_summary(models_path, tasks_path, evidence_dir)
-    quality["experiment_id"] = "E3b"
+    quality["experiment_id"] = experiment_id
     normalize_quality_sources(quality, variants)
     expected_quality_policy = contract["quality"]
     observed_policy = quality["acceptance_policy"]
@@ -291,7 +359,7 @@ def build_manifest(
             "maximum_task_deficit_from_best"
         ],
     }:
-        raise ValueError("quality scorer policy differs from E3b contract")
+        raise ValueError("quality scorer policy differs from frozen contract")
     if quality["tasks"]["count"] != expected_quality_policy["task_count"]:
         raise ValueError("quality task count differs")
     quality_process = summarize_quality_processes(
@@ -300,6 +368,7 @@ def build_manifest(
 
     application: dict[str, Any] = {}
     for variant in variants:
+        model = models["variants"][variant]
         raw_runs = [
             load_object(
                 evidence_dir
@@ -314,8 +383,13 @@ def build_manifest(
             or run.get("threads") != contract["configuration"]["threads"]
             or run.get("context_size") != contract["configuration"]["context"]
             or run.get("framework") != "llama.cpp"
+            or (
+                experiment_id == "E3c"
+                and run.get("chat_template_mode")
+                != contract["configuration"]["chat_template_mode"]
+            )
             or not str(run.get("model_path", "")).endswith(
-                f"/{variant}/{models['variants'][variant]['entrypoint']}"
+                f"/{variant}/{model['entrypoint']}"
             )
             for run in raw_runs
         ):
@@ -329,8 +403,23 @@ def build_manifest(
             ).read_text(encoding="utf-8")
             for repetition in range(1, expected_quality_policy["repetitions"] + 1)
         )
-        if "CPU_REPACK model buffer size" not in runtime_proof:
-            raise ValueError(f"{variant} lacks runtime repack-buffer proof")
+        runtime_patterns = model.get(
+            "runtime_buffer_patterns", ["CPU_REPACK model buffer size"]
+        )
+        if (
+            not isinstance(runtime_patterns, list)
+            or not runtime_patterns
+            or any(
+                not isinstance(pattern, str) or not pattern
+                for pattern in runtime_patterns
+            )
+        ):
+            raise ValueError(f"{variant} has invalid runtime buffer patterns")
+        matched_runtime_patterns = sorted(
+            pattern for pattern in runtime_patterns if pattern in runtime_proof
+        )
+        if not matched_runtime_patterns:
+            raise ValueError(f"{variant} lacks frozen runtime buffer proof")
         encode_values: list[float] = []
         decode_values: list[float] = []
         total_values: list[float] = []
@@ -345,7 +434,7 @@ def build_manifest(
                 total_values.append(encode + decode)
         scored = quality["variants"][variant]
         application[variant] = {
-            "display_name": models["variants"][variant]["display_name"],
+            "display_name": model["display_name"],
             "minimum_accuracy": scored["minimum_accuracy"],
             "quality_eligible": scored["quality_eligible"],
             "package_size_bytes": package_sizes[variant],
@@ -356,6 +445,10 @@ def build_manifest(
             "quality_process": quality_process[variant],
             "quality_repetitions": scored["repetitions"],
         }
+        if experiment_id == "E3c":
+            application[variant]["runtime_buffer_evidence"] = (
+                matched_runtime_patterns
+            )
 
     benchmark = contract["benchmark"]
     expected_parameters = {
@@ -429,13 +522,14 @@ def build_manifest(
     run_id = str(provenance["github_run_id"])
     return {
         "schema_version": 1,
-        "experiment_id": "E3b",
+        "experiment_id": experiment_id,
         "status": (
             "valid_frontier" if frontier else "valid_no_quality_eligible_variant"
         ),
         "source": {
             "artifact_name": (
-                f"e3b-quality-anchor-{run_id}-{provenance['github_run_attempt']}"
+                f"{contract.get('artifact_name_prefix', 'e3b-quality-anchor')}-"
+                f"{run_id}-{provenance['github_run_attempt']}"
             ),
             "github_run_url": (
                 f"https://github.com/Arshgill01/Arm/actions/runs/{run_id}"
@@ -456,9 +550,18 @@ def build_manifest(
             "performance_comparison_allowed": True,
             "same_tasks_and_instruction_as_e3": True,
             "kleidiai_build_enabled": True,
-            "runtime_repack_buffer_proven": True,
+            (
+                "runtime_repack_buffer_proven"
+                if experiment_id == "E3b"
+                else "runtime_model_buffer_proven"
+            ): True,
             "validated_patch_set_applied": True,
             "quality_eligible_variants": sorted(frontier_inputs),
+            **(
+                {"deployment_policy_predeclared": True}
+                if contract.get("deployment_policy") is not None
+                else {}
+            ),
         },
         "quality": quality,
         "application": application,

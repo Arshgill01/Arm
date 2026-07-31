@@ -101,8 +101,9 @@ def extract_e3_candidates(manifest: dict[str, Any]) -> dict[str, dict[str, Any]]
     if manifest.get("schema_version") != 1 or manifest.get("experiment_id") not in {
         "E3",
         "E3b",
+        "E3c",
     }:
-        raise ValueError("planner input must be a schema-1 E3 or E3b manifest")
+        raise ValueError("planner input must be a schema-1 E3, E3b, or E3c manifest")
     if not str(manifest.get("status", "")).startswith("valid_"):
         raise ValueError("planner input is not a valid experiment result")
     validation = manifest.get("validation", {})

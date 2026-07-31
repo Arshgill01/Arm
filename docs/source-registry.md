@@ -29,6 +29,8 @@ how heavily the source should control a project decision.
 | [Qwen2.5-1.5B-Instruct GGUF](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/tree/91cad51170dc346986eccefdc2dd33a9da36ead9) | Official Qwen model repository, pinned revision | Apache-2.0 E3 base model, GGUF quantizations, model card, and immutable file metadata |
 | [Qwen2.5-1.5B-Instruct MNN](https://huggingface.co/taobao-mnn/Qwen2.5-1.5B-Instruct-MNN/tree/4ed860971cc9268355e31e26e6034e2d28e3dc7a) | Official MNN export, pinned revision | Apache-2.0 E3 cross-runtime package and configuration |
 | [Qwen2.5-7B-Instruct GGUF](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct-GGUF/tree/bb5d59e06d9551d752d08b292a50eb208b07ab1f) | Official Qwen model repository, pinned revision | Apache-2.0 E3b quality anchor, split Q4_K_M package, license, and immutable metadata |
+| [Qwen3-4B-Instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507/tree/cdbee75f17c01a7cc42f958dc650907174af0554) | Official Qwen model repository, pinned revision | Apache-2.0 E3c source model, non-thinking behavior, architecture, and published benchmark prior |
+| [Unsloth Qwen3-4B-Instruct-2507 GGUF](https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF/tree/a06e946bb6b655725eafa393f4a9745d460374c9) | Quantization producer, pinned derivative repository | Apache-2.0 E3c Q4_K_M/Q5_K_M/Q8_0 packages, base-model provenance, sizes, and immutable hashes |
 
 ## Evidence policy
 

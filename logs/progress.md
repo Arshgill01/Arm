@@ -426,3 +426,25 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - E3b rejects the 7B Q4_K_M quality-anchor hypothesis without invalidating the
   product direction. The next calibration must target a stronger
   quality-per-byte candidate under a new predeclared contract.
+
+## 2026-07-31 — E3c Qwen3 quantization frontier frozen
+
+- Screened current permissively licensed small-model candidates from primary
+  model cards. Selected official Apache-2.0 Qwen3-4B-Instruct-2507 because it is
+  a 4B non-thinking model whose published benchmark prior targets E3b's weak
+  arithmetic, logic, code, and systems categories. Published scores are used
+  only to choose the candidate, not as submission evidence.
+- Pinned its official source revision separately from the Apache-2.0 Unsloth
+  quantization-producer revision. Exact Q4_K_M, Q5_K_M, and Q8_0 packages total
+  2,497,281,120, 2,889,514,080, and 4,280,405,600 bytes respectively; every
+  SHA-256 is frozen before native measurement.
+- Kept all 30 tasks, answers, instruction, greedy decoding, eight-token cap,
+  parser, two repetitions, 75% floor, one-task best rule, runtime build, and
+  source patches unchanged. Quantization is the only within-E3c candidate
+  difference.
+- Frozen three cyclic performance rounds and explicit framework-auto chat
+  template evidence. The shared ingester now supports E3c while reproducing the
+  already accepted E3b manifest byte for byte.
+- Reused the existing cloud policy without adjustment and pinned its SHA-256 in
+  the E3c contract. The native artifact will contain both the independently
+  derivable frontier and a fail-closed Pareto64 deployment plan.

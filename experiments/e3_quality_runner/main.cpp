@@ -176,6 +176,7 @@ Json RunTasks(const Arguments& arguments)
         {"threads", arguments.threads},
         {"context_size", arguments.context},
         {"max_output_tokens", arguments.maxOutputTokens},
+        {"chat_template_mode", "framework_auto"},
         {"model_load_ms", Milliseconds(loadStart, loadEnd)},
         {"cases", cases},
     };
