@@ -48,3 +48,5 @@ authoritative, timestamped record; this file groups the significant additions.
 - Added a dependency-free interactive evidence demo, browser screenshots,
   paste-ready Devpost draft, video script, claim index, compliance checklist,
   and clean-checkout package verifier.
+- Extended the demo and video narrative with the independently validated E5d
+  cache/concurrency boundary and a dedicated 1,440×900 gallery screenshot.

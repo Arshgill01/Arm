@@ -36,9 +36,10 @@ instead of moving the goalposts.”
 throughput bars and the zero-drift guardrail.
 
 **Voice:** “More server slots gained only 1.9%, so we rejected them. Shared
-prefix caching was different: every request reused at least 25 prompt tokens,
-all 120 answers stayed identical, throughput rose 1.67 times, and median HTTP
-latency fell 41%. That cleared both frozen performance gates.”
+prefix caching was different: all 120 answers stayed identical, throughput rose
+1.67 times, and median latency fell 41%. We then tested both together. Two
+cached slots gained only 6.2% and nearly doubled latency, so one slot stayed the
+default.”
 
 ## 1:35–2:02 — Arm-specific patch
 
@@ -53,7 +54,7 @@ whole-model speedup.”
 
 ## 2:02–2:30 — Exact serving
 
-**Screen:** Show the E5b and E5c rows, then the terminal.
+**Screen:** Show the E5b, E5c, and E5d rows, then the terminal.
 
 ```bash
 python3 scripts/verify_submission.py

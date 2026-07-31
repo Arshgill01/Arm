@@ -19,7 +19,7 @@
       <a class="wordmark" href="#main" aria-label="Pareto64 home">Pareto64</a>
       <nav aria-label="Primary navigation">
         <a href="#decision">Decision lab</a>
-        <a href="#serving">Serving win</a>
+        <a href="#serving">Serving evidence</a>
         <a href="#optimization">Arm patch</a>
         <a href="#evidence">Evidence</a>
       </nav>
@@ -216,6 +216,46 @@
           Four fresh servers · A–B–B–A order · 23/30 in every cell · zero drift
           · +6.2 MiB maximum RSS
         </p>
+
+        <div class="cache-interaction">
+          <table>
+            <caption>
+              <strong>Cache + concurrency did not compound.</strong>
+              We repeated the serving gate after promotion, with both slots
+              preloaded and every measured request reusing the prefix.
+            </caption>
+            <thead>
+              <tr>
+                <th>Cached configuration</th>
+                <th>Throughput</th>
+                <th>Median HTTP</th>
+                <th>Maximum RSS</th>
+                <th>Decision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>One slot · one client</td>
+                <td>0.906 req/s</td>
+                <td>1,053 ms</td>
+                <td>4,655,908 KiB</td>
+                <td class="select-text">Default</td>
+              </tr>
+              <tr>
+                <td>Two slots · two clients</td>
+                <td>0.962 req/s</td>
+                <td>2,034 ms</td>
+                <td>4,900,432 KiB</td>
+                <td class="reject-text">Not promoted</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            <strong>Only 1.0619× throughput</strong> against a frozen 1.10×
+            gate, with 93.3% higher median latency and about 239 MiB more RSS.
+            Pareto64 kept the cached single-slot recipe.
+          </p>
+        </div>
       </section>
 
       <section class="optimization-section" id="optimization" aria-labelledby="optimization-title">
@@ -290,6 +330,11 @@
             <span class="evidence-result select-text">Promoted</span>
           </li>
           <li>
+            <span class="evidence-id">E5d</span>
+            <div><strong>Cached two-slot interaction</strong><p>1.0619× throughput with 93.3% higher median latency.</p></div>
+            <span class="evidence-result reject-text">Not promoted</span>
+          </li>
+          <li>
             <span class="evidence-id">E6b</span>
             <div><strong>NEON vector-store patch</strong><p>2.029× direct hot-path throughput.</p></div>
             <span class="evidence-result select-text">Accepted</span>
@@ -314,6 +359,7 @@
       <div>
         <a href="../results/reports/e3f-ministral-frontier.md">Selected frontier</a>
         <a href="../results/reports/e5c-prompt-cache.md">Serving optimization</a>
+        <a href="../results/reports/e5d-cached-concurrency.md">Concurrency boundary</a>
         <a href="../results/reports/e6b-q8-vector-store.md">Arm patch</a>
       </div>
     </footer>

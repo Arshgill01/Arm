@@ -742,3 +742,18 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Retained-evidence clean-checkout run `30665354849` passed all 75 tests, all
   six pinned evidence hashes, exact-plan checks, and the demo smoke test on
   native `aarch64`.
+
+## 2026-07-31 — Judge demo exposes the cross-layer boundary
+
+- Added the E5d cached single-slot versus two-slot comparison directly below
+  the promoted E5c cache result, using the retained 0.9056/0.9617 requests/s,
+  1,052.7/2,034.4 ms latency, and maximum-RSS evidence.
+- Added E5d to the chronological decision ledger and updated the video script
+  to explain why cache promotion does not imply concurrency promotion.
+- Browser-tested the demo at 1,440×900 and 390×844. The interactive latency
+  temptation still produces `No feasible candidate`, the mobile document has
+  no global horizontal overflow, the evidence table scrolls within its own
+  boundary, and the console reports zero warnings or errors.
+- Captured the first-party 1,440×900 serving-boundary gallery image at
+  `output/playwright/pareto64-serving-boundary.png` and added it to the compact
+  package verifier.

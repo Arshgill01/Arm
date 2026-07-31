@@ -554,6 +554,50 @@ th {
   font-size: 12px;
 }
 
+.cache-interaction {
+  overflow-x: auto;
+  margin-top: 48px;
+  padding-top: 26px;
+  border-top: 1px solid var(--ink);
+}
+
+.cache-interaction table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+.cache-interaction caption {
+  max-width: 900px;
+  padding-bottom: 18px;
+  text-align: left;
+  font-size: 15px;
+}
+
+.cache-interaction caption strong {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--display);
+  font-size: 18px;
+}
+
+.cache-interaction td:not(:first-child),
+.cache-interaction th:not(:first-child) {
+  white-space: nowrap;
+}
+
+.cache-interaction > p {
+  max-width: 920px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.cache-interaction > p strong {
+  color: var(--ink);
+  font-family: var(--display);
+}
+
 .optimization-section {
   color: var(--white);
   background: var(--ink);

@@ -66,6 +66,7 @@ jobs:
             sleep 0.1
           done
           grep -q 'The fastest model lost' /tmp/pareto64-demo.html
+          grep -q 'Cache + concurrency did not compound' /tmp/pareto64-demo.html
           curl --fail --silent http://127.0.0.1:4174/app.js \
             > /tmp/pareto64-demo-app.js
           grep -q 'renderDecision' /tmp/pareto64-demo-app.js

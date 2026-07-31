@@ -47,6 +47,7 @@ REQUIRED_SUBMISSION_FILES = (
     "demo/favicon.svg",
     "output/playwright/pareto64-overview.png",
     "output/playwright/pareto64-policy-lab.png",
+    "output/playwright/pareto64-serving-boundary.png",
     "submission/devpost.md",
     "submission/evidence.md",
     "submission/demo-script.md",
