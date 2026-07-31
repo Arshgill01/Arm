@@ -59,3 +59,14 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   0.0797% coefficient of variation with identical checksums.
 - PMU access remains blocked and no scaling governor is exposed. The environment
   passes feasibility/CI screening, not final energy/mechanism proof.
+
+## 2026-07-31 — E1 LLM-Runner smoke, attempt 1
+
+- Workflow run `30630773335` reached a native Neoverse N2 runner, cloned the
+  pinned LLM-Runner revision, and downloaded and checksum-verified the pinned
+  1.6 GB Phi-2 Q4_0 model.
+- Configuration stopped before compilation because the runner's default Python
+  was newer than LLM-Runner's declared supported range (`3.9...3.11`).
+- This is an environment-contract failure, not a benchmark or Arm-kernel result.
+  The next attempt explicitly selects Python 3.11 and preserves the original
+  run as evidence rather than treating it as a performance datapoint.

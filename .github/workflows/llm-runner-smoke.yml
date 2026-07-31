@@ -25,6 +25,11 @@ jobs:
       - name: Check out experiment repository
         uses: actions/checkout@v7
 
+      - name: Select supported Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
       - name: Capture host and pin upstream source
         run: |
           set -euo pipefail
