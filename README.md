@@ -24,16 +24,17 @@ The product core is now executable: it validates schema-1 E3, E3b, E3c, or E3d
 evidence, applies explicit quality and SLO gates, recomputes the Pareto frontier,
 and emits a hashed deployment decision without a hidden weighted score.
 
-E3c is frozen as the next quality-per-byte gate: three exact quantizations of
-the same Apache-2.0 Qwen3-4B-Instruct-2507 source model will be measured under
-the unchanged task floor and cloud policy before any inference adapter is
-allowed to launch.
+E3c measured three exact quantizations of the same Apache-2.0
+Qwen3-4B-Instruct-2507 source model. All were stable, but the best reached only
+66.67% under the unchanged 75% task floor, so no inference adapter may launch
+from that result. E3d is the separately frozen current-runtime calibration over
+official Qwen3.5-4B; it preserves the same tasks and policy.
 
 ```bash
 python3 -m pareto64 plan \
-  --manifest results/manifests/e3b-30643977955.json \
+  --manifest results/manifests/e3c-30647831008.json \
   --constraints configs/cloud-quality.json \
-  --output results/plans/e3b-cloud-quality.json
+  --output results/plans/e3c-cloud-quality.json
 ```
 
 ## Native evidence so far
@@ -45,6 +46,7 @@ python3 -m pareto64 plan \
 | [E2](results/reports/e2-kleidiai-ablation.md) | Primary KleidiAI threshold missed; smaller decode/latency benefits retained |
 | [E3](results/reports/e3-qwen-frontier.md) | Three Qwen packages measured; frozen quality gate rejected all three |
 | [E3b](results/reports/e3b-quality-anchor.md) | 7B improved to a stable 73.33% but missed the unchanged quality floor by one task |
+| [E3c](results/reports/e3c-quality-per-byte.md) | Q4_K_M led a stable 4B quantization sweep at 66.67%; the unchanged quality gate rejected all variants |
 | [E4a](results/reports/e4a-backlog-tuner.md) | Native bounded tuner selected backlog 64 with zero failures or tail breaches |
 | [E5a](results/reports/e5a-planner-api.md) | Native fail-closed API passed load SLOs; one-second tail retained for tuning |
 | [E6a](results/reports/e6a-native-feature-fix.md) | Reproduced and fixed invalid native KleidiAI SVE source selection |

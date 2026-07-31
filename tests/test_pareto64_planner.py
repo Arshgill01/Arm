@@ -139,6 +139,37 @@ class Pareto64PlannerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "conflicting quality decisions"):
             build_plan(data, constraints())
 
+    def test_real_e3c_manifest_preserves_quantization_rejections(self) -> None:
+        data = json.loads(
+            (ROOT / "results/manifests/e3c-30647831008.json").read_text()
+        )
+        policy = json.loads((ROOT / "configs/cloud-quality.json").read_text())
+        result = build_plan(data, policy)
+        self.assertEqual("no_feasible_candidate", result["status"])
+        self.assertEqual([], result["pareto_frontier"])
+        self.assertEqual(
+            ["quality_gate", "slo", "slo", "slo"],
+            [
+                reason["kind"]
+                for reason in result["evaluated"]["qwen3_4b_q8_0"][
+                    "rejections"
+                ]
+            ],
+        )
+        self.assertEqual(
+            [
+                "minimum_accuracy",
+                "maximum_quality_process_rss_kib",
+                "model_load_ms_median",
+            ],
+            [
+                reason["metric"]
+                for reason in result["evaluated"]["qwen3_4b_q8_0"][
+                    "rejections"
+                ][1:]
+            ],
+        )
+
     def test_nonfinite_metrics_and_unknown_directions_are_rejected(self) -> None:
         with self.assertRaisesRegex(ValueError, "finite"):
             finite_metric(float("nan"), "latency")

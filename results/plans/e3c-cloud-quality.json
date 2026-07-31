@@ -1,0 +1,143 @@
+{
+  "decision": "No measured candidate passed both the predeclared quality gate and SLOs.",
+  "evaluated": {
+    "qwen3_4b_q4_k_m": {
+      "framework": "llama.cpp",
+      "metrics": {
+        "maximum_quality_process_rss_kib": 5260696.0,
+        "minimum_accuracy": 0.6666666666666666,
+        "model_load_ms_median": 1734.631208,
+        "package_size_bytes": 2497281120.0,
+        "same_text_total_ms_median": 2973.3836735000004
+      },
+      "name": "qwen3_4b_q4_k_m",
+      "quality_eligible": false,
+      "rejections": [
+        {
+          "detail": "quality_ineligible",
+          "kind": "quality_gate"
+        },
+        {
+          "kind": "slo",
+          "metric": "minimum_accuracy",
+          "observed": 0.6666666666666666,
+          "operator": "at_least",
+          "threshold": 0.75
+        }
+      ]
+    },
+    "qwen3_4b_q5_k_m": {
+      "framework": "llama.cpp",
+      "metrics": {
+        "maximum_quality_process_rss_kib": 6024908.0,
+        "minimum_accuracy": 0.6333333333333333,
+        "model_load_ms_median": 1495.972209,
+        "package_size_bytes": 2889514080.0,
+        "same_text_total_ms_median": 3801.9749215
+      },
+      "name": "qwen3_4b_q5_k_m",
+      "quality_eligible": false,
+      "rejections": [
+        {
+          "detail": "quality_ineligible",
+          "kind": "quality_gate"
+        },
+        {
+          "kind": "slo",
+          "metric": "minimum_accuracy",
+          "observed": 0.6333333333333333,
+          "operator": "at_least",
+          "threshold": 0.75
+        }
+      ]
+    },
+    "qwen3_4b_q8_0": {
+      "framework": "llama.cpp",
+      "metrics": {
+        "maximum_quality_process_rss_kib": 8502456.0,
+        "minimum_accuracy": 0.6,
+        "model_load_ms_median": 14625.884591,
+        "package_size_bytes": 4280405600.0,
+        "same_text_total_ms_median": 1173.6018465000002
+      },
+      "name": "qwen3_4b_q8_0",
+      "quality_eligible": false,
+      "rejections": [
+        {
+          "detail": "quality_ineligible",
+          "kind": "quality_gate"
+        },
+        {
+          "kind": "slo",
+          "metric": "minimum_accuracy",
+          "observed": 0.6,
+          "operator": "at_least",
+          "threshold": 0.75
+        },
+        {
+          "kind": "slo",
+          "metric": "maximum_quality_process_rss_kib",
+          "observed": 8502456.0,
+          "operator": "at_most",
+          "threshold": 8388608.0
+        },
+        {
+          "kind": "slo",
+          "metric": "model_load_ms_median",
+          "observed": 14625.884591,
+          "operator": "at_most",
+          "threshold": 10000.0
+        }
+      ]
+    }
+  },
+  "feasible_candidates": [],
+  "inputs": {
+    "constraints_path": "configs/cloud-quality.json",
+    "constraints_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+    "experiment_id": "E3c",
+    "experiment_status": "valid_no_quality_eligible_variant",
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30647831008",
+    "manifest_path": "results/manifests/e3c-30647831008.json",
+    "manifest_sha256": "994c5f17d34b83da265ff090219385cfd0faee20e5f22c7a0d12f9fa84484a72"
+  },
+  "pareto_frontier": [],
+  "planner": "Pareto64",
+  "policy": {
+    "directions": {
+      "maximum_quality_process_rss_kib": "lower",
+      "minimum_accuracy": "higher",
+      "model_load_ms_median": "lower",
+      "package_size_bytes": "lower",
+      "same_text_total_ms_median": "lower"
+    },
+    "requirements": {
+      "maximum_quality_process_rss_kib": {
+        "at_most": 8388608.0
+      },
+      "minimum_accuracy": {
+        "at_least": 0.75
+      },
+      "model_load_ms_median": {
+        "at_most": 10000.0
+      },
+      "package_size_bytes": {
+        "at_most": 5000000000.0
+      },
+      "same_text_total_ms_median": {
+        "at_most": 5000.0
+      }
+    },
+    "selection_priority": [
+      "minimum_accuracy",
+      "same_text_total_ms_median",
+      "maximum_quality_process_rss_kib",
+      "package_size_bytes",
+      "model_load_ms_median"
+    ],
+    "weighted_score_used": false
+  },
+  "schema_version": 1,
+  "selected": null,
+  "status": "no_feasible_candidate"
+}

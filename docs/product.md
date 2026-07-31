@@ -32,23 +32,23 @@ frontier using the user-visible priority order.
 
 ```bash
 python3 -m pareto64 plan \
-  --manifest results/manifests/e3b-30643977955.json \
+  --manifest results/manifests/e3c-30647831008.json \
   --constraints configs/cloud-quality.json \
-  --output results/plans/e3b-cloud-quality.json
+  --output results/plans/e3c-cloud-quality.json
 ```
 
-Both real policy runs return `no_feasible_candidate`. E3 rejects Q4_0, Q4_K_M,
-and MNN int4 at the frozen quality gate. E3b then rejects a larger 7B Q4_K_M
-anchor at a stable 73.33%, one task short of the unchanged 75% floor; it also
-records the candidate's small same-text latency and RSS SLO misses. Pareto64
-does not allow any of those resource or quality near-misses to become a
-deployment.
+All three retained policy runs return `no_feasible_candidate`. E3 rejects
+Q4_0, Q4_K_M, and MNN int4 at the frozen quality gate. E3b then rejects a
+larger 7B Q4_K_M anchor at a stable 73.33%, one task short of the unchanged 75%
+floor. E3c rejects Qwen3-4B Q4_K_M, Q5_K_M, and Q8_0 at stable accuracies from
+60.00% to 66.67%; Q8_0 also misses the load and RSS ceilings. Pareto64 does not
+allow any resource or quality near-miss to become a deployment.
 
 The same decision is available through the bounded HTTP service:
 
 ```bash
 python3 -m pareto64 serve \
-  --manifest results/manifests/e3b-30643977955.json \
+  --manifest results/manifests/e3c-30647831008.json \
   --constraints configs/cloud-quality.json \
   --host 127.0.0.1 \
   --port 8080
@@ -81,7 +81,7 @@ This is the evidence-to-decision core and HTTP decision plane, not yet an
 inference server. E5a validated its correctness, concurrency, latency, and RSS;
 E4a then eliminated the observed admission tail under a stricter load. A runtime
 launch adapter is intentionally deferred until a candidate passes the quality
-gate; Pareto64 must not turn an invalid measurement into a deployment. E3b has
-produced a valid empty frontier. E3c is therefore a separately frozen
-quality-per-byte calibration over one newer non-thinking 4B model and three
-quantization levels, not a relaxed policy.
+gate; Pareto64 must not turn an invalid measurement into a deployment. E3b and
+E3c both produced valid empty frontiers. E3d is therefore a separately frozen
+current-runtime calibration over a stronger official 4B source model, not a
+relaxed policy.

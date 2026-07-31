@@ -153,6 +153,18 @@ author—to find a feasible candidate before model-serving integration begins.
 Exact inputs and order are in
 [`../experiments/e3c_contract.json`](../experiments/e3c_contract.json).
 
+### E3c outcome
+
+Native run `30647831008` completed the frozen comparison. Q4_K_M, Q5_K_M, and
+Q8_0 were stable at 20/30, 19/30, and 18/30 respectively, so none met the 75%
+floor and the frontier is empty. Q8_0 had the strongest secondary token
+performance but also exceeded the frozen model-load and RSS ceilings. An
+independent Python 3.10 ingestion reproduced the summary byte for byte at
+SHA-256
+`994c5f17d34b83da265ff090219385cfd0faee20e5f22c7a0d12f9fa84484a72`.
+See
+[`../results/reports/e3c-quality-per-byte.md`](../results/reports/e3c-quality-per-byte.md).
+
 ## E3d frozen current-runtime KleidiAI protocol
 
 E3d is a separate calibration, not a reinterpretation of E3c. It tests official

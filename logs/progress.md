@@ -468,3 +468,19 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Added a fail-closed E3d ingester, current llama.cpp benchmark-shape validation,
   HTTP response/timing capture, planner support, and a complete synthetic
   artifact test. No E3d model output has been measured before this freeze.
+
+## 2026-07-31 — E3c native quality-per-byte result retained
+
+- Green run `30647831008` completed the frozen contract in 20m20s on a
+  four-core Neoverse N2 runner. Independent ingestion under the workflow's
+  Python 3.10 reproduced the summary byte for byte at SHA-256
+  `994c5f17d34b83da265ff090219385cfd0faee20e5f22c7a0d12f9fa84484a72`.
+- Q4_K_M, Q5_K_M, and Q8_0 produced stable two-repetition scores of 20/30,
+  19/30, and 18/30. All missed the unchanged 75% quality floor; no candidate
+  entered the eligible set or Pareto frontier.
+- Q4_K_M and Q5_K_M met all resource limits. Q8_0 reached 146.252 prompt and
+  16.837 decode tokens/s but required 14,625.9 ms to load and 8,502,456 KiB
+  peak quality-process RSS, missing the frozen limits by 4,625.9 ms and 113,848
+  KiB.
+- The retained planner result is `no_feasible_candidate`. No task, output,
+  parser, threshold, execution order, or policy was changed after observation.
