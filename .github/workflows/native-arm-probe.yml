@@ -1,0 +1,49 @@
+name: Native Arm E0 probe
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    name: Architecture and timing probe
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run unit tests
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Capture native Arm manifest
+        run: |
+          python3 experiments/e0_native_arm_probe.py \
+            --output results/raw/e0-${{ github.run_id }}-${{ github.run_attempt }}.json
+
+      - name: Print compact result
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          result_path = next(Path("results/raw").glob("e0-*.json"))
+          result = json.loads(result_path.read_text())
+          print(json.dumps({
+              "architecture": result["platform"]["architecture"],
+              "runner": result["github"],
+              "governors": result["scaling_governors"],
+              "timing": result["microbenchmark"]["summary"],
+          }, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload raw evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: e0-native-arm-${{ github.run_id }}-${{ github.run_attempt }}
+          path: results/raw/e0-*.json
+          if-no-files-found: error
+          retention-days: 30
