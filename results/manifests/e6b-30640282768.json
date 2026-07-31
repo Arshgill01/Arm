@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E6b",
+  "status": "valid_hot_path_win",
+  "source": {
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30640282768",
+    "artifact_name": "e6b-q8-vector-store-30640282768-1",
+    "artifact_retention_days": 90,
+    "full_summary_sha256": "ad1adc78703b302cf707353c70642951b4d422b39ddc159f2dc84c97225592bf"
+  },
+  "provenance": {
+    "git_commit": "73b7575aeb8664526144aade33042e7ea1ff7164",
+    "llm_runner_commit": "8ba39e40fa754b87deb99a998c31de3b850094d5",
+    "llama_cpp_commit": "eed25bc6b052c363aa760d0055282cc2222ccf6e",
+    "patch_sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+    "model_sha256": "dcd819ff094852c38faba6873d8ff0c9d51eadb2844539e52042ae5d647bbfdb",
+    "controlled_difference": "frozen q8_0 vector-store patch only"
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "model_name": "Neoverse-N2",
+    "logical_cpus": 4,
+    "compiler": "GCC 13.3.0",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ]
+  },
+  "correctness": {
+    "finite_values_compared": 8224,
+    "zero_block_included": true,
+    "quantizer_outputs_bit_identical": true,
+    "upstream_quantizer_tests_passed": true,
+    "quality_tasks": 30,
+    "quality_outputs_unchanged": true
+  },
+  "assembly": {
+    "baseline": {
+      "static_instructions": 155,
+      "byte_stores": 32,
+      "vector_narrows": 0,
+      "vector_stores": 0
+    },
+    "patched": {
+      "static_instructions": 98,
+      "byte_stores": 0,
+      "vector_narrows": 6,
+      "vector_stores": 2
+    }
+  },
+  "direct_benchmark": {
+    "tool": "upstream test-quantize-perf",
+    "operation": "quantize_row_q",
+    "type": "q8_0",
+    "cpu_affinity": 0,
+    "iterations_per_round": 20000,
+    "unit": "GB/s as emitted by the upstream tool",
+    "results": {
+      "4096": {
+        "baseline_rounds": [5.09, 5.09, 5.08, 5.09],
+        "patched_rounds": [10.20, 10.19, 10.13, 10.18],
+        "median_paired_ratio": 2.0009823182711197,
+        "improved_rounds": 4,
+        "gate_passed": true
+      },
+      "65536": {
+        "baseline_rounds": [5.11, 5.12, 5.11, 5.11],
+        "patched_rounds": [10.39, 10.38, 10.37, 10.37],
+        "median_paired_ratio": 2.029354207436399,
+        "improved_rounds": 4,
+        "gate_passed": true
+      },
+      "655360": {
+        "baseline_rounds": [5.09, 5.09, 5.09, 5.09],
+        "patched_rounds": [10.33, 10.34, 10.33, 10.33],
+        "median_paired_ratio": 2.029469548133595,
+        "improved_rounds": 4,
+        "gate_passed": true
+      }
+    }
+  },
+  "inference_guardrail": {
+    "model": "Qwen2.5-1.5B-Instruct Q4_0",
+    "input_tokens": 128,
+    "output_tokens": 64,
+    "threads": 4,
+    "paired_rounds": 4,
+    "median_paired_ratios": {
+      "encode_tokens_per_sec": 1.0004193272885367,
+      "decode_tokens_per_sec": 0.9999559980889101,
+      "ttft_ms_lower_is_better": 1.0007474095301756,
+      "total_ms_lower_is_better": 1.0003071865607598
+    },
+    "minimum_observed_ratio": 0.990536845080898,
+    "required_minimum_ratio": 0.98,
+    "maximum_rss_kib": {
+      "baseline": 2005348,
+      "patched": 2005348
+    },
+    "gate_passed": true
+  },
+  "validation": {
+    "validated_win": true,
+    "weighted_score_used": false,
+    "all_predeclared_criteria_passed": true,
+    "independent_reingestion_byte_identical": true
+  }
+}

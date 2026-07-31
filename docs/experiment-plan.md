@@ -145,6 +145,17 @@ number of rounds, no inference metric below 0.98x, and no more than 32 MiB extra
 RSS. No weighted score is used. Exact inputs, ordering, and gates are frozen in
 [`../experiments/e6b_contract.json`](../experiments/e6b_contract.json).
 
+### E6b outcome
+
+Native run `30640282768` passed every frozen gate. The patch improved paired
+Q8_0 quantizer throughput by 2.001x at 4,096 values and 2.029x at both 65,536
+and 655,360 values, with all four rounds improved at every size. Emitted scalar
+byte stores fell from 32 to zero, while 8,224 finite-input results, both
+upstream quantizer tests, and all frozen task outputs were unchanged. Real Qwen
+inference was neutral and stayed above the 0.98 guardrail in every round; peak
+RSS was identical. See
+[`../results/reports/e6b-q8-vector-store.md`](../results/reports/e6b-q8-vector-store.md).
+
 ## E5a frozen planner-API protocol
 
 E5a is a product/API concurrency gate, not the final inference-server E5 result.

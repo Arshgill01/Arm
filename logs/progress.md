@@ -357,3 +357,26 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   fixture models. The harness now disables that unrelated layer while retaining
   the pinned llama.cpp quantizer tests; no experimental input, patch, order, or
   acceptance threshold changed.
+
+## 2026-07-31 — E6b native Q8 hot-path win validated
+
+- Corrected run `30640282768` completed in 8m39s. Both controlled builds,
+  standalone equivalence, upstream quantizer tests, emitted-assembly checks,
+  frozen Qwen output comparison, all eight performance executions, result
+  validation, and artifact upload passed.
+- A separate local ingester invocation reproduced the 19,291-byte workflow
+  summary exactly; its SHA-256 is
+  `ad1adc78703b302cf707353c70642951b4d422b39ddc159f2dc84c97225592bf`.
+- The patch improved direct Q8_0 quantizer throughput by a median paired 2.001x
+  at 4,096 values and 2.029x at both 65,536 and 655,360 values. Every one of the
+  12 paired size/round comparisons improved.
+- Native assembly reduced the measured function from 155 to 98 static
+  instructions, removed all 32 scalar byte stores, and emitted six vector
+  narrowing instructions plus two vector stores.
+- The standalone test was bit-identical over 8,224 finite values, upstream
+  tests passed in both builds, and all 30 task outputs were unchanged. Real
+  Qwen inference was neutral: every paired metric stayed above 0.99x and peak
+  RSS was identical at 2,005,348 KiB.
+- The result is accepted as an isolated Arm hot-path win, not a whole-model
+  speedup, cycles, energy, or quality claim. No threshold or observation was
+  changed after measurement.

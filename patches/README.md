@@ -33,6 +33,9 @@ leaving scale calculation and float-to-integer conversion unchanged.
 
 GCC 15 cross-assembly preflight reduced static instructions from 124 to 69 and
 stores from 36 to 3. An Arm-emulated finite-input equivalence test was
-byte-identical. Native performance, upstream tests, emitted assembly, Qwen task
-outputs, and end-to-end inference remain governed by the frozen E6b workflow;
-the preflight alone does not authorize a speedup claim.
+byte-identical. Native E6b then passed the upstream quantizer tests and showed
+2.001x–2.029x paired throughput across all three tested sizes. Native emitted
+assembly removed all 32 scalar byte stores, all frozen Qwen task outputs stayed
+identical, real-model inference stayed within its 0.98 guardrail, and peak RSS
+was unchanged. The exact evidence and claim boundary are in
+[`../results/reports/e6b-q8-vector-store.md`](../results/reports/e6b-q8-vector-store.md).
