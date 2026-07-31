@@ -34,7 +34,9 @@ state bug; no E3e frontier or deployment plan is accepted. E6c validated the
 exact source correction and zero-reasoning behavior on Arm, but its frozen
 eight-token standalone-answer gate rejected the application run. E3f's
 Ministral 3 Q4_K_M is the first candidate to clear the unchanged quality and
-cloud SLO gates, so the inference-serving stage is now unlocked.
+cloud SLO gates. A fail-closed launch adapter now binds that selection to the
+exact model hash and pinned llama.cpp build; native inference concurrency is
+frozen as E5b and remains to be measured.
 
 ```bash
 python3 -m pareto64 plan \

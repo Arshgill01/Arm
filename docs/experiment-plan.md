@@ -411,6 +411,33 @@ creating a separately testable accept-backlog hypothesis rather than a reason to
 rewrite E5a. See
 [`../results/reports/e5a-planner-api.md`](../results/reports/e5a-planner-api.md).
 
+## E5b frozen selected-inference protocol
+
+E5b is the end-to-end inference-server gate unlocked by E3f. Every cell starts
+a fresh pinned llama.cpp `b10208` process through the Pareto64 launch adapter.
+The adapter must recompute the selected plan and verify the exact Q4_K_M model
+size/SHA-256, model/source revisions, runtime commit, policy, runtime contract,
+and manifest before serving. The launch recipe, process RSS, readiness, runtime
+buffer evidence, metrics, slots, logs, and every raw HTTP response are retained.
+
+The only comparison is serving concurrency. The baseline uses one server slot
+and one client; the candidate uses two continuous-batching slots and two client
+workers. Two repetitions run in balanced order: baseline, concurrent,
+concurrent, baseline. Each fresh server receives the same two warm-up tasks and
+then all 30 unchanged E3 tasks once, using the E3f system-role instruction,
+greedy seed, eight-token cap, four threads, and 2,048 tokens of context per
+slot.
+
+Quality is the first gate. Every measured response must be HTTP 200, terminate
+by `stop`, contain exactly one uppercase A-D letter, reproduce the selected
+E3f prediction for that task, and preserve 23/30 accuracy in all four cells.
+Only then may the two-slot candidate claim a win: median repeated throughput at
+least 1.10x baseline, concurrent median/p95 HTTP latency no greater than
+5/10 seconds, deployment readiness no greater than 15 seconds including model
+integrity verification, and process RSS no greater than 8 GiB. Exact inputs and
+order are frozen in
+[`../experiments/e5b_contract.json`](../experiments/e5b_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

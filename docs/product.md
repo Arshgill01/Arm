@@ -64,6 +64,31 @@ Its default TCP accept backlog is 64, selected by frozen E4a native Arm evidence
 after capacities 5, 16, and 64 were each evaluated in three cyclic rounds. The
 `--backlog` option remains available for an explicit deployment override.
 
+## Launch the selected inference runtime
+
+The launch adapter recomputes the plan, refuses an empty frontier, verifies the
+selected model's exact size and SHA-256, checks catalog/source revisions and the
+pinned llama.cpp commit, and writes a hashed launch recipe before replacing
+itself with `llama-server`:
+
+```bash
+python3 -m pareto64 launch \
+  --manifest results/manifests/e3f-30656151957.json \
+  --constraints configs/cloud-quality.json \
+  --models experiments/e3f_models.json \
+  --contract experiments/e3f_contract.json \
+  --model-root /path/to/models \
+  --llama-server /path/to/llama-server \
+  --recipe-output /tmp/pareto64-launch.json \
+  --parallel 1
+```
+
+The adapter preserves the measured four-thread, 2,048-token-per-slot,
+deterministic serving configuration. Increasing `--parallel` increases total
+context proportionally so each slot retains the frozen context allocation.
+`--dry-run` performs every integrity and selection check and writes the recipe
+without starting the server.
+
 ## Constraint contract
 
 The schema-1 policy has two explicit parts:
@@ -82,12 +107,12 @@ frontier, selected candidate, and the fact that no weighted score was used.
 
 ## Current boundary
 
-This is the evidence-to-decision core and HTTP decision plane, not yet an
-inference server. E5a validated its correctness, concurrency, latency, and RSS;
-E4a then eliminated the observed admission tail under a stricter load. A runtime
-launch adapter was intentionally deferred until a candidate passed the quality
-gate; Pareto64 must not turn an invalid measurement into a deployment. E3b,
-E3c, and E3d all produced valid empty frontiers. E3d's current-runtime Qwen3.5
+The evidence-to-decision core, HTTP decision plane, and selected-runtime launch
+adapter are implemented. E5a validated planner correctness, concurrency,
+latency, and RSS; E4a then eliminated the observed admission tail under a
+stricter load. The adapter remained locked until E3f passed the quality gate, so
+Pareto64 cannot turn an invalid measurement into a deployment. E3b, E3c, and
+E3d all produced valid empty frontiers. E3d's current-runtime Qwen3.5
 candidates both reached a stable 66.67%. E3e was rejected before frontier
 creation because budget 0 violated the runtime's documented immediate-end
 mechanism. E6c subsequently validated the exact source correction and zero
@@ -95,5 +120,5 @@ reasoning output on native Arm, but failed its frozen eight-token standalone
 final-answer obligation; it creates no deployable candidate.
 
 E3f now selects Ministral 3 3B Q4_K_M after a stable 76.67% result and clean
-resource SLOs. The inference launch and concurrency-serving stage is therefore
-the next product boundary rather than a hypothetical future step.
+resource SLOs. E5b is the frozen native Arm gate for the launch adapter and
+two-slot inference service; serving performance is not claimed until it passes.

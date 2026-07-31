@@ -618,3 +618,17 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   in 11m44s, reproduced both stable scores and the selected candidate, and
   independently matched its uploaded summary byte for byte at SHA-256
   `268cc0ec71e3396758c49b1405025ef6b13a0652029d15d5b027ddd046fa6932`.
+
+## 2026-07-31 — E5b selected inference serving frozen
+
+- Added a fail-closed `pareto64 launch` adapter. It recomputes the selected
+  frontier, binds the model catalog and runtime contract to E3f provenance,
+  verifies the exact 2.15 GB package hash and pinned llama.cpp version, and
+  emits a hashed recipe before executing the server.
+- Froze a native Arm four-cell inference matrix with fresh servers and balanced
+  baseline/two-slot order. The semantic prompt, tasks, seed, output cap,
+  threads, and per-slot context remain identical to E3f.
+- Every response must exactly reproduce E3f's stable selected prediction and
+  23/30 quality before the two-slot configuration can claim at least 1.10x
+  median throughput. Latency, readiness, RSS, runtime buffers, metrics, slots,
+  and raw responses are independently revalidated.
