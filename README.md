@@ -35,8 +35,8 @@ exact source correction and zero-reasoning behavior on Arm, but its frozen
 eight-token standalone-answer gate rejected the application run. E3f's
 Ministral 3 Q4_K_M is the first candidate to clear the unchanged quality and
 cloud SLO gates. A fail-closed launch adapter now binds that selection to the
-exact model hash and pinned llama.cpp build; native inference concurrency is
-frozen as E5b and remains to be measured.
+exact model hash and pinned llama.cpp build. E5b validates native inference
+serving with zero answer drift while rejecting a marginal two-slot tuning win.
 
 ```bash
 python3 -m pareto64 plan \
@@ -60,6 +60,7 @@ python3 -m pareto64 plan \
 | [E3f](results/reports/e3f-ministral-frontier.md) | Q4_K_M reached a stable 76.67% and passed every frozen quality, latency, load, RSS, and package gate |
 | [E4a](results/reports/e4a-backlog-tuner.md) | Native bounded tuner selected backlog 64 with zero failures or tail breaches |
 | [E5a](results/reports/e5a-planner-api.md) | Native fail-closed API passed load SLOs; one-second tail retained for tuning |
+| [E5b](results/reports/e5b-selected-inference.md) | Exact selected-model serving reproduced 23/30 with zero drift; two slots missed the 1.10x throughput gate |
 | [E6a](results/reports/e6a-native-feature-fix.md) | Reproduced and fixed invalid native KleidiAI SVE source selection |
 | [E6b](results/reports/e6b-q8-vector-store.md) | NEON vector narrowing doubled isolated Q8_0 quantizer throughput with neutral real-model inference |
 | [E6c](results/reports/e6c-reasoning-budget-fix.md) | Source fix passed 13 upstream tests and removed all reasoning output; the frozen final-answer gate still rejected the real-model run |

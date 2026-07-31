@@ -1,0 +1,448 @@
+{
+  "contract": {
+    "acceptance": {
+      "accepted_server_shell_exit_statuses": [
+        0,
+        130
+      ],
+      "http_status": 200,
+      "maximum_concurrent_median_http_latency_ms": 5000.0,
+      "maximum_concurrent_p95_http_latency_ms": 10000.0,
+      "maximum_process_rss_kib": 8388608,
+      "maximum_ready_ms": 15000.0,
+      "minimum_throughput_improvement_ratio": 1.1,
+      "reference_prediction_mismatches": 0,
+      "request_failures": 0,
+      "termination_reason": "stop"
+    },
+    "artifact_name_prefix": "e5b-selected-inference",
+    "execution": {
+      "configurations": {
+        "baseline": {
+          "client_concurrency": 1,
+          "server_parallel_slots": 1
+        },
+        "concurrent_2": {
+          "client_concurrency": 2,
+          "server_parallel_slots": 2
+        }
+      },
+      "fresh_server_per_cell": true,
+      "order": [
+        {
+          "configuration": "baseline",
+          "repetition": 1
+        },
+        {
+          "configuration": "concurrent_2",
+          "repetition": 1
+        },
+        {
+          "configuration": "concurrent_2",
+          "repetition": 2
+        },
+        {
+          "configuration": "baseline",
+          "repetition": 2
+        }
+      ],
+      "repetitions_per_configuration": 2
+    },
+    "experiment_id": "E5b",
+    "hypothesis": "Pareto64 can fail-closed launch the exact quality-selected Ministral 3 Q4_K_M package on the pinned native Arm runtime, reproduce all selected E3f answers, and improve completed-request throughput with two continuous-batching slots without violating quality or deployment resource ceilings.",
+    "inputs": {
+      "manifest_path": "results/manifests/e3f-30656151957.json",
+      "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+      "models_path": "experiments/e3f_models.json",
+      "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+      "policy_path": "configs/cloud-quality.json",
+      "policy_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+      "runtime_contract_path": "experiments/e3f_contract.json",
+      "runtime_contract_sha256": "a43ebf2b44aba9bac7e44e18a979901715cd23855df0d2c16c93375382977551",
+      "tasks_path": "experiments/e3_tasks.json",
+      "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    },
+    "request": {
+      "chat_template_mode": "model_jinja_system_instruction",
+      "instruction_role": "system",
+      "max_output_tokens": 8,
+      "measured_tasks": 30,
+      "seed": 424242,
+      "temperature": 0.0,
+      "timeout_seconds": 30.0,
+      "warmup_task_ids": [
+        "arithmetic-02",
+        "logic-01"
+      ]
+    },
+    "schema_version": 1,
+    "scope": "End-to-end selected-model launch and OpenAI-compatible inference serving on native Arm",
+    "selected": {
+      "candidate": "ministral3_3b_q4_k_m",
+      "llama_cpp_commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+      "llama_cpp_tag": "b10208",
+      "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "model_size_bytes": 2146497824,
+      "reference_accuracy": 0.7666666666666667,
+      "reference_correct": 23,
+      "reference_total": 30,
+      "required_runtime_buffer_patterns": [
+        "CPU_REPACK model buffer size",
+        "CPU_Mapped model buffer size"
+      ]
+    },
+    "title": "Selected Ministral inference serving and concurrency"
+  },
+  "experiment_id": "E5b",
+  "hypothesis": {
+    "latency_ceilings_passed": true,
+    "passed": false,
+    "throughput_improvement_passed": false,
+    "throughput_improvement_ratio": 1.018877619691159
+  },
+  "performance": {
+    "baseline": {
+      "client_concurrency": 1,
+      "http_ms": {
+        "coefficient_of_variation": 0.17706904898813353,
+        "max": 2745.206264,
+        "mean": 1861.75949625,
+        "median": 1813.5815995,
+        "min": 1210.606442,
+        "p95": 2650.032541,
+        "population_stddev": 329.65998344561405
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 1.7206639698126712e-05,
+        "max": 4649448.0,
+        "mean": 4649368.0,
+        "median": 4649368.0,
+        "min": 4649288.0,
+        "p95": 4649448.0,
+        "population_stddev": 80.0
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.003736698273809566,
+        "max": 3967.112985,
+        "mean": 3952.3442670000004,
+        "median": 3952.3442670000004,
+        "min": 3937.575549,
+        "p95": 3967.112985,
+        "population_stddev": 14.768718000000035
+      },
+      "repetitions": [
+        {
+          "configuration": "baseline",
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.015074957770129791,
+              "max": 69.886,
+              "mean": 67.32176666666666,
+              "median": 67.3145,
+              "min": 65.617,
+              "p95": 69.423,
+              "population_stddev": 1.0148727895105314
+            },
+            "elapsed_seconds": 55.984005041,
+            "encode_ms": {
+              "coefficient_of_variation": 0.18396982091748781,
+              "max": 2674.555,
+              "mean": 1793.1399,
+              "median": 1742.6485,
+              "min": 1160.41,
+              "p95": 2594.851,
+              "population_stddev": 329.883626283002
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.17685498190973553,
+              "max": 2745.206264,
+              "mean": 1865.9177395333331,
+              "median": 1815.4288235,
+              "min": 1231.069506,
+              "p95": 2668.255603,
+              "population_stddev": 329.99684807022226
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.5358673424316363,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "1:04.08",
+            "exit_status": 0,
+            "maximum_rss_kib": 4649448,
+            "percent_cpu": "372%"
+          },
+          "ready_ms": 3967.112985,
+          "repetition": 1,
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "configuration": "baseline",
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.009755487104335176,
+              "max": 68.96,
+              "mean": 66.61576666666666,
+              "median": 66.46199999999999,
+              "min": 65.769,
+              "p95": 67.888,
+              "population_stddev": 0.6498692526620676
+            },
+            "elapsed_seconds": 55.734061698,
+            "encode_ms": {
+              "coefficient_of_variation": 0.18442088946387736,
+              "max": 2652.787,
+              "mean": 1785.9947666666667,
+              "median": 1736.2945,
+              "min": 1140.44,
+              "p95": 2580.36,
+              "population_stddev": 329.3747434464968
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.17725562192048,
+              "max": 2723.354769,
+              "mean": 1857.6012529666666,
+              "median": 1808.7225615,
+              "min": 1210.606442,
+              "p95": 2650.032541,
+              "population_stddev": 329.2702653748694
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.5382704774426398,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "1:03.11",
+            "exit_status": 0,
+            "maximum_rss_kib": 4649288,
+            "percent_cpu": "377%"
+          },
+          "ready_ms": 3937.575549,
+          "repetition": 2,
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        }
+      ],
+      "requests_per_second": {
+        "coefficient_of_variation": 0.0022372687810999995,
+        "max": 0.5382704774426398,
+        "mean": 0.537068909937138,
+        "median": 0.537068909937138,
+        "min": 0.5358673424316363,
+        "p95": 0.5382704774426398,
+        "population_stddev": 0.001201567505501766
+      },
+      "server_parallel_slots": 1
+    },
+    "concurrent_2": {
+      "client_concurrency": 2,
+      "http_ms": {
+        "coefficient_of_variation": 0.13591278396065046,
+        "max": 4567.384683,
+        "mean": 3654.5819409666665,
+        "median": 3571.5506575,
+        "min": 2528.099378,
+        "p95": 4564.32603,
+        "population_stddev": 496.7044058090972
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 0.0005442631277450481,
+        "max": 4901032.0,
+        "mean": 4898366.0,
+        "median": 4898366.0,
+        "min": 4895700.0,
+        "p95": 4901032.0,
+        "population_stddev": 2666.0
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.012772168268031731,
+        "max": 4040.231999,
+        "mean": 3989.2802405,
+        "median": 3989.2802405,
+        "min": 3938.328482,
+        "p95": 4040.231999,
+        "population_stddev": 50.951758500000096
+      },
+      "repetitions": [
+        {
+          "configuration": "concurrent_2",
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.010490663928842209,
+              "max": 128.81,
+              "mean": 126.72566666666667,
+              "median": 126.6185,
+              "min": 124.016,
+              "p95": 128.541,
+              "population_stddev": 1.3294363801584814
+            },
+            "elapsed_seconds": 54.819306541,
+            "encode_ms": {
+              "coefficient_of_variation": 0.14023820166973233,
+              "max": 4432.068,
+              "mean": 3519.9273000000003,
+              "median": 3436.36,
+              "min": 2406.26,
+              "p95": 4431.881,
+              "population_stddev": 493.6282745601964
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.13520510268001543,
+              "max": 4567.384683,
+              "mean": 3654.2696241,
+              "median": 3571.448226,
+              "min": 2541.317682,
+              "p95": 4567.003407,
+              "population_stddev": 494.0758997469018
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.5472524534319427,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "1:02.34",
+            "exit_status": 0,
+            "maximum_rss_kib": 4895700,
+            "percent_cpu": "376%"
+          },
+          "ready_ms": 4040.231999,
+          "repetition": 1,
+          "server_shell_exit_status": 0,
+          "slots_observed": 2
+        },
+        {
+          "configuration": "concurrent_2",
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.01128583827356868,
+              "max": 130.539,
+              "mean": 126.85943333333333,
+              "median": 126.6105,
+              "min": 124.713,
+              "p95": 130.478,
+              "population_stddev": 1.4317150480765675
+            },
+            "elapsed_seconds": 54.82831565,
+            "encode_ms": {
+              "coefficient_of_variation": 0.14163482074462078,
+              "max": 4430.315,
+              "mean": 3520.5153,
+              "median": 3437.196,
+              "min": 2394.854,
+              "p95": 4430.131,
+              "population_stddev": 498.6275534441948
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.1366165050359694,
+              "max": 4565.192615,
+              "mean": 3654.894257833333,
+              "median": 3571.5506575,
+              "min": 2528.099378,
+              "p95": 4564.32603,
+              "population_stddev": 499.31887978122313
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.5471625317018105,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "1:02.21",
+            "exit_status": 0,
+            "maximum_rss_kib": 4901032,
+            "percent_cpu": "377%"
+          },
+          "ready_ms": 3938.328482,
+          "repetition": 2,
+          "server_shell_exit_status": 0,
+          "slots_observed": 2
+        }
+      ],
+      "requests_per_second": {
+        "coefficient_of_variation": 8.216419854780729e-05,
+        "max": 0.5472524534319427,
+        "mean": 0.5472074925668766,
+        "median": 0.5472074925668766,
+        "min": 0.5471625317018105,
+        "p95": 0.5472524534319427,
+        "population_stddev": 4.496086506611263e-05
+      },
+      "server_parallel_slots": 2
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "python": "Python 3.10.20",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "experiment_id": "E5b",
+    "git_commit": "beb9614e2329b5b61357fd2f2422bebbb0488a89",
+    "github_run_attempt": "1",
+    "github_run_id": "30659829983",
+    "schema_version": 1
+  },
+  "runtime_buffer_patterns_observed": [
+    "CPU_REPACK model buffer size",
+    "CPU_Mapped model buffer size"
+  ],
+  "schema_version": 1,
+  "scope": "End-to-end selected-model launch and OpenAI-compatible inference serving on native Arm",
+  "selection": {
+    "accuracy": 0.7666666666666667,
+    "candidate": "ministral3_3b_q4_k_m",
+    "correct": 23,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "total": 30
+  },
+  "source": {
+    "artifact_name": "e5b-selected-inference-30659829983-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30659829983"
+  },
+  "status": "valid_selected_inference_no_concurrency_win",
+  "throughput_improvement_ratio": 1.018877619691159,
+  "validation": {
+    "all_input_hashes_match": true,
+    "all_responses_match_selected_e3f_predictions": true,
+    "exact_model_and_runtime_verified": true,
+    "fresh_server_per_cell": true,
+    "inference_server_claim_allowed": true,
+    "latency_ceilings_passed": true,
+    "launch_recomputed_selected_plan": true,
+    "readiness_ceiling_passed": true,
+    "rss_ceiling_passed": true,
+    "runtime_buffer_proof_observed": true,
+    "selected_quality_reproduced_in_every_cell": true,
+    "throughput_improvement_passed": false,
+    "two_slot_optimization_claim_allowed": false,
+    "zero_request_failures": true
+  }
+}

@@ -438,6 +438,17 @@ integrity verification, and process RSS no greater than 8 GiB. Exact inputs and
 order are frozen in
 [`../experiments/e5b_contract.json`](../experiments/e5b_contract.json).
 
+### E5b outcome
+
+Clean run `30659829983` passed end to end. All 120 measured responses matched
+E3f and every cell reproduced 23/30 with zero failures. Baseline and two-slot
+repeated median throughput were 0.5371 and 0.5472 requests/s, only a 1.0189x
+ratio versus the frozen 1.10x minimum. Two-slot pooled median/p95 latency were
+3,571.6/4,564.3 ms, readiness was below 4.1 seconds, and maximum RSS was
+4,901,032 KiB, so all non-throughput gates passed. The result validates exact
+selected-model inference serving but retains the single-slot default. See
+[`../results/reports/e5b-selected-inference.md`](../results/reports/e5b-selected-inference.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

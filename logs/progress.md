@@ -632,3 +632,21 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   23/30 quality before the two-slot configuration can claim at least 1.10x
   median throughput. Latency, readiness, RSS, runtime buffers, metrics, slots,
   and raw responses are independently revalidated.
+
+## 2026-07-31 — E5b validates serving but rejects two-slot tuning
+
+- First run `30659025892` completed all four measured cells but exposed an
+  evidence-collection assumption: default server logs suppress the contracted
+  INFO-level model-buffer records. The measured result was not reinterpreted.
+- Added E3f's existing unmeasured verbose runtime proof and separated experiment
+  validity from hypothesis success. The E5b contract, balanced order, measured
+  commands, quality gates, and 1.10x throughput threshold stayed unchanged.
+- Clean run `30659829983` passed end to end. All 120 requests were exact stable
+  letters matching E3f, and every cell reproduced 23/30 with zero failures.
+- Two slots improved repeated median throughput only 1.0189x, from 0.5371 to
+  0.5472 requests/s, while pooled median latency rose from 1.81 to 3.57 seconds.
+  Latency, readiness, and RSS ceilings passed, but the throughput gate did not.
+- Exact selected-model inference serving is validated. The two-slot optimization
+  claim is rejected and Pareto64 retains one slot by default. Independent
+  ingestion matched the uploaded summary at SHA-256
+  `aa529b16094ab398bf1d7c6aa698b452eeea6217f8016c280a5f2b6f947bf66c`.

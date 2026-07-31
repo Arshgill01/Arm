@@ -89,6 +89,12 @@ context proportionally so each slot retains the frozen context allocation.
 `--dry-run` performs every integrity and selection check and writes the recipe
 without starting the server.
 
+E5b validated the full launch path on native Arm with zero answer drift across
+120 measured requests. Its two-slot candidate improved repeated median
+throughput by only 1.89%, below the frozen 10% minimum, while pooled median
+latency rose from 1.81 to 3.57 seconds. The default remains one slot; `--parallel`
+is an explicit deployment override, not a promoted optimization.
+
 ## Constraint contract
 
 The schema-1 policy has two explicit parts:
@@ -121,4 +127,6 @@ final-answer obligation; it creates no deployable candidate.
 
 E3f now selects Ministral 3 3B Q4_K_M after a stable 76.67% result and clean
 resource SLOs. E5b is the frozen native Arm gate for the launch adapter and
-two-slot inference service; serving performance is not claimed until it passes.
+two-slot inference service. The service passed every quality and resource gate,
+but two slots missed the throughput-improvement threshold, so inference serving
+is validated while the single-slot default is retained.
