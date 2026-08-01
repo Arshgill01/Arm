@@ -30,6 +30,7 @@ public workflow run; compact manifests and reports are committed permanently.
 | KleidiAI native feature-selection fix | [E6a `30636911078`](https://github.com/Arshgill01/Arm/actions/runs/30636911078) | [`e6a` manifest](../results/manifests/e6a-30636911078.json) · [`report`](../results/reports/e6a-native-feature-fix.md) | `9a5951ae…24ae` |
 | NEON Q8_0 vector-store patch: 2.029x | [E6b `30640282768`](https://github.com/Arshgill01/Arm/actions/runs/30640282768) | [`e6b` manifest](../results/manifests/e6b-30640282768.json) · [`report`](../results/reports/e6b-q8-vector-store.md) | `e870ad9c…e210` |
 | Reasoning-budget source fix/app rejection | [E6c `30654805236`](https://github.com/Arshgill01/Arm/actions/runs/30654805236) | [`report`](../results/reports/e6c-reasoning-budget-fix.md) | mixed result; no deployment manifest |
+| Current-upstream three-patch revalidation | [E6d `30675654688`](https://github.com/Arshgill01/Arm/actions/runs/30675654688) | [`e6d` manifest](../results/manifests/e6d-30675654688.json) · [`report`](../results/reports/e6d-current-upstream-patches.md) | `32e01c0b…c9767fa` |
 | Public clean-checkout package validation | [`30675220682`](https://github.com/Arshgill01/Arm/actions/runs/30675220682) | 104 tests, 15 hashes, plan-bound launch checks, demo smoke test | passed on native `aarch64` |
 
 ## Final selected package

@@ -1,0 +1,222 @@
+{
+  "direct_benchmark": {
+    "4096": {
+      "direction": "higher_is_better",
+      "improved_rounds": 4,
+      "median_improvement_percent": 95.62691247025046,
+      "median_improvement_ratio": 1.9562691247025046,
+      "round_improvement_ratios": [
+        1.95136186770428,
+        1.957281553398058,
+        1.9571984435797667,
+        1.9553398058252427
+      ],
+      "rounds": [
+        {
+          "baseline": 5.14,
+          "improvement_ratio": 1.95136186770428,
+          "patched": 10.03,
+          "round": 1
+        },
+        {
+          "baseline": 5.15,
+          "improvement_ratio": 1.957281553398058,
+          "patched": 10.08,
+          "round": 2
+        },
+        {
+          "baseline": 5.14,
+          "improvement_ratio": 1.9571984435797667,
+          "patched": 10.06,
+          "round": 3
+        },
+        {
+          "baseline": 5.15,
+          "improvement_ratio": 1.9553398058252427,
+          "patched": 10.07,
+          "round": 4
+        }
+      ],
+      "total_rounds": 4
+    },
+    "65536": {
+      "direction": "higher_is_better",
+      "improved_rounds": 4,
+      "median_improvement_percent": 94.97565401820722,
+      "median_improvement_ratio": 1.9497565401820722,
+      "round_improvement_ratios": [
+        1.9477756286266925,
+        1.945945945945946,
+        1.9517374517374517,
+        1.9517374517374517
+      ],
+      "rounds": [
+        {
+          "baseline": 5.17,
+          "improvement_ratio": 1.9477756286266925,
+          "patched": 10.07,
+          "round": 1
+        },
+        {
+          "baseline": 5.18,
+          "improvement_ratio": 1.945945945945946,
+          "patched": 10.08,
+          "round": 2
+        },
+        {
+          "baseline": 5.18,
+          "improvement_ratio": 1.9517374517374517,
+          "patched": 10.11,
+          "round": 3
+        },
+        {
+          "baseline": 5.18,
+          "improvement_ratio": 1.9517374517374517,
+          "patched": 10.11,
+          "round": 4
+        }
+      ],
+      "total_rounds": 4
+    },
+    "655360": {
+      "direction": "higher_is_better",
+      "improved_rounds": 4,
+      "median_improvement_percent": 95.82524271844659,
+      "median_improvement_ratio": 1.958252427184466,
+      "round_improvement_ratios": [
+        1.9649805447470818,
+        1.9553398058252427,
+        1.9592233009708737,
+        1.957281553398058
+      ],
+      "rounds": [
+        {
+          "baseline": 5.14,
+          "improvement_ratio": 1.9649805447470818,
+          "patched": 10.1,
+          "round": 1
+        },
+        {
+          "baseline": 5.15,
+          "improvement_ratio": 1.9553398058252427,
+          "patched": 10.07,
+          "round": 2
+        },
+        {
+          "baseline": 5.15,
+          "improvement_ratio": 1.9592233009708737,
+          "patched": 10.09,
+          "round": 3
+        },
+        {
+          "baseline": 5.15,
+          "improvement_ratio": 1.957281553398058,
+          "patched": 10.08,
+          "round": 4
+        }
+      ],
+      "total_rounds": 4
+    }
+  },
+  "experiment_id": "E6d",
+  "feature_reproduction": {
+    "baseline_exit_status": 1,
+    "baseline_invalid_sve_source_observed": true,
+    "configuration_bound": true,
+    "patched_exit_status": 0,
+    "patched_invalid_sve_source_absent": true,
+    "validated_sve_disabled": true
+  },
+  "host": {
+    "architecture": "aarch64",
+    "native": true
+  },
+  "patches": [
+    {
+      "name": "validated_arm_features",
+      "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+      "rebase": "context-only from the E6a correction",
+      "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+    },
+    {
+      "name": "q8_vector_stores",
+      "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+      "rebase": "byte-identical E6b patch",
+      "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+    },
+    {
+      "name": "reasoning_forced_token_guard",
+      "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+      "rebase": "byte-identical E6c patch",
+      "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "contract_sha256": "98a1bf7b8718b8ccb6aa5ae3bfe3ebcd1cc8d709f139a565d0829696a8098195",
+    "experiment_id": "E6d",
+    "git_commit": "9f572f2f307ba5613a0bdf2b6708999147ea6d5d",
+    "github_run_attempt": "1",
+    "github_run_id": "30675654688",
+    "llama_cpp_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "llama_cpp_tag": "b10216",
+    "patch_sha256": {
+      "q8_vector_stores": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+      "reasoning_forced_token_guard": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783",
+      "validated_arm_features": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+    },
+    "schema_version": 1
+  },
+  "status": "valid_current_upstream_rebase",
+  "targeted_tests": {
+    "baseline": {
+      "assembly": {
+        "byte_stores": 31,
+        "static_instructions": 157,
+        "vector_narrows": 0,
+        "vector_stores": 0
+      },
+      "build_exit_status": 0,
+      "configuration_bound": true,
+      "quantize_exit_status": 0,
+      "reasoning_exit_status": 134,
+      "reasoning_regression_reproduced": true
+    },
+    "patched": {
+      "assembly": {
+        "byte_stores": 0,
+        "static_instructions": 100,
+        "vector_narrows": 6,
+        "vector_stores": 2
+      },
+      "build_exit_status": 0,
+      "configuration_bound": true,
+      "quantize_exit_status": 0,
+      "reasoning_complete_suite_passed": true,
+      "reasoning_exit_status": 0
+    }
+  },
+  "validation": {
+    "claim_scope": "current-upstream patch applicability, targeted correctness, and direct Q8 hot-path performance only",
+    "criteria": {
+      "baseline_quantizer_passed": true,
+      "baseline_scalar_store_mechanism": true,
+      "baseline_targets_built": true,
+      "direct_ratio_4096": true,
+      "direct_ratio_65536": true,
+      "direct_ratio_655360": true,
+      "direct_rounds_4096": true,
+      "direct_rounds_65536": true,
+      "direct_rounds_655360": true,
+      "patched_feature_build_passed": true,
+      "patched_quantizer_passed": true,
+      "patched_targets_built": true,
+      "patched_vector_store_mechanism": true,
+      "reasoning_patch_passed": true,
+      "reasoning_regression_reproduced": true,
+      "unpatched_feature_failure_reproduced": true
+    },
+    "current_upstream_claim_allowed": true,
+    "weighted_score_used": false
+  }
+}

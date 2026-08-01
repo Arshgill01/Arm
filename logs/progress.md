@@ -1039,3 +1039,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   object from its promisor remote and exited 128. The workflow now copies the
   already verified clean pinned tree; no experiment input, order, or gate
   changed.
+
+## 2026-08-01 — E6d current-upstream series passes
+
+- Native run `30675654688` passed the complete frozen E6d contract in 6m59s on
+  a four-core Neoverse N2. The feature baseline reproduced invalid SVE source
+  selection; the corrected target built without it. The reasoning baseline
+  exited 134 at the exact assertion; the complete series passed all 13 tests.
+- Both baseline and patched trees passed the upstream quantizer target. Emitted
+  assembly moved from 31 scalar byte stores and no vector operations to zero
+  byte stores, six vector narrows, and two vector stores.
+- All twelve paired 20,000-iteration Q8 rounds improved. Median ratios were
+  1.956x at 4,096 values, 1.950x at 65,536, and 1.958x at 655,360.
+- Independent ingestion matched the uploaded summary byte for byte at SHA-256
+  `32e01c0baf21de4679ace516a1ef61f7520dbbbc641d218aa454380e0c9767fa`.
+  The retained claim is limited to current-revision applicability, targeted
+  correctness, and direct Q8 hot-path performance; no model-wide or full
+  upstream-CI result is implied.

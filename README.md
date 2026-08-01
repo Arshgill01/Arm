@@ -70,6 +70,11 @@ Auto preserves every answer, improves throughput 3.22% and median latency
 6.18%, and saves 7,384 KiB RSS, but p95 latency rises 6.03%. It misses the
 frozen 1.05x throughput and p95 non-regression gates, so no material Flash
 Attention serving win is claimed.
+E6d rebases the three Arm source contributions onto llama.cpp `b10216` and
+revalidates them natively. The feature and reasoning failures reproduce before
+their fixes, all targeted tests pass after the complete series, and all twelve
+paired Q8 rounds improve by roughly 95%. Its claim remains bounded to this
+frozen current revision, targeted correctness, and direct hot-path performance.
 
 ```bash
 python3 -m pareto64 plan \
@@ -124,11 +129,12 @@ repack flag that conflicts with the plan is refused.
 | [E6a](results/reports/e6a-native-feature-fix.md) | Reproduced and fixed invalid native KleidiAI SVE source selection |
 | [E6b](results/reports/e6b-q8-vector-store.md) | NEON vector narrowing doubled isolated Q8_0 quantizer throughput with neutral real-model inference |
 | [E6c](results/reports/e6c-reasoning-budget-fix.md) | Source fix passed 13 upstream tests and removed all reasoning output; the frozen final-answer gate still rejected the real-model run |
+| [E6d](results/reports/e6d-current-upstream-patches.md) | All three Arm patches revalidated on llama.cpp b10216; targeted tests passed and direct Q8 throughput improved about 95% |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
-The E5f through E5i results are retained under their exact frozen contracts and
-independently re-ingested byte for byte.
+The E5f through E5i and E6d results are retained under their exact frozen
+contracts and independently re-ingested byte for byte.
 
 ## Repository map
 

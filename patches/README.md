@@ -66,4 +66,8 @@ identical; only surrounding KleidiAI SME source-list context changed upstream.
 The Q8 vector-narrowing patch and reasoning-budget guard apply to `b10216`
 byte-for-byte with no rebase. E6d freezes the three-patch current-upstream
 applicability, source-correctness, unit-test, assembly, and direct-performance
-obligations before any upstream-ready claim is made.
+obligations. Native run `30675654688` passed all of them: both upstream
+quantizer targets and all 13 reasoning tests passed after the complete series,
+the invalid SVE selection disappeared, and all twelve paired direct Q8 rounds
+improved. This is the current validated series; no external pull request has
+been opened, and the broader upstream CI matrix has not yet run.

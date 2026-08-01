@@ -444,7 +444,9 @@
             A bounded Arm NEON patch doubled the isolated Q8_0 activation
             quantizer and preserved every tested output byte. Whole-model
             inference stayed neutral, so Pareto64 claims only the measured hot
-            path win.
+            path win. The complete three-patch series was then revalidated on
+            llama.cpp b10216: every targeted test passed and all 12 paired Q8
+            rounds improved.
           </p>
         </header>
 
@@ -543,6 +545,11 @@
             <div><strong>NEON vector-store patch</strong><p>2.029× direct hot-path throughput.</p></div>
             <span class="evidence-result select-text">Accepted</span>
           </li>
+          <li>
+            <span class="evidence-id">E6d</span>
+            <div><strong>Current-upstream patch series</strong><p>All targeted tests and 12/12 direct Q8 rounds passed on b10216.</p></div>
+            <span class="evidence-result select-text">Revalidated</span>
+          </li>
         </ol>
 
         <div class="reproduce">
@@ -590,6 +597,9 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e6b-q8-vector-store.md">
           Arm patch
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e6d-current-upstream-patches.md">
+          Current patch series
         </a>
       </div>
     </footer>

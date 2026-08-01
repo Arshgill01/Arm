@@ -412,6 +412,22 @@ E6b, and E6c retain the separate real-model correctness and inference evidence.
 Exact hashes, order, and claim scope are frozen in
 [`../experiments/e6d_contract.json`](../experiments/e6d_contract.json).
 
+### E6d outcome
+
+Native run `30675654688` passed every frozen gate on llama.cpp `b10216`. The
+unpatched feature build reproduced the invalid SVE source selection and the
+reasoning baseline aborted at the exact regression assertion. The three-patch
+series then built without the invalid source, passed all 13 reasoning tests and
+both quantizer targets, and emitted six vector narrows plus two vector stores
+instead of 31 scalar byte stores. All twelve paired direct rounds improved;
+median ratios were 1.956x, 1.950x, and 1.958x at the three frozen sizes.
+
+Independent ingestion matched the uploaded summary byte for byte at SHA-256
+`32e01c0baf21de4679ace516a1ef61f7520dbbbc641d218aa454380e0c9767fa`.
+This accepts current-revision applicability, targeted correctness, and direct
+Q8 hot-path performance only; it adds no whole-model or upstream-CI claim. See
+[`../results/reports/e6d-current-upstream-patches.md`](../results/reports/e6d-current-upstream-patches.md).
+
 ## E5a frozen planner-API protocol
 
 E5a is a product/API concurrency gate, not the final inference-server E5 result.

@@ -61,6 +61,9 @@ EXPECTED_HASHES = {
     "results/manifests/e6b-30640282768.json": (
         "e870ad9cf7b7d1f89f0fa745383f555d54f62b3caf2fc635cbcb76ca4ef7e210"
     ),
+    "results/manifests/e6d-30675654688.json": (
+        "32e01c0baf21de4679ace516a1ef61f7520dbbbc641d218aa454380e0c9767fa"
+    ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
     ),
@@ -374,6 +377,66 @@ def main() -> int:
         or flash_off.get("quality", {}).get("exact_selected_predictions") is not True
     ):
         raise ValueError("retained Flash Attention ablation differs from E5i evidence")
+
+    current_patches = load_object(ROOT / "results/manifests/e6d-30675654688.json")
+    current_source = current_patches.get("source", {})
+    feature = current_patches.get("feature_reproduction", {})
+    baseline_tests = current_patches.get("targeted_tests", {}).get("baseline", {})
+    patched_tests = current_patches.get("targeted_tests", {}).get("patched", {})
+    current_validation = current_patches.get("validation", {})
+    current_criteria = current_validation.get("criteria", {})
+    direct = current_patches.get("direct_benchmark", {})
+    if (
+        current_patches.get("status") != "valid_current_upstream_rebase"
+        or current_patches.get("host") != {"architecture": "aarch64", "native": True}
+        or current_source.get("github_run_id") != "30675654688"
+        or current_source.get("llama_cpp_tag") != "b10216"
+        or current_source.get("llama_cpp_commit")
+        != "876a4321163249c43ca4e986818fab5ab081f282"
+        or feature.get("baseline_exit_status") != 1
+        or feature.get("baseline_invalid_sve_source_observed") is not True
+        or feature.get("validated_sve_disabled") is not True
+        or feature.get("patched_exit_status") != 0
+        or feature.get("patched_invalid_sve_source_absent") is not True
+        or baseline_tests.get("reasoning_exit_status") != 134
+        or baseline_tests.get("reasoning_regression_reproduced") is not True
+        or baseline_tests.get("quantize_exit_status") != 0
+        or baseline_tests.get("assembly")
+        != {
+            "byte_stores": 31,
+            "static_instructions": 157,
+            "vector_narrows": 0,
+            "vector_stores": 0,
+        }
+        or patched_tests.get("reasoning_exit_status") != 0
+        or patched_tests.get("reasoning_complete_suite_passed") is not True
+        or patched_tests.get("quantize_exit_status") != 0
+        or patched_tests.get("assembly")
+        != {
+            "byte_stores": 0,
+            "static_instructions": 100,
+            "vector_narrows": 6,
+            "vector_stores": 2,
+        }
+        or set(current_criteria.values()) != {True}
+        or len(current_criteria) != 16
+        or current_validation.get("current_upstream_claim_allowed") is not True
+        or current_validation.get("weighted_score_used") is not False
+        or current_validation.get("claim_scope")
+        != (
+            "current-upstream patch applicability, targeted correctness, and "
+            "direct Q8 hot-path performance only"
+        )
+        or direct.get("4096", {}).get("median_improvement_ratio", 0) < 1.25
+        or direct.get("65536", {}).get("median_improvement_ratio", 0) < 1.15
+        or direct.get("655360", {}).get("median_improvement_ratio", 0) < 0.98
+        or any(
+            direct.get(size, {}).get("improved_rounds") != 4
+            or direct.get(size, {}).get("total_rounds") != 4
+            for size in ("4096", "65536", "655360")
+        )
+    ):
+        raise ValueError("retained current-upstream patch evidence differs from E6d")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

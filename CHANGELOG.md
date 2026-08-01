@@ -26,6 +26,15 @@ authoritative, timestamped record; this file groups the significant additions.
 - Expanded the focused product suite to 104 tests and the immutable verifier to
   15 hashes.
 
+### Arm source contributions
+
+- Rebased the validated-feature correction onto llama.cpp `b10216`; the Q8
+  vector-store and reasoning-budget patches applied byte for byte.
+- Reproduced both upstream source failures, passed all targeted tests after the
+  complete series, and retained 12/12 improved direct Q8 rounds at 1.950–1.958x.
+- Independently re-ingested the native E6d result byte for byte and extended
+  the submission verifier to 16 immutable hashes.
+
 ## 2026-07-31
 
 ### Product

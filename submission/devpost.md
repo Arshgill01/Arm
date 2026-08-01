@@ -155,6 +155,14 @@ The standalone output was bit-identical, upstream quantization tests passed,
 and every real-model response remained unchanged. Whole-model inference was
 neutral, so we claim the measured quantizer win—not a model-wide speedup.
 
+We then rebased all three Arm source contributions onto llama.cpp `b10216`.
+The Q8 and reasoning patches applied byte for byte; the feature fix needed only
+surrounding SME-list context refreshed. A fresh native run reproduced both
+source failures, passed all targeted tests after the complete series, and
+measured 1.950–1.958x direct Q8 throughput across all three sizes. This is a
+frozen current-revision result, not a claim that the full upstream CI matrix or
+whole-model inference improved.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -196,11 +204,12 @@ without changing measured inputs or post-observation thresholds.
   2.06x-faster repacked layout remains the default;
 - a measured service-profile planner that automatically routes throughput and
   at-most-3-GiB envelopes while refusing unmeasured capacity assumptions;
-- two reviewable Arm source patches with correctness evidence;
+- three reviewable Arm source patches revalidated on current llama.cpp with
+  bounded correctness evidence;
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 104 local tests plus native Arm workflows for the final evidence path.
+- 106 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 
@@ -224,8 +233,8 @@ dominates every use case.
 
 ## What's next
 
-- rebase the two small llama.cpp patches onto current upstream and run its full
-  CI matrix;
+- prepare the validated three-patch series for maintainer review and run the
+  broader upstream CI matrix;
 - expand the workload beyond the compact deterministic acceptance suite;
 - add cost and energy evidence on a host with available counters;
 - evaluate the same evidence contract across additional LLM-Runner backends;

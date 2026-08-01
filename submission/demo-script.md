@@ -52,12 +52,12 @@ envelope neither measured tier can meet.”
 
 **Screen:** Scroll to the before/after assembly section.
 
-**Voice:** “Pareto64 also produced a bounded Arm source contribution. We
-replaced 32 scalar byte stores in llama.cpp’s Q8 activation quantizer with six
-NEON narrowing instructions and two vector stores. Direct throughput rose from
-about 5.1 to 10.3 gigabytes per second. Outputs were bit-identical, upstream
-tests passed, and real-model inference did not regress. We do not claim a
-whole-model speedup.”
+**Voice:** “Pareto64 also produced bounded Arm source work. In llama.cpp’s Q8
+activation quantizer, we replaced 32 scalar byte stores with six NEON narrows
+and two vector stores. Direct throughput doubled from 5.1 to 10.3 gigabytes per
+second with bit-identical output and neutral real-model inference. The complete
+three-patch series also passed every targeted test on current llama.cpp. We
+claim the hot path, not a whole-model speedup.”
 
 ## 2:08–2:32 — Exact serving
 
