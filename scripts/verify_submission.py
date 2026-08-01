@@ -82,6 +82,9 @@ EXPECTED_HASHES = {
     "results/manifests/e6h-30690331795.json": (
         "7b112b385729ef092f2026bf35b63926ac985251d70faea2cf03e4936253b27f"
     ),
+    "results/manifests/e6i-30691254831.json": (
+        "2bcbd7e1a7b727a763ca12c9664106a82d9ef8a70ec17ef1ac2fe9ed460c06d2"
+    ),
     "configs/runtime-b10216-selected-service.json": (
         "9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de"
     ),
@@ -809,6 +812,57 @@ def main() -> int:
         is not False
     ):
         raise ValueError("frozen E6i launch integration differs from E6h")
+
+    memory_launch = load_object(ROOT / "results/manifests/e6i-30691254831.json")
+    memory_launch_quality = memory_launch.get("quality", {})
+    memory_launch_performance = memory_launch.get("performance", {})
+    memory_launch_runtime = memory_launch.get("runtime_provenance", {})
+    memory_launch_validation = memory_launch.get("validation", {})
+    memory_launch_selection = memory_launch.get("selection", {})
+    if (
+        memory_launch.get("status")
+        != "valid_current_runtime_memory_launch_integration"
+        or memory_launch.get("provenance", {}).get("github_run_id")
+        != "30691254831"
+        or memory_launch.get("platform", {}).get("architecture") != "aarch64"
+        or memory_launch_selection.get("candidate")
+        != memory_upgrade.get("selection", {}).get("candidate")
+        or memory_launch_selection.get("runtime_commit")
+        != runtime_record.get("selected_commit")
+        or memory_launch_selection.get("service", {}).get("weight_repack")
+        is not False
+        or memory_launch_quality.get("correct") != 23
+        or memory_launch_quality.get("total") != 30
+        or memory_launch_quality.get("exact_selected_predictions") is not True
+        or memory_launch_quality.get("reference_prediction_mismatches") != 0
+        or memory_launch_quality.get("request_failures") != 0
+        or memory_launch_quality.get(
+            "cached_prefix_observed_in_every_measured_request"
+        )
+        is not True
+        or memory_launch_performance.get("ready_ms", 99_999) > 15_000
+        or memory_launch_performance.get("maximum_rss_kib", 99_999_999)
+        > 3_145_728
+        or memory_launch_runtime.get("runtime_manifest_sha256")
+        != EXPECTED_HASHES["results/manifests/e6h-30690331795.json"]
+        or memory_launch_runtime.get("runtime_contract_sha256")
+        != EXPECTED_HASHES["configs/runtime-b10216-memory-service.json"]
+        or memory_launch_runtime.get("source_diff_sha256")
+        != EXPECTED_HASHES["patches/llama.cpp/b10216/e6f-current-series.patch"]
+        or memory_launch_validation.get(
+            "current_runtime_memory_launch_claim_allowed"
+        )
+        is not True
+        or memory_launch_validation.get("live_server_executed_through_adapter")
+        is not True
+        or memory_launch_validation.get("source_build_binary_bound") is not True
+        or memory_launch_validation.get("exact_service_recipe_verified") is not True
+        or memory_launch_validation.get("automatic_other_profile_promotion_allowed")
+        is not False
+        or memory_launch_validation.get("energy_claim_allowed") is not False
+        or memory_launch_validation.get("weighted_score_used") is not False
+    ):
+        raise ValueError("retained current-runtime memory launch differs from E6i")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

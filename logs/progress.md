@@ -1292,3 +1292,22 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Independent Python 3.10 replay of retained E6g after the shared-code change
   remained byte-identical at `13496b5e…404ac9`; the fast integration result did
   not change.
+
+## 2026-08-01 — E6i validates the current no-repack product path
+
+- Native Arm run `30691254831` passed on exact frozen commit `f0ef0e7`. The job
+  rebuilt exact patched b10216, verified E3f/E6h and all source/build/binary/model
+  inputs, then executed the memory service through `python -m pareto64 launch`.
+- All 30 requests succeeded and reproduced 23/30 with zero reference drift and
+  cached-prefix reuse throughout. Readiness was 2,242.22 ms, throughput was
+  0.448567 req/s, median/p95 HTTP latency was 2,424.61/3,323.20 ms, and measured
+  server CPU was 8.84967 seconds/request.
+- Maximum RSS was 2,381,040 KiB, below the frozen 3-GiB product ceiling. The
+  recipe bound the E6h and memory-contract hashes, exact patched diff, four
+  threads, one slot, f16/256/64, cache, and explicit no-repack setting.
+- Independent Python 3.10 replay reproduced the uploaded manifest byte for byte
+  at SHA-256
+  `2bcbd7e1a7b727a763ca12c9664106a82d9ef8a70ec17ef1ac2fe9ed460c06d2`.
+- This integrates only the exact memory service. E6g remains the separate fast
+  integration; other profiles, energy, and the full upstream matrix remain out
+  of scope.

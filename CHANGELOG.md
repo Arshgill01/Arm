@@ -29,6 +29,9 @@ authoritative, timestamped record; this file groups the significant additions.
   binds E6h, requires the explicit no-repack adapter path, and keeps 23/30,
   prefix reuse, source/build/binary, readiness, one-slot, metrics, and 3-GiB
   gates separate from E6g's fast service.
+- Validated E6i end to end on native Arm. The adapter launched the exact E6h-
+  bound no-repack service, reproduced 23/30 with zero drift or failures and
+  prefix reuse throughout, and used 2,381,040 KiB maximum RSS.
 
 - Added a fail-closed service-profile planner over the native E5h evidence.
   Explicit throughput and at-most-3-GiB policies select the repacked and
@@ -46,10 +49,10 @@ authoritative, timestamped record; this file groups the significant additions.
 
 - Extended the product guide, demo, video script, and submission narrative with
   the measured service-envelope decision and its refusal behavior.
-- Expanded the focused product suite to 125 tests and the immutable verifier to
-  25 hashes, including the E6f/E6h upgrade evidence, source diff, launch
-  contract, frozen E6g integration contract, and independently replayed E6g/E6h
-  results.
+- Expanded the focused product suite to 128 tests and the immutable verifier to
+  28 hashes, including separate E6f/E6h upgrade and E6g/E6i launch contracts,
+  source diff, and independently replayed results for both current-runtime
+  service tiers.
 
 ### Arm source contributions
 

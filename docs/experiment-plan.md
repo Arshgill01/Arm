@@ -999,6 +999,18 @@ this exact memory tier; it cannot promote the fast tier, other profiles, energy,
 or a broader upstream matrix. Exact details are frozen in
 [`../experiments/e6i_contract.json`](../experiments/e6i_contract.json).
 
+### E6i outcome
+
+Native run `30691254831` passed every frozen product-integration gate. The
+adapter rebuilt and verified exact patched `b10216`, consumed the E6h manifest
+and memory runtime contract, generated the no-repack server recipe, and executed
+the live selected workload. All 30 requests succeeded, reproduced 23/30 with
+zero reference drift, and observed cached-prefix reuse. Readiness was 2.242
+seconds, maximum RSS was 2,381,040 KiB, and the one-slot/metrics/process checks
+passed. Independent Python 3.10 ingestion matched the uploaded result byte for
+byte at `2bcbd7e1…06d2`. See
+[`../results/reports/e6i-current-runtime-memory-launch.md`](../results/reports/e6i-current-runtime-memory-launch.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

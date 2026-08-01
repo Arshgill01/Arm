@@ -219,6 +219,14 @@ with zero drift or failures. Patched b10216 retained 100.24% throughput, used
 candidate, while leaving product launch disabled until a separate adapter
 integration is executed.
 
+E6i executes that integration. The adapter binds the E6h result, dedicated
+memory runtime contract, full-index patched source diff, CMake build, binary,
+model, and explicit no-repack recipe before launch. On native Arm it reproduced
+23/30 with zero drift or failures, reused the cached prefix on every request,
+and used 2,381,040 KiB maximum RSS. The fast and memory services now have
+separate current-runtime launch evidence instead of inheriting one another's
+claims.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -228,12 +236,12 @@ Apache-2.0 model packages, execute balanced experiments, retain raw results, and
 run a second validator that recomputes every statistic and decision.
 
 The opt-in current-runtime adapter keeps model selection immutable while binding
-E6f separately. It checks the exact four-file patched git diff, CMake source and
-build cache, executable version and binary hash, model bytes, and the one service
-profile E6f actually measured. Missing provenance or a different profile aborts
-before launch. E6g verifies that this is an executed product path, not only a
-static contract: the adapter started the real server and reproduced the selected
-workload end to end.
+E6f fast and E6h memory evidence through separate contracts. It checks the exact
+four-file patched git diff, CMake source and build cache, executable version and
+binary hash, model bytes, and only the service profile named by that evidence.
+Missing provenance or a different profile aborts before launch. E6g and E6i
+verify both measured contracts as executed product paths, not only static
+schemas.
 
 The historical selected runtime is llama.cpp `b10208` at commit
 `9d9a6d29f6b981cc7f41983d26e56485c6af1811`; E6f separately accepts patched
@@ -279,7 +287,7 @@ without changing measured inputs or post-observation thresholds.
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 125 local tests plus native Arm workflows for the final evidence path.
+- 128 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 

@@ -9,8 +9,9 @@ Last technical review: 2026-08-01 UTC. The submission deadline is August 14,
 - [x] Public source repository exists.
 - [x] Repository-level Apache-2.0 license exists and GitHub recognizes it.
 - [x] Functional planner, HTTP API, and selected-runtime launcher are included.
-- [x] Exact patched-current-runtime launch path is exercised end to end on
-      native Arm with source/build/binary/model/service provenance bound.
+- [x] Exact patched-current-runtime fast and memory launch paths are exercised
+      end to end on native Arm with source/build/binary/model/service provenance
+      bound through separate contracts.
 - [x] Step-by-step local verification and native reproduction commands exist.
 - [x] Model, runtime, task, patch, and source provenance is recorded.
 - [x] Selected model and GGUF producer are Apache-2.0 at immutable revisions.
