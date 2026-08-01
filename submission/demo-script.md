@@ -59,7 +59,7 @@ whole-model speedup.”
 
 ## 2:08–2:32 — Exact serving
 
-**Screen:** Show the E5b through E5h rows, then the terminal.
+**Screen:** Show the E5b through E5i rows, then the terminal.
 
 ```bash
 python3 scripts/verify_submission.py

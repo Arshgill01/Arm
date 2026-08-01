@@ -735,6 +735,22 @@ and stay below 8 GiB RSS. No weighted score is used and no threshold changes
 after observation. Exact order and gates are frozen in
 [`../experiments/e5i_contract.json`](../experiments/e5i_contract.json).
 
+### E5i outcome
+
+Native run `30674023380` passed both mechanism proofs and all four measured
+cells. Auto resolved the fused graph, and both modes reproduced every selected
+prediction twice with cached-prefix reuse. Auto improved repeated median
+throughput by 1.0322x and median HTTP latency by 6.18%, while maximum RSS fell
+7,384 KiB. The throughput gain misses the frozen 1.05x minimum, however, and
+p95 HTTP latency increased 6.03%, failing the non-regression gate.
+
+The result is a valid no-win. Pareto64 retains auto as its configured upstream
+default but adds no material Flash Attention performance claim. Independent
+Python 3.10 ingestion matched the uploaded summary byte for byte at SHA-256
+`ca41dd4c8ce7eaec196ac4d6a1320f689755ae4fb9e5d13bb4061f3c24a46ba2`.
+See
+[`../results/reports/e5i-flash-attention-ablation.md`](../results/reports/e5i-flash-attention-ablation.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

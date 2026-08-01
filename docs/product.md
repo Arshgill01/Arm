@@ -157,6 +157,14 @@ HTTP latency. It clears the frozen low-memory gates but does not replace the
 faster default; operators opt into the separately validated tier with
 `--no-weight-repack`.
 
+E5i ablated the configured `flash_attention: auto` path against an explicit
+disabled graph. Both mechanism proofs passed and all 120 answers remained
+exact. Auto improved throughput from 0.9013 to 0.9303 requests/s (1.0322x),
+reduced median HTTP latency 6.18%, and lowered maximum RSS by 7,384 KiB, but its
+p95 latency increased 6.03%. It missed the frozen 1.05x throughput and p95
+non-regression gates. Auto remains the configured upstream-default behavior,
+but Pareto64 makes no material Flash Attention serving-performance claim.
+
 ## Constraint contract
 
 The schema-1 policy has two explicit parts:

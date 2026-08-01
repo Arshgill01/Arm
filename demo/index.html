@@ -392,6 +392,46 @@
             throughput—so Pareto64 keeps the Arm-optimized layout as default.
           </p>
         </div>
+
+        <div class="cache-interaction">
+          <table>
+            <caption>
+              <strong>Resolved does not mean material.</strong>
+              Auto enabled the fused Flash Attention graph; we still required
+              end-to-end quality, throughput, latency, and RSS evidence.
+            </caption>
+            <thead>
+              <tr>
+                <th>Flash mode</th>
+                <th>Compute buffer</th>
+                <th>Throughput</th>
+                <th>Median / p95 HTTP</th>
+                <th>Decision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Off</td>
+                <td>9.56 MiB</td>
+                <td>0.901 req/s</td>
+                <td>1,118 / 1,751 ms</td>
+                <td>Ablation baseline</td>
+              </tr>
+              <tr>
+                <td>Auto · resolved on</td>
+                <td>10.03 MiB</td>
+                <td>0.930 req/s</td>
+                <td>1,049 / 1,856 ms</td>
+                <td class="reject-text">No material claim</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            <strong>Only 1.0322× throughput</strong> against a frozen 1.05×
+            gate, while p95 latency rose 6.03%. All 120 answers stayed exact;
+            the configured auto mode remains, without a promoted speed claim.
+          </p>
+        </div>
       </section>
 
       <section class="optimization-section" id="optimization" aria-labelledby="optimization-title">
@@ -491,6 +531,11 @@
             <span class="evidence-result select-text">Memory tier</span>
           </li>
           <li>
+            <span class="evidence-id">E5i</span>
+            <div><strong>Flash Attention ablation</strong><p>1.0322× throughput; p95 regressed 6.03%.</p></div>
+            <span class="evidence-result reject-text">No material win</span>
+          </li>
+          <li>
             <span class="evidence-id">E6b</span>
             <div><strong>NEON vector-store patch</strong><p>2.029× direct hot-path throughput.</p></div>
             <span class="evidence-result select-text">Accepted</span>
@@ -533,6 +578,9 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5h-weight-repack-boundary.md">
           Repack tier
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5i-flash-attention-ablation.md">
+          Flash ablation
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e6b-q8-vector-store.md">
           Arm patch

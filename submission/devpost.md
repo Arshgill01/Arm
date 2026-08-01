@@ -119,6 +119,12 @@ preserved all 120 answers and cached-prefix reuse while lowering maximum RSS by
 0.4505 requests/s, or 48.47% retention. Pareto64 keeps repack as the fast
 default and exposes the qualified no-repack path only as an opt-in memory tier.
 
+We also ablated the runtime's resolved Flash Attention auto graph rather than
+crediting the default without evidence. All 120 answers remained exact. Auto
+improved throughput only 1.0322x—below the frozen 1.05x gate—and worsened p95
+latency 6.03%, despite better median latency and RSS. We retain the measurement
+and bounded mode control, but make no material Flash Attention speed claim.
+
 ### Arm-specific source work
 
 We fixed a llama.cpp/KleidiAI feature-selection defect where a substring search

@@ -65,6 +65,11 @@ The no-repack path preserves every answer and lowers maximum RSS by 2,072,268
 KiB to 2,381,264 KiB, while throughput falls to 48.47% of the repacked service.
 Repacking remains the fast default; `--no-weight-repack` is retained as an
 explicit low-memory tier.
+E5i finally ablates the selected service's resolved Flash Attention graph.
+Auto preserves every answer, improves throughput 3.22% and median latency
+6.18%, and saves 7,384 KiB RSS, but p95 latency rises 6.03%. It misses the
+frozen 1.05x throughput and p95 non-regression gates, so no material Flash
+Attention serving win is claimed.
 
 ```bash
 python3 -m pareto64 plan \
@@ -95,13 +100,14 @@ python3 -m pareto64 plan \
 | [E5f](results/reports/e5f-prompt-batch-profile.md) | A 64/64 prompt batch preserved all answers, cut the compute buffer 75%, and saved 14.48 MiB maximum RSS |
 | [E5g](results/reports/e5g-prompt-batch-floor.md) | A staged 32/32 boundary preserved quality and speed but added 660 KiB maximum RSS; 64/64 remains the default |
 | [E5h](results/reports/e5h-weight-repack-boundary.md) | No-repack preserved every answer and saved 2,072,268 KiB RSS; it is a slower explicit memory tier while repack stays default |
+| [E5i](results/reports/e5i-flash-attention-ablation.md) | Resolved Flash Attention preserved quality but gained only 1.0322x throughput and worsened p95 6.03%; no material win is claimed |
 | [E6a](results/reports/e6a-native-feature-fix.md) | Reproduced and fixed invalid native KleidiAI SVE source selection |
 | [E6b](results/reports/e6b-q8-vector-store.md) | NEON vector narrowing doubled isolated Q8_0 quantizer throughput with neutral real-model inference |
 | [E6c](results/reports/e6c-reasoning-budget-fix.md) | Source fix passed 13 upstream tests and removed all reasoning output; the frozen final-answer gate still rejected the real-model run |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
-The E5f, E5g, and E5h results are retained under their exact frozen contracts and
+The E5f through E5i results are retained under their exact frozen contracts and
 independently re-ingested byte for byte.
 
 ## Repository map

@@ -42,6 +42,9 @@ EXPECTED_HASHES = {
     "results/manifests/e5h-30672633366.json": (
         "e048f3e25d513430b49fd2ee0a140e8a0f82fe31d79b5fb0aafb36b470190faa"
     ),
+    "results/manifests/e5i-30674023380.json": (
+        "ca41dd4c8ce7eaec196ac4d6a1320f689755ae4fb9e5d13bb4061f3c24a46ba2"
+    ),
     "results/manifests/e6b-30640282768.json": (
         "e870ad9cf7b7d1f89f0fa745383f555d54f62b3caf2fc635cbcb76ca4ef7e210"
     ),
@@ -286,6 +289,36 @@ def main() -> int:
         or repack_off.get("mechanism", {}).get("repack_buffer_mib") != 0
     ):
         raise ValueError("retained weight-repack boundary differs from E5h evidence")
+
+    flash_ablation = load_object(ROOT / "results/manifests/e5i-30674023380.json")
+    flash_auto = flash_ablation.get("performance", {}).get("flash_auto", {})
+    flash_off = flash_ablation.get("performance", {}).get("flash_off", {})
+    flash_hypothesis = flash_ablation.get("hypothesis", {})
+    if (
+        flash_ablation.get("status")
+        != "valid_selected_inference_no_flash_attention_win"
+        or flash_ablation.get("validation", {}).get("flash_attention_claim_allowed")
+        is not False
+        or flash_ablation.get("selection", {}).get("default_configuration")
+        != "flash_auto"
+        or flash_ablation.get("selection", {}).get(
+            "validated_default_configuration"
+        )
+        is not None
+        or flash_hypothesis.get("passed") is not False
+        or flash_hypothesis.get("quality_passed") is not True
+        or flash_hypothesis.get("throughput_improvement_passed") is not False
+        or flash_hypothesis.get("median_latency_passed") is not True
+        or flash_hypothesis.get("p95_latency_passed") is not False
+        or flash_hypothesis.get("process_rss_overhead_passed") is not True
+        or flash_hypothesis.get("weighted_score_used") is not False
+        or flash_auto.get("mechanism", {}).get("resolved_enabled") is not True
+        or flash_off.get("mechanism", {}).get("resolved_enabled") is not False
+        or flash_auto.get("quality", {}).get("exact_selected_predictions")
+        is not True
+        or flash_off.get("quality", {}).get("exact_selected_predictions") is not True
+    ):
+        raise ValueError("retained Flash Attention ablation differs from E5i evidence")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

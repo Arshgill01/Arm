@@ -971,3 +971,17 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   and cached prefix, improve throughput by at least 1.05x, avoid median/p95
   latency regression, and add no more than 16 MiB maximum RSS. Separate
   verbosity-four launches must prove the disabled and resolved-enabled graphs.
+
+## 2026-07-31 — E5i retains Flash Attention as a valid no-win
+
+- Native run `30674023380` passed both mechanism proofs and the four-cell matrix
+  in 7m12s. All 120 measured requests returned normally, reused at least 25
+  prompt tokens, and matched the selected prediction.
+- Auto resolved Flash Attention and improved throughput from 0.9013 to 0.9303
+  requests/s, a 1.0322x gain below the frozen 1.05x minimum. Median HTTP latency
+  improved 6.18%, while p95 worsened 6.03% and failed its non-regression gate.
+- Auto reduced maximum RSS by 7,384 KiB despite its reported compute buffer
+  being 10.03 versus 9.56 MiB. No material serving win is promoted.
+- Independent Python 3.10 ingestion matched the uploaded summary byte for byte
+  at SHA-256
+  `ca41dd4c8ce7eaec196ac4d6a1320f689755ae4fb9e5d13bb4061f3c24a46ba2`.

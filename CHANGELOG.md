@@ -38,6 +38,8 @@ authoritative, timestamped record; this file groups the significant additions.
   and cut maximum RSS by 2,072,268 KiB; repack remains the 2.06x-faster default.
 - Added a bounded Flash Attention mode control and froze E5i to test whether the
   resolved Arm auto graph earns a material serving-performance claim.
+- Retained E5i as a valid no-win: auto gained 1.0322x throughput and reduced
+  median latency/RSS, but worsened p95 6.03% and missed two frozen gates.
 
 ### Native evidence
 

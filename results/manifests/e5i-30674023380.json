@@ -1,0 +1,697 @@
+{
+  "contract": {
+    "acceptance": {
+      "accepted_server_shell_exit_statuses": [
+        0,
+        130
+      ],
+      "http_status": 200,
+      "maximum_median_http_ratio": 1.0,
+      "maximum_p95_http_ratio": 1.0,
+      "maximum_process_rss_increase_kib": 16384,
+      "maximum_process_rss_kib": 8388608,
+      "maximum_ready_ms": 15000.0,
+      "minimum_candidate_cached_tokens_per_request": 1,
+      "minimum_throughput_improvement_ratio": 1.05,
+      "reference_prediction_mismatches": 0,
+      "request_failures": 0,
+      "termination_reason": "stop"
+    },
+    "artifact_name_prefix": "e5i-flash-attention-ablation",
+    "execution": {
+      "baseline_configuration": "flash_off",
+      "candidate_configuration": "flash_auto",
+      "configurations": {
+        "flash_auto": {
+          "batch_size": 64,
+          "client_concurrency": 1,
+          "context_per_slot": 256,
+          "explicit_batch_arguments": true,
+          "explicit_flash_argument": false,
+          "flash_attention": "auto",
+          "kv_cache_type_k": "f16",
+          "kv_cache_type_v": "f16",
+          "micro_batch_size": 64,
+          "prompt_cache": true,
+          "server_parallel_slots": 1,
+          "warmup_slot_ids": [
+            0,
+            0
+          ],
+          "weight_repack": true
+        },
+        "flash_off": {
+          "batch_size": 64,
+          "client_concurrency": 1,
+          "context_per_slot": 256,
+          "explicit_batch_arguments": true,
+          "explicit_flash_argument": true,
+          "flash_attention": "off",
+          "kv_cache_type_k": "f16",
+          "kv_cache_type_v": "f16",
+          "micro_batch_size": 64,
+          "prompt_cache": true,
+          "server_parallel_slots": 1,
+          "warmup_slot_ids": [
+            0,
+            0
+          ],
+          "weight_repack": true
+        }
+      },
+      "fresh_server_per_cell": true,
+      "order": [
+        {
+          "configuration": "flash_off",
+          "repetition": 1
+        },
+        {
+          "configuration": "flash_auto",
+          "repetition": 1
+        },
+        {
+          "configuration": "flash_auto",
+          "repetition": 2
+        },
+        {
+          "configuration": "flash_off",
+          "repetition": 2
+        }
+      ],
+      "repetitions_per_configuration": 2
+    },
+    "experiment_id": "E5i",
+    "hypothesis": "The pinned runtime's auto mode resolves Flash Attention on this Arm service and delivers at least 1.05x repeated median throughput over the disabled graph without answer drift, median or p95 latency regression, or more than 16 MiB additional maximum RSS.",
+    "inputs": {
+      "manifest_path": "results/manifests/e3f-30656151957.json",
+      "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+      "models_path": "experiments/e3f_models.json",
+      "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+      "policy_path": "configs/cloud-quality.json",
+      "policy_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+      "runtime_contract_path": "experiments/e3f_contract.json",
+      "runtime_contract_sha256": "a43ebf2b44aba9bac7e44e18a979901715cd23855df0d2c16c93375382977551",
+      "tasks_path": "experiments/e3_tasks.json",
+      "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    },
+    "mechanism": {
+      "compute_buffer_pattern": "CPU compute buffer size",
+      "enabled_pattern": "resolve_fused_ops: Flash Attention enabled",
+      "mode_pattern": "llama_context: flash_attn",
+      "proof_log_verbosity": 4
+    },
+    "prior_evidence": {
+      "baseline_auto_compute_buffer_mib": 10.03,
+      "baseline_auto_maximum_rss_kib": 4453532,
+      "baseline_auto_throughput_requests_per_second": 0.9295474170775482,
+      "maximum_observed_prompt_tokens": 127,
+      "runtime_source": {
+        "argument_source": "common/arg.cpp",
+        "commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+        "context_source": "src/llama-context.cpp",
+        "declared_risk": "The fused and unfused attention graphs can differ in performance, temporary allocation, and floating-point operation order. Exact application output, prefix reuse, latency, throughput, readiness, and process RSS remain measured obligations.",
+        "mechanism": "--flash-attn accepts on, off, or auto. Auto initially enables the fused operation probe; resolve_fused_ops then retains the Flash Attention graph only if the backend can allocate and compute it. The retained Arm mechanism log records flash_attn = auto followed by Flash Attention enabled. Off maps to LLAMA_FLASH_ATTN_TYPE_DISABLED and skips that probe.",
+        "repository": "ggml-org/llama.cpp",
+        "type_name_source": "src/llama.cpp"
+      },
+      "selected_service": "E5h retained repack-on as the fast default and measured its full selected serving profile.",
+      "source_run": "30672633366"
+    },
+    "request": {
+      "chat_template_mode": "model_jinja_system_instruction",
+      "instruction_role": "system",
+      "max_output_tokens": 8,
+      "measured_tasks": 30,
+      "seed": 424242,
+      "temperature": 0.0,
+      "timeout_seconds": 30.0,
+      "warmup_task_ids": [
+        "arithmetic-02",
+        "logic-01"
+      ]
+    },
+    "schema_version": 1,
+    "scope": "Quality-gated ablation of the resolved Flash Attention default on the promoted repack-on f16/256/64 cached single-slot service",
+    "selected": {
+      "candidate": "ministral3_3b_q4_k_m",
+      "llama_cpp_commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+      "llama_cpp_tag": "b10208",
+      "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "model_size_bytes": 2146497824,
+      "reference_accuracy": 0.7666666666666667,
+      "reference_correct": 23,
+      "reference_total": 30,
+      "required_runtime_buffer_patterns": [
+        "CPU_REPACK model buffer size",
+        "CPU_Mapped model buffer size"
+      ]
+    },
+    "selection_policy": {
+      "default_configuration": "flash_auto",
+      "promotion_rule": "Auto remains the measured default only if it passes every frozen quality, throughput, latency, memory, readiness, and mechanism gate; otherwise the result is retained as a valid no-win requiring follow-up rather than a threshold change.",
+      "weighted_score_used": false
+    },
+    "title": "Arm Flash Attention serving ablation"
+  },
+  "experiment_id": "E5i",
+  "hypothesis": {
+    "baseline_configuration": "flash_off",
+    "candidate_configuration": "flash_auto",
+    "default_configuration": "flash_auto",
+    "median_http_ratio": 0.9381774847857401,
+    "median_latency_passed": true,
+    "p95_http_ratio": 1.0602581030473521,
+    "p95_latency_passed": false,
+    "passed": false,
+    "process_rss_increase_kib": -7384.0,
+    "process_rss_overhead_passed": true,
+    "quality_passed": true,
+    "throughput_improvement_passed": false,
+    "throughput_improvement_ratio": 1.0322314707530194,
+    "validated_default_configuration": null,
+    "weighted_score_used": false
+  },
+  "maximum_observed_prompt_tokens": 127,
+  "performance": {
+    "flash_auto": {
+      "cached_tokens": {
+        "coefficient_of_variation": 0.509021083039616,
+        "max": 92.0,
+        "mean": 29.766666666666666,
+        "median": 25.0,
+        "min": 25.0,
+        "p95": 80.0,
+        "population_stddev": 15.151860905145904
+      },
+      "decode_ms": {
+        "coefficient_of_variation": 0.006507822213021851,
+        "max": 64.838,
+        "mean": 63.40338333333333,
+        "median": 63.373999999999995,
+        "min": 62.665,
+        "p95": 64.022,
+        "population_stddev": 0.41261794643740607
+      },
+      "encode_ms": {
+        "coefficient_of_variation": 0.35064223794250904,
+        "max": 2045.877,
+        "mean": 1006.4078000000001,
+        "median": 980.3520000000001,
+        "min": 63.45,
+        "p95": 1786.846,
+        "population_stddev": 352.8890832747971
+      },
+      "flash_attention": "auto",
+      "http_ms": {
+        "coefficient_of_variation": 0.3284636040546604,
+        "max": 2113.277981,
+        "mean": 1074.68988135,
+        "median": 1048.5367185,
+        "min": 132.231668,
+        "p95": 1856.354541,
+        "population_stddev": 352.99651166929635
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 1.3479759467172068e-06,
+        "max": 4451124.0,
+        "mean": 4451118.0,
+        "median": 4451118.0,
+        "min": 4451112.0,
+        "p95": 4451124.0,
+        "population_stddev": 6.0
+      },
+      "mechanism": {
+        "compute_buffer_mib": 10.03,
+        "declared_mode": "auto",
+        "logged_mode": "auto",
+        "resolved_enabled": true
+      },
+      "prompt_tokens": {
+        "coefficient_of_variation": 0.19499399772169318,
+        "max": 127.0,
+        "mean": 81.0,
+        "median": 76.0,
+        "min": 61.0,
+        "p95": 125.0,
+        "population_stddev": 15.794513815457147
+      },
+      "quality": {
+        "correct_per_repetition": [
+          23,
+          23
+        ],
+        "exact_selected_predictions": true,
+        "predictions_stable_between_repetitions": true,
+        "reference_prediction_mismatches_per_repetition": [
+          0,
+          0
+        ]
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.0004082684379346765,
+        "max": 3736.756159,
+        "mean": 3735.231182,
+        "median": 3735.231182,
+        "min": 3733.706205,
+        "p95": 3736.756159,
+        "population_stddev": 1.5249770000000353
+      },
+      "repetitions": [
+        {
+          "configuration": "flash_auto",
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.007409511307111625,
+              "max": 64.838,
+              "mean": 63.3985,
+              "median": 63.3445,
+              "min": 62.665,
+              "p95": 64.267,
+              "population_stddev": 0.46975190260391636
+            },
+            "elapsed_seconds": 32.232530324,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3510984688687691,
+              "max": 2040.925,
+              "mean": 1005.9100999999999,
+              "median": 980.812,
+              "min": 63.47,
+              "p95": 1790.553,
+              "population_stddev": 353.1734959296304
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.3288805903275568,
+              "max": 2107.657057,
+              "mean": 1074.2091455666666,
+              "median": 1048.8540845,
+              "min": 132.231668,
+              "p95": 1860.92201,
+              "population_stddev": 353.2865379292257
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9307367339281557,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:38.60",
+            "exit_status": 0,
+            "maximum_rss_kib": 4451112,
+            "percent_cpu": "365%"
+          },
+          "ready_ms": 3736.756159,
+          "repetition": 1,
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "configuration": "flash_auto",
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.005458447103426495,
+              "max": 64.161,
+              "mean": 63.40826666666667,
+              "median": 63.406499999999994,
+              "min": 62.884,
+              "p95": 64.022,
+              "population_stddev": 0.34611066951996144
+            },
+            "elapsed_seconds": 32.261538223,
+            "encode_ms": {
+              "coefficient_of_variation": 0.35018553251387363,
+              "max": 2045.877,
+              "mean": 1006.9055000000001,
+              "median": 979.9445000000001,
+              "min": 63.45,
+              "p95": 1786.846,
+              "population_stddev": 352.6037387086482
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.3280461594318782,
+              "max": 2113.277981,
+              "mean": 1075.1706171333333,
+              "median": 1047.990919,
+              "min": 132.658406,
+              "p95": 1856.354541,
+              "population_stddev": 352.7055916845923
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9298998638140664,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:38.62",
+            "exit_status": 0,
+            "maximum_rss_kib": 4451124,
+            "percent_cpu": "366%"
+          },
+          "ready_ms": 3733.706205,
+          "repetition": 2,
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        }
+      ],
+      "requests_per_second": {
+        "coefficient_of_variation": 0.0004497762298692705,
+        "max": 0.9307367339281557,
+        "mean": 0.9303182988711111,
+        "median": 0.9303182988711111,
+        "min": 0.9298998638140664,
+        "p95": 0.9307367339281557,
+        "population_stddev": 0.00041843505704464157
+      }
+    },
+    "flash_off": {
+      "cached_tokens": {
+        "coefficient_of_variation": 0.509021083039616,
+        "max": 92.0,
+        "mean": 29.766666666666666,
+        "median": 25.0,
+        "min": 25.0,
+        "p95": 80.0,
+        "population_stddev": 15.151860905145904
+      },
+      "decode_ms": {
+        "coefficient_of_variation": 0.040430182577382456,
+        "max": 79.402,
+        "mean": 65.52718333333333,
+        "median": 64.7145,
+        "min": 64.129,
+        "p95": 69.067,
+        "population_stddev": 2.6492759859482793
+      },
+      "encode_ms": {
+        "coefficient_of_variation": 0.3136087638561594,
+        "max": 2010.183,
+        "mean": 1038.1817833333332,
+        "median": 1047.556,
+        "min": 64.439,
+        "p95": 1679.028,
+        "population_stddev": 325.58290572914973
+      },
+      "flash_attention": "off",
+      "http_ms": {
+        "coefficient_of_variation": 0.2938111536277305,
+        "max": 2082.635782,
+        "mean": 1109.3797861166668,
+        "median": 1117.6315095,
+        "min": 134.244366,
+        "p95": 1750.851548,
+        "population_stddev": 325.9481547702228
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 1.7943254457777279e-06,
+        "max": 4458508.0,
+        "mean": 4458500.0,
+        "median": 4458500.0,
+        "min": 4458492.0,
+        "p95": 4458508.0,
+        "population_stddev": 8.0
+      },
+      "mechanism": {
+        "compute_buffer_mib": 9.56,
+        "declared_mode": "off",
+        "logged_mode": "disabled",
+        "resolved_enabled": false
+      },
+      "prompt_tokens": {
+        "coefficient_of_variation": 0.19499399772169318,
+        "max": 127.0,
+        "mean": 81.0,
+        "median": 76.0,
+        "min": 61.0,
+        "p95": 125.0,
+        "population_stddev": 15.794513815457147
+      },
+      "quality": {
+        "correct_per_repetition": [
+          23,
+          23
+        ],
+        "exact_selected_predictions": true,
+        "predictions_stable_between_repetitions": true,
+        "reference_prediction_mismatches_per_repetition": [
+          0,
+          0
+        ]
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.00020508197681500862,
+        "max": 3736.445442,
+        "mean": 3735.6793215,
+        "median": 3735.6793215,
+        "min": 3734.913201,
+        "p95": 3736.445442,
+        "population_stddev": 0.7661205000001701
+      },
+      "repetitions": [
+        {
+          "configuration": "flash_off",
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.05362041610884703,
+              "max": 79.402,
+              "mean": 66.10593333333334,
+              "median": 64.759,
+              "min": 64.129,
+              "p95": 74.427,
+              "population_stddev": 3.544627652597035
+            },
+            "elapsed_seconds": 33.482527447,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3159254234729797,
+              "max": 2010.183,
+              "mean": 1044.0913666666665,
+              "median": 1047.991,
+              "min": 64.439,
+              "p95": 1679.028,
+              "population_stddev": 329.85500715864873
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.29626040596815667,
+              "max": 2082.635782,
+              "mean": 1115.8775896666666,
+              "median": 1117.6315095,
+              "min": 134.244366,
+              "p95": 1750.851548,
+              "population_stddev": 330.5903477254148
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.8959897082885231,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:40.10",
+            "exit_status": 0,
+            "maximum_rss_kib": 4458492,
+            "percent_cpu": "362%"
+          },
+          "ready_ms": 3734.913201,
+          "repetition": 1,
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "configuration": "flash_off",
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.013797468686871643,
+              "max": 69.067,
+              "mean": 64.94843333333333,
+              "median": 64.617,
+              "min": 64.289,
+              "p95": 66.165,
+              "population_stddev": 0.896123975178037
+            },
+            "elapsed_seconds": 33.092550683,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3111052208163081,
+              "max": 1943.083,
+              "mean": 1032.2722,
+              "median": 1033.3785,
+              "min": 64.771,
+              "p95": 1682.411,
+              "population_stddev": 321.14527072353616
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.2911530244506408,
+              "max": 2011.866773,
+              "mean": 1102.8819825666667,
+              "median": 1103.8242875,
+              "min": 135.008109,
+              "p95": 1753.457771,
+              "population_stddev": 321.1074248364039
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9065484340380968,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:39.59",
+            "exit_status": 0,
+            "maximum_rss_kib": 4458508,
+            "percent_cpu": "366%"
+          },
+          "ready_ms": 3736.445442,
+          "repetition": 2,
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        }
+      ],
+      "requests_per_second": {
+        "coefficient_of_variation": 0.005857698931100059,
+        "max": 0.9065484340380968,
+        "mean": 0.90126907116331,
+        "median": 0.90126907116331,
+        "min": 0.8959897082885231,
+        "p95": 0.9065484340380968,
+        "population_stddev": 0.005279362874786864
+      }
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "python": "Python 3.10.20",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "default_configuration": "flash_auto",
+    "experiment_id": "E5i",
+    "git_commit": "b935c6f79243dc689df6cd30ff00f741e4e564c5",
+    "github_run_attempt": "1",
+    "github_run_id": "30674023380",
+    "schema_version": 1
+  },
+  "runtime_buffer_patterns_observed": [
+    "CPU_REPACK model buffer size",
+    "CPU_Mapped model buffer size"
+  ],
+  "schema_version": 1,
+  "scope": "Quality-gated ablation of the resolved Flash Attention default on the promoted repack-on f16/256/64 cached single-slot service",
+  "selection": {
+    "accuracy": 0.7666666666666667,
+    "candidate": "ministral3_3b_q4_k_m",
+    "correct": 23,
+    "default_configuration": "flash_auto",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "total": 30,
+    "validated_default_configuration": null
+  },
+  "source": {
+    "artifact_name": "e5i-flash-attention-ablation-30674023380-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30674023380"
+  },
+  "status": "valid_selected_inference_no_flash_attention_win",
+  "validation": {
+    "all_input_hashes_match": true,
+    "cached_prefix_observed_in_every_measured_request": true,
+    "exact_model_and_runtime_verified": true,
+    "flash_argument_bound_in_every_recipe": true,
+    "flash_attention_claim_allowed": false,
+    "flash_mechanism_observed_for_every_profile": true,
+    "fresh_server_per_cell": true,
+    "launch_recomputed_selected_plan": true,
+    "quality_drift_treated_as_profile_ineligibility": true,
+    "runtime_buffer_proof_observed": true,
+    "zero_request_failures": true
+  }
+}
