@@ -1249,3 +1249,8 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Refactored the E6f workflow/ingester to select either frozen contract while
   keeping fast as the default. Python 3.10 replay of run `30678703184` remained
   byte-identical at `da95b831…70ace`; the immutable E6f result did not change.
+- Native attempt `30689986153` completed both exact builds, then stopped before
+  any service cell because `llama-bench` does not accept the server's
+  `--no-repack` option. The corrected mechanism step starts each exact server at
+  proof-only log verbosity, verifies the mapped buffer and absence of a repack
+  buffer, then shuts it down before the unchanged measured matrix.

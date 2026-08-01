@@ -207,7 +207,8 @@ jobs:
             "$build_dir/bin/llama-server" --help \
               > "$output_dir/server-help.txt"
             for argument in --threads --threads-batch --cache-prompt \
-              --flash-attn --batch-size --ubatch-size --no-repack; do
+              --flash-attn --batch-size --ubatch-size --no-repack \
+              --log-verbosity; do
               grep -q -- "$argument" "$output_dir/server-help.txt"
             done
           done
@@ -216,6 +217,15 @@ jobs:
         run: |
           set -euo pipefail
           entrypoint="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].entrypoint' experiments/e3f_models.json)"
+          model_path="$MODEL_ROOT/$SELECTED_CANDIDATE/$entrypoint"
+          active_server_pid=""
+          cleanup() {
+            if [ -n "$active_server_pid" ] && kill -0 "$active_server_pid" 2>/dev/null; then
+              kill -INT "$active_server_pid" 2>/dev/null || true
+              wait "$active_server_pid" 2>/dev/null || true
+            fi
+          }
+          trap cleanup EXIT
           for runtime in baseline current_patched; do
             if [[ "$runtime" == "baseline" ]]; then
               build_dir="$BASELINE_BUILD"
@@ -223,21 +233,60 @@ jobs:
               build_dir="$CURRENT_BUILD"
             fi
             output_dir="$EVIDENCE_DIR/builds/$runtime"
-            bench_args=(
-              --model "$MODEL_ROOT/$SELECTED_CANDIDATE/$entrypoint"
-              --n-prompt 8
-              --n-gen 1
-              --threads 4
-              --repetitions 1
-              --output json
-              --verbose
-            )
-            if ! jq -e '.service.weight_repack' "$CONTRACT_PATH" >/dev/null; then
-              bench_args+=(--no-repack)
+            if jq -e '.service.weight_repack' "$CONTRACT_PATH" >/dev/null; then
+              "$build_dir/bin/llama-bench" \
+                --model "$model_path" \
+                --n-prompt 8 \
+                --n-gen 1 \
+                --threads 4 \
+                --repetitions 1 \
+                --output json \
+                --verbose \
+                > "$output_dir/runtime-proof.json" \
+                2> "$output_dir/runtime-proof.stderr.log"
+            else
+              "$build_dir/bin/llama-server" \
+                --model "$model_path" \
+                --alias "$SELECTED_CANDIDATE" \
+                --threads 4 \
+                --threads-batch 4 \
+                --ctx-size 256 \
+                --cache-type-k f16 \
+                --cache-type-v f16 \
+                --flash-attn auto \
+                --parallel 1 \
+                --cont-batching \
+                --cache-prompt \
+                --host 127.0.0.1 \
+                --port 18081 \
+                --no-webui \
+                --metrics \
+                --slots \
+                --jinja \
+                --temp 0.0 \
+                --seed 424242 \
+                --log-colors off \
+                --batch-size 64 \
+                --ubatch-size 64 \
+                --no-repack \
+                --log-verbosity 4 \
+                > "$output_dir/runtime-proof.stdout.log" \
+                2> "$output_dir/runtime-proof.stderr.log" &
+              active_server_pid=$!
+              python3 experiments/e3d_http_quality.py wait \
+                --url http://127.0.0.1:18081 \
+                --timeout 45 \
+                --output "$output_dir/runtime-proof-readiness.json"
+              curl --fail --silent http://127.0.0.1:18081/slots \
+                > "$output_dir/runtime-proof-slots.json"
+              kill -INT "$active_server_pid"
+              set +e
+              wait "$active_server_pid"
+              server_status=$?
+              set -e
+              [[ "$server_status" -eq 0 || "$server_status" -eq 130 ]]
+              active_server_pid=""
             fi
-            "$build_dir/bin/llama-bench" "${bench_args[@]}" \
-              > "$output_dir/runtime-proof.json" \
-              2> "$output_dir/runtime-proof.stderr.log"
             grep -q 'CPU_Mapped model buffer size' \
               "$output_dir/runtime-proof.stderr.log"
             if jq -e '.service.weight_repack' "$CONTRACT_PATH" >/dev/null; then
@@ -248,6 +297,7 @@ jobs:
                 "$output_dir/runtime-proof.stderr.log"
             fi
           done
+          trap - EXIT
 
       - name: Run reverse-balanced runtime matrix
         run: |
