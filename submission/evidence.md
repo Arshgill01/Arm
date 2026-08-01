@@ -39,6 +39,7 @@ public workflow run; compact manifests and reports are committed permanently.
 | Exact current no-repack adapter launch | [E6i `30691254831`](https://github.com/Arshgill01/Arm/actions/runs/30691254831) | [`e6i` manifest](../results/manifests/e6i-30691254831.json) · [`report`](../results/reports/e6i-current-runtime-memory-launch.md) | `2bcbd7e1…06d2` |
 | Whole-program LTO compiler/build no-win | [E7a `30692292700`](https://github.com/Arshgill01/Arm/actions/runs/30692292700) | [`e7a` manifest](../results/manifests/e7a-30692292700.json) · [`report`](../results/reports/e7a-lto-service.md) | `b48e6c12…b46839` |
 | HTTP-only OpenSSL dependency pruning | [E7b `30695349303`](https://github.com/Arshgill01/Arm/actions/runs/30695349303) | [`e7b` manifest](../results/manifests/e7b-30695349303.json) · [`report`](../results/reports/e7b-openssl-service.md) | `8dffd667…7ffd9b` |
+| Exact HTTP-only dependency-pruned launch | [E7c `30696606993`](https://github.com/Arshgill01/Arm/actions/runs/30696606993) | [`e7c` manifest](../results/manifests/e7c-30696606993.json) · [`report`](../results/reports/e7c-http-runtime-launch.md) | `f4e73971…e1857cf` |
 | Public clean-checkout package validation | [`30695888838`](https://github.com/Arshgill01/Arm/actions/runs/30695888838) | 141 tests, 32 hashes including E7b, exact runtime/plan checks, demo smoke test | passed on native `aarch64` |
 
 ## Final selected package
@@ -67,8 +68,9 @@ public workflow run; compact manifests and reports are committed permanently.
   adapter launch. E7a rejects LTO for the fast tier after it misses both frozen
   benefit branches. E7b separately qualifies OpenSSL-off for the exact loopback
   HTTP service after removing two dependencies with no quality/performance
-  regression; it still requires its own launch integration. No other
-  current-runtime profile is admitted.
+  regression; E7c binds that evidence and executes the exact dependency-pruned
+  service through the adapter. HTTPS and every other current-runtime profile
+  remain unchanged.
 
 ## Recompute locally
 

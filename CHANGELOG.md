@@ -13,6 +13,11 @@ authoritative, timestamped record; this file groups the significant additions.
   and server binary, rejects either forbidden dynamic dependency, records the
   observed `ldd` inventory in its recipe, and still admits only the exact
   repacked loopback service. E6g/E6i replays remain byte-identical.
+- Validated E7c end to end on native Arm. The E7b-bound adapter launched the
+  exact OpenSSL-off HTTP service, reproduced 23/30 with zero drift or failures
+  and prefix reuse throughout, and matched an independent 13-library `ldd`
+  inventory with both forbidden OpenSSL libraries absent. The first attempt's
+  missing request-contract shape remains recorded as a rejected run.
 - Retained patched llama.cpp `b10216` as a bounded selected-service upgrade
   candidate after exact predictions and every frozen performance/resource gate
   passed against clean `b10208`; automatic promotion remains disabled.
@@ -52,6 +57,9 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Submission and developer experience
 
+- Extended the focused suite to 145 tests and the immutable verifier to 35
+  hashes, including the corrected complete E7c contract and byte-identical
+  native launch manifest.
 - Extended the focused suite to 141 tests and the immutable verifier to 32
   hashes, including the frozen E7b contract and independently replayed native
   dependency-pruning result. The updated evidence row renders without desktop

@@ -777,6 +777,8 @@ footer p {
 
 footer div {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 18px;
 }
 

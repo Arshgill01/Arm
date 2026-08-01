@@ -639,6 +639,11 @@
             <div><strong>HTTP dependency pruning</strong><p>Removed libssl + libcrypto, added none, and retained 99.981% throughput with exact quality.</p></div>
             <span class="evidence-result select-text">Qualified</span>
           </li>
+          <li>
+            <span class="evidence-id">E7c</span>
+            <div><strong>Verified HTTP-only launch</strong><p>The E7b-bound adapter matched 13 dependency names, launched on Arm, and reproduced 23/30 with zero drift or failures.</p></div>
+            <span class="evidence-result select-text">Integrated</span>
+          </li>
         </ol>
 
         <div class="reproduce">
@@ -713,6 +718,9 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e7b-openssl-service.md">
           HTTP dependency pruning
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e7c-http-runtime-launch.md">
+          Verified HTTP launch
         </a>
       </div>
     </footer>

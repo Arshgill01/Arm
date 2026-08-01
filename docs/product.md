@@ -276,6 +276,17 @@ CPU, readiness, RSS, and build-cost guardrail passed. This qualifies an exact
 HTTP-only dependency-pruned profile for a separate launch integration; the
 current adapter remains unchanged and HTTPS must keep OpenSSL enabled.
 
+E7c closes that deliberate integration boundary without weakening the E6g fast
+contract. A third runtime contract binds the E7b manifest, exact
+`LLAMA_OPENSSL=OFF` cache, patched source/build/binary/model, repacked service,
+and absence of both OpenSSL libraries. Native run `30696606993` launched only
+through `python -m pareto64 launch`, reproduced 23/30 across all 30 requests
+with zero drift or failures and prefix reuse throughout, and retained a
+13-library inventory that matched an independent raw `ldd` capture. Readiness
+was 4.357 seconds and maximum RSS was 4,449,416 KiB. The claim is limited to
+this exact loopback HTTP service; HTTPS, security, installed-package, energy,
+other-profile, and full-upstream claims remain excluded.
+
 ## Select a measured service profile
 
 Model selection and service-profile selection are separate obligations. The

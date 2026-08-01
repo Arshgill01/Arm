@@ -62,7 +62,7 @@ current llama.cpp. We claim the hot path, not a whole-model speedup.”
 
 ## 2:08–2:32 — Exact serving
 
-**Screen:** Show the E5b through E7b rows, then the terminal.
+**Screen:** Show the E5b through E7c rows, then the terminal.
 
 ```bash
 python3 scripts/verify_submission.py
@@ -79,8 +79,9 @@ source. Its own E6h-bound adapter then launched that exact tier at 2.27 GiB RSS,
 again with no drift or failures. Whole-program LTO then kept every answer but
 missed both its speed and footprint gates, so it stays off. Every other profile
 still fails closed. Finally, the loopback-only build removed two unused OpenSSL
-library edges with no new dependency and 99.981% throughput retention; it now
-waits behind its own HTTP-only launch proof.”
+library edges with no new dependency and 99.981% throughput retention. Its
+separate E7b-bound adapter then proved those libraries absent and launched the
+exact HTTP service with the same 23/30 result. HTTPS remains unchanged.”
 
 ## 2:32–2:50 — Close
 

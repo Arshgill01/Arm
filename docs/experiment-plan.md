@@ -1135,6 +1135,19 @@ installed-package, energy, other-profile, or full-upstream claims. Exact details
 are frozen in [`../experiments/e7c_contract.json`](../experiments/e7c_contract.json)
 and [`../configs/runtime-b10216-http-service.json`](../configs/runtime-b10216-http-service.json).
 
+The first native attempt `30696286405` built and exercised the service but was
+rejected before result ingestion because E7c had not frozen the otherwise
+unchanged request protocol at the top level. The corrected contract copies the
+exact E6g/E6i warmups, task order, output cap, instruction mode, temperature,
+seed, and timeout without changing the model, runtime, service, or acceptance
+gates. Native run `30696606993` then passed. All 30 requests reproduced 23/30
+with zero drift or failures and prefix reuse throughout; readiness was
+4,356.71 ms, maximum RSS 4,449,416 KiB, throughput 0.93026 requests/s, and
+server CPU time 4.247 seconds/request. The adapter and independent raw `ldd`
+capture matched on 13 dependency basenames, with neither forbidden OpenSSL
+library present. Python 3.10 replay was byte-identical at
+`f4e73971…e1857cf`.
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

@@ -242,6 +242,13 @@ guardrail, retained 99.981% throughput, and reduced the hashed local closure
 1.003%. It qualifies only an HTTP-only dependency-pruned launch candidate;
 HTTPS and security claims are explicitly out of scope.
 
+E7c then executes the separate product proof. The adapter binds the E7b result,
+OpenSSL-off CMake cache, full-index patched source diff, binary, model, exact
+repacked HTTP recipe, and a fresh dependency inventory before launch. On native
+Arm all 30 requests reproduced 23/30 with zero drift or failures and prefix
+reuse throughout. A second raw `ldd` capture matched all 13 dependency names;
+neither OpenSSL library was present. HTTPS remains outside this contract.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -251,12 +258,13 @@ Apache-2.0 model packages, execute balanced experiments, retain raw results, and
 run a second validator that recomputes every statistic and decision.
 
 The opt-in current-runtime adapter keeps model selection immutable while binding
-E6f fast and E6h memory evidence through separate contracts. It checks the exact
-four-file patched git diff, CMake source and build cache, executable version and
-binary hash, model bytes, and only the service profile named by that evidence.
-Missing provenance or a different profile aborts before launch. E6g and E6i
-verify both measured contracts as executed product paths, not only static
-schemas.
+E6f fast, E6h memory, and E7b HTTP evidence through separate contracts. It
+checks the exact four-file patched git diff, CMake source and build cache,
+executable version and binary hash, model bytes, and only the service profile
+named by that evidence.
+Missing provenance or a different profile aborts before launch. E6g, E6i, and
+E7c verify all three measured contracts as executed product paths, not only
+static schemas.
 
 The historical selected runtime is llama.cpp `b10208` at commit
 `9d9a6d29f6b981cc7f41983d26e56485c6af1811`; E6f separately accepts patched
@@ -296,8 +304,9 @@ without changing measured inputs or post-observation thresholds.
   throughput, +180 KiB RSS, and below 3 GiB in every cell;
 - a measured service-profile planner that automatically routes throughput and
   at-most-3-GiB envelopes while refusing unmeasured capacity assumptions;
-- an HTTP-only build candidate that removes two unused OpenSSL runtime edges
-  without adding a dependency or crossing any quality/service guardrail;
+- an HTTP-only build and launch integration that removes two unused OpenSSL
+  runtime edges, adds none, and reproduces exact quality through the E7b-bound
+  adapter;
 - a process-bound thread-efficiency study that rejects lower thread counts
   instead of confusing fewer active cores with less total CPU work;
 - three reviewable Arm source patches revalidated on current llama.cpp with
@@ -305,7 +314,7 @@ without changing measured inputs or post-observation thresholds.
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 135 local tests plus native Arm workflows for the final evidence path.
+- 145 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 

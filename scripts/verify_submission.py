@@ -91,6 +91,9 @@ EXPECTED_HASHES = {
     "results/manifests/e7b-30695349303.json": (
         "8dffd667e8517a1b628c147f22f5e74755ab7d7d693e8eff1e1704ae387ffd9b"
     ),
+    "results/manifests/e7c-30696606993.json": (
+        "f4e73971b0c6f2db25be52e365cf611848ec1bb1d738648bb43bdf4c2e1857cf"
+    ),
     "configs/runtime-b10216-selected-service.json": (
         "9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de"
     ),
@@ -1114,6 +1117,65 @@ def main() -> int:
         is not False
     ):
         raise ValueError("frozen E7c launch integration differs from E7b")
+
+    http_launch = load_object(ROOT / "results/manifests/e7c-30696606993.json")
+    http_launch_quality = http_launch.get("quality", {})
+    http_launch_performance = http_launch.get("performance", {})
+    http_launch_runtime = http_launch.get("runtime_provenance", {})
+    http_launch_source = http_launch.get("source", {})
+    http_launch_validation = http_launch.get("validation", {})
+    http_launch_dependencies = http_launch_runtime.get(
+        "dynamic_dependency_basenames", []
+    )
+    if (
+        http_launch.get("status")
+        != "valid_http_dependency_pruned_launch_integration"
+        or http_launch.get("provenance", {}).get("github_run_id")
+        != "30696606993"
+        or http_launch.get("platform", {}).get("architecture") != "aarch64"
+        or http_launch.get("selection", {}).get("candidate")
+        != http_runtime_contract.get("selected_candidate")
+        or http_launch.get("selection", {}).get("runtime_commit")
+        != http_runtime_contract.get("runtime", {}).get("selected_commit")
+        or http_launch_quality.get("correct") != 23
+        or http_launch_quality.get("total") != 30
+        or http_launch_quality.get("exact_selected_predictions") is not True
+        or http_launch_quality.get("reference_prediction_mismatches") != 0
+        or http_launch_quality.get("request_failures") != 0
+        or http_launch_quality.get(
+            "cached_prefix_observed_in_every_measured_request"
+        )
+        is not True
+        or http_launch_performance.get("ready_ms", 99_999) > 15_000
+        or http_launch_performance.get("maximum_rss_kib", 99_999_999)
+        > 8_388_608
+        or http_launch_runtime.get("runtime_manifest_sha256")
+        != EXPECTED_HASHES["results/manifests/e7b-30695349303.json"]
+        or http_launch_runtime.get("runtime_contract_sha256")
+        != EXPECTED_HASHES["configs/runtime-b10216-http-service.json"]
+        or http_launch_runtime.get("source_diff_sha256")
+        != EXPECTED_HASHES["patches/llama.cpp/b10216/e6f-current-series.patch"]
+        or http_launch_source.get("dynamic_dependency_basenames")
+        != http_launch_dependencies
+        or set(http_launch_dependencies).intersection(
+            {"libcrypto.so.3", "libssl.so.3"}
+        )
+        or http_launch_validation.get(
+            "http_dependency_pruned_launch_claim_allowed"
+        )
+        is not True
+        or http_launch_validation.get("openssl_dependencies_absent") is not True
+        or http_launch_validation.get("runtime_dependency_inventory_verified")
+        is not True
+        or http_launch_validation.get("live_server_executed_through_adapter")
+        is not True
+        or http_launch_validation.get("source_build_binary_bound") is not True
+        or http_launch_validation.get("automatic_other_profile_promotion_allowed")
+        is not False
+        or http_launch_validation.get("energy_claim_allowed") is not False
+        or http_launch_validation.get("weighted_score_used") is not False
+    ):
+        raise ValueError("retained HTTP-only launch differs from E7c evidence")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

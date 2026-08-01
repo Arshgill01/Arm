@@ -1462,3 +1462,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   frozen at SHA-256
   `2f6a96acb0fa7c877c7f42083cd85b728c5779a75173bdcca62d801b306344de`;
   the incomplete first-attempt hash remains recoverable from commit `1ba321e`.
+
+## 2026-08-01 — E7c native HTTP-only launch integration retained
+
+- Corrected native Arm run `30696606993` passed on exact checkpoint `249e044`
+  in 4m50s. The OpenSSL-off b10216 service built, launched only through the
+  E7b-bound Pareto64 adapter, completed all 30 requests, passed independent
+  ingestion, and uploaded the raw evidence artifact.
+- All requests reproduced the selected 23/30 map with zero drift or failures
+  and prefix reuse throughout. Throughput was 0.9302566 requests/s, median/p95
+  HTTP latency 1,065.13/1,852.71 ms, server CPU time 4.247 seconds/request,
+  readiness 4,356.71 ms, and maximum RSS 4,449,416 KiB.
+- The adapter recipe and second raw `ldd` capture matched on 13 dependency
+  basenames; neither `libssl.so.3` nor `libcrypto.so.3` was present. Python
+  3.10 replay reproduced the uploaded manifest byte for byte at SHA-256
+  `f4e73971b0c6f2db25be52e365cf611848ec1bb1d738648bb43bdf4c2e1857cf`.
+  HTTPS, security, installed-package, energy, other-profile, and full-upstream
+  claims remain excluded.
