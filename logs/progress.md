@@ -1359,3 +1359,6 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `b48e6c129d1f3305c2b788b422bc5321cd415b2bc2b26460804063ebc3b46839`.
   This is a retained compiler/build no-win, not an energy or broader service
   claim.
+- Public clean-checkout run `30692856958` passed on exact retained-result commit
+  `23ee23e`: 135 tests, all 30 immutable hashes, E7a contract/result assertions,
+  exact planner/runtime checks, and the dependency-free demo smoke test.

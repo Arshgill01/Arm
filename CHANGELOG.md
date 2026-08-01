@@ -50,6 +50,8 @@ authoritative, timestamped record; this file groups the significant additions.
 - Extended the focused suite to 135 tests and the immutable verifier to 30
   hashes, including the frozen E7a compiler/build contract and independently
   replayed native no-win manifest.
+- Passed the updated public clean-checkout package on native `aarch64`: all 135
+  tests, 30 hashes, exact evidence/plan checks, and demo smoke test succeeded.
 - Extended the product guide, demo, video script, and submission narrative with
   the measured service-envelope decision and its refusal behavior.
 - Expanded the focused product suite to 128 tests and the immutable verifier to

@@ -38,7 +38,7 @@ public workflow run; compact manifests and reports are committed permanently.
 | Current no-repack tier passes upgrade gates | [E6h `30690331795`](https://github.com/Arshgill01/Arm/actions/runs/30690331795) | [`e6h` manifest](../results/manifests/e6h-30690331795.json) · [`report`](../results/reports/e6h-current-runtime-memory-service.md) | `7b112b38…53b27f` |
 | Exact current no-repack adapter launch | [E6i `30691254831`](https://github.com/Arshgill01/Arm/actions/runs/30691254831) | [`e6i` manifest](../results/manifests/e6i-30691254831.json) · [`report`](../results/reports/e6i-current-runtime-memory-launch.md) | `2bcbd7e1…06d2` |
 | Whole-program LTO compiler/build no-win | [E7a `30692292700`](https://github.com/Arshgill01/Arm/actions/runs/30692292700) | [`e7a` manifest](../results/manifests/e7a-30692292700.json) · [`report`](../results/reports/e7a-lto-service.md) | `b48e6c12…b46839` |
-| Public clean-checkout package validation | [`30691572261`](https://github.com/Arshgill01/Arm/actions/runs/30691572261) | 128 tests, 28 hashes, E6f/E6g/E6h/E6i runtime evidence checks, plan-bound launch checks, demo smoke test | passed on native `aarch64` |
+| Public clean-checkout package validation | [`30692856958`](https://github.com/Arshgill01/Arm/actions/runs/30692856958) | 135 tests, 30 hashes including E7a, exact runtime/plan checks, demo smoke test | passed on native `aarch64` |
 
 ## Final selected package
 
