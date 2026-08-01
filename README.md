@@ -85,6 +85,11 @@ E6e broadens that proof through an upstream-equivalent native Arm CPU lane: the
 complete fatal-warnings build passes with KleidiAI enabled, followed by 47/47
 CTest executions without a failure, error, or skip. It is one validated Arm CPU
 lane, not the full upstream platform and backend matrix.
+E6f closes the selected-application gap with matched clean-`b10208` and
+patched-`b10216` servers. Current source reproduces every selected answer twice,
+retains 100.28% throughput, slightly improves median/p95 latency, and adds only
+100 KiB maximum RSS. It passes the frozen upgrade gates for this exact service;
+automatic product promotion still requires separate launch provenance binding.
 
 ## Optimization map
 
@@ -102,6 +107,7 @@ preserved unless the row explicitly describes a rejected candidate.
 | Thread efficiency | 4 threads, 4.2682 CPU s/request | Test 3 and 2 threads with post-warmup process counters | Only 0.11% / 1.36% CPU-time savings; throughput falls 24.48% / 48.82% | Keep 4 threads; make no energy claim |
 | Arm Q8 kernel | 32 scalar byte stores, 5.09 GB/s | NEON narrowing plus two vector stores | 10.33 GB/s (**2.029x**) with bit-identical output and neutral model inference | Accept bounded hot-path win |
 | Source robustness | Historical pinned patches | Rebase all three fixes to llama.cpp b10216 | Targeted gates passed, then complete build plus **47/47** executed tests | Validate one upstream-equivalent Arm CPU lane |
+| Application runtime | Clean b10208 selected service | Run exact service on patched b10216 | 23/30 twice; 1.0028x throughput, 0.9918x/0.9939x median/p95 latency, +100 KiB RSS | Accept a bounded upgrade candidate; integrate separately |
 
 Rejected variants remain visible: two server slots, cached two-slot serving,
 q4_0 KV, batch 32, Flash Attention, and lower thread counts all missed at least
@@ -164,10 +170,11 @@ repack flag that conflicts with the plan is refused.
 | [E6c](results/reports/e6c-reasoning-budget-fix.md) | Source fix passed 13 upstream tests and removed all reasoning output; the frozen final-answer gate still rejected the real-model run |
 | [E6d](results/reports/e6d-current-upstream-patches.md) | All three Arm patches revalidated on llama.cpp b10216; targeted tests passed and direct Q8 throughput improved about 95% |
 | [E6e](results/reports/e6e-upstream-arm-cpu-lane.md) | Complete upstream-equivalent native Arm CPU build passed, followed by 47/47 clean CTest executions |
+| [E6f](results/reports/e6f-current-runtime-service.md) | Patched b10216 reproduced every selected answer and cleared all exact-service upgrade gates with 1.0028x throughput and +100 KiB maximum RSS |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
-The E5f through E5j, E6d, and E6e results are retained under their exact frozen
+The E5f through E5j and E6d through E6f results are retained under their exact frozen
 contracts and independently re-ingested byte for byte.
 
 ## Repository map

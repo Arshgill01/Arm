@@ -897,6 +897,21 @@ product launch contract or imply a model-wide speedup, full upstream coverage,
 or energy savings. Exact details are frozen in
 [`../experiments/e6f_contract.json`](../experiments/e6f_contract.json).
 
+### E6f outcome
+
+Native run `30678703184` passed every frozen gate. Patched `b10216` reproduced
+23/30 twice with exact prediction stability and prefix reuse. It retained
+100.28% throughput, reduced pooled median/p95 HTTP latency by 0.82%/0.61%, and
+used 99.93% of baseline server CPU seconds/request. Median readiness was 4.82%
+slower and maximum RSS increased by only 100 KiB, both within their ceilings.
+
+The result makes the current patched source an upgrade candidate for this exact
+service only. The retained manifest continues to disallow automatic promotion;
+launch integration must separately bind the current runtime and its patch
+provenance. Python 3.10 re-ingestion matched the uploaded manifest byte for byte
+at `da95b831…70ace`. See
+[`../results/reports/e6f-current-runtime-service.md`](../results/reports/e6f-current-runtime-service.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

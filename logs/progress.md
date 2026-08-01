@@ -1167,3 +1167,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   now combine stdout/stderr and a regression test reproduces the stderr-only
   behavior. The frozen sources, patches, model, service, order, and gates did not
   change.
+
+## 2026-08-01 — E6f current runtime earns an upgrade-candidate result
+
+- Corrected native run `30678703184` completed in 10m22s. Both exact builds,
+  both runtime buffer proofs, and all four fresh-server cells passed.
+- Patched `b10216` reproduced 23/30 twice with stable predictions, prefix reuse,
+  and no failures. It retained 100.28% throughput; median/p95 latency ratios
+  were 0.9918x/0.9939x and server CPU seconds/request was 0.9993x baseline.
+- Median readiness was 1.0482x baseline and maximum RSS increased 100 KiB. Every
+  unchanged quality, throughput, latency, CPU-time, readiness, and RSS gate
+  passed.
+- Independent Python 3.10 ingestion reproduced the uploaded result byte for byte
+  at SHA-256
+  `da95b831a0cccf3b16dd45e93e11855a6e0322c5aa163d145c24243b42470ace`.
+  The claim remains one exact native Arm selected-service upgrade candidate;
+  automatic product promotion, energy, model-wide, and full-matrix claims stay
+  disallowed pending separate launch provenance integration.

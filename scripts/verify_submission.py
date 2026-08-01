@@ -70,6 +70,9 @@ EXPECTED_HASHES = {
     "results/manifests/e6e-30676413765.json": (
         "63c0e450d967208e3eb81d21571c73354e8520940933434914920db5d63c27f1"
     ),
+    "results/manifests/e6f-30678703184.json": (
+        "da95b831a0cccf3b16dd45e93e11855a6e0322c5aa163d145c24243b42470ace"
+    ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
     ),
@@ -535,6 +538,65 @@ def main() -> int:
         )
     ):
         raise ValueError("retained upstream Arm CPU lane differs from E6e evidence")
+
+    runtime_upgrade = load_object(ROOT / "results/manifests/e6f-30678703184.json")
+    upgrade_contract = runtime_upgrade.get("contract", {})
+    upgrade_service = upgrade_contract.get("service", {})
+    upgrade_source = runtime_upgrade.get("source", {}).get("runtime_proof", {})
+    upgrade_selection = runtime_upgrade.get("selection", {})
+    upgrade_validation = runtime_upgrade.get("validation", {})
+    upgrade_hypothesis = runtime_upgrade.get("hypothesis", {})
+    upgrade_performance = runtime_upgrade.get("performance", {})
+    if (
+        runtime_upgrade.get("status") != "valid_current_runtime_upgrade_candidate"
+        or runtime_upgrade.get("provenance", {}).get("github_run_id")
+        != "30678703184"
+        or upgrade_source.get("baseline", {}).get("commit")
+        != "9d9a6d29f6b981cc7f41983d26e56485c6af1811"
+        or upgrade_source.get("current_patched", {}).get("commit")
+        != "876a4321163249c43ca4e986818fab5ab081f282"
+        or len(
+            upgrade_contract.get("runtimes", {})
+            .get("current_patched", {})
+            .get("patches", [])
+        )
+        != 3
+        or upgrade_selection.get("candidate") != "ministral3_3b_q4_k_m"
+        or upgrade_selection.get("selected_runtime") != "current_patched"
+        or upgrade_selection.get("selected_commit")
+        != "876a4321163249c43ca4e986818fab5ab081f282"
+        or upgrade_service
+        != {
+            "batch_size": 64,
+            "client_concurrency": 1,
+            "context_per_slot": 256,
+            "flash_attention": "auto",
+            "kv_cache_type_k": "f16",
+            "kv_cache_type_v": "f16",
+            "micro_batch_size": 64,
+            "prompt_cache": True,
+            "server_parallel_slots": 1,
+            "threads": 4,
+            "warmup_slot_ids": [0, 0],
+            "weight_repack": True,
+        }
+        or upgrade_hypothesis.get("passed") is not True
+        or upgrade_hypothesis.get("throughput_retention_ratio", 0) < 0.95
+        or upgrade_hypothesis.get("median_http_latency_ratio", 99) > 1.05
+        or upgrade_hypothesis.get("p95_http_latency_ratio", 99) > 1.05
+        or upgrade_hypothesis.get("cpu_seconds_per_request_ratio", 99) > 1.05
+        or upgrade_hypothesis.get("ready_time_ratio", 99) > 1.1
+        or upgrade_hypothesis.get("candidate_rss_increase_kib", 99_999) > 65_536
+        or any(
+            profile.get("quality", {}).get("exact_selected_predictions") is not True
+            for profile in upgrade_performance.values()
+        )
+        or upgrade_validation.get("upgrade_candidate_claim_allowed") is not True
+        or upgrade_validation.get("automatic_product_promotion_allowed") is not False
+        or upgrade_validation.get("energy_claim_allowed") is not False
+        or upgrade_validation.get("weighted_score_used") is not False
+    ):
+        raise ValueError("retained selected-service upgrade differs from E6f evidence")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

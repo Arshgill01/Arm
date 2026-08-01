@@ -8,6 +8,11 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Product
 
+- Retained patched llama.cpp `b10216` as a bounded selected-service upgrade
+  candidate after exact predictions and every frozen performance/resource gate
+  passed against clean `b10208`; automatic promotion remains disabled until the
+  separate launch provenance adapter is complete.
+
 - Added a fail-closed service-profile planner over the native E5h evidence.
   Explicit throughput and at-most-3-GiB policies select the repacked and
   no-repack tiers respectively; an impossible envelope is refused.
@@ -24,8 +29,8 @@ authoritative, timestamped record; this file groups the significant additions.
 
 - Extended the product guide, demo, video script, and submission narrative with
   the measured service-envelope decision and its refusal behavior.
-- Expanded the focused product suite to 114 tests and the immutable verifier to
-  18 hashes.
+- Expanded the focused product suite to 118 tests and the immutable verifier to
+  19 hashes.
 
 ### Arm source contributions
 
@@ -38,6 +43,9 @@ authoritative, timestamped record; this file groups the significant additions.
 - Passed a complete upstream-equivalent native Arm CPU build with KleidiAI and
   fatal warnings, then retained all 47 executed tests without a failure, error,
   or skip. Independent E6e ingestion extends the verifier to 17 hashes.
+- Ran the exact selected service on clean `b10208` and patched `b10216` in a
+  reverse-balanced lane. Current source reproduced 23/30 twice, retained
+  1.0028x throughput, and passed all latency, CPU-time, readiness, and RSS gates.
 
 ## 2026-07-31
 

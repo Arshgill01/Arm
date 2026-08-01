@@ -1,0 +1,810 @@
+{
+  "contract": {
+    "acceptance": {
+      "accepted_server_shell_exit_statuses": [
+        0,
+        130
+      ],
+      "http_status": 200,
+      "maximum_candidate_rss_increase_kib": 65536,
+      "maximum_cpu_seconds_per_request_ratio": 1.05,
+      "maximum_median_http_latency_ratio": 1.05,
+      "maximum_p95_http_latency_ratio": 1.05,
+      "maximum_process_rss_kib": 8388608,
+      "maximum_ready_ms": 15000.0,
+      "maximum_ready_time_ratio": 1.1,
+      "minimum_candidate_cached_tokens_per_request": 1,
+      "minimum_throughput_retention_ratio": 0.95,
+      "reference_prediction_mismatches": 0,
+      "request_failures": 0,
+      "termination_reason": "stop"
+    },
+    "artifact_name_prefix": "e6f-current-runtime-service",
+    "build": {
+      "curl": false,
+      "kleidiai": true,
+      "native": true,
+      "server": true,
+      "tests": false,
+      "type": "Release"
+    },
+    "claim_boundary": "A passing E6f validates one selected-model native Arm application lane and permits an upgrade candidate claim only. It does not prove the full upstream matrix, a model-wide speedup, energy savings, or automatic product promotion without separate launch-contract integration.",
+    "controlled_difference": "The runtime source package is the only profile-level difference: clean b10208 versus b10216 plus the exact three-patch Arm series. Model bytes, native/KleidiAI Release build flags, serving flags, repacked weights, f16 K/V cache, 256-token context, 64/64 prompt batch, automatic Flash Attention, shared-prefix cache, four threads, one slot/client, task order, seed, and output cap are identical.",
+    "execution": {
+      "baseline_runtime": "baseline",
+      "candidate_runtime": "current_patched",
+      "fresh_server_per_cell": true,
+      "order": [
+        {
+          "repetition": 1,
+          "runtime": "baseline"
+        },
+        {
+          "repetition": 1,
+          "runtime": "current_patched"
+        },
+        {
+          "repetition": 2,
+          "runtime": "current_patched"
+        },
+        {
+          "repetition": 2,
+          "runtime": "baseline"
+        }
+      ],
+      "repetitions_per_runtime": 2
+    },
+    "experiment_id": "E6f",
+    "hypothesis": "Patched llama.cpp b10216 can reproduce the exact selected service behavior while retaining at least 95 percent of b10208 throughput, preserving median and p95 HTTP latency and measured server CPU seconds per request within 5 percent, and adding no more than 64 MiB maximum RSS.",
+    "inputs": {
+      "manifest_path": "results/manifests/e3f-30656151957.json",
+      "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+      "models_path": "experiments/e3f_models.json",
+      "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+      "tasks_path": "experiments/e3_tasks.json",
+      "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    },
+    "request": {
+      "chat_template_mode": "model_jinja_system_instruction",
+      "instruction_role": "system",
+      "max_output_tokens": 8,
+      "measured_tasks": 30,
+      "seed": 424242,
+      "temperature": 0.0,
+      "timeout_seconds": 30.0,
+      "warmup_task_ids": [
+        "arithmetic-02",
+        "logic-01"
+      ]
+    },
+    "runtimes": {
+      "baseline": {
+        "commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+        "patches": [],
+        "repository": "https://github.com/ggml-org/llama.cpp.git",
+        "tag": "b10208"
+      },
+      "current_patched": {
+        "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+        "patches": [
+          {
+            "name": "validated_arm_features",
+            "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+            "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+          },
+          {
+            "name": "q8_vector_stores",
+            "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+            "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+          },
+          {
+            "name": "reasoning_forced_token_guard",
+            "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+            "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+          }
+        ],
+        "repository": "https://github.com/ggml-org/llama.cpp.git",
+        "tag": "b10216"
+      }
+    },
+    "schema_version": 1,
+    "scope": "Quality- and SLO-gated application comparison of the selected Pareto64 service on historical llama.cpp b10208 versus the complete validated Arm patch series on b10216",
+    "selected": {
+      "candidate": "ministral3_3b_q4_k_m",
+      "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "model_size_bytes": 2146497824,
+      "reference_accuracy": 0.7666666666666667,
+      "reference_correct": 23,
+      "reference_total": 30,
+      "required_runtime_buffer_patterns": [
+        "CPU_REPACK model buffer size",
+        "CPU_Mapped model buffer size"
+      ]
+    },
+    "selection_policy": {
+      "promotion_rule": "The current patched runtime is an upgrade candidate only if it passes every frozen source, build, quality, prefix-reuse, throughput, latency, CPU-time, readiness, and RSS gate. Otherwise b10208 remains pinned and the complete result is retained without threshold changes.",
+      "weighted_score_used": false
+    },
+    "service": {
+      "batch_size": 64,
+      "client_concurrency": 1,
+      "context_per_slot": 256,
+      "flash_attention": "auto",
+      "kv_cache_type_k": "f16",
+      "kv_cache_type_v": "f16",
+      "micro_batch_size": 64,
+      "prompt_cache": true,
+      "server_parallel_slots": 1,
+      "threads": 4,
+      "warmup_slot_ids": [
+        0,
+        0
+      ],
+      "weight_repack": true
+    },
+    "title": "Current patched llama.cpp selected-service upgrade lane"
+  },
+  "experiment_id": "E6f",
+  "hypothesis": {
+    "baseline_runtime": "baseline",
+    "candidate_rss_increase_kib": 100.0,
+    "candidate_runtime": "current_patched",
+    "cpu_seconds_per_request_ratio": 0.999332783861219,
+    "cpu_time_retention_passed": true,
+    "latency_retention_passed": true,
+    "median_http_latency_ratio": 0.9917921094407144,
+    "p95_http_latency_ratio": 0.993903738337482,
+    "passed": true,
+    "quality_passed": true,
+    "readiness_retention_passed": true,
+    "ready_time_ratio": 1.0481940671153023,
+    "rss_overhead_passed": true,
+    "selected_runtime": "current_patched",
+    "throughput_retention_passed": true,
+    "throughput_retention_ratio": 1.0027527267772853,
+    "weighted_score_used": false
+  },
+  "maximum_observed_prompt_tokens": 127,
+  "performance": {
+    "baseline": {
+      "average_server_cores_used": {
+        "coefficient_of_variation": 0.0004707158130442546,
+        "max": 3.9547060661161653,
+        "mean": 3.952845399280205,
+        "median": 3.952845399280205,
+        "min": 3.9509847324442444,
+        "p95": 3.9547060661161653,
+        "population_stddev": 0.0018606668359604228
+      },
+      "cached_tokens": {
+        "coefficient_of_variation": 0.509021083039616,
+        "max": 92.0,
+        "mean": 29.766666666666666,
+        "median": 25.0,
+        "min": 25.0,
+        "p95": 80.0,
+        "population_stddev": 15.151860905145904
+      },
+      "decode_ms": {
+        "coefficient_of_variation": 0.007817131257261975,
+        "max": 64.168,
+        "mean": 62.81158333333334,
+        "median": 62.6995,
+        "min": 62.075,
+        "p95": 63.912,
+        "population_stddev": 0.49100639139311536
+      },
+      "encode_ms": {
+        "coefficient_of_variation": 0.3530542964990584,
+        "max": 2070.778,
+        "mean": 1006.2196499999999,
+        "median": 991.2545,
+        "min": 62.671,
+        "p95": 1792.361,
+        "population_stddev": 355.25017065427875
+      },
+      "http_ms": {
+        "coefficient_of_variation": 0.3308514538382358,
+        "max": 2137.820552,
+        "mean": 1074.0824567666666,
+        "median": 1058.0709425,
+        "min": 130.967412,
+        "p95": 1861.335295,
+        "population_stddev": 355.36174236339565
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 2.6511623099981623e-05,
+        "max": 4450996.0,
+        "mean": 4450878.0,
+        "median": 4450878.0,
+        "min": 4450760.0,
+        "p95": 4450996.0,
+        "population_stddev": 118.0
+      },
+      "prompt_tokens": {
+        "coefficient_of_variation": 0.19499399772169318,
+        "max": 127.0,
+        "mean": 81.0,
+        "median": 76.0,
+        "min": 61.0,
+        "p95": 125.0,
+        "population_stddev": 15.794513815457147
+      },
+      "quality": {
+        "correct_per_repetition": [
+          23,
+          23
+        ],
+        "exact_selected_predictions": true,
+        "predictions_stable_between_repetitions": true,
+        "reference_prediction_mismatches_per_repetition": [
+          0,
+          0
+        ]
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.0707693936745767,
+        "max": 2544.683864,
+        "mean": 2376.5003735,
+        "median": 2376.5003735,
+        "min": 2208.316883,
+        "p95": 2544.683864,
+        "population_stddev": 168.18349050000006
+      },
+      "repetitions": [
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.00711079600049364,
+              "max": 63.989,
+              "mean": 62.678666666666665,
+              "median": 62.575500000000005,
+              "min": 62.077,
+              "p95": 63.956,
+              "population_stddev": 0.44569521224960734
+            },
+            "elapsed_seconds": 32.232470795,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3511798494160963,
+              "max": 2041.896,
+              "mean": 1006.3687333333334,
+              "median": 991.2545,
+              "min": 62.942,
+              "p95": 1792.361,
+              "population_stddev": 353.41642022906757
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.3291083423532254,
+              "max": 2109.133787,
+              "mean": 1074.2093614666667,
+              "median": 1058.0709425,
+              "min": 131.917183,
+              "p95": 1861.335295,
+              "population_stddev": 353.53126229261136
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9307384528726136,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.48",
+            "exit_status": 0,
+            "maximum_rss_kib": 4450760,
+            "percent_cpu": "372%"
+          },
+          "ready_ms": 2208.316883,
+          "repetition": 1,
+          "runtime": "baseline",
+          "server_process_cpu": {
+            "average_cores_used": 3.9509847324442444,
+            "clock_ticks_per_second": 100,
+            "pid": 6566,
+            "seconds_per_request": 4.245,
+            "system_seconds": 0.14,
+            "system_ticks": 14,
+            "total_seconds": 127.35,
+            "total_ticks": 12735,
+            "user_seconds": 127.21,
+            "user_ticks": 12721
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.007914804091642387,
+              "max": 64.168,
+              "mean": 62.9445,
+              "median": 62.778000000000006,
+              "min": 62.075,
+              "p95": 63.912,
+              "population_stddev": 0.4981933861463842
+            },
+            "elapsed_seconds": 32.224898101,
+            "encode_ms": {
+              "coefficient_of_variation": 0.35491987698872396,
+              "max": 2070.778,
+              "mean": 1006.0705666666667,
+              "median": 980.21,
+              "min": 62.671,
+              "p95": 1800.08,
+              "population_stddev": 357.07444176330915
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.33258620060341226,
+              "max": 2137.820552,
+              "mean": 1073.9555520666665,
+              "median": 1047.2936295,
+              "min": 130.967412,
+              "p95": 1869.038446,
+              "population_stddev": 357.1827966787927
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9309571718729203,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.39",
+            "exit_status": 0,
+            "maximum_rss_kib": 4450996,
+            "percent_cpu": "374%"
+          },
+          "ready_ms": 2544.683864,
+          "repetition": 2,
+          "runtime": "baseline",
+          "server_process_cpu": {
+            "average_cores_used": 3.9547060661161653,
+            "clock_ticks_per_second": 100,
+            "pid": 6677,
+            "seconds_per_request": 4.248,
+            "system_seconds": 0.15,
+            "system_ticks": 15,
+            "total_seconds": 127.44,
+            "total_ticks": 12744,
+            "user_seconds": 127.29,
+            "user_ticks": 12729
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        }
+      ],
+      "requests_per_second": {
+        "coefficient_of_variation": 0.00011748375910620357,
+        "max": 0.9309571718729203,
+        "mean": 0.9308478123727669,
+        "median": 0.9308478123727669,
+        "min": 0.9307384528726136,
+        "p95": 0.9309571718729203,
+        "population_stddev": 0.00010935950015333873
+      },
+      "server_cpu_seconds_per_request": {
+        "coefficient_of_variation": 0.00035323207347228466,
+        "max": 4.248,
+        "mean": 4.2465,
+        "median": 4.2465,
+        "min": 4.245,
+        "p95": 4.248,
+        "population_stddev": 0.0015000000000000568
+      },
+      "source": {
+        "commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+        "patches": [],
+        "repository": "https://github.com/ggml-org/llama.cpp.git",
+        "tag": "b10208"
+      }
+    },
+    "current_patched": {
+      "average_server_cores_used": {
+        "coefficient_of_variation": 0.0004345690342864061,
+        "max": 3.9628030394225933,
+        "mean": 3.961081675983931,
+        "median": 3.961081675983931,
+        "min": 3.9593603125452694,
+        "p95": 3.9628030394225933,
+        "population_stddev": 0.0017213634386619159
+      },
+      "cached_tokens": {
+        "coefficient_of_variation": 0.509021083039616,
+        "max": 92.0,
+        "mean": 29.766666666666666,
+        "median": 25.0,
+        "min": 25.0,
+        "p95": 80.0,
+        "population_stddev": 15.151860905145904
+      },
+      "decode_ms": {
+        "coefficient_of_variation": 0.014937071258719908,
+        "max": 67.412,
+        "mean": 62.859366666666666,
+        "median": 62.5795,
+        "min": 62.029,
+        "p95": 63.955,
+        "population_stddev": 0.9389348391780029
+      },
+      "encode_ms": {
+        "coefficient_of_variation": 0.3520705434074854,
+        "max": 2044.242,
+        "mean": 1003.3746666666667,
+        "median": 979.6445000000001,
+        "min": 62.333,
+        "p95": 1781.912,
+        "population_stddev": 353.25866413463785
+      },
+      "http_ms": {
+        "coefficient_of_variation": 0.32999871522309826,
+        "max": 2114.929769,
+        "mean": 1071.13490735,
+        "median": 1049.3864119999998,
+        "min": 130.298154,
+        "p95": 1849.988108,
+        "population_stddev": 353.4731432561124
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 1.2581329307307955e-05,
+        "max": 4451096.0,
+        "mean": 4451040.0,
+        "median": 4451040.0,
+        "min": 4450984.0,
+        "p95": 4451096.0,
+        "population_stddev": 56.0
+      },
+      "prompt_tokens": {
+        "coefficient_of_variation": 0.19499399772169318,
+        "max": 127.0,
+        "mean": 81.0,
+        "median": 76.0,
+        "min": 61.0,
+        "p95": 125.0,
+        "population_stddev": 15.794513815457147
+      },
+      "quality": {
+        "correct_per_repetition": [
+          23,
+          23
+        ],
+        "exact_selected_predictions": true,
+        "predictions_stable_between_repetitions": true,
+        "reference_prediction_mismatches_per_repetition": [
+          0,
+          0
+        ]
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.02067875285400805,
+        "max": 2542.54506,
+        "mean": 2491.0335919999998,
+        "median": 2491.0335919999998,
+        "min": 2439.522124,
+        "p95": 2542.54506,
+        "population_stddev": 51.51146799999992
+      },
+      "repetitions": [
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.01097553610561541,
+              "max": 66.002,
+              "mean": 62.806799999999996,
+              "median": 62.626999999999995,
+              "min": 62.183,
+              "p95": 63.522,
+              "population_stddev": 0.6893383010781658
+            },
+            "elapsed_seconds": 32.154183997,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3516571263177388,
+              "max": 2042.647,
+              "mean": 1003.8494666666667,
+              "median": 979.8330000000001,
+              "min": 62.333,
+              "p95": 1782.089,
+              "population_stddev": 353.01081870359474
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.3294657007065076,
+              "max": 2109.024656,
+              "mean": 1071.5912809666668,
+              "median": 1049.3864119999998,
+              "min": 130.298154,
+              "p95": 1851.047545,
+              "population_stddev": 353.0525722546669
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.933004550910047,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.22",
+            "exit_status": 0,
+            "maximum_rss_kib": 4451096,
+            "percent_cpu": "375%"
+          },
+          "ready_ms": 2439.522124,
+          "repetition": 1,
+          "runtime": "current_patched",
+          "server_process_cpu": {
+            "average_cores_used": 3.9593603125452694,
+            "clock_ticks_per_second": 100,
+            "pid": 6602,
+            "seconds_per_request": 4.243666666666667,
+            "system_seconds": 0.15,
+            "system_ticks": 15,
+            "total_seconds": 127.31,
+            "total_ticks": 12731,
+            "user_seconds": 127.16,
+            "user_ticks": 12716
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.018000843459372536,
+              "max": 67.412,
+              "mean": 62.91193333333333,
+              "median": 62.536500000000004,
+              "min": 62.029,
+              "p95": 66.327,
+              "population_stddev": 1.1324678636598142
+            },
+            "elapsed_seconds": 32.126249711,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3524835428114141,
+              "max": 2044.242,
+              "mean": 1002.8998666666666,
+              "median": 977.7735,
+              "min": 62.401,
+              "p95": 1781.912,
+              "population_stddev": 353.50569808776146
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.3305311676339008,
+              "max": 2114.929769,
+              "mean": 1070.6785337333333,
+              "median": 1045.4698715,
+              "min": 130.629265,
+              "p95": 1849.988108,
+              "population_stddev": 353.8926259154315
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9338158132328788,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.28",
+            "exit_status": 0,
+            "maximum_rss_kib": 4450984,
+            "percent_cpu": "374%"
+          },
+          "ready_ms": 2542.54506,
+          "repetition": 2,
+          "runtime": "current_patched",
+          "server_process_cpu": {
+            "average_cores_used": 3.9628030394225933,
+            "clock_ticks_per_second": 100,
+            "pid": 6636,
+            "seconds_per_request": 4.243666666666667,
+            "system_seconds": 0.13,
+            "system_ticks": 13,
+            "total_seconds": 127.31,
+            "total_ticks": 12731,
+            "user_seconds": 127.18,
+            "user_ticks": 12718
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        }
+      ],
+      "requests_per_second": {
+        "coefficient_of_variation": 0.00043456903428641035,
+        "max": 0.9338158132328788,
+        "mean": 0.9334101820714629,
+        "median": 0.9334101820714629,
+        "min": 0.933004550910047,
+        "p95": 0.9338158132328788,
+        "population_stddev": 0.00040563116141589806
+      },
+      "server_cpu_seconds_per_request": {
+        "coefficient_of_variation": 0.0,
+        "max": 4.243666666666667,
+        "mean": 4.243666666666667,
+        "median": 4.243666666666667,
+        "min": 4.243666666666667,
+        "p95": 4.243666666666667,
+        "population_stddev": 0.0
+      },
+      "source": {
+        "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+        "patches": [
+          {
+            "name": "validated_arm_features",
+            "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+            "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+          },
+          {
+            "name": "q8_vector_stores",
+            "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+            "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+          },
+          {
+            "name": "reasoning_forced_token_guard",
+            "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+            "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+          }
+        ],
+        "repository": "https://github.com/ggml-org/llama.cpp.git",
+        "tag": "b10216"
+      }
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "python": "Python 3.10.20",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "baseline_runtime": "baseline",
+    "candidate_runtime": "current_patched",
+    "experiment_id": "E6f",
+    "git_commit": "cc92d863e2521fe355a0a5293dcbefb7761dead6",
+    "github_run_attempt": "1",
+    "github_run_id": "30678703184",
+    "schema_version": 1
+  },
+  "schema_version": 1,
+  "scope": "Quality- and SLO-gated application comparison of the selected Pareto64 service on historical llama.cpp b10208 versus the complete validated Arm patch series on b10216",
+  "selection": {
+    "accuracy": 0.7666666666666667,
+    "baseline_runtime": "baseline",
+    "candidate": "ministral3_3b_q4_k_m",
+    "candidate_runtime": "current_patched",
+    "correct": 23,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "selected_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "selected_runtime": "current_patched",
+    "total": 30
+  },
+  "source": {
+    "artifact_name": "e6f-current-runtime-service-30678703184-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30678703184",
+    "runtime_proof": {
+      "baseline": {
+        "clean": true,
+        "commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+        "tag": "b10208"
+      },
+      "current_patched": {
+        "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+        "patches_applied": [
+          "validated_arm_features",
+          "q8_vector_stores",
+          "reasoning_forced_token_guard"
+        ],
+        "tag": "b10216"
+      },
+      "schema_version": 1
+    }
+  },
+  "status": "valid_current_runtime_upgrade_candidate",
+  "validation": {
+    "all_input_hashes_match": true,
+    "automatic_product_promotion_allowed": false,
+    "cached_prefix_observed_in_every_measured_request": true,
+    "claim_scope": "A passing E6f validates one selected-model native Arm application lane and permits an upgrade candidate claim only. It does not prove the full upstream matrix, a model-wide speedup, energy savings, or automatic product promotion without separate launch-contract integration.",
+    "energy_claim_allowed": false,
+    "exact_model_verified": true,
+    "exact_patch_series_verified": true,
+    "fresh_server_per_cell": true,
+    "historical_baseline_reproduced": true,
+    "matched_native_kleidiai_builds": true,
+    "measured_window_process_cpu_validated": true,
+    "quality_drift_treated_as_upgrade_rejection": true,
+    "runtime_buffer_proofs_observed": true,
+    "server_pid_bound_in_every_probe": true,
+    "source_commits_and_tags_verified": true,
+    "upgrade_candidate_claim_allowed": true,
+    "weighted_score_used": false
+  }
+}

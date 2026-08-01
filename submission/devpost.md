@@ -45,6 +45,7 @@ summed. Every promoted service change preserved the selected task predictions.
 | Thread efficiency | 4 threads → measured 3/2-thread profiles | Only 0.11%/1.36% CPU-time savings while throughput falls 24.48%/48.82% | Keep four threads; CPU time is not energy |
 | Arm kernel | 32 scalar stores → NEON narrows/vector stores | 5.09 → 10.33 GB/s, 2.029x, bit-identical | Accept hot-path win only |
 | Source robustness | Historical pins → llama.cpp b10216 | Complete native build and 47/47 tests passed | Validate one upstream-equivalent Arm CPU lane |
+| Application runtime | Clean b10208 → patched b10216 | Exact 23/30 twice; 1.0028x throughput; +100 KiB RSS | Accept an exact-service upgrade candidate |
 
 ## What it does
 
@@ -193,6 +194,14 @@ then all 46 upstream `main` tests plus the required fixture passed—47/47 total
 with no failures, errors, or skips. This validates one Arm CPU lane, not the
 full cross-platform and accelerator matrix.
 
+We then challenged the historical application pin directly. In one matched
+native job, four fresh clean-`b10208` and patched-`b10216` servers ran the exact
+selected Ministral service in reverse-balanced order. Current source reproduced
+23/30 twice, retained 100.28% throughput, slightly improved median/p95 latency,
+used 99.93% of baseline CPU seconds/request, and added 100 KiB maximum RSS.
+Every frozen gate passed. This is an upgrade candidate for one exact service,
+not an energy, model-wide, full-matrix, or automatic-promotion claim.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -201,10 +210,11 @@ immutable Arm LLM-Runner or llama.cpp revisions with KleidiAI, download exact
 Apache-2.0 model packages, execute balanced experiments, retain raw results, and
 run a second validator that recomputes every statistic and decision.
 
-The selected runtime is llama.cpp `b10208` at commit
-`9d9a6d29f6b981cc7f41983d26e56485c6af1811`, built with native Arm and
-KleidiAI enabled. The selected model is Apache-2.0 Ministral 3 3B Instruct at a
-pinned source revision and pinned GGUF producer revision.
+The historical selected runtime is llama.cpp `b10208` at commit
+`9d9a6d29f6b981cc7f41983d26e56485c6af1811`; E6f separately accepts patched
+`b10216` commit `876a4321163249c43ca4e986818fab5ab081f282` as an exact-service
+upgrade candidate. Both use native Arm and KleidiAI. The selected model is
+Apache-2.0 Ministral 3 3B Instruct at pinned source and GGUF revisions.
 
 ## Challenges
 
