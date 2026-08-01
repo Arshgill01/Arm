@@ -1086,3 +1086,6 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `63c0e450d967208e3eb81d21571c73354e8520940933434914920db5d63c27f1`.
   This accepts one upstream-equivalent native Arm CPU lane only, not the full
   platform, sanitizer, packaging, accelerator, or release matrix.
+- Public clean-checkout run `30676781968` passed on native `aarch64` from exact
+  retained-result commit `23ee4e5`: 108 tests, all 17 immutable hashes, E6d/E6e
+  evidence checks, exact planner recomputation, and the demo smoke test.
