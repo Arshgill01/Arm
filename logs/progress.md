@@ -1273,3 +1273,6 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - The retained decision is only a no-repack memory-tier upgrade candidate. E5h
   remains the fast-versus-memory comparison, and a separate launch integration
   must pass before Pareto64 can start this profile on b10216.
+- Public clean-checkout run `30690973261` passed on exact retained-result commit
+  `3af7da4`: 125 tests, all 25 immutable hashes, E6h result assertions, exact
+  planner/runtime checks, and the dependency-free demo smoke test.
