@@ -9,6 +9,8 @@ Last technical review: 2026-08-01 UTC. The submission deadline is August 14,
 - [x] Public source repository exists.
 - [x] Repository-level Apache-2.0 license exists and GitHub recognizes it.
 - [x] Functional planner, HTTP API, and selected-runtime launcher are included.
+- [x] Exact patched-current-runtime launch path is exercised end to end on
+      native Arm with source/build/binary/model/service provenance bound.
 - [x] Step-by-step local verification and native reproduction commands exist.
 - [x] Model, runtime, task, patch, and source provenance is recorded.
 - [x] Selected model and GGUF producer are Apache-2.0 at immutable revisions.
@@ -21,7 +23,7 @@ Last technical review: 2026-08-01 UTC. The submission deadline is August 14,
 - [x] Interactive no-dependency demo is implemented and browser-tested.
 - [x] Video script is under three minutes (2m50s).
 - [x] Clean-checkout native Arm validation passes in public workflow run
-      [`30677849517`](https://github.com/Arshgill01/Arm/actions/runs/30677849517).
+      [`30680198942`](https://github.com/Arshgill01/Arm/actions/runs/30680198942).
 
 The demo, favicon, and screenshots are first-party assets created for this
 repository. They use no third-party imagery, fonts, music, or footage.
