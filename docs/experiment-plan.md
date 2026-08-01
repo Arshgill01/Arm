@@ -1105,6 +1105,9 @@ replay matched the uploaded result byte for byte at `8dffd667…7ffd9b`.
 OpenSSL-off is a dependency-pruning candidate for a separate loopback HTTP
 launch integration; it is not yet an automatic product default. See
 [`../results/reports/e7b-openssl-service.md`](../results/reports/e7b-openssl-service.md).
+Public clean-checkout run `30695888838` then passed all 141 tests, 32 immutable
+hashes, E7b assertions, planner/runtime checks, and demo smoke on exact retained
+commit `d00be1c`.
 
 ## E4a frozen accept-backlog tuner
 

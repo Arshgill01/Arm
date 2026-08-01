@@ -1417,3 +1417,6 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   OpenSSL-off is admitted only as a candidate for a separate loopback HTTP
   launch integration; HTTPS, security, installed-package size, energy, and
   other-service claims remain excluded.
+- Public clean-checkout run `30695888838` passed on exact retained-result commit
+  `d00be1c`: 141 tests, all 32 immutable hashes, E7b contract/result assertions,
+  exact planner/runtime checks, and the dependency-free demo smoke test.

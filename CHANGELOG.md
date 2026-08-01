@@ -51,6 +51,9 @@ authoritative, timestamped record; this file groups the significant additions.
   hashes, including the frozen E7b contract and independently replayed native
   dependency-pruning result. The updated evidence row renders without desktop
   or mobile overflow and produces no browser warnings or errors.
+- Passed the updated public clean-checkout package on native `aarch64`: all 141
+  tests, 32 hashes, exact E7b dependency/result checks, planner/runtime
+  assertions, and demo smoke succeeded.
 - Extended the focused suite to 135 tests and the immutable verifier to 30
   hashes, including the frozen E7a compiler/build contract and independently
   replayed native no-win manifest.
