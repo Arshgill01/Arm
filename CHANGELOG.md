@@ -13,6 +13,8 @@ authoritative, timestamped record; this file groups the significant additions.
   no-repack tiers respectively; an impossible envelope is refused.
 - Retained exact hashed service plans, including the bounded runtime argument,
   and extended clean-checkout verification to recompute both decisions.
+- Passed the complete clean-checkout package on native `aarch64`: 103 tests,
+  15 pinned hashes, exact model/service plans, and demo smoke test.
 
 ### Submission and developer experience
 

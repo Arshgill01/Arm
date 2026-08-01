@@ -1002,3 +1002,6 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Local focused tests, scoped Ruff, JSON validation, exact retained-plan
   recomputation, and the submission verifier pass. The verifier now pins 15
   evidence/configuration/plan hashes.
+- Public clean-checkout run `30674971776` passed on native `aarch64` from exact
+  product commit `d274a6b`: 103 tests, all 15 hashes, exact retained model and
+  service plans, and the dependency-free demo smoke test.

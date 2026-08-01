@@ -25,11 +25,12 @@ public workflow run; compact manifests and reports are committed permanently.
 | E5f promoted-default reproduction | [`30670972497`](https://github.com/Arshgill01/Arm/actions/runs/30670972497) | 180 exact responses; unflagged 64/64 cells; 17,264 KiB saved | `4b0e4632…42135a` byte-identical ingest |
 | Marginal batch floor retains 64/64 | [E5g `30671733556`](https://github.com/Arshgill01/Arm/actions/runs/30671733556) | [`e5g` manifest](../results/manifests/e5g-30671733556.json) · [`report`](../results/reports/e5g-prompt-batch-floor.md) | `374e5af3…984b6` |
 | No-repack memory tier saves 2,072,268 KiB RSS | [E5h `30672633366`](https://github.com/Arshgill01/Arm/actions/runs/30672633366) | [`e5h` manifest](../results/manifests/e5h-30672633366.json) · [`report`](../results/reports/e5h-weight-repack-boundary.md) | `e048f3e2…90faa` |
+| Measured policies route fast and ≤3-GiB tiers | [`30674971776`](https://github.com/Arshgill01/Arm/actions/runs/30674971776) | [`throughput plan`](../results/plans/e5h-service-throughput.json) · [`memory plan`](../results/plans/e5h-service-memory.json) · [`report`](../results/reports/service-tier-planner.md) | `6e00839f…e4b4` · `15a6fac8…27d` |
 | Flash Attention ablation: valid 1.0322x no-win | [E5i `30674023380`](https://github.com/Arshgill01/Arm/actions/runs/30674023380) | [`e5i` manifest](../results/manifests/e5i-30674023380.json) · [`report`](../results/reports/e5i-flash-attention-ablation.md) | `ca41dd4c…a46ba2` |
 | KleidiAI native feature-selection fix | [E6a `30636911078`](https://github.com/Arshgill01/Arm/actions/runs/30636911078) | [`e6a` manifest](../results/manifests/e6a-30636911078.json) · [`report`](../results/reports/e6a-native-feature-fix.md) | `9a5951ae…24ae` |
 | NEON Q8_0 vector-store patch: 2.029x | [E6b `30640282768`](https://github.com/Arshgill01/Arm/actions/runs/30640282768) | [`e6b` manifest](../results/manifests/e6b-30640282768.json) · [`report`](../results/reports/e6b-q8-vector-store.md) | `e870ad9c…e210` |
 | Reasoning-budget source fix/app rejection | [E6c `30654805236`](https://github.com/Arshgill01/Arm/actions/runs/30654805236) | [`report`](../results/reports/e6c-reasoning-budget-fix.md) | mixed result; no deployment manifest |
-| Public clean-checkout package validation | [`30674552684`](https://github.com/Arshgill01/Arm/actions/runs/30674552684) | 97 tests, all eleven evidence hashes, exact plan, demo smoke test | passed on native `aarch64` |
+| Public clean-checkout package validation | [`30674971776`](https://github.com/Arshgill01/Arm/actions/runs/30674971776) | 103 tests, 15 hashes, exact model/service plans, demo smoke test | passed on native `aarch64` |
 
 ## Final selected package
 
@@ -56,6 +57,9 @@ python3 -m unittest discover -s tests -v
 python3 -m pareto64 plan \
   --manifest results/manifests/e3f-30656151957.json \
   --constraints configs/cloud-quality.json
+python3 -m pareto64 service-plan \
+  --manifest results/manifests/e5h-30672633366.json \
+  --constraints configs/service-memory.json
 ```
 
 The compact package check downloads nothing and uses only Python's standard
