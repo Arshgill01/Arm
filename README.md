@@ -80,6 +80,26 @@ complete fatal-warnings build passes with KleidiAI enabled, followed by 47/47
 CTest executions without a failure, error, or skip. It is one validated Arm CPU
 lane, not the full upstream platform and backend matrix.
 
+## Optimization map
+
+The measurements below come from separate frozen native Arm contracts; effects
+are not added together. Quality means exact selected-task predictions were
+preserved unless the row explicitly describes a rejected candidate.
+
+| Front | Baseline | Technical change | Measured result | Product decision |
+| --- | --- | --- | --- | --- |
+| Model/quality | 2.05 GB KleidiAI Q4_0, 70% | Quality/SLO-gated package search | Q4_K_M reached 76.67% at 2.15 GB; the 29%-faster model failed quality | Select Q4_K_M; reject speed without task quality |
+| Prompt work | Cache disabled, 0.5378 req/s | Reuse the verified shared chat prefix | 0.8991 req/s (**1.672x**); median latency 1,807.0 → 1,061.6 ms | Enable prompt caching |
+| KV memory | 2,048-token f16 context, 208 MiB KV | Bound context to the 135-token application maximum | 256-token f16 uses 26 MiB KV and saves **183.36 MiB RSS** at 99.62% throughput | Promote 256/f16; reject q4_0 answer drift |
+| Prompt graph | 256/256 batch, 40.13 MiB buffer | Split prompt work into 64/64 batches | 10.03 MiB buffer (**75% lower**), 14.48 MiB less RSS, 1.0226x throughput | Promote 64/64; stop when 32/32 adds RSS |
+| Arm weight layout | Repack on, 4,453,532 KiB RSS | Expose verified `--no-weight-repack` envelope | **2,072,268 KiB less RSS**, with throughput reduced to 48.47% | Keep fast default; route ≤3-GiB hosts to memory tier |
+| Arm Q8 kernel | 32 scalar byte stores, 5.09 GB/s | NEON narrowing plus two vector stores | 10.33 GB/s (**2.029x**) with bit-identical output and neutral model inference | Accept bounded hot-path win |
+| Source robustness | Historical pinned patches | Rebase all three fixes to llama.cpp b10216 | Targeted gates passed, then complete build plus **47/47** executed tests | Validate one upstream-equivalent Arm CPU lane |
+
+Rejected variants remain visible: two server slots, cached two-slot serving,
+q4_0 KV, batch 32, and Flash Attention all missed at least one predeclared gate.
+The evidence links below retain those negative results alongside the wins.
+
 ```bash
 python3 -m pareto64 plan \
   --manifest results/manifests/e3f-30656151957.json \

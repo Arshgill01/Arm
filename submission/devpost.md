@@ -30,6 +30,21 @@ The memorable result is simple: our faster 2.05 GB KleidiAI model lost. It was
 2.15 GB Q4_K_M package because it reached a stable 76.67% and cleared every
 latency, load, memory, and package-size obligation.
 
+## Optimization at a glance
+
+Each row is a separately frozen native Arm experiment; the effects are not
+summed. Every promoted service change preserved the selected task predictions.
+
+| Front | Baseline → change | Measured result | Decision |
+| --- | --- | --- | --- |
+| Model/quality | Faster Q4_0 → gated package search | 70% → 76.67%; selected model is slightly larger | Reject speed without quality |
+| Prompt work | Cache off → shared-prefix reuse | 1.672x throughput; median latency 1,807 → 1,062 ms | Promote cache |
+| KV memory | 2,048/f16 → 256/f16 context | 183.36 MiB RSS saved at 99.62% throughput | Promote; reject q4_0 drift |
+| Prompt graph | 256/256 → 64/64 batch | 75% smaller compute buffer; 14.48 MiB RSS saved | Promote 64/64 |
+| Arm layout | Repack on → measured no-repack tier | 1.98 GiB RSS saved at 48.47% throughput | Route fast and ≤3-GiB envelopes separately |
+| Arm kernel | 32 scalar stores → NEON narrows/vector stores | 5.09 → 10.33 GB/s, 2.029x, bit-identical | Accept hot-path win only |
+| Source robustness | Historical pins → llama.cpp b10216 | Complete native build and 47/47 tests passed | Validate one upstream-equivalent Arm CPU lane |
+
 ## What it does
 
 - runs checksum-pinned AI experiments on native four-core Neoverse N2 hosts;

@@ -1,6 +1,6 @@
 # Hackathon requirements dossier
 
-Last verified: 2026-07-31 UTC. Authoritative source links are collected in
+Last verified: 2026-08-01 UTC. Authoritative source links are collected in
 [`source-registry.md`](source-registry.md).
 
 ## Event identity and schedule
@@ -148,6 +148,11 @@ The July 24 update also says judges will look beyond the pitch to the actual
 implementation and artifacts. Reusable optimized models, scripts, tools,
 migration notes, templates, benchmarks, and lessons are specifically encouraged.
 
+Rechecking the live update on August 1 confirms the organizer's requested
+evaluation chain: make the baseline, technical change, measured improvement,
+and practical meaning easy to find in the README. Pareto64's judge summary now
+uses that exact structure and keeps rejected optimizations in the same map.
+
 An official July 31 session reviews concepts and the judging criteria at 09:00
 PDT (16:00 UTC), followed by judge office hours on August 3 at 10:00 PDT (17:00
 UTC) in the Arm Developer Program Discord. These are the best channels to resolve
@@ -168,7 +173,7 @@ the rule defects in `open-questions.md`.
 - [x] All dependencies, models, datasets, and generated assets have provenance
       and compatible rights.
 - [x] Clean-checkout setup/run/validation succeeds on the intended Arm target
-      ([native run `30663277762`](https://github.com/Arshgill01/Arm/actions/runs/30663277762)).
+      ([native run `30676781968`](https://github.com/Arshgill01/Arm/actions/runs/30676781968)).
 - [x] Repeated before/after results and raw evidence are published.
 - [x] Correctness or quality guardrails show optimization did not silently break
       the workload.

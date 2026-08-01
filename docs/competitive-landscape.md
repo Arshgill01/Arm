@@ -1,7 +1,9 @@
 # Competitive landscape and winner signals
 
-Checked: 2026-07-31 UTC. The 2026 Devpost gallery is not public, so repositories
+Checked: 2026-08-01 UTC. The 2026 Devpost gallery is still not public, so repositories
 below are unverified public competitor intelligence, not official submissions.
+The live gallery page displayed roughly 2,000 participants but no published
+entries; participant count is not a submission count.
 
 ## Prior winner signals
 

@@ -1089,3 +1089,18 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Public clean-checkout run `30676781968` passed on native `aarch64` from exact
   retained-result commit `23ee4e5`: 108 tests, all 17 immutable hashes, E6d/E6e
   evidence checks, exact planner recomputation, and the demo smoke test.
+
+## 2026-08-01 — Judge-facing optimization chain refreshed
+
+- Rechecked the official organizer updates and unpublished project gallery. The
+  latest guidance emphasizes the 40-point technical category, reusable impact,
+  and a visible baseline → technical change → measured result → meaning chain.
+  The gallery still exposes no official entries; its roughly 2,000 participants
+  are not treated as competitors or submissions.
+- Added compact optimization maps to the repository and Devpost draft covering
+  model quality, prompt reuse, KV/context memory, prompt batching, Arm repack
+  tiers, the NEON Q8 patch, and current-source robustness. Each row separates
+  its frozen experiment and product disposition so effects are not summed.
+- Kept the negative boundaries visible beside the wins: concurrency, cached
+  concurrency, q4_0 KV, batch 32, and Flash Attention all remain rejected under
+  their original gates.

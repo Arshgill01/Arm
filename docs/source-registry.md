@@ -10,14 +10,15 @@ how heavily the source should control a project decision.
 | [Track details](https://arm-ai-optimization-challenge.devpost.com/details/trackdetails) | Official event page | Physical, Cloud, and Mobile definitions and suggested tools |
 | [Schedule](https://arm-ai-optimization-challenge.devpost.com/details/dates) | Official event page | Public timeline; conflicts are resolved in favor of rules |
 | [Resources](https://arm-ai-optimization-challenge.devpost.com/resources) | Official event page | Arm program, learning paths, GitHub organization, Discord |
+| [Project gallery](https://arm-ai-optimization-challenge.devpost.com/project-gallery) | Official event page, rechecked 2026-08-01 | Gallery publication state and entrant survey fields; no entries public yet |
 | [Arm Create](https://developer.arm.com/arm-create) | Official Arm page | Organizer framing and event confirmation |
 | [Arm Developer Program](https://developer.arm.com/) | Official Arm page | Account, documentation, tools, support |
 | [Arm Learning Paths](https://learn.arm.com/) | Official Arm documentation | Reproducible platform tutorials and examples |
 | [Arm Developer Ecosystem GitHub](https://github.com/ArmDeveloperEcosystem) | Official Arm GitHub org | Sample code and reusable project foundations |
 | [Prior challenge winners](https://newsroom.arm.com/blog/arm-ai-dev-challenge) | Official Arm editorial | Signals from the previous, differently scoped challenge |
-| [Strengthen Your Optimization Story](https://arm-ai-optimization-challenge.devpost.com/updates/45456-arm-ai-optimization-challenge-strengthen-your-optimization-story) | Official organizer update | Baseline/change/evidence expectations and reusable artifacts |
-| [Office-hours recap](https://arm-ai-optimization-challenge.devpost.com/updates/45305-arm-create-ai-optimization-challenge-office-hours-recap) | Official organizer update | Repository/license reminder, measurement examples, Performix |
-| [Judging session and August 3 office hours](https://arm-ai-optimization-challenge.devpost.com/updates/45539-judging-criteria-event-this-friday-and-august-3-office-hours) | Official organizer update | Live concept review and clarification opportunities |
+| [Strengthen Your Optimization Story](https://arm-ai-optimization-challenge.devpost.com/updates/45456-arm-ai-optimization-challenge-strengthen-your-optimization-story) | Official organizer update, rechecked 2026-08-01 | Baseline/change/evidence expectations and reusable artifacts |
+| [Office-hours recap](https://arm-ai-optimization-challenge.devpost.com/updates/45305-arm-create-ai-optimization-challenge-office-hours-recap) | Official organizer update, rechecked 2026-08-01 | Repository/license reminder, measurement examples, Performix |
+| [Judging session and August 3 office hours](https://arm-ai-optimization-challenge.devpost.com/updates/45539-judging-criteria-event-this-friday-and-august-3-office-hours) | Official organizer update, rechecked 2026-08-01 | Live concept review and clarification opportunities |
 | [Apple Silicon discussion](https://arm-ai-optimization-challenge.devpost.com/forum_topics/44631-does-an-apple-silicon-mac-qualify-for-the-mobile-ai-track) | Official organizer answer | Confirms Apple Silicon optimization counts for Mobile AI |
 | [Arm Performix](https://developer.arm.com/servers-and-cloud-computing/arm-performix) | Official Arm documentation | Neoverse profiler, machine-readable results, CI support |
 | [Arm MCP Server](https://github.com/mcp/arm/arm-mcp) | Official Arm repository/registry | Arm knowledge, migration checks, LLVM-MCA, remote Performix workflows |
@@ -36,6 +37,7 @@ how heavily the source should control a project decision.
 | [Ministral 3 3B Instruct](https://huggingface.co/mistralai/Ministral-3-3B-Instruct-2512/tree/b35d4dfe56c142746f54dbd64f579faab2744308) | Official Mistral model repository, pinned revision | Apache-2.0 E3f source model, system-prompt guidance, edge intent, and published quality prior |
 | [Unsloth Ministral 3 3B Instruct GGUF](https://huggingface.co/unsloth/Ministral-3-3B-Instruct-2512-GGUF/tree/7564922f37fa5bbb62b87f09a55c12f1f91d7a6a) | Quantization producer, pinned derivative repository | Apache-2.0 E3f Q4_0/Q4_K_M packages, shared producer, sizes, and immutable hashes |
 | [llama.cpp b10208](https://github.com/ggml-org/llama.cpp/tree/9d9a6d29f6b981cc7f41983d26e56485c6af1811) | Upstream repository, immutable release tag | E3d/E3e/E5f Qwen3.5 support, OpenAI-compatible server, context/batch allocation behavior, forced-end reasoning-budget sampler, benchmark tool, and pinned KleidiAI v1.24 integration |
+| [llama.cpp b10216](https://github.com/ggml-org/llama.cpp/tree/876a4321163249c43ca4e986818fab5ab081f282) | Upstream repository, immutable release tag | E6d/E6e current-source patch applicability, targeted Arm evidence, and upstream-equivalent Arm CPU lane |
 
 ## Evidence policy
 
