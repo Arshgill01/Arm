@@ -1,0 +1,136 @@
+{
+  "decision": "Selected lexicographically from the measured service Pareto frontier using the explicit priority list.",
+  "evaluated": {
+    "repack_off": {
+      "metrics": {
+        "http_ms_median": 2416.0280705,
+        "http_ms_p95": 3304.31079,
+        "maximum_rss_kib": 2381264.0,
+        "ready_ms_median": 2121.426315,
+        "requests_per_second_median": 0.45051006640512936
+      },
+      "name": "repack_off",
+      "quality_eligible": true,
+      "rejections": [],
+      "runtime": {
+        "launch_arguments": [
+          "--no-weight-repack"
+        ],
+        "weight_repack": false
+      }
+    },
+    "repack_on": {
+      "metrics": {
+        "http_ms_median": 1049.6071545,
+        "http_ms_p95": 1858.438779,
+        "maximum_rss_kib": 4453532.0,
+        "ready_ms_median": 3741.2688664999996,
+        "requests_per_second_median": 0.9295474170775482
+      },
+      "name": "repack_on",
+      "quality_eligible": true,
+      "rejections": [
+        {
+          "kind": "slo",
+          "metric": "maximum_rss_kib",
+          "observed": 4453532.0,
+          "operator": "at_most",
+          "threshold": 3145728.0
+        }
+      ],
+      "runtime": {
+        "launch_arguments": [],
+        "weight_repack": true
+      }
+    }
+  },
+  "feasible_profiles": [
+    "repack_off"
+  ],
+  "inputs": {
+    "constraints_path": "configs/service-memory.json",
+    "constraints_sha256": "7f5239f0991f80c130599d4630ebbfdec51bed2316f62b4a90c7b49dcbd135b4",
+    "experiment_id": "E5h",
+    "experiment_status": "valid_selected_inference_memory_tier",
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30672633366",
+    "manifest_path": "results/manifests/e5h-30672633366.json",
+    "manifest_sha256": "e048f3e25d513430b49fd2ee0a140e8a0f82fe31d79b5fb0aafb36b470190faa",
+    "selected_candidate": "ministral3_3b_q4_k_m"
+  },
+  "pareto_frontier": [
+    {
+      "metrics": {
+        "http_ms_median": 2416.0280705,
+        "http_ms_p95": 3304.31079,
+        "maximum_rss_kib": 2381264.0,
+        "ready_ms_median": 2121.426315,
+        "requests_per_second_median": 0.45051006640512936
+      },
+      "name": "repack_off",
+      "quality_eligible": true,
+      "rejections": [],
+      "runtime": {
+        "launch_arguments": [
+          "--no-weight-repack"
+        ],
+        "weight_repack": false
+      }
+    }
+  ],
+  "planner": "Pareto64",
+  "planner_stage": "service_profile",
+  "policy": {
+    "directions": {
+      "http_ms_median": "lower",
+      "http_ms_p95": "lower",
+      "maximum_rss_kib": "lower",
+      "ready_ms_median": "lower",
+      "requests_per_second_median": "higher"
+    },
+    "requirements": {
+      "http_ms_median": {
+        "at_most": 3000.0
+      },
+      "http_ms_p95": {
+        "at_most": 5000.0
+      },
+      "maximum_rss_kib": {
+        "at_most": 3145728.0
+      },
+      "ready_ms_median": {
+        "at_most": 5000.0
+      },
+      "requests_per_second_median": {
+        "at_least": 0.4
+      }
+    },
+    "selection_priority": [
+      "maximum_rss_kib",
+      "requests_per_second_median",
+      "http_ms_median",
+      "http_ms_p95",
+      "ready_ms_median"
+    ],
+    "weighted_score_used": false
+  },
+  "schema_version": 1,
+  "selected": {
+    "metrics": {
+      "http_ms_median": 2416.0280705,
+      "http_ms_p95": 3304.31079,
+      "maximum_rss_kib": 2381264.0,
+      "ready_ms_median": 2121.426315,
+      "requests_per_second_median": 0.45051006640512936
+    },
+    "name": "repack_off",
+    "quality_eligible": true,
+    "rejections": [],
+    "runtime": {
+      "launch_arguments": [
+        "--no-weight-repack"
+      ],
+      "weight_repack": false
+    }
+  },
+  "status": "selected"
+}

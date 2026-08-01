@@ -4,6 +4,23 @@ Pareto64 and this repository were created during the Arm Create: AI
 Optimization Challenge 2026 submission period. The full Git history is the
 authoritative, timestamped record; this file groups the significant additions.
 
+## 2026-08-01
+
+### Product
+
+- Added a fail-closed service-profile planner over the native E5h evidence.
+  Explicit throughput and at-most-3-GiB policies select the repacked and
+  no-repack tiers respectively; an impossible envelope is refused.
+- Retained exact hashed service plans, including the bounded runtime argument,
+  and extended clean-checkout verification to recompute both decisions.
+
+### Submission and developer experience
+
+- Extended the product guide, demo, video script, and submission narrative with
+  the measured service-envelope decision and its refusal behavior.
+- Expanded the focused product suite to 103 tests and the immutable verifier to
+  15 hashes.
+
 ## 2026-07-31
 
 ### Product
@@ -64,7 +81,7 @@ authoritative, timestamped record; this file groups the significant additions.
 ### Submission and developer experience
 
 - Added immutable experiment contracts, raw-data ingesters, compact manifests,
-  reports, CI workflows, source patches, and 97 tests.
+  reports, CI workflows, source patches, and an expanding product test suite.
 - Added a dependency-free interactive evidence demo, browser screenshots,
   paste-ready Devpost draft, video script, claim index, compliance checklist,
   and clean-checkout package verifier.

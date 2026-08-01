@@ -119,6 +119,13 @@ preserved all 120 answers and cached-prefix reuse while lowering maximum RSS by
 0.4505 requests/s, or 48.47% retention. Pareto64 keeps repack as the fast
 default and exposes the qualified no-repack path only as an opt-in memory tier.
 
+We then removed the remaining manual choice. A second fail-closed planner reads
+that same native manifest and a deployment envelope. The throughput policy
+selects `repack_on`; an at-most-3-GiB policy selects `repack_off` and emits
+`--no-weight-repack`; an impossible at-most-2-GiB policy refuses deployment.
+As with model selection, every metric, rejection, input hash, Pareto member, and
+runtime argument is recorded without a weighted score.
+
 We also ablated the runtime's resolved Flash Attention auto graph rather than
 crediting the default without evidence. All 120 answers remained exact. Auto
 improved throughput only 1.0322x—below the frozen 1.05x gate—and worsened p95
@@ -185,11 +192,13 @@ without changing measured inputs or post-observation thresholds.
   14.48 MiB maximum RSS without answer drift;
 - an explicit no-repack tier that saves 2,072,268 KiB maximum RSS while the
   2.06x-faster repacked layout remains the default;
+- a measured service-profile planner that automatically routes throughput and
+  at-most-3-GiB envelopes while refusing unmeasured capacity assumptions;
 - two reviewable Arm source patches with correctness evidence;
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 97 local tests plus native Arm workflows for the final evidence path.
+- 103 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 
@@ -207,8 +216,9 @@ was insufficient until process RSS, quality, throughput, and latency all
 cleared their independent gates.
 Weight repacking showed the complementary tradeoff: a two-gigabyte allocation
 can be removed safely, but doing so gives up more than half of serving
-throughput. A product should expose both qualified operating points instead of
-pretending one profile dominates every deployment envelope.
+throughput. A product should expose both qualified operating points and route
+explicit deployment envelopes to them instead of pretending one profile
+dominates every use case.
 
 ## What's next
 

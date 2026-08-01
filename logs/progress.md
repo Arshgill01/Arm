@@ -988,3 +988,17 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Retained-result run `30674552684` passed clean-checkout validation on native
   Arm: 97 tests, all eleven immutable evidence hashes, exact plan recomputation,
   and the standalone demo smoke test.
+
+## 2026-08-01 — E5h service tiers become executable decisions
+
+- Added a separate fail-closed service-profile planning stage over the selected
+  E5h evidence. It verifies the experiment permission, zero-failure and
+  mechanism proofs, exact tier names, answer eligibility, and repack-buffer
+  consistency before considering a deployment.
+- Added explicit throughput and at-most-3-GiB policies. The retained plans
+  select `repack_on` and `repack_off` respectively; the latter emits
+  `--no-weight-repack`. A tested at-most-2-GiB policy returns
+  `no_feasible_profile`.
+- Local focused tests, scoped Ruff, JSON validation, exact retained-plan
+  recomputation, and the submission verifier pass. The verifier now pins 15
+  evidence/configuration/plan hashes.

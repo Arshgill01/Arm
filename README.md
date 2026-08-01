@@ -78,6 +78,21 @@ python3 -m pareto64 plan \
   --output results/plans/e3f-cloud-quality.json
 ```
 
+The selected model now has a second, measured decision stage. A throughput
+policy selects the Arm-repacked service, while an at-most-3-GiB policy selects
+the exact no-repack tier and emits its bounded launcher argument:
+
+```bash
+python3 -m pareto64 service-plan \
+  --manifest results/manifests/e5h-30672633366.json \
+  --constraints configs/service-memory.json
+```
+
+The retained result is `repack_off` with `--no-weight-repack`. Replace the
+policy with [`configs/service-throughput.json`](configs/service-throughput.json)
+to select `repack_on`; a policy no measured tier can satisfy returns
+`no_feasible_profile` instead of guessing.
+
 ## Native evidence so far
 
 | Gate | Outcome |
@@ -120,6 +135,8 @@ independently re-ingested byte for byte.
   single-project hypothesis.
 - [`docs/product.md`](docs/product.md): executable planner behavior, policy
   contract, and current E2E boundary.
+- [`results/reports/service-tier-planner.md`](results/reports/service-tier-planner.md):
+  measured E5h service-envelope decisions and refusal boundary.
 - [`docs/experiment-plan.md`](docs/experiment-plan.md): ordered, gated benchmark
   program.
 - [`docs/environment.md`](docs/environment.md): current host, native Arm routes,
@@ -137,6 +154,9 @@ independently re-ingested byte for byte.
   quality/SLO and selection policy.
 - [`configs/cloud-quality.json`](configs/cloud-quality.json): predeclared
   quality-first policy that independently rejected the E3b near-miss.
+- [`configs/service-throughput.json`](configs/service-throughput.json) and
+  [`configs/service-memory.json`](configs/service-memory.json): measured E5h
+  service-envelope policies for the fast and at-most-3-GiB deployments.
 - [`patches/README.md`](patches/README.md): reviewable source-patch inputs and
   validation status.
 - [`logs/progress.md`](logs/progress.md): chronological project journal.

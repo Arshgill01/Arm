@@ -75,6 +75,26 @@ class Pareto64CLITests(unittest.TestCase):
         self.assertEqual((64, 64), resolve_batch_profile(None, None))
         self.assertEqual((128, None), resolve_batch_profile(128, None))
 
+    def test_service_plan_accepts_evidence_and_policy_paths(self) -> None:
+        with patch(
+            "sys.argv",
+            [
+                "pareto64",
+                "service-plan",
+                "--manifest",
+                "e5h.json",
+                "--constraints",
+                "service-memory.json",
+                "--output",
+                "service-plan.json",
+            ],
+        ):
+            arguments = parse_args()
+        self.assertEqual("service-plan", arguments.command)
+        self.assertEqual("e5h.json", str(arguments.manifest))
+        self.assertEqual("service-memory.json", str(arguments.constraints))
+        self.assertEqual("service-plan.json", str(arguments.output))
+
 
 if __name__ == "__main__":
     unittest.main()

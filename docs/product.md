@@ -165,6 +165,42 @@ p95 latency increased 6.03%. It missed the frozen 1.05x throughput and p95
 non-regression gates. Auto remains the configured upstream-default behavior,
 but Pareto64 makes no material Flash Attention serving-performance claim.
 
+## Select a measured service profile
+
+Model selection and service-profile selection are separate obligations. The
+model planner answers which package is eligible to deploy. The service planner
+then answers which quality-valid, natively measured operating point fits the
+deployment envelope:
+
+```bash
+python3 -m pareto64 service-plan \
+  --manifest results/manifests/e5h-30672633366.json \
+  --constraints configs/service-throughput.json \
+  --output results/plans/e5h-service-throughput.json
+
+python3 -m pareto64 service-plan \
+  --manifest results/manifests/e5h-30672633366.json \
+  --constraints configs/service-memory.json \
+  --output results/plans/e5h-service-memory.json
+```
+
+The throughput envelope requires at least 0.9 requests/s and selects
+`repack_on`. The memory envelope caps maximum RSS at 3,145,728 KiB and selects
+`repack_off`, including the exact `--no-weight-repack` launcher argument. A
+2-GiB cap has no feasible measured profile, so the planner refuses deployment.
+
+The service policy supports explicit lower bounds for throughput and upper
+bounds for median/p95 HTTP latency, maximum RSS, and readiness. It first rejects
+answer-drifting or SLO-ineligible profiles, then recomputes the non-dominated
+frontier and applies the declared lexicographic priority. The output records
+both input hashes, every observed metric and rejection, the feasible profiles,
+frontier, selected runtime settings, and `weighted_score_used: false`.
+
+Only the selected schema-1 E5h manifest is accepted. Its quality permission,
+zero-failure validation, selected-tier names, model-buffer proof, and
+repack-buffer consistency must agree. Tampered or merely diagnostic evidence
+fails closed before a plan is created.
+
 ## Constraint contract
 
 The schema-1 policy has two explicit parts:

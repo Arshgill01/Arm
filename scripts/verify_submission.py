@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 build_plan = import_module("pareto64.planner").build_plan
 resolve_batch_profile = import_module("pareto64.cli").resolve_batch_profile
+build_service_plan = import_module("pareto64.service_planner").build_service_plan
 
 
 EXPECTED_HASHES = {
@@ -41,6 +42,18 @@ EXPECTED_HASHES = {
     ),
     "results/manifests/e5h-30672633366.json": (
         "e048f3e25d513430b49fd2ee0a140e8a0f82fe31d79b5fb0aafb36b470190faa"
+    ),
+    "configs/service-throughput.json": (
+        "17f80ba9734731f04a65b4c29e693977234c308c9065c95668e32254fdcc7ebd"
+    ),
+    "configs/service-memory.json": (
+        "7f5239f0991f80c130599d4630ebbfdec51bed2316f62b4a90c7b49dcbd135b4"
+    ),
+    "results/plans/e5h-service-throughput.json": (
+        "6e00839f8add70d9097263b67fad686984d8ad459adb7c12b0e229802d93e4b4"
+    ),
+    "results/plans/e5h-service-memory.json": (
+        "15a6fac8710338e545afc1ab828ca532535c58c6ae4c682070cb9def2a97a27d"
     ),
     "results/manifests/e5i-30674023380.json": (
         "ca41dd4c8ce7eaec196ac4d6a1320f689755ae4fb9e5d13bb4061f3c24a46ba2"
@@ -289,6 +302,48 @@ def main() -> int:
         or repack_off.get("mechanism", {}).get("repack_buffer_mib") != 0
     ):
         raise ValueError("retained weight-repack boundary differs from E5h evidence")
+
+    service_plans = (
+        (
+            "throughput",
+            ROOT / "configs/service-throughput.json",
+            ROOT / "results/plans/e5h-service-throughput.json",
+            "repack_on",
+            [],
+        ),
+        (
+            "memory",
+            ROOT / "configs/service-memory.json",
+            ROOT / "results/plans/e5h-service-memory.json",
+            "repack_off",
+            ["--no-weight-repack"],
+        ),
+    )
+    repack_path = ROOT / "results/manifests/e5h-30672633366.json"
+    for (
+        label,
+        policy_path,
+        retained_path,
+        selected_name,
+        launch_arguments,
+    ) in service_plans:
+        recomputed = build_service_plan(
+            repack_boundary,
+            load_object(policy_path),
+            manifest_path=repack_path.relative_to(ROOT),
+            constraints_path=policy_path.relative_to(ROOT),
+        )
+        if recomputed != load_object(retained_path):
+            raise ValueError(f"recomputed {label} service plan differs")
+        selected_service = recomputed.get("selected", {})
+        if (
+            recomputed.get("status") != "selected"
+            or recomputed.get("policy", {}).get("weighted_score_used") is not False
+            or selected_service.get("name") != selected_name
+            or selected_service.get("runtime", {}).get("launch_arguments")
+            != launch_arguments
+        ):
+            raise ValueError(f"retained {label} service decision differs")
 
     flash_ablation = load_object(ROOT / "results/manifests/e5i-30674023380.json")
     flash_auto = flash_ablation.get("performance", {}).get("flash_auto", {})

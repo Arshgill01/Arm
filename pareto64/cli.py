@@ -8,6 +8,7 @@ from pathlib import Path
 from .planner import build_plan, load_object
 from .runtime import prepare_launch, server_version, write_recipe
 from .server import DEFAULT_ACCEPT_BACKLOG, PlannerHTTPServer, PlannerState
+from .service_planner import build_service_plan
 
 
 def resolve_batch_profile(
@@ -28,6 +29,12 @@ def parse_args() -> argparse.Namespace:
     plan.add_argument("--manifest", type=Path, required=True)
     plan.add_argument("--constraints", type=Path, required=True)
     plan.add_argument("--output", type=Path)
+    service_plan = commands.add_parser(
+        "service-plan", help="select a measured quality-valid serving profile"
+    )
+    service_plan.add_argument("--manifest", type=Path, required=True)
+    service_plan.add_argument("--constraints", type=Path, required=True)
+    service_plan.add_argument("--output", type=Path)
     serve = commands.add_parser("serve", help="serve the bounded planning API")
     serve.add_argument("--manifest", type=Path, required=True)
     serve.add_argument("--constraints", type=Path, required=True)
@@ -111,6 +118,21 @@ def main() -> int:
     arguments = parse_args()
     if arguments.command == "plan":
         result = build_plan(
+            load_object(arguments.manifest),
+            load_object(arguments.constraints),
+            manifest_path=arguments.manifest,
+            constraints_path=arguments.constraints,
+        )
+        rendered = json.dumps(result, indent=2, sort_keys=True) + "\n"
+        if arguments.output:
+            arguments.output.parent.mkdir(parents=True, exist_ok=True)
+            arguments.output.write_text(rendered, encoding="utf-8")
+            print(arguments.output)
+        else:
+            print(rendered, end="")
+        return 0
+    if arguments.command == "service-plan":
+        result = build_service_plan(
             load_object(arguments.manifest),
             load_object(arguments.constraints),
             manifest_path=arguments.manifest,

@@ -388,8 +388,10 @@
           </table>
           <p>
             <strong>2,072,268 KiB less maximum RSS</strong> with all 120 answers
-            exact. The no-repack tier fits below 3 GiB, but retains 48.47%
-            throughput—so Pareto64 keeps the Arm-optimized layout as default.
+            exact. A ≥0.9 req/s envelope selects <code>repack_on</code>; a
+            ≤3 GiB envelope selects <code>repack_off</code> and emits
+            <code>--no-weight-repack</code>. A ≤2 GiB envelope has no measured
+            fit, so Pareto64 refuses it.
           </p>
         </div>
 
@@ -544,12 +546,12 @@
 
         <div class="reproduce">
           <div>
-            <h3>Recompute the selected plan</h3>
+            <h3>Recompute a measured service tier</h3>
             <p>Standard-library Python. No service, token, or model download required.</p>
           </div>
-          <pre><code id="reproduce-command">python3 -m pareto64 plan \
-  --manifest results/manifests/e3f-30656151957.json \
-  --constraints configs/cloud-quality.json</code></pre>
+          <pre><code id="reproduce-command">python3 -m pareto64 service-plan \
+  --manifest results/manifests/e5h-30672633366.json \
+  --constraints configs/service-memory.json</code></pre>
           <button type="button" id="copy-command">Copy command</button>
         </div>
       </section>
@@ -581,6 +583,9 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5i-flash-attention-ablation.md">
           Flash ablation
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/service-tier-planner.md">
+          Service planner
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e6b-q8-vector-store.md">
           Arm patch

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "name": "service-memory",
+  "requirements": {
+    "requests_per_second_median": {
+      "at_least": 0.4
+    },
+    "http_ms_median": {
+      "at_most": 3000.0
+    },
+    "http_ms_p95": {
+      "at_most": 5000.0
+    },
+    "maximum_rss_kib": {
+      "at_most": 3145728
+    },
+    "ready_ms_median": {
+      "at_most": 5000.0
+    }
+  },
+  "selection_priority": [
+    "maximum_rss_kib",
+    "requests_per_second_median",
+    "http_ms_median",
+    "http_ms_p95",
+    "ready_ms_median"
+  ]
+}

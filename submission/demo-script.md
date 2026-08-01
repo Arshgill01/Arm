@@ -44,7 +44,9 @@ default. Then we right-sized its context from 2,048 to 256 tokens: all answers
 stayed exact, throughput stayed at 99.6%, and maximum RSS fell 183 MiB. q4 KV
 saved more but changed an answer, so f16 stayed. Batch 64 then cut the compute
 buffer 75%. Finally, disabling Arm weight repacking saved another 1.98 GiB but
-halved throughput, so we expose it as a low-memory tier—not the default.”
+halved throughput. The service planner now selects the fast layout for a
+throughput envelope, the no-repack layout below three GiB, and refuses an
+envelope neither measured tier can meet.”
 
 ## 1:43–2:08 — Arm-specific patch
 
@@ -72,13 +74,13 @@ explicit for workloads with a different validated envelope.”
 
 ## 2:32–2:50 — Close
 
-**Screen:** Run the planner command, show `ministral3_3b_q4_k_m`, then end on the
-top of the demo.
+**Screen:** Run the service planner command, show `repack_off` and
+`--no-weight-repack`, then end on the top of the demo.
 
 ```bash
-python3 -m pareto64 plan \
-  --manifest results/manifests/e3f-30656151957.json \
-  --constraints configs/cloud-quality.json
+python3 -m pareto64 service-plan \
+  --manifest results/manifests/e5h-30672633366.json \
+  --constraints configs/service-memory.json
 ```
 
 **Voice:** “Pareto64 turns Arm optimization from a leaderboard into a sequence
