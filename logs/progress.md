@@ -1056,3 +1056,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   The retained claim is limited to current-revision applicability, targeted
   correctness, and direct Q8 hot-path performance; no model-wide or full
   upstream-CI result is implied.
+- Public clean-checkout run `30676167725` passed on native `aarch64` from the
+  exact retained-result commit `b9dbd76`: 106 tests, all 16 immutable hashes,
+  E6d mechanism and gate checks, exact planner recomputation, and the
+  dependency-free demo smoke test.

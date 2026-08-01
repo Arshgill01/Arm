@@ -13,8 +13,8 @@ authoritative, timestamped record; this file groups the significant additions.
   no-repack tiers respectively; an impossible envelope is refused.
 - Retained exact hashed service plans, including the bounded runtime argument,
   and extended clean-checkout verification to recompute both decisions.
-- Passed the complete clean-checkout package on native `aarch64`: 104 tests,
-  15 pinned hashes, exact model/service plans, and demo smoke test.
+- Passed the complete clean-checkout package on native `aarch64`: 106 tests,
+  16 pinned hashes, exact model/service plans, E6d checks, and demo smoke test.
 - Bound the service plan into the verified launcher. The recipe now records the
   measured tier and service input hashes, applies its repack mode, and rejects
   incomplete, infeasible, model-mismatched, or contradictory inputs.
@@ -23,8 +23,8 @@ authoritative, timestamped record; this file groups the significant additions.
 
 - Extended the product guide, demo, video script, and submission narrative with
   the measured service-envelope decision and its refusal behavior.
-- Expanded the focused product suite to 104 tests and the immutable verifier to
-  15 hashes.
+- Expanded the focused product suite to 106 tests and the immutable verifier to
+  16 hashes.
 
 ### Arm source contributions
 
