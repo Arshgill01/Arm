@@ -869,6 +869,34 @@ independent ingestion matched the uploaded summary byte for byte at SHA-256
 No energy or power claim is made. See
 [`../results/reports/e5j-thread-efficiency-profile.md`](../results/reports/e5j-thread-efficiency-profile.md).
 
+## E6f frozen current-runtime selected-service upgrade lane
+
+E6d proves that all three Arm patches apply to llama.cpp `b10216`, pass their
+targeted correctness gates, and preserve the direct Q8 hot-path improvement.
+E6e proves a complete upstream-equivalent Arm CPU build and `main` test lane.
+Neither runs the selected 2.15 GB Ministral service, which remains pinned to
+historical llama.cpp `b10208`. E6f closes that application-level gap.
+
+One native job builds clean `b10208` and `b10216` plus the exact three-patch
+series with matched Release, native, KleidiAI, server, test-disabled, and
+curl-disabled flags. Four fresh servers run historical–current–current–historical.
+The model bytes, repacked weights, f16 K/V cache, 256-token context, 64/64 prompt
+batch, automatic Flash Attention, shared-prefix cache, four threads, one
+slot/client, request order, seed, and output cap remain identical. Both source
+commits/tags, all patch hashes and changed files, CMake caches, server versions,
+model buffers, timed commands, recipes, process PIDs, and raw responses are
+retained and independently validated.
+
+The current patched runtime becomes an upgrade candidate only if it reproduces
+every selected prediction twice with prefix reuse and zero request failures,
+retains at least 95% throughput, keeps pooled median and p95 HTTP latency and
+repeated median server CPU seconds per request within 5%, keeps repeated median
+readiness within 10%, and adds no more than 64 MiB maximum RSS. A pass validates
+one native Arm selected-application lane; it does not automatically rewrite the
+product launch contract or imply a model-wide speedup, full upstream coverage,
+or energy savings. Exact details are frozen in
+[`../experiments/e6f_contract.json`](../experiments/e6f_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

@@ -1144,3 +1144,19 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   retained-result commit `cdcb34b`: 114 tests, all 18 immutable hashes,
   E5j/E6d/E6e evidence checks, exact planner recomputation, and the demo smoke
   test.
+
+## 2026-08-01 — E6f current-runtime application lane frozen
+
+- Identified the remaining current-source gap: E6d/E6e validate the complete
+  three-patch series on llama.cpp `b10216`, but the selected application service
+  still has only `b10208` model-level evidence.
+- Froze a same-job clean-b10208 versus patched-b10216 comparison with matched
+  native/KleidiAI Release builds and the exact selected f16/256/64 cached,
+  repacked, four-thread single-slot service.
+- The 4-cell reverse-balanced lane binds source tags/commits, all three patch
+  hashes and changed files, CMake settings, model bytes, recipes, timed server
+  commands, live PIDs, CPU counters, prefix reuse, and raw predictions.
+- Current source must retain every selected answer, at least 95% throughput,
+  median/p95 latency and CPU time within 5%, readiness within 10%, and maximum
+  RSS within 64 MiB. Even a pass is only an upgrade candidate until a separate
+  product launch contract is integrated and verified.
