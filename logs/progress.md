@@ -1104,3 +1104,18 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Kept the negative boundaries visible beside the wins: concurrency, cached
   concurrency, q4_0 KV, batch 32, and Flash Attention all remain rejected under
   their original gates.
+
+## 2026-08-01 — E5j thread-efficiency profile frozen
+
+- Audited the selected launch path and found its four-thread default had never
+  been challenged independently of model, cache, batch, and graph choices.
+- Added a bounded launcher thread override that cannot exceed the validated
+  four-thread runtime contract and records identical inference and prompt-batch
+  thread pools in the hashed recipe. The unflagged default remains unchanged.
+- Extended the native request probe to sample the live `llama-server` process
+  CPU counters after warmups and around only the measured requests. Integer
+  user/system ticks, clock rate, CPU seconds per request, and average cores used
+  are retained; model load, warmups, the client, and shutdown are excluded.
+- Froze a 4–3–2–2–3–4 study with exact-answer and prefix-reuse gates, 95%
+  throughput retention, 5% median/p95 latency tolerance, and a required 5% CPU
+  seconds/request reduction. CPU time is not represented as energy or power.

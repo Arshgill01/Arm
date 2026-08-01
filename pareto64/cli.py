@@ -76,6 +76,11 @@ def parse_args() -> argparse.Namespace:
     launch.add_argument("--port", type=int, default=8081)
     launch.add_argument("--parallel", type=int, default=1)
     launch.add_argument(
+        "--threads",
+        type=int,
+        help="inference threads (default: frozen runtime contract; cannot exceed it)",
+    )
+    launch.add_argument(
         "--context-per-slot",
         type=int,
         default=256,
@@ -200,6 +205,7 @@ def main() -> int:
             host=arguments.host,
             port=arguments.port,
             parallel=arguments.parallel,
+            threads=arguments.threads,
             prompt_cache=arguments.prompt_cache,
             context_per_slot=arguments.context_per_slot,
             kv_cache_type_k=arguments.kv_cache_type_k,

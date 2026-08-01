@@ -103,6 +103,56 @@ class Pareto64RuntimeTests(unittest.TestCase):
             self.assertNotIn("--no-repack", recipe["runtime"]["argv"])
             self.assertFalse(recipe["weighted_score_used"])
 
+            three_thread_recipe = prepare_launch(
+                manifest=manifest,
+                constraints=constraints,
+                models=models,
+                contract=contract,
+                manifest_path=manifest_path,
+                constraints_path=constraints_path,
+                models_path=models_path,
+                contract_path=contract_path,
+                model_root=model_root,
+                server_path=server_path,
+                version_output="version b10208 (9d9a6d29f)",
+                host="127.0.0.1",
+                port=18081,
+                parallel=1,
+                threads=3,
+            )
+            self.assertEqual(3, three_thread_recipe["runtime"]["threads"])
+            thread_index = three_thread_recipe["runtime"]["argv"].index("--threads")
+            batch_thread_index = three_thread_recipe["runtime"]["argv"].index(
+                "--threads-batch"
+            )
+            self.assertEqual(
+                "3", three_thread_recipe["runtime"]["argv"][thread_index + 1]
+            )
+            self.assertEqual(
+                "3", three_thread_recipe["runtime"]["argv"][batch_thread_index + 1]
+            )
+
+            for invalid_threads in (0, 5, True):
+                with self.subTest(invalid_threads=invalid_threads):
+                    with self.assertRaisesRegex(ValueError, "runtime threads"):
+                        prepare_launch(
+                            manifest=manifest,
+                            constraints=constraints,
+                            models=models,
+                            contract=contract,
+                            manifest_path=manifest_path,
+                            constraints_path=constraints_path,
+                            models_path=models_path,
+                            contract_path=contract_path,
+                            model_root=model_root,
+                            server_path=server_path,
+                            version_output="version b10208 (9d9a6d29f)",
+                            host="127.0.0.1",
+                            port=18081,
+                            parallel=1,
+                            threads=invalid_threads,
+                        )
+
             uncached_recipe = prepare_launch(
                 manifest=manifest,
                 constraints=constraints,

@@ -312,7 +312,7 @@ def validate_recipe(
     if (
         runtime.get("llama_cpp_commit") != selected["llama_cpp_commit"]
         or selected["llama_cpp_commit"][:9] not in runtime.get("server_version", "")
-        or runtime.get("threads") != 4
+        or runtime.get("threads") != config.get("threads", 4)
         or runtime.get("parallel_slots") != slots
         or runtime.get("context_per_slot") != context_per_slot
         or runtime.get("context_total") != context_per_slot * slots

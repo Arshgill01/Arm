@@ -36,6 +36,7 @@ class Pareto64CLITests(unittest.TestCase):
             self.assertIsNone(arguments.micro_batch_size)
             self.assertEqual("auto", arguments.flash_attention)
             self.assertIsNone(arguments.weight_repack)
+            self.assertIsNone(arguments.threads)
         with patch("sys.argv", self.launch_arguments() + ["--no-prompt-cache"]):
             self.assertFalse(parse_args().prompt_cache)
         with patch("sys.argv", self.launch_arguments() + ["--no-weight-repack"]):
@@ -67,6 +68,8 @@ class Pareto64CLITests(unittest.TestCase):
             + [
                 "--context-per-slot",
                 "256",
+                "--threads",
+                "3",
                 "--kv-cache-type-k",
                 "q8_0",
                 "--kv-cache-type-v",
@@ -83,6 +86,7 @@ class Pareto64CLITests(unittest.TestCase):
         ):
             arguments = parse_args()
         self.assertEqual(256, arguments.context_per_slot)
+        self.assertEqual(3, arguments.threads)
         self.assertEqual(128, arguments.batch_size)
         self.assertEqual(128, arguments.micro_batch_size)
         self.assertEqual("q8_0", arguments.kv_cache_type_k)

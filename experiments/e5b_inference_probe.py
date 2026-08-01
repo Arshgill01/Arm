@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import http.client
 import json
+import os
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -21,6 +22,83 @@ except ModuleNotFoundError as error:
 
 
 LETTERS = {"A", "B", "C", "D"}
+
+
+def parse_process_stat(text: str) -> dict[str, int]:
+    closing_parenthesis = text.rfind(")")
+    if closing_parenthesis < 0:
+        raise ValueError("process stat lacks a command boundary")
+    prefix = text[:closing_parenthesis]
+    opening_parenthesis = prefix.find("(")
+    if opening_parenthesis < 1:
+        raise ValueError("process stat lacks a command boundary")
+    try:
+        pid = int(prefix[:opening_parenthesis].strip())
+        fields = text[closing_parenthesis + 1 :].split()
+        user_ticks = int(fields[11])
+        system_ticks = int(fields[12])
+    except (IndexError, ValueError) as error:
+        raise ValueError("process stat lacks valid CPU fields") from error
+    if pid <= 0 or user_ticks < 0 or system_ticks < 0:
+        raise ValueError("process stat has invalid CPU fields")
+    return {
+        "pid": pid,
+        "user_ticks": user_ticks,
+        "system_ticks": system_ticks,
+        "total_ticks": user_ticks + system_ticks,
+    }
+
+
+def read_process_cpu(pid: int, proc_root: Path = Path("/proc")) -> dict[str, int]:
+    if type(pid) is not int or pid <= 0:
+        raise ValueError("server PID must be positive")
+    snapshot = parse_process_stat(
+        (proc_root / str(pid) / "stat").read_text(encoding="utf-8")
+    )
+    if snapshot["pid"] != pid:
+        raise ValueError("process stat PID differs from the requested server")
+    return snapshot
+
+
+def summarize_process_cpu(
+    before: dict[str, int],
+    after: dict[str, int],
+    *,
+    clock_ticks_per_second: int,
+    measured_requests: int,
+    elapsed_seconds: float,
+) -> dict[str, float | int]:
+    if before["pid"] != after["pid"]:
+        raise ValueError("CPU snapshots identify different processes")
+    if (
+        type(clock_ticks_per_second) is not int
+        or clock_ticks_per_second <= 0
+        or type(measured_requests) is not int
+        or measured_requests <= 0
+        or not isinstance(elapsed_seconds, (int, float))
+        or elapsed_seconds <= 0
+    ):
+        raise ValueError("CPU interval parameters must be positive")
+    user_ticks = after["user_ticks"] - before["user_ticks"]
+    system_ticks = after["system_ticks"] - before["system_ticks"]
+    if user_ticks < 0 or system_ticks < 0:
+        raise ValueError("process CPU counters decreased during measurement")
+    total_ticks = user_ticks + system_ticks
+    user_seconds = user_ticks / clock_ticks_per_second
+    system_seconds = system_ticks / clock_ticks_per_second
+    total_seconds = total_ticks / clock_ticks_per_second
+    return {
+        "pid": before["pid"],
+        "clock_ticks_per_second": clock_ticks_per_second,
+        "user_ticks": user_ticks,
+        "system_ticks": system_ticks,
+        "total_ticks": total_ticks,
+        "user_seconds": user_seconds,
+        "system_seconds": system_seconds,
+        "total_seconds": total_seconds,
+        "seconds_per_request": total_seconds / measured_requests,
+        "average_cores_used": total_seconds / elapsed_seconds,
+    }
 
 
 def load_object(path: Path) -> dict[str, Any]:
@@ -173,6 +251,7 @@ def run_probe(
     experiment_id: str = "E5b",
     cache_prompt: bool | None = None,
     warmup_slot_ids: list[int] | None = None,
+    server_pid: int | None = None,
 ) -> dict[str, Any]:
     parsed = urlsplit(base_url)
     if parsed.scheme != "http" or not parsed.hostname or parsed.path not in {"", "/"}:
@@ -210,6 +289,12 @@ def run_probe(
         )
         for index, task_id in enumerate(warmup_task_ids)
     ]
+    if server_pid is not None and (type(server_pid) is not int or server_pid <= 0):
+        raise ValueError("server PID must be positive")
+    clock_ticks_per_second = (
+        int(os.sysconf("SC_CLK_TCK")) if server_pid is not None else None
+    )
+    cpu_before = read_process_cpu(server_pid) if server_pid is not None else None
     started = time.perf_counter_ns()
     with ThreadPoolExecutor(max_workers=concurrency) as executor:
         cases = list(
@@ -230,6 +315,7 @@ def run_probe(
             )
         )
     elapsed_seconds = (time.perf_counter_ns() - started) / 1_000_000_000
+    cpu_after = read_process_cpu(server_pid) if server_pid is not None else None
     failures = [
         case
         for case in cases
@@ -256,6 +342,21 @@ def run_probe(
     }
     if warmup_slot_ids is not None:
         parameters["warmup_slot_ids"] = warmup_slot_ids
+    if server_pid is not None:
+        parameters["server_pid"] = server_pid
+    process_cpu = (
+        summarize_process_cpu(
+            cpu_before,
+            cpu_after,
+            clock_ticks_per_second=clock_ticks_per_second,
+            measured_requests=len(raw_tasks),
+            elapsed_seconds=elapsed_seconds,
+        )
+        if cpu_before is not None
+        and cpu_after is not None
+        and clock_ticks_per_second is not None
+        else None
+    )
     return {
         "schema_version": 1,
         "experiment_id": experiment_id,
@@ -301,6 +402,7 @@ def run_probe(
                     {case["status"] for case in cases if case["status"] is not None}
                 )
             },
+            **({"server_process_cpu": process_cpu} if process_cpu is not None else {}),
         },
     }
 
@@ -320,6 +422,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=424242)
     parser.add_argument("--timeout", type=float, default=30.0)
     parser.add_argument("--experiment-id", default="E5b")
+    parser.add_argument(
+        "--server-pid",
+        type=int,
+        help="capture server CPU time after warmups and across measured requests",
+    )
     cache = parser.add_mutually_exclusive_group()
     cache.add_argument("--cache-prompt", dest="cache_prompt", action="store_true")
     cache.add_argument("--no-cache-prompt", dest="cache_prompt", action="store_false")
@@ -357,6 +464,7 @@ def main() -> int:
         experiment_id=arguments.experiment_id,
         cache_prompt=arguments.cache_prompt,
         warmup_slot_ids=arguments.warmup_slot,
+        server_pid=arguments.server_pid,
     )
     arguments.output.parent.mkdir(parents=True, exist_ok=True)
     arguments.output.write_text(

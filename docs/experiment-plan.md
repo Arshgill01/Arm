@@ -822,6 +822,37 @@ Python 3.10 ingestion matched the uploaded summary byte for byte at SHA-256
 See
 [`../results/reports/e5i-flash-attention-ablation.md`](../results/reports/e5i-flash-attention-ablation.md).
 
+## E5j frozen Arm serving thread-efficiency profile
+
+E5j challenges the last unmeasured serving assumption: the selected service
+uses four inference threads because the native runner exposes four physical
+Neoverse N2 cores. Lower thread counts may reduce scheduler and synchronization
+work, but they can also lengthen requests. The study therefore treats CPU-time
+efficiency and service performance as separate obligations.
+
+Six fresh servers run 4–3–2–2–3–4 threads. Every cell holds the selected model,
+pinned runtime, repacked weights, f16/256/64 service, automatic Flash Attention,
+shared-prefix cache, one slot/client, task order, seed, and output cap fixed.
+The launch recipe and timed outer command bind both `--threads` and
+`--threads-batch` to the profile. The probe binds the live server PID, completes
+both warmups, then samples `/proc/<pid>/stat` immediately around the 30 measured
+requests. It recomputes user, system, total, per-request, and average-core CPU
+time from integer counters and the host clock-tick rate. Model load, readiness,
+warmups, the Python client, and shutdown are outside that window.
+
+A lower-thread candidate must reproduce every selected prediction and cached
+prefix, retain at least 95% of repeated median throughput, keep pooled median
+and p95 HTTP latency within 5% of the four-thread baseline, and reduce repeated
+median server CPU seconds per request by at least 5%. All cells must also clear
+the existing readiness and 8 GiB RSS ceilings. Selection is lexicographic with
+no weighted score. If neither candidate clears every gate, four threads remain
+the default and the negative result is retained without threshold changes.
+Exact inputs, order, measurement boundary, and gates are frozen in
+[`../experiments/e5j_contract.json`](../experiments/e5j_contract.json).
+
+CPU time is not energy or power. E5j can support a thread-efficiency claim only;
+an energy claim would require independent power measurements.
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

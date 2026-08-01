@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E5j",
+  "title": "Arm serving thread-efficiency profile",
+  "artifact_name_prefix": "e5j-thread-efficiency-profile",
+  "scope": "Quality-gated server CPU-time right-sizing on the promoted repack-on f16/256/64 cached single-slot native Arm service",
+  "hypothesis": "Three or two inference threads can reduce measured-window llama-server CPU seconds per request by at least 5 percent while retaining at least 95 percent of four-thread throughput, preserving median and p95 HTTP latency within 5 percent, and reproducing every selected E3f prediction.",
+  "measurement_boundary": "Linux process user and system CPU counters are sampled from /proc/<llama-server-pid>/stat after both warmups and immediately around the 30 measured requests. Model load, readiness, warmups, the Python client, and post-measurement shutdown are excluded. CPU time is not an energy or power measurement.",
+  "prior_evidence": {
+    "selected_service": "E5f promoted a 64/64 prompt batch; E5e promoted f16 K/V cache and a 256-token context; E5i retained automatic Flash Attention as the configured default; repacked weights, shared-prefix caching, and one slot remain enabled.",
+    "source_run": "30674023380",
+    "maximum_observed_prompt_tokens": 127,
+    "baseline_threads": 4,
+    "host_topology": {
+      "architecture": "aarch64",
+      "model_name": "Neoverse-N2",
+      "logical_cpus": 4,
+      "threads_per_core": 1
+    },
+    "runtime_source": {
+      "repository": "ggml-org/llama.cpp",
+      "commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+      "mechanism": "The Pareto64 launch recipe binds both llama.cpp --threads and --threads-batch to the selected profile. Each measured probe independently binds the sampled Linux PID to the live llama-server child and derives CPU seconds from monotonically increasing utime and stime counters using the host clock tick rate.",
+      "declared_risk": "Lower thread counts can reduce scheduling work yet lengthen each request. CPU-time reduction, throughput, tail latency, exact answers, and prefix reuse are therefore independent measured obligations. CPU seconds do not establish energy savings without power data."
+    }
+  },
+  "inputs": {
+    "manifest_path": "results/manifests/e3f-30656151957.json",
+    "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "policy_path": "configs/cloud-quality.json",
+    "policy_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "runtime_contract_path": "experiments/e3f_contract.json",
+    "runtime_contract_sha256": "a43ebf2b44aba9bac7e44e18a979901715cd23855df0d2c16c93375382977551",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "reference_correct": 23,
+    "reference_total": 30,
+    "reference_accuracy": 0.7666666666666667,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "llama_cpp_commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+    "llama_cpp_tag": "b10208",
+    "required_runtime_buffer_patterns": [
+      "CPU_REPACK model buffer size",
+      "CPU_Mapped model buffer size"
+    ]
+  },
+  "request": {
+    "instruction_role": "system",
+    "chat_template_mode": "model_jinja_system_instruction",
+    "temperature": 0.0,
+    "seed": 424242,
+    "max_output_tokens": 8,
+    "timeout_seconds": 30.0,
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ],
+    "measured_tasks": 30
+  },
+  "execution": {
+    "fresh_server_per_cell": true,
+    "repetitions_per_configuration": 2,
+    "baseline_configuration": "threads4",
+    "configurations": {
+      "threads4": {
+        "threads": 4,
+        "server_parallel_slots": 1,
+        "client_concurrency": 1,
+        "prompt_cache": true,
+        "warmup_slot_ids": [0, 0],
+        "context_per_slot": 256,
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16",
+        "flash_attention": "auto",
+        "batch_size": 64,
+        "micro_batch_size": 64,
+        "explicit_batch_arguments": true,
+        "weight_repack": true
+      },
+      "threads3": {
+        "threads": 3,
+        "server_parallel_slots": 1,
+        "client_concurrency": 1,
+        "prompt_cache": true,
+        "warmup_slot_ids": [0, 0],
+        "context_per_slot": 256,
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16",
+        "flash_attention": "auto",
+        "batch_size": 64,
+        "micro_batch_size": 64,
+        "explicit_batch_arguments": true,
+        "weight_repack": true
+      },
+      "threads2": {
+        "threads": 2,
+        "server_parallel_slots": 1,
+        "client_concurrency": 1,
+        "prompt_cache": true,
+        "warmup_slot_ids": [0, 0],
+        "context_per_slot": 256,
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16",
+        "flash_attention": "auto",
+        "batch_size": 64,
+        "micro_batch_size": 64,
+        "explicit_batch_arguments": true,
+        "weight_repack": true
+      }
+    },
+    "order": [
+      {"configuration": "threads4", "repetition": 1},
+      {"configuration": "threads3", "repetition": 1},
+      {"configuration": "threads2", "repetition": 1},
+      {"configuration": "threads2", "repetition": 2},
+      {"configuration": "threads3", "repetition": 2},
+      {"configuration": "threads4", "repetition": 2}
+    ]
+  },
+  "selection_policy": {
+    "weighted_score_used": false,
+    "eligible_profiles": "A lower-thread profile must pass every quality, prefix-reuse, throughput, latency, process CPU-time, readiness, and RSS gate.",
+    "tie_breakers": [
+      "lower repeated median server CPU seconds per request",
+      "fewer inference threads",
+      "higher repeated median throughput",
+      "configuration name"
+    ],
+    "no_win_rule": "Keep four threads when no candidate clears every frozen gate; retain the complete negative result without changing thresholds."
+  },
+  "acceptance": {
+    "http_status": 200,
+    "termination_reason": "stop",
+    "request_failures": 0,
+    "reference_prediction_mismatches": 0,
+    "minimum_candidate_cached_tokens_per_request": 1,
+    "minimum_throughput_retention_ratio": 0.95,
+    "maximum_median_http_latency_ratio": 1.05,
+    "maximum_p95_http_latency_ratio": 1.05,
+    "maximum_cpu_seconds_per_request_ratio": 0.95,
+    "maximum_ready_ms": 15000.0,
+    "maximum_process_rss_kib": 8388608,
+    "accepted_server_shell_exit_statuses": [0, 130]
+  }
+}

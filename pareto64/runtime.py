@@ -101,6 +101,7 @@ def prepare_launch(
     host: str,
     port: int,
     parallel: int,
+    threads: int | None = None,
     prompt_cache: bool = True,
     context_per_slot: int | None = 256,
     kv_cache_type_k: str = "f16",
@@ -198,19 +199,28 @@ def prepare_launch(
     if not isinstance(prompt_cache, bool):
         raise ValueError("runtime prompt cache setting must be boolean")
     configuration = contract.get("configuration", {})
-    threads = configuration.get("threads")
+    contract_threads = configuration.get("threads")
     contract_context = configuration.get("context")
     temperature = configuration.get("temperature")
     seed = configuration.get("seed")
     if (
-        not isinstance(threads, int)
-        or threads <= 0
+        not isinstance(contract_threads, int)
+        or contract_threads <= 0
         or not isinstance(contract_context, int)
         or contract_context <= 0
         or not isinstance(temperature, (int, float))
         or not isinstance(seed, int)
     ):
         raise ValueError("runtime contract has invalid server configuration")
+    resolved_threads = contract_threads if threads is None else threads
+    if (
+        type(resolved_threads) is not int
+        or resolved_threads <= 0
+        or resolved_threads > contract_threads
+    ):
+        raise ValueError(
+            "runtime threads must be between 1 and the validated contract thread count"
+        )
     slot_context = contract_context if context_per_slot is None else context_per_slot
     if (
         type(slot_context) is not int
@@ -274,9 +284,9 @@ def prepare_launch(
         "--alias",
         candidate,
         "--threads",
-        str(threads),
+        str(resolved_threads),
         "--threads-batch",
-        str(threads),
+        str(resolved_threads),
         "--ctx-size",
         str(slot_context * parallel),
         "--cache-type-k",
@@ -372,7 +382,7 @@ def prepare_launch(
             "server_version": version_output,
             "host": host,
             "port": port,
-            "threads": threads,
+            "threads": resolved_threads,
             "parallel_slots": parallel,
             "prompt_cache": prompt_cache,
             "kv_cache_type_k": kv_cache_type_k,

@@ -87,6 +87,10 @@ python3 -m pareto64 launch \
 
 The adapter preserves the measured four-thread deterministic serving
 configuration and defaults to the E5e-selected 256-token context per slot.
+`--threads` is a bounded experimental control: it can select from one thread up
+to the four-thread runtime contract, writes the resolved value to the recipe,
+and binds both llama.cpp inference and prompt-batch thread pools. Four remains
+the default unless the frozen E5j native profile validates a lower value.
 Increasing `--parallel` increases total context proportionally so each slot
 retains that allocation. `--context-per-slot` remains an explicit bounded
 override for a separately validated workload profile.
@@ -172,6 +176,15 @@ reduced median HTTP latency 6.18%, and lowered maximum RSS by 7,384 KiB, but its
 p95 latency increased 6.03%. It missed the frozen 1.05x throughput and p95
 non-regression gates. Auto remains the configured upstream-default behavior,
 but Pareto64 makes no material Flash Attention serving-performance claim.
+
+E5j freezes the remaining thread-count question on the same selected service.
+Fresh four-, three-, and two-thread servers run twice in reverse-balanced order.
+The probe samples Linux `llama-server` user and system CPU counters after both
+warmups and immediately around the 30 measured requests, excluding model load,
+readiness, client work, and shutdown. A lower-thread profile must reduce median
+server CPU seconds per request by at least 5%, retain at least 95% throughput,
+preserve median and p95 latency within 5%, and reproduce every selected answer
+and cached prefix. CPU time is explicitly not an energy or power measurement.
 
 ## Select a measured service profile
 
