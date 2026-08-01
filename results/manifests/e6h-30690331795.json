@@ -1,0 +1,812 @@
+{
+  "contract": {
+    "acceptance": {
+      "accepted_server_shell_exit_statuses": [
+        0,
+        130
+      ],
+      "http_status": 200,
+      "maximum_candidate_rss_increase_kib": 65536,
+      "maximum_cpu_seconds_per_request_ratio": 1.05,
+      "maximum_median_http_latency_ratio": 1.05,
+      "maximum_p95_http_latency_ratio": 1.05,
+      "maximum_process_rss_kib": 3145728,
+      "maximum_ready_ms": 15000.0,
+      "maximum_ready_time_ratio": 1.1,
+      "minimum_candidate_cached_tokens_per_request": 1,
+      "minimum_throughput_retention_ratio": 0.95,
+      "reference_prediction_mismatches": 0,
+      "request_failures": 0,
+      "termination_reason": "stop"
+    },
+    "artifact_name_prefix": "e6h-current-runtime-memory-service",
+    "build": {
+      "curl": false,
+      "kleidiai": true,
+      "native": true,
+      "server": true,
+      "tests": false,
+      "type": "Release"
+    },
+    "claim_boundary": "A passing E6h validates one selected-model native Arm no-repack memory-tier upgrade candidate only. It relies on E5h for the tier's historical fast-versus-memory tradeoff and does not prove an energy saving, model-wide speedup, full upstream matrix, fast-tier result, or automatic product promotion without a separate launch-contract integration.",
+    "controlled_difference": "The runtime source package is the only profile-level difference: clean b10208 versus b10216 plus the exact three-patch Arm series. Model bytes, native/KleidiAI Release build flags, serving flags, disabled weight repacking, f16 K/V cache, 256-token context, 64/64 prompt batch, automatic Flash Attention, shared-prefix cache, four threads, one slot/client, task order, seed, and output cap are identical.",
+    "execution": {
+      "baseline_runtime": "baseline",
+      "candidate_runtime": "current_patched",
+      "fresh_server_per_cell": true,
+      "order": [
+        {
+          "repetition": 1,
+          "runtime": "baseline"
+        },
+        {
+          "repetition": 1,
+          "runtime": "current_patched"
+        },
+        {
+          "repetition": 2,
+          "runtime": "current_patched"
+        },
+        {
+          "repetition": 2,
+          "runtime": "baseline"
+        }
+      ],
+      "repetitions_per_runtime": 2
+    },
+    "experiment_id": "E6h",
+    "hypothesis": "Patched llama.cpp b10216 can reproduce the exact no-repack memory-tier behavior while retaining at least 95 percent of b10208 throughput, preserving median and p95 HTTP latency and measured server CPU seconds per request within 5 percent, adding no more than 64 MiB maximum RSS, and remaining below the tier's 3 GiB ceiling.",
+    "inputs": {
+      "manifest_path": "results/manifests/e3f-30656151957.json",
+      "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+      "models_path": "experiments/e3f_models.json",
+      "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+      "tasks_path": "experiments/e3_tasks.json",
+      "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    },
+    "request": {
+      "chat_template_mode": "model_jinja_system_instruction",
+      "instruction_role": "system",
+      "max_output_tokens": 8,
+      "measured_tasks": 30,
+      "seed": 424242,
+      "temperature": 0.0,
+      "timeout_seconds": 30.0,
+      "warmup_task_ids": [
+        "arithmetic-02",
+        "logic-01"
+      ]
+    },
+    "runtimes": {
+      "baseline": {
+        "commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+        "patches": [],
+        "repository": "https://github.com/ggml-org/llama.cpp.git",
+        "tag": "b10208"
+      },
+      "current_patched": {
+        "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+        "patches": [
+          {
+            "name": "validated_arm_features",
+            "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+            "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+          },
+          {
+            "name": "q8_vector_stores",
+            "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+            "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+          },
+          {
+            "name": "reasoning_forced_token_guard",
+            "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+            "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+          }
+        ],
+        "repository": "https://github.com/ggml-org/llama.cpp.git",
+        "tag": "b10216"
+      }
+    },
+    "schema_version": 1,
+    "scope": "Quality- and SLO-gated application comparison of the measured Pareto64 no-repack memory tier on historical llama.cpp b10208 versus the complete validated Arm patch series on b10216",
+    "selected": {
+      "candidate": "ministral3_3b_q4_k_m",
+      "forbidden_runtime_buffer_patterns": [
+        "CPU_REPACK model buffer size"
+      ],
+      "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "model_size_bytes": 2146497824,
+      "reference_accuracy": 0.7666666666666667,
+      "reference_correct": 23,
+      "reference_total": 30,
+      "required_runtime_buffer_patterns": [
+        "CPU_Mapped model buffer size"
+      ]
+    },
+    "selection_policy": {
+      "promotion_rule": "The current patched runtime is a no-repack memory-tier upgrade candidate only if it passes every frozen source, build, quality, prefix-reuse, throughput, latency, CPU-time, readiness, per-cell 3 GiB, and RSS-retention gate. Otherwise the memory tier remains pinned to b10208 and the complete result is retained without threshold changes.",
+      "weighted_score_used": false
+    },
+    "service": {
+      "batch_size": 64,
+      "client_concurrency": 1,
+      "context_per_slot": 256,
+      "flash_attention": "auto",
+      "kv_cache_type_k": "f16",
+      "kv_cache_type_v": "f16",
+      "micro_batch_size": 64,
+      "prompt_cache": true,
+      "server_parallel_slots": 1,
+      "threads": 4,
+      "warmup_slot_ids": [
+        0,
+        0
+      ],
+      "weight_repack": false
+    },
+    "title": "Current patched llama.cpp no-repack memory-tier upgrade lane"
+  },
+  "experiment_id": "E6h",
+  "hypothesis": {
+    "baseline_runtime": "baseline",
+    "candidate_rss_increase_kib": 180.0,
+    "candidate_runtime": "current_patched",
+    "cpu_seconds_per_request_ratio": 0.9985064468559763,
+    "cpu_time_retention_passed": true,
+    "latency_retention_passed": true,
+    "median_http_latency_ratio": 0.9983305138276447,
+    "p95_http_latency_ratio": 0.9984201943669749,
+    "passed": true,
+    "quality_passed": true,
+    "readiness_retention_passed": true,
+    "ready_time_ratio": 0.9435105576709584,
+    "rss_overhead_passed": true,
+    "selected_runtime": "current_patched",
+    "throughput_retention_passed": true,
+    "throughput_retention_ratio": 1.002403114889135,
+    "weighted_score_used": false
+  },
+  "maximum_observed_prompt_tokens": 127,
+  "performance": {
+    "baseline": {
+      "average_server_cores_used": {
+        "coefficient_of_variation": 0.0004909722352339302,
+        "max": 3.973191202742497,
+        "mean": 3.971241433459258,
+        "median": 3.971241433459258,
+        "min": 3.9692916641760188,
+        "p95": 3.973191202742497,
+        "population_stddev": 0.001949769283239089
+      },
+      "cached_tokens": {
+        "coefficient_of_variation": 0.509021083039616,
+        "max": 92.0,
+        "mean": 29.766666666666666,
+        "median": 25.0,
+        "min": 25.0,
+        "p95": 80.0,
+        "population_stddev": 15.151860905145904
+      },
+      "decode_ms": {
+        "coefficient_of_variation": 0.0173156671281058,
+        "max": 79.445,
+        "mean": 73.03363333333333,
+        "median": 72.92699999999999,
+        "min": 71.532,
+        "p95": 74.876,
+        "population_stddev": 1.2646260839561319
+      },
+      "encode_ms": {
+        "coefficient_of_variation": 0.3063228304733376,
+        "max": 3391.941,
+        "mean": 2141.4230666666667,
+        "median": 2343.2470000000003,
+        "min": 72.171,
+        "p95": 3228.199,
+        "population_stddev": 655.966775022228
+      },
+      "http_ms": {
+        "coefficient_of_variation": 0.29571033758960724,
+        "max": 3469.054146,
+        "mean": 2219.6749017833336,
+        "median": 2420.6876144999997,
+        "min": 150.534922,
+        "p95": 3307.142278,
+        "population_stddev": 656.3808145455279
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 1.9318656194275126e-05,
+        "max": 2381164.0,
+        "mean": 2381118.0,
+        "median": 2381118.0,
+        "min": 2381072.0,
+        "p95": 2381164.0,
+        "population_stddev": 46.0
+      },
+      "prompt_tokens": {
+        "coefficient_of_variation": 0.19499399772169318,
+        "max": 127.0,
+        "mean": 81.0,
+        "median": 76.0,
+        "min": 61.0,
+        "p95": 125.0,
+        "population_stddev": 15.794513815457147
+      },
+      "quality": {
+        "correct_per_repetition": [
+          23,
+          23
+        ],
+        "exact_selected_predictions": true,
+        "predictions_stable_between_repetitions": true,
+        "reference_prediction_mismatches_per_repetition": [
+          0,
+          0
+        ]
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.0027586512694512777,
+        "max": 919.497436,
+        "mean": 916.9678415000001,
+        "median": 916.9678415000001,
+        "min": 914.438247,
+        "p95": 919.497436,
+        "population_stddev": 2.5295944999999733
+      },
+      "repetitions": [
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.011610272610553259,
+              "max": 75.824,
+              "mean": 72.8305,
+              "median": 72.9085,
+              "min": 71.559,
+              "p95": 74.157,
+              "population_stddev": 0.8455819593628991
+            },
+            "elapsed_seconds": 66.485599741,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3056908644588569,
+              "max": 3384.679,
+              "mean": 2137.8842,
+              "median": 2343.2470000000003,
+              "min": 72.171,
+              "p95": 3228.199,
+              "population_stddev": 653.5316692109317
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.29505014552477715,
+              "max": 3461.251303,
+              "mean": 2215.9834934333335,
+              "median": 2420.6876144999997,
+              "min": 150.534922,
+              "p95": 3307.142278,
+              "population_stddev": 653.8262522180091
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.45122553029328777,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "1:12.49",
+            "exit_status": 0,
+            "maximum_rss_kib": 2381164,
+            "percent_cpu": "392%"
+          },
+          "ready_ms": 914.438247,
+          "repetition": 1,
+          "runtime": "baseline",
+          "server_process_cpu": {
+            "average_cores_used": 3.973191202742497,
+            "clock_ticks_per_second": 100,
+            "pid": 6597,
+            "seconds_per_request": 8.805333333333333,
+            "system_seconds": 0.17,
+            "system_ticks": 17,
+            "total_seconds": 264.16,
+            "total_ticks": 26416,
+            "user_seconds": 263.99,
+            "user_ticks": 26399
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.021157726943370068,
+              "max": 79.445,
+              "mean": 73.23676666666667,
+              "median": 73.06049999999999,
+              "min": 71.532,
+              "p95": 75.325,
+              "population_stddev": 1.5495235113486403
+            },
+            "elapsed_seconds": 66.707116131,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3069396442743718,
+              "max": 3391.941,
+              "mean": 2144.9619333333335,
+              "median": 2342.7574999999997,
+              "min": 72.224,
+              "p95": 3232.302,
+              "population_stddev": 658.3738527994022
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.2963545818174978,
+              "max": 3469.054146,
+              "mean": 2223.3663101333336,
+              "median": 2421.325011,
+              "min": 150.745506,
+              "p95": 3311.507576,
+              "population_stddev": 658.9047930666771
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.4497271316764128,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "1:12.64",
+            "exit_status": 0,
+            "maximum_rss_kib": 2381072,
+            "percent_cpu": "392%"
+          },
+          "ready_ms": 919.497436,
+          "repetition": 2,
+          "runtime": "baseline",
+          "server_process_cpu": {
+            "average_cores_used": 3.9692916641760188,
+            "clock_ticks_per_second": 100,
+            "pid": 6737,
+            "seconds_per_request": 8.825999999999999,
+            "system_seconds": 0.17,
+            "system_ticks": 17,
+            "total_seconds": 264.78,
+            "total_ticks": 26478,
+            "user_seconds": 264.61,
+            "user_ticks": 26461
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        }
+      ],
+      "requests_per_second": {
+        "coefficient_of_variation": 0.0016631269101298727,
+        "max": 0.45122553029328777,
+        "mean": 0.4504763309848503,
+        "median": 0.4504763309848503,
+        "min": 0.4497271316764128,
+        "p95": 0.45122553029328777,
+        "population_stddev": 0.000749199308437476
+      },
+      "server_cpu_seconds_per_request": {
+        "coefficient_of_variation": 0.001172155632018676,
+        "max": 8.825999999999999,
+        "mean": 8.815666666666665,
+        "median": 8.815666666666665,
+        "min": 8.805333333333333,
+        "p95": 8.825999999999999,
+        "population_stddev": 0.01033333333333264
+      },
+      "source": {
+        "commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+        "patches": [],
+        "repository": "https://github.com/ggml-org/llama.cpp.git",
+        "tag": "b10208"
+      }
+    },
+    "current_patched": {
+      "average_server_cores_used": {
+        "coefficient_of_variation": 0.00010726044508812991,
+        "max": 3.97527300077105,
+        "mean": 3.9748466569494685,
+        "median": 3.9748466569494685,
+        "min": 3.974420313127887,
+        "p95": 3.97527300077105,
+        "population_stddev": 0.0004263438215814652
+      },
+      "cached_tokens": {
+        "coefficient_of_variation": 0.509021083039616,
+        "max": 92.0,
+        "mean": 29.766666666666666,
+        "median": 25.0,
+        "min": 25.0,
+        "p95": 80.0,
+        "population_stddev": 15.151860905145904
+      },
+      "decode_ms": {
+        "coefficient_of_variation": 0.010587361682795091,
+        "max": 75.141,
+        "mean": 71.99151666666667,
+        "median": 71.99799999999999,
+        "min": 70.775,
+        "p95": 73.176,
+        "population_stddev": 0.7622002250429709
+      },
+      "encode_ms": {
+        "coefficient_of_variation": 0.30589318703826374,
+        "max": 3388.107,
+        "mean": 2137.1478666666667,
+        "median": 2339.3630000000003,
+        "min": 71.415,
+        "p95": 3223.48,
+        "population_stddev": 653.738972106693
+      },
+      "http_ms": {
+        "coefficient_of_variation": 0.2953533885513484,
+        "max": 3463.816322,
+        "mean": 2214.3443442,
+        "median": 2416.64631,
+        "min": 149.360385,
+        "p95": 3301.917636,
+        "population_stddev": 654.0141054789833
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 4.787441784287952e-05,
+        "max": 2381344.0,
+        "mean": 2381230.0,
+        "median": 2381230.0,
+        "min": 2381116.0,
+        "p95": 2381344.0,
+        "population_stddev": 114.0
+      },
+      "prompt_tokens": {
+        "coefficient_of_variation": 0.19499399772169318,
+        "max": 127.0,
+        "mean": 81.0,
+        "median": 76.0,
+        "min": 61.0,
+        "p95": 125.0,
+        "population_stddev": 15.794513815457147
+      },
+      "quality": {
+        "correct_per_repetition": [
+          23,
+          23
+        ],
+        "exact_selected_predictions": true,
+        "predictions_stable_between_repetitions": true,
+        "reference_prediction_mismatches_per_repetition": [
+          0,
+          0
+        ]
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.06161470347314791,
+        "max": 918.475961,
+        "mean": 865.1688395,
+        "median": 865.1688395,
+        "min": 811.861718,
+        "p95": 918.475961,
+        "population_stddev": 53.307121499999994
+      },
+      "repetitions": [
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.009463650708320538,
+              "max": 73.318,
+              "mean": 71.87793333333335,
+              "median": 71.9265,
+              "min": 70.775,
+              "p95": 73.176,
+              "population_stddev": 0.6802276547026166
+            },
+            "elapsed_seconds": 66.419749096,
+            "encode_ms": {
+              "coefficient_of_variation": 0.30593194880257035,
+              "max": 3382.847,
+              "mean": 2136.7033333333334,
+              "median": 2338.8545,
+              "min": 71.62,
+              "p95": 3229.023,
+              "population_stddev": 653.6858147796148
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.29542162391459037,
+              "max": 3459.404045,
+              "mean": 2213.785734366667,
+              "median": 2415.9100655,
+              "min": 150.141599,
+              "p95": 3307.243548,
+              "population_stddev": 654.0001766455547
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.45167288958950147,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "1:12.22",
+            "exit_status": 0,
+            "maximum_rss_kib": 2381344,
+            "percent_cpu": "393%"
+          },
+          "ready_ms": 811.861718,
+          "repetition": 1,
+          "runtime": "current_patched",
+          "server_process_cpu": {
+            "average_cores_used": 3.974420313127887,
+            "clock_ticks_per_second": 100,
+            "pid": 6658,
+            "seconds_per_request": 8.799333333333333,
+            "system_seconds": 0.15,
+            "system_ticks": 15,
+            "total_seconds": 263.98,
+            "total_ticks": 26398,
+            "user_seconds": 263.83,
+            "user_ticks": 26383
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.011380626565785023,
+              "max": 75.141,
+              "mean": 72.1051,
+              "median": 72.001,
+              "min": 71.087,
+              "p95": 73.609,
+              "population_stddev": 0.8206012165885855
+            },
+            "elapsed_seconds": 66.45329766,
+            "encode_ms": {
+              "coefficient_of_variation": 0.30585429797552866,
+              "max": 3388.107,
+              "mean": 2137.5924,
+              "median": 2340.958,
+              "min": 71.415,
+              "p95": 3223.48,
+              "population_stddev": 653.7918228598254
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.29528497206259974,
+              "max": 3463.816322,
+              "mean": 2214.9029540333336,
+              "median": 2418.649214,
+              "min": 149.360385,
+              "p95": 3301.917636,
+              "population_stddev": 654.0275569031025
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.4514448651365844,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "1:12.37",
+            "exit_status": 0,
+            "maximum_rss_kib": 2381116,
+            "percent_cpu": "393%"
+          },
+          "ready_ms": 918.475961,
+          "repetition": 2,
+          "runtime": "current_patched",
+          "server_process_cpu": {
+            "average_cores_used": 3.97527300077105,
+            "clock_ticks_per_second": 100,
+            "pid": 6697,
+            "seconds_per_request": 8.805666666666667,
+            "system_seconds": 0.15,
+            "system_ticks": 15,
+            "total_seconds": 264.17,
+            "total_ticks": 26417,
+            "user_seconds": 264.02,
+            "user_ticks": 26402
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        }
+      ],
+      "requests_per_second": {
+        "coefficient_of_variation": 0.00025248584885394654,
+        "max": 0.45167288958950147,
+        "mean": 0.4515588773630429,
+        "median": 0.4515588773630429,
+        "min": 0.4514448651365844,
+        "p95": 0.45167288958950147,
+        "population_stddev": 0.00011401222645854303
+      },
+      "server_cpu_seconds_per_request": {
+        "coefficient_of_variation": 0.0003597462841996006,
+        "max": 8.805666666666667,
+        "mean": 8.8025,
+        "median": 8.8025,
+        "min": 8.799333333333333,
+        "p95": 8.805666666666667,
+        "population_stddev": 0.003166666666666984
+      },
+      "source": {
+        "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+        "patches": [
+          {
+            "name": "validated_arm_features",
+            "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+            "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+          },
+          {
+            "name": "q8_vector_stores",
+            "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+            "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+          },
+          {
+            "name": "reasoning_forced_token_guard",
+            "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+            "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+          }
+        ],
+        "repository": "https://github.com/ggml-org/llama.cpp.git",
+        "tag": "b10216"
+      }
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "python": "Python 3.10.20",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "baseline_runtime": "baseline",
+    "candidate_runtime": "current_patched",
+    "experiment_id": "E6h",
+    "git_commit": "c870e48c5bf43f26034ddbb6561edaef3d6f96a9",
+    "github_run_attempt": "1",
+    "github_run_id": "30690331795",
+    "schema_version": 1
+  },
+  "schema_version": 1,
+  "scope": "Quality- and SLO-gated application comparison of the measured Pareto64 no-repack memory tier on historical llama.cpp b10208 versus the complete validated Arm patch series on b10216",
+  "selection": {
+    "accuracy": 0.7666666666666667,
+    "baseline_runtime": "baseline",
+    "candidate": "ministral3_3b_q4_k_m",
+    "candidate_runtime": "current_patched",
+    "correct": 23,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "selected_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "selected_runtime": "current_patched",
+    "total": 30
+  },
+  "source": {
+    "artifact_name": "e6h-current-runtime-memory-service-30690331795-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30690331795",
+    "runtime_proof": {
+      "baseline": {
+        "clean": true,
+        "commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+        "tag": "b10208"
+      },
+      "current_patched": {
+        "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+        "patches_applied": [
+          "validated_arm_features",
+          "q8_vector_stores",
+          "reasoning_forced_token_guard"
+        ],
+        "tag": "b10216"
+      },
+      "schema_version": 1
+    }
+  },
+  "status": "valid_current_runtime_memory_tier_upgrade_candidate",
+  "validation": {
+    "all_input_hashes_match": true,
+    "automatic_product_promotion_allowed": false,
+    "cached_prefix_observed_in_every_measured_request": true,
+    "claim_scope": "A passing E6h validates one selected-model native Arm no-repack memory-tier upgrade candidate only. It relies on E5h for the tier's historical fast-versus-memory tradeoff and does not prove an energy saving, model-wide speedup, full upstream matrix, fast-tier result, or automatic product promotion without a separate launch-contract integration.",
+    "energy_claim_allowed": false,
+    "exact_model_verified": true,
+    "exact_patch_series_verified": true,
+    "fresh_server_per_cell": true,
+    "historical_baseline_reproduced": true,
+    "matched_native_kleidiai_builds": true,
+    "measured_window_process_cpu_validated": true,
+    "memory_tier_upgrade_candidate_claim_allowed": true,
+    "quality_drift_treated_as_upgrade_rejection": true,
+    "runtime_buffer_proofs_observed": true,
+    "server_pid_bound_in_every_probe": true,
+    "source_commits_and_tags_verified": true,
+    "weighted_score_used": false
+  }
+}

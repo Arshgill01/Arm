@@ -35,6 +35,7 @@ public workflow run; compact manifests and reports are committed permanently.
 | Upstream-equivalent native Arm CPU lane | [E6e `30676413765`](https://github.com/Arshgill01/Arm/actions/runs/30676413765) | [`e6e` manifest](../results/manifests/e6e-30676413765.json) · [`report`](../results/reports/e6e-upstream-arm-cpu-lane.md) | `63c0e450…63c27f1` |
 | Current patched selected service passes upgrade gates | [E6f `30678703184`](https://github.com/Arshgill01/Arm/actions/runs/30678703184) | [`e6f` manifest](../results/manifests/e6f-30678703184.json) · [`report`](../results/reports/e6f-current-runtime-service.md) | `da95b831…470ace` |
 | Exact current-runtime adapter launch | [E6g `30679814341`](https://github.com/Arshgill01/Arm/actions/runs/30679814341) | [`e6g` manifest](../results/manifests/e6g-30679814341.json) · [`report`](../results/reports/e6g-current-runtime-launch.md) | `13496b5e…404ac9` |
+| Current no-repack tier passes upgrade gates | [E6h `30690331795`](https://github.com/Arshgill01/Arm/actions/runs/30690331795) | [`e6h` manifest](../results/manifests/e6h-30690331795.json) · [`report`](../results/reports/e6h-current-runtime-memory-service.md) | `7b112b38…53b27f` |
 | Public clean-checkout package validation | [`30680198942`](https://github.com/Arshgill01/Arm/actions/runs/30680198942) | 122 tests, 23 hashes, E6f/E6g runtime binding checks, plan-bound launch checks, demo smoke test | passed on native `aarch64` |
 
 ## Final selected package
@@ -58,8 +59,9 @@ public workflow run; compact manifests and reports are committed permanently.
   validated `--no-weight-repack` tier for constrained-memory hosts. Supplying a
   service policy binds and applies the measured tier automatically on the
   historical runtime. E6g validates the current-runtime opt-in for only the exact
-  repacked E6f profile; other tiers still require current-source application
-  evidence.
+  repacked E6f profile. E6h qualifies the same patched source for the exact
+  no-repack tier, but that tier still requires its own launch integration before
+  the adapter may start it.
 
 ## Recompute locally
 

@@ -967,6 +967,19 @@ fast-versus-memory tradeoff, and a separate launch integration is required.
 Exact details are frozen in
 [`../experiments/e6h_contract.json`](../experiments/e6h_contract.json).
 
+### E6h outcome
+
+Corrected native run `30690331795` passed every frozen gate. Patched `b10216`
+reproduced 23/30 twice with zero drift or failures, retained 100.24% throughput,
+used 99.85% of baseline server CPU seconds/request, and produced median/p95
+latency ratios of 0.9983x/0.9984x. Readiness improved to a 0.9435x ratio, maximum
+RSS increased by 180 KiB, and every cell remained below 3 GiB. Both proof-only
+starts showed the mapped model buffer and no repack buffer. Independent Python
+3.10 ingestion matched the uploaded result byte for byte at
+`7b112b38…53b27f`. This is a current-runtime memory-tier upgrade candidate, not
+a launch integration. See
+[`../results/reports/e6h-current-runtime-memory-service.md`](../results/reports/e6h-current-runtime-memory-service.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

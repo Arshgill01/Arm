@@ -62,7 +62,7 @@ current llama.cpp. We claim the hot path, not a whole-model speedup.”
 
 ## 2:08–2:32 — Exact serving
 
-**Screen:** Show the E5b through E6g rows, then the terminal.
+**Screen:** Show the E5b through E6h rows, then the terminal.
 
 ```bash
 python3 scripts/verify_submission.py
@@ -73,8 +73,9 @@ all answers stayed stable, throughput held, and memory rose only 100 KiB. The
 hash-verifying adapter can opt into that build only when its E6f evidence,
 patched source diff, CMake build, binary, model, and exact service profile all
 agree. We then ran that adapter end to end on Arm: it launched the service and
-reproduced all 30 selected predictions with no drift or failures. Other profiles
-fail closed instead of inheriting evidence they never earned.”
+reproduced all 30 selected predictions with no drift or failures. The no-repack
+tier separately retained 100.24% throughput and stayed below 3 GiB on current
+source, but still fails closed until its own launch integration is executed.”
 
 ## 2:32–2:50 — Close
 

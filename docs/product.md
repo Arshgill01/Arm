@@ -245,6 +245,14 @@ and observed prefix reuse; readiness was 3.980 seconds and maximum RSS was
 4,453,376 KiB. This validates only the explicit exact-service integration. The
 historical default and every other current-runtime profile remain unpromoted.
 
+E6h separately tested the historical no-repack memory tier on exact patched
+`b10216`. It reproduced 23/30 twice, retained 100.24% throughput, used 99.85% of
+baseline CPU seconds/request, added 180 KiB RSS, and kept all four cells below
+3 GiB. That makes the exact profile a current-runtime upgrade candidate, but the
+adapter still rejects it: E6h is comparison evidence, not the distinct
+evidence-bound launch integration required to expand the current-runtime
+contract.
+
 ## Select a measured service profile
 
 Model selection and service-profile selection are separate obligations. The

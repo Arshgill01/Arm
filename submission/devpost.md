@@ -211,6 +211,14 @@ cached-prefix reuse. This validates the one exact explicit integration—not oth
 models, no-repack, lower threads, more slots, alternate graphs, energy, or the
 full upstream matrix.
 
+We then evaluated the separately measured no-repack memory tier across the same
+runtime boundary. Four fresh historical/current servers reproduced 23/30 twice
+with zero drift or failures. Patched b10216 retained 100.24% throughput, used
+99.85% of baseline CPU seconds/request, added 180 KiB RSS, and stayed below
+3 GiB in every cell. E6h therefore qualifies an exact memory-tier upgrade
+candidate, while leaving product launch disabled until a separate adapter
+integration is executed.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -260,6 +268,8 @@ without changing measured inputs or post-observation thresholds.
   14.48 MiB maximum RSS without answer drift;
 - an explicit no-repack tier that saves 2,072,268 KiB maximum RSS while the
   2.06x-faster repacked layout remains the default;
+- current-source qualification of that exact memory tier at 1.0024x historical
+  throughput, +180 KiB RSS, and below 3 GiB in every cell;
 - a measured service-profile planner that automatically routes throughput and
   at-most-3-GiB envelopes while refusing unmeasured capacity assumptions;
 - a process-bound thread-efficiency study that rejects lower thread counts
@@ -269,7 +279,7 @@ without changing measured inputs or post-observation thresholds.
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 122 local tests plus native Arm workflows for the final evidence path.
+- 125 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 

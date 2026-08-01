@@ -21,6 +21,10 @@ authoritative, timestamped record; this file groups the significant additions.
 - Froze E6h to test the separately measured no-repack memory tier across the
   historical-to-current runtime boundary, with exact quality/prefix, 3-GiB,
   throughput, latency, CPU-time, readiness, and RSS-retention gates.
+- Retained E6h after patched b10216 reproduced 23/30 twice, retained 100.24%
+  throughput, used 99.85% of baseline CPU seconds/request, added 180 KiB RSS,
+  and kept every no-repack cell below 3 GiB. Product promotion remains disabled
+  until a distinct memory-tier launch integration passes.
 
 - Added a fail-closed service-profile planner over the native E5h evidence.
   Explicit throughput and at-most-3-GiB policies select the repacked and
@@ -38,9 +42,10 @@ authoritative, timestamped record; this file groups the significant additions.
 
 - Extended the product guide, demo, video script, and submission narrative with
   the measured service-envelope decision and its refusal behavior.
-- Expanded the focused product suite to 122 tests and the immutable verifier to
-  23 hashes, including the E6f upgrade, source diff, launch contract, frozen E6g
-  integration contract, and independently replayed E6g result.
+- Expanded the focused product suite to 125 tests and the immutable verifier to
+  25 hashes, including the E6f/E6h upgrade evidence, source diff, launch
+  contract, frozen E6g integration contract, and independently replayed E6g/E6h
+  results.
 
 ### Arm source contributions
 

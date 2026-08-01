@@ -1254,3 +1254,22 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `--no-repack` option. The corrected mechanism step starts each exact server at
   proof-only log verbosity, verifies the mapped buffer and absence of a repack
   buffer, then shuts it down before the unchanged measured matrix.
+
+## 2026-08-01 — E6h qualifies the current no-repack memory tier
+
+- Corrected native Arm run `30690331795` passed every frozen gate on exact
+  commit `c870e48`. Both revisions reproduced 23/30 twice with stable
+  predictions, zero mismatches, zero failures, and cached-prefix reuse in every
+  measured request.
+- Patched b10216 retained 1.002403x throughput, used 0.998506x baseline server
+  CPU seconds/request, and produced median/p95 HTTP latency ratios of
+  0.998331x/0.998420x. Its readiness ratio was 0.943511x.
+- Maximum RSS was 2,381,344 KiB, 180 KiB above clean b10208 and below the frozen
+  3-GiB ceiling in every cell. Both proof starts showed the mapped buffer and no
+  `CPU_REPACK` buffer.
+- Independent Python 3.10 replay reproduced the uploaded manifest byte for byte
+  at SHA-256
+  `7b112b385729ef092f2026bf35b63926ac985251d70faea2cf03e4936253b27f`.
+- The retained decision is only a no-repack memory-tier upgrade candidate. E5h
+  remains the fast-versus-memory comparison, and a separate launch integration
+  must pass before Pareto64 can start this profile on b10216.

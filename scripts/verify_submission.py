@@ -79,6 +79,9 @@ EXPECTED_HASHES = {
     "results/manifests/e6g-30679814341.json": (
         "13496b5e62e50bc3e617e6a80631c87ac6bc29015ea83499cb2ff885ec404ac9"
     ),
+    "results/manifests/e6h-30690331795.json": (
+        "7b112b385729ef092f2026bf35b63926ac985251d70faea2cf03e4936253b27f"
+    ),
     "configs/runtime-b10216-selected-service.json": (
         "9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de"
     ),
@@ -695,6 +698,53 @@ def main() -> int:
         or launch_validation.get("weighted_score_used") is not False
     ):
         raise ValueError("retained current-runtime launch differs from E6g evidence")
+
+    memory_upgrade = load_object(ROOT / "results/manifests/e6h-30690331795.json")
+    memory_contract = memory_upgrade.get("contract", {})
+    memory_service = memory_contract.get("service", {})
+    memory_performance = memory_upgrade.get("performance", {})
+    memory_hypothesis = memory_upgrade.get("hypothesis", {})
+    memory_validation = memory_upgrade.get("validation", {})
+    if (
+        memory_upgrade.get("status")
+        != "valid_current_runtime_memory_tier_upgrade_candidate"
+        or memory_upgrade.get("provenance", {}).get("github_run_id")
+        != "30690331795"
+        or memory_upgrade.get("platform", {}).get("architecture") != "aarch64"
+        or memory_upgrade.get("selection", {}).get("candidate")
+        != "ministral3_3b_q4_k_m"
+        or memory_upgrade.get("selection", {}).get("correct") != 23
+        or memory_upgrade.get("selection", {}).get("selected_runtime")
+        != "current_patched"
+        or memory_upgrade.get("selection", {}).get("selected_commit")
+        != runtime_record.get("selected_commit")
+        or memory_service.get("weight_repack") is not False
+        or memory_service.get("threads") != 4
+        or memory_service.get("server_parallel_slots") != 1
+        or memory_service.get("context_per_slot") != 256
+        or memory_service.get("batch_size") != 64
+        or memory_service.get("micro_batch_size") != 64
+        or memory_hypothesis.get("passed") is not True
+        or memory_hypothesis.get("throughput_retention_ratio", 0) < 0.95
+        or memory_hypothesis.get("median_http_latency_ratio", 99) > 1.05
+        or memory_hypothesis.get("p95_http_latency_ratio", 99) > 1.05
+        or memory_hypothesis.get("cpu_seconds_per_request_ratio", 99) > 1.05
+        or memory_hypothesis.get("ready_time_ratio", 99) > 1.1
+        or memory_hypothesis.get("candidate_rss_increase_kib", 99_999) > 65_536
+        or any(
+            profile.get("quality", {}).get("exact_selected_predictions") is not True
+            or profile.get("maximum_rss_kib", {}).get("max", 99_999_999)
+            > 3_145_728
+            for profile in memory_performance.values()
+        )
+        or memory_validation.get("memory_tier_upgrade_candidate_claim_allowed")
+        is not True
+        or memory_validation.get("runtime_buffer_proofs_observed") is not True
+        or memory_validation.get("automatic_product_promotion_allowed") is not False
+        or memory_validation.get("energy_claim_allowed") is not False
+        or memory_validation.get("weighted_score_used") is not False
+    ):
+        raise ValueError("retained memory-tier upgrade differs from E6h evidence")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")
