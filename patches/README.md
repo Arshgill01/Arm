@@ -76,4 +76,7 @@ E6e separately freezes one broader upstream-equivalent native Arm CPU lane: a
 complete fatal-warnings build with RPC and KleidiAI enabled, followed by every
 test in the upstream `main` CTest label. It is intentionally described as one
 lane rather than the full cross-platform/backend matrix. No lane result is
-accepted until that workflow and its independent ingester pass.
+accepted until that workflow and its independent ingester pass. Native run
+`30676413765` passed the full build and all 47 executed tests with no failures,
+errors, or skips. The accepted scope is still one Arm CPU lane; no external
+pull request has been opened.

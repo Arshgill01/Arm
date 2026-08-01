@@ -31,6 +31,7 @@ public workflow run; compact manifests and reports are committed permanently.
 | NEON Q8_0 vector-store patch: 2.029x | [E6b `30640282768`](https://github.com/Arshgill01/Arm/actions/runs/30640282768) | [`e6b` manifest](../results/manifests/e6b-30640282768.json) · [`report`](../results/reports/e6b-q8-vector-store.md) | `e870ad9c…e210` |
 | Reasoning-budget source fix/app rejection | [E6c `30654805236`](https://github.com/Arshgill01/Arm/actions/runs/30654805236) | [`report`](../results/reports/e6c-reasoning-budget-fix.md) | mixed result; no deployment manifest |
 | Current-upstream three-patch revalidation | [E6d `30675654688`](https://github.com/Arshgill01/Arm/actions/runs/30675654688) | [`e6d` manifest](../results/manifests/e6d-30675654688.json) · [`report`](../results/reports/e6d-current-upstream-patches.md) | `32e01c0b…c9767fa` |
+| Upstream-equivalent native Arm CPU lane | [E6e `30676413765`](https://github.com/Arshgill01/Arm/actions/runs/30676413765) | [`e6e` manifest](../results/manifests/e6e-30676413765.json) · [`report`](../results/reports/e6e-upstream-arm-cpu-lane.md) | `63c0e450…63c27f1` |
 | Public clean-checkout package validation | [`30676167725`](https://github.com/Arshgill01/Arm/actions/runs/30676167725) | 106 tests, 16 hashes, E6d evidence checks, plan-bound launch checks, demo smoke test | passed on native `aarch64` |
 
 ## Final selected package

@@ -445,6 +445,18 @@ Its maximum claim is one upstream-equivalent native Arm CPU lane for the frozen
 series. Exact inputs and gates are in
 [`../experiments/e6e_contract.json`](../experiments/e6e_contract.json).
 
+### E6e outcome
+
+Native run `30676413765` passed in 6m16s. The complete fatal-warnings build
+succeeded with KleidiAI, RPC, native tuning, and all tests enabled. CTest passed
+all 46 `main`-label tests plus the required fixture, 47/47 total, with no
+failures, errors, or skips. The reasoning-budget and both quantizer tests were
+present among the passes. Independent ingestion reproduced the uploaded summary
+byte for byte at SHA-256
+`63c0e450d967208e3eb81d21571c73354e8520940933434914920db5d63c27f1`.
+The accepted scope remains one upstream-equivalent Arm CPU lane. See
+[`../results/reports/e6e-upstream-arm-cpu-lane.md`](../results/reports/e6e-upstream-arm-cpu-lane.md).
+
 ## E5a frozen planner-API protocol
 
 E5a is a product/API concurrency gate, not the final inference-server E5 result.

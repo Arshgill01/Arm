@@ -446,7 +446,8 @@
             inference stayed neutral, so Pareto64 claims only the measured hot
             path win. The complete three-patch series was then revalidated on
             llama.cpp b10216: every targeted test passed and all 12 paired Q8
-            rounds improved.
+            rounds improved. A broader upstream-equivalent Arm CPU lane then
+            passed the complete build and all 47 executed tests.
           </p>
         </header>
 
@@ -550,6 +551,11 @@
             <div><strong>Current-upstream patch series</strong><p>All targeted tests and 12/12 direct Q8 rounds passed on b10216.</p></div>
             <span class="evidence-result select-text">Revalidated</span>
           </li>
+          <li>
+            <span class="evidence-id">E6e</span>
+            <div><strong>Upstream-equivalent Arm CPU lane</strong><p>Complete build plus 47/47 executed tests passed.</p></div>
+            <span class="evidence-result select-text">Passed</span>
+          </li>
         </ol>
 
         <div class="reproduce">
@@ -600,6 +606,9 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e6d-current-upstream-patches.md">
           Current patch series
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e6e-upstream-arm-cpu-lane.md">
+          Upstream Arm lane
         </a>
       </div>
     </footer>

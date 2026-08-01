@@ -64,6 +64,9 @@ EXPECTED_HASHES = {
     "results/manifests/e6d-30675654688.json": (
         "32e01c0baf21de4679ace516a1ef61f7520dbbbc641d218aa454380e0c9767fa"
     ),
+    "results/manifests/e6e-30676413765.json": (
+        "63c0e450d967208e3eb81d21571c73354e8520940933434914920db5d63c27f1"
+    ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
     ),
@@ -437,6 +440,55 @@ def main() -> int:
         )
     ):
         raise ValueError("retained current-upstream patch evidence differs from E6d")
+
+    upstream_lane = load_object(
+        ROOT / "results/manifests/e6e-30676413765.json"
+    )
+    upstream_source = upstream_lane.get("source", {})
+    upstream_build = upstream_lane.get("build", {})
+    upstream_tests = upstream_lane.get("tests", {})
+    upstream_validation = upstream_lane.get("validation", {})
+    upstream_criteria = upstream_validation.get("criteria", {})
+    upstream_passed = set(upstream_tests.get("passed_test_names", []))
+    if (
+        upstream_lane.get("status") != "valid_upstream_arm_cpu_lane"
+        or upstream_lane.get("host")
+        != {"architecture": "aarch64", "native": True}
+        or upstream_source.get("github_run_id") != "30676413765"
+        or upstream_source.get("llama_cpp_tag") != "b10216"
+        or upstream_source.get("llama_cpp_commit")
+        != "876a4321163249c43ca4e986818fab5ab081f282"
+        or upstream_build
+        != {
+            "build_exit_status": 0,
+            "compiler_bound": True,
+            "configuration_bound": True,
+            "configure_exit_status": 0,
+        }
+        or upstream_tests.get("exit_status") != 0
+        or upstream_tests.get("total") != 47
+        or upstream_tests.get("passed") != 47
+        or upstream_tests.get("failures") != 0
+        or upstream_tests.get("errors") != 0
+        or upstream_tests.get("skipped") != 0
+        or not {
+            "test-reasoning-budget",
+            "test-quantize-fns",
+            "test-quantize-perf",
+        }
+        <= upstream_passed
+        or set(upstream_criteria.values()) != {True}
+        or len(upstream_criteria) != 10
+        or upstream_validation.get("upstream_arm_cpu_lane_claim_allowed")
+        is not True
+        or upstream_validation.get("weighted_score_used") is not False
+        or upstream_validation.get("claim_scope")
+        != (
+            "one upstream-equivalent native Arm CPU build and main CTest lane "
+            "for the frozen three-patch series only"
+        )
+    ):
+        raise ValueError("retained upstream Arm CPU lane differs from E6e evidence")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

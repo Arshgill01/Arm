@@ -56,8 +56,8 @@ envelope neither measured tier can meet.”
 activation quantizer, we replaced 32 scalar byte stores with six NEON narrows
 and two vector stores. Direct throughput doubled from 5.1 to 10.3 gigabytes per
 second with bit-identical output and neutral real-model inference. The complete
-three-patch series also passed every targeted test on current llama.cpp. We
-claim the hot path, not a whole-model speedup.”
+three-patch series then passed a full Arm CPU build and all 47 executed tests on
+current llama.cpp. We claim the hot path, not a whole-model speedup.”
 
 ## 2:08–2:32 — Exact serving
 

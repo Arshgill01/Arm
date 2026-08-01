@@ -75,6 +75,10 @@ revalidates them natively. The feature and reasoning failures reproduce before
 their fixes, all targeted tests pass after the complete series, and all twelve
 paired Q8 rounds improve by roughly 95%. Its claim remains bounded to this
 frozen current revision, targeted correctness, and direct hot-path performance.
+E6e broadens that proof through an upstream-equivalent native Arm CPU lane: the
+complete fatal-warnings build passes with KleidiAI enabled, followed by 47/47
+CTest executions without a failure, error, or skip. It is one validated Arm CPU
+lane, not the full upstream platform and backend matrix.
 
 ```bash
 python3 -m pareto64 plan \
@@ -130,10 +134,11 @@ repack flag that conflicts with the plan is refused.
 | [E6b](results/reports/e6b-q8-vector-store.md) | NEON vector narrowing doubled isolated Q8_0 quantizer throughput with neutral real-model inference |
 | [E6c](results/reports/e6c-reasoning-budget-fix.md) | Source fix passed 13 upstream tests and removed all reasoning output; the frozen final-answer gate still rejected the real-model run |
 | [E6d](results/reports/e6d-current-upstream-patches.md) | All three Arm patches revalidated on llama.cpp b10216; targeted tests passed and direct Q8 throughput improved about 95% |
+| [E6e](results/reports/e6e-upstream-arm-cpu-lane.md) | Complete upstream-equivalent native Arm CPU build passed, followed by 47/47 clean CTest executions |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
-The E5f through E5i and E6d results are retained under their exact frozen
+The E5f through E5i, E6d, and E6e results are retained under their exact frozen
 contracts and independently re-ingested byte for byte.
 
 ## Repository map

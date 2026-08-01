@@ -1072,3 +1072,17 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   the reasoning-budget, quantizer-correctness, and quantizer-performance tests.
   This can establish one upstream-equivalent Arm CPU lane only; it does not
   represent the complete cross-platform or accelerator matrix.
+
+## 2026-08-01 — E6e broader Arm CPU lane passes
+
+- Native run `30676413765` completed in 6m16s. The complete Release default
+  target built under GCC/G++ 14 with fatal warnings, RPC, native tuning, all
+  tests, and explicit KleidiAI enabled.
+- CTest passed all 46 tests carrying the upstream `main` label plus its required
+  model-download fixture: 47/47 total, zero failures, zero errors, and zero
+  skips. The reasoning-budget and both quantizer tests were clean.
+- A separate local invocation reproduced the uploaded manifest byte for byte at
+  SHA-256
+  `63c0e450d967208e3eb81d21571c73354e8520940933434914920db5d63c27f1`.
+  This accepts one upstream-equivalent native Arm CPU lane only, not the full
+  platform, sanitizer, packaging, accelerator, or release matrix.

@@ -163,6 +163,12 @@ measured 1.950–1.958x direct Q8 throughput across all three sizes. This is a
 frozen current-revision result, not a claim that the full upstream CI matrix or
 whole-model inference improved.
 
+Finally, we ran the complete series through an upstream-equivalent native Arm
+CPU lane. The full fatal-warnings default target built with KleidiAI and RPC,
+then all 46 upstream `main` tests plus the required fixture passed—47/47 total,
+with no failures, errors, or skips. This validates one Arm CPU lane, not the
+full cross-platform and accelerator matrix.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -205,11 +211,11 @@ without changing measured inputs or post-observation thresholds.
 - a measured service-profile planner that automatically routes throughput and
   at-most-3-GiB envelopes while refusing unmeasured capacity assumptions;
 - three reviewable Arm source patches revalidated on current llama.cpp with
-  bounded correctness evidence;
+  bounded correctness evidence and a 47/47 upstream-equivalent Arm CPU lane;
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 106 local tests plus native Arm workflows for the final evidence path.
+- 108 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 
@@ -233,8 +239,8 @@ dominates every use case.
 
 ## What's next
 
-- prepare the validated three-patch series for maintainer review and run the
-  broader upstream CI matrix;
+- prepare the validated three-patch series for maintainer review, then extend
+  beyond the proven Arm CPU lane to sanitizer, platform, and backend jobs;
 - expand the workload beyond the compact deterministic acceptance suite;
 - add cost and energy evidence on a host with available counters;
 - evaluate the same evidence contract across additional LLM-Runner backends;

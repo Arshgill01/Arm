@@ -1,0 +1,121 @@
+{
+  "build": {
+    "build_exit_status": 0,
+    "compiler_bound": true,
+    "configuration_bound": true,
+    "configure_exit_status": 0
+  },
+  "experiment_id": "E6e",
+  "host": {
+    "architecture": "aarch64",
+    "native": true
+  },
+  "patches": [
+    {
+      "name": "validated_arm_features",
+      "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+      "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+    },
+    {
+      "name": "q8_vector_stores",
+      "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+      "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+    },
+    {
+      "name": "reasoning_forced_token_guard",
+      "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+      "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "contract_sha256": "48f3cd49c173570e493afaf6b231f2622d59730bede83041af9897f09aef3d81",
+    "experiment_id": "E6e",
+    "git_commit": "e12bc43fd20c6f1384890647d85d1b4f585d923f",
+    "github_run_attempt": "1",
+    "github_run_id": "30676413765",
+    "llama_cpp_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "llama_cpp_tag": "b10216",
+    "patch_sha256": {
+      "q8_vector_stores": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+      "reasoning_forced_token_guard": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783",
+      "validated_arm_features": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+    },
+    "schema_version": 1
+  },
+  "status": "valid_upstream_arm_cpu_lane",
+  "tests": {
+    "errors": 0,
+    "exit_status": 0,
+    "failures": 0,
+    "passed": 47,
+    "passed_test_names": [
+      "test-alloc",
+      "test-arg-parser",
+      "test-backend-ops",
+      "test-barrier",
+      "test-batch-alloc",
+      "test-chat",
+      "test-chat-auto-parser",
+      "test-chat-peg-parser",
+      "test-chat-template",
+      "test-col2im-1d",
+      "test-download-model",
+      "test-generate-models",
+      "test-gguf",
+      "test-grammar-integration",
+      "test-grammar-parser",
+      "test-jinja",
+      "test-json-schema-to-grammar",
+      "test-llama-archs",
+      "test-llama-grammar",
+      "test-log",
+      "test-mtmd-c-api",
+      "test-opt",
+      "test-peg-parser",
+      "test-quantize-fns",
+      "test-quantize-perf",
+      "test-reasoning-budget",
+      "test-recurrent-state-rollback",
+      "test-rope",
+      "test-sampling",
+      "test-thread-safety",
+      "test-tokenizer-0-bert-bge",
+      "test-tokenizer-0-command-r",
+      "test-tokenizer-0-deepseek-coder",
+      "test-tokenizer-0-deepseek-llm",
+      "test-tokenizer-0-falcon",
+      "test-tokenizer-0-gemma-4",
+      "test-tokenizer-0-gpt-2",
+      "test-tokenizer-0-llama-bpe",
+      "test-tokenizer-0-llama-spm",
+      "test-tokenizer-0-mpt",
+      "test-tokenizer-0-phi-3",
+      "test-tokenizer-0-qwen2",
+      "test-tokenizer-0-qwen35",
+      "test-tokenizer-0-refact",
+      "test-tokenizer-0-starcoder",
+      "test-tokenizer-1-llama-spm",
+      "test-tokenizers-ggml-vocabs"
+    ],
+    "skipped": 0,
+    "total": 47
+  },
+  "validation": {
+    "claim_scope": "one upstream-equivalent native Arm CPU build and main CTest lane for the frozen three-patch series only",
+    "criteria": {
+      "compiler_bound": true,
+      "configuration_bound": true,
+      "configure_passed": true,
+      "ctest_passed": true,
+      "full_build_passed": true,
+      "minimum_main_tests_passed": true,
+      "required_tests_passed": true,
+      "zero_errors": true,
+      "zero_failures": true,
+      "zero_skipped": true
+    },
+    "upstream_arm_cpu_lane_claim_allowed": true,
+    "weighted_score_used": false
+  }
+}
