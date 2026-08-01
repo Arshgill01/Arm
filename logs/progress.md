@@ -1311,3 +1311,6 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - This integrates only the exact memory service. E6g remains the separate fast
   integration; other profiles, energy, and the full upstream matrix remain out
   of scope.
+- Public clean-checkout run `30691572261` passed on exact retained-result commit
+  `60aa902`: 128 tests, all 28 immutable hashes, both current-runtime launch
+  integrations, exact planner/runtime assertions, and demo smoke.
