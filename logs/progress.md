@@ -1018,3 +1018,6 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Focused launcher, CLI, and service-planner tests pass for both throughput and
   at-most-3-GiB routing, exact `--no-repack` emission, hash binding, manual
   conflict, incomplete input, and impossible-policy refusal.
+- Public clean-checkout run `30675220682` passed on native `aarch64` from exact
+  launch-binding commit `f2c367e`: 104 tests, all 15 pinned hashes, exact plan
+  checks, and the dependency-free demo smoke test.
