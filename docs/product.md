@@ -237,6 +237,14 @@ server CPU seconds/request, slightly improved median/p95 latency, and added only
 evidence-bound upgrade path above; it does not silently replace the historical
 runtime or broaden the validated service envelope.
 
+E6g exercised that path rather than only unit-testing its checks. Native run
+`30679814341` rebuilt the exact patched source, recomputed the model decision,
+verified every runtime input, and started the server through `python -m pareto64
+launch`. All 30 requests succeeded, reproduced 23/30 without prediction drift,
+and observed prefix reuse; readiness was 3.980 seconds and maximum RSS was
+4,453,376 KiB. This validates only the explicit exact-service integration. The
+historical default and every other current-runtime profile remain unpromoted.
+
 ## Select a measured service profile
 
 Model selection and service-profile selection are separate obligations. The

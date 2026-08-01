@@ -76,6 +76,9 @@ EXPECTED_HASHES = {
     "results/manifests/e6f-30678703184.json": (
         "da95b831a0cccf3b16dd45e93e11855a6e0322c5aa163d145c24243b42470ace"
     ),
+    "results/manifests/e6g-30679814341.json": (
+        "13496b5e62e50bc3e617e6a80631c87ac6bc29015ea83499cb2ff885ec404ac9"
+    ),
     "configs/runtime-b10216-selected-service.json": (
         "9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de"
     ),
@@ -645,6 +648,50 @@ def main() -> int:
         runtime_contract,
         runtime_contract["service"],
     )
+
+    launch_integration = load_object(
+        ROOT / "results/manifests/e6g-30679814341.json"
+    )
+    launch_quality = launch_integration.get("quality", {})
+    launch_performance = launch_integration.get("performance", {})
+    launch_runtime = launch_integration.get("runtime_provenance", {})
+    launch_validation = launch_integration.get("validation", {})
+    if (
+        launch_integration.get("status")
+        != "valid_current_runtime_launch_integration"
+        or launch_integration.get("provenance", {}).get("github_run_id")
+        != "30679814341"
+        or launch_integration.get("platform", {}).get("architecture") != "aarch64"
+        or launch_quality.get("correct") != 23
+        or launch_quality.get("total") != 30
+        or launch_quality.get("exact_selected_predictions") is not True
+        or launch_quality.get("reference_prediction_mismatches") != 0
+        or launch_quality.get("request_failures") != 0
+        or launch_quality.get(
+            "cached_prefix_observed_in_every_measured_request"
+        )
+        is not True
+        or launch_performance.get("ready_ms", 99_999) > 15_000
+        or launch_performance.get("maximum_rss_kib", 99_999_999) > 8_388_608
+        or launch_runtime.get("selected_commit")
+        != runtime_record.get("selected_commit")
+        or launch_runtime.get("runtime_manifest_sha256")
+        != EXPECTED_HASHES["results/manifests/e6f-30678703184.json"]
+        or launch_runtime.get("runtime_contract_sha256")
+        != EXPECTED_HASHES["configs/runtime-b10216-selected-service.json"]
+        or launch_runtime.get("source_diff_sha256")
+        != EXPECTED_HASHES["patches/llama.cpp/b10216/e6f-current-series.patch"]
+        or launch_runtime.get("changed_files") != runtime_record.get("changed_files")
+        or launch_validation.get("current_runtime_launch_claim_allowed") is not True
+        or launch_validation.get("live_server_executed_through_adapter") is not True
+        or launch_validation.get("source_build_binary_bound") is not True
+        or launch_validation.get("exact_service_recipe_verified") is not True
+        or launch_validation.get("automatic_other_profile_promotion_allowed")
+        is not False
+        or launch_validation.get("energy_claim_allowed") is not False
+        or launch_validation.get("weighted_score_used") is not False
+    ):
+        raise ValueError("retained current-runtime launch differs from E6g evidence")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

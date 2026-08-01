@@ -1215,3 +1215,18 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   contents and changed-file inventory matched, but abbreviated object IDs
   changed the byte hash. Both product and workflow diff capture now use the
   exact E6f full-index format; inputs, source, service, and gates are unchanged.
+
+## 2026-08-01 — E6g validates the exact current-runtime launch
+
+- Corrected native run `30679814341` rebuilt the exact patched b10216 source and
+  launched the selected service through the E6f-bound Pareto64 adapter.
+- All 30 measured requests succeeded, reproduced the selected 23/30 prediction
+  map without drift, and observed cached-prefix reuse. Readiness was 3.980
+  seconds, throughput was 0.93038 requests/s, maximum RSS was 4,453,376 KiB, and
+  server CPU time was 4.2467 seconds/request.
+- The result binds the full-index source diff, patch set, git commit, CMake
+  cache, copied server binary, model, recipe, live PID, one slot, metrics, and
+  exact arguments. Other profiles and energy/full-matrix claims remain excluded.
+- Independent Python 3.10 ingestion reproduced the uploaded result byte for byte
+  at SHA-256
+  `13496b5e62e50bc3e617e6a80631c87ac6bc29015ea83499cb2ff885ec404ac9`.

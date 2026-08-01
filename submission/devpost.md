@@ -46,6 +46,7 @@ summed. Every promoted service change preserved the selected task predictions.
 | Arm kernel | 32 scalar stores → NEON narrows/vector stores | 5.09 → 10.33 GB/s, 2.029x, bit-identical | Accept hot-path win only |
 | Source robustness | Historical pins → llama.cpp b10216 | Complete native build and 47/47 tests passed | Validate one upstream-equivalent Arm CPU lane |
 | Application runtime | Clean b10208 → patched b10216 | Exact 23/30 twice; 1.0028x throughput; +100 KiB RSS | Accept an exact-service upgrade candidate |
+| Product integration | Manual command risk → evidence-bound adapter | Native adapter launch reproduced 23/30 with zero drift or failures | Admit only the exact measured service |
 
 ## What it does
 
@@ -202,6 +203,14 @@ used 99.93% of baseline CPU seconds/request, and added 100 KiB maximum RSS.
 Every frozen gate passed. This is an upgrade candidate for one exact service,
 not an energy, model-wide, full-matrix, or automatic-promotion claim.
 
+We then exercised the product boundary itself. E6g rebuilt the exact patched
+source, verified the E6f decision, full-index diff, CMake build, server binary,
+model, and arguments, and launched through `python -m pareto64 launch` on native
+Arm. All 30 requests succeeded, reproduced 23/30 without drift, and observed
+cached-prefix reuse. This validates the one exact explicit integration—not other
+models, no-repack, lower threads, more slots, alternate graphs, energy, or the
+full upstream matrix.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -214,7 +223,9 @@ The opt-in current-runtime adapter keeps model selection immutable while binding
 E6f separately. It checks the exact four-file patched git diff, CMake source and
 build cache, executable version and binary hash, model bytes, and the one service
 profile E6f actually measured. Missing provenance or a different profile aborts
-before launch.
+before launch. E6g verifies that this is an executed product path, not only a
+static contract: the adapter started the real server and reproduced the selected
+workload end to end.
 
 The historical selected runtime is llama.cpp `b10208` at commit
 `9d9a6d29f6b981cc7f41983d26e56485c6af1811`; E6f separately accepts patched
@@ -238,7 +249,8 @@ without changing measured inputs or post-observation thresholds.
 ## Accomplishments
 
 - first deployable quality/SLO frontier after multiple valid empty frontiers;
-- exact model-to-runtime launch with cryptographic fail-closed checks;
+- exact model-to-runtime launch with cryptographic fail-closed checks, exercised
+  end to end on the current patched runtime;
 - stable end-to-end native Arm inference service with zero response drift;
 - quality-gated prompt reuse delivering 1.672x serving throughput and 41% lower
   median HTTP latency;
@@ -257,7 +269,7 @@ without changing measured inputs or post-observation thresholds.
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 114 local tests plus native Arm workflows for the final evidence path.
+- 122 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 

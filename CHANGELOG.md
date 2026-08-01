@@ -15,6 +15,9 @@ authoritative, timestamped record; this file groups the significant additions.
   manifest, exact patched git diff, CMake source/build cache, server version and
   binary hash, and permits only the measured one-slot repacked f16/256/64
   four-thread profile. The unflagged b10208 path remains unchanged.
+- Validated that adapter end to end on native Arm. E6g rebuilt and bound the
+  exact source/build/server, launched through Pareto64, and reproduced 23/30
+  with zero drift, failures, or missing prefix reuse.
 
 - Added a fail-closed service-profile planner over the native E5h evidence.
   Explicit throughput and at-most-3-GiB policies select the repacked and
@@ -33,8 +36,8 @@ authoritative, timestamped record; this file groups the significant additions.
 - Extended the product guide, demo, video script, and submission narrative with
   the measured service-envelope decision and its refusal behavior.
 - Expanded the focused product suite to 122 tests and the immutable verifier to
-  22 hashes, including the E6f upgrade, source diff, launch contract, and frozen
-  E6g integration contract.
+  23 hashes, including the E6f upgrade, source diff, launch contract, frozen E6g
+  integration contract, and independently replayed E6g result.
 
 ### Arm source contributions
 

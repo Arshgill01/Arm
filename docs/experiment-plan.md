@@ -934,6 +934,17 @@ It cannot promote no-repack, lower-thread, concurrency, alternate-cache, batch,
 context, or Flash profiles and supports no energy claim. Exact details are in
 [`../experiments/e6g_contract.json`](../experiments/e6g_contract.json).
 
+### E6g outcome
+
+Corrected native run `30679814341` passed every frozen gate. The adapter rebuilt
+and verified the exact patched `b10216` source/build/server, launched the exact
+service, and reproduced 23/30 across all 30 requests with zero reference drift,
+zero failures, and cached-prefix reuse throughout. Readiness was 3.980 seconds,
+maximum RSS was 4,453,376 KiB, and the one-slot/metrics/PID checks passed.
+Independent Python 3.10 ingestion matched the uploaded result byte for byte at
+`13496b5e…404ac9`. See
+[`../results/reports/e6g-current-runtime-launch.md`](../results/reports/e6g-current-runtime-launch.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

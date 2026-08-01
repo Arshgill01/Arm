@@ -1,0 +1,160 @@
+{
+  "experiment_id": "E6g",
+  "performance": {
+    "http_ms": {
+      "coefficient_of_variation": 0.32976180612276035,
+      "max": 2114.346057,
+      "mean": 1074.6304126666666,
+      "median": 1049.192061,
+      "min": 132.096545,
+      "p95": 1856.471677,
+      "population_stddev": 354.37206579540725
+    },
+    "maximum_rss_kib": 4453376,
+    "ready_ms": 3979.588282,
+    "requests_per_second": 0.9303795416920538,
+    "server_process_cpu": {
+      "average_cores_used": 3.951011787052255,
+      "clock_ticks_per_second": 100,
+      "pid": 4461,
+      "seconds_per_request": 4.246666666666667,
+      "system_seconds": 0.17,
+      "system_ticks": 17,
+      "total_seconds": 127.4,
+      "total_ticks": 12740,
+      "user_seconds": 127.23,
+      "user_ticks": 12723
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "python": "Python 3.10.20",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "experiment_id": "E6g",
+    "git_commit": "11bc86779dc79e05882d5b5be69b5d5f66dafc55",
+    "github_run_attempt": "1",
+    "github_run_id": "30679814341",
+    "schema_version": 1
+  },
+  "quality": {
+    "accuracy": 0.7666666666666667,
+    "cached_prefix_observed_in_every_measured_request": true,
+    "correct": 23,
+    "exact_selected_predictions": true,
+    "reference_prediction_mismatches": 0,
+    "request_failures": 0,
+    "total": 30
+  },
+  "runtime_provenance": {
+    "build_root": "/tmp/llama.cpp-E6g-build",
+    "changed_files": [
+      "common/reasoning-budget.cpp",
+      "ggml/src/ggml-cpu/CMakeLists.txt",
+      "ggml/src/ggml-cpu/arch/arm/quants.c",
+      "tests/test-reasoning-budget.cpp"
+    ],
+    "claim_boundary": "This opt-in contract launches only the exact E6f selected service from an exact locally patched b10216 source/build pair. It does not promote other models or service profiles and does not establish energy savings or full upstream coverage.",
+    "cmake_cache_sha256": "dd84121d6178a61ae420950a5108fa03500b7e1744da0d6f633b1784ad079955",
+    "contract_id": "pareto64-runtime-b10216-selected-service",
+    "patches": [
+      {
+        "name": "validated_arm_features",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "name": "q8_vector_stores",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "name": "reasoning_forced_token_guard",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      }
+    ],
+    "promotion_mode": "explicit_evidence_bound_upgrade",
+    "runtime_contract_sha256": "9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de",
+    "runtime_manifest_sha256": "da95b831a0cccf3b16dd45e93e11855a6e0322c5aa163d145c24243b42470ace",
+    "selected_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "server_sha256": "4bcccf12020b24dd7ce404ad6436dfaf136d0924c1236a8d094f4dc93725977d",
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "source_root": "/tmp/llama.cpp-E6g"
+  },
+  "schema_version": 1,
+  "scope": "One native Arm product-integration reproduction of the accepted E6f service through the Pareto64 launch adapter",
+  "selection": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "reference_accuracy": 0.7666666666666667,
+    "reference_correct": 23,
+    "reference_total": 30,
+    "runtime_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "service": {
+      "batch_size": 64,
+      "client_concurrency": 1,
+      "context_per_slot": 256,
+      "explicit_batch_arguments": true,
+      "flash_attention": "auto",
+      "kv_cache_type_k": "f16",
+      "kv_cache_type_v": "f16",
+      "log_verbosity": null,
+      "micro_batch_size": 64,
+      "prompt_cache": true,
+      "server_parallel_slots": 1,
+      "threads": 4,
+      "warmup_slot_ids": [
+        0,
+        0
+      ],
+      "weight_repack": true
+    }
+  },
+  "source": {
+    "changed_files": [
+      "common/reasoning-budget.cpp",
+      "ggml/src/ggml-cpu/CMakeLists.txt",
+      "ggml/src/ggml-cpu/arch/arm/quants.c",
+      "tests/test-reasoning-budget.cpp"
+    ],
+    "cmake_cache_sha256": "dd84121d6178a61ae420950a5108fa03500b7e1744da0d6f633b1784ad079955",
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "schema_version": 1,
+    "server_sha256": "4bcccf12020b24dd7ce404ad6436dfaf136d0924c1236a8d094f4dc93725977d",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "tag": "b10216"
+  },
+  "status": "valid_current_runtime_launch_integration",
+  "validation": {
+    "all_input_hashes_match": true,
+    "automatic_other_profile_promotion_allowed": false,
+    "claim_scope": "A passing E6g validates the explicit Pareto64 launch integration for one exact patched b10216 native Arm selected service. It is not a new optimization comparison, energy claim, other-profile promotion, or full upstream validation.",
+    "current_runtime_launch_claim_allowed": true,
+    "energy_claim_allowed": false,
+    "exact_service_recipe_verified": true,
+    "exact_source_diff_verified": true,
+    "live_server_executed_through_adapter": true,
+    "model_selection_recomputed": true,
+    "prefix_reuse_reproduced": true,
+    "runtime_upgrade_manifest_verified": true,
+    "selected_quality_reproduced": true,
+    "source_build_binary_bound": true,
+    "weighted_score_used": false
+  }
+}
