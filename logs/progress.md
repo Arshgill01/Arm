@@ -1119,3 +1119,9 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Froze a 4–3–2–2–3–4 study with exact-answer and prefix-reuse gates, 95%
   throughput retention, 5% median/p95 latency tolerance, and a required 5% CPU
   seconds/request reduction. CPU time is not represented as energy or power.
+- Native attempt `30677290911` stopped before model download, build, or
+  measurement because its source proof searched for a nonexistent combined
+  `n_threads_batch` symbol. Pinned source uses
+  `params.cpuparams_batch.n_threads`; the proof now binds the exact public
+  `--threads` and `--threads-batch` option declarations. No experiment input,
+  order, measurement, or gate changed.

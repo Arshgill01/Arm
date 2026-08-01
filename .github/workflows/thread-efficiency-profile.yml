@@ -66,8 +66,8 @@ jobs:
           test "$(git -C "$LLAMA_CPP_DIR" rev-parse HEAD)" = "$LLAMA_CPP_SHA"
           test "$(git -C "$LLAMA_CPP_DIR" describe --tags --exact-match)" = "$LLAMA_CPP_TAG"
           test -z "$(git -C "$LLAMA_CPP_DIR" status --short)"
-          grep -q 'n_threads' "$LLAMA_CPP_DIR/common/arg.cpp"
-          grep -q 'n_threads_batch' "$LLAMA_CPP_DIR/common/arg.cpp"
+          grep -Fq '{"-t", "--threads"}' "$LLAMA_CPP_DIR/common/arg.cpp"
+          grep -Fq '{"-tb", "--threads-batch"}' "$LLAMA_CPP_DIR/common/arg.cpp"
 
           repository="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].repository' experiments/e3f_models.json)"
           revision="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].revision' experiments/e3f_models.json)"
