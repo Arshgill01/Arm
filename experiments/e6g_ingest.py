@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the E6g current-runtime launch-adapter integration lane."""
+"""Validate the E6g/E6i current-runtime launch-adapter integration lanes."""
 
 from __future__ import annotations
 
@@ -44,6 +44,28 @@ ARTIFACT_INPUTS = {
     "runtime_contract": "runtime-launch-contract.json",
     "tasks": "tasks-manifest.json",
 }
+LAUNCH_PROFILES = {
+    "E6g": {
+        "runtime_experiment_id": "E6f",
+        "runtime_status": "valid_current_runtime_upgrade_candidate",
+        "status": "valid_current_runtime_launch_integration",
+        "claim_flag": "current_runtime_launch_claim_allowed",
+    },
+    "E6i": {
+        "runtime_experiment_id": "E6h",
+        "runtime_status": "valid_current_runtime_memory_tier_upgrade_candidate",
+        "status": "valid_current_runtime_memory_launch_integration",
+        "claim_flag": "current_runtime_memory_launch_claim_allowed",
+    },
+}
+
+
+def launch_profile(contract: dict[str, Any]) -> dict[str, str]:
+    experiment_id = contract.get("experiment_id")
+    profile = LAUNCH_PROFILES.get(experiment_id)
+    if contract.get("schema_version") != 1 or profile is None:
+        raise ValueError("invalid current-runtime launch contract")
+    return profile
 
 
 def validate_copied_inputs(
@@ -51,6 +73,7 @@ def validate_copied_inputs(
     contract: dict[str, Any],
     paths: dict[str, Path],
 ) -> None:
+    experiment_id = contract["experiment_id"]
     inputs = contract["inputs"]
     for name, artifact_name in ARTIFACT_INPUTS.items():
         expected = inputs[f"{name}_sha256"]
@@ -58,7 +81,7 @@ def validate_copied_inputs(
             sha256_file(paths[name]) != expected
             or sha256_file(evidence_dir / artifact_name) != expected
         ):
-            raise ValueError(f"E6g {name} input hash differs")
+            raise ValueError(f"{experiment_id} {name} input hash differs")
 
 
 def validate_source_and_build(
@@ -68,6 +91,7 @@ def validate_source_and_build(
     launch_contract: dict[str, Any],
     recipe: dict[str, Any],
 ) -> dict[str, Any]:
+    experiment_id = contract["experiment_id"]
     source = load_object(evidence_dir / "source.json")
     expected_source = contract["runtime"]
     if (
@@ -76,7 +100,7 @@ def validate_source_and_build(
         or source.get("tag") != expected_source["tag"]
         or source.get("commit") != expected_source["commit"]
     ):
-        raise ValueError("E6g source proof differs from the contract")
+        raise ValueError(f"{experiment_id} source proof differs from the contract")
     source_diff = evidence_dir / "source-diff.patch"
     patched_files = (evidence_dir / "patched-files.txt").read_text().splitlines()
     runtime_record = launch_contract["runtime"]
@@ -84,7 +108,9 @@ def validate_source_and_build(
         sha256_file(source_diff) != expected_source["source_diff_sha256"]
         or patched_files != runtime_record["changed_files"]
     ):
-        raise ValueError("E6g patched source differs from the launch contract")
+        raise ValueError(
+            f"{experiment_id} patched source differs from the launch contract"
+        )
 
     runtime = recipe["runtime"]
     upgrade = runtime.get("upgrade_provenance", {})
@@ -104,7 +130,7 @@ def validate_source_and_build(
         or upgrade.get("patches") != runtime_record["patches"]
         or upgrade.get("selected_commit") != expected_source["commit"]
     ):
-        raise ValueError("E6g build or binary provenance differs")
+        raise ValueError(f"{experiment_id} build or binary provenance differs")
     return {
         **source,
         "source_diff_sha256": sha256_file(source_diff),
@@ -120,6 +146,8 @@ def validate_recipe(
     contract: dict[str, Any],
     launch_contract: dict[str, Any],
 ) -> None:
+    experiment_id = contract["experiment_id"]
+    profile = launch_profile(contract)
     inputs = contract["inputs"]
     selected = contract["selected"]
     service = contract["service"]
@@ -135,8 +163,8 @@ def validate_recipe(
         or recipe.get("selection", {}).get("plan_status") != "selected"
         or recipe.get("selection", {}).get("runtime_upgrade")
         != {
-            "status": "valid_current_runtime_upgrade_candidate",
-            "experiment_id": "E6f",
+            "status": profile["runtime_status"],
+            "experiment_id": profile["runtime_experiment_id"],
             "selected_commit": contract["runtime"]["commit"],
             "promotion_mode": "explicit_evidence_bound_upgrade",
         }
@@ -146,7 +174,7 @@ def validate_recipe(
         or model_files[0].get("sha256") != selected["model_sha256"]
         or model_files[0].get("size_bytes") != selected["model_size_bytes"]
     ):
-        raise ValueError("E6g launch recipe does not preserve selection")
+        raise ValueError(f"{experiment_id} launch recipe does not preserve selection")
     for recipe_name, input_name in (
         ("manifest", "manifest"),
         ("constraints", "policy"),
@@ -158,7 +186,7 @@ def validate_recipe(
         if recipe_inputs.get(f"{recipe_name}_sha256") != inputs[
             f"{input_name}_sha256"
         ]:
-            raise ValueError(f"E6g recipe {recipe_name} hash differs")
+            raise ValueError(f"{experiment_id} recipe {recipe_name} hash differs")
     expected_runtime = {
         "llama_cpp_commit": contract["runtime"]["commit"],
         "threads": service["threads"],
@@ -178,9 +206,11 @@ def validate_recipe(
         "log_verbosity": service["log_verbosity"],
     }
     if any(runtime.get(name) != value for name, value in expected_runtime.items()):
-        raise ValueError("E6g runtime recipe differs from the exact service")
+        raise ValueError(
+            f"{experiment_id} runtime recipe differs from the exact service"
+        )
     if contract["runtime"]["commit"][:9] not in runtime.get("server_version", ""):
-        raise ValueError("E6g server version differs from current source")
+        raise ValueError(f"{experiment_id} server version differs from current source")
     expected_argv = expected_server_argv(
         runtime["server_path"],
         model_files[0]["path"],
@@ -188,7 +218,7 @@ def validate_recipe(
         service=service,
     )
     if runtime.get("argv") != expected_argv:
-        raise ValueError("E6g server argv differs from the exact service")
+        raise ValueError(f"{experiment_id} server argv differs from the exact service")
     if (
         upgrade.get("contract_id") != launch_contract["contract_id"]
         or upgrade.get("promotion_mode") != launch_contract["promotion_mode"]
@@ -198,10 +228,14 @@ def validate_recipe(
         != inputs["runtime_contract_sha256"]
         or upgrade.get("claim_boundary") != launch_contract["claim_boundary"]
     ):
-        raise ValueError("E6g recipe lacks current-runtime provenance")
+        raise ValueError(f"{experiment_id} recipe lacks current-runtime provenance")
 
 
-def validate_outer_invocation(evidence_dir: Path) -> None:
+def validate_outer_invocation(
+    evidence_dir: Path,
+    contract: dict[str, Any],
+) -> None:
+    experiment_id = contract["experiment_id"]
     text = (evidence_dir / "server-time.log").read_text(errors="replace")
     commands = [line for line in text.splitlines() if "Command being timed:" in line]
     required = (
@@ -212,8 +246,15 @@ def validate_outer_invocation(evidence_dir: Path) -> None:
         "--llama-build-root",
         "--parallel 1",
     )
-    if len(commands) != 1 or any(value not in commands[0] for value in required):
-        raise ValueError("E6g timed invocation did not use the upgrade adapter")
+    no_repack_present = "--no-weight-repack" in commands[0] if commands else False
+    if (
+        len(commands) != 1
+        or any(value not in commands[0] for value in required)
+        or no_repack_present is contract["service"]["weight_repack"]
+    ):
+        raise ValueError(
+            f"{experiment_id} timed invocation did not use the exact upgrade adapter"
+        )
 
 
 def build_manifest(
@@ -222,8 +263,8 @@ def build_manifest(
     paths: dict[str, Path],
 ) -> dict[str, Any]:
     contract = load_object(contract_path)
-    if contract.get("schema_version") != 1 or contract.get("experiment_id") != "E6g":
-        raise ValueError("invalid E6g contract")
+    profile = launch_profile(contract)
+    experiment_id = contract["experiment_id"]
     required = [
         "provenance.json",
         "source.json",
@@ -246,7 +287,7 @@ def build_manifest(
     ]
     missing = [name for name in required if not (evidence_dir / name).is_file()]
     if missing:
-        raise ValueError(f"missing E6g evidence: {', '.join(missing)}")
+        raise ValueError(f"missing {experiment_id} evidence: {', '.join(missing)}")
     validate_copied_inputs(evidence_dir, contract, paths)
     launch_contract = load_object(paths["runtime_contract"])
     recipe = load_object(evidence_dir / "recipe.json")
@@ -257,7 +298,7 @@ def build_manifest(
         launch_contract=launch_contract,
         recipe=recipe,
     )
-    validate_outer_invocation(evidence_dir)
+    validate_outer_invocation(evidence_dir, contract)
 
     tasks = load_tasks(load_object(paths["tasks"]))
     references = reference_predictions(
@@ -299,18 +340,18 @@ def build_manifest(
         or len(slots) != contract["service"]["server_parallel_slots"]
         or "llamacpp:" not in metrics
     ):
-        raise ValueError("E6g runtime smoke missed an absolute gate")
+        raise ValueError(f"{experiment_id} runtime smoke missed an absolute gate")
     provenance = load_object(evidence_dir / "provenance.json")
-    if provenance.get("experiment_id") != "E6g":
-        raise ValueError("E6g provenance differs")
+    if provenance.get("experiment_id") != experiment_id:
+        raise ValueError(f"{experiment_id} provenance differs")
     platform = parse_lscpu((evidence_dir / "lscpu.txt").read_text())
     if platform["architecture"] != "aarch64":
-        raise ValueError("E6g requires a native aarch64 host")
+        raise ValueError(f"{experiment_id} requires a native aarch64 host")
 
     return {
         "schema_version": 1,
-        "experiment_id": "E6g",
-        "status": "valid_current_runtime_launch_integration",
+        "experiment_id": experiment_id,
+        "status": profile["status"],
         "scope": contract["scope"],
         "provenance": provenance,
         "source": source,
@@ -353,7 +394,7 @@ def build_manifest(
             "live_server_executed_through_adapter": True,
             "selected_quality_reproduced": True,
             "prefix_reuse_reproduced": True,
-            "current_runtime_launch_claim_allowed": True,
+            profile["claim_flag"]: True,
             "automatic_other_profile_promotion_allowed": False,
             "energy_claim_allowed": False,
             "weighted_score_used": False,

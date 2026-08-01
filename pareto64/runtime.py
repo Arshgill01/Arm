@@ -14,6 +14,16 @@ K_CACHE_TYPES = {"f16", "q8_0", "q4_0"}
 V_CACHE_TYPES = {"f16"}
 UPSTREAM_DEFAULT_BATCH_SIZE = 2048
 UPSTREAM_DEFAULT_MICRO_BATCH_SIZE = 512
+RUNTIME_UPGRADE_EVIDENCE = {
+    "E6f": {
+        "status": "valid_current_runtime_upgrade_candidate",
+        "claim_flag": "upgrade_candidate_claim_allowed",
+    },
+    "E6h": {
+        "status": "valid_current_runtime_memory_tier_upgrade_candidate",
+        "claim_flag": "memory_tier_upgrade_candidate_claim_allowed",
+    },
+}
 
 
 def server_version(server_path: Path) -> str:
@@ -81,12 +91,14 @@ def validate_runtime_upgrade(
     model_record = runtime_contract.get("model_selection_manifest", {})
     runtime_record = runtime_contract.get("runtime", {})
     build_record = runtime_contract.get("build", {})
+    manifest_experiment = manifest_record.get("experiment_id")
+    evidence_contract = RUNTIME_UPGRADE_EVIDENCE.get(manifest_experiment)
     if (
-        runtime_contract.get("schema_version") != 1
+        evidence_contract is None
+        or runtime_contract.get("schema_version") != 1
         or runtime_contract.get("promotion_mode")
         != "explicit_evidence_bound_upgrade"
         or runtime_contract.get("selected_candidate") != selected_candidate
-        or manifest_record.get("experiment_id") != "E6f"
         or manifest_record.get("sha256") != sha256_file(runtime_manifest_path)
         or model_record.get("experiment_id") != "E3f"
         or model_record.get("sha256") != sha256_file(model_manifest_path)
@@ -109,9 +121,8 @@ def validate_runtime_upgrade(
     validation = runtime_manifest.get("validation", {})
     if (
         runtime_manifest.get("schema_version") != 1
-        or runtime_manifest.get("experiment_id") != "E6f"
-        or runtime_manifest.get("status")
-        != "valid_current_runtime_upgrade_candidate"
+        or runtime_manifest.get("experiment_id") != manifest_experiment
+        or runtime_manifest.get("status") != evidence_contract["status"]
         or manifest_contract.get("inputs", {}).get("manifest_sha256")
         != model_record.get("sha256")
         or manifest_contract.get("selected", {}).get("candidate")
@@ -123,7 +134,7 @@ def validate_runtime_upgrade(
         or runtime_manifest.get("selection", {}).get("selected_commit")
         != selected_commit
         or runtime_manifest.get("hypothesis", {}).get("passed") is not True
-        or validation.get("upgrade_candidate_claim_allowed") is not True
+        or validation.get(evidence_contract["claim_flag"]) is not True
         or validation.get("automatic_product_promotion_allowed") is not False
         or validation.get("exact_patch_series_verified") is not True
         or validation.get("exact_model_verified") is not True
@@ -133,7 +144,9 @@ def validate_runtime_upgrade(
             for profile in quality_profiles
         )
     ):
-        raise ValueError("runtime upgrade manifest is not an accepted E6f result")
+        raise ValueError(
+            f"runtime upgrade manifest is not an accepted {manifest_experiment} result"
+        )
 
     resolved_source = source_root.resolve()
     resolved_build = build_root.resolve()
@@ -219,7 +232,10 @@ def validate_runtime_upgrade_service(
     )
     manifest_service["log_verbosity"] = None
     if manifest_service != runtime_contract.get("service") or observed != manifest_service:
-        raise ValueError("runtime upgrade is limited to the exact E6f service profile")
+        experiment_id = runtime_manifest.get("experiment_id", "runtime upgrade")
+        raise ValueError(
+            f"runtime upgrade is limited to the exact {experiment_id} service profile"
+        )
 
 
 def validate_model_package(

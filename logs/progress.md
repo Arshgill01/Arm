@@ -1276,3 +1276,19 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Public clean-checkout run `30690973261` passed on exact retained-result commit
   `3af7da4`: 125 tests, all 25 immutable hashes, E6h result assertions, exact
   planner/runtime checks, and the dependency-free demo smoke test.
+
+## 2026-08-01 — E6i current memory-tier launch integration frozen
+
+- Added a second current-runtime launch contract bound to the immutable E6h
+  manifest and its exact no-repack f16/256/64, cached, four-thread, one-slot
+  service. The existing E6f/E6g fast contract remains unchanged.
+- Generalized the runtime validator with an explicit E6f/E6h evidence allowlist;
+  each evidence shape retains its own accepted status and claim flag. Unknown
+  experiments, swapped hashes, and cross-profile service settings fail closed.
+- Generalized the E6g workflow/ingester to dispatch either fast E6g or memory
+  E6i. The memory path must carry `--no-weight-repack`, produce exactly one
+  server `--no-repack` argument, reproduce 23/30 with prefix reuse, and stay at
+  or below 3 GiB.
+- Independent Python 3.10 replay of retained E6g after the shared-code change
+  remained byte-identical at `13496b5e…404ac9`; the fast integration result did
+  not change.

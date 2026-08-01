@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E6i",
+  "title": "Current-runtime no-repack launch-adapter integration",
+  "hypothesis": "The explicit E6h-bound launcher can verify and execute the exact patched b10216 no-repack memory service while reproducing every selected prediction and cached prefix below 3 GiB.",
+  "scope": "One native Arm product-integration reproduction of the accepted E6h memory service through the Pareto64 launch adapter",
+  "inputs": {
+    "manifest_path": "results/manifests/e3f-30656151957.json",
+    "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "policy_path": "configs/cloud-quality.json",
+    "policy_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "model_contract_path": "experiments/e3f_contract.json",
+    "model_contract_sha256": "a43ebf2b44aba9bac7e44e18a979901715cd23855df0d2c16c93375382977551",
+    "runtime_manifest_path": "results/manifests/e6h-30690331795.json",
+    "runtime_manifest_sha256": "7b112b385729ef092f2026bf35b63926ac985251d70faea2cf03e4936253b27f",
+    "runtime_contract_path": "configs/runtime-b10216-memory-service.json",
+    "runtime_contract_sha256": "a3d1e066700dfe4ea3ad9dff8f06fc0dfd508adae961b7e32c9f3d2574ebc008",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+  },
+  "runtime": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216",
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893"
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "reference_correct": 23,
+    "reference_total": 30,
+    "reference_accuracy": 0.7666666666666667,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824
+  },
+  "service": {
+    "batch_size": 64,
+    "client_concurrency": 1,
+    "context_per_slot": 256,
+    "explicit_batch_arguments": true,
+    "flash_attention": "auto",
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "log_verbosity": null,
+    "micro_batch_size": 64,
+    "prompt_cache": true,
+    "server_parallel_slots": 1,
+    "threads": 4,
+    "warmup_slot_ids": [
+      0,
+      0
+    ],
+    "weight_repack": false
+  },
+  "request": {
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ],
+    "measured_tasks": 30,
+    "max_output_tokens": 8,
+    "instruction_role": "system",
+    "chat_template_mode": "model_jinja_system_instruction",
+    "temperature": 0.0,
+    "seed": 424242,
+    "timeout_seconds": 30.0
+  },
+  "acceptance": {
+    "http_status": 200,
+    "termination_reason": "stop",
+    "request_failures": 0,
+    "reference_prediction_mismatches": 0,
+    "minimum_candidate_cached_tokens_per_request": 1,
+    "maximum_ready_ms": 15000.0,
+    "maximum_process_rss_kib": 3145728,
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ]
+  },
+  "selection_policy": {
+    "rule": "Accept only if the current-runtime memory recipe, local source/build/binary provenance, explicit no-repack setting, exact selected predictions, cached prefix, readiness, and 3-GiB RSS ceiling all validate.",
+    "weighted_score_used": false
+  },
+  "claim_boundary": "A passing E6i validates the explicit Pareto64 launch integration for one exact patched b10216 native Arm no-repack memory service. It is not a new optimization comparison, energy claim, other-profile promotion, fast-tier result, or full upstream validation."
+}

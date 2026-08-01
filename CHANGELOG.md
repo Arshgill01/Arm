@@ -25,6 +25,10 @@ authoritative, timestamped record; this file groups the significant additions.
   throughput, used 99.85% of baseline CPU seconds/request, added 180 KiB RSS,
   and kept every no-repack cell below 3 GiB. Product promotion remains disabled
   until a distinct memory-tier launch integration passes.
+- Froze E6i as that distinct integration: a second immutable runtime contract
+  binds E6h, requires the explicit no-repack adapter path, and keeps 23/30,
+  prefix reuse, source/build/binary, readiness, one-slot, metrics, and 3-GiB
+  gates separate from E6g's fast service.
 
 - Added a fail-closed service-profile planner over the native E5h evidence.
   Explicit throughput and at-most-3-GiB policies select the repacked and

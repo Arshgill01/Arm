@@ -85,6 +85,9 @@ EXPECTED_HASHES = {
     "configs/runtime-b10216-selected-service.json": (
         "9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de"
     ),
+    "configs/runtime-b10216-memory-service.json": (
+        "a3d1e066700dfe4ea3ad9dff8f06fc0dfd508adae961b7e32c9f3d2574ebc008"
+    ),
     "patches/llama.cpp/b10216/e6f-current-series.patch": (
         "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893"
     ),
@@ -93,6 +96,9 @@ EXPECTED_HASHES = {
     ),
     "experiments/e6h_contract.json": (
         "e1e3bd876fb724358c1d6ab62d0ef25cbcabeac2b1fb6a972975d8cb5863f31d"
+    ),
+    "experiments/e6i_contract.json": (
+        "7b7f0b5dd2598bb89be4163ced702d1c27c34078232aa0a7926bc40426194265"
     ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
@@ -745,6 +751,64 @@ def main() -> int:
         or memory_validation.get("weighted_score_used") is not False
     ):
         raise ValueError("retained memory-tier upgrade differs from E6h evidence")
+
+    memory_runtime_contract = load_object(
+        ROOT / "configs/runtime-b10216-memory-service.json"
+    )
+    memory_runtime_record = memory_runtime_contract.get("runtime", {})
+    memory_runtime_manifest = memory_runtime_contract.get("runtime_manifest", {})
+    memory_model_manifest = memory_runtime_contract.get(
+        "model_selection_manifest", {}
+    )
+    if (
+        memory_runtime_contract.get("schema_version") != 1
+        or memory_runtime_contract.get("promotion_mode")
+        != "explicit_evidence_bound_upgrade"
+        or memory_runtime_contract.get("selected_candidate")
+        != memory_upgrade.get("selection", {}).get("candidate")
+        or memory_runtime_manifest.get("experiment_id") != "E6h"
+        or memory_runtime_manifest.get("sha256")
+        != EXPECTED_HASHES["results/manifests/e6h-30690331795.json"]
+        or memory_model_manifest.get("sha256")
+        != EXPECTED_HASHES["results/manifests/e3f-30656151957.json"]
+        or memory_runtime_record != runtime_record
+        or memory_runtime_contract.get("service", {}).get("weight_repack")
+        is not False
+    ):
+        raise ValueError("current-runtime memory launch contract differs from E6h")
+    validate_runtime_upgrade_service(
+        memory_upgrade,
+        memory_runtime_contract,
+        memory_runtime_contract["service"],
+    )
+
+    memory_launch_contract = load_object(ROOT / "experiments/e6i_contract.json")
+    memory_launch_inputs = memory_launch_contract.get("inputs", {})
+    memory_launch_service = dict(memory_launch_contract.get("service", {}))
+    memory_launch_service.pop("client_concurrency", None)
+    memory_launch_service.pop("explicit_batch_arguments", None)
+    memory_launch_service.pop("warmup_slot_ids", None)
+    memory_launch_service["parallel_slots"] = memory_launch_service.pop(
+        "server_parallel_slots", None
+    )
+    if (
+        memory_launch_contract.get("schema_version") != 1
+        or memory_launch_contract.get("experiment_id") != "E6i"
+        or memory_launch_inputs.get("runtime_manifest_sha256")
+        != EXPECTED_HASHES["results/manifests/e6h-30690331795.json"]
+        or memory_launch_inputs.get("runtime_contract_sha256")
+        != EXPECTED_HASHES["configs/runtime-b10216-memory-service.json"]
+        or memory_launch_service != memory_runtime_contract.get("service")
+        or memory_launch_contract.get("acceptance", {}).get(
+            "maximum_process_rss_kib"
+        )
+        != 3_145_728
+        or memory_launch_contract.get("selection_policy", {}).get(
+            "weighted_score_used"
+        )
+        is not False
+    ):
+        raise ValueError("frozen E6i launch integration differs from E6h")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

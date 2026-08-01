@@ -1,24 +1,39 @@
-name: Arm E6g current-runtime launch integration
+name: Arm current-runtime launch integrations
 
 on:
   workflow_dispatch:
+    inputs:
+      service_profile:
+        description: Frozen current-runtime profile to launch
+        required: true
+        default: fast
+        type: choice
+        options:
+          - fast
+          - memory
 
 permissions:
   contents: read
 
 env:
+  EXPERIMENT_ID: ${{ inputs.service_profile == 'memory' && 'E6i' || 'E6g' }}
+  CONTRACT_PATH: ${{ inputs.service_profile == 'memory' && 'experiments/e6i_contract.json' || 'experiments/e6g_contract.json' }}
+  CONTRACT_SHA256: ${{ inputs.service_profile == 'memory' && '7b7f0b5dd2598bb89be4163ced702d1c27c34078232aa0a7926bc40426194265' || '92ad60fbc5fdf74ac10566230efcdbaf2322f9d4f68f1ed3822c2b3904fab1e8' }}
+  RUNTIME_MANIFEST_PATH: ${{ inputs.service_profile == 'memory' && 'results/manifests/e6h-30690331795.json' || 'results/manifests/e6f-30678703184.json' }}
+  RUNTIME_MANIFEST_SHA256: ${{ inputs.service_profile == 'memory' && '7b112b385729ef092f2026bf35b63926ac985251d70faea2cf03e4936253b27f' || 'da95b831a0cccf3b16dd45e93e11855a6e0322c5aa163d145c24243b42470ace' }}
+  RUNTIME_CONTRACT_PATH: ${{ inputs.service_profile == 'memory' && 'configs/runtime-b10216-memory-service.json' || 'configs/runtime-b10216-selected-service.json' }}
+  RUNTIME_CONTRACT_SHA256: ${{ inputs.service_profile == 'memory' && 'a3d1e066700dfe4ea3ad9dff8f06fc0dfd508adae961b7e32c9f3d2574ebc008' || '9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de' }}
   CURRENT_SHA: 876a4321163249c43ca4e986818fab5ab081f282
   CURRENT_TAG: b10216
-  CONTRACT_SHA256: 92ad60fbc5fdf74ac10566230efcdbaf2322f9d4f68f1ed3822c2b3904fab1e8
   SELECTED_CANDIDATE: ministral3_3b_q4_k_m
 
 jobs:
   current_runtime_launch:
-    name: Verify and execute the E6f-bound launcher
+    name: Verify and execute the ${{ inputs.service_profile }} launcher
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 35
     env:
-      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e6g-${{ github.run_id }}-${{ github.run_attempt }}
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/${{ inputs.service_profile == 'memory' && 'e6i' || 'e6g' }}-${{ github.run_id }}-${{ github.run_attempt }}
       LLAMA_CPP_DIR: /tmp/llama.cpp-E6g
       BUILD_DIR: /tmp/llama.cpp-E6g-build
       MODEL_ROOT: /tmp/Pareto64-E6g/models
@@ -41,22 +56,22 @@ jobs:
           python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
           free -h | tee "$EVIDENCE_DIR/memory-before.txt"
           df -h | tee "$EVIDENCE_DIR/disk-before.txt"
-          echo "$CONTRACT_SHA256  experiments/e6g_contract.json" \
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" \
             | sha256sum --check --strict
           echo '54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c  results/manifests/e3f-30656151957.json' | sha256sum --check --strict
           echo '7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33  configs/cloud-quality.json' | sha256sum --check --strict
           echo '31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d  experiments/e3f_models.json' | sha256sum --check --strict
           echo 'a43ebf2b44aba9bac7e44e18a979901715cd23855df0d2c16c93375382977551  experiments/e3f_contract.json' | sha256sum --check --strict
-          echo 'da95b831a0cccf3b16dd45e93e11855a6e0322c5aa163d145c24243b42470ace  results/manifests/e6f-30678703184.json' | sha256sum --check --strict
-          echo '9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de  configs/runtime-b10216-selected-service.json' | sha256sum --check --strict
+          echo "$RUNTIME_MANIFEST_SHA256  $RUNTIME_MANIFEST_PATH" | sha256sum --check --strict
+          echo "$RUNTIME_CONTRACT_SHA256  $RUNTIME_CONTRACT_PATH" | sha256sum --check --strict
           echo 'beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346  experiments/e3_tasks.json' | sha256sum --check --strict
-          cp experiments/e6g_contract.json "$EVIDENCE_DIR/contract.json"
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
           cp results/manifests/e3f-30656151957.json "$EVIDENCE_DIR/selected-manifest.json"
           cp configs/cloud-quality.json "$EVIDENCE_DIR/deployment-policy.json"
           cp experiments/e3f_models.json "$EVIDENCE_DIR/models-manifest.json"
           cp experiments/e3f_contract.json "$EVIDENCE_DIR/model-contract.json"
-          cp results/manifests/e6f-30678703184.json "$EVIDENCE_DIR/runtime-manifest.json"
-          cp configs/runtime-b10216-selected-service.json "$EVIDENCE_DIR/runtime-launch-contract.json"
+          cp "$RUNTIME_MANIFEST_PATH" "$EVIDENCE_DIR/runtime-manifest.json"
+          cp "$RUNTIME_CONTRACT_PATH" "$EVIDENCE_DIR/runtime-launch-contract.json"
           cp experiments/e3_tasks.json "$EVIDENCE_DIR/tasks-manifest.json"
 
       - name: Pin patched current source and selected model
@@ -147,14 +162,18 @@ jobs:
             fi
           }
           trap cleanup EXIT
+          profile_args=()
+          if [ "$EXPERIMENT_ID" = "E6i" ]; then
+            profile_args+=(--no-weight-repack)
+          fi
           /usr/bin/time --verbose --output "$EVIDENCE_DIR/server-time.log" \
             python3 -m pareto64 launch \
             --manifest results/manifests/e3f-30656151957.json \
             --constraints configs/cloud-quality.json \
             --models experiments/e3f_models.json \
             --contract experiments/e3f_contract.json \
-            --runtime-manifest results/manifests/e6f-30678703184.json \
-            --runtime-contract configs/runtime-b10216-selected-service.json \
+            --runtime-manifest "$RUNTIME_MANIFEST_PATH" \
+            --runtime-contract "$RUNTIME_CONTRACT_PATH" \
             --llama-source-root "$LLAMA_CPP_DIR" \
             --llama-build-root "$BUILD_DIR" \
             --model-root "$MODEL_ROOT" \
@@ -163,6 +182,7 @@ jobs:
             --host 127.0.0.1 \
             --port 18081 \
             --parallel 1 \
+            "${profile_args[@]}" \
             > "$EVIDENCE_DIR/server.stdout.log" \
             2> "$EVIDENCE_DIR/server.stderr.log" &
           active_timer_pid=$!
@@ -196,7 +216,7 @@ jobs:
             --max-output-tokens 8 \
             --seed 424242 \
             --timeout 30 \
-            --experiment-id E6g \
+            --experiment-id "$EXPERIMENT_ID" \
             --output "$EVIDENCE_DIR/probe.json"
           curl --fail --silent http://127.0.0.1:18081/metrics \
             > "$EVIDENCE_DIR/metrics.txt"
@@ -223,7 +243,7 @@ jobs:
 
           provenance = {
               "schema_version": 1,
-              "experiment_id": "E6g",
+              "experiment_id": os.environ["EXPERIMENT_ID"],
               "git_commit": os.environ["GITHUB_SHA"],
               "github_run_id": os.environ["GITHUB_RUN_ID"],
               "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
@@ -235,23 +255,23 @@ jobs:
           PY
           python3 experiments/e6g_ingest.py \
             --evidence-dir "$EVIDENCE_DIR" \
-            --contract experiments/e6g_contract.json \
+            --contract "$CONTRACT_PATH" \
             --manifest results/manifests/e3f-30656151957.json \
             --policy configs/cloud-quality.json \
             --models experiments/e3f_models.json \
             --model-contract experiments/e3f_contract.json \
-            --runtime-manifest results/manifests/e6f-30678703184.json \
-            --runtime-contract configs/runtime-b10216-selected-service.json \
+            --runtime-manifest "$RUNTIME_MANIFEST_PATH" \
+            --runtime-contract "$RUNTIME_CONTRACT_PATH" \
             --tasks experiments/e3_tasks.json \
             --output "$EVIDENCE_DIR/summary.json"
           jq '{status, validation, source, selection, quality, performance}' \
             "$EVIDENCE_DIR/summary.json"
 
-      - name: Upload E6g evidence
+      - name: Upload current-runtime launch evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: e6g-current-runtime-launch-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.service_profile == 'memory' && 'e6i-current-runtime-memory-launch' || 'e6g-current-runtime-launch' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ env.EVIDENCE_DIR }}
           if-no-files-found: error
           retention-days: 90

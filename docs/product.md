@@ -253,6 +253,13 @@ adapter still rejects it: E6h is comparison evidence, not the distinct
 evidence-bound launch integration required to expand the current-runtime
 contract.
 
+E6i freezes that separate integration without weakening the fast contract. A
+second runtime contract binds the E6h manifest and exact no-repack service, and
+the shared validator explicitly accepts only the E6f fast or E6h memory evidence
+shapes. Until the native E6i execution passes, this is an unpromoted candidate:
+the memory invocation must include `--no-weight-repack`, reproduce the selected
+workload, and remain below 3 GiB through the adapter itself.
+
 ## Select a measured service profile
 
 Model selection and service-profile selection are separate obligations. The

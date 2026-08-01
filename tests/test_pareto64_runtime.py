@@ -24,6 +24,9 @@ class Pareto64RuntimeTests(unittest.TestCase):
         root: Path,
         model_manifest_path: Path,
         selected: str,
+        *,
+        experiment_id: str = "E6f",
+        weight_repack: bool = True,
     ) -> dict:
         source_root = root / "llama.cpp"
         source_root.mkdir()
@@ -116,13 +119,21 @@ class Pareto64RuntimeTests(unittest.TestCase):
             "server_parallel_slots": 1,
             "threads": 4,
             "warmup_slot_ids": [0, 0],
-            "weight_repack": True,
+            "weight_repack": weight_repack,
         }
+        status = {
+            "E6f": "valid_current_runtime_upgrade_candidate",
+            "E6h": "valid_current_runtime_memory_tier_upgrade_candidate",
+        }[experiment_id]
+        claim_flag = {
+            "E6f": "upgrade_candidate_claim_allowed",
+            "E6h": "memory_tier_upgrade_candidate_claim_allowed",
+        }[experiment_id]
         baseline_commit = "9d9a6d29f6b981cc7f41983d26e56485c6af1811"
         runtime_manifest = {
             "schema_version": 1,
-            "experiment_id": "E6f",
-            "status": "valid_current_runtime_upgrade_candidate",
+            "experiment_id": experiment_id,
+            "status": status,
             "contract": {
                 "inputs": {
                     "manifest_sha256": hashlib.sha256(
@@ -146,7 +157,7 @@ class Pareto64RuntimeTests(unittest.TestCase):
             },
             "hypothesis": {"passed": True},
             "validation": {
-                "upgrade_candidate_claim_allowed": True,
+                claim_flag: True,
                 "automatic_product_promotion_allowed": False,
                 "exact_patch_series_verified": True,
                 "exact_model_verified": True,
@@ -172,7 +183,7 @@ class Pareto64RuntimeTests(unittest.TestCase):
             "contract_id": "test-current-runtime",
             "promotion_mode": "explicit_evidence_bound_upgrade",
             "runtime_manifest": {
-                "experiment_id": "E6f",
+                "experiment_id": experiment_id,
                 "sha256": hashlib.sha256(
                     runtime_manifest_path.read_bytes()
                 ).hexdigest(),
@@ -768,6 +779,50 @@ class Pareto64RuntimeTests(unittest.TestCase):
             )
             self.assertEqual(
                 digest, recipe["model"]["files"][0]["sha256"]
+            )
+
+            memory_root = root / "memory-upgrade"
+            memory_root.mkdir()
+            memory_upgrade = self.runtime_upgrade_fixture(
+                memory_root,
+                paths["manifest"],
+                selected,
+                experiment_id="E6h",
+                weight_repack=False,
+            )
+            memory_recipe = prepare_launch(
+                manifest=manifest,
+                constraints=constraints,
+                models=models,
+                contract=contract,
+                manifest_path=paths["manifest"],
+                constraints_path=paths["constraints"],
+                models_path=paths["models"],
+                contract_path=paths["contract"],
+                model_root=model_root,
+                server_path=memory_upgrade["server_path"],
+                version_output=(
+                    f"version ({memory_upgrade['selected_commit'][:9]})"
+                ),
+                host="127.0.0.1",
+                port=18081,
+                parallel=1,
+                weight_repack=False,
+                runtime_manifest=memory_upgrade["manifest"],
+                runtime_contract=memory_upgrade["contract"],
+                runtime_manifest_path=memory_upgrade["manifest_path"],
+                runtime_contract_path=memory_upgrade["contract_path"],
+                runtime_source_root=memory_upgrade["source_root"],
+                runtime_build_root=memory_upgrade["build_root"],
+            )
+            self.assertFalse(memory_recipe["runtime"]["weight_repack"])
+            self.assertEqual(
+                1,
+                memory_recipe["runtime"]["argv"].count("--no-repack"),
+            )
+            self.assertEqual(
+                "E6h",
+                memory_recipe["selection"]["runtime_upgrade"]["experiment_id"],
             )
 
             invalid_service = dict(upgrade["service"])

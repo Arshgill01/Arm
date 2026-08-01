@@ -980,6 +980,25 @@ starts showed the mapped model buffer and no repack buffer. Independent Python
 a launch integration. See
 [`../results/reports/e6h-current-runtime-memory-service.md`](../results/reports/e6h-current-runtime-memory-service.md).
 
+## E6i frozen current-runtime no-repack launch integration
+
+E6i closes the product boundary left deliberately open by E6h. One native Arm
+job rebuilds the exact three-patch `b10216` source and selected model, then calls
+`python -m pareto64 launch` with a new E6h-bound runtime contract and the explicit
+`--no-weight-repack` control. The adapter must verify the immutable E3f and E6h
+manifests, exact source diff, CMake source/build relationship, server version and
+binary hash, model bytes, and the exact one-slot cached f16/256/64 four-thread
+memory profile before starting the live server.
+
+The executed recipe must contain exactly one server `--no-repack` argument and
+retain the E6h provenance hashes. All 30 requests must reproduce the selected
+23/30 map with zero failures or drift and cached-prefix reuse throughout.
+Readiness must stay within 15 seconds, the live process must expose one slot and
+metrics, and maximum RSS must remain at or below 3 GiB. A pass integrates only
+this exact memory tier; it cannot promote the fast tier, other profiles, energy,
+or a broader upstream matrix. Exact details are frozen in
+[`../experiments/e6i_contract.json`](../experiments/e6i_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server
