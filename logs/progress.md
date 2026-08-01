@@ -1125,3 +1125,18 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `params.cpuparams_batch.n_threads`; the proof now binds the exact public
   `--threads` and `--threads-batch` option declarations. No experiment input,
   order, measurement, or gate changed.
+
+## 2026-08-01 — E5j retains the four-thread default
+
+- Native run `30677332825` completed all six cells in 10m7s. Every profile
+  reproduced 23/30 twice, with stable predictions, prefix reuse, and zero
+  request failures.
+- Three threads used 2.982 average server cores but reduced CPU seconds/request
+  only 0.11%; throughput retention was 75.52%, and median/p95 latency rose
+  31.53%/36.34%. Two threads used 1.995 cores, saved 1.36% CPU time/request,
+  retained 51.18% throughput, and nearly doubled latency.
+- Both candidates failed the unchanged CPU-time, throughput, and latency gates.
+  Four threads remains the default; CPU time supports no energy or power claim.
+- Python 3.10 independent ingestion matched the uploaded summary byte for byte
+  at SHA-256
+  `747b6795d42be691c07cf5aac38237095477d06149e787cc313ec2b9558c4ff7`.

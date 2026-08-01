@@ -435,6 +435,52 @@
             the configured auto mode remains, without a promoted speed claim.
           </p>
         </div>
+
+        <div class="cache-interaction">
+          <table>
+            <caption>
+              <strong>Fewer active cores did not mean less CPU work.</strong>
+              Server process counters exclude model load, warmups, and client work.
+            </caption>
+            <thead>
+              <tr>
+                <th>Threads</th>
+                <th>CPU seconds/request</th>
+                <th>Throughput</th>
+                <th>Median / p95 HTTP</th>
+                <th>Decision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>4</td>
+                <td>4.2682 s</td>
+                <td>0.926 req/s</td>
+                <td>1,053 / 1,865 ms</td>
+                <td class="select-text">Retain default</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>4.2637 s · −0.11%</td>
+                <td>0.699 req/s · −24.48%</td>
+                <td>1,385 / 2,543 ms</td>
+                <td class="reject-text">Reject</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>4.2102 s · −1.36%</td>
+                <td>0.474 req/s · −48.82%</td>
+                <td>2,065 / 3,653 ms</td>
+                <td class="reject-text">Reject</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            Both candidates missed the frozen 5% CPU-time reduction, 95%
+            throughput-retention, and latency gates. All answers stayed exact.
+            <strong>CPU time is not energy or power.</strong>
+          </p>
+        </div>
       </section>
 
       <section class="optimization-section" id="optimization" aria-labelledby="optimization-title">
@@ -542,6 +588,11 @@
             <span class="evidence-result reject-text">No material win</span>
           </li>
           <li>
+            <span class="evidence-id">E5j</span>
+            <div><strong>Thread-efficiency profile</strong><p>3/2 threads saved only 0.11%/1.36% CPU time per request.</p></div>
+            <span class="evidence-result reject-text">Keep 4 threads</span>
+          </li>
+          <li>
             <span class="evidence-id">E6b</span>
             <div><strong>NEON vector-store patch</strong><p>2.029× direct hot-path throughput.</p></div>
             <span class="evidence-result select-text">Accepted</span>
@@ -597,6 +648,9 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5i-flash-attention-ablation.md">
           Flash ablation
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5j-thread-efficiency-profile.md">
+          Thread profile
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/service-tier-planner.md">
           Service planner

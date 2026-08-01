@@ -58,6 +58,9 @@ EXPECTED_HASHES = {
     "results/manifests/e5i-30674023380.json": (
         "ca41dd4c8ce7eaec196ac4d6a1320f689755ae4fb9e5d13bb4061f3c24a46ba2"
     ),
+    "results/manifests/e5j-30677332825.json": (
+        "747b6795d42be691c07cf5aac38237095477d06149e787cc313ec2b9558c4ff7"
+    ),
     "results/manifests/e6b-30640282768.json": (
         "e870ad9cf7b7d1f89f0fa745383f555d54f62b3caf2fc635cbcb76ca4ef7e210"
     ),
@@ -380,6 +383,49 @@ def main() -> int:
         or flash_off.get("quality", {}).get("exact_selected_predictions") is not True
     ):
         raise ValueError("retained Flash Attention ablation differs from E5i evidence")
+
+    thread_profile = load_object(ROOT / "results/manifests/e5j-30677332825.json")
+    thread_performance = thread_profile.get("performance", {})
+    thread_hypothesis = thread_profile.get("hypothesis", {})
+    thread_gates = thread_hypothesis.get("profile_gates", {})
+    if (
+        thread_profile.get("status")
+        != "valid_selected_inference_no_thread_efficiency_win"
+        or thread_profile.get("selection", {}).get("selected_configuration")
+        != "threads4"
+        or thread_profile.get("selection", {}).get("selected_threads") != 4
+        or thread_profile.get("validation", {}).get(
+            "thread_efficiency_claim_allowed"
+        )
+        is not False
+        or thread_profile.get("validation", {}).get("energy_claim_allowed")
+        is not False
+        or thread_hypothesis.get("passed") is not False
+        or thread_hypothesis.get("eligible_configurations") != []
+        or thread_hypothesis.get("weighted_score_used") is not False
+        or thread_hypothesis.get("metric_boundary")
+        != "server process CPU time; not energy or power"
+        or {name: profile.get("threads") for name, profile in thread_performance.items()}
+        != {"threads2": 2, "threads3": 3, "threads4": 4}
+        or any(
+            profile.get("quality", {}).get("exact_selected_predictions") is not True
+            for profile in thread_performance.values()
+        )
+        or any(thread_gates[name].get("eligible") is not False for name in thread_gates)
+        or thread_gates.get("threads2", {}).get("cpu_time_reduction_passed")
+        is not False
+        or thread_gates.get("threads3", {}).get("cpu_time_reduction_passed")
+        is not False
+        or thread_gates.get("threads2", {}).get("throughput_retention_passed")
+        is not False
+        or thread_gates.get("threads3", {}).get("throughput_retention_passed")
+        is not False
+        or thread_gates.get("threads2", {}).get("latency_retention_passed")
+        is not False
+        or thread_gates.get("threads3", {}).get("latency_retention_passed")
+        is not False
+    ):
+        raise ValueError("retained thread profile differs from E5j evidence")
 
     current_patches = load_object(ROOT / "results/manifests/e6d-30675654688.json")
     current_source = current_patches.get("source", {})

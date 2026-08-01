@@ -75,6 +75,11 @@ authoritative, timestamped record; this file groups the significant additions.
   resolved Arm auto graph earns a material serving-performance claim.
 - Retained E5i as a valid no-win: auto gained 1.0322x throughput and reduced
   median latency/RSS, but worsened p95 6.03% and missed two frozen gates.
+- Added a bounded thread control plus measured-window server CPU accounting and
+  froze E5j across 4/3/2 inference threads.
+- Retained four threads after three/two threads saved only 0.11%/1.36% CPU
+  seconds per request while losing 24.48%/48.82% throughput; no energy claim is
+  made from CPU time.
 
 ### Native evidence
 

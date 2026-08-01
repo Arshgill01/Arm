@@ -853,6 +853,22 @@ Exact inputs, order, measurement boundary, and gates are frozen in
 CPU time is not energy or power. E5j can support a thread-efficiency claim only;
 an energy claim would require independent power measurements.
 
+### E5j outcome
+
+Native run `30677332825` completed all six cells and retained a clear no-win.
+Three threads reduced repeated median server CPU seconds per request only 0.11%
+while retaining 75.52% throughput; median and p95 latency increased 31.53% and
+36.34%. Two threads reduced CPU seconds per request 1.36% while retaining only
+51.18% throughput; median and p95 latency nearly doubled. Both candidates missed
+the frozen 5% CPU-time reduction, 95% throughput, and latency gates.
+
+Every profile reproduced all selected predictions twice with prefix reuse and
+zero request failures. Four threads therefore remains the default. Python 3.10
+independent ingestion matched the uploaded summary byte for byte at SHA-256
+`747b6795d42be691c07cf5aac38237095477d06149e787cc313ec2b9558c4ff7`.
+No energy or power claim is made. See
+[`../results/reports/e5j-thread-efficiency-profile.md`](../results/reports/e5j-thread-efficiency-profile.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

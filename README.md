@@ -70,6 +70,12 @@ Auto preserves every answer, improves throughput 3.22% and median latency
 6.18%, and saves 7,384 KiB RSS, but p95 latency rises 6.03%. It misses the
 frozen 1.05x throughput and p95 non-regression gates, so no material Flash
 Attention serving win is claimed.
+E5j then challenges the four-thread serving default with measured-window Linux
+server CPU counters. Three threads saves only 0.11% CPU seconds/request while
+losing 24.48% throughput; two threads saves 1.36% while losing 48.82%. Both
+preserve every answer but fail the frozen CPU-time, throughput, and latency
+gates. Four threads remains the default, and CPU time is not presented as
+energy.
 E6d rebases the three Arm source contributions onto llama.cpp `b10216` and
 revalidates them natively. The feature and reasoning failures reproduce before
 their fixes, all targeted tests pass after the complete series, and all twelve
@@ -93,11 +99,13 @@ preserved unless the row explicitly describes a rejected candidate.
 | KV memory | 2,048-token f16 context, 208 MiB KV | Bound context to the 135-token application maximum | 256-token f16 uses 26 MiB KV and saves **183.36 MiB RSS** at 99.62% throughput | Promote 256/f16; reject q4_0 answer drift |
 | Prompt graph | 256/256 batch, 40.13 MiB buffer | Split prompt work into 64/64 batches | 10.03 MiB buffer (**75% lower**), 14.48 MiB less RSS, 1.0226x throughput | Promote 64/64; stop when 32/32 adds RSS |
 | Arm weight layout | Repack on, 4,453,532 KiB RSS | Expose verified `--no-weight-repack` envelope | **2,072,268 KiB less RSS**, with throughput reduced to 48.47% | Keep fast default; route ≤3-GiB hosts to memory tier |
+| Thread efficiency | 4 threads, 4.2682 CPU s/request | Test 3 and 2 threads with post-warmup process counters | Only 0.11% / 1.36% CPU-time savings; throughput falls 24.48% / 48.82% | Keep 4 threads; make no energy claim |
 | Arm Q8 kernel | 32 scalar byte stores, 5.09 GB/s | NEON narrowing plus two vector stores | 10.33 GB/s (**2.029x**) with bit-identical output and neutral model inference | Accept bounded hot-path win |
 | Source robustness | Historical pinned patches | Rebase all three fixes to llama.cpp b10216 | Targeted gates passed, then complete build plus **47/47** executed tests | Validate one upstream-equivalent Arm CPU lane |
 
 Rejected variants remain visible: two server slots, cached two-slot serving,
-q4_0 KV, batch 32, and Flash Attention all missed at least one predeclared gate.
+q4_0 KV, batch 32, Flash Attention, and lower thread counts all missed at least
+one predeclared gate.
 The evidence links below retain those negative results alongside the wins.
 
 ```bash
@@ -150,6 +158,7 @@ repack flag that conflicts with the plan is refused.
 | [E5g](results/reports/e5g-prompt-batch-floor.md) | A staged 32/32 boundary preserved quality and speed but added 660 KiB maximum RSS; 64/64 remains the default |
 | [E5h](results/reports/e5h-weight-repack-boundary.md) | No-repack preserved every answer and saved 2,072,268 KiB RSS; it is a slower explicit memory tier while repack stays default |
 | [E5i](results/reports/e5i-flash-attention-ablation.md) | Resolved Flash Attention preserved quality but gained only 1.0322x throughput and worsened p95 6.03%; no material win is claimed |
+| [E5j](results/reports/e5j-thread-efficiency-profile.md) | Three/two threads preserved quality but saved only 0.11%/1.36% CPU time per request while losing 24.48%/48.82% throughput; four stays default |
 | [E6a](results/reports/e6a-native-feature-fix.md) | Reproduced and fixed invalid native KleidiAI SVE source selection |
 | [E6b](results/reports/e6b-q8-vector-store.md) | NEON vector narrowing doubled isolated Q8_0 quantizer throughput with neutral real-model inference |
 | [E6c](results/reports/e6c-reasoning-budget-fix.md) | Source fix passed 13 upstream tests and removed all reasoning output; the frozen final-answer gate still rejected the real-model run |
@@ -158,7 +167,7 @@ repack flag that conflicts with the plan is refused.
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
-The E5f through E5i, E6d, and E6e results are retained under their exact frozen
+The E5f through E5j, E6d, and E6e results are retained under their exact frozen
 contracts and independently re-ingested byte for byte.
 
 ## Repository map

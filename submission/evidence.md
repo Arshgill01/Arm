@@ -27,6 +27,7 @@ public workflow run; compact manifests and reports are committed permanently.
 | No-repack memory tier saves 2,072,268 KiB RSS | [E5h `30672633366`](https://github.com/Arshgill01/Arm/actions/runs/30672633366) | [`e5h` manifest](../results/manifests/e5h-30672633366.json) · [`report`](../results/reports/e5h-weight-repack-boundary.md) | `e048f3e2…90faa` |
 | Measured policies route fast and ≤3-GiB tiers | [`30674971776`](https://github.com/Arshgill01/Arm/actions/runs/30674971776) | [`throughput plan`](../results/plans/e5h-service-throughput.json) · [`memory plan`](../results/plans/e5h-service-memory.json) · [`report`](../results/reports/service-tier-planner.md) | `6e00839f…e4b4` · `15a6fac8…27d` |
 | Flash Attention ablation: valid 1.0322x no-win | [E5i `30674023380`](https://github.com/Arshgill01/Arm/actions/runs/30674023380) | [`e5i` manifest](../results/manifests/e5i-30674023380.json) · [`report`](../results/reports/e5i-flash-attention-ablation.md) | `ca41dd4c…a46ba2` |
+| Thread profile retains four-thread default | [E5j `30677332825`](https://github.com/Arshgill01/Arm/actions/runs/30677332825) | [`e5j` manifest](../results/manifests/e5j-30677332825.json) · [`report`](../results/reports/e5j-thread-efficiency-profile.md) | `747b6795…c4ff7` |
 | KleidiAI native feature-selection fix | [E6a `30636911078`](https://github.com/Arshgill01/Arm/actions/runs/30636911078) | [`e6a` manifest](../results/manifests/e6a-30636911078.json) · [`report`](../results/reports/e6a-native-feature-fix.md) | `9a5951ae…24ae` |
 | NEON Q8_0 vector-store patch: 2.029x | [E6b `30640282768`](https://github.com/Arshgill01/Arm/actions/runs/30640282768) | [`e6b` manifest](../results/manifests/e6b-30640282768.json) · [`report`](../results/reports/e6b-q8-vector-store.md) | `e870ad9c…e210` |
 | Reasoning-budget source fix/app rejection | [E6c `30654805236`](https://github.com/Arshgill01/Arm/actions/runs/30654805236) | [`report`](../results/reports/e6c-reasoning-budget-fix.md) | mixed result; no deployment manifest |
@@ -47,7 +48,8 @@ public workflow run; compact manifests and reports are committed permanently.
 - Runtime: llama.cpp `b10208`, commit
   `9d9a6d29f6b981cc7f41983d26e56485c6af1811`
 - Serving profile: one slot, shared-prefix cache enabled, 256-token context,
-  f16 K/V cache, explicit `auto` flash-attention mode, and 64/64 prompt batch
+  four inference/prompt threads, f16 K/V cache, explicit `auto`
+  flash-attention mode, and 64/64 prompt batch
   enabled by default; weight repacking is the fast default, with a separately
   validated `--no-weight-repack` tier for constrained-memory hosts. Supplying a
   service policy binds and applies the measured tier automatically.

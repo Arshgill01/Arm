@@ -42,6 +42,7 @@ summed. Every promoted service change preserved the selected task predictions.
 | KV memory | 2,048/f16 → 256/f16 context | 183.36 MiB RSS saved at 99.62% throughput | Promote; reject q4_0 drift |
 | Prompt graph | 256/256 → 64/64 batch | 75% smaller compute buffer; 14.48 MiB RSS saved | Promote 64/64 |
 | Arm layout | Repack on → measured no-repack tier | 1.98 GiB RSS saved at 48.47% throughput | Route fast and ≤3-GiB envelopes separately |
+| Thread efficiency | 4 threads → measured 3/2-thread profiles | Only 0.11%/1.36% CPU-time savings while throughput falls 24.48%/48.82% | Keep four threads; CPU time is not energy |
 | Arm kernel | 32 scalar stores → NEON narrows/vector stores | 5.09 → 10.33 GB/s, 2.029x, bit-identical | Accept hot-path win only |
 | Source robustness | Historical pins → llama.cpp b10216 | Complete native build and 47/47 tests passed | Validate one upstream-equivalent Arm CPU lane |
 
@@ -149,6 +150,14 @@ improved throughput only 1.0322x—below the frozen 1.05x gate—and worsened p9
 latency 6.03%, despite better median latency and RSS. We retain the measurement
 and bounded mode control, but make no material Flash Attention speed claim.
 
+We then challenged the assumed four-thread serving default using the live
+`llama-server` process counters sampled after warmups and around only the 30
+measured requests. All profiles preserved every selected answer and cached
+prefix. Three threads reduced CPU seconds per request only 0.11% while losing
+24.48% throughput; two threads reduced CPU time 1.36% while losing 48.82%.
+Both also missed the frozen latency gates, so four threads remains the default.
+We explicitly do not translate CPU time into an energy or power claim.
+
 ### Arm-specific source work
 
 We fixed a llama.cpp/KleidiAI feature-selection defect where a substring search
@@ -225,12 +234,14 @@ without changing measured inputs or post-observation thresholds.
   2.06x-faster repacked layout remains the default;
 - a measured service-profile planner that automatically routes throughput and
   at-most-3-GiB envelopes while refusing unmeasured capacity assumptions;
+- a process-bound thread-efficiency study that rejects lower thread counts
+  instead of confusing fewer active cores with less total CPU work;
 - three reviewable Arm source patches revalidated on current llama.cpp with
   bounded correctness evidence and a 47/47 upstream-equivalent Arm CPU lane;
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 108 local tests plus native Arm workflows for the final evidence path.
+- 114 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 

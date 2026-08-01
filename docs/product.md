@@ -186,6 +186,13 @@ server CPU seconds per request by at least 5%, retain at least 95% throughput,
 preserve median and p95 latency within 5%, and reproduce every selected answer
 and cached prefix. CPU time is explicitly not an energy or power measurement.
 
+Native E5j rejected both lower-thread profiles. Three threads retained 75.52%
+throughput for only 0.11% lower CPU seconds per request; two threads retained
+51.18% throughput for only 1.36% lower CPU seconds per request. Both also missed
+the latency gates. All answers and cached prefixes remained exact, so four
+threads stays the launcher default and no thread-efficiency or energy claim is
+promoted.
+
 ## Select a measured service profile
 
 Model selection and service-profile selection are separate obligations. The
