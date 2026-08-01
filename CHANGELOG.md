@@ -47,6 +47,10 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Submission and developer experience
 
+- Extended the focused suite to 141 tests and the immutable verifier to 32
+  hashes, including the frozen E7b contract and independently replayed native
+  dependency-pruning result. The updated evidence row renders without desktop
+  or mobile overflow and produces no browser warnings or errors.
 - Extended the focused suite to 135 tests and the immutable verifier to 30
   hashes, including the frozen E7a compiler/build contract and independently
   replayed native no-win manifest.
@@ -68,6 +72,11 @@ authoritative, timestamped record; this file groups the significant additions.
   retains at least 98% throughput, and clears every resource guardrail. HTTPS,
   security, installed-package size, energy, and automatic-promotion claims are
   explicitly excluded.
+- Retained E7b as a valid dependency-pruning win. OpenSSL-off removed exactly
+  `libssl.so.3` and `libcrypto.so.3`, added no dependency, preserved 23/30 twice
+  and every guardrail, retained 99.981% throughput, and reduced the eight-file
+  build-local closure 1.003%. It remains gated behind a separate HTTP-only
+  launch integration.
 - Froze E7a as a matched native Arm whole-program optimization ablation for the
   exact selected service. It proves `GGML_LTO` from build commands, hashes and
   retains both transitive build-local runtime closures, and accepts only a

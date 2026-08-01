@@ -1,0 +1,1181 @@
+{
+  "build_profiles": {
+    "openssl_off": {
+      "build_process": {
+        "elapsed": "3:13.08",
+        "elapsed_seconds": 193.08,
+        "exit_status": 0,
+        "maximum_rss_kib": 2718396,
+        "percent_cpu": "338%"
+      },
+      "dependency_basenames": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libggml-base.so.0.18.0",
+        "libggml-cpu.so.0.18.0",
+        "libggml.so.0.18.0",
+        "libgomp.so.1.0.0",
+        "libllama-common.so.0.0.10216",
+        "libllama-server-impl.so",
+        "libllama.so.0.0.10216",
+        "libm.so.6",
+        "libmtmd.so.0.0.10216",
+        "libstdc++.so.6.0.33"
+      ],
+      "llama_openssl": false,
+      "runtime_closure": {
+        "build_root": "/tmp/llama.cpp-E7b-openssl-off-build",
+        "file_count": 8,
+        "files": [
+          {
+            "artifact_relative_path": "runtime-files/bin/libggml-base.so.0.18.0",
+            "relative_path": "bin/libggml-base.so.0.18.0",
+            "sha256": "ce115a9f783a1be0ca817c75f502402dbf1aaeee60eeb9a894a10b0a774c49a3",
+            "size_bytes": 873464
+          },
+          {
+            "artifact_relative_path": "runtime-files/bin/libggml-cpu.so.0.18.0",
+            "relative_path": "bin/libggml-cpu.so.0.18.0",
+            "sha256": "0ba18aab63fc3242c793432ca51400d1dafe954b6df56f1fbf544cd78608536e",
+            "size_bytes": 1160360
+          },
+          {
+            "artifact_relative_path": "runtime-files/bin/libggml.so.0.18.0",
+            "relative_path": "bin/libggml.so.0.18.0",
+            "sha256": "c1c38ba226ad0914c9e6a2dd3fe19cf83612118af9b2be5458011640bee4c1e4",
+            "size_bytes": 78176
+          },
+          {
+            "artifact_relative_path": "runtime-files/bin/libllama-common.so.0.0.10216",
+            "relative_path": "bin/libllama-common.so.0.0.10216",
+            "sha256": "7513c38e0c2503bfc560cd311b7ad750ef3090d39a3bc8bb700801f9db95db2e",
+            "size_bytes": 5326232
+          },
+          {
+            "artifact_relative_path": "runtime-files/bin/libllama-server-impl.so",
+            "relative_path": "bin/libllama-server-impl.so",
+            "sha256": "b4d5421a19206c3ecc5a61b9dbe2c9df78b92ff93532594fca2152ea4d726a61",
+            "size_bytes": 6948976
+          },
+          {
+            "artifact_relative_path": "runtime-files/bin/libllama.so.0.0.10216",
+            "relative_path": "bin/libllama.so.0.0.10216",
+            "sha256": "fa8b4d25a94743569f1d53a3b59bfa1187dd429c243e5d6235ba37125433bf34",
+            "size_bytes": 3937000
+          },
+          {
+            "artifact_relative_path": "runtime-files/bin/libmtmd.so.0.0.10216",
+            "relative_path": "bin/libmtmd.so.0.0.10216",
+            "sha256": "46c49ab92a357f2e43b74bd5a784d8144947da9aa1e9b033d6f3846b7efc4a87",
+            "size_bytes": 1460952
+          },
+          {
+            "artifact_relative_path": "runtime-files/bin/llama-server",
+            "relative_path": "bin/llama-server",
+            "sha256": "7b639831e45827cf03ab44387c545a1b6581c67c83111d57bcaaf0980d47f469",
+            "size_bytes": 72488
+          }
+        ],
+        "ldd_output": "\tlinux-vdso.so.1 (0x0000ff669063c000)\n\tlibllama-server-impl.so => /tmp/llama.cpp-E7b-openssl-off-build/bin/libllama-server-impl.so (0x0000ff668ffe0000)\n\tlibstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ff668fd50000)\n\tlibgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ff668fd10000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ff668fb50000)\n\t/lib/ld-linux-aarch64.so.1 (0x0000ff6690600000)\n\tlibllama-common.so.0 => /tmp/llama.cpp-E7b-openssl-off-build/bin/libllama-common.so.0 (0x0000ff668f720000)\n\tlibmtmd.so.0 => /tmp/llama.cpp-E7b-openssl-off-build/bin/libmtmd.so.0 (0x0000ff668f5d0000)\n\tlibllama.so.0 => /tmp/llama.cpp-E7b-openssl-off-build/bin/libllama.so.0 (0x0000ff668f290000)\n\tlibggml.so.0 => /tmp/llama.cpp-E7b-openssl-off-build/bin/libggml.so.0 (0x0000ff668f260000)\n\tlibggml-base.so.0 => /tmp/llama.cpp-E7b-openssl-off-build/bin/libggml-base.so.0 (0x0000ff668f180000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ff668f0d0000)\n\tlibggml-cpu.so.0 => /tmp/llama.cpp-E7b-openssl-off-build/bin/libggml-cpu.so.0 (0x0000ff668ef30000)\n\tlibgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000ff668eeb0000)\n",
+        "runtime_dependencies": [
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/libllama-server-impl.so",
+            "resolved_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/libllama-server-impl.so"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libstdc++.so.6",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libgcc_s.so.1",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libgcc_s.so.1"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libc.so.6",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libc.so.6"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/ld-linux-aarch64.so.1",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/libllama-common.so.0",
+            "resolved_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/libllama-common.so.0.0.10216"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/libmtmd.so.0",
+            "resolved_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/libmtmd.so.0.0.10216"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/libllama.so.0",
+            "resolved_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/libllama.so.0.0.10216"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/libggml.so.0",
+            "resolved_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/libggml.so.0.18.0"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/libggml-base.so.0",
+            "resolved_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/libggml-base.so.0.18.0"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libm.so.6",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libm.so.6"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/libggml-cpu.so.0",
+            "resolved_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/libggml-cpu.so.0.18.0"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libgomp.so.1",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0"
+          }
+        ],
+        "schema_version": 1,
+        "server_path": "/tmp/llama.cpp-E7b-openssl-off-build/bin/llama-server",
+        "server_relative_path": "bin/llama-server",
+        "system_dependencies_excluded": true,
+        "total_size_bytes": 19857648
+      },
+      "server_version": "version: 10216 (876a43211)\nbuilt with GNU 13.3.0 for Linux aarch64",
+      "system_dependency_basenames": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libgomp.so.1.0.0",
+        "libm.so.6",
+        "libstdc++.so.6.0.33"
+      ]
+    },
+    "openssl_on": {
+      "build_process": {
+        "elapsed": "3:23.62",
+        "elapsed_seconds": 203.62,
+        "exit_status": 0,
+        "maximum_rss_kib": 2943064,
+        "percent_cpu": "324%"
+      },
+      "dependency_basenames": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libcrypto.so.3",
+        "libgcc_s.so.1",
+        "libggml-base.so.0.18.0",
+        "libggml-cpu.so.0.18.0",
+        "libggml.so.0.18.0",
+        "libgomp.so.1.0.0",
+        "libllama-common.so.0.0.10216",
+        "libllama-server-impl.so",
+        "libllama.so.0.0.10216",
+        "libm.so.6",
+        "libmtmd.so.0.0.10216",
+        "libssl.so.3",
+        "libstdc++.so.6.0.33"
+      ],
+      "llama_openssl": true,
+      "runtime_closure": {
+        "build_root": "/tmp/llama.cpp-E7b-openssl-on-build",
+        "file_count": 8,
+        "files": [
+          {
+            "artifact_relative_path": "runtime-files/bin/libggml-base.so.0.18.0",
+            "relative_path": "bin/libggml-base.so.0.18.0",
+            "sha256": "ce115a9f783a1be0ca817c75f502402dbf1aaeee60eeb9a894a10b0a774c49a3",
+            "size_bytes": 873464
+          },
+          {
+            "artifact_relative_path": "runtime-files/bin/libggml-cpu.so.0.18.0",
+            "relative_path": "bin/libggml-cpu.so.0.18.0",
+            "sha256": "3ea6d40afb8a10d8e7d1705637e321e09439893279506dbbf56f1b2adbfec378",
+            "size_bytes": 1160360
+          },
+          {
+            "artifact_relative_path": "runtime-files/bin/libggml.so.0.18.0",
+            "relative_path": "bin/libggml.so.0.18.0",
+            "sha256": "b237b81a6a8208da29f4071323f9607e2cb4acac2576f4c2f2b22f0cec8911f6",
+            "size_bytes": 78176
+          },
+          {
+            "artifact_relative_path": "runtime-files/bin/libllama-common.so.0.0.10216",
+            "relative_path": "bin/libllama-common.so.0.0.10216",
+            "sha256": "978777f135c4a24634cca5aaaa4de94e59612beac95e86ff833e4abedfc2dfaf",
+            "size_bytes": 5425960
+          },
+          {
+            "artifact_relative_path": "runtime-files/bin/libllama-server-impl.so",
+            "relative_path": "bin/libllama-server-impl.so",
+            "sha256": "0d304422b3c7c7cae29dc8b90a21d55aca6ae9be9f584e195a3587869c87785c",
+            "size_bytes": 7050504
+          },
+          {
+            "artifact_relative_path": "runtime-files/bin/libllama.so.0.0.10216",
+            "relative_path": "bin/libllama.so.0.0.10216",
+            "sha256": "ca05dd43948a9b27bc53f2e8bf6e4fb299273ab47a2ea13429ae19516b29c636",
+            "size_bytes": 3937000
+          },
+          {
+            "artifact_relative_path": "runtime-files/bin/libmtmd.so.0.0.10216",
+            "relative_path": "bin/libmtmd.so.0.0.10216",
+            "sha256": "961d8c6c66348e7e04cb5dbd060288c034a856c8b5958a1f2aa01051e54041e6",
+            "size_bytes": 1460952
+          },
+          {
+            "artifact_relative_path": "runtime-files/bin/llama-server",
+            "relative_path": "bin/llama-server",
+            "sha256": "b7a3170f485948165fc54367b45027cb9d70b3934ea84953e07dd75413785737",
+            "size_bytes": 72488
+          }
+        ],
+        "ldd_output": "\tlinux-vdso.so.1 (0x0000ff98e5c48000)\n\tlibllama-server-impl.so => /tmp/llama.cpp-E7b-openssl-on-build/bin/libllama-server-impl.so (0x0000ff98e55c0000)\n\tlibstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ff98e5330000)\n\tlibgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ff98e52f0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ff98e5130000)\n\t/lib/ld-linux-aarch64.so.1 (0x0000ff98e5c00000)\n\tlibllama-common.so.0 => /tmp/llama.cpp-E7b-openssl-on-build/bin/libllama-common.so.0 (0x0000ff98e4cf0000)\n\tlibmtmd.so.0 => /tmp/llama.cpp-E7b-openssl-on-build/bin/libmtmd.so.0 (0x0000ff98e4ba0000)\n\tlibllama.so.0 => /tmp/llama.cpp-E7b-openssl-on-build/bin/libllama.so.0 (0x0000ff98e4860000)\n\tlibggml.so.0 => /tmp/llama.cpp-E7b-openssl-on-build/bin/libggml.so.0 (0x0000ff98e4830000)\n\tlibggml-base.so.0 => /tmp/llama.cpp-E7b-openssl-on-build/bin/libggml-base.so.0 (0x0000ff98e4750000)\n\tlibssl.so.3 => /lib/aarch64-linux-gnu/libssl.so.3 (0x0000ff98e4680000)\n\tlibcrypto.so.3 => /lib/aarch64-linux-gnu/libcrypto.so.3 (0x0000ff98e4200000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ff98e4150000)\n\tlibggml-cpu.so.0 => /tmp/llama.cpp-E7b-openssl-on-build/bin/libggml-cpu.so.0 (0x0000ff98e3fb0000)\n\tlibgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000ff98e3f30000)\n",
+        "runtime_dependencies": [
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/libllama-server-impl.so",
+            "resolved_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/libllama-server-impl.so"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libstdc++.so.6",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libgcc_s.so.1",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libgcc_s.so.1"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libc.so.6",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libc.so.6"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/ld-linux-aarch64.so.1",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/libllama-common.so.0",
+            "resolved_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/libllama-common.so.0.0.10216"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/libmtmd.so.0",
+            "resolved_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/libmtmd.so.0.0.10216"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/libllama.so.0",
+            "resolved_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/libllama.so.0.0.10216"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/libggml.so.0",
+            "resolved_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/libggml.so.0.18.0"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/libggml-base.so.0",
+            "resolved_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/libggml-base.so.0.18.0"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libssl.so.3",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libssl.so.3"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libcrypto.so.3",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libcrypto.so.3"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libm.so.6",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libm.so.6"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/libggml-cpu.so.0",
+            "resolved_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/libggml-cpu.so.0.18.0"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libgomp.so.1",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0"
+          }
+        ],
+        "schema_version": 1,
+        "server_path": "/tmp/llama.cpp-E7b-openssl-on-build/bin/llama-server",
+        "server_relative_path": "bin/llama-server",
+        "system_dependencies_excluded": true,
+        "total_size_bytes": 20058904
+      },
+      "server_version": "version: 10216 (876a43211)\nbuilt with GNU 13.3.0 for Linux aarch64",
+      "system_dependency_basenames": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libcrypto.so.3",
+        "libgcc_s.so.1",
+        "libgomp.so.1.0.0",
+        "libm.so.6",
+        "libssl.so.3",
+        "libstdc++.so.6.0.33"
+      ]
+    }
+  },
+  "contract": {
+    "acceptance": {
+      "accepted_server_shell_exit_statuses": [
+        0,
+        130
+      ],
+      "forbidden_candidate_system_dependency_basenames": [
+        "libcrypto.so.3",
+        "libssl.so.3"
+      ],
+      "http_status": 200,
+      "maximum_build_seconds_ratio": 2.0,
+      "maximum_candidate_rss_increase_kib": 65536,
+      "maximum_cpu_seconds_per_request_ratio": 1.05,
+      "maximum_median_http_latency_ratio": 1.05,
+      "maximum_new_candidate_dependency_count": 0,
+      "maximum_p95_http_latency_ratio": 1.05,
+      "maximum_process_rss_kib": 8388608,
+      "maximum_ready_time_ratio": 1.15,
+      "maximum_runtime_closure_ratio": 1.0,
+      "minimum_candidate_cached_tokens_per_request": 1,
+      "minimum_throughput_ratio": 0.98,
+      "reference_prediction_mismatches": 0,
+      "request_failures": 0,
+      "required_baseline_system_dependency_basenames": [
+        "libcrypto.so.3",
+        "libssl.so.3"
+      ],
+      "termination_reason": "stop"
+    },
+    "build": {
+      "common_cmake_cache_entries": [
+        "CMAKE_BUILD_TYPE:STRING=Release",
+        "CMAKE_GENERATOR:INTERNAL=Ninja",
+        "GGML_CPU_KLEIDIAI:BOOL=ON",
+        "GGML_LTO:BOOL=OFF",
+        "GGML_NATIVE:BOOL=ON",
+        "LLAMA_BUILD_EXAMPLES:BOOL=OFF",
+        "LLAMA_BUILD_SERVER:BOOL=ON",
+        "LLAMA_BUILD_TESTS:BOOL=OFF",
+        "LLAMA_CURL:UNINITIALIZED=OFF"
+      ],
+      "profiles": {
+        "openssl_off": {
+          "forbidden_command_patterns": [
+            "CPPHTTPLIB_OPENSSL_SUPPORT"
+          ],
+          "llama_openssl": false,
+          "required_command_patterns": []
+        },
+        "openssl_on": {
+          "forbidden_command_patterns": [],
+          "llama_openssl": true,
+          "required_command_patterns": [
+            "CPPHTTPLIB_OPENSSL_SUPPORT"
+          ]
+        }
+      },
+      "runtime_closure": "The server plus every unique transitive shared library resolved under its own build root; system libraries are inventoried but excluded from the copied build-local closure. Every copied file is hashed individually."
+    },
+    "claim_boundary": "E7b can establish dependency pruning only for the exact patched b10216 loopback HTTP fast service. HTTPS deployments must keep LLAMA_OPENSSL enabled. It does not establish a security vulnerability reduction, installed-package or container-image savings, energy savings, another model/service/backend, or automatic product promotion without separate launch integration.",
+    "controlled_difference": "Both profiles use the same exact patched llama.cpp source, GCC toolchain, native/KleidiAI Release configuration with LTO disabled, selected model, loopback HTTP service, workload, order balance, and host. LLAMA_OPENSSL=ON versus OFF is the only build-profile difference.",
+    "execution": {
+      "baseline_profile": "openssl_on",
+      "candidate_profile": "openssl_off",
+      "fresh_server_per_cell": true,
+      "order": [
+        {
+          "profile": "openssl_on",
+          "repetition": 1
+        },
+        {
+          "profile": "openssl_off",
+          "repetition": 1
+        },
+        {
+          "profile": "openssl_off",
+          "repetition": 2
+        },
+        {
+          "profile": "openssl_on",
+          "repetition": 2
+        }
+      ],
+      "repetitions_per_profile": 2
+    },
+    "experiment_id": "E7b",
+    "hypothesis": "Disabling llama.cpp HTTPS support for the exact loopback-only fast service removes the libssl and libcrypto runtime dependency edges without adding a new dependency, changing selected quality, increasing the build-local runtime closure, or reducing repeated median throughput below 98 percent of the matched default build.",
+    "inputs": {
+      "manifest_path": "results/manifests/e3f-30656151957.json",
+      "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+      "models_path": "experiments/e3f_models.json",
+      "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+      "tasks_path": "experiments/e3_tasks.json",
+      "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    },
+    "request": {
+      "chat_template_mode": "model_jinja_system_instruction",
+      "instruction_role": "system",
+      "max_output_tokens": 8,
+      "measured_tasks": 30,
+      "seed": 424242,
+      "temperature": 0.0,
+      "timeout_seconds": 30.0,
+      "warmup_task_ids": [
+        "arithmetic-02",
+        "logic-01"
+      ]
+    },
+    "runtime": {
+      "changed_files": [
+        "common/reasoning-budget.cpp",
+        "ggml/src/ggml-cpu/CMakeLists.txt",
+        "ggml/src/ggml-cpu/arch/arm/quants.c",
+        "tests/test-reasoning-budget.cpp"
+      ],
+      "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "patches": [
+        {
+          "name": "validated_arm_features",
+          "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+          "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+        },
+        {
+          "name": "q8_vector_stores",
+          "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+          "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+        },
+        {
+          "name": "reasoning_forced_token_guard",
+          "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+          "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+        }
+      ],
+      "repository": "https://github.com/ggml-org/llama.cpp.git",
+      "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+      "tag": "b10216"
+    },
+    "schema_version": 1,
+    "selected": {
+      "candidate": "ministral3_3b_q4_k_m",
+      "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "model_size_bytes": 2146497824,
+      "reference_accuracy": 0.7666666666666667,
+      "reference_correct": 23,
+      "reference_total": 30
+    },
+    "selection_policy": {
+      "eligible_profiles": "The OpenSSL-off build must prove the expected compile-time mechanism, remove both frozen OpenSSL runtime dependency edges, add no new dependency, reproduce exact quality and prefix reuse, retain at least 98 percent repeated median throughput, keep the build-local closure no larger, and pass every latency, CPU, readiness, RSS, and build-cost guardrail.",
+      "no_win_rule": "Keep HTTPS support enabled when the candidate misses any dependency, quality, performance, or resource gate; retain the complete negative result without changing thresholds.",
+      "tie_break_order": [
+        "eligible profile",
+        "fewer transitive dynamic dependencies",
+        "higher repeated median throughput",
+        "smaller build-local runtime closure",
+        "lower pooled p95 HTTP latency"
+      ],
+      "weighted_score_used": false
+    },
+    "service": {
+      "batch_size": 64,
+      "client_concurrency": 1,
+      "context_per_slot": 256,
+      "flash_attention": "auto",
+      "kv_cache_type_k": "f16",
+      "kv_cache_type_v": "f16",
+      "micro_batch_size": 64,
+      "prompt_cache": true,
+      "server_parallel_slots": 1,
+      "threads": 4,
+      "warmup_slot_ids": [
+        0,
+        0
+      ],
+      "weight_repack": true
+    },
+    "title": "Loopback HTTP service OpenSSL dependency-pruning ablation"
+  },
+  "experiment_id": "E7b",
+  "hypothesis": {
+    "baseline_profile": "openssl_on",
+    "build_cost_guardrail_passed": true,
+    "build_seconds_ratio": 0.9482369118947058,
+    "candidate_profile": "openssl_off",
+    "candidate_rss_increase_kib": -1544.0,
+    "cpu_seconds_per_request_ratio": 1.0010211696319862,
+    "cpu_time_guardrail_passed": true,
+    "dependency_pruning_passed": true,
+    "forbidden_candidate_system_dependencies": [
+      "libcrypto.so.3",
+      "libssl.so.3"
+    ],
+    "latency_guardrail_passed": true,
+    "median_http_latency_ratio": 0.9994012190089369,
+    "new_candidate_dependencies": [],
+    "p95_http_latency_ratio": 1.0018273687632608,
+    "passed": true,
+    "quality_passed": true,
+    "readiness_guardrail_passed": true,
+    "ready_time_ratio": 1.0368026159088395,
+    "removed_dependencies": [
+      "libcrypto.so.3",
+      "libssl.so.3"
+    ],
+    "required_baseline_system_dependencies": [
+      "libcrypto.so.3",
+      "libssl.so.3"
+    ],
+    "rss_guardrail_passed": true,
+    "runtime_closure_guardrail_passed": true,
+    "runtime_closure_ratio": 0.9899667499281117,
+    "selected_profile": "openssl_off",
+    "throughput_guardrail_passed": true,
+    "throughput_ratio": 0.9998113923085512,
+    "weighted_score_used": false
+  },
+  "maximum_observed_prompt_tokens": 127,
+  "performance": {
+    "openssl_off": {
+      "average_server_cores_used": {
+        "coefficient_of_variation": 0.0005117565135756641,
+        "max": 3.9631046107803756,
+        "mean": 3.961077503567147,
+        "median": 3.961077503567147,
+        "min": 3.9590503963539185,
+        "p95": 3.9631046107803756,
+        "population_stddev": 0.0020271072132285184
+      },
+      "build_profile": {
+        "forbidden_command_patterns": [
+          "CPPHTTPLIB_OPENSSL_SUPPORT"
+        ],
+        "llama_openssl": false,
+        "required_command_patterns": []
+      },
+      "cached_tokens": {
+        "coefficient_of_variation": 0.509021083039616,
+        "max": 92.0,
+        "mean": 29.766666666666666,
+        "median": 25.0,
+        "min": 25.0,
+        "p95": 80.0,
+        "population_stddev": 15.151860905145904
+      },
+      "decode_ms": {
+        "coefficient_of_variation": 0.02214069658384272,
+        "max": 70.6,
+        "mean": 63.70185,
+        "median": 63.6655,
+        "min": 61.893,
+        "p95": 65.722,
+        "population_stddev": 1.4104033326794614
+      },
+      "encode_ms": {
+        "coefficient_of_variation": 0.35221004916066395,
+        "max": 2045.425,
+        "mean": 1003.7193666666666,
+        "median": 979.428,
+        "min": 62.136,
+        "p95": 1785.722,
+        "population_stddev": 353.5200474771771
+      },
+      "http_ms": {
+        "coefficient_of_variation": 0.3301936102259766,
+        "max": 2113.235601,
+        "mean": 1072.1992862500001,
+        "median": 1045.9554815000001,
+        "min": 130.310072,
+        "p95": 1855.578938,
+        "population_stddev": 354.0333532086029
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 5.390932451616381e-06,
+        "max": 4451944.0,
+        "mean": 4451920.0,
+        "median": 4451920.0,
+        "min": 4451896.0,
+        "p95": 4451944.0,
+        "population_stddev": 24.0
+      },
+      "prompt_tokens": {
+        "coefficient_of_variation": 0.19499399772169318,
+        "max": 127.0,
+        "mean": 81.0,
+        "median": 76.0,
+        "min": 61.0,
+        "p95": 125.0,
+        "population_stddev": 15.794513815457147
+      },
+      "quality": {
+        "correct_per_repetition": [
+          23,
+          23
+        ],
+        "exact_selected_predictions": true,
+        "predictions_stable_between_repetitions": true,
+        "reference_prediction_mismatches_per_repetition": [
+          0,
+          0
+        ]
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.019884012743206572,
+        "max": 2529.914177,
+        "mean": 2480.5900920000004,
+        "median": 2480.5900920000004,
+        "min": 2431.266007,
+        "p95": 2529.914177,
+        "population_stddev": 49.32408499999997
+      },
+      "repetitions": [
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.027638323756475854,
+              "max": 70.6,
+              "mean": 63.92783333333333,
+              "median": 63.754999999999995,
+              "min": 61.893,
+              "p95": 66.782,
+              "population_stddev": 1.7668581547166955
+            },
+            "elapsed_seconds": 32.159130913,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3522236772569621,
+              "max": 2045.425,
+              "mean": 1003.0953000000001,
+              "median": 977.125,
+              "min": 62.136,
+              "p95": 1785.722,
+              "population_stddev": 353.3139152051756
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.33016955569606554,
+              "max": 2113.235601,
+              "mean": 1071.7751943666667,
+              "median": 1044.996965,
+              "min": 130.310072,
+              "p95": 1855.578938,
+              "population_stddev": 353.8675397301066
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9328610303916145,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.21",
+            "exit_status": 0,
+            "maximum_rss_kib": 4451896,
+            "percent_cpu": "375%"
+          },
+          "profile": "openssl_off",
+          "ready_ms": 2431.266007,
+          "repetition": 1,
+          "server_process_cpu": {
+            "average_cores_used": 3.9631046107803756,
+            "clock_ticks_per_second": 100,
+            "pid": 6366,
+            "seconds_per_request": 4.248333333333333,
+            "system_seconds": 0.14,
+            "system_ticks": 14,
+            "total_seconds": 127.45,
+            "total_ticks": 12745,
+            "user_seconds": 127.31,
+            "user_ticks": 12731
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.013684706950062017,
+              "max": 65.548,
+              "mean": 63.47586666666667,
+              "median": 63.6655,
+              "min": 61.944,
+              "p95": 64.426,
+              "population_stddev": 0.8686486337345433
+            },
+            "elapsed_seconds": 32.184485481,
+            "encode_ms": {
+              "coefficient_of_variation": 0.35219522213789556,
+              "max": 2041.857,
+              "mean": 1004.3434333333333,
+              "median": 980.3285,
+              "min": 62.415,
+              "p95": 1793.34,
+              "population_stddev": 353.72495860557
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.33021709996985515,
+              "max": 2110.673267,
+              "mean": 1072.6233781333333,
+              "median": 1046.859719,
+              "min": 130.662977,
+              "p95": 1862.761221,
+              "population_stddev": 354.1985812870587
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9321261331864508,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.33",
+            "exit_status": 0,
+            "maximum_rss_kib": 4451944,
+            "percent_cpu": "374%"
+          },
+          "profile": "openssl_off",
+          "ready_ms": 2529.914177,
+          "repetition": 2,
+          "server_process_cpu": {
+            "average_cores_used": 3.9590503963539185,
+            "clock_ticks_per_second": 100,
+            "pid": 6401,
+            "seconds_per_request": 4.247333333333334,
+            "system_seconds": 0.16,
+            "system_ticks": 16,
+            "total_seconds": 127.42,
+            "total_ticks": 12742,
+            "user_seconds": 127.26,
+            "user_ticks": 12726
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        }
+      ],
+      "requests_per_second": {
+        "coefficient_of_variation": 0.0003940494709646134,
+        "max": 0.9328610303916145,
+        "mean": 0.9324935817890326,
+        "median": 0.9324935817890326,
+        "min": 0.9321261331864508,
+        "p95": 0.9328610303916145,
+        "population_stddev": 0.00036744860258186574
+      },
+      "server_cpu_seconds_per_request": {
+        "coefficient_of_variation": 0.00011770706634748449,
+        "max": 4.248333333333333,
+        "mean": 4.247833333333333,
+        "median": 4.247833333333333,
+        "min": 4.247333333333334,
+        "p95": 4.248333333333333,
+        "population_stddev": 0.0004999999999997229
+      }
+    },
+    "openssl_on": {
+      "average_server_cores_used": {
+        "coefficient_of_variation": 0.0008236055739424,
+        "max": 3.9610423494457008,
+        "mean": 3.9577826975555412,
+        "median": 3.9577826975555412,
+        "min": 3.9545230456653817,
+        "p95": 3.9610423494457008,
+        "population_stddev": 0.0032596518901595317
+      },
+      "build_profile": {
+        "forbidden_command_patterns": [],
+        "llama_openssl": true,
+        "required_command_patterns": [
+          "CPPHTTPLIB_OPENSSL_SUPPORT"
+        ]
+      },
+      "cached_tokens": {
+        "coefficient_of_variation": 0.509021083039616,
+        "max": 92.0,
+        "mean": 29.766666666666666,
+        "median": 25.0,
+        "min": 25.0,
+        "p95": 80.0,
+        "population_stddev": 15.151860905145904
+      },
+      "decode_ms": {
+        "coefficient_of_variation": 0.019089475305854062,
+        "max": 68.701,
+        "mean": 64.09116666666667,
+        "median": 64.095,
+        "min": 62.368,
+        "p95": 66.033,
+        "population_stddev": 1.2234667434067104
+      },
+      "encode_ms": {
+        "coefficient_of_variation": 0.35303965728642417,
+        "max": 2054.452,
+        "mean": 1002.9522666666667,
+        "median": 977.5635,
+        "min": 62.787,
+        "p95": 1782.199,
+        "population_stddev": 354.0819244986423
+      },
+      "http_ms": {
+        "coefficient_of_variation": 0.33091300222997305,
+        "max": 2123.456524,
+        "mean": 1071.99254925,
+        "median": 1046.582155,
+        "min": 131.565911,
+        "p95": 1852.194296,
+        "population_stddev": 354.7362728404797
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 3.233525189161224e-05,
+        "max": 4453488.0,
+        "mean": 4453344.0,
+        "median": 4453344.0,
+        "min": 4453200.0,
+        "p95": 4453488.0,
+        "population_stddev": 144.0
+      },
+      "prompt_tokens": {
+        "coefficient_of_variation": 0.19499399772169318,
+        "max": 127.0,
+        "mean": 81.0,
+        "median": 76.0,
+        "min": 61.0,
+        "p95": 125.0,
+        "population_stddev": 15.794513815457147
+      },
+      "quality": {
+        "correct_per_repetition": [
+          23,
+          23
+        ],
+        "exact_selected_predictions": true,
+        "predictions_stable_between_repetitions": true,
+        "reference_prediction_mismatches_per_repetition": [
+          0,
+          0
+        ]
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.018899399119973063,
+        "max": 2437.755958,
+        "mean": 2392.5384195,
+        "median": 2392.5384195,
+        "min": 2347.320881,
+        "p95": 2437.755958,
+        "population_stddev": 45.217538500000046
+      },
+      "repetitions": [
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.021554185800226604,
+              "max": 68.701,
+              "mean": 64.14373333333333,
+              "median": 64.059,
+              "min": 62.571,
+              "p95": 66.371,
+              "population_stddev": 1.3825659461868551
+            },
+            "elapsed_seconds": 32.163170762,
+            "encode_ms": {
+              "coefficient_of_variation": 0.35455626534769424,
+              "max": 2054.452,
+              "mean": 1002.6699000000001,
+              "median": 977.262,
+              "min": 62.923,
+              "p95": 1791.566,
+              "population_stddev": 355.5028951205461
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.3323222398524639,
+              "max": 2123.456524,
+              "mean": 1071.9074185333334,
+              "median": 1045.440901,
+              "min": 131.680222,
+              "p95": 1862.691342,
+              "population_stddev": 356.21867424146984
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9327438585577597,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.32",
+            "exit_status": 0,
+            "maximum_rss_kib": 4453200,
+            "percent_cpu": "373%"
+          },
+          "profile": "openssl_on",
+          "ready_ms": 2347.320881,
+          "repetition": 1,
+          "server_process_cpu": {
+            "average_cores_used": 3.9545230456653817,
+            "clock_ticks_per_second": 100,
+            "pid": 6323,
+            "seconds_per_request": 4.2396666666666665,
+            "system_seconds": 0.17,
+            "system_ticks": 17,
+            "total_seconds": 127.19,
+            "total_ticks": 12719,
+            "user_seconds": 127.02,
+            "user_ticks": 12702
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.509021083039616,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145904
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.016203577113356966,
+              "max": 67.212,
+              "mean": 64.0386,
+              "median": 64.24950000000001,
+              "min": 62.368,
+              "p95": 65.582,
+              "population_stddev": 1.0376543933314215
+            },
+            "elapsed_seconds": 32.168300351,
+            "encode_ms": {
+              "coefficient_of_variation": 0.35151797050592853,
+              "max": 2037.639,
+              "mean": 1003.2346333333334,
+              "median": 979.3915,
+              "min": 62.787,
+              "p95": 1782.199,
+              "population_stddev": 352.6550022505927
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.32949816668290666,
+              "max": 2106.521149,
+              "mean": 1072.0776799666667,
+              "median": 1048.2123635,
+              "min": 131.565911,
+              "p95": 1852.194296,
+              "population_stddev": 353.2476300906806
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9325951222992547,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.21",
+            "exit_status": 0,
+            "maximum_rss_kib": 4453488,
+            "percent_cpu": "375%"
+          },
+          "profile": "openssl_on",
+          "ready_ms": 2437.755958,
+          "repetition": 2,
+          "server_process_cpu": {
+            "average_cores_used": 3.9610423494457008,
+            "clock_ticks_per_second": 100,
+            "pid": 6437,
+            "seconds_per_request": 4.247333333333334,
+            "system_seconds": 0.14,
+            "system_ticks": 14,
+            "total_seconds": 127.42,
+            "total_ticks": 12742,
+            "user_seconds": 127.28,
+            "user_ticks": 12728
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        }
+      ],
+      "requests_per_second": {
+        "coefficient_of_variation": 7.97368521386082e-05,
+        "max": 0.9327438585577597,
+        "mean": 0.9326694904285071,
+        "median": 0.9326694904285071,
+        "min": 0.9325951222992547,
+        "p95": 0.9327438585577597,
+        "population_stddev": 7.436812925248892e-05
+      },
+      "server_cpu_seconds_per_request": {
+        "coefficient_of_variation": 0.0009033423667570583,
+        "max": 4.247333333333334,
+        "mean": 4.2435,
+        "median": 4.2435,
+        "min": 4.2396666666666665,
+        "p95": 4.247333333333334,
+        "population_stddev": 0.0038333333333335773
+      }
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nc++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\ncmake version 3.31.6\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n1.13.2",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "python": "Python 3.10.20",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "baseline_profile": "openssl_on",
+    "candidate_profile": "openssl_off",
+    "experiment_id": "E7b",
+    "git_commit": "c47dfe791475ce57b6e1cbc26029e8960381535f",
+    "github_run_attempt": "1",
+    "github_run_id": "30695349303",
+    "schema_version": 1
+  },
+  "schema_version": 1,
+  "scope": "Exact patched b10216 native Arm loopback HTTP dependency ablation",
+  "selection": {
+    "accuracy": 0.7666666666666667,
+    "baseline_profile": "openssl_on",
+    "candidate": "ministral3_3b_q4_k_m",
+    "candidate_profile": "openssl_off",
+    "correct": 23,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "selected_profile": "openssl_off",
+    "total": 30
+  },
+  "source": {
+    "artifact_name": "e7b-openssl-service-30695349303-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30695349303",
+    "runtime_proof": {
+      "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "patches_applied": [
+        "validated_arm_features",
+        "q8_vector_stores",
+        "reasoning_forced_token_guard"
+      ],
+      "repository": "https://github.com/ggml-org/llama.cpp.git",
+      "schema_version": 1,
+      "tag": "b10216"
+    }
+  },
+  "status": "valid_http_dependency_pruning_candidate",
+  "validation": {
+    "all_input_hashes_match": true,
+    "automatic_product_promotion_allowed": false,
+    "build_local_runtime_closures_hashed": true,
+    "cached_prefix_observed_in_every_measured_request": true,
+    "claim_scope": "E7b can establish dependency pruning only for the exact patched b10216 loopback HTTP fast service. HTTPS deployments must keep LLAMA_OPENSSL enabled. It does not establish a security vulnerability reduction, installed-package or container-image savings, energy savings, another model/service/backend, or automatic product promotion without separate launch integration.",
+    "energy_claim_allowed": false,
+    "exact_model_verified": true,
+    "exact_patch_series_verified": true,
+    "fresh_server_per_cell": true,
+    "http_dependency_pruning_claim_allowed": true,
+    "https_deployment_supported_by_candidate": false,
+    "matched_native_kleidiai_builds": true,
+    "measured_window_process_cpu_validated": true,
+    "openssl_build_mechanism_verified": true,
+    "quality_drift_treated_as_rejection": true,
+    "security_claim_allowed": false,
+    "server_pid_bound_in_every_probe": true,
+    "transitive_runtime_dependencies_inventoried": true,
+    "weighted_score_used": false
+  }
+}

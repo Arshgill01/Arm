@@ -88,6 +88,9 @@ EXPECTED_HASHES = {
     "results/manifests/e7a-30692292700.json": (
         "b48e6c129d1f3305c2b788b422bc5321cd415b2bc2b26460804063ebc3b46839"
     ),
+    "results/manifests/e7b-30695349303.json": (
+        "8dffd667e8517a1b628c147f22f5e74755ab7d7d693e8eff1e1704ae387ffd9b"
+    ),
     "configs/runtime-b10216-selected-service.json": (
         "9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de"
     ),
@@ -981,6 +984,63 @@ def main() -> int:
         raise ValueError(
             "frozen E7b OpenSSL ablation differs from the selected HTTP service"
         )
+
+    openssl_result = load_object(ROOT / "results/manifests/e7b-30695349303.json")
+    openssl_hypothesis = openssl_result.get("hypothesis", {})
+    openssl_validation = openssl_result.get("validation", {})
+    openssl_performance = openssl_result.get("performance", {})
+    openssl_builds = openssl_result.get("build_profiles", {})
+    baseline_build = openssl_builds.get("openssl_on", {})
+    candidate_build = openssl_builds.get("openssl_off", {})
+    if (
+        openssl_result.get("status")
+        != "valid_http_dependency_pruning_candidate"
+        or openssl_result.get("provenance", {}).get("github_run_id")
+        != "30695349303"
+        or openssl_result.get("platform", {}).get("architecture") != "aarch64"
+        or openssl_result.get("selection", {}).get("candidate")
+        != "ministral3_3b_q4_k_m"
+        or openssl_result.get("selection", {}).get("selected_profile")
+        != "openssl_off"
+        or openssl_hypothesis.get("passed") is not True
+        or openssl_hypothesis.get("dependency_pruning_passed") is not True
+        or openssl_hypothesis.get("removed_dependencies")
+        != ["libcrypto.so.3", "libssl.so.3"]
+        or openssl_hypothesis.get("new_candidate_dependencies") != []
+        or openssl_hypothesis.get("throughput_ratio", 0) < 0.98
+        or openssl_hypothesis.get("runtime_closure_ratio", 99) > 1.0
+        or any(
+            profile.get("quality", {}).get("exact_selected_predictions")
+            is not True
+            for profile in openssl_performance.values()
+        )
+        or set(openssl_builds) != {"openssl_on", "openssl_off"}
+        or baseline_build.get("llama_openssl") is not True
+        or candidate_build.get("llama_openssl") is not False
+        or baseline_build.get("runtime_closure", {}).get("file_count") != 8
+        or candidate_build.get("runtime_closure", {}).get("file_count") != 8
+        or baseline_build.get("runtime_closure", {}).get("total_size_bytes")
+        != 20_058_904
+        or candidate_build.get("runtime_closure", {}).get("total_size_bytes")
+        != 19_857_648
+        or "libssl.so.3" not in baseline_build.get("dependency_basenames", [])
+        or "libcrypto.so.3" not in baseline_build.get("dependency_basenames", [])
+        or "libssl.so.3" in candidate_build.get("dependency_basenames", [])
+        or "libcrypto.so.3" in candidate_build.get("dependency_basenames", [])
+        or openssl_validation.get("openssl_build_mechanism_verified") is not True
+        or openssl_validation.get("transitive_runtime_dependencies_inventoried")
+        is not True
+        or openssl_validation.get("http_dependency_pruning_claim_allowed")
+        is not True
+        or openssl_validation.get("https_deployment_supported_by_candidate")
+        is not False
+        or openssl_validation.get("automatic_product_promotion_allowed")
+        is not False
+        or openssl_validation.get("security_claim_allowed") is not False
+        or openssl_validation.get("energy_claim_allowed") is not False
+        or openssl_validation.get("weighted_score_used") is not False
+    ):
+        raise ValueError("retained E7b dependency-pruning result differs")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

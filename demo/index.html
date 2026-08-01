@@ -634,6 +634,11 @@
             <div><strong>Whole-program LTO ablation</strong><p>+0.137% throughput and −0.775% local runtime closure missed both frozen benefit gates.</p></div>
             <span class="evidence-result reject-text">Keep LTO off</span>
           </li>
+          <li>
+            <span class="evidence-id">E7b</span>
+            <div><strong>HTTP dependency pruning</strong><p>Removed libssl + libcrypto, added none, and retained 99.981% throughput with exact quality.</p></div>
+            <span class="evidence-result select-text">Qualified</span>
+          </li>
         </ol>
 
         <div class="reproduce">
@@ -705,6 +710,9 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e7a-lto-service.md">
           LTO ablation
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e7b-openssl-service.md">
+          HTTP dependency pruning
         </a>
       </div>
     </footer>

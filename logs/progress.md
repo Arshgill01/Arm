@@ -1392,3 +1392,28 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - The bounded final-evidence decision selected a local Arm device for controlled
   power/governor work. A follow-up decision is pending for the device platform;
   no sensor or governor interface has been assumed.
+
+## 2026-08-01 — E7b validates HTTP-only dependency pruning
+
+- Native Arm run `30695349303` passed on exact frozen commit `c47dfe7` in
+  10m06s. The two CMake caches and full Ninja command inventories proved the
+  single `LLAMA_OPENSSL` difference, and the ingester independently revalidated
+  both raw `ldd` inventories and all copied build-local runtime files.
+- The OpenSSL-on baseline resolved `libssl.so.3` and `libcrypto.so.3` among 15
+  dependency basenames. OpenSSL-off removed exactly those two edges, added no
+  dependency, and retained the same eight logical build-local files. Their
+  total fell 201,256 bytes, from 20,058,904 to 19,857,648 bytes (0.989967x).
+- Both profiles reproduced 23/30 twice with stable predictions, zero drift or
+  failures, and cached-prefix reuse throughout. Candidate throughput was
+  0.999811x baseline; median/p95 latency ratios were 0.999401x/1.001827x;
+  measured CPU seconds/request was 1.001021x; readiness was 1.036803x; and
+  maximum RSS decreased 1,544 KiB. Every frozen guardrail passed.
+- Candidate build time was 193.08 seconds versus 203.62 seconds, a 0.948237x
+  ratio. Build-process peak RSS was 2,718,396 versus 2,943,064 KiB. These remain
+  supporting costs rather than headline optimization claims.
+- Independent Python 3.10 replay reproduced the uploaded manifest byte for byte
+  at SHA-256
+  `8dffd667e8517a1b628c147f22f5e74755ab7d7d693e8eff1e1704ae387ffd9b`.
+  OpenSSL-off is admitted only as a candidate for a separate loopback HTTP
+  launch integration; HTTPS, security, installed-package size, energy, and
+  other-service claims remain excluded.

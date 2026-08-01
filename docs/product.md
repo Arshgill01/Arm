@@ -267,6 +267,15 @@ guardrail, but improved throughput only 0.137% and reduced the hashed transitive
 local runtime closure only 0.775%. Both frozen benefit branches failed, so the
 product keeps LTO off and adds no new launch path.
 
+E7b tests the next build boundary exposed by that dependency inventory. The
+selected service uses plain HTTP on loopback, while upstream HTTPS support links
+OpenSSL by default. `LLAMA_OPENSSL=OFF` removed exactly `libssl.so.3` and
+`libcrypto.so.3`, added no library, reproduced 23/30 twice, retained 99.981%
+throughput, and reduced the hashed build-local closure 1.003%. Every latency,
+CPU, readiness, RSS, and build-cost guardrail passed. This qualifies an exact
+HTTP-only dependency-pruned profile for a separate launch integration; the
+current adapter remains unchanged and HTTPS must keep OpenSSL enabled.
+
 ## Select a measured service profile
 
 Model selection and service-profile selection are separate obligations. The

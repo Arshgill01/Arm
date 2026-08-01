@@ -1089,6 +1089,23 @@ installed-package/container size, energy, other services, or automatic product
 promotion. Exact details are frozen in
 [`../experiments/e7b_contract.json`](../experiments/e7b_contract.json).
 
+### E7b outcome
+
+Native run `30695349303` passed every frozen gate. The OpenSSL-on baseline
+resolved `libssl.so.3` and `libcrypto.so.3`; OpenSSL-off removed both and added
+no dependency. Both profiles reproduced 23/30 twice with stable predictions,
+zero drift or failures, and prefix reuse throughout. Candidate throughput was
+0.999811x baseline, median/p95 latency ratios were 0.999401x/1.001827x,
+measured CPU seconds/request was 1.001021x, readiness was 1.036803x, and maximum
+RSS decreased 1,544 KiB.
+
+The eight-file build-local runtime closure fell from 20,058,904 to 19,857,648
+bytes, a 1.003% reduction, and build time was 0.948237x baseline. Python 3.10
+replay matched the uploaded result byte for byte at `8dffd667…7ffd9b`.
+OpenSSL-off is a dependency-pruning candidate for a separate loopback HTTP
+launch integration; it is not yet an automatic product default. See
+[`../results/reports/e7b-openssl-service.md`](../results/reports/e7b-openssl-service.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

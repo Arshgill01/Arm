@@ -234,6 +234,14 @@ runtime closures. LTO preserved 23/30 twice and every common guardrail, but
 gained only 0.137% throughput and reduced the closure only 0.775%. It missed
 both frozen benefit branches, so the default remains off.
 
+E7b used that runtime inventory to challenge a different deployment default.
+The selected service is plain loopback HTTP, but upstream HTTPS support linked
+OpenSSL. A matched native Arm build removed exactly `libssl.so.3` and
+`libcrypto.so.3`, added no dependency, preserved 23/30 twice and every
+guardrail, retained 99.981% throughput, and reduced the hashed local closure
+1.003%. It qualifies only an HTTP-only dependency-pruned launch candidate;
+HTTPS and security claims are explicitly out of scope.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -288,6 +296,8 @@ without changing measured inputs or post-observation thresholds.
   throughput, +180 KiB RSS, and below 3 GiB in every cell;
 - a measured service-profile planner that automatically routes throughput and
   at-most-3-GiB envelopes while refusing unmeasured capacity assumptions;
+- an HTTP-only build candidate that removes two unused OpenSSL runtime edges
+  without adding a dependency or crossing any quality/service guardrail;
 - a process-bound thread-efficiency study that rejects lower thread counts
   instead of confusing fewer active cores with less total CPU work;
 - three reviewable Arm source patches revalidated on current llama.cpp with
