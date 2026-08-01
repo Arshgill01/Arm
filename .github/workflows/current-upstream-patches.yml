@@ -69,7 +69,7 @@ jobs:
           test "$(git -C "$BASELINE_DIR" rev-parse HEAD)" = "$LLAMA_CPP_SHA"
           test "$(git -C "$BASELINE_DIR" describe --tags --exact-match)" = \
             "$LLAMA_CPP_TAG"
-          git clone --no-local "$BASELINE_DIR" "$PATCHED_DIR"
+          cp --archive "$BASELINE_DIR" "$PATCHED_DIR"
           git -C "$PATCHED_DIR" checkout --detach "$LLAMA_CPP_SHA"
           test "$(git -C "$PATCHED_DIR" rev-parse HEAD)" = "$LLAMA_CPP_SHA"
           test -z "$(git -C "$BASELINE_DIR" status --short)"

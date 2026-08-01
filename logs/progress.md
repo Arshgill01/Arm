@@ -1034,3 +1034,8 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   emitted assembly, and four balanced direct-performance rounds.
 - Added an independent E6d ingester and local gate tests. No current-upstream or
   upstream-ready claim is accepted until the frozen native workflow passes.
+- Native attempt `30675615101` stopped before any build or measurement. Cloning
+  a second worktree from the first partial clone tried to lazy-fetch an absent
+  object from its promisor remote and exited 128. The workflow now copies the
+  already verified clean pinned tree; no experiment input, order, or gate
+  changed.
