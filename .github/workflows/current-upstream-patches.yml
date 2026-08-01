@@ -1,0 +1,284 @@
+name: Arm E6d current-upstream patch series
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  LLAMA_CPP_SHA: 876a4321163249c43ca4e986818fab5ab081f282
+  LLAMA_CPP_TAG: b10216
+  CONTRACT_SHA256: 98a1bf7b8718b8ccb6aa5ae3bfe3ebcd1cc8d709f139a565d0829696a8098195
+  FEATURE_PATCH_SHA256: b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f
+  Q8_PATCH_SHA256: 54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab
+  REASONING_PATCH_SHA256: 2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783
+
+jobs:
+  validate:
+    name: Rebase and revalidate three Arm patches
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e6d-${{ github.run_id }}-${{ github.run_attempt }}
+      BASELINE_DIR: /tmp/llama.cpp-E6d-baseline
+      PATCHED_DIR: /tmp/llama.cpp-E6d-patched
+      BASELINE_BUILD: /tmp/llama.cpp-E6d-baseline-build
+      PATCHED_BUILD: /tmp/llama.cpp-E6d-patched-build
+      BASELINE_FEATURE_BUILD: /tmp/llama.cpp-E6d-baseline-feature-build
+      PATCHED_FEATURE_BUILD: /tmp/llama.cpp-E6d-patched-feature-build
+      FEATURE_PATCH: ${{ github.workspace }}/patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch
+      Q8_PATCH: ${{ github.workspace }}/patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch
+      REASONING_PATCH: ${{ github.workspace }}/patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch
+
+    steps:
+      - name: Check out experiment repository
+        uses: actions/checkout@v7
+
+      - name: Select supported Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Capture host and verify frozen inputs
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR/feature" \
+            "$EVIDENCE_DIR/variants/baseline" \
+            "$EVIDENCE_DIR/variants/patched" \
+            "$EVIDENCE_DIR/rounds"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          c++ --version | tee "$EVIDENCE_DIR/compiler.txt"
+          cp experiments/e6d_contract.json "$EVIDENCE_DIR/contract.json"
+          echo "$CONTRACT_SHA256  experiments/e6d_contract.json" \
+            | sha256sum --check --strict
+          echo "$FEATURE_PATCH_SHA256  $FEATURE_PATCH" \
+            | sha256sum --check --strict
+          echo "$Q8_PATCH_SHA256  $Q8_PATCH" \
+            | sha256sum --check --strict
+          echo "$REASONING_PATCH_SHA256  $REASONING_PATCH" \
+            | sha256sum --check --strict
+
+      - name: Pin clean current-upstream source variants
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/ggml-org/llama.cpp.git "$BASELINE_DIR"
+          git -C "$BASELINE_DIR" checkout --detach "$LLAMA_CPP_SHA"
+          test "$(git -C "$BASELINE_DIR" rev-parse HEAD)" = "$LLAMA_CPP_SHA"
+          test "$(git -C "$BASELINE_DIR" describe --tags --exact-match)" = \
+            "$LLAMA_CPP_TAG"
+          git clone --no-local "$BASELINE_DIR" "$PATCHED_DIR"
+          git -C "$PATCHED_DIR" checkout --detach "$LLAMA_CPP_SHA"
+          test "$(git -C "$PATCHED_DIR" rev-parse HEAD)" = "$LLAMA_CPP_SHA"
+          test -z "$(git -C "$BASELINE_DIR" status --short)"
+          test -z "$(git -C "$PATCHED_DIR" status --short)"
+          git -C "$PATCHED_DIR" apply --check "$FEATURE_PATCH"
+          git -C "$PATCHED_DIR" apply "$FEATURE_PATCH"
+          git -C "$PATCHED_DIR" apply --check "$Q8_PATCH"
+          git -C "$PATCHED_DIR" apply "$Q8_PATCH"
+          git -C "$PATCHED_DIR" apply --check "$REASONING_PATCH"
+          git -C "$PATCHED_DIR" apply "$REASONING_PATCH"
+          git -C "$PATCHED_DIR" diff --check
+          git -C "$PATCHED_DIR" diff --name-only | sort \
+            | tee "$EVIDENCE_DIR/patched-files.txt"
+          diff -u \
+            <(printf '%s\n' \
+              common/reasoning-budget.cpp \
+              ggml/src/ggml-cpu/CMakeLists.txt \
+              ggml/src/ggml-cpu/arch/arm/quants.c \
+              tests/test-reasoning-budget.cpp) \
+            "$EVIDENCE_DIR/patched-files.txt"
+          git -C "$PATCHED_DIR" diff --binary --full-index \
+            > "$EVIDENCE_DIR/current-series.patch"
+          git -C "$BASELINE_DIR" apply \
+            --include=tests/test-reasoning-budget.cpp "$REASONING_PATCH"
+          test "$(git -C "$BASELINE_DIR" diff --name-only)" = \
+            'tests/test-reasoning-budget.cpp'
+
+      - name: Configure and build targeted baseline and patched tests
+        run: |
+          set -euo pipefail
+          for variant in baseline patched; do
+            source_var="${variant^^}_DIR"
+            build_var="${variant^^}_BUILD"
+            source_dir="${!source_var}"
+            build_dir="${!build_var}"
+            cmake -S "$source_dir" -B "$build_dir" -G Ninja \
+              -DBUILD_SHARED_LIBS=OFF \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DGGML_CPU_KLEIDIAI=OFF \
+              -DGGML_NATIVE=ON \
+              -DLLAMA_BUILD_EXAMPLES=OFF \
+              -DLLAMA_BUILD_SERVER=OFF \
+              -DLLAMA_BUILD_TESTS=ON \
+              -DLLAMA_CURL=OFF \
+              2>&1 | tee "$EVIDENCE_DIR/variants/$variant/configure.log"
+            cp "$build_dir/CMakeCache.txt" \
+              "$EVIDENCE_DIR/variants/$variant/CMakeCache.txt"
+            cmake --build "$build_dir" \
+              --target test-quantize-fns test-quantize-perf \
+                test-reasoning-budget \
+              --parallel "$(nproc)" \
+              2>&1 | tee "$EVIDENCE_DIR/variants/$variant/build.log"
+            echo 0 > "$EVIDENCE_DIR/variants/$variant/build-exit.txt"
+            "$build_dir/bin/test-quantize-fns" -v \
+              > "$EVIDENCE_DIR/variants/$variant/quantize-test.stdout.log" \
+              2> "$EVIDENCE_DIR/variants/$variant/quantize-test.stderr.log"
+            echo 0 > "$EVIDENCE_DIR/variants/$variant/quantize-test-exit.txt"
+            library="$(find "$build_dir" -type f -name 'libggml-cpu.a' -print -quit)"
+            test -n "$library"
+            objdump -d --no-show-raw-insn \
+              --disassemble=quantize_row_q8_0 "$library" \
+              > "$EVIDENCE_DIR/variants/$variant/assembly.txt"
+            grep -q '<quantize_row_q8_0>:' \
+              "$EVIDENCE_DIR/variants/$variant/assembly.txt"
+          done
+
+      - name: Reproduce and correct the reasoning regression
+        run: |
+          set -euo pipefail
+          set +e
+          "$BASELINE_BUILD/bin/test-reasoning-budget" \
+            > "$EVIDENCE_DIR/variants/baseline/reasoning-test.stdout.log" \
+            2> "$EVIDENCE_DIR/variants/baseline/reasoning-test.stderr.log"
+          baseline_status=$?
+          set -e
+          echo "$baseline_status" \
+            | tee "$EVIDENCE_DIR/variants/baseline/reasoning-test-exit.txt"
+          test "$baseline_status" -ne 0
+          grep -q \
+            'common_reasoning_budget_get_state(sampler) == REASONING_BUDGET_FORCING' \
+            "$EVIDENCE_DIR/variants/baseline/reasoning-test.stderr.log"
+          "$PATCHED_BUILD/bin/test-reasoning-budget" \
+            > "$EVIDENCE_DIR/variants/patched/reasoning-test.stdout.log" \
+            2> "$EVIDENCE_DIR/variants/patched/reasoning-test.stderr.log"
+          echo 0 > "$EVIDENCE_DIR/variants/patched/reasoning-test-exit.txt"
+          grep -q 'OK (13 tests passed)' \
+            "$EVIDENCE_DIR/variants/patched/reasoning-test.stdout.log"
+
+      - name: Reproduce and correct validated-feature source selection
+        run: |
+          set -euo pipefail
+          for variant in baseline patched; do
+            source_var="${variant^^}_DIR"
+            build_var="${variant^^}_FEATURE_BUILD"
+            source_dir="${!source_var}"
+            build_dir="${!build_var}"
+            cmake -S "$source_dir" -B "$build_dir" -G Ninja \
+              -DBUILD_SHARED_LIBS=OFF \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DGGML_CPU_ARM_ARCH=armv8.6-a+sve2+nosve \
+              -DGGML_CPU_KLEIDIAI=ON \
+              -DGGML_NATIVE=OFF \
+              -DLLAMA_BUILD_EXAMPLES=OFF \
+              -DLLAMA_BUILD_SERVER=OFF \
+              -DLLAMA_BUILD_TESTS=ON \
+              -DLLAMA_CURL=OFF \
+              2>&1 | tee "$EVIDENCE_DIR/feature/$variant-configure.log"
+            cp "$build_dir/CMakeCache.txt" \
+              "$EVIDENCE_DIR/feature/$variant-CMakeCache.txt"
+            grep -q 'Performing Test HAVE_SVE - Failed' \
+              "$EVIDENCE_DIR/feature/$variant-configure.log"
+          done
+          set +e
+          cmake --build "$BASELINE_FEATURE_BUILD" \
+            --target test-quantize-fns --parallel "$(nproc)" --verbose \
+            2>&1 | tee "$EVIDENCE_DIR/feature/baseline-build.log"
+          baseline_status=${PIPESTATUS[0]}
+          set -e
+          echo "$baseline_status" \
+            | tee "$EVIDENCE_DIR/feature/baseline-build-exit.txt"
+          test "$baseline_status" -ne 0
+          grep -q 'sve_dotprod_asm.S' \
+            "$EVIDENCE_DIR/feature/baseline-build.log"
+          grep -q 'selected processor does not support' \
+            "$EVIDENCE_DIR/feature/baseline-build.log"
+          cmake --build "$PATCHED_FEATURE_BUILD" \
+            --target test-quantize-fns --parallel "$(nproc)" --verbose \
+            2>&1 | tee "$EVIDENCE_DIR/feature/patched-build.log"
+          echo 0 > "$EVIDENCE_DIR/feature/patched-build-exit.txt"
+          if grep -q 'sve_dotprod_asm.S' \
+            "$EVIDENCE_DIR/feature/patched-build.log"; then
+            echo 'Patched current build still compiled invalid SVE sources' >&2
+            exit 1
+          fi
+
+      - name: Execute frozen paired Q8 direct benchmark
+        run: |
+          set -euo pipefail
+          run_variant() {
+            local variant="$1"
+            local round="$2"
+            local position="$3"
+            local build_var="${variant^^}_BUILD"
+            local build_dir="${!build_var}"
+            local output="$EVIDENCE_DIR/rounds/round-$round-position-$position-$variant"
+            mkdir -p "$output"
+            taskset --cpu-list 0 "$build_dir/bin/test-quantize-perf" \
+              --type q8_0 \
+              --op quantize_row_q \
+              -3 \
+              --iterations 20000 \
+              > "$output/perf.log" \
+              2> "$output/perf.stderr.log"
+            echo 0 > "$output/perf-exit.txt"
+          }
+          run_variant baseline 1 1
+          run_variant patched 1 2
+          run_variant patched 2 1
+          run_variant baseline 2 2
+          run_variant baseline 3 1
+          run_variant patched 3 2
+          run_variant patched 4 1
+          run_variant baseline 4 2
+
+      - name: Independently ingest and apply the frozen gates
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          contract = Path("experiments/e6d_contract.json")
+          provenance = {
+              "schema_version": 1,
+              "experiment_id": "E6d",
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "git_commit": os.environ["GITHUB_SHA"],
+              "llama_cpp_commit": os.environ["LLAMA_CPP_SHA"],
+              "llama_cpp_tag": os.environ["LLAMA_CPP_TAG"],
+              "contract_sha256": hashlib.sha256(contract.read_bytes()).hexdigest(),
+              "patch_sha256": {
+                  "validated_arm_features": os.environ["FEATURE_PATCH_SHA256"],
+                  "q8_vector_stores": os.environ["Q8_PATCH_SHA256"],
+                  "reasoning_forced_token_guard": os.environ["REASONING_PATCH_SHA256"],
+              },
+          }
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          (evidence / "provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          python3 experiments/e6d_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract experiments/e6d_contract.json \
+            --patch-root . \
+            --output "$EVIDENCE_DIR/summary.json"
+          jq '{status, feature_reproduction, targeted_tests, direct_benchmark, validation}' \
+            "$EVIDENCE_DIR/summary.json"
+          test "$(jq -r '.status' "$EVIDENCE_DIR/summary.json")" = \
+            'valid_current_upstream_rebase'
+
+      - name: Upload E6d evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e6d-current-upstream-patches-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90

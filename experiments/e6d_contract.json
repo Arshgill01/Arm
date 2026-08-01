@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E6d",
+  "title": "Current llama.cpp Arm patch-series revalidation",
+  "upstream": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216",
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282"
+  },
+  "patches": [
+    {
+      "name": "validated_arm_features",
+      "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+      "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f",
+      "rebase": "context-only from the E6a correction"
+    },
+    {
+      "name": "q8_vector_stores",
+      "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+      "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+      "rebase": "byte-identical E6b patch"
+    },
+    {
+      "name": "reasoning_forced_token_guard",
+      "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+      "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783",
+      "rebase": "byte-identical E6c patch"
+    }
+  ],
+  "host": {
+    "architecture": "aarch64",
+    "runner": "ubuntu-24.04-arm",
+    "cpu_affinity": 0
+  },
+  "feature_reproduction": {
+    "arm_arch": "armv8.6-a+sve2+nosve",
+    "kleidiai": true,
+    "expected_validated_sve": false,
+    "unpatched_expected_build_status": "failure",
+    "patched_expected_build_status": "success"
+  },
+  "reasoning_test": {
+    "baseline": "current source plus regression-test hunk only",
+    "patched": "complete three-patch series",
+    "baseline_expected_status": "failure",
+    "patched_expected_status": "success",
+    "patched_expected_message": "OK (13 tests passed)"
+  },
+  "quantizer": {
+    "correctness_target": "test-quantize-fns",
+    "performance_target": "test-quantize-perf",
+    "operation": "quantize_row_q",
+    "type": "q8_0",
+    "sizes": [4096, 65536, 655360],
+    "measured_iterations": 20000,
+    "rounds": [
+      ["baseline", "patched"],
+      ["patched", "baseline"],
+      ["baseline", "patched"],
+      ["patched", "baseline"]
+    ]
+  },
+  "acceptance": {
+    "minimum_median_improvement_ratio_by_size": {
+      "4096": 1.25,
+      "65536": 1.15,
+      "655360": 0.98
+    },
+    "minimum_improved_rounds_by_size": {
+      "4096": 3,
+      "65536": 3,
+      "655360": 2
+    },
+    "minimum_baseline_byte_stores": 16,
+    "maximum_patched_byte_stores": 4,
+    "minimum_patched_vector_narrows": 2,
+    "minimum_patched_vector_stores": 2
+  },
+  "selection": {
+    "weighted_score_used": false,
+    "claim_scope": "current-upstream patch applicability, targeted correctness, and direct Q8 hot-path performance only"
+  }
+}

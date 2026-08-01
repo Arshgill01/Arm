@@ -55,3 +55,15 @@ with the guard, all 13 upstream reasoning-budget tests pass. This is local
 functional preflight only. E6c now freezes the native source and real-model
 correctness obligations; it must pass before the patch is considered validated.
 No external pull request has been opened.
+
+## Current llama.cpp rebase series
+
+[`llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch`](llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch)
+rebases the feature-selection correction onto tag `b10216` / commit
+`876a4321163249c43ca4e986818fab5ab081f282`. The change is semantically
+identical; only surrounding KleidiAI SME source-list context changed upstream.
+
+The Q8 vector-narrowing patch and reasoning-budget guard apply to `b10216`
+byte-for-byte with no rebase. E6d freezes the three-patch current-upstream
+applicability, source-correctness, unit-test, assembly, and direct-performance
+obligations before any upstream-ready claim is made.

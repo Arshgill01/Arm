@@ -1021,3 +1021,16 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Public clean-checkout run `30675220682` passed on native `aarch64` from exact
   launch-binding commit `f2c367e`: 104 tests, all 15 pinned hashes, exact plan
   checks, and the dependency-free demo smoke test.
+
+## 2026-08-01 — E6d current-upstream patch revalidation frozen
+
+- Audited current llama.cpp tag `b10216` at commit
+  `876a4321163249c43ca4e986818fab5ab081f282`. The Q8 vector-store and
+  reasoning-budget patches apply unchanged. The KleidiAI flag-substring bug
+  remains; its patch needed only surrounding SME source-list context refreshed.
+- Froze a no-model native revalidation so the scope stays precise: current
+  source applicability, the exact validated-feature build failure/correction,
+  baseline-fail/patched-pass reasoning tests, upstream quantizer correctness,
+  emitted assembly, and four balanced direct-performance rounds.
+- Added an independent E6d ingester and local gate tests. No current-upstream or
+  upstream-ready claim is accepted until the frozen native workflow passes.

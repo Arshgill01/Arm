@@ -386,6 +386,32 @@ eight-token cap. The validator remains unchanged, so no E6c manifest is
 accepted. See
 [`../results/reports/e6c-reasoning-budget-fix.md`](../results/reports/e6c-reasoning-budget-fix.md).
 
+## E6d frozen current-upstream rebase protocol
+
+E6d tests whether the three reviewable Arm source contributions survive current
+llama.cpp rather than treating their pinned historical validation as permanent.
+The upstream input is frozen at tag `b10216`, commit
+`876a4321163249c43ca4e986818fab5ab081f282`. The Q8 vector-store and
+reasoning-budget patches apply byte for byte. The validated-feature patch has a
+context-only rebase because upstream added SME source lists around the same
+unchanged flag-substring defect.
+
+The native workflow must reproduce the invalid SVE source selection under
+`armv8.6-a+sve2+nosve`, then build the rebased feature correction without those
+sources. It applies only the reasoning regression-test hunk to the baseline and
+requires the untouched source to abort; the complete series must pass all 13
+tests. Baseline and patched trees must both pass `test-quantize-fns`, while
+emitted assembly must replace at least 16 scalar byte stores with vector
+narrowing and stores.
+
+Four balanced Q8 direct-performance rounds reuse the E6b sizes, iteration count,
+and conservative gates: at least 1.25x at 4,096 values, 1.15x at 65,536, no
+material regression at 655,360, and the predeclared minimum number of improved
+rounds. There is no model run because E6d is an upstream-portability gate; E6a,
+E6b, and E6c retain the separate real-model correctness and inference evidence.
+Exact hashes, order, and claim scope are frozen in
+[`../experiments/e6d_contract.json`](../experiments/e6d_contract.json).
+
 ## E5a frozen planner-API protocol
 
 E5a is a product/API concurrency gate, not the final inference-server E5 result.
