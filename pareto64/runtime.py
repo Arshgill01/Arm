@@ -161,7 +161,7 @@ def validate_runtime_upgrade(
         resolved_source,
         "diff",
         "--binary",
-        "--no-ext-diff",
+        "--full-index",
         "HEAD",
         "--",
         binary=True,

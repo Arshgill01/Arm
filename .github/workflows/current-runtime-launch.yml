@@ -76,7 +76,7 @@ jobs:
           done
           git -C "$LLAMA_CPP_DIR" diff --name-only HEAD \
             | tee "$EVIDENCE_DIR/patched-files.txt"
-          git -C "$LLAMA_CPP_DIR" diff --binary --no-ext-diff HEAD -- \
+          git -C "$LLAMA_CPP_DIR" diff --binary --full-index HEAD -- \
             > "$EVIDENCE_DIR/source-diff.patch"
           test "$(sha256sum "$EVIDENCE_DIR/source-diff.patch" | cut -d' ' -f1)" = \
             'e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893'

@@ -1210,3 +1210,8 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - E6g requires the exact 23/30 prediction map, prefix reuse in every measured
   request, zero failures, and absolute readiness/RSS gates. It is not a new
   performance comparison and cannot broaden the one validated service profile.
+- Native attempt `30679759732` stopped before model download or build because
+  the new source proof omitted E6f's `--full-index` diff option. The patch
+  contents and changed-file inventory matched, but abbreviated object IDs
+  changed the byte hash. Both product and workflow diff capture now use the
+  exact E6f full-index format; inputs, source, service, and gates are unchanged.

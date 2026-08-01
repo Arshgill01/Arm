@@ -69,7 +69,7 @@ class Pareto64RuntimeTests(unittest.TestCase):
                 str(source_root),
                 "diff",
                 "--binary",
-                "--no-ext-diff",
+                "--full-index",
                 "HEAD",
                 "--",
             ],
