@@ -105,6 +105,10 @@ class E7cIngestTests(unittest.TestCase):
 
     def test_contract_binds_exact_e7b_http_service(self) -> None:
         self.assertEqual("E7c", self.contract["experiment_id"])
+        reference_request = json.loads(
+            (ROOT / "experiments/e6g_contract.json").read_text()
+        )["request"]
+        self.assertEqual(reference_request, self.contract["request"])
         self.assertEqual("E7b", self.launch_contract["runtime_manifest"]["experiment_id"])
         self.assertEqual(
             ["libcrypto.so.3", "libssl.so.3"],

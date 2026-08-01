@@ -119,7 +119,7 @@ EXPECTED_HASHES = {
         "2c5cd9f8d84ef5f77fdd14c66a7822189ec09ff6688743e26f7f2fd7c77abea9"
     ),
     "experiments/e7c_contract.json": (
-        "bdeedaf7d63fc7d91b261efa078b9fc3702525d29a6b8e03b4e3ba016cf32512"
+        "2f6a96acb0fa7c877c7f42083cd85b728c5779a75173bdcca62d801b306344de"
     ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
@@ -1086,6 +1086,7 @@ def main() -> int:
     )
 
     http_launch_contract = load_object(ROOT / "experiments/e7c_contract.json")
+    fast_launch_contract = load_object(ROOT / "experiments/e6g_contract.json")
     http_launch_inputs = http_launch_contract.get("inputs", {})
     http_launch_service = dict(http_launch_contract.get("service", {}))
     http_launch_service.pop("client_concurrency", None)
@@ -1101,6 +1102,7 @@ def main() -> int:
         != EXPECTED_HASHES["results/manifests/e7b-30695349303.json"]
         or http_launch_inputs.get("runtime_contract_sha256")
         != EXPECTED_HASHES["configs/runtime-b10216-http-service.json"]
+        or http_launch_contract.get("request") != fast_launch_contract.get("request")
         or http_launch_service != http_runtime_contract.get("service")
         or http_launch_contract.get("acceptance", {}).get(
             "forbidden_runtime_dependency_basenames"

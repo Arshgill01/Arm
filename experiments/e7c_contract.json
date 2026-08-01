@@ -34,6 +34,19 @@
     "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
     "model_size_bytes": 2146497824
   },
+  "request": {
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ],
+    "measured_tasks": 30,
+    "max_output_tokens": 8,
+    "instruction_role": "system",
+    "chat_template_mode": "model_jinja_system_instruction",
+    "temperature": 0.0,
+    "seed": 424242,
+    "timeout_seconds": 30.0
+  },
   "service": {
     "batch_size": 64,
     "client_concurrency": 1,

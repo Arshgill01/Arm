@@ -1442,6 +1442,23 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Runtime-contract SHA-256 is
   `95cb669b70de98851b8bb2f04d7be6650745e0fbd39aa4d3256b5bb9c2a2b928`;
   experiment-contract SHA-256 is
-  `bdeedaf7d63fc7d91b261efa078b9fc3702525d29a6b8e03b4e3ba016cf32512`.
+  `2f6a96acb0fa7c877c7f42083cd85b728c5779a75173bdcca62d801b306344de`.
   HTTPS, security, installed-package, energy, other-profile, and full-upstream
   claims remain explicitly excluded.
+
+## 2026-08-01 — E7c first native attempt rejected before ingestion
+
+- Native Arm run `30696286405` rebuilt the exact OpenSSL-off b10216 service,
+  passed the evidence-bound Pareto64 launch adapter, and completed all 30 live
+  requests. The independent ingester then rejected the result with
+  `KeyError: 'request'` before validating any retained probe result.
+- Root cause was a missing top-level request protocol in the new E7c experiment
+  contract. The launcher and probe had inherited the unchanged E6g protocol,
+  but the independent validator correctly requires that protocol to be frozen
+  explicitly. E7c now copies the exact E6g/E6i warmups, 30-task order,
+  eight-token cap, system instruction mode, temperature, seed, and timeout.
+  No model, runtime, service, acceptance threshold, or completed native output
+  was changed or accepted retroactively. The corrected complete contract is
+  frozen at SHA-256
+  `2f6a96acb0fa7c877c7f42083cd85b728c5779a75173bdcca62d801b306344de`;
+  the incomplete first-attempt hash remains recoverable from commit `1ba321e`.

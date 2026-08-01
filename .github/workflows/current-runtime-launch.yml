@@ -19,7 +19,7 @@ permissions:
 env:
   EXPERIMENT_ID: ${{ inputs.service_profile == 'memory' && 'E6i' || inputs.service_profile == 'http' && 'E7c' || 'E6g' }}
   CONTRACT_PATH: ${{ inputs.service_profile == 'memory' && 'experiments/e6i_contract.json' || inputs.service_profile == 'http' && 'experiments/e7c_contract.json' || 'experiments/e6g_contract.json' }}
-  CONTRACT_SHA256: ${{ inputs.service_profile == 'memory' && '7b7f0b5dd2598bb89be4163ced702d1c27c34078232aa0a7926bc40426194265' || inputs.service_profile == 'http' && 'bdeedaf7d63fc7d91b261efa078b9fc3702525d29a6b8e03b4e3ba016cf32512' || '92ad60fbc5fdf74ac10566230efcdbaf2322f9d4f68f1ed3822c2b3904fab1e8' }}
+  CONTRACT_SHA256: ${{ inputs.service_profile == 'memory' && '7b7f0b5dd2598bb89be4163ced702d1c27c34078232aa0a7926bc40426194265' || inputs.service_profile == 'http' && '2f6a96acb0fa7c877c7f42083cd85b728c5779a75173bdcca62d801b306344de' || '92ad60fbc5fdf74ac10566230efcdbaf2322f9d4f68f1ed3822c2b3904fab1e8' }}
   RUNTIME_MANIFEST_PATH: ${{ inputs.service_profile == 'memory' && 'results/manifests/e6h-30690331795.json' || inputs.service_profile == 'http' && 'results/manifests/e7b-30695349303.json' || 'results/manifests/e6f-30678703184.json' }}
   RUNTIME_MANIFEST_SHA256: ${{ inputs.service_profile == 'memory' && '7b112b385729ef092f2026bf35b63926ac985251d70faea2cf03e4936253b27f' || inputs.service_profile == 'http' && '8dffd667e8517a1b628c147f22f5e74755ab7d7d693e8eff1e1704ae387ffd9b' || 'da95b831a0cccf3b16dd45e93e11855a6e0322c5aa163d145c24243b42470ace' }}
   RUNTIME_CONTRACT_PATH: ${{ inputs.service_profile == 'memory' && 'configs/runtime-b10216-memory-service.json' || inputs.service_profile == 'http' && 'configs/runtime-b10216-http-service.json' || 'configs/runtime-b10216-selected-service.json' }}
