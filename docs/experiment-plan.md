@@ -1148,6 +1148,10 @@ capture matched on 13 dependency basenames, with neither forbidden OpenSSL
 library present. Python 3.10 replay was byte-identical at
 `f4e73971…e1857cf`.
 
+Public clean-checkout run `30697133805` passed on the retained E7c result
+commit: native `aarch64`, all 145 tests, 35 immutable evidence hashes, exact
+planner/runtime assertions, and the dependency-free demo smoke test.
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

@@ -60,6 +60,9 @@ authoritative, timestamped record; this file groups the significant additions.
 - Extended the focused suite to 145 tests and the immutable verifier to 35
   hashes, including the corrected complete E7c contract and byte-identical
   native launch manifest.
+- Passed the updated public clean-checkout package on native `aarch64`: all 145
+  tests, 35 hashes, exact E7c dependency/launch assertions, planner/runtime
+  checks, and demo smoke test succeeded.
 - Extended the focused suite to 141 tests and the immutable verifier to 32
   hashes, including the frozen E7b contract and independently replayed native
   dependency-pruning result. The updated evidence row renders without desktop

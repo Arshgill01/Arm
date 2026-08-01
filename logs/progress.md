@@ -1479,3 +1479,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `f4e73971b0c6f2db25be52e365cf611848ec1bb1d738648bb43bdf4c2e1857cf`.
   HTTPS, security, installed-package, energy, other-profile, and full-upstream
   claims remain excluded.
+- Public clean-checkout run `30697133805` passed on exact retained-result commit
+  `915717e`: native `aarch64`, all 145 tests, all 35 immutable hashes, E7c
+  dependency/launch assertions, exact planner/runtime checks, and the
+  dependency-free demo smoke test.

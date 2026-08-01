@@ -40,7 +40,7 @@ public workflow run; compact manifests and reports are committed permanently.
 | Whole-program LTO compiler/build no-win | [E7a `30692292700`](https://github.com/Arshgill01/Arm/actions/runs/30692292700) | [`e7a` manifest](../results/manifests/e7a-30692292700.json) · [`report`](../results/reports/e7a-lto-service.md) | `b48e6c12…b46839` |
 | HTTP-only OpenSSL dependency pruning | [E7b `30695349303`](https://github.com/Arshgill01/Arm/actions/runs/30695349303) | [`e7b` manifest](../results/manifests/e7b-30695349303.json) · [`report`](../results/reports/e7b-openssl-service.md) | `8dffd667…7ffd9b` |
 | Exact HTTP-only dependency-pruned launch | [E7c `30696606993`](https://github.com/Arshgill01/Arm/actions/runs/30696606993) | [`e7c` manifest](../results/manifests/e7c-30696606993.json) · [`report`](../results/reports/e7c-http-runtime-launch.md) | `f4e73971…e1857cf` |
-| Public clean-checkout package validation | [`30695888838`](https://github.com/Arshgill01/Arm/actions/runs/30695888838) | 141 tests, 32 hashes including E7b, exact runtime/plan checks, demo smoke test | passed on native `aarch64` |
+| Public clean-checkout package validation | [`30697133805`](https://github.com/Arshgill01/Arm/actions/runs/30697133805) | 145 tests, 35 hashes including E7c, exact runtime/plan checks, demo smoke test | passed on native `aarch64` |
 
 ## Final selected package
 
