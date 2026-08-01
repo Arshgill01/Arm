@@ -71,3 +71,9 @@ quantizer targets and all 13 reasoning tests passed after the complete series,
 the invalid SVE selection disappeared, and all twelve paired direct Q8 rounds
 improved. This is the current validated series; no external pull request has
 been opened, and the broader upstream CI matrix has not yet run.
+
+E6e separately freezes one broader upstream-equivalent native Arm CPU lane: a
+complete fatal-warnings build with RPC and KleidiAI enabled, followed by every
+test in the upstream `main` CTest label. It is intentionally described as one
+lane rather than the full cross-platform/backend matrix. No lane result is
+accepted until that workflow and its independent ingester pass.

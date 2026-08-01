@@ -1,0 +1,201 @@
+name: Arm E6e upstream-equivalent CPU lane
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  LLAMA_CPP_SHA: 876a4321163249c43ca4e986818fab5ab081f282
+  LLAMA_CPP_TAG: b10216
+  CONTRACT_SHA256: 48f3cd49c173570e493afaf6b231f2622d59730bede83041af9897f09aef3d81
+  FEATURE_PATCH_SHA256: b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f
+  Q8_PATCH_SHA256: 54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab
+  REASONING_PATCH_SHA256: 2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783
+
+jobs:
+  validate:
+    name: Build all and run the upstream main test label
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e6e-${{ github.run_id }}-${{ github.run_attempt }}
+      SOURCE_DIR: /tmp/llama.cpp-E6e
+      BUILD_DIR: /tmp/llama.cpp-E6e-build
+      FEATURE_PATCH: ${{ github.workspace }}/patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch
+      Q8_PATCH: ${{ github.workspace }}/patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch
+      REASONING_PATCH: ${{ github.workspace }}/patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch
+
+    steps:
+      - name: Check out experiment repository
+        uses: actions/checkout@v7
+
+      - name: Install the upstream Arm CPU lane toolchain
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            gcc-14 \
+            g++-14 \
+            git-lfs \
+            libjpeg-dev \
+            libssl-dev \
+            python3-dev \
+            python3-pip \
+            python3-wheel
+          echo 'CC=gcc-14' >> "$GITHUB_ENV"
+          echo 'CXX=g++-14' >> "$GITHUB_ENV"
+          git lfs install
+
+      - name: Capture host and verify frozen inputs
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          {
+            gcc-14 --version
+            g++-14 --version
+            cmake --version
+          } | tee "$EVIDENCE_DIR/compiler.txt"
+          cp experiments/e6e_contract.json "$EVIDENCE_DIR/contract.json"
+          echo "$CONTRACT_SHA256  experiments/e6e_contract.json" \
+            | sha256sum --check --strict
+          echo "$FEATURE_PATCH_SHA256  $FEATURE_PATCH" \
+            | sha256sum --check --strict
+          echo "$Q8_PATCH_SHA256  $Q8_PATCH" \
+            | sha256sum --check --strict
+          echo "$REASONING_PATCH_SHA256  $REASONING_PATCH" \
+            | sha256sum --check --strict
+
+      - name: Pin source and apply the complete patch series
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/ggml-org/llama.cpp.git "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$LLAMA_CPP_SHA"
+          git -C "$SOURCE_DIR" lfs pull
+          test "$(git -C "$SOURCE_DIR" rev-parse HEAD)" = "$LLAMA_CPP_SHA"
+          test "$(git -C "$SOURCE_DIR" describe --tags --exact-match)" = \
+            "$LLAMA_CPP_TAG"
+          test "$(head -c 4 "$SOURCE_DIR/models/ggml-vocab-llama-bpe.gguf")" = \
+            'GGUF'
+          git -C "$SOURCE_DIR" apply --check "$FEATURE_PATCH"
+          git -C "$SOURCE_DIR" apply "$FEATURE_PATCH"
+          git -C "$SOURCE_DIR" apply --check "$Q8_PATCH"
+          git -C "$SOURCE_DIR" apply "$Q8_PATCH"
+          git -C "$SOURCE_DIR" apply --check "$REASONING_PATCH"
+          git -C "$SOURCE_DIR" apply "$REASONING_PATCH"
+          git -C "$SOURCE_DIR" diff --check
+          git -C "$SOURCE_DIR" diff --name-only | sort \
+            | tee "$EVIDENCE_DIR/patched-files.txt"
+          diff -u \
+            <(printf '%s\n' \
+              common/reasoning-budget.cpp \
+              ggml/src/ggml-cpu/CMakeLists.txt \
+              ggml/src/ggml-cpu/arch/arm/quants.c \
+              tests/test-reasoning-budget.cpp) \
+            "$EVIDENCE_DIR/patched-files.txt"
+          git -C "$SOURCE_DIR" diff --binary --full-index \
+            > "$EVIDENCE_DIR/current-series.patch"
+
+      - name: Install upstream Python dependencies
+        run: |
+          set -euo pipefail
+          export PIP_BREAK_SYSTEM_PACKAGES=1
+          python3 -m pip install --upgrade pip setuptools
+          python3 -m pip install "$SOURCE_DIR/gguf-py"
+
+      - name: Configure the complete native Arm build
+        run: |
+          set -euo pipefail
+          set +e
+          cmake -S "$SOURCE_DIR" -B "$BUILD_DIR" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DLLAMA_FATAL_WARNINGS=ON \
+            -DGGML_RPC=ON \
+            -DGGML_CPU_KLEIDIAI=ON \
+            -DGGML_NATIVE=ON \
+            -DLLAMA_BUILD_TESTS=ON \
+            2>&1 | tee "$EVIDENCE_DIR/configure.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "$status" | tee "$EVIDENCE_DIR/configure-exit.txt"
+          test "$status" -eq 0
+          cp "$BUILD_DIR/CMakeCache.txt" "$EVIDENCE_DIR/CMakeCache.txt"
+
+      - name: Build the complete upstream default target
+        run: |
+          set -euo pipefail
+          set +e
+          cmake --build "$BUILD_DIR" --config Release --parallel "$(nproc)" \
+            2>&1 | tee "$EVIDENCE_DIR/build.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "$status" | tee "$EVIDENCE_DIR/build-exit.txt"
+          test "$status" -eq 0
+
+      - name: Run the complete upstream main CTest label
+        run: |
+          set -euo pipefail
+          set +e
+          ctest --test-dir "$BUILD_DIR" \
+            -L main \
+            --verbose \
+            --timeout 900 \
+            --output-junit "$EVIDENCE_DIR/ctest.xml" \
+            2>&1 | tee "$EVIDENCE_DIR/ctest.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "$status" | tee "$EVIDENCE_DIR/ctest-exit.txt"
+
+      - name: Independently ingest and apply the frozen gate
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          contract = Path("experiments/e6e_contract.json")
+          provenance = {
+              "schema_version": 1,
+              "experiment_id": "E6e",
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "git_commit": os.environ["GITHUB_SHA"],
+              "llama_cpp_commit": os.environ["LLAMA_CPP_SHA"],
+              "llama_cpp_tag": os.environ["LLAMA_CPP_TAG"],
+              "contract_sha256": hashlib.sha256(contract.read_bytes()).hexdigest(),
+              "patch_sha256": {
+                  "validated_arm_features": os.environ["FEATURE_PATCH_SHA256"],
+                  "q8_vector_stores": os.environ["Q8_PATCH_SHA256"],
+                  "reasoning_forced_token_guard": os.environ["REASONING_PATCH_SHA256"],
+              },
+          }
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          (evidence / "provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          python3 experiments/e6e_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract experiments/e6e_contract.json \
+            --patch-root . \
+            --output "$EVIDENCE_DIR/summary.json"
+          jq '{status, host, build, tests, validation}' \
+            "$EVIDENCE_DIR/summary.json"
+          test "$(jq -r '.status' "$EVIDENCE_DIR/summary.json")" = \
+            'valid_upstream_arm_cpu_lane'
+
+      - name: Upload E6e evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e6e-upstream-arm-cpu-lane-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90

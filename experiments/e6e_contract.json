@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E6e",
+  "title": "Upstream-equivalent native Arm CPU CI lane",
+  "upstream": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216",
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "reference_workflow": ".github/workflows/build-cpu.yml",
+    "reference_job": "ubuntu arm64"
+  },
+  "patches": [
+    {
+      "name": "validated_arm_features",
+      "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+      "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+    },
+    {
+      "name": "q8_vector_stores",
+      "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+      "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+    },
+    {
+      "name": "reasoning_forced_token_guard",
+      "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+      "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+    }
+  ],
+  "host": {
+    "architecture": "aarch64",
+    "runner": "ubuntu-24.04-arm",
+    "compiler": "gcc-14/g++-14"
+  },
+  "build": {
+    "target": "all",
+    "build_type": "Release",
+    "cmake_options": {
+      "GGML_CPU_KLEIDIAI": true,
+      "GGML_NATIVE": true,
+      "GGML_RPC": true,
+      "LLAMA_BUILD_TESTS": true,
+      "LLAMA_FATAL_WARNINGS": true
+    }
+  },
+  "test": {
+    "ctest_label": "main",
+    "per_test_timeout_seconds": 900,
+    "minimum_tests": 47,
+    "maximum_failures": 0,
+    "maximum_errors": 0,
+    "maximum_skipped": 0,
+    "required_tests": [
+      "test-reasoning-budget",
+      "test-quantize-fns",
+      "test-quantize-perf"
+    ]
+  },
+  "selection": {
+    "weighted_score_used": false,
+    "claim_scope": "one upstream-equivalent native Arm CPU build and main CTest lane for the frozen three-patch series only"
+  }
+}

@@ -428,6 +428,23 @@ This accepts current-revision applicability, targeted correctness, and direct
 Q8 hot-path performance only; it adds no whole-model or upstream-CI claim. See
 [`../results/reports/e6d-current-upstream-patches.md`](../results/reports/e6d-current-upstream-patches.md).
 
+## E6e frozen upstream-equivalent Arm CPU lane
+
+E6e broadens E6d's targeted proof without calling one job the full upstream
+matrix. It pins the same llama.cpp `b10216` source and three patch files, then
+mirrors upstream's `build-cpu.yml` `ubuntu arm64` lane on the native
+`ubuntu-24.04-arm` runner. GCC/G++ 14, the full default build target, fatal
+warnings, RPC, and the complete `main` CTest label are retained; KleidiAI is
+explicitly enabled so the Arm feature patch is exercised.
+
+Acceptance requires the complete build to pass, at least the 47 tests registered
+by the frozen source to execute with zero failures, errors, or skips, and the
+reasoning-budget plus both quantizer tests to appear among the clean passes.
+This is a source/build/unit-integration gate with no performance or model run.
+Its maximum claim is one upstream-equivalent native Arm CPU lane for the frozen
+series. Exact inputs and gates are in
+[`../experiments/e6e_contract.json`](../experiments/e6e_contract.json).
+
 ## E5a frozen planner-API protocol
 
 E5a is a product/API concurrency gate, not the final inference-server E5 result.

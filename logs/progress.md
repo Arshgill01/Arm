@@ -1060,3 +1060,15 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   exact retained-result commit `b9dbd76`: 106 tests, all 16 immutable hashes,
   E6d mechanism and gate checks, exact planner recomputation, and the
   dependency-free demo smoke test.
+
+## 2026-08-01 — E6e upstream-equivalent Arm CPU lane frozen
+
+- Audited llama.cpp's pinned `build-cpu.yml` `ubuntu arm64` job and the test
+  registry at `b10216`. The source registers 47 tests under the `main` label.
+- Froze one broader native lane for the complete patch series: GCC/G++ 14,
+  Release, fatal warnings, RPC, native tuning, explicit KleidiAI, the complete
+  default build target, and the full upstream `main` CTest label.
+- Acceptance requires zero test failures, errors, or skips and explicitly binds
+  the reasoning-budget, quantizer-correctness, and quantizer-performance tests.
+  This can establish one upstream-equivalent Arm CPU lane only; it does not
+  represent the complete cross-platform or accelerator matrix.
