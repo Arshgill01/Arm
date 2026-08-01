@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import copy
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
 
 from experiments.e6f_ingest import (
+    capture_server_version,
     evaluate_upgrade,
     expected_server_argv,
     validate_runtime_recipe,
@@ -58,6 +60,18 @@ class E6fIngestTests(unittest.TestCase):
             3, len(self.contract["runtimes"]["current_patched"]["patches"])
         )
         self.assertIn("energy", self.contract["claim_boundary"].lower())
+
+    def test_server_version_captures_stderr(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            server = Path(temporary) / "llama-server"
+            server.write_text(
+                "#!/bin/sh\nprintf 'version: 10216 (876a43211)\\n' >&2\n"
+            )
+            server.chmod(server.stat().st_mode | 0o100)
+            self.assertEqual(
+                "version: 10216 (876a43211)\n",
+                capture_server_version(os.fspath(server)),
+            )
 
     def test_runtime_recipe_binds_source_model_and_service(self) -> None:
         for runtime_name in self.contract["runtimes"]:

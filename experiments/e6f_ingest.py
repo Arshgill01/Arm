@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -31,6 +32,18 @@ except ModuleNotFoundError as error:
         validate_probe,
     )
     from e5j_ingest import validate_process_cpu
+
+
+def capture_server_version(server: str) -> str:
+    """Capture llama-server's version stream, which is emitted on stderr."""
+    completed = subprocess.run(
+        [server, "--version"],
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
+    return completed.stdout
 
 
 ARTIFACT_INPUTS = {

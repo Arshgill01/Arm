@@ -1160,3 +1160,10 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   median/p95 latency and CPU time within 5%, readiness within 10%, and maximum
   RSS within 64 MiB. Even a pass is only an upgrade candidate until a separate
   product launch contract is integrated and verified.
+- Native attempt `30678221353` completed both exact builds, both runtime buffer
+  proofs, and all four measurement cells, then stopped during ingestion. The
+  validator correctly rejected empty version evidence: `llama-server --version`
+  emits on stderr, while both new capture sites retained only stdout. Both sites
+  now combine stdout/stderr and a regression test reproduces the stderr-only
+  behavior. The frozen sources, patches, model, service, order, and gates did not
+  change.

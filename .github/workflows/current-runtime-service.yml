@@ -191,7 +191,7 @@ jobs:
             grep -q '^LLAMA_BUILD_TESTS:BOOL=OFF$' "$output_dir/CMakeCache.txt"
             cmake --build "$build_dir" --target llama-server llama-bench \
               --parallel "$(nproc)" 2>&1 | tee "$output_dir/build.log"
-            "$build_dir/bin/llama-server" --version \
+            "$build_dir/bin/llama-server" --version 2>&1 \
               | tee "$output_dir/server-version.txt"
             "$build_dir/bin/llama-server" --help \
               > "$output_dir/server-help.txt"
@@ -265,6 +265,8 @@ jobs:
           import subprocess
           from pathlib import Path
 
+          from experiments.e6f_ingest import capture_server_version
+
           contract = json.loads(Path("experiments/e6f_contract.json").read_text())
           models = json.loads(Path("experiments/e3f_models.json").read_text())
           runtime_name = os.environ["RUNTIME_NAME"]
@@ -293,9 +295,7 @@ jobs:
               "runtime_name": runtime_name,
               "source": contract["runtimes"][runtime_name],
               "server_path": server,
-              "server_version": subprocess.run(
-                  [server, "--version"], check=True, capture_output=True, text=True
-              ).stdout,
+              "server_version": capture_server_version(server),
               "model": {
                   "path": model_path,
                   "sha256": selected["model_sha256"],
