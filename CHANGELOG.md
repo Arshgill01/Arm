@@ -56,6 +56,11 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Arm source contributions
 
+- Froze E7a as a matched native Arm whole-program optimization ablation for the
+  exact selected service. It proves `GGML_LTO` from build commands, hashes and
+  retains both transitive build-local runtime closures, and accepts only a
+  predeclared throughput or footprint benefit behind shared quality, latency,
+  CPU-time, readiness, RSS, and build-cost guardrails.
 - Rebased the validated-feature correction onto llama.cpp `b10216`; the Q8
   vector-store and reasoning-budget patches applied byte for byte.
 - Reproduced both upstream source failures, passed all targeted tests after the

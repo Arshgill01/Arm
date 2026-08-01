@@ -14,6 +14,7 @@ No headline result is accepted until the experiment contract in
 | E4 | Can a bounded tuner beat defaults efficiently? | Native Arm workload | Selected configuration improves a declared objective without crossing quality/memory/SLO constraints; search overhead reported |
 | E5 | Does the choice survive real E2E application or server concurrency? | HTTP service or reference voice app | TTFT/E2E latency, p50/p95, throughput, failures, and RSS are measured repeatedly |
 | E6 | Can profiler/compiler evidence drive a source-level Arm improvement? | Stable hot path | Patch has tests, before/after result, assembly/profile evidence, and no quality regression |
+| E7a | Can whole-program LTO improve the selected native Arm service or its shipped runtime footprint? | Exact patched `b10216` fast service | Repeated quality-gated service evidence clears a predeclared performance or footprint branch without crossing common guardrails |
 | E7 | Is the whole project reproducible and judge-readable? | Clean native Arm job | One command emits manifest, raw data, summary, Pareto front, and demo assets |
 
 ## E2 frozen protocol
@@ -1010,6 +1011,35 @@ seconds, maximum RSS was 2,381,040 KiB, and the one-slot/metrics/process checks
 passed. Independent Python 3.10 ingestion matched the uploaded result byte for
 byte at `2bcbd7e1…06d2`. See
 [`../results/reports/e6i-current-runtime-memory-launch.md`](../results/reports/e6i-current-runtime-memory-launch.md).
+
+## E7a frozen LTO service and runtime-footprint ablation
+
+E7a opens the compiler/build front that the selected service has not yet tested.
+One native Arm job checks out exact patched llama.cpp `b10216` and creates two
+separate Release, native, KleidiAI server builds. Every source, compiler,
+model, service, request, and order setting is identical; the only profile
+difference is upstream `GGML_LTO=OFF` versus `ON`. Build-command evidence must
+show `-flto` only in the candidate.
+
+The job measures build wall time and copies the server plus every unique
+transitive shared library resolved within its own build root into the raw
+artifact. Each copied file, its size, and its SHA-256 are independently checked;
+system libraries are excluded from the deployment-footprint comparison. It then
+runs four fresh services in off–on–on–off order. Each cell performs two fixed
+warmups and all 30 selected requests with exact prefix-cache, PID-bound CPU,
+readiness, latency, throughput, RSS, slot, metrics, and process evidence.
+
+LTO is eligible only if it reproduces the selected 23/30 prediction map with
+zero drift and clears every common guardrail: median and p95 latency and CPU
+seconds/request at most 1.05x baseline, readiness at most 1.15x, RSS growth no
+greater than 64 MiB, every process below 8 GiB, and build time at most 2x. It
+must also clear one disjunctive benefit branch: at least 1.03x throughput with
+runtime closure at most 1.05x, or at least 98% throughput with runtime closure
+at most 0.95x. No weighted score is used and a miss retains LTO-off. Build time
+is a promotion cost, not a headline optimization. A pass is only an upgrade
+candidate for this exact service and still requires a separate product launch
+integration. Exact details are frozen in
+[`../experiments/e7a_contract.json`](../experiments/e7a_contract.json).
 
 ## E4a frozen accept-backlog tuner
 

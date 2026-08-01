@@ -1314,3 +1314,26 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Public clean-checkout run `30691572261` passed on exact retained-result commit
   `60aa902`: 128 tests, all 28 immutable hashes, both current-runtime launch
   integrations, exact planner/runtime assertions, and demo smoke.
+
+## 2026-08-01 — E7a LTO compiler/build ablation frozen
+
+- Audited the remaining optimization fronts after E6i. All selected-service
+  builds used the default Release `-O3` path with upstream `GGML_LTO=OFF`, so
+  whole-program optimization remained an unmeasured build front.
+- Inspected exact llama.cpp `b10216` source at commit `876a432…f282`: the
+  `GGML_LTO` option is off by default and enables CMake interprocedural
+  optimization only after `check_ipo_supported` succeeds.
+- Froze exact patched `b10216`, GCC, native/KleidiAI, model, fast-service,
+  workload, and reverse-balanced order. `GGML_LTO=OFF` versus `ON` is the only
+  profile difference, proven from each CMake cache and full Ninja command set.
+- Added hashed transitive build-local runtime-closure capture. The raw artifact
+  contains the exact server/shared-library bytes rather than trusting a derived
+  size alone; system libraries are explicitly excluded.
+- Predeclared two non-weighted benefit paths: at least 1.03x throughput with no
+  more than 1.05x closure, or at least 5% smaller closure while retaining at
+  least 98% throughput. Exact quality plus latency, CPU-time, readiness, RSS,
+  and build-cost guardrails apply to both paths. A miss retains LTO-off.
+- Contract SHA-256 is
+  `2d57010a168a777cc5de2ed2a7d6e0f11900d14a30d44ded6db34ecd85b1aa12`.
+  The result cannot support energy, other-model/service/backend, or automatic
+  product-promotion claims.

@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E7a",
+  "title": "Link-time optimization service and runtime-footprint ablation",
+  "hypothesis": "Upstream GGML_LTO can either improve the exact patched b10216 fast service by at least 3 percent throughput without regressions or reduce its transitive local runtime closure by at least 5 percent while retaining at least 98 percent throughput.",
+  "controlled_difference": "Both profiles use the same exact patched llama.cpp source, GCC toolchain, native/KleidiAI Release configuration, selected model, service, workload, order balance, and host. GGML_LTO=OFF versus ON is the only build-profile difference.",
+  "inputs": {
+    "manifest_path": "results/manifests/e3f-30656151957.json",
+    "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+  },
+  "runtime": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216",
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "changed_files": [
+      "common/reasoning-budget.cpp",
+      "ggml/src/ggml-cpu/CMakeLists.txt",
+      "ggml/src/ggml-cpu/arch/arm/quants.c",
+      "tests/test-reasoning-budget.cpp"
+    ],
+    "patches": [
+      {
+        "name": "validated_arm_features",
+        "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "name": "q8_vector_stores",
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "name": "reasoning_forced_token_guard",
+        "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      }
+    ]
+  },
+  "build": {
+    "common_cmake_cache_entries": [
+      "CMAKE_BUILD_TYPE:STRING=Release",
+      "CMAKE_GENERATOR:INTERNAL=Ninja",
+      "GGML_CPU_KLEIDIAI:BOOL=ON",
+      "GGML_NATIVE:BOOL=ON",
+      "LLAMA_BUILD_EXAMPLES:BOOL=OFF",
+      "LLAMA_BUILD_SERVER:BOOL=ON",
+      "LLAMA_BUILD_TESTS:BOOL=OFF",
+      "LLAMA_CURL:UNINITIALIZED=OFF"
+    ],
+    "profiles": {
+      "lto_off": {
+        "ggml_lto": false,
+        "required_command_patterns": [],
+        "forbidden_command_patterns": [
+          "-flto"
+        ]
+      },
+      "lto_on": {
+        "ggml_lto": true,
+        "required_command_patterns": [
+          "-flto"
+        ],
+        "forbidden_command_patterns": []
+      }
+    },
+    "runtime_closure": "The server plus every unique transitive shared library resolved under its own build root; system libraries are excluded. Resolved files are copied into the raw artifact and hashed individually."
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "reference_correct": 23,
+    "reference_total": 30,
+    "reference_accuracy": 0.7666666666666667,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824
+  },
+  "service": {
+    "batch_size": 64,
+    "client_concurrency": 1,
+    "context_per_slot": 256,
+    "flash_attention": "auto",
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "micro_batch_size": 64,
+    "prompt_cache": true,
+    "server_parallel_slots": 1,
+    "threads": 4,
+    "warmup_slot_ids": [
+      0,
+      0
+    ],
+    "weight_repack": true
+  },
+  "request": {
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ],
+    "measured_tasks": 30,
+    "max_output_tokens": 8,
+    "instruction_role": "system",
+    "chat_template_mode": "model_jinja_system_instruction",
+    "temperature": 0.0,
+    "seed": 424242,
+    "timeout_seconds": 30.0
+  },
+  "execution": {
+    "baseline_profile": "lto_off",
+    "candidate_profile": "lto_on",
+    "repetitions_per_profile": 2,
+    "fresh_server_per_cell": true,
+    "order": [
+      {
+        "profile": "lto_off",
+        "repetition": 1
+      },
+      {
+        "profile": "lto_on",
+        "repetition": 1
+      },
+      {
+        "profile": "lto_on",
+        "repetition": 2
+      },
+      {
+        "profile": "lto_off",
+        "repetition": 2
+      }
+    ]
+  },
+  "acceptance": {
+    "http_status": 200,
+    "termination_reason": "stop",
+    "request_failures": 0,
+    "reference_prediction_mismatches": 0,
+    "minimum_candidate_cached_tokens_per_request": 1,
+    "performance_branch_minimum_throughput_ratio": 1.03,
+    "performance_branch_maximum_runtime_closure_ratio": 1.05,
+    "footprint_branch_minimum_throughput_ratio": 0.98,
+    "footprint_branch_maximum_runtime_closure_ratio": 0.95,
+    "maximum_median_http_latency_ratio": 1.05,
+    "maximum_p95_http_latency_ratio": 1.05,
+    "maximum_cpu_seconds_per_request_ratio": 1.05,
+    "maximum_ready_time_ratio": 1.15,
+    "maximum_candidate_rss_increase_kib": 65536,
+    "maximum_build_seconds_ratio": 2.0,
+    "maximum_process_rss_kib": 8388608,
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ]
+  },
+  "selection_policy": {
+    "eligible_profiles": "LTO must reproduce exact quality and prefix reuse, pass every latency/CPU/readiness/RSS/build-cost guardrail, and clear either the performance branch or footprint branch without a weighted score.",
+    "tie_break_order": [
+      "eligible profile",
+      "higher repeated median throughput",
+      "smaller transitive local runtime closure",
+      "lower pooled p95 HTTP latency"
+    ],
+    "no_win_rule": "Keep GGML_LTO disabled when the candidate misses either every benefit branch or any common guardrail; retain the complete negative result without changing thresholds.",
+    "weighted_score_used": false
+  },
+  "claim_boundary": "E7a can establish a compiler/build optimization or a valid no-win only for the exact patched b10216 native Arm fast service. Build time is a measured promotion cost, not an optimization claim. It does not establish energy savings, another model/service/backend, full upstream coverage, or automatic product promotion without a separate launch integration."
+}

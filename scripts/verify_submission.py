@@ -103,6 +103,9 @@ EXPECTED_HASHES = {
     "experiments/e6i_contract.json": (
         "7b7f0b5dd2598bb89be4163ced702d1c27c34078232aa0a7926bc40426194265"
     ),
+    "experiments/e7a_contract.json": (
+        "2d57010a168a777cc5de2ed2a7d6e0f11900d14a30d44ded6db34ecd85b1aa12"
+    ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
     ),
@@ -863,6 +866,36 @@ def main() -> int:
         or memory_launch_validation.get("weighted_score_used") is not False
     ):
         raise ValueError("retained current-runtime memory launch differs from E6i")
+
+    lto_contract = load_object(ROOT / "experiments/e7a_contract.json")
+    lto_profiles = lto_contract.get("build", {}).get("profiles", {})
+    lto_execution = lto_contract.get("execution", {})
+    lto_acceptance = lto_contract.get("acceptance", {})
+    if (
+        lto_contract.get("schema_version") != 1
+        or lto_contract.get("experiment_id") != "E7a"
+        or lto_contract.get("runtime", {}).get("commit")
+        != runtime_record.get("selected_commit")
+        or lto_contract.get("runtime", {}).get("source_diff_sha256")
+        != EXPECTED_HASHES["patches/llama.cpp/b10216/e6f-current-series.patch"]
+        or lto_contract.get("service")
+        != runtime_upgrade.get("contract", {}).get("service")
+        or lto_profiles.get("lto_off", {}).get("ggml_lto") is not False
+        or lto_profiles.get("lto_on", {}).get("ggml_lto") is not True
+        or lto_execution.get("baseline_profile") != "lto_off"
+        or lto_execution.get("candidate_profile") != "lto_on"
+        or [item.get("profile") for item in lto_execution.get("order", [])]
+        != ["lto_off", "lto_on", "lto_on", "lto_off"]
+        or lto_acceptance.get("performance_branch_minimum_throughput_ratio")
+        != 1.03
+        or lto_acceptance.get("footprint_branch_minimum_throughput_ratio")
+        != 0.98
+        or lto_acceptance.get("footprint_branch_maximum_runtime_closure_ratio")
+        != 0.95
+        or lto_contract.get("selection_policy", {}).get("weighted_score_used")
+        is not False
+    ):
+        raise ValueError("frozen E7a LTO ablation differs from selected service")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")
