@@ -1420,3 +1420,28 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Public clean-checkout run `30695888838` passed on exact retained-result commit
   `d00be1c`: 141 tests, all 32 immutable hashes, E7b contract/result assertions,
   exact planner/runtime checks, and the dependency-free demo smoke test.
+
+## 2026-08-01 — E7c HTTP-only launch integration frozen
+
+- Added a third evidence-bound current-runtime contract rather than weakening
+  the validated E6g fast or E6i memory contracts. It accepts only the retained
+  E7b candidate, exact patched b10216 source, LTO-off/OpenSSL-off CMake cache,
+  repacked fast service, and absence of `libssl.so.3`/`libcrypto.so.3` from the
+  local server's dynamic dependency inventory.
+- Generalized the Pareto64 runtime validator for E7b's build-profile evidence
+  shape. The adapter still binds model/runtime input hashes, source diff,
+  build-root relationship, server path/version/hash, and exact service before
+  launch; it now also runs `ldd`, fails on unresolved/forbidden dependencies,
+  and records the observed basenames in the launch recipe.
+- The workflow independently retains a second raw `ldd` capture. E7c ingestion
+  requires that inventory to match the adapter recipe before accepting the live
+  30-request quality/cache/readiness/RSS/process proof.
+- Python 3.10 replays of the shared E6g and E6i ingester paths remained
+  byte-identical at `13496b5e…404ac9` and `2bcbd7e1…06d2` after the
+  generalization.
+- Runtime-contract SHA-256 is
+  `95cb669b70de98851b8bb2f04d7be6650745e0fbd39aa4d3256b5bb9c2a2b928`;
+  experiment-contract SHA-256 is
+  `bdeedaf7d63fc7d91b261efa078b9fc3702525d29a6b8e03b4e3ba016cf32512`.
+  HTTPS, security, installed-package, energy, other-profile, and full-upstream
+  claims remain explicitly excluded.

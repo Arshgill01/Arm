@@ -8,6 +8,11 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Product
 
+- Froze E7c as the separate fail-closed integration for E7b's HTTP-only build.
+  The launcher now understands E7b's evidence shape, binds the OpenSSL-off cache
+  and server binary, rejects either forbidden dynamic dependency, records the
+  observed `ldd` inventory in its recipe, and still admits only the exact
+  repacked loopback service. E6g/E6i replays remain byte-identical.
 - Retained patched llama.cpp `b10216` as a bounded selected-service upgrade
   candidate after exact predictions and every frozen performance/resource gate
   passed against clean `b10208`; automatic promotion remains disabled.

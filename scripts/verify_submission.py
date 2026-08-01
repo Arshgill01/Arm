@@ -97,6 +97,9 @@ EXPECTED_HASHES = {
     "configs/runtime-b10216-memory-service.json": (
         "a3d1e066700dfe4ea3ad9dff8f06fc0dfd508adae961b7e32c9f3d2574ebc008"
     ),
+    "configs/runtime-b10216-http-service.json": (
+        "95cb669b70de98851b8bb2f04d7be6650745e0fbd39aa4d3256b5bb9c2a2b928"
+    ),
     "patches/llama.cpp/b10216/e6f-current-series.patch": (
         "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893"
     ),
@@ -114,6 +117,9 @@ EXPECTED_HASHES = {
     ),
     "experiments/e7b_contract.json": (
         "2c5cd9f8d84ef5f77fdd14c66a7822189ec09ff6688743e26f7f2fd7c77abea9"
+    ),
+    "experiments/e7c_contract.json": (
+        "bdeedaf7d63fc7d91b261efa078b9fc3702525d29a6b8e03b4e3ba016cf32512"
     ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
@@ -1041,6 +1047,71 @@ def main() -> int:
         or openssl_validation.get("weighted_score_used") is not False
     ):
         raise ValueError("retained E7b dependency-pruning result differs")
+
+    http_runtime_contract = load_object(
+        ROOT / "configs/runtime-b10216-http-service.json"
+    )
+    http_runtime_manifest = http_runtime_contract.get("runtime_manifest", {})
+    http_model_manifest = http_runtime_contract.get(
+        "model_selection_manifest", {}
+    )
+    http_runtime_build = http_runtime_contract.get("build", {})
+    if (
+        http_runtime_contract.get("schema_version") != 1
+        or http_runtime_contract.get("promotion_mode")
+        != "explicit_evidence_bound_upgrade"
+        or http_runtime_contract.get("selected_candidate")
+        != openssl_result.get("selection", {}).get("candidate")
+        or http_runtime_manifest.get("experiment_id") != "E7b"
+        or http_runtime_manifest.get("sha256")
+        != EXPECTED_HASHES["results/manifests/e7b-30695349303.json"]
+        or http_model_manifest.get("sha256")
+        != EXPECTED_HASHES["results/manifests/e3f-30656151957.json"]
+        or http_runtime_contract.get("runtime") != runtime_record
+        or http_runtime_build.get("selected_profile") != "openssl_off"
+        or "GGML_LTO:BOOL=OFF"
+        not in http_runtime_build.get("cmake_cache_entries", [])
+        or "LLAMA_OPENSSL:BOOL=OFF"
+        not in http_runtime_build.get("cmake_cache_entries", [])
+        or http_runtime_build.get("forbidden_dynamic_dependency_basenames")
+        != ["libcrypto.so.3", "libssl.so.3"]
+        or http_runtime_contract.get("service", {}).get("weight_repack")
+        is not True
+    ):
+        raise ValueError("HTTP-only runtime launch contract differs from E7b")
+    validate_runtime_upgrade_service(
+        openssl_result,
+        http_runtime_contract,
+        http_runtime_contract["service"],
+    )
+
+    http_launch_contract = load_object(ROOT / "experiments/e7c_contract.json")
+    http_launch_inputs = http_launch_contract.get("inputs", {})
+    http_launch_service = dict(http_launch_contract.get("service", {}))
+    http_launch_service.pop("client_concurrency", None)
+    http_launch_service.pop("explicit_batch_arguments", None)
+    http_launch_service.pop("warmup_slot_ids", None)
+    http_launch_service["parallel_slots"] = http_launch_service.pop(
+        "server_parallel_slots", None
+    )
+    if (
+        http_launch_contract.get("schema_version") != 1
+        or http_launch_contract.get("experiment_id") != "E7c"
+        or http_launch_inputs.get("runtime_manifest_sha256")
+        != EXPECTED_HASHES["results/manifests/e7b-30695349303.json"]
+        or http_launch_inputs.get("runtime_contract_sha256")
+        != EXPECTED_HASHES["configs/runtime-b10216-http-service.json"]
+        or http_launch_service != http_runtime_contract.get("service")
+        or http_launch_contract.get("acceptance", {}).get(
+            "forbidden_runtime_dependency_basenames"
+        )
+        != ["libcrypto.so.3", "libssl.so.3"]
+        or http_launch_contract.get("selection_policy", {}).get(
+            "weighted_score_used"
+        )
+        is not False
+    ):
+        raise ValueError("frozen E7c launch integration differs from E7b")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

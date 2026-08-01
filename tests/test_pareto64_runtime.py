@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -95,6 +96,11 @@ class Pareto64RuntimeTests(unittest.TestCase):
             "LLAMA_BUILD_TESTS:BOOL=OFF",
             "LLAMA_CURL:UNINITIALIZED=OFF",
         ]
+        if experiment_id == "E7b":
+            shutil.copy2("/bin/true", server_path)
+            cache_entries.extend(
+                ["GGML_LTO:BOOL=OFF", "LLAMA_OPENSSL:BOOL=OFF"]
+            )
         (build_root / "CMakeCache.txt").write_text(
             "\n".join(
                 [*cache_entries, f"CMAKE_HOME_DIRECTORY:INTERNAL={source_root}"]
@@ -124,51 +130,86 @@ class Pareto64RuntimeTests(unittest.TestCase):
         status = {
             "E6f": "valid_current_runtime_upgrade_candidate",
             "E6h": "valid_current_runtime_memory_tier_upgrade_candidate",
+            "E7b": "valid_http_dependency_pruning_candidate",
         }[experiment_id]
         claim_flag = {
             "E6f": "upgrade_candidate_claim_allowed",
             "E6h": "memory_tier_upgrade_candidate_claim_allowed",
+            "E7b": "http_dependency_pruning_claim_allowed",
         }[experiment_id]
         baseline_commit = "9d9a6d29f6b981cc7f41983d26e56485c6af1811"
-        runtime_manifest = {
-            "schema_version": 1,
-            "experiment_id": experiment_id,
-            "status": status,
-            "contract": {
-                "inputs": {
-                    "manifest_sha256": hashlib.sha256(
-                        model_manifest_path.read_bytes()
-                    ).hexdigest()
+        common_contract = {
+            "inputs": {
+                "manifest_sha256": hashlib.sha256(
+                    model_manifest_path.read_bytes()
+                ).hexdigest()
+            },
+            "selected": {"candidate": selected},
+            "service": service,
+        }
+        common_validation = {
+            claim_flag: True,
+            "automatic_product_promotion_allowed": False,
+            "exact_patch_series_verified": True,
+            "exact_model_verified": True,
+        }
+        if experiment_id == "E7b":
+            runtime_manifest = {
+                "schema_version": 1,
+                "experiment_id": experiment_id,
+                "status": status,
+                "contract": {
+                    **common_contract,
+                    "runtime": {"commit": selected_commit, "patches": patches},
+                    "execution": {"candidate_profile": "openssl_off"},
                 },
-                "selected": {"candidate": selected},
-                "execution": {"candidate_runtime": "current_patched"},
-                "runtimes": {
-                    "baseline": {"commit": baseline_commit, "patches": []},
-                    "current_patched": {
-                        "commit": selected_commit,
-                        "patches": patches,
+                "selection": {"selected_profile": "openssl_off"},
+                "hypothesis": {
+                    "passed": True,
+                    "dependency_pruning_passed": True,
+                },
+                "validation": common_validation,
+                "build_profiles": {"openssl_off": {"llama_openssl": False}},
+                "performance": {
+                    "openssl_on": {
+                        "quality": {"exact_selected_predictions": True}
+                    },
+                    "openssl_off": {
+                        "quality": {"exact_selected_predictions": True}
                     },
                 },
-                "service": service,
-            },
-            "selection": {
-                "selected_runtime": "current_patched",
-                "selected_commit": selected_commit,
-            },
-            "hypothesis": {"passed": True},
-            "validation": {
-                claim_flag: True,
-                "automatic_product_promotion_allowed": False,
-                "exact_patch_series_verified": True,
-                "exact_model_verified": True,
-            },
-            "performance": {
-                "baseline": {"quality": {"exact_selected_predictions": True}},
-                "current_patched": {
-                    "quality": {"exact_selected_predictions": True}
+            }
+        else:
+            runtime_manifest = {
+                "schema_version": 1,
+                "experiment_id": experiment_id,
+                "status": status,
+                "contract": {
+                    **common_contract,
+                    "execution": {"candidate_runtime": "current_patched"},
+                    "runtimes": {
+                        "baseline": {"commit": baseline_commit, "patches": []},
+                        "current_patched": {
+                            "commit": selected_commit,
+                            "patches": patches,
+                        },
+                    },
                 },
-            },
-        }
+                "selection": {
+                    "selected_runtime": "current_patched",
+                    "selected_commit": selected_commit,
+                },
+                "hypothesis": {"passed": True},
+                "validation": common_validation,
+                "performance": {
+                    "baseline": {
+                        "quality": {"exact_selected_predictions": True}
+                    },
+                    "current_patched": {
+                        "quality": {"exact_selected_predictions": True}
+                    },
+                },
+            }
         runtime_manifest_path = root / "runtime-manifest.json"
         runtime_manifest_path.write_text(json.dumps(runtime_manifest))
         contract_service = dict(service)
@@ -208,6 +249,17 @@ class Pareto64RuntimeTests(unittest.TestCase):
             "build": {
                 "server_relative_path": "bin/llama-server",
                 "cmake_cache_entries": cache_entries,
+                **(
+                    {
+                        "selected_profile": "openssl_off",
+                        "forbidden_dynamic_dependency_basenames": [
+                            "libcrypto.so.3",
+                            "libssl.so.3",
+                        ],
+                    }
+                    if experiment_id == "E7b"
+                    else {}
+                ),
             },
             "service": contract_service,
             "claim_boundary": "test boundary",
@@ -824,6 +876,80 @@ class Pareto64RuntimeTests(unittest.TestCase):
                 "E6h",
                 memory_recipe["selection"]["runtime_upgrade"]["experiment_id"],
             )
+
+            http_root = root / "http-upgrade"
+            http_root.mkdir()
+            http_upgrade = self.runtime_upgrade_fixture(
+                http_root,
+                paths["manifest"],
+                selected,
+                experiment_id="E7b",
+            )
+            http_recipe = prepare_launch(
+                manifest=manifest,
+                constraints=constraints,
+                models=models,
+                contract=contract,
+                manifest_path=paths["manifest"],
+                constraints_path=paths["constraints"],
+                models_path=paths["models"],
+                contract_path=paths["contract"],
+                model_root=model_root,
+                server_path=http_upgrade["server_path"],
+                version_output=f"version ({http_upgrade['selected_commit'][:9]})",
+                host="127.0.0.1",
+                port=18081,
+                parallel=1,
+                runtime_manifest=http_upgrade["manifest"],
+                runtime_contract=http_upgrade["contract"],
+                runtime_manifest_path=http_upgrade["manifest_path"],
+                runtime_contract_path=http_upgrade["contract_path"],
+                runtime_source_root=http_upgrade["source_root"],
+                runtime_build_root=http_upgrade["build_root"],
+            )
+            self.assertEqual(
+                "E7b", http_recipe["selection"]["runtime_upgrade"]["experiment_id"]
+            )
+            dependencies = http_recipe["runtime"]["upgrade_provenance"][
+                "dynamic_dependency_basenames"
+            ]
+            self.assertNotIn("libssl.so.3", dependencies)
+            self.assertNotIn("libcrypto.so.3", dependencies)
+
+            invalid_http = copy.deepcopy(http_upgrade["contract"])
+            invalid_http["build"]["forbidden_dynamic_dependency_basenames"].append(
+                "libc.so.6"
+            )
+            invalid_http["runtime_manifest"]["sha256"] = http_upgrade["contract"][
+                "runtime_manifest"
+            ]["sha256"]
+            invalid_http_path = http_root / "invalid-runtime-contract.json"
+            invalid_http_path.write_text(json.dumps(invalid_http))
+            with self.assertRaisesRegex(ValueError, "forbidden dynamic dependency"):
+                prepare_launch(
+                    manifest=manifest,
+                    constraints=constraints,
+                    models=models,
+                    contract=contract,
+                    manifest_path=paths["manifest"],
+                    constraints_path=paths["constraints"],
+                    models_path=paths["models"],
+                    contract_path=paths["contract"],
+                    model_root=model_root,
+                    server_path=http_upgrade["server_path"],
+                    version_output=(
+                        f"version ({http_upgrade['selected_commit'][:9]})"
+                    ),
+                    host="127.0.0.1",
+                    port=18081,
+                    parallel=1,
+                    runtime_manifest=http_upgrade["manifest"],
+                    runtime_contract=invalid_http,
+                    runtime_manifest_path=http_upgrade["manifest_path"],
+                    runtime_contract_path=invalid_http_path,
+                    runtime_source_root=http_upgrade["source_root"],
+                    runtime_build_root=http_upgrade["build_root"],
+                )
 
             invalid_service = dict(upgrade["service"])
             invalid_service["threads"] = 3

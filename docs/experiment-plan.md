@@ -16,6 +16,7 @@ No headline result is accepted until the experiment contract in
 | E6 | Can profiler/compiler evidence drive a source-level Arm improvement? | Stable hot path | Patch has tests, before/after result, assembly/profile evidence, and no quality regression |
 | E7a | Can whole-program LTO improve the selected native Arm service or its shipped runtime footprint? | Exact patched `b10216` fast service | Repeated quality-gated service evidence clears a predeclared performance or footprint branch without crossing common guardrails |
 | E7b | Can the loopback-only HTTP service drop unused HTTPS dependencies? | Exact patched `b10216` fast service | OpenSSL-off removes both frozen dependency edges, adds none, preserves quality, and clears every service/resource guardrail |
+| E7c | Can the product launch that exact dependency-pruned service without broadening its claims? | E7b-bound Pareto64 adapter | Source/build/binary/cache/`ldd` provenance passes, then the live HTTP service reproduces quality, cache reuse, readiness, and RSS gates |
 | E7 | Is the whole project reproducible and judge-readable? | Clean native Arm job | One command emits manifest, raw data, summary, Pareto front, and demo assets |
 
 ## E2 frozen protocol
@@ -1108,6 +1109,31 @@ launch integration; it is not yet an automatic product default. See
 Public clean-checkout run `30695888838` then passed all 141 tests, 32 immutable
 hashes, E7b assertions, planner/runtime checks, and demo smoke on exact retained
 commit `d00be1c`.
+
+## E7c frozen HTTP-only launch integration
+
+E7c closes E7b's deliberate product boundary. A new immutable runtime contract
+binds the retained E7b manifest, selected E3f model, exact three-patch b10216
+source, repacked fast-service settings, `GGML_LTO=OFF`, and
+`LLAMA_OPENSSL=OFF`. It also requires `libssl.so.3` and `libcrypto.so.3` to be
+absent from the local server's dynamic dependency inventory.
+
+One native Arm job rebuilds that exact source/profile and launches it only
+through `python -m pareto64 launch`. Before starting the server, the adapter
+recomputes the model plan, validates both input hashes, source commit and
+full-index diff, CMake source/build binding and required cache entries, server
+path/version/hash, and a fresh `ldd` inventory. Those dependency names are
+embedded in the recipe; the independent ingester compares them with a separately
+retained raw `ldd` capture from the same hashed binary.
+
+The live one-slot loopback HTTP service must reproduce all 30 selected requests
+with 23/30 exact quality, zero drift or failures, and prefix reuse throughout.
+Readiness must remain at or below 15 seconds, maximum RSS below 8 GiB, and the
+slot/metrics/PID-bound CPU/process evidence must validate. A pass integrates
+only this exact HTTP build. It does not enable HTTPS or support security,
+installed-package, energy, other-profile, or full-upstream claims. Exact details
+are frozen in [`../experiments/e7c_contract.json`](../experiments/e7c_contract.json)
+and [`../configs/runtime-b10216-http-service.json`](../configs/runtime-b10216-http-service.json).
 
 ## E4a frozen accept-backlog tuner
 

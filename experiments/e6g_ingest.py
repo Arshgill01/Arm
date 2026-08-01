@@ -20,6 +20,7 @@ try:
     )
     from experiments.e5j_ingest import validate_process_cpu
     from experiments.e6f_ingest import expected_server_argv
+    from experiments.e7a_runtime_closure import parse_ldd_paths
 except ModuleNotFoundError as error:
     if error.name != "experiments":
         raise
@@ -33,6 +34,7 @@ except ModuleNotFoundError as error:
     )
     from e5j_ingest import validate_process_cpu
     from e6f_ingest import expected_server_argv
+    from e7a_runtime_closure import parse_ldd_paths
 
 
 ARTIFACT_INPUTS = {
@@ -57,10 +59,21 @@ LAUNCH_PROFILES = {
         "status": "valid_current_runtime_memory_launch_integration",
         "claim_flag": "current_runtime_memory_launch_claim_allowed",
     },
+    "E7c": {
+        "runtime_experiment_id": "E7b",
+        "runtime_status": "valid_http_dependency_pruning_candidate",
+        "status": "valid_http_dependency_pruned_launch_integration",
+        "claim_flag": "http_dependency_pruned_launch_claim_allowed",
+        "dependency_proof": True,
+    },
 }
 
 
-def launch_profile(contract: dict[str, Any]) -> dict[str, str]:
+def parse_dependency_basenames(output: str) -> list[str]:
+    return sorted({path.name for path in parse_ldd_paths(output)})
+
+
+def launch_profile(contract: dict[str, Any]) -> dict[str, Any]:
     experiment_id = contract.get("experiment_id")
     profile = LAUNCH_PROFILES.get(experiment_id)
     if contract.get("schema_version") != 1 or profile is None:
@@ -131,12 +144,31 @@ def validate_source_and_build(
         or upgrade.get("selected_commit") != expected_source["commit"]
     ):
         raise ValueError(f"{experiment_id} build or binary provenance differs")
+    forbidden_dependencies = launch_contract["build"].get(
+        "forbidden_dynamic_dependency_basenames", []
+    )
+    if forbidden_dependencies and (
+        upgrade.get("dynamic_dependency_basenames") is None
+        or set(upgrade["dynamic_dependency_basenames"]).intersection(
+            forbidden_dependencies
+        )
+    ):
+        raise ValueError(f"{experiment_id} runtime dependency provenance differs")
     return {
         **source,
         "source_diff_sha256": sha256_file(source_diff),
         "changed_files": patched_files,
         "cmake_cache_sha256": sha256_file(cache_path),
         "server_sha256": sha256_file(binary_path),
+        **(
+            {
+                "dynamic_dependency_basenames": upgrade[
+                    "dynamic_dependency_basenames"
+                ]
+            }
+            if forbidden_dependencies
+            else {}
+        ),
     }
 
 
@@ -285,6 +317,8 @@ def build_manifest(
         "python-version.txt",
         *ARTIFACT_INPUTS.values(),
     ]
+    if profile.get("dependency_proof"):
+        required.append("runtime-ldd.txt")
     missing = [name for name in required if not (evidence_dir / name).is_file()]
     if missing:
         raise ValueError(f"missing {experiment_id} evidence: {', '.join(missing)}")
@@ -299,6 +333,25 @@ def build_manifest(
         recipe=recipe,
     )
     validate_outer_invocation(evidence_dir, contract)
+
+    dependency_names: list[str] | None = None
+    if profile.get("dependency_proof"):
+        dependency_names = parse_dependency_basenames(
+            (evidence_dir / "runtime-ldd.txt").read_text(errors="replace")
+        )
+        forbidden_dependencies = set(
+            contract["acceptance"]["forbidden_runtime_dependency_basenames"]
+        )
+        recipe_dependencies = recipe["runtime"]["upgrade_provenance"].get(
+            "dynamic_dependency_basenames"
+        )
+        if (
+            dependency_names != recipe_dependencies
+            or set(dependency_names).intersection(forbidden_dependencies)
+        ):
+            raise ValueError(
+                f"{experiment_id} runtime dependency inventory differs"
+            )
 
     tasks = load_tasks(load_object(paths["tasks"]))
     references = reference_predictions(
@@ -394,6 +447,14 @@ def build_manifest(
             "live_server_executed_through_adapter": True,
             "selected_quality_reproduced": True,
             "prefix_reuse_reproduced": True,
+            **(
+                {
+                    "runtime_dependency_inventory_verified": True,
+                    "openssl_dependencies_absent": True,
+                }
+                if dependency_names is not None
+                else {}
+            ),
             profile["claim_flag"]: True,
             "automatic_other_profile_promotion_allowed": False,
             "energy_claim_allowed": False,

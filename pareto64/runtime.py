@@ -23,6 +23,10 @@ RUNTIME_UPGRADE_EVIDENCE = {
         "status": "valid_current_runtime_memory_tier_upgrade_candidate",
         "claim_flag": "memory_tier_upgrade_candidate_claim_allowed",
     },
+    "E7b": {
+        "status": "valid_http_dependency_pruning_candidate",
+        "claim_flag": "http_dependency_pruning_claim_allowed",
+    },
 }
 
 
@@ -66,6 +70,35 @@ def _run_git(source_root: Path, *arguments: str, binary: bool = False) -> Any:
     return result.stdout
 
 
+def parse_ldd_dependency_basenames(output: str) -> list[str]:
+    dependencies = set()
+    for raw_line in output.splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("linux-vdso"):
+            continue
+        if "=> not found" in line:
+            raise ValueError(f"unresolved runtime dependency: {line}")
+        token = line.split("=>", 1)[0].strip() if "=>" in line else line.split()[0]
+        name = Path(token).name
+        if name:
+            dependencies.add(name)
+    return sorted(dependencies)
+
+
+def runtime_dependency_basenames(server_path: Path) -> list[str]:
+    result = subprocess.run(
+        ["ldd", str(server_path.resolve())],
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=30,
+        env={**os.environ, "LC_ALL": "C"},
+    )
+    if result.returncode != 0:
+        raise ValueError(f"runtime dependency inventory failed: {result.stderr.strip()}")
+    return parse_ldd_dependency_basenames(result.stdout)
+
+
 def validate_runtime_upgrade(
     *,
     runtime_manifest: dict[str, Any],
@@ -107,37 +140,72 @@ def validate_runtime_upgrade(
         raise ValueError("runtime upgrade contract differs from selected evidence")
 
     manifest_contract = runtime_manifest.get("contract", {})
-    manifest_runtimes = manifest_contract.get("runtimes", {})
-    candidate_runtime = manifest_contract.get("execution", {}).get(
-        "candidate_runtime"
-    )
-    selected_source = manifest_runtimes.get(candidate_runtime, {})
     selected_commit = runtime_record.get("selected_commit")
-    expected_patches = [
-        {"name": patch.get("name"), "sha256": patch.get("sha256")}
-        for patch in selected_source.get("patches", [])
-    ]
     quality_profiles = list(runtime_manifest.get("performance", {}).values())
     validation = runtime_manifest.get("validation", {})
+    if manifest_experiment == "E7b":
+        selected_source = manifest_contract.get("runtime", {})
+        selected_profile = manifest_contract.get("execution", {}).get(
+            "candidate_profile"
+        )
+        candidate_build = runtime_manifest.get("build_profiles", {}).get(
+            selected_profile, {}
+        )
+        expected_patches = [
+            {"name": patch.get("name"), "sha256": patch.get("sha256")}
+            for patch in selected_source.get("patches", [])
+        ]
+        accepted_manifest = (
+            manifest_contract.get("inputs", {}).get("manifest_sha256")
+            == model_record.get("sha256")
+            and manifest_contract.get("selected", {}).get("candidate")
+            == selected_candidate
+            and selected_source.get("commit") == selected_commit
+            and runtime_record.get("patches") == expected_patches
+            and runtime_manifest.get("selection", {}).get("selected_profile")
+            == selected_profile
+            and selected_profile == build_record.get("selected_profile")
+            and runtime_manifest.get("hypothesis", {}).get("passed") is True
+            and runtime_manifest.get("hypothesis", {}).get(
+                "dependency_pruning_passed"
+            )
+            is True
+            and candidate_build.get("llama_openssl") is False
+            and validation.get("exact_patch_series_verified") is True
+            and validation.get("exact_model_verified") is True
+        )
+    else:
+        manifest_runtimes = manifest_contract.get("runtimes", {})
+        candidate_runtime = manifest_contract.get("execution", {}).get(
+            "candidate_runtime"
+        )
+        selected_source = manifest_runtimes.get(candidate_runtime, {})
+        expected_patches = [
+            {"name": patch.get("name"), "sha256": patch.get("sha256")}
+            for patch in selected_source.get("patches", [])
+        ]
+        accepted_manifest = (
+            manifest_contract.get("inputs", {}).get("manifest_sha256")
+            == model_record.get("sha256")
+            and manifest_contract.get("selected", {}).get("candidate")
+            == selected_candidate
+            and selected_source.get("commit") == selected_commit
+            and runtime_record.get("patches") == expected_patches
+            and runtime_manifest.get("selection", {}).get("selected_runtime")
+            == candidate_runtime
+            and runtime_manifest.get("selection", {}).get("selected_commit")
+            == selected_commit
+            and runtime_manifest.get("hypothesis", {}).get("passed") is True
+            and validation.get("exact_patch_series_verified") is True
+            and validation.get("exact_model_verified") is True
+        )
     if (
         runtime_manifest.get("schema_version") != 1
         or runtime_manifest.get("experiment_id") != manifest_experiment
         or runtime_manifest.get("status") != evidence_contract["status"]
-        or manifest_contract.get("inputs", {}).get("manifest_sha256")
-        != model_record.get("sha256")
-        or manifest_contract.get("selected", {}).get("candidate")
-        != selected_candidate
-        or selected_source.get("commit") != selected_commit
-        or runtime_record.get("patches") != expected_patches
-        or runtime_manifest.get("selection", {}).get("selected_runtime")
-        != candidate_runtime
-        or runtime_manifest.get("selection", {}).get("selected_commit")
-        != selected_commit
-        or runtime_manifest.get("hypothesis", {}).get("passed") is not True
+        or not accepted_manifest
         or validation.get(evidence_contract["claim_flag"]) is not True
         or validation.get("automatic_product_promotion_allowed") is not False
-        or validation.get("exact_patch_series_verified") is not True
-        or validation.get("exact_model_verified") is not True
         or not quality_profiles
         or any(
             profile.get("quality", {}).get("exact_selected_predictions") is not True
@@ -201,6 +269,22 @@ def validate_runtime_upgrade(
     ):
         raise ValueError("runtime build cache differs from the upgrade contract")
 
+    dependency_names: list[str] | None = None
+    forbidden_dependencies = build_record.get(
+        "forbidden_dynamic_dependency_basenames", []
+    )
+    if forbidden_dependencies:
+        if (
+            not isinstance(forbidden_dependencies, list)
+            or not all(
+                isinstance(name, str) and name for name in forbidden_dependencies
+            )
+        ):
+            raise ValueError("runtime contract dependency exclusions are invalid")
+        dependency_names = runtime_dependency_basenames(resolved_server)
+        if set(dependency_names).intersection(forbidden_dependencies):
+            raise ValueError("runtime build retains a forbidden dynamic dependency")
+
     return {
         "contract_id": runtime_contract.get("contract_id"),
         "promotion_mode": runtime_contract["promotion_mode"],
@@ -216,6 +300,11 @@ def validate_runtime_upgrade(
         "server_sha256": sha256_file(resolved_server),
         "selected_commit": selected_commit,
         "claim_boundary": runtime_contract.get("claim_boundary"),
+        **(
+            {"dynamic_dependency_basenames": dependency_names}
+            if dependency_names is not None
+            else {}
+        ),
     }
 
 
@@ -226,11 +315,12 @@ def validate_runtime_upgrade_service(
 ) -> None:
     manifest_service = dict(runtime_manifest.get("contract", {}).get("service", {}))
     manifest_service.pop("client_concurrency", None)
+    manifest_service.pop("explicit_batch_arguments", None)
     manifest_service.pop("warmup_slot_ids", None)
     manifest_service["parallel_slots"] = manifest_service.pop(
         "server_parallel_slots", None
     )
-    manifest_service["log_verbosity"] = None
+    manifest_service.setdefault("log_verbosity", None)
     if manifest_service != runtime_contract.get("service") or observed != manifest_service:
         experiment_id = runtime_manifest.get("experiment_id", "runtime upgrade")
         raise ValueError(

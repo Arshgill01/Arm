@@ -11,18 +11,19 @@ on:
         options:
           - fast
           - memory
+          - http
 
 permissions:
   contents: read
 
 env:
-  EXPERIMENT_ID: ${{ inputs.service_profile == 'memory' && 'E6i' || 'E6g' }}
-  CONTRACT_PATH: ${{ inputs.service_profile == 'memory' && 'experiments/e6i_contract.json' || 'experiments/e6g_contract.json' }}
-  CONTRACT_SHA256: ${{ inputs.service_profile == 'memory' && '7b7f0b5dd2598bb89be4163ced702d1c27c34078232aa0a7926bc40426194265' || '92ad60fbc5fdf74ac10566230efcdbaf2322f9d4f68f1ed3822c2b3904fab1e8' }}
-  RUNTIME_MANIFEST_PATH: ${{ inputs.service_profile == 'memory' && 'results/manifests/e6h-30690331795.json' || 'results/manifests/e6f-30678703184.json' }}
-  RUNTIME_MANIFEST_SHA256: ${{ inputs.service_profile == 'memory' && '7b112b385729ef092f2026bf35b63926ac985251d70faea2cf03e4936253b27f' || 'da95b831a0cccf3b16dd45e93e11855a6e0322c5aa163d145c24243b42470ace' }}
-  RUNTIME_CONTRACT_PATH: ${{ inputs.service_profile == 'memory' && 'configs/runtime-b10216-memory-service.json' || 'configs/runtime-b10216-selected-service.json' }}
-  RUNTIME_CONTRACT_SHA256: ${{ inputs.service_profile == 'memory' && 'a3d1e066700dfe4ea3ad9dff8f06fc0dfd508adae961b7e32c9f3d2574ebc008' || '9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de' }}
+  EXPERIMENT_ID: ${{ inputs.service_profile == 'memory' && 'E6i' || inputs.service_profile == 'http' && 'E7c' || 'E6g' }}
+  CONTRACT_PATH: ${{ inputs.service_profile == 'memory' && 'experiments/e6i_contract.json' || inputs.service_profile == 'http' && 'experiments/e7c_contract.json' || 'experiments/e6g_contract.json' }}
+  CONTRACT_SHA256: ${{ inputs.service_profile == 'memory' && '7b7f0b5dd2598bb89be4163ced702d1c27c34078232aa0a7926bc40426194265' || inputs.service_profile == 'http' && 'bdeedaf7d63fc7d91b261efa078b9fc3702525d29a6b8e03b4e3ba016cf32512' || '92ad60fbc5fdf74ac10566230efcdbaf2322f9d4f68f1ed3822c2b3904fab1e8' }}
+  RUNTIME_MANIFEST_PATH: ${{ inputs.service_profile == 'memory' && 'results/manifests/e6h-30690331795.json' || inputs.service_profile == 'http' && 'results/manifests/e7b-30695349303.json' || 'results/manifests/e6f-30678703184.json' }}
+  RUNTIME_MANIFEST_SHA256: ${{ inputs.service_profile == 'memory' && '7b112b385729ef092f2026bf35b63926ac985251d70faea2cf03e4936253b27f' || inputs.service_profile == 'http' && '8dffd667e8517a1b628c147f22f5e74755ab7d7d693e8eff1e1704ae387ffd9b' || 'da95b831a0cccf3b16dd45e93e11855a6e0322c5aa163d145c24243b42470ace' }}
+  RUNTIME_CONTRACT_PATH: ${{ inputs.service_profile == 'memory' && 'configs/runtime-b10216-memory-service.json' || inputs.service_profile == 'http' && 'configs/runtime-b10216-http-service.json' || 'configs/runtime-b10216-selected-service.json' }}
+  RUNTIME_CONTRACT_SHA256: ${{ inputs.service_profile == 'memory' && 'a3d1e066700dfe4ea3ad9dff8f06fc0dfd508adae961b7e32c9f3d2574ebc008' || inputs.service_profile == 'http' && '95cb669b70de98851b8bb2f04d7be6650745e0fbd39aa4d3256b5bb9c2a2b928' || '9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de' }}
   CURRENT_SHA: 876a4321163249c43ca4e986818fab5ab081f282
   CURRENT_TAG: b10216
   SELECTED_CANDIDATE: ministral3_3b_q4_k_m
@@ -33,7 +34,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 35
     env:
-      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/${{ inputs.service_profile == 'memory' && 'e6i' || 'e6g' }}-${{ github.run_id }}-${{ github.run_attempt }}
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/${{ inputs.service_profile == 'memory' && 'e6i' || inputs.service_profile == 'http' && 'e7c' || 'e6g' }}-${{ github.run_id }}-${{ github.run_attempt }}
       LLAMA_CPP_DIR: /tmp/llama.cpp-E6g
       BUILD_DIR: /tmp/llama.cpp-E6g-build
       MODEL_ROOT: /tmp/Pareto64-E6g/models
@@ -129,6 +130,13 @@ jobs:
       - name: Build the contract-bound current server
         run: |
           set -euo pipefail
+          build_profile_args=()
+          if [ "$EXPERIMENT_ID" = "E7c" ]; then
+            build_profile_args+=(
+              -DGGML_LTO=OFF
+              -DLLAMA_OPENSSL=OFF
+            )
+          fi
           cmake -S "$LLAMA_CPP_DIR" -B "$BUILD_DIR" -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DGGML_CPU_KLEIDIAI=ON \
@@ -137,6 +145,7 @@ jobs:
             -DLLAMA_BUILD_SERVER=ON \
             -DLLAMA_BUILD_TESTS=OFF \
             -DLLAMA_CURL=OFF \
+            "${build_profile_args[@]}" \
             2>&1 | tee "$EVIDENCE_DIR/configure.log"
           grep -q 'Using KleidiAI optimized kernels if applicable' \
             "$EVIDENCE_DIR/configure.log"
@@ -147,6 +156,10 @@ jobs:
           cp "$BUILD_DIR/bin/llama-server" "$EVIDENCE_DIR/llama-server"
           "$BUILD_DIR/bin/llama-server" --version 2>&1 \
             | tee "$EVIDENCE_DIR/server-version.txt"
+          if [ "$EXPERIMENT_ID" = "E7c" ]; then
+            LC_ALL=C ldd "$BUILD_DIR/bin/llama-server" \
+              | tee "$EVIDENCE_DIR/runtime-ldd.txt"
+          fi
 
       - name: Execute the exact service through Pareto64
         run: |
@@ -271,7 +284,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: ${{ inputs.service_profile == 'memory' && 'e6i-current-runtime-memory-launch' || 'e6g-current-runtime-launch' }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.service_profile == 'memory' && 'e6i-current-runtime-memory-launch' || inputs.service_profile == 'http' && 'e7c-http-runtime-launch' || 'e6g-current-runtime-launch' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ env.EVIDENCE_DIR }}
           if-no-files-found: error
           retention-days: 90
