@@ -173,7 +173,7 @@ the rule defects in `open-questions.md`.
 - [x] All dependencies, models, datasets, and generated assets have provenance
       and compatible rights.
 - [x] Clean-checkout setup/run/validation succeeds on the intended Arm target
-      ([native run `30676781968`](https://github.com/Arshgill01/Arm/actions/runs/30676781968)).
+      ([native run `30677849517`](https://github.com/Arshgill01/Arm/actions/runs/30677849517)).
 - [x] Repeated before/after results and raw evidence are published.
 - [x] Correctness or quality guardrails show optimization did not silently break
       the workload.

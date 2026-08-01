@@ -1140,3 +1140,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Python 3.10 independent ingestion matched the uploaded summary byte for byte
   at SHA-256
   `747b6795d42be691c07cf5aac38237095477d06149e787cc313ec2b9558c4ff7`.
+- Public clean-checkout run `30677849517` passed on native `aarch64` from exact
+  retained-result commit `cdcb34b`: 114 tests, all 18 immutable hashes,
+  E5j/E6d/E6e evidence checks, exact planner recomputation, and the demo smoke
+  test.

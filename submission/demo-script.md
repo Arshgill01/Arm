@@ -46,7 +46,8 @@ saved more but changed an answer, so f16 stayed. Batch 64 then cut the compute
 buffer 75%. Finally, disabling Arm weight repacking saved another 1.98 GiB but
 halved throughput. The service planner now selects the fast layout for a
 throughput envelope, the no-repack layout below three GiB, and refuses an
-envelope neither measured tier can meet.”
+envelope neither measured tier can meet. Three and two server threads barely
+reduced CPU work per request but lost 24% and 49% throughput, so four stayed.”
 
 ## 1:43–2:08 — Arm-specific patch
 
@@ -61,7 +62,7 @@ current llama.cpp. We claim the hot path, not a whole-model speedup.”
 
 ## 2:08–2:32 — Exact serving
 
-**Screen:** Show the E5b through E5i rows, then the terminal.
+**Screen:** Show the E5b through E5j rows, then the terminal.
 
 ```bash
 python3 scripts/verify_submission.py
