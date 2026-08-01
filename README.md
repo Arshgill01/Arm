@@ -218,6 +218,8 @@ exact frozen contracts and independently re-ingested byte for byte.
   single-project hypothesis.
 - [`docs/product.md`](docs/product.md): executable planner behavior, policy
   contract, and current E2E boundary.
+- [`docs/final-device-evidence.md`](docs/final-device-evidence.md): the bounded
+  local Arm power, governor, thermal, and tariff-derived cost protocol.
 - [`results/reports/service-tier-planner.md`](results/reports/service-tier-planner.md):
   measured E5h service-envelope decisions and refusal boundary.
 - [`docs/experiment-plan.md`](docs/experiment-plan.md): ordered, gated benchmark

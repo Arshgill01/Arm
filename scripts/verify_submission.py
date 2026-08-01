@@ -132,6 +132,7 @@ REQUIRED_SUBMISSION_FILES = (
     "LICENSE",
     "README.md",
     "CHANGELOG.md",
+    "docs/final-device-evidence.md",
     "submission/README.md",
     "demo/index.html",
     "demo/styles.css",

@@ -17,6 +17,7 @@ No headline result is accepted until the experiment contract in
 | E7a | Can whole-program LTO improve the selected native Arm service or its shipped runtime footprint? | Exact patched `b10216` fast service | Repeated quality-gated service evidence clears a predeclared performance or footprint branch without crossing common guardrails |
 | E7b | Can the loopback-only HTTP service drop unused HTTPS dependencies? | Exact patched `b10216` fast service | OpenSSL-off removes both frozen dependency edges, adds none, preserves quality, and clears every service/resource guardrail |
 | E7c | Can the product launch that exact dependency-pruned service without broadening its claims? | E7b-bound Pareto64 adapter | Source/build/binary/cache/`ldd` provenance passes, then the live HTTP service reproduces quality, cache reuse, readiness, and RSS gates |
+| E8a | Does shared-prefix reuse reduce real energy and tariff-derived cost on a stable local Arm device? | Exact E7c service and selected workload | Four valid cells per request policy preserve quality and environment state; cache-on reaches ≥1.10x throughput and ≤0.90x gross joules/request |
 | E7 | Is the whole project reproducible and judge-readable? | Clean native Arm job | One command emits manifest, raw data, summary, Pareto front, and demo assets |
 
 ## E2 frozen protocol
@@ -1151,6 +1152,23 @@ library present. Python 3.10 replay was byte-identical at
 Public clean-checkout run `30697133805` passed on the retained E7c result
 commit: native `aarch64`, all 145 tests, 35 immutable evidence hashes, exact
 planner/runtime assertions, and the dependency-free demo smoke test.
+
+## E8a planned local-device energy and cost evidence
+
+E8a keeps the exact E7c source/build/server recipe fixed and changes only the
+request-level shared-prefix policy. Eight fresh-process cells use two
+opposite-start four-cell blocks, and the primary energy window excludes model
+load, readiness, and warm-ups. Gross joules/request is primary; idle-subtracted
+energy is supporting only. Quality, cached-token mechanism, sensor-domain,
+governor/power-mode, power-source, thermal, sample-integrity, throughput, and
+energy gates are predeclared in
+[`final-device-evidence.md`](final-device-evidence.md).
+
+The immutable contract and collector are not yet frozen because the
+authenticated platform label has not been delivered. Platform determines the
+available sensor domain, privilege boundary, power-mode evidence, and valid
+thermal/throttle checks; those cannot be inferred from merely having a local
+Arm device.
 
 ## E4a frozen accept-backlog tuner
 

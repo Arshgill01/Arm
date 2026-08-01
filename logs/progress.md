@@ -1483,3 +1483,21 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `915717e`: native `aarch64`, all 145 tests, all 35 immutable hashes, E7c
   dependency/launch assertions, exact planner/runtime checks, and the
   dependency-free demo smoke test.
+
+## 2026-08-01 — Final local-device evidence obligations audited
+
+- Chose the already-promoted shared-prefix cache as the isolated E8a power
+  question rather than combining unrelated product changes. Both sides retain
+  the exact E7c source/build/server recipe; only request-level `cache_prompt`
+  changes, with raw reused-token evidence required in every request.
+- Defined two opposite-start four-cell blocks, four fresh-process repetitions
+  per configuration, a post-warmup measured window, gross joules/request as the
+  primary metric, supporting idle/thermal/frequency evidence, and immutable
+  quality, sensor-domain, governor/power-mode, and power-source gates.
+- Predeclared at least 1.10x repeated-median throughput and at most 0.90x gross
+  joules/request. A valid miss remains a no-win. Monetary results require a
+  bound tariff source/date/currency; local energy must not be mixed with cloud
+  instance pricing or uncontracted hardware amortization.
+- Left the sensor collector deliberately unfrozen. Linux, Apple Silicon, and
+  Android expose materially different power and power-mode boundaries, and the
+  authenticated platform reply has not yet been delivered into the task.
