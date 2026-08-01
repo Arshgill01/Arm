@@ -69,8 +69,9 @@ python3 scripts/verify_submission.py
 
 **Voice:** “The product launches through a hash-verifying adapter. The verifier
 pins the model, runtime, selected plan, serving evidence, and Arm patch. Cache
-and repack modes are written into the recipe, and bounded escape hatches remain
-explicit for workloads with a different validated envelope.”
+and repack modes are written into the recipe. When a service policy is present,
+the launcher consumes its measured tier automatically and rejects a conflicting
+manual flag.”
 
 ## 2:32–2:50 — Close
 

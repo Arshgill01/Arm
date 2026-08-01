@@ -93,6 +93,11 @@ policy with [`configs/service-throughput.json`](configs/service-throughput.json)
 to select `repack_on`; a policy no measured tier can satisfy returns
 `no_feasible_profile` instead of guessing.
 
+The verified launcher accepts the same evidence/policy pair through
+`--service-manifest` and `--service-constraints`. It binds both hashes into the
+launch recipe and applies the selected repack mode automatically. A manual
+repack flag that conflicts with the plan is refused.
+
 ## Native evidence so far
 
 | Gate | Outcome |

@@ -77,6 +77,8 @@ python3 -m pareto64 launch \
   --constraints configs/cloud-quality.json \
   --models experiments/e3f_models.json \
   --contract experiments/e3f_contract.json \
+  --service-manifest results/manifests/e5h-30672633366.json \
+  --service-constraints configs/service-memory.json \
   --model-root /path/to/models \
   --llama-server /path/to/llama-server \
   --recipe-output /tmp/pareto64-launch.json \
@@ -96,6 +98,12 @@ Weight repacking remains enabled by default. `--no-weight-repack` is a bounded
 escape hatch that records `weight_repack: false` in the recipe and passes the
 pinned runtime's `--no-repack` flag; E5h is the frozen quality, memory, and
 performance boundary for treating that path as a separate memory tier.
+When `--service-manifest` and `--service-constraints` are present, the adapter
+recomputes that measured service decision, requires it to reference the selected
+model, binds both additional hashes into the recipe, and applies the selected
+repack mode. A missing input, empty service frontier, or conflicting manual
+repack flag aborts before launch. Without a service policy, the historical
+repack-on default and bounded manual escape hatch remain unchanged.
 Flash Attention remains `auto` by default. `--flash-attention auto|on|off`
 records the exact upstream mode in the recipe; E5i is the frozen Arm ablation
 that must prove the resolved auto graph materially outperforms the disabled

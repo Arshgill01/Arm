@@ -124,7 +124,9 @@ that same native manifest and a deployment envelope. The throughput policy
 selects `repack_on`; an at-most-3-GiB policy selects `repack_off` and emits
 `--no-weight-repack`; an impossible at-most-2-GiB policy refuses deployment.
 As with model selection, every metric, rejection, input hash, Pareto member, and
-runtime argument is recorded without a weighted score.
+runtime argument is recorded without a weighted score. The verified launcher
+consumes that exact evidence/policy pair, binds both hashes into its recipe, and
+applies the selected repack mode; contradictory manual flags fail closed.
 
 We also ablated the runtime's resolved Flash Attention auto graph rather than
 crediting the default without evidence. All 120 answers remained exact. Auto
@@ -198,7 +200,7 @@ without changing measured inputs or post-observation thresholds.
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 103 local tests plus native Arm workflows for the final evidence path.
+- 104 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 

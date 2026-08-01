@@ -15,12 +15,15 @@ authoritative, timestamped record; this file groups the significant additions.
   and extended clean-checkout verification to recompute both decisions.
 - Passed the complete clean-checkout package on native `aarch64`: 103 tests,
   15 pinned hashes, exact model/service plans, and demo smoke test.
+- Bound the service plan into the verified launcher. The recipe now records the
+  measured tier and service input hashes, applies its repack mode, and rejects
+  incomplete, infeasible, model-mismatched, or contradictory inputs.
 
 ### Submission and developer experience
 
 - Extended the product guide, demo, video script, and submission narrative with
   the measured service-envelope decision and its refusal behavior.
-- Expanded the focused product suite to 103 tests and the immutable verifier to
+- Expanded the focused product suite to 104 tests and the immutable verifier to
   15 hashes.
 
 ## 2026-07-31

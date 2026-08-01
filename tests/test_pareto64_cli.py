@@ -27,7 +27,7 @@ class Pareto64CLITests(unittest.TestCase):
             "recipe.json",
         ]
 
-    def test_prompt_cache_is_default_with_explicit_escape_hatch(self) -> None:
+    def test_prompt_cache_and_repack_have_bounded_controls(self) -> None:
         with patch("sys.argv", self.launch_arguments()):
             arguments = parse_args()
             self.assertTrue(arguments.prompt_cache)
@@ -35,11 +35,30 @@ class Pareto64CLITests(unittest.TestCase):
             self.assertIsNone(arguments.batch_size)
             self.assertIsNone(arguments.micro_batch_size)
             self.assertEqual("auto", arguments.flash_attention)
-            self.assertTrue(arguments.weight_repack)
+            self.assertIsNone(arguments.weight_repack)
         with patch("sys.argv", self.launch_arguments() + ["--no-prompt-cache"]):
             self.assertFalse(parse_args().prompt_cache)
         with patch("sys.argv", self.launch_arguments() + ["--no-weight-repack"]):
             self.assertFalse(parse_args().weight_repack)
+        with patch("sys.argv", self.launch_arguments() + ["--weight-repack"]):
+            self.assertTrue(parse_args().weight_repack)
+
+    def test_launch_accepts_measured_service_policy_paths(self) -> None:
+        with patch(
+            "sys.argv",
+            self.launch_arguments()
+            + [
+                "--service-manifest",
+                "e5h.json",
+                "--service-constraints",
+                "service-memory.json",
+            ],
+        ):
+            arguments = parse_args()
+        self.assertEqual("e5h.json", str(arguments.service_manifest))
+        self.assertEqual(
+            "service-memory.json", str(arguments.service_constraints)
+        )
 
     def test_launch_accepts_bounded_context_and_kv_profile(self) -> None:
         with patch(

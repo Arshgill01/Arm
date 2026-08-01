@@ -1005,3 +1005,16 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Public clean-checkout run `30674971776` passed on native `aarch64` from exact
   product commit `d274a6b`: 103 tests, all 15 hashes, exact retained model and
   service plans, and the dependency-free demo smoke test.
+
+## 2026-08-01 — Measured service decisions reach the launch recipe
+
+- Extended the existing verified launch adapter instead of creating a parallel
+  entrypoint. Optional service evidence and policy inputs are independently
+  recomputed and must select the same model as the quality frontier.
+- The selected tier now controls the upstream repack argument automatically;
+  the recipe records both new hashes, service frontier, metrics, and profile.
+  Incomplete inputs, an empty frontier, and a contradictory manual repack flag
+  fail before launch.
+- Focused launcher, CLI, and service-planner tests pass for both throughput and
+  at-most-3-GiB routing, exact `--no-repack` emission, hash binding, manual
+  conflict, incomplete input, and impossible-policy refusal.

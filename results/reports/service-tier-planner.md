@@ -37,6 +37,15 @@ then uses the policy's visible lexicographic priority and records
 metrics, rejection reasons, feasible profiles, non-dominated frontier, selected
 runtime state, and exact launcher arguments.
 
+## Verified launch binding
+
+`pareto64 launch` accepts the pair through `--service-manifest` and
+`--service-constraints`. It recomputes the service plan, requires its candidate
+to match the quality-selected model, records both additional hashes and the
+selected frontier in the launch recipe, and maps the selected boolean to the
+upstream runtime argument. Missing inputs, an empty service frontier, and a
+conflicting manual repack setting all fail before process replacement.
+
 Recompute either retained decision with:
 
 ```bash

@@ -19,6 +19,13 @@ class Pareto64RuntimeTests(unittest.TestCase):
         constraints = load_object(ROOT / "configs/cloud-quality.json")
         models = load_object(ROOT / "experiments/e3f_models.json")
         contract = load_object(ROOT / "experiments/e3f_contract.json")
+        service_manifest = load_object(
+            ROOT / "results/manifests/e5h-30672633366.json"
+        )
+        service_constraints = load_object(ROOT / "configs/service-memory.json")
+        throughput_constraints = load_object(
+            ROOT / "configs/service-throughput.json"
+        )
         selected = "ministral3_3b_q4_k_m"
         payload = b"test model"
         digest = hashlib.sha256(payload).hexdigest()
@@ -28,6 +35,9 @@ class Pareto64RuntimeTests(unittest.TestCase):
             constraints_path = root / "constraints.json"
             models_path = root / "models.json"
             contract_path = root / "contract.json"
+            service_manifest_path = root / "service-manifest.json"
+            service_constraints_path = root / "service-constraints.json"
+            throughput_constraints_path = root / "throughput-constraints.json"
             server_path = root / "llama-server"
             model_root = root / "model-root"
             model_path = model_root / selected / "model.gguf"
@@ -50,6 +60,11 @@ class Pareto64RuntimeTests(unittest.TestCase):
             constraints_path.write_text(json.dumps(constraints))
             models_path.write_text(json.dumps(models))
             contract_path.write_text(json.dumps(contract))
+            service_manifest_path.write_text(json.dumps(service_manifest))
+            service_constraints_path.write_text(json.dumps(service_constraints))
+            throughput_constraints_path.write_text(
+                json.dumps(throughput_constraints)
+            )
             recipe = prepare_launch(
                 manifest=manifest,
                 constraints=constraints,
@@ -130,6 +145,139 @@ class Pareto64RuntimeTests(unittest.TestCase):
             self.assertEqual(
                 1, no_repack_recipe["runtime"]["argv"].count("--no-repack")
             )
+
+            planned_memory_recipe = prepare_launch(
+                manifest=manifest,
+                constraints=constraints,
+                models=models,
+                contract=contract,
+                manifest_path=manifest_path,
+                constraints_path=constraints_path,
+                models_path=models_path,
+                contract_path=contract_path,
+                model_root=model_root,
+                server_path=server_path,
+                version_output="version b10208 (9d9a6d29f)",
+                host="127.0.0.1",
+                port=18081,
+                parallel=1,
+                service_manifest=service_manifest,
+                service_constraints=service_constraints,
+                service_manifest_path=service_manifest_path,
+                service_constraints_path=service_constraints_path,
+            )
+            self.assertFalse(planned_memory_recipe["runtime"]["weight_repack"])
+            self.assertEqual(
+                1, planned_memory_recipe["runtime"]["argv"].count("--no-repack")
+            )
+            self.assertEqual(
+                "repack_off",
+                planned_memory_recipe["selection"]["service_profile"]["name"],
+            )
+            self.assertEqual(
+                hashlib.sha256(service_constraints_path.read_bytes()).hexdigest(),
+                planned_memory_recipe["inputs"]["service_constraints_sha256"],
+            )
+
+            planned_throughput_recipe = prepare_launch(
+                manifest=manifest,
+                constraints=constraints,
+                models=models,
+                contract=contract,
+                manifest_path=manifest_path,
+                constraints_path=constraints_path,
+                models_path=models_path,
+                contract_path=contract_path,
+                model_root=model_root,
+                server_path=server_path,
+                version_output="version b10208 (9d9a6d29f)",
+                host="127.0.0.1",
+                port=18081,
+                parallel=1,
+                service_manifest=service_manifest,
+                service_constraints=throughput_constraints,
+                service_manifest_path=service_manifest_path,
+                service_constraints_path=throughput_constraints_path,
+            )
+            self.assertTrue(planned_throughput_recipe["runtime"]["weight_repack"])
+            self.assertNotIn(
+                "--no-repack", planned_throughput_recipe["runtime"]["argv"]
+            )
+            self.assertEqual(
+                "repack_on",
+                planned_throughput_recipe["selection"]["service_profile"]["name"],
+            )
+
+            with self.assertRaisesRegex(ValueError, "conflicts with the service plan"):
+                prepare_launch(
+                    manifest=manifest,
+                    constraints=constraints,
+                    models=models,
+                    contract=contract,
+                    manifest_path=manifest_path,
+                    constraints_path=constraints_path,
+                    models_path=models_path,
+                    contract_path=contract_path,
+                    model_root=model_root,
+                    server_path=server_path,
+                    version_output="version b10208 (9d9a6d29f)",
+                    host="127.0.0.1",
+                    port=18081,
+                    parallel=1,
+                    weight_repack=True,
+                    service_manifest=service_manifest,
+                    service_constraints=service_constraints,
+                    service_manifest_path=service_manifest_path,
+                    service_constraints_path=service_constraints_path,
+                )
+
+            with self.assertRaisesRegex(ValueError, "requires both"):
+                prepare_launch(
+                    manifest=manifest,
+                    constraints=constraints,
+                    models=models,
+                    contract=contract,
+                    manifest_path=manifest_path,
+                    constraints_path=constraints_path,
+                    models_path=models_path,
+                    contract_path=contract_path,
+                    model_root=model_root,
+                    server_path=server_path,
+                    version_output="version b10208 (9d9a6d29f)",
+                    host="127.0.0.1",
+                    port=18081,
+                    parallel=1,
+                    service_manifest=service_manifest,
+                    service_manifest_path=service_manifest_path,
+                )
+
+            impossible_constraints = copy.deepcopy(service_constraints)
+            impossible_constraints["requirements"]["maximum_rss_kib"] = {
+                "at_most": 2 * 1024 * 1024
+            }
+            impossible_constraints_path = root / "impossible-constraints.json"
+            impossible_constraints_path.write_text(json.dumps(impossible_constraints))
+            with self.assertRaisesRegex(ValueError, "no selected measured profile"):
+                prepare_launch(
+                    manifest=manifest,
+                    constraints=constraints,
+                    models=models,
+                    contract=contract,
+                    manifest_path=manifest_path,
+                    constraints_path=constraints_path,
+                    models_path=models_path,
+                    contract_path=contract_path,
+                    model_root=model_root,
+                    server_path=server_path,
+                    version_output="version b10208 (9d9a6d29f)",
+                    host="127.0.0.1",
+                    port=18081,
+                    parallel=1,
+                    service_manifest=service_manifest,
+                    service_constraints=impossible_constraints,
+                    service_manifest_path=service_manifest_path,
+                    service_constraints_path=impossible_constraints_path,
+                )
 
             flash_off_recipe = prepare_launch(
                 manifest=manifest,

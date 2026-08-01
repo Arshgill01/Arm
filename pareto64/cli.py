@@ -59,6 +59,16 @@ def parse_args() -> argparse.Namespace:
     launch.add_argument("--constraints", type=Path, required=True)
     launch.add_argument("--models", type=Path, required=True)
     launch.add_argument("--contract", type=Path, required=True)
+    launch.add_argument(
+        "--service-manifest",
+        type=Path,
+        help="measured service evidence; requires --service-constraints",
+    )
+    launch.add_argument(
+        "--service-constraints",
+        type=Path,
+        help="service SLO policy; requires --service-manifest",
+    )
     launch.add_argument("--model-root", type=Path, required=True)
     launch.add_argument("--llama-server", type=Path, required=True)
     launch.add_argument("--recipe-output", type=Path, required=True)
@@ -107,8 +117,8 @@ def parse_args() -> argparse.Namespace:
     launch.add_argument(
         "--weight-repack",
         action=argparse.BooleanOptionalAction,
-        default=True,
-        help="use Arm-optimized repacked weights; enabled by default",
+        default=None,
+        help="confirm a repack mode or override the default when no service plan is used",
     )
     launch.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
@@ -199,6 +209,18 @@ def main() -> int:
             flash_attention=arguments.flash_attention,
             weight_repack=arguments.weight_repack,
             log_verbosity=arguments.log_verbosity,
+            service_manifest=(
+                load_object(arguments.service_manifest)
+                if arguments.service_manifest
+                else None
+            ),
+            service_constraints=(
+                load_object(arguments.service_constraints)
+                if arguments.service_constraints
+                else None
+            ),
+            service_manifest_path=arguments.service_manifest,
+            service_constraints_path=arguments.service_constraints,
         )
         write_recipe(arguments.recipe_output, recipe)
         print(arguments.recipe_output, flush=True)

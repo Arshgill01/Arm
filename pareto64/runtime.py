@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from .planner import build_plan, sha256_file
+from .service_planner import build_service_plan
 
 K_CACHE_TYPES = {"f16", "q8_0", "q4_0"}
 V_CACHE_TYPES = {"f16"}
@@ -107,8 +108,12 @@ def prepare_launch(
     batch_size: int | None = 64,
     micro_batch_size: int | None = 64,
     flash_attention: str = "auto",
-    weight_repack: bool = True,
+    weight_repack: bool | None = None,
     log_verbosity: int | None = None,
+    service_manifest: dict[str, Any] | None = None,
+    service_constraints: dict[str, Any] | None = None,
+    service_manifest_path: Path | None = None,
+    service_constraints_path: Path | None = None,
 ) -> dict[str, Any]:
     plan = build_plan(
         manifest,
@@ -122,6 +127,44 @@ def prepare_launch(
     candidate = selected.get("name")
     if not isinstance(candidate, str):
         raise ValueError("selected plan lacks a candidate name")
+    service_inputs = (
+        service_manifest,
+        service_constraints,
+        service_manifest_path,
+        service_constraints_path,
+    )
+    if any(item is not None for item in service_inputs) and not all(
+        item is not None for item in service_inputs
+    ):
+        raise ValueError(
+            "service launch requires both the manifest and constraints with paths"
+        )
+    service_plan: dict[str, Any] | None = None
+    service_selected: dict[str, Any] | None = None
+    if service_manifest is not None:
+        service_plan = build_service_plan(
+            service_manifest,
+            service_constraints,
+            manifest_path=service_manifest_path,
+            constraints_path=service_constraints_path,
+        )
+        service_selected = service_plan.get("selected")
+        if service_plan.get("status") != "selected" or not isinstance(
+            service_selected, dict
+        ):
+            raise ValueError("service policy has no selected measured profile")
+        if service_plan.get("inputs", {}).get("selected_candidate") != candidate:
+            raise ValueError("service profile differs from the selected model")
+        selected_repack = service_selected.get("runtime", {}).get("weight_repack")
+        if not isinstance(selected_repack, bool):
+            raise ValueError("service plan lacks a bounded repack setting")
+        if weight_repack is not None and weight_repack is not selected_repack:
+            raise ValueError("manual repack setting conflicts with the service plan")
+        resolved_weight_repack = selected_repack
+    else:
+        if weight_repack is not None and not isinstance(weight_repack, bool):
+            raise ValueError("runtime weight repack setting must be boolean")
+        resolved_weight_repack = True if weight_repack is None else weight_repack
     if (
         contract.get("schema_version") != 1
         or contract.get("experiment_id") != manifest.get("experiment_id")
@@ -185,8 +228,6 @@ def prepare_launch(
         raise ValueError("flash attention must be auto, on, or off")
     if (batch_size is None) != (micro_batch_size is None):
         raise ValueError("batch size and micro-batch size must be set together")
-    if not isinstance(weight_repack, bool):
-        raise ValueError("runtime weight repack setting must be boolean")
     context_total = slot_context * parallel
     if batch_size is None:
         effective_batch_size = min(context_total, UPSTREAM_DEFAULT_BATCH_SIZE)
@@ -272,31 +313,53 @@ def prepare_launch(
                 str(micro_batch_size),
             ]
         )
-    if not weight_repack:
+    if not resolved_weight_repack:
         argv.append("--no-repack")
     if log_verbosity is not None:
         argv.extend(["--log-verbosity", str(log_verbosity)])
+    selection_record = {
+        "plan_status": plan["status"],
+        "feasible_candidates": plan["feasible_candidates"],
+        "pareto_frontier": [item["name"] for item in plan["pareto_frontier"]],
+        "metrics": selected["metrics"],
+    }
+    input_record = {
+        "manifest_path": str(manifest_path),
+        "manifest_sha256": sha256_file(manifest_path),
+        "constraints_path": str(constraints_path),
+        "constraints_sha256": sha256_file(constraints_path),
+        "models_path": str(models_path),
+        "models_sha256": sha256_file(models_path),
+        "contract_path": str(contract_path),
+        "contract_sha256": sha256_file(contract_path),
+    }
+    if service_plan is not None and service_selected is not None:
+        selection_record["service_profile"] = {
+            "plan_status": service_plan["status"],
+            "name": service_selected["name"],
+            "feasible_profiles": service_plan["feasible_profiles"],
+            "pareto_frontier": [
+                item["name"] for item in service_plan["pareto_frontier"]
+            ],
+            "metrics": service_selected["metrics"],
+        }
+        input_record.update(
+            {
+                "service_manifest_path": str(service_manifest_path),
+                "service_manifest_sha256": sha256_file(service_manifest_path),
+                "service_constraints_path": str(service_constraints_path),
+                "service_constraints_sha256": sha256_file(
+                    service_constraints_path
+                ),
+            }
+        )
     return {
         "schema_version": 1,
         "service": "Pareto64",
         "status": "ready_to_launch",
         "selected_candidate": candidate,
-        "selection": {
-            "plan_status": plan["status"],
-            "feasible_candidates": plan["feasible_candidates"],
-            "pareto_frontier": [item["name"] for item in plan["pareto_frontier"]],
-            "metrics": selected["metrics"],
-        },
-        "inputs": {
-            "manifest_path": str(manifest_path),
-            "manifest_sha256": sha256_file(manifest_path),
-            "constraints_path": str(constraints_path),
-            "constraints_sha256": sha256_file(constraints_path),
-            "models_path": str(models_path),
-            "models_sha256": sha256_file(models_path),
-            "contract_path": str(contract_path),
-            "contract_sha256": sha256_file(contract_path),
-        },
+        "selection": selection_record,
+        "inputs": input_record,
         "model": {
             "repository": model["repository"],
             "revision": model["revision"],
@@ -321,7 +384,7 @@ def prepare_launch(
             "micro_batch_size_requested": micro_batch_size,
             "batch_size": effective_batch_size,
             "micro_batch_size": effective_micro_batch_size,
-            "weight_repack": weight_repack,
+            "weight_repack": resolved_weight_repack,
             "log_verbosity": log_verbosity,
             "argv": argv,
         },
