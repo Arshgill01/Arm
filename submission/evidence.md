@@ -35,7 +35,7 @@ public workflow run; compact manifests and reports are committed permanently.
 | Upstream-equivalent native Arm CPU lane | [E6e `30676413765`](https://github.com/Arshgill01/Arm/actions/runs/30676413765) | [`e6e` manifest](../results/manifests/e6e-30676413765.json) · [`report`](../results/reports/e6e-upstream-arm-cpu-lane.md) | `63c0e450…63c27f1` |
 | Current patched selected service passes upgrade gates | [E6f `30678703184`](https://github.com/Arshgill01/Arm/actions/runs/30678703184) | [`e6f` manifest](../results/manifests/e6f-30678703184.json) · [`report`](../results/reports/e6f-current-runtime-service.md) | `da95b831…470ace` |
 | Exact current-runtime adapter launch | [E6g `30679814341`](https://github.com/Arshgill01/Arm/actions/runs/30679814341) | [`e6g` manifest](../results/manifests/e6g-30679814341.json) · [`report`](../results/reports/e6g-current-runtime-launch.md) | `13496b5e…404ac9` |
-| Public clean-checkout package validation | [`30677849517`](https://github.com/Arshgill01/Arm/actions/runs/30677849517) | 114 tests, 18 hashes, E5j/E6d/E6e evidence checks, plan-bound launch checks, demo smoke test | passed on native `aarch64` |
+| Public clean-checkout package validation | [`30680198942`](https://github.com/Arshgill01/Arm/actions/runs/30680198942) | 122 tests, 23 hashes, E6f/E6g runtime binding checks, plan-bound launch checks, demo smoke test | passed on native `aarch64` |
 
 ## Final selected package
 
