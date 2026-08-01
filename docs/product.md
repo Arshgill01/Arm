@@ -261,6 +261,12 @@ shapes. Native run `30691254831` launched through the adapter with
 reuse throughout, and used 2,381,040 KiB maximum RSS. The exact memory profile
 is now admitted on patched b10216; unmeasured profiles still fail closed.
 
+E7a tests the remaining whole-program compiler/build choice against the exact
+patched fast service. `GGML_LTO=ON` preserved the 23/30 map and every shared
+guardrail, but improved throughput only 0.137% and reduced the hashed transitive
+local runtime closure only 0.775%. Both frozen benefit branches failed, so the
+product keeps LTO off and adds no new launch path.
+
 ## Select a measured service profile
 
 Model selection and service-profile selection are separate obligations. The

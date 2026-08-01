@@ -1041,6 +1041,21 @@ candidate for this exact service and still requires a separate product launch
 integration. Exact details are frozen in
 [`../experiments/e7a_contract.json`](../experiments/e7a_contract.json).
 
+### E7a outcome
+
+Native run `30692292700` is a valid no-win. LTO reproduced 23/30 twice with
+stable predictions, zero drift or failures, and prefix reuse throughout. It
+passed every common guardrail, but throughput improved only 0.137% and the
+eight-file transitive local runtime closure shrank only 0.775%, missing both
+the 3% performance and 5% footprint benefit branches. LTO-off remains selected.
+
+Median latency improved 0.833%; p95 increased 0.096%; measured server CPU
+seconds/request improved 0.047%; readiness was 1.0296x baseline; and maximum RSS
+decreased 28 KiB. The candidate build took 213.77 seconds versus 222.25 seconds
+for baseline, within the cost guardrail. Independent Python 3.10 ingestion
+matched the uploaded result byte for byte at `b48e6c12…b46839`. See
+[`../results/reports/e7a-lto-service.md`](../results/reports/e7a-lto-service.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

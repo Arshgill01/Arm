@@ -37,6 +37,7 @@ public workflow run; compact manifests and reports are committed permanently.
 | Exact current-runtime adapter launch | [E6g `30679814341`](https://github.com/Arshgill01/Arm/actions/runs/30679814341) | [`e6g` manifest](../results/manifests/e6g-30679814341.json) · [`report`](../results/reports/e6g-current-runtime-launch.md) | `13496b5e…404ac9` |
 | Current no-repack tier passes upgrade gates | [E6h `30690331795`](https://github.com/Arshgill01/Arm/actions/runs/30690331795) | [`e6h` manifest](../results/manifests/e6h-30690331795.json) · [`report`](../results/reports/e6h-current-runtime-memory-service.md) | `7b112b38…53b27f` |
 | Exact current no-repack adapter launch | [E6i `30691254831`](https://github.com/Arshgill01/Arm/actions/runs/30691254831) | [`e6i` manifest](../results/manifests/e6i-30691254831.json) · [`report`](../results/reports/e6i-current-runtime-memory-launch.md) | `2bcbd7e1…06d2` |
+| Whole-program LTO compiler/build no-win | [E7a `30692292700`](https://github.com/Arshgill01/Arm/actions/runs/30692292700) | [`e7a` manifest](../results/manifests/e7a-30692292700.json) · [`report`](../results/reports/e7a-lto-service.md) | `b48e6c12…b46839` |
 | Public clean-checkout package validation | [`30691572261`](https://github.com/Arshgill01/Arm/actions/runs/30691572261) | 128 tests, 28 hashes, E6f/E6g/E6h/E6i runtime evidence checks, plan-bound launch checks, demo smoke test | passed on native `aarch64` |
 
 ## Final selected package
@@ -62,7 +63,8 @@ public workflow run; compact manifests and reports are committed permanently.
   historical runtime. E6g validates the current-runtime opt-in for only the exact
   repacked E6f profile. E6h qualifies the same patched source for the exact
   no-repack tier, and E6i separately validates that tier's evidence-bound
-  adapter launch. No other current-runtime profile is admitted.
+  adapter launch. E7a rejects LTO for the fast tier after it misses both frozen
+  benefit branches. No other current-runtime profile is admitted.
 
 ## Recompute locally
 

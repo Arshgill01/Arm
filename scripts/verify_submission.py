@@ -85,6 +85,9 @@ EXPECTED_HASHES = {
     "results/manifests/e6i-30691254831.json": (
         "2bcbd7e1a7b727a763ca12c9664106a82d9ef8a70ec17ef1ac2fe9ed460c06d2"
     ),
+    "results/manifests/e7a-30692292700.json": (
+        "b48e6c129d1f3305c2b788b422bc5321cd415b2bc2b26460804063ebc3b46839"
+    ),
     "configs/runtime-b10216-selected-service.json": (
         "9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de"
     ),
@@ -896,6 +899,43 @@ def main() -> int:
         is not False
     ):
         raise ValueError("frozen E7a LTO ablation differs from selected service")
+
+    lto_result = load_object(ROOT / "results/manifests/e7a-30692292700.json")
+    lto_hypothesis = lto_result.get("hypothesis", {})
+    lto_validation = lto_result.get("validation", {})
+    lto_performance = lto_result.get("performance", {})
+    lto_builds = lto_result.get("build_profiles", {})
+    if (
+        lto_result.get("status") != "valid_lto_no_win"
+        or lto_result.get("provenance", {}).get("github_run_id") != "30692292700"
+        or lto_result.get("platform", {}).get("architecture") != "aarch64"
+        or lto_result.get("selection", {}).get("candidate")
+        != "ministral3_3b_q4_k_m"
+        or lto_result.get("selection", {}).get("selected_profile") != "lto_off"
+        or lto_hypothesis.get("passed") is not False
+        or lto_hypothesis.get("common_guardrails_passed") is not True
+        or lto_hypothesis.get("performance_branch_passed") is not False
+        or lto_hypothesis.get("footprint_branch_passed") is not False
+        or lto_hypothesis.get("throughput_ratio", 99) >= 1.03
+        or lto_hypothesis.get("runtime_closure_ratio", 0) <= 0.95
+        or any(
+            profile.get("quality", {}).get("exact_selected_predictions")
+            is not True
+            for profile in lto_performance.values()
+        )
+        or set(lto_builds) != {"lto_off", "lto_on"}
+        or any(
+            build.get("runtime_closure", {}).get("file_count") != 8
+            for build in lto_builds.values()
+        )
+        or lto_validation.get("lto_build_mechanism_verified") is not True
+        or lto_validation.get("transitive_runtime_closures_hashed") is not True
+        or lto_validation.get("lto_optimization_claim_allowed") is not False
+        or lto_validation.get("automatic_product_promotion_allowed") is not False
+        or lto_validation.get("energy_claim_allowed") is not False
+        or lto_validation.get("weighted_score_used") is not False
+    ):
+        raise ValueError("retained E7a result differs from the native no-win")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

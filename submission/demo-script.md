@@ -62,7 +62,7 @@ current llama.cpp. We claim the hot path, not a whole-model speedup.”
 
 ## 2:08–2:32 — Exact serving
 
-**Screen:** Show the E5b through E6i rows, then the terminal.
+**Screen:** Show the E5b through E7a rows, then the terminal.
 
 ```bash
 python3 scripts/verify_submission.py
@@ -76,7 +76,9 @@ agree. We then ran that adapter end to end on Arm: it launched the service and
 reproduced all 30 selected predictions with no drift or failures. The no-repack
 tier separately retained 100.24% throughput and stayed below 3 GiB on current
 source. Its own E6h-bound adapter then launched that exact tier at 2.27 GiB RSS,
-again with no drift or failures. Every other profile still fails closed.”
+again with no drift or failures. Whole-program LTO then kept every answer but
+missed both its speed and footprint gates, so it stays off. Every other profile
+still fails closed.”
 
 ## 2:32–2:50 — Close
 

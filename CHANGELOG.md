@@ -47,6 +47,9 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Submission and developer experience
 
+- Extended the focused suite to 135 tests and the immutable verifier to 30
+  hashes, including the frozen E7a compiler/build contract and independently
+  replayed native no-win manifest.
 - Extended the product guide, demo, video script, and submission narrative with
   the measured service-envelope decision and its refusal behavior.
 - Expanded the focused product suite to 128 tests and the immutable verifier to
@@ -61,6 +64,9 @@ authoritative, timestamped record; this file groups the significant additions.
   retains both transitive build-local runtime closures, and accepts only a
   predeclared throughput or footprint benefit behind shared quality, latency,
   CPU-time, readiness, RSS, and build-cost guardrails.
+- Retained E7a as a valid no-win. LTO preserved every answer and common
+  guardrail but gained only 0.137% throughput and reduced the transitive local
+  runtime closure only 0.775%, so the unchanged build remains selected.
 - Rebased the validated-feature correction onto llama.cpp `b10216`; the Q8
   vector-store and reasoning-budget patches applied byte for byte.
 - Reproduced both upstream source failures, passed all targeted tests after the

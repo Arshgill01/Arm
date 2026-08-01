@@ -629,6 +629,11 @@
             <div><strong>Verified current memory launch</strong><p>The E6h-bound adapter launched no-repack: 23/30, zero drift or failures, 2.27 GiB RSS.</p></div>
             <span class="evidence-result select-text">Integrated</span>
           </li>
+          <li>
+            <span class="evidence-id">E7a</span>
+            <div><strong>Whole-program LTO ablation</strong><p>+0.137% throughput and −0.775% local runtime closure missed both frozen benefit gates.</p></div>
+            <span class="evidence-result reject-text">Keep LTO off</span>
+          </li>
         </ol>
 
         <div class="reproduce">
@@ -697,6 +702,9 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e6i-current-runtime-memory-launch.md">
           Verified memory launch
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e7a-lto-service.md">
+          LTO ablation
         </a>
       </div>
     </footer>

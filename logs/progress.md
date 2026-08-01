@@ -1337,3 +1337,25 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `2d57010a168a777cc5de2ed2a7d6e0f11900d14a30d44ded6db34ecd85b1aa12`.
   The result cannot support energy, other-model/service/backend, or automatic
   product-promotion claims.
+
+## 2026-08-01 — E7a retains LTO-off after a valid native no-win
+
+- Native Arm run `30692292700` passed on exact frozen commit `64adb12` in
+  10m42s. Both build caches and command inventories proved the single LTO
+  difference; all eight transitive build-local runtime files per profile were
+  copied, hashed, and checked against the captured `ldd` inventories.
+- LTO-off/on reproduced 23/30 twice with stable predictions, zero reference
+  mismatches or request failures, and cached-prefix reuse in every request.
+  Every shared latency, measured CPU, readiness, RSS, and build-cost guardrail
+  passed.
+- LTO delivered only 1.001374x throughput and a 0.992250x runtime closure
+  (20,059,048 to 19,903,600 bytes). It therefore missed both the frozen 1.03x
+  throughput and 0.95x closure benefit branches. LTO-off remains selected.
+- Candidate median/p95 latency ratios were 0.991672x/1.000956x, CPU
+  seconds/request was 0.999532x, readiness was 1.029564x, maximum RSS decreased
+  28 KiB, and build-time ratio was 0.961845x.
+- Independent Python 3.10 replay reproduced the uploaded manifest byte for byte
+  at SHA-256
+  `b48e6c129d1f3305c2b788b422bc5321cd415b2bc2b26460804063ebc3b46839`.
+  This is a retained compiler/build no-win, not an energy or broader service
+  claim.

@@ -227,6 +227,13 @@ and used 2,381,040 KiB maximum RSS. The fast and memory services now have
 separate current-runtime launch evidence instead of inheriting one another's
 claims.
 
+We also challenged the untouched compiler/build front. E7a built the exact
+selected fast service twice with `GGML_LTO=OFF` and `ON`, proved the mechanism
+from full Ninja commands, and retained hashed copies of both transitive local
+runtime closures. LTO preserved 23/30 twice and every common guardrail, but
+gained only 0.137% throughput and reduced the closure only 0.775%. It missed
+both frozen benefit branches, so the default remains off.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -256,7 +263,8 @@ promising directions failed honestly: a 7B model missed the quality floor by one
 task; Qwen quantization sweeps left empty frontiers; a documented zero-reasoning
 budget exposed a real sampler state bug; its source fix passed all 13 tests but
 the unchanged eight-token application contract still rejected verbose final
-answers; and two inference slots failed to create a meaningful throughput win.
+answers; two inference slots failed to create a meaningful throughput win; and
+whole-program LTO missed both its service-speed and runtime-footprint gates.
 
 We also found and corrected mechanical evidence assumptions—non-UTF-8 diagnostic
 bytes, changing upstream commit abbreviations, and INFO-level buffer records—
@@ -287,7 +295,7 @@ without changing measured inputs or post-observation thresholds.
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 128 local tests plus native Arm workflows for the final evidence path.
+- 135 local tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 
