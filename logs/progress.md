@@ -1184,3 +1184,29 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   The claim remains one exact native Arm selected-service upgrade candidate;
   automatic product promotion, energy, model-wide, and full-matrix claims stay
   disallowed pending separate launch provenance integration.
+
+## 2026-08-01 — Current-runtime launch provenance integrated explicitly
+
+- Preserved immutable E3f model evidence and the unflagged historical `b10208`
+  path. Current source is an opt-in rather than a silent commit substitution.
+- Added a separate launch contract pinned to the E6f manifest, b10216 commit,
+  three patch hashes, exact four-file combined diff, and matched CMake flags.
+- The adapter now verifies local git HEAD/diff, CMake source/build binding,
+  server location/version/binary hash, model bytes, and the exact E6f service
+  before writing a launch recipe. Partial inputs and object/file mismatches fail
+  closed.
+- Current source admits only the measured repacked, f16 K/V, 256-token, 64/64,
+  automatic-Flash, cached, four-thread, one-slot profile. Historical lower-thread,
+  no-repack, concurrency, and alternate graph controls do not inherit E6f.
+
+## 2026-08-01 — E6g native launch integration frozen
+
+- Froze a single current-source product reproduction that builds the exact
+  patched b10216 tree, downloads the selected model, and launches through the
+  new E6f-bound Pareto64 adapter rather than reconstructing its server argv.
+- The adapter recipe, git diff, CMake cache, copied server binary, live PID,
+  readiness, slots, metrics, process CPU counters, and all raw responses are
+  retained for independent ingestion.
+- E6g requires the exact 23/30 prediction map, prefix reuse in every measured
+  request, zero failures, and absolute readiness/RSS gates. It is not a new
+  performance comparison and cannot broaden the one validated service profile.

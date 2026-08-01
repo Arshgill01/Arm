@@ -46,14 +46,18 @@ public workflow run; compact manifests and reports are committed permanently.
 - Size: `2,146,497,824` bytes
 - SHA-256: `fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4`
 - License: Apache-2.0
-- Runtime: llama.cpp `b10208`, commit
-  `9d9a6d29f6b981cc7f41983d26e56485c6af1811`
+- Runtime: historical default llama.cpp `b10208`, commit
+  `9d9a6d29f6b981cc7f41983d26e56485c6af1811`; exact-service opt-in patched
+  `b10216`, commit `876a4321163249c43ca4e986818fab5ab081f282`, through
+  [`runtime-b10216-selected-service.json`](../configs/runtime-b10216-selected-service.json)
 - Serving profile: one slot, shared-prefix cache enabled, 256-token context,
   four inference/prompt threads, f16 K/V cache, explicit `auto`
   flash-attention mode, and 64/64 prompt batch
   enabled by default; weight repacking is the fast default, with a separately
   validated `--no-weight-repack` tier for constrained-memory hosts. Supplying a
-  service policy binds and applies the measured tier automatically.
+  service policy binds and applies the measured tier automatically on the
+  historical runtime. The current-runtime opt-in permits only the exact repacked
+  E6f profile until other tiers receive current-source application evidence.
 
 ## Recompute locally
 

@@ -13,11 +13,11 @@ import statistics
 from typing import Any
 
 try:
-    from experiments.e1_ingest import parse_lscpu, parse_time_output, summarize
+    from experiments.e1_ingest import parse_lscpu, parse_time_output
 except ModuleNotFoundError as error:
     if error.name != "experiments":
         raise
-    from e1_ingest import parse_lscpu, parse_time_output, summarize
+    from e1_ingest import parse_lscpu, parse_time_output
 
 
 VARIANTS = ("baseline", "patched")

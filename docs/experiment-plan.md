@@ -906,11 +906,33 @@ used 99.93% of baseline server CPU seconds/request. Median readiness was 4.82%
 slower and maximum RSS increased by only 100 KiB, both within their ceilings.
 
 The result makes the current patched source an upgrade candidate for this exact
-service only. The retained manifest continues to disallow automatic promotion;
-launch integration must separately bind the current runtime and its patch
-provenance. Python 3.10 re-ingestion matched the uploaded manifest byte for byte
-at `da95b831…70ace`. See
+service only. The retained manifest continues to disallow automatic promotion.
+The product later adds an explicit opt-in launch contract that separately binds
+the manifest, current source diff, build cache, and binary while leaving the
+historical default unchanged. Python 3.10 re-ingestion matched the uploaded
+manifest byte for byte at `da95b831…70ace`. See
 [`../results/reports/e6f-current-runtime-service.md`](../results/reports/e6f-current-runtime-service.md).
+
+## E6g frozen current-runtime launch integration
+
+E6g verifies that the product adapter—not a manually reconstructed server
+command—can consume E6f safely. One native Arm job checks every frozen input,
+rebuilds the exact patched `b10216` source, downloads the selected model, and
+starts the exact one-slot repacked f16/256/64 cached four-thread service through
+`python -m pareto64 launch` with the E6f manifest and current-runtime contract.
+
+The recipe must bind the recomputed E3f model plan, E6f decision, exact git
+HEAD/four-file diff, three patch hashes, CMake source/build relationship, server
+location/version/binary hash, model bytes, and exact service arguments. The
+live server then runs two warmups and all 30 selected tasks. Acceptance requires
+23/30 with zero reference drift or failures, prefix reuse in every measured
+request, valid PID-bound CPU counters, readiness within 15 seconds, maximum RSS
+no greater than 8 GiB, one slot, metrics, and an accepted server exit.
+
+This is a product-integration reproduction, not another optimization comparison.
+It cannot promote no-repack, lower-thread, concurrency, alternate-cache, batch,
+context, or Flash profiles and supports no energy claim. Exact details are in
+[`../experiments/e6g_contract.json`](../experiments/e6g_contract.json).
 
 ## E4a frozen accept-backlog tuner
 

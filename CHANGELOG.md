@@ -10,8 +10,11 @@ authoritative, timestamped record; this file groups the significant additions.
 
 - Retained patched llama.cpp `b10216` as a bounded selected-service upgrade
   candidate after exact predictions and every frozen performance/resource gate
-  passed against clean `b10208`; automatic promotion remains disabled until the
-  separate launch provenance adapter is complete.
+  passed against clean `b10208`; automatic promotion remains disabled.
+- Added that explicit opt-in adapter without rewriting E3f: it binds the E6f
+  manifest, exact patched git diff, CMake source/build cache, server version and
+  binary hash, and permits only the measured one-slot repacked f16/256/64
+  four-thread profile. The unflagged b10208 path remains unchanged.
 
 - Added a fail-closed service-profile planner over the native E5h evidence.
   Explicit throughput and at-most-3-GiB policies select the repacked and
@@ -29,8 +32,9 @@ authoritative, timestamped record; this file groups the significant additions.
 
 - Extended the product guide, demo, video script, and submission narrative with
   the measured service-envelope decision and its refusal behavior.
-- Expanded the focused product suite to 118 tests and the immutable verifier to
-  19 hashes.
+- Expanded the focused product suite to 122 tests and the immutable verifier to
+  22 hashes, including the E6f upgrade, source diff, launch contract, and frozen
+  E6g integration contract.
 
 ### Arm source contributions
 

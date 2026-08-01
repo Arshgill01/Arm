@@ -115,6 +115,42 @@ graph before Pareto64 adds a performance claim for that default.
 `--dry-run` performs every integrity and selection check and writes the recipe
 without starting the server.
 
+### Opt into the current patched runtime
+
+The default path above remains bound to the immutable E3f `b10208` selection
+evidence. E6f separately accepts patched llama.cpp `b10216` for one exact
+service. Opting into it requires all four provenance inputs:
+
+```bash
+python3 -m pareto64 launch \
+  --manifest results/manifests/e3f-30656151957.json \
+  --constraints configs/cloud-quality.json \
+  --models experiments/e3f_models.json \
+  --contract experiments/e3f_contract.json \
+  --runtime-manifest results/manifests/e6f-30678703184.json \
+  --runtime-contract configs/runtime-b10216-selected-service.json \
+  --llama-source-root /path/to/patched/llama.cpp \
+  --llama-build-root /path/to/llama.cpp-build \
+  --model-root /path/to/models \
+  --llama-server /path/to/llama.cpp-build/bin/llama-server \
+  --recipe-output /tmp/pareto64-current-launch.json \
+  --parallel 1
+```
+
+Before writing the recipe, the adapter verifies the E6f and E3f manifest hashes,
+accepted upgrade decision, selected candidate/commit, exact four-file git diff,
+three patch hashes, build directory and CMake source binding, Release/native/
+KleidiAI/server flags, executable location and version, and model bytes. The
+recipe records the actual server binary and CMake-cache hashes.
+
+This opt-in path is deliberately narrower than the historical adapter. It
+accepts only repacked weights, f16 K/V cache, 256-token context, 64/64 prompt
+batch, automatic Flash Attention, shared-prefix caching, four threads, and one
+slot—the exact E6f profile. Lower threads, multiple slots, no-repack, alternate
+caches, larger contexts/batches, explicit Flash modes, or changed log verbosity
+fail before launch. Those profiles remain available with the historical pin and
+need their own current-source application evidence before being admitted here.
+
 Prompt-prefix reuse is enabled by default after E5c reproduced every selected
 answer and improved repeated median throughput 1.672x. The pinned llama.cpp
 runtime warns that cache-dependent prompt batch sizes can alter logits, so the
@@ -192,6 +228,14 @@ throughput for only 0.11% lower CPU seconds per request; two threads retained
 the latency gates. All answers and cached prefixes remained exact, so four
 threads stays the launcher default and no thread-efficiency or energy claim is
 promoted.
+
+E6f then compared the exact selected service on clean `b10208` and patched
+`b10216` with four fresh servers in reverse-balanced order. Current source
+reproduced 23/30 twice, retained 100.28% throughput, used 99.93% of baseline
+server CPU seconds/request, slightly improved median/p95 latency, and added only
+100 KiB maximum RSS. The source is therefore accepted by the explicit
+evidence-bound upgrade path above; it does not silently replace the historical
+runtime or broaden the validated service envelope.
 
 ## Select a measured service profile
 

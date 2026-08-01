@@ -71,6 +71,26 @@ def parse_args() -> argparse.Namespace:
     )
     launch.add_argument("--model-root", type=Path, required=True)
     launch.add_argument("--llama-server", type=Path, required=True)
+    launch.add_argument(
+        "--runtime-manifest",
+        type=Path,
+        help="accepted current-runtime evidence; requires the runtime contract/source/build",
+    )
+    launch.add_argument(
+        "--runtime-contract",
+        type=Path,
+        help="opt-in current-runtime launch contract",
+    )
+    launch.add_argument(
+        "--llama-source-root",
+        type=Path,
+        help="exact locally patched llama.cpp source tree",
+    )
+    launch.add_argument(
+        "--llama-build-root",
+        type=Path,
+        help="CMake build directory containing the selected llama-server",
+    )
     launch.add_argument("--recipe-output", type=Path, required=True)
     launch.add_argument("--host", default="127.0.0.1")
     launch.add_argument("--port", type=int, default=8081)
@@ -227,6 +247,20 @@ def main() -> int:
             ),
             service_manifest_path=arguments.service_manifest,
             service_constraints_path=arguments.service_constraints,
+            runtime_manifest=(
+                load_object(arguments.runtime_manifest)
+                if arguments.runtime_manifest
+                else None
+            ),
+            runtime_contract=(
+                load_object(arguments.runtime_contract)
+                if arguments.runtime_contract
+                else None
+            ),
+            runtime_manifest_path=arguments.runtime_manifest,
+            runtime_contract_path=arguments.runtime_contract,
+            runtime_source_root=arguments.llama_source_root,
+            runtime_build_root=arguments.llama_build_root,
         )
         write_recipe(arguments.recipe_output, recipe)
         print(arguments.recipe_output, flush=True)

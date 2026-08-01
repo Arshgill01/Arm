@@ -90,6 +90,11 @@ patched-`b10216` servers. Current source reproduces every selected answer twice,
 retains 100.28% throughput, slightly improves median/p95 latency, and adds only
 100 KiB maximum RSS. It passes the frozen upgrade gates for this exact service;
 automatic product promotion still requires separate launch provenance binding.
+The launcher now provides that binding as an explicit opt-in: it verifies the
+retained E6f manifest, exact patched git diff, CMake source/build relationship,
+server version and binary hash, then permits only the measured one-slot
+repacked f16/256/64 four-thread profile. The unflagged historical path is
+unchanged.
 
 ## Optimization map
 

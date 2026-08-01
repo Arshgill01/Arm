@@ -493,7 +493,9 @@
             path win. The complete three-patch series was then revalidated on
             llama.cpp b10216: every targeted test passed and all 12 paired Q8
             rounds improved. A broader upstream-equivalent Arm CPU lane then
-            passed the complete build and all 47 executed tests.
+            passed the complete build and all 47 executed tests. Finally, the
+            exact selected service cleared every b10216 upgrade gate and is
+            exposed only through a source/build-bound opt-in launch contract.
           </p>
         </header>
 
@@ -607,6 +609,11 @@
             <div><strong>Upstream-equivalent Arm CPU lane</strong><p>Complete build plus 47/47 executed tests passed.</p></div>
             <span class="evidence-result select-text">Passed</span>
           </li>
+          <li>
+            <span class="evidence-id">E6f</span>
+            <div><strong>Current-runtime selected service</strong><p>23/30 twice, 1.0028× throughput, and +100 KiB RSS on patched b10216.</p></div>
+            <span class="evidence-result select-text">Upgrade candidate</span>
+          </li>
         </ol>
 
         <div class="reproduce">
@@ -663,6 +670,9 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e6e-upstream-arm-cpu-lane.md">
           Upstream Arm lane
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e6f-current-runtime-service.md">
+          Current service
         </a>
       </div>
     </footer>

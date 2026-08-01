@@ -61,6 +61,27 @@ class Pareto64CLITests(unittest.TestCase):
             "service-memory.json", str(arguments.service_constraints)
         )
 
+    def test_launch_accepts_explicit_runtime_upgrade_paths(self) -> None:
+        with patch(
+            "sys.argv",
+            self.launch_arguments()
+            + [
+                "--runtime-manifest",
+                "e6f.json",
+                "--runtime-contract",
+                "runtime.json",
+                "--llama-source-root",
+                "llama.cpp",
+                "--llama-build-root",
+                "llama.cpp-build",
+            ],
+        ):
+            arguments = parse_args()
+        self.assertEqual("e6f.json", str(arguments.runtime_manifest))
+        self.assertEqual("runtime.json", str(arguments.runtime_contract))
+        self.assertEqual("llama.cpp", str(arguments.llama_source_root))
+        self.assertEqual("llama.cpp-build", str(arguments.llama_build_root))
+
     def test_launch_accepts_bounded_context_and_kv_profile(self) -> None:
         with patch(
             "sys.argv",

@@ -210,6 +210,12 @@ immutable Arm LLM-Runner or llama.cpp revisions with KleidiAI, download exact
 Apache-2.0 model packages, execute balanced experiments, retain raw results, and
 run a second validator that recomputes every statistic and decision.
 
+The opt-in current-runtime adapter keeps model selection immutable while binding
+E6f separately. It checks the exact four-file patched git diff, CMake source and
+build cache, executable version and binary hash, model bytes, and the one service
+profile E6f actually measured. Missing provenance or a different profile aborts
+before launch.
+
 The historical selected runtime is llama.cpp `b10208` at commit
 `9d9a6d29f6b981cc7f41983d26e56485c6af1811`; E6f separately accepts patched
 `b10216` commit `876a4321163249c43ca4e986818fab5ab081f282` as an exact-service

@@ -16,6 +16,9 @@ sys.path.insert(0, str(ROOT))
 build_plan = import_module("pareto64.planner").build_plan
 resolve_batch_profile = import_module("pareto64.cli").resolve_batch_profile
 build_service_plan = import_module("pareto64.service_planner").build_service_plan
+validate_runtime_upgrade_service = import_module(
+    "pareto64.runtime"
+).validate_runtime_upgrade_service
 
 
 EXPECTED_HASHES = {
@@ -72,6 +75,15 @@ EXPECTED_HASHES = {
     ),
     "results/manifests/e6f-30678703184.json": (
         "da95b831a0cccf3b16dd45e93e11855a6e0322c5aa163d145c24243b42470ace"
+    ),
+    "configs/runtime-b10216-selected-service.json": (
+        "9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de"
+    ),
+    "patches/llama.cpp/b10216/e6f-current-series.patch": (
+        "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893"
+    ),
+    "experiments/e6g_contract.json": (
+        "92ad60fbc5fdf74ac10566230efcdbaf2322f9d4f68f1ed3822c2b3904fab1e8"
     ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
@@ -597,6 +609,42 @@ def main() -> int:
         or upgrade_validation.get("weighted_score_used") is not False
     ):
         raise ValueError("retained selected-service upgrade differs from E6f evidence")
+
+    runtime_contract_path = ROOT / "configs/runtime-b10216-selected-service.json"
+    runtime_contract = load_object(runtime_contract_path)
+    runtime_record = runtime_contract.get("runtime", {})
+    runtime_manifest_record = runtime_contract.get("runtime_manifest", {})
+    model_manifest_record = runtime_contract.get("model_selection_manifest", {})
+    source_diff_path = ROOT / runtime_record.get("source_diff_path", "")
+    if (
+        runtime_contract.get("schema_version") != 1
+        or runtime_contract.get("promotion_mode")
+        != "explicit_evidence_bound_upgrade"
+        or runtime_contract.get("selected_candidate")
+        != upgrade_selection.get("candidate")
+        or runtime_manifest_record.get("sha256")
+        != sha256_file(ROOT / runtime_manifest_record.get("path", ""))
+        or model_manifest_record.get("sha256")
+        != sha256_file(ROOT / model_manifest_record.get("path", ""))
+        or runtime_record.get("baseline_commit")
+        != upgrade_source.get("baseline", {}).get("commit")
+        or runtime_record.get("selected_commit")
+        != upgrade_source.get("current_patched", {}).get("commit")
+        or runtime_record.get("source_diff_sha256") != sha256_file(source_diff_path)
+        or runtime_record.get("patches")
+        != [
+            {"name": patch.get("name"), "sha256": patch.get("sha256")}
+            for patch in upgrade_contract.get("runtimes", {})
+            .get("current_patched", {})
+            .get("patches", [])
+        ]
+    ):
+        raise ValueError("current-runtime launch contract differs from E6f")
+    validate_runtime_upgrade_service(
+        runtime_upgrade,
+        runtime_contract,
+        runtime_contract["service"],
+    )
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "contract_id": "pareto64-runtime-b10216-selected-service",
+  "promotion_mode": "explicit_evidence_bound_upgrade",
+  "runtime_manifest": {
+    "experiment_id": "E6f",
+    "path": "results/manifests/e6f-30678703184.json",
+    "sha256": "da95b831a0cccf3b16dd45e93e11855a6e0322c5aa163d145c24243b42470ace"
+  },
+  "model_selection_manifest": {
+    "experiment_id": "E3f",
+    "path": "results/manifests/e3f-30656151957.json",
+    "sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c"
+  },
+  "selected_candidate": "ministral3_3b_q4_k_m",
+  "runtime": {
+    "baseline_commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+    "selected_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "selected_tag": "b10216",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "source_diff_path": "patches/llama.cpp/b10216/e6f-current-series.patch",
+    "changed_files": [
+      "common/reasoning-budget.cpp",
+      "ggml/src/ggml-cpu/CMakeLists.txt",
+      "ggml/src/ggml-cpu/arch/arm/quants.c",
+      "tests/test-reasoning-budget.cpp"
+    ],
+    "patches": [
+      {
+        "name": "validated_arm_features",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "name": "q8_vector_stores",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "name": "reasoning_forced_token_guard",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      }
+    ]
+  },
+  "build": {
+    "server_relative_path": "bin/llama-server",
+    "cmake_cache_entries": [
+      "CMAKE_BUILD_TYPE:STRING=Release",
+      "CMAKE_GENERATOR:INTERNAL=Ninja",
+      "GGML_CPU_KLEIDIAI:BOOL=ON",
+      "GGML_NATIVE:BOOL=ON",
+      "LLAMA_BUILD_EXAMPLES:BOOL=OFF",
+      "LLAMA_BUILD_SERVER:BOOL=ON",
+      "LLAMA_BUILD_TESTS:BOOL=OFF",
+      "LLAMA_CURL:UNINITIALIZED=OFF"
+    ]
+  },
+  "service": {
+    "batch_size": 64,
+    "context_per_slot": 256,
+    "flash_attention": "auto",
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "log_verbosity": null,
+    "micro_batch_size": 64,
+    "parallel_slots": 1,
+    "prompt_cache": true,
+    "threads": 4,
+    "weight_repack": true
+  },
+  "claim_boundary": "This opt-in contract launches only the exact E6f selected service from an exact locally patched b10216 source/build pair. It does not promote other models or service profiles and does not establish energy savings or full upstream coverage."
+}

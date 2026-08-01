@@ -1,0 +1,257 @@
+name: Arm E6g current-runtime launch integration
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CURRENT_SHA: 876a4321163249c43ca4e986818fab5ab081f282
+  CURRENT_TAG: b10216
+  CONTRACT_SHA256: 92ad60fbc5fdf74ac10566230efcdbaf2322f9d4f68f1ed3822c2b3904fab1e8
+  SELECTED_CANDIDATE: ministral3_3b_q4_k_m
+
+jobs:
+  current_runtime_launch:
+    name: Verify and execute the E6f-bound launcher
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 35
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e6g-${{ github.run_id }}-${{ github.run_attempt }}
+      LLAMA_CPP_DIR: /tmp/llama.cpp-E6g
+      BUILD_DIR: /tmp/llama.cpp-E6g-build
+      MODEL_ROOT: /tmp/Pareto64-E6g/models
+
+    steps:
+      - name: Check out frozen integration
+        uses: actions/checkout@v7
+
+      - name: Select supported Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Capture host and verify immutable inputs
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR" "$MODEL_ROOT"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          echo "$CONTRACT_SHA256  experiments/e6g_contract.json" \
+            | sha256sum --check --strict
+          echo '54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c  results/manifests/e3f-30656151957.json' | sha256sum --check --strict
+          echo '7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33  configs/cloud-quality.json' | sha256sum --check --strict
+          echo '31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d  experiments/e3f_models.json' | sha256sum --check --strict
+          echo 'a43ebf2b44aba9bac7e44e18a979901715cd23855df0d2c16c93375382977551  experiments/e3f_contract.json' | sha256sum --check --strict
+          echo 'da95b831a0cccf3b16dd45e93e11855a6e0322c5aa163d145c24243b42470ace  results/manifests/e6f-30678703184.json' | sha256sum --check --strict
+          echo '9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de  configs/runtime-b10216-selected-service.json' | sha256sum --check --strict
+          echo 'beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346  experiments/e3_tasks.json' | sha256sum --check --strict
+          cp experiments/e6g_contract.json "$EVIDENCE_DIR/contract.json"
+          cp results/manifests/e3f-30656151957.json "$EVIDENCE_DIR/selected-manifest.json"
+          cp configs/cloud-quality.json "$EVIDENCE_DIR/deployment-policy.json"
+          cp experiments/e3f_models.json "$EVIDENCE_DIR/models-manifest.json"
+          cp experiments/e3f_contract.json "$EVIDENCE_DIR/model-contract.json"
+          cp results/manifests/e6f-30678703184.json "$EVIDENCE_DIR/runtime-manifest.json"
+          cp configs/runtime-b10216-selected-service.json "$EVIDENCE_DIR/runtime-launch-contract.json"
+          cp experiments/e3_tasks.json "$EVIDENCE_DIR/tasks-manifest.json"
+
+      - name: Pin patched current source and selected model
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/ggml-org/llama.cpp.git "$LLAMA_CPP_DIR"
+          git -C "$LLAMA_CPP_DIR" checkout --detach "$CURRENT_SHA"
+          test "$(git -C "$LLAMA_CPP_DIR" rev-parse HEAD)" = "$CURRENT_SHA"
+          test "$(git -C "$LLAMA_CPP_DIR" describe --tags --exact-match)" = "$CURRENT_TAG"
+          for patch in \
+            patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch \
+            patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch \
+            patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch; do
+            git -C "$LLAMA_CPP_DIR" apply --check "$GITHUB_WORKSPACE/$patch"
+            git -C "$LLAMA_CPP_DIR" apply "$GITHUB_WORKSPACE/$patch"
+          done
+          git -C "$LLAMA_CPP_DIR" diff --name-only HEAD \
+            | tee "$EVIDENCE_DIR/patched-files.txt"
+          git -C "$LLAMA_CPP_DIR" diff --binary --no-ext-diff HEAD -- \
+            > "$EVIDENCE_DIR/source-diff.patch"
+          test "$(sha256sum "$EVIDENCE_DIR/source-diff.patch" | cut -d' ' -f1)" = \
+            'e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893'
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          source = {
+              "schema_version": 1,
+              "repository": "https://github.com/ggml-org/llama.cpp.git",
+              "tag": os.environ["CURRENT_TAG"],
+              "commit": os.environ["CURRENT_SHA"],
+          }
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          (evidence / "source.json").write_text(
+              json.dumps(source, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+
+          repository="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].repository' experiments/e3f_models.json)"
+          revision="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].revision' experiments/e3f_models.json)"
+          model_path="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].path' experiments/e3f_models.json)"
+          model_sha="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].sha256' experiments/e3f_models.json)"
+          model_size="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].size_bytes' experiments/e3f_models.json)"
+          target="$MODEL_ROOT/$SELECTED_CANDIDATE/$model_path"
+          mkdir -p "$(dirname "$target")"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$target" \
+            "https://huggingface.co/$repository/resolve/$revision/$model_path?download=true"
+          test "$(stat --format='%s' "$target")" = "$model_size"
+          echo "$model_sha  $target" | sha256sum --check --strict
+          sha256sum "$target" | tee "$EVIDENCE_DIR/model-sha256.txt"
+
+      - name: Build the contract-bound current server
+        run: |
+          set -euo pipefail
+          cmake -S "$LLAMA_CPP_DIR" -B "$BUILD_DIR" -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DGGML_CPU_KLEIDIAI=ON \
+            -DGGML_NATIVE=ON \
+            -DLLAMA_BUILD_EXAMPLES=OFF \
+            -DLLAMA_BUILD_SERVER=ON \
+            -DLLAMA_BUILD_TESTS=OFF \
+            -DLLAMA_CURL=OFF \
+            2>&1 | tee "$EVIDENCE_DIR/configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' \
+            "$EVIDENCE_DIR/configure.log"
+          grep -q 'ARM detected' "$EVIDENCE_DIR/configure.log"
+          cmake --build "$BUILD_DIR" --target llama-server --parallel "$(nproc)" \
+            2>&1 | tee "$EVIDENCE_DIR/build.log"
+          cp "$BUILD_DIR/CMakeCache.txt" "$EVIDENCE_DIR/CMakeCache.txt"
+          cp "$BUILD_DIR/bin/llama-server" "$EVIDENCE_DIR/llama-server"
+          "$BUILD_DIR/bin/llama-server" --version 2>&1 \
+            | tee "$EVIDENCE_DIR/server-version.txt"
+
+      - name: Execute the exact service through Pareto64
+        run: |
+          set -euo pipefail
+          active_timer_pid=""
+          active_server_pid=""
+          cleanup() {
+            if [ -n "$active_server_pid" ] && kill -0 "$active_server_pid" 2>/dev/null; then
+              kill -INT "$active_server_pid" 2>/dev/null || true
+            fi
+            if [ -n "$active_timer_pid" ] && kill -0 "$active_timer_pid" 2>/dev/null; then
+              wait "$active_timer_pid" 2>/dev/null || true
+            fi
+          }
+          trap cleanup EXIT
+          /usr/bin/time --verbose --output "$EVIDENCE_DIR/server-time.log" \
+            python3 -m pareto64 launch \
+            --manifest results/manifests/e3f-30656151957.json \
+            --constraints configs/cloud-quality.json \
+            --models experiments/e3f_models.json \
+            --contract experiments/e3f_contract.json \
+            --runtime-manifest results/manifests/e6f-30678703184.json \
+            --runtime-contract configs/runtime-b10216-selected-service.json \
+            --llama-source-root "$LLAMA_CPP_DIR" \
+            --llama-build-root "$BUILD_DIR" \
+            --model-root "$MODEL_ROOT" \
+            --llama-server "$BUILD_DIR/bin/llama-server" \
+            --recipe-output "$EVIDENCE_DIR/recipe.json" \
+            --host 127.0.0.1 \
+            --port 18081 \
+            --parallel 1 \
+            > "$EVIDENCE_DIR/server.stdout.log" \
+            2> "$EVIDENCE_DIR/server.stderr.log" &
+          active_timer_pid=$!
+          python3 experiments/e3d_http_quality.py wait \
+            --url http://127.0.0.1:18081 \
+            --timeout 45 \
+            --output "$EVIDENCE_DIR/readiness.json"
+          for _ in $(seq 1 50); do
+            active_server_pid="$(pgrep -P "$active_timer_pid" -x llama-server || true)"
+            if [ -n "$active_server_pid" ]; then
+              break
+            fi
+            sleep 0.1
+          done
+          test -n "$active_server_pid"
+          echo "$active_server_pid" > "$EVIDENCE_DIR/server-pid.txt"
+          python3 experiments/e5b_inference_probe.py \
+            --url http://127.0.0.1:18081 \
+            --tasks experiments/e3_tasks.json \
+            --reference-manifest results/manifests/e3f-30656151957.json \
+            --candidate "$SELECTED_CANDIDATE" \
+            --configuration current_patched \
+            --repetition 1 \
+            --warmup-task arithmetic-02 \
+            --warmup-task logic-01 \
+            --warmup-slot 0 \
+            --warmup-slot 0 \
+            --concurrency 1 \
+            --cache-prompt \
+            --server-pid "$active_server_pid" \
+            --max-output-tokens 8 \
+            --seed 424242 \
+            --timeout 30 \
+            --experiment-id E6g \
+            --output "$EVIDENCE_DIR/probe.json"
+          curl --fail --silent http://127.0.0.1:18081/metrics \
+            > "$EVIDENCE_DIR/metrics.txt"
+          curl --fail --silent http://127.0.0.1:18081/slots \
+            > "$EVIDENCE_DIR/slots.json"
+          kill -INT "$active_server_pid"
+          set +e
+          wait "$active_timer_pid"
+          server_status=$?
+          set -e
+          echo "$server_status" > "$EVIDENCE_DIR/server-shell-exit.txt"
+          [[ "$server_status" -eq 0 || "$server_status" -eq 130 ]]
+          active_timer_pid=""
+          active_server_pid=""
+          trap - EXIT
+
+      - name: Record provenance and independently validate integration
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          provenance = {
+              "schema_version": 1,
+              "experiment_id": "E6g",
+              "git_commit": os.environ["GITHUB_SHA"],
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+          }
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          (evidence / "provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          python3 experiments/e6g_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract experiments/e6g_contract.json \
+            --manifest results/manifests/e3f-30656151957.json \
+            --policy configs/cloud-quality.json \
+            --models experiments/e3f_models.json \
+            --model-contract experiments/e3f_contract.json \
+            --runtime-manifest results/manifests/e6f-30678703184.json \
+            --runtime-contract configs/runtime-b10216-selected-service.json \
+            --tasks experiments/e3_tasks.json \
+            --output "$EVIDENCE_DIR/summary.json"
+          jq '{status, validation, source, selection, quality, performance}' \
+            "$EVIDENCE_DIR/summary.json"
+
+      - name: Upload E6g evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e6g-current-runtime-launch-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90
