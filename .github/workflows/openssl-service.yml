@@ -1,0 +1,361 @@
+name: Arm E7b loopback HTTP dependency pruning
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e7b_contract.json
+  CONTRACT_SHA256: 2c5cd9f8d84ef5f77fdd14c66a7822189ec09ff6688743e26f7f2fd7c77abea9
+  CURRENT_SHA: 876a4321163249c43ca4e986818fab5ab081f282
+  CURRENT_TAG: b10216
+  FEATURE_PATCH_SHA256: b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f
+  Q8_PATCH_SHA256: 54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab
+  REASONING_PATCH_SHA256: 2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783
+  SELECTED_CANDIDATE: ministral3_3b_q4_k_m
+
+jobs:
+  compare:
+    name: Compare matched OpenSSL on and off services
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e7b-${{ github.run_id }}-${{ github.run_attempt }}
+      SOURCE_DIR: /tmp/llama.cpp-E7b
+      OPENSSL_ON_BUILD: /tmp/llama.cpp-E7b-openssl-on-build
+      OPENSSL_OFF_BUILD: /tmp/llama.cpp-E7b-openssl-off-build
+      MODEL_ROOT: /tmp/Pareto64-E7b/models
+      FEATURE_PATCH: ${{ github.workspace }}/patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch
+      Q8_PATCH: ${{ github.workspace }}/patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch
+      REASONING_PATCH: ${{ github.workspace }}/patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch
+
+    steps:
+      - name: Check out frozen experiment
+        uses: actions/checkout@v7
+
+      - name: Select supported Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Capture host and verify frozen inputs
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR/builds/openssl_off" \
+            "$EVIDENCE_DIR/builds/openssl_on" \
+            "$EVIDENCE_DIR/patches" \
+            "$MODEL_ROOT"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          {
+            cc --version
+            c++ --version
+            cmake --version
+            ninja --version
+          } | tee "$EVIDENCE_DIR/compiler.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          cp results/manifests/e3f-30656151957.json \
+            "$EVIDENCE_DIR/selected-manifest.json"
+          cp experiments/e3f_models.json "$EVIDENCE_DIR/models-manifest.json"
+          cp experiments/e3_tasks.json "$EVIDENCE_DIR/tasks-manifest.json"
+          cp "$FEATURE_PATCH" "$EVIDENCE_DIR/patches/$(basename "$FEATURE_PATCH")"
+          cp "$Q8_PATCH" "$EVIDENCE_DIR/patches/$(basename "$Q8_PATCH")"
+          cp "$REASONING_PATCH" \
+            "$EVIDENCE_DIR/patches/$(basename "$REASONING_PATCH")"
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          echo '54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c  results/manifests/e3f-30656151957.json' | sha256sum --check --strict
+          echo '31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d  experiments/e3f_models.json' | sha256sum --check --strict
+          echo 'beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346  experiments/e3_tasks.json' | sha256sum --check --strict
+          echo "$FEATURE_PATCH_SHA256  $FEATURE_PATCH" | sha256sum --check --strict
+          echo "$Q8_PATCH_SHA256  $Q8_PATCH" | sha256sum --check --strict
+          echo "$REASONING_PATCH_SHA256  $REASONING_PATCH" | sha256sum --check --strict
+
+      - name: Pin patched source and selected model
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/ggml-org/llama.cpp.git "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$CURRENT_SHA"
+          test "$(git -C "$SOURCE_DIR" rev-parse HEAD)" = "$CURRENT_SHA"
+          test "$(git -C "$SOURCE_DIR" describe --tags --exact-match)" = \
+            "$CURRENT_TAG"
+          test -z "$(git -C "$SOURCE_DIR" status --short)"
+          for patch in "$FEATURE_PATCH" "$Q8_PATCH" "$REASONING_PATCH"; do
+            git -C "$SOURCE_DIR" apply --check "$patch"
+            git -C "$SOURCE_DIR" apply "$patch"
+          done
+          git -C "$SOURCE_DIR" diff --check
+          git -C "$SOURCE_DIR" diff --name-only HEAD | sort \
+            | tee "$EVIDENCE_DIR/patched-files.txt"
+          diff -u \
+            <(printf '%s\n' \
+              common/reasoning-budget.cpp \
+              ggml/src/ggml-cpu/CMakeLists.txt \
+              ggml/src/ggml-cpu/arch/arm/quants.c \
+              tests/test-reasoning-budget.cpp) \
+            "$EVIDENCE_DIR/patched-files.txt"
+          git -C "$SOURCE_DIR" diff --binary --full-index HEAD -- \
+            > "$EVIDENCE_DIR/source-diff.patch"
+          test "$(sha256sum "$EVIDENCE_DIR/source-diff.patch" | cut -d' ' -f1)" = \
+            'e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893'
+
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          source = {
+              "schema_version": 1,
+              "repository": "https://github.com/ggml-org/llama.cpp.git",
+              "tag": os.environ["CURRENT_TAG"],
+              "commit": os.environ["CURRENT_SHA"],
+              "patches_applied": [
+                  "validated_arm_features",
+                  "q8_vector_stores",
+                  "reasoning_forced_token_guard",
+              ],
+          }
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          (evidence / "source.json").write_text(
+              json.dumps(source, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+
+          repository="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].repository' experiments/e3f_models.json)"
+          revision="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].revision' experiments/e3f_models.json)"
+          model_path="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].path' experiments/e3f_models.json)"
+          model_sha="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].sha256' experiments/e3f_models.json)"
+          model_size="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].size_bytes' experiments/e3f_models.json)"
+          target="$MODEL_ROOT/$SELECTED_CANDIDATE/$model_path"
+          mkdir -p "$(dirname "$target")"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$target" \
+            "https://huggingface.co/$repository/resolve/$revision/$model_path?download=true"
+          test "$(stat --format='%s' "$target")" = "$model_size"
+          echo "$model_sha  $target" | sha256sum --check --strict
+          find "$MODEL_ROOT" -type f -printf '%P %s bytes\n' \
+            | tee "$EVIDENCE_DIR/model-files.txt"
+          sha256sum "$target" | tee "$EVIDENCE_DIR/model-sha256.txt"
+
+      - name: Build and inventory both matched OpenSSL profiles
+        run: |
+          set -euo pipefail
+          for profile in openssl_on openssl_off; do
+            if [[ "$profile" == "openssl_on" ]]; then
+              build_dir="$OPENSSL_ON_BUILD"
+              openssl=ON
+            else
+              build_dir="$OPENSSL_OFF_BUILD"
+              openssl=OFF
+            fi
+            output_dir="$EVIDENCE_DIR/builds/$profile"
+            cmake -S "$SOURCE_DIR" -B "$build_dir" -G Ninja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+              -DGGML_CPU_KLEIDIAI=ON \
+              -DGGML_LTO=OFF \
+              -DGGML_NATIVE=ON \
+              -DLLAMA_BUILD_EXAMPLES=OFF \
+              -DLLAMA_BUILD_SERVER=ON \
+              -DLLAMA_BUILD_TESTS=OFF \
+              -DLLAMA_CURL=OFF \
+              -DLLAMA_OPENSSL="$openssl" \
+              2>&1 | tee "$output_dir/configure.log"
+            grep -q 'Using KleidiAI optimized kernels if applicable' \
+              "$output_dir/configure.log"
+            grep -q 'ARM detected' "$output_dir/configure.log"
+            cp "$build_dir/CMakeCache.txt" "$output_dir/CMakeCache.txt"
+            /usr/bin/time --verbose --output "$output_dir/build-time.log" \
+              cmake --build "$build_dir" --target llama-server \
+                --parallel "$(nproc)" \
+              2>&1 | tee "$output_dir/build.log"
+            ninja -C "$build_dir" -t commands \
+              > "$output_dir/build-commands.txt"
+            "$build_dir/bin/llama-server" --version 2>&1 \
+              | tee "$output_dir/server-version.txt"
+            python3 experiments/e7a_runtime_closure.py \
+              --server "$build_dir/bin/llama-server" \
+              --build-root "$build_dir" \
+              --copy-dir "$output_dir/runtime-files" \
+              --output "$output_dir/runtime-closure.json"
+          done
+
+      - name: Run reverse-balanced OpenSSL service matrix
+        run: |
+          set -euo pipefail
+          active_timer_pid=""
+          active_server_pid=""
+          cleanup() {
+            if [ -n "$active_server_pid" ] && kill -0 "$active_server_pid" 2>/dev/null; then
+              kill -INT "$active_server_pid" 2>/dev/null || true
+            fi
+            if [ -n "$active_timer_pid" ] && kill -0 "$active_timer_pid" 2>/dev/null; then
+              wait "$active_timer_pid" 2>/dev/null || true
+            fi
+          }
+          trap cleanup EXIT
+
+          run_cell() {
+            local index="$1"
+            local profile="$2"
+            local repetition="$3"
+            local build_dir
+            if [[ "$profile" == "openssl_on" ]]; then
+              build_dir="$OPENSSL_ON_BUILD"
+            else
+              build_dir="$OPENSSL_OFF_BUILD"
+            fi
+            local server="$build_dir/bin/llama-server"
+            local entrypoint
+            entrypoint="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].entrypoint' experiments/e3f_models.json)"
+            local model_path="$MODEL_ROOT/$SELECTED_CANDIDATE/$entrypoint"
+            local output_dir="$EVIDENCE_DIR/cells/${index}-${profile}-r${repetition}"
+            mkdir -p "$output_dir"
+            PROFILE_NAME="$profile" SERVER_PATH="$server" MODEL_PATH="$model_path" \
+              RECIPE_PATH="$output_dir/recipe.json" python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          from experiments.e6f_ingest import (
+              capture_server_version,
+              expected_server_argv,
+          )
+
+          contract = json.loads(Path(os.environ["CONTRACT_PATH"]).read_text())
+          profile_name = os.environ["PROFILE_NAME"]
+          server = os.environ["SERVER_PATH"]
+          model_path = os.environ["MODEL_PATH"]
+          selected = contract["selected"]
+          service = contract["service"]
+          recipe = {
+              "schema_version": 1,
+              "experiment_id": "E7b",
+              "profile_name": profile_name,
+              "build_profile": contract["build"]["profiles"][profile_name],
+              "runtime": contract["runtime"],
+              "server_path": server,
+              "server_version": capture_server_version(server),
+              "model": {
+                  "path": model_path,
+                  "sha256": selected["model_sha256"],
+                  "size_bytes": selected["model_size_bytes"],
+              },
+              "service": service,
+              "argv": expected_server_argv(
+                  server,
+                  model_path,
+                  candidate=selected["candidate"],
+                  service=service,
+              ),
+          }
+          Path(os.environ["RECIPE_PATH"]).write_text(
+              json.dumps(recipe, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+            mapfile -t server_argv < <(jq -r '.argv[]' "$output_dir/recipe.json")
+            /usr/bin/time --verbose --output "$output_dir/server-time.log" \
+              "${server_argv[@]}" \
+              > "$output_dir/server.stdout.log" \
+              2> "$output_dir/server.stderr.log" &
+            active_timer_pid=$!
+            python3 experiments/e3d_http_quality.py wait \
+              --url http://127.0.0.1:18081 \
+              --timeout 45 \
+              --output "$output_dir/readiness.json"
+            active_server_pid=""
+            for _ in $(seq 1 50); do
+              active_server_pid="$(pgrep -P "$active_timer_pid" -x llama-server || true)"
+              if [ -n "$active_server_pid" ]; then
+                break
+              fi
+              sleep 0.1
+            done
+            test -n "$active_server_pid"
+            echo "$active_server_pid" > "$output_dir/server-pid.txt"
+            python3 experiments/e5b_inference_probe.py \
+              --url http://127.0.0.1:18081 \
+              --tasks experiments/e3_tasks.json \
+              --reference-manifest results/manifests/e3f-30656151957.json \
+              --candidate "$SELECTED_CANDIDATE" \
+              --configuration "$profile" \
+              --repetition "$repetition" \
+              --warmup-task arithmetic-02 \
+              --warmup-task logic-01 \
+              --warmup-slot 0 \
+              --warmup-slot 0 \
+              --concurrency 1 \
+              --max-output-tokens 8 \
+              --seed 424242 \
+              --timeout 30 \
+              --experiment-id E7b \
+              --server-pid "$active_server_pid" \
+              --cache-prompt \
+              --output "$output_dir/probe.json"
+            curl --fail --silent http://127.0.0.1:18081/metrics \
+              > "$output_dir/metrics.txt"
+            curl --fail --silent http://127.0.0.1:18081/slots \
+              > "$output_dir/slots.json"
+            kill -INT "$active_server_pid"
+            set +e
+            wait "$active_timer_pid"
+            local server_status=$?
+            set -e
+            echo "$server_status" > "$output_dir/server-shell-exit.txt"
+            [[ "$server_status" -eq 0 || "$server_status" -eq 130 ]]
+            active_timer_pid=""
+            active_server_pid=""
+          }
+
+          run_cell 01 openssl_on 1
+          run_cell 02 openssl_off 1
+          run_cell 03 openssl_off 2
+          run_cell 04 openssl_on 2
+          trap - EXIT
+
+      - name: Record provenance and independently validate evidence
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          provenance = {
+              "schema_version": 1,
+              "experiment_id": "E7b",
+              "git_commit": os.environ["GITHUB_SHA"],
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "baseline_profile": "openssl_on",
+              "candidate_profile": "openssl_off",
+          }
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          (evidence / "provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          python3 experiments/e7b_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --manifest results/manifests/e3f-30656151957.json \
+            --models experiments/e3f_models.json \
+            --tasks experiments/e3_tasks.json \
+            --patch-root . \
+            --output "$EVIDENCE_DIR/summary.json"
+          jq '{status, validation, selection, hypothesis, build_profiles: (.build_profiles | with_entries(.value = {llama_openssl: .value.llama_openssl, dependencies: .value.dependency_basenames, build_process: .value.build_process, runtime_closure: {file_count: .value.runtime_closure.file_count, total_size_bytes: .value.runtime_closure.total_size_bytes}})), performance: (.performance | with_entries(.value = {throughput: .value.requests_per_second, latency: .value.http_ms, server_cpu_seconds_per_request: .value.server_cpu_seconds_per_request, ready_ms: .value.ready_ms, rss: .value.maximum_rss_kib, quality: .value.quality}))}' \
+            "$EVIDENCE_DIR/summary.json"
+
+      - name: Upload E7b OpenSSL service evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e7b-openssl-service-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90

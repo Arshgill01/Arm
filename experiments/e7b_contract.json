@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E7b",
+  "title": "Loopback HTTP service OpenSSL dependency-pruning ablation",
+  "hypothesis": "Disabling llama.cpp HTTPS support for the exact loopback-only fast service removes the libssl and libcrypto runtime dependency edges without adding a new dependency, changing selected quality, increasing the build-local runtime closure, or reducing repeated median throughput below 98 percent of the matched default build.",
+  "controlled_difference": "Both profiles use the same exact patched llama.cpp source, GCC toolchain, native/KleidiAI Release configuration with LTO disabled, selected model, loopback HTTP service, workload, order balance, and host. LLAMA_OPENSSL=ON versus OFF is the only build-profile difference.",
+  "inputs": {
+    "manifest_path": "results/manifests/e3f-30656151957.json",
+    "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+  },
+  "runtime": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216",
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "changed_files": [
+      "common/reasoning-budget.cpp",
+      "ggml/src/ggml-cpu/CMakeLists.txt",
+      "ggml/src/ggml-cpu/arch/arm/quants.c",
+      "tests/test-reasoning-budget.cpp"
+    ],
+    "patches": [
+      {
+        "name": "validated_arm_features",
+        "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "name": "q8_vector_stores",
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "name": "reasoning_forced_token_guard",
+        "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      }
+    ]
+  },
+  "build": {
+    "common_cmake_cache_entries": [
+      "CMAKE_BUILD_TYPE:STRING=Release",
+      "CMAKE_GENERATOR:INTERNAL=Ninja",
+      "GGML_CPU_KLEIDIAI:BOOL=ON",
+      "GGML_LTO:BOOL=OFF",
+      "GGML_NATIVE:BOOL=ON",
+      "LLAMA_BUILD_EXAMPLES:BOOL=OFF",
+      "LLAMA_BUILD_SERVER:BOOL=ON",
+      "LLAMA_BUILD_TESTS:BOOL=OFF",
+      "LLAMA_CURL:UNINITIALIZED=OFF"
+    ],
+    "profiles": {
+      "openssl_on": {
+        "llama_openssl": true,
+        "required_command_patterns": [
+          "CPPHTTPLIB_OPENSSL_SUPPORT"
+        ],
+        "forbidden_command_patterns": []
+      },
+      "openssl_off": {
+        "llama_openssl": false,
+        "required_command_patterns": [],
+        "forbidden_command_patterns": [
+          "CPPHTTPLIB_OPENSSL_SUPPORT"
+        ]
+      }
+    },
+    "runtime_closure": "The server plus every unique transitive shared library resolved under its own build root; system libraries are inventoried but excluded from the copied build-local closure. Every copied file is hashed individually."
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "reference_correct": 23,
+    "reference_total": 30,
+    "reference_accuracy": 0.7666666666666667,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824
+  },
+  "service": {
+    "batch_size": 64,
+    "client_concurrency": 1,
+    "context_per_slot": 256,
+    "flash_attention": "auto",
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "micro_batch_size": 64,
+    "prompt_cache": true,
+    "server_parallel_slots": 1,
+    "threads": 4,
+    "warmup_slot_ids": [
+      0,
+      0
+    ],
+    "weight_repack": true
+  },
+  "request": {
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ],
+    "measured_tasks": 30,
+    "max_output_tokens": 8,
+    "instruction_role": "system",
+    "chat_template_mode": "model_jinja_system_instruction",
+    "temperature": 0.0,
+    "seed": 424242,
+    "timeout_seconds": 30.0
+  },
+  "execution": {
+    "baseline_profile": "openssl_on",
+    "candidate_profile": "openssl_off",
+    "repetitions_per_profile": 2,
+    "fresh_server_per_cell": true,
+    "order": [
+      {
+        "profile": "openssl_on",
+        "repetition": 1
+      },
+      {
+        "profile": "openssl_off",
+        "repetition": 1
+      },
+      {
+        "profile": "openssl_off",
+        "repetition": 2
+      },
+      {
+        "profile": "openssl_on",
+        "repetition": 2
+      }
+    ]
+  },
+  "acceptance": {
+    "http_status": 200,
+    "termination_reason": "stop",
+    "request_failures": 0,
+    "reference_prediction_mismatches": 0,
+    "minimum_candidate_cached_tokens_per_request": 1,
+    "required_baseline_system_dependency_basenames": [
+      "libcrypto.so.3",
+      "libssl.so.3"
+    ],
+    "forbidden_candidate_system_dependency_basenames": [
+      "libcrypto.so.3",
+      "libssl.so.3"
+    ],
+    "maximum_new_candidate_dependency_count": 0,
+    "maximum_runtime_closure_ratio": 1.0,
+    "minimum_throughput_ratio": 0.98,
+    "maximum_median_http_latency_ratio": 1.05,
+    "maximum_p95_http_latency_ratio": 1.05,
+    "maximum_cpu_seconds_per_request_ratio": 1.05,
+    "maximum_ready_time_ratio": 1.15,
+    "maximum_candidate_rss_increase_kib": 65536,
+    "maximum_build_seconds_ratio": 2.0,
+    "maximum_process_rss_kib": 8388608,
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ]
+  },
+  "selection_policy": {
+    "eligible_profiles": "The OpenSSL-off build must prove the expected compile-time mechanism, remove both frozen OpenSSL runtime dependency edges, add no new dependency, reproduce exact quality and prefix reuse, retain at least 98 percent repeated median throughput, keep the build-local closure no larger, and pass every latency, CPU, readiness, RSS, and build-cost guardrail.",
+    "tie_break_order": [
+      "eligible profile",
+      "fewer transitive dynamic dependencies",
+      "higher repeated median throughput",
+      "smaller build-local runtime closure",
+      "lower pooled p95 HTTP latency"
+    ],
+    "no_win_rule": "Keep HTTPS support enabled when the candidate misses any dependency, quality, performance, or resource gate; retain the complete negative result without changing thresholds.",
+    "weighted_score_used": false
+  },
+  "claim_boundary": "E7b can establish dependency pruning only for the exact patched b10216 loopback HTTP fast service. HTTPS deployments must keep LLAMA_OPENSSL enabled. It does not establish a security vulnerability reduction, installed-package or container-image savings, energy savings, another model/service/backend, or automatic product promotion without separate launch integration."
+}

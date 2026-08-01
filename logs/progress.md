@@ -1362,3 +1362,33 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Public clean-checkout run `30692856958` passed on exact retained-result commit
   `23ee23e`: 135 tests, all 30 immutable hashes, E7a contract/result assertions,
   exact planner/runtime checks, and the dependency-free demo smoke test.
+
+## 2026-08-01 — E7b loopback HTTP dependency ablation frozen
+
+- Audited the retained E7a `ldd` inventories and exact upstream `b10216` build
+  definitions. `LLAMA_OPENSSL` defaults on specifically for HTTPS support;
+  cpp-httplib then defines `CPPHTTPLIB_OPENSSL_SUPPORT` and links OpenSSL. The
+  selected service is fixed to plain loopback HTTP but still resolves
+  `libssl.so.3` and `libcrypto.so.3` in the default build.
+- Performed a mechanism-only x86 screen on exact three-patch `b10216`. The
+  `LLAMA_OPENSSL=OFF`, LTO-off server built and reported commit `876a43211`; its
+  cache recorded the disabled option, its full Ninja command set contained no
+  OpenSSL support/link marker, and `ldd` contained neither OpenSSL library. This
+  is functional screening only, not Arm performance evidence.
+- Froze one native Arm on/off experiment with the build option as the only
+  profile difference and an on–off–off–on fresh-service order. The raw artifact
+  retains CMake caches, full build commands, `ldd` inventories, and individually
+  hashed build-local runtime files alongside all quality and service evidence.
+- The candidate must remove both frozen OpenSSL edges, add no dependency,
+  reproduce 23/30 twice with prefix reuse and zero drift/failures, retain at
+  least 98% throughput, keep the local closure no larger, and pass latency,
+  measured CPU, readiness, RSS, and build-cost guardrails. A miss retains
+  OpenSSL-on; HTTPS, security, installed-package size, energy, and broader
+  service claims remain excluded.
+- Contract SHA-256 is
+  `2c5cd9f8d84ef5f77fdd14c66a7822189ec09ff6688743e26f7f2fd7c77abea9`.
+  Python 3.10 replay after extracting the shared service summarizer left E7a
+  byte-identical at `b48e6c12…b46839`.
+- The bounded final-evidence decision selected a local Arm device for controlled
+  power/governor work. A follow-up decision is pending for the device platform;
+  no sensor or governor interface has been assumed.

@@ -61,6 +61,13 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Arm source contributions
 
+- Froze E7b as an exact native Arm dependency-pruning ablation for the selected
+  loopback HTTP service. It proves OpenSSL support from the CMake cache, full
+  build commands, and transitive `ldd` inventory, then accepts OpenSSL-off only
+  if it removes both frozen library edges, adds none, preserves exact quality,
+  retains at least 98% throughput, and clears every resource guardrail. HTTPS,
+  security, installed-package size, energy, and automatic-promotion claims are
+  explicitly excluded.
 - Froze E7a as a matched native Arm whole-program optimization ablation for the
   exact selected service. It proves `GGML_LTO` from build commands, hashes and
   retains both transitive build-local runtime closures, and accepts only a

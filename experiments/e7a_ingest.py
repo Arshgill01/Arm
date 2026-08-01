@@ -191,6 +191,7 @@ def validate_recipe(
     profile_name: str,
     contract: dict[str, Any],
 ) -> None:
+    experiment_id = contract["experiment_id"]
     selected = contract["selected"]
     service = contract["service"]
     model = recipe.get("model", {})
@@ -198,7 +199,7 @@ def validate_recipe(
     model_path = model.get("path")
     if (
         recipe.get("schema_version") != 1
-        or recipe.get("experiment_id") != "E7a"
+        or recipe.get("experiment_id") != experiment_id
         or recipe.get("profile_name") != profile_name
         or recipe.get("build_profile")
         != contract["build"]["profiles"][profile_name]
@@ -213,7 +214,7 @@ def validate_recipe(
         or contract["runtime"]["commit"][:9]
         not in recipe.get("server_version", "")
     ):
-        raise ValueError(f"{profile_name} recipe differs from E7a")
+        raise ValueError(f"{profile_name} recipe differs from {experiment_id}")
     expected = expected_server_argv(
         server_path,
         model_path,
@@ -221,7 +222,7 @@ def validate_recipe(
         service=service,
     )
     if recipe.get("argv") != expected or "--no-repack" in expected:
-        raise ValueError(f"{profile_name} server argv differs from E7a")
+        raise ValueError(f"{profile_name} server argv differs from {experiment_id}")
 
 
 def validate_cell(
@@ -272,7 +273,9 @@ def validate_cell(
         or len(slots) != contract["service"]["server_parallel_slots"]
         or "llamacpp:" not in (cell_dir / "metrics.txt").read_text()
     ):
-        raise ValueError(f"{cell_dir.name} process evidence missed E7a")
+        raise ValueError(
+            f"{cell_dir.name} process evidence missed {contract['experiment_id']}"
+        )
     return {
         "profile": profile_name,
         "repetition": repetition,
@@ -283,6 +286,79 @@ def validate_cell(
         "server_shell_exit_status": shell_exit,
         "slots_observed": len(slots),
     }
+
+
+def summarize_service_performance(
+    cells: list[dict[str, Any]],
+    cell_paths: dict[tuple[str, int], Path],
+    profile_names: tuple[str, str],
+    correct: int,
+) -> tuple[dict[str, Any], int]:
+    performance: dict[str, Any] = {}
+    maximum_prompt_tokens = 0
+    for profile_name in profile_names:
+        profile_cells = [cell for cell in cells if cell["profile"] == profile_name]
+        probes = [
+            load_object(cell_paths[(profile_name, cell["repetition"])] / "probe.json")
+            for cell in profile_cells
+        ]
+        raw_cases = [case for probe in probes for case in probe["cases"]]
+        prompt_tokens = [
+            int(case["cached_tokens"]) + int(case["evaluated_prompt_tokens"])
+            for case in raw_cases
+        ]
+        maximum_prompt_tokens = max(maximum_prompt_tokens, max(prompt_tokens))
+        prediction_maps = [
+            {case["id"]: case["predicted"] for case in probe["cases"]}
+            for probe in probes
+        ]
+        performance[profile_name] = {
+            "quality": {
+                "correct_per_repetition": [
+                    cell["probe"]["correct"] for cell in profile_cells
+                ],
+                "reference_prediction_mismatches_per_repetition": [
+                    cell["probe"]["reference_prediction_mismatches"]
+                    for cell in profile_cells
+                ],
+                "predictions_stable_between_repetitions": all(
+                    item == prediction_maps[0] for item in prediction_maps[1:]
+                ),
+                "exact_selected_predictions": all(
+                    cell["probe"]["correct"] == correct
+                    and cell["probe"]["reference_prediction_mismatches"] == 0
+                    for cell in profile_cells
+                ),
+            },
+            "repetitions": profile_cells,
+            "requests_per_second": summarize(
+                [cell["probe"]["requests_per_second"] for cell in profile_cells]
+            ),
+            "http_ms": summarize([float(case["http_ms"]) for case in raw_cases]),
+            "encode_ms": summarize([float(case["encode_ms"]) for case in raw_cases]),
+            "decode_ms": summarize([float(case["decode_ms"]) for case in raw_cases]),
+            "cached_tokens": summarize(
+                [float(case["cached_tokens"]) for case in raw_cases]
+            ),
+            "prompt_tokens": summarize([float(value) for value in prompt_tokens]),
+            "server_cpu_seconds_per_request": summarize(
+                [
+                    float(cell["server_process_cpu"]["seconds_per_request"])
+                    for cell in profile_cells
+                ]
+            ),
+            "average_server_cores_used": summarize(
+                [
+                    float(cell["server_process_cpu"]["average_cores_used"])
+                    for cell in profile_cells
+                ]
+            ),
+            "ready_ms": summarize([cell["ready_ms"] for cell in profile_cells]),
+            "maximum_rss_kib": summarize(
+                [float(cell["process"]["maximum_rss_kib"]) for cell in profile_cells]
+            ),
+        }
+    return performance, maximum_prompt_tokens
 
 
 def evaluate_hypothesis(
@@ -468,71 +544,16 @@ def build_manifest(
             )
         )
 
-    performance: dict[str, Any] = {}
-    maximum_prompt_tokens = 0
+    performance, maximum_prompt_tokens = summarize_service_performance(
+        cells,
+        cell_paths,
+        (baseline, candidate_profile),
+        correct,
+    )
     for profile_name in (baseline, candidate_profile):
-        profile_cells = [cell for cell in cells if cell["profile"] == profile_name]
-        probes = [
-            load_object(cell_paths[(profile_name, cell["repetition"])] / "probe.json")
-            for cell in profile_cells
+        performance[profile_name]["build_profile"] = contract["build"]["profiles"][
+            profile_name
         ]
-        raw_cases = [case for probe in probes for case in probe["cases"]]
-        prompt_tokens = [
-            int(case["cached_tokens"]) + int(case["evaluated_prompt_tokens"])
-            for case in raw_cases
-        ]
-        maximum_prompt_tokens = max(maximum_prompt_tokens, max(prompt_tokens))
-        prediction_maps = [
-            {case["id"]: case["predicted"] for case in probe["cases"]}
-            for probe in probes
-        ]
-        performance[profile_name] = {
-            "build_profile": contract["build"]["profiles"][profile_name],
-            "quality": {
-                "correct_per_repetition": [
-                    cell["probe"]["correct"] for cell in profile_cells
-                ],
-                "reference_prediction_mismatches_per_repetition": [
-                    cell["probe"]["reference_prediction_mismatches"]
-                    for cell in profile_cells
-                ],
-                "predictions_stable_between_repetitions": all(
-                    item == prediction_maps[0] for item in prediction_maps[1:]
-                ),
-                "exact_selected_predictions": all(
-                    cell["probe"]["correct"] == correct
-                    and cell["probe"]["reference_prediction_mismatches"] == 0
-                    for cell in profile_cells
-                ),
-            },
-            "repetitions": profile_cells,
-            "requests_per_second": summarize(
-                [cell["probe"]["requests_per_second"] for cell in profile_cells]
-            ),
-            "http_ms": summarize([float(case["http_ms"]) for case in raw_cases]),
-            "encode_ms": summarize([float(case["encode_ms"]) for case in raw_cases]),
-            "decode_ms": summarize([float(case["decode_ms"]) for case in raw_cases]),
-            "cached_tokens": summarize(
-                [float(case["cached_tokens"]) for case in raw_cases]
-            ),
-            "prompt_tokens": summarize([float(value) for value in prompt_tokens]),
-            "server_cpu_seconds_per_request": summarize(
-                [
-                    float(cell["server_process_cpu"]["seconds_per_request"])
-                    for cell in profile_cells
-                ]
-            ),
-            "average_server_cores_used": summarize(
-                [
-                    float(cell["server_process_cpu"]["average_cores_used"])
-                    for cell in profile_cells
-                ]
-            ),
-            "ready_ms": summarize([cell["ready_ms"] for cell in profile_cells]),
-            "maximum_rss_kib": summarize(
-                [float(cell["process"]["maximum_rss_kib"]) for cell in profile_cells]
-            ),
-        }
     if not performance[baseline]["quality"]["exact_selected_predictions"]:
         raise ValueError("E7a baseline failed to reproduce selected quality")
     hypothesis = evaluate_hypothesis(

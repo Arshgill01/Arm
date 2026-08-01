@@ -15,6 +15,7 @@ No headline result is accepted until the experiment contract in
 | E5 | Does the choice survive real E2E application or server concurrency? | HTTP service or reference voice app | TTFT/E2E latency, p50/p95, throughput, failures, and RSS are measured repeatedly |
 | E6 | Can profiler/compiler evidence drive a source-level Arm improvement? | Stable hot path | Patch has tests, before/after result, assembly/profile evidence, and no quality regression |
 | E7a | Can whole-program LTO improve the selected native Arm service or its shipped runtime footprint? | Exact patched `b10216` fast service | Repeated quality-gated service evidence clears a predeclared performance or footprint branch without crossing common guardrails |
+| E7b | Can the loopback-only HTTP service drop unused HTTPS dependencies? | Exact patched `b10216` fast service | OpenSSL-off removes both frozen dependency edges, adds none, preserves quality, and clears every service/resource guardrail |
 | E7 | Is the whole project reproducible and judge-readable? | Clean native Arm job | One command emits manifest, raw data, summary, Pareto front, and demo assets |
 
 ## E2 frozen protocol
@@ -1055,6 +1056,38 @@ decreased 28 KiB. The candidate build took 213.77 seconds versus 222.25 seconds
 for baseline, within the cost guardrail. Independent Python 3.10 ingestion
 matched the uploaded result byte for byte at `b48e6c12…b46839`. See
 [`../results/reports/e7a-lto-service.md`](../results/reports/e7a-lto-service.md).
+
+## E7b frozen loopback HTTP dependency-pruning ablation
+
+E7b opens a deployment-dependency front exposed by E7a's exact runtime
+inventory. Upstream llama.cpp `b10216` enables `LLAMA_OPENSSL` by default to
+support HTTPS, while the selected Pareto64 service binds and probes plain HTTP
+on loopback. The retained E7a build consequently resolves `libssl.so.3` and
+`libcrypto.so.3` even though its measured protocol never exercises TLS.
+
+One native Arm job builds the exact same patched source twice with LTO disabled.
+`LLAMA_OPENSSL=ON` versus `OFF` is the only profile difference. Each CMake cache
+and complete Ninja command inventory must prove that difference, including the
+presence or absence of `CPPHTTPLIB_OPENSSL_SUPPORT`. The existing closure
+capture retains raw `ldd` output, independently inventories every transitive
+dependency, and copies and hashes each build-local runtime file. The service
+matrix then runs four fresh servers in on–off–off–on order with the same model,
+quality map, warmups, cached prefix, request sequence, and PID-bound performance
+evidence as E7a.
+
+The OpenSSL-off candidate is eligible only if the baseline resolves both frozen
+OpenSSL library names, the candidate resolves neither, and it adds no new
+dynamic dependency. It must also reproduce 23/30 twice with zero drift or
+failures and cached-prefix reuse, retain at least 98% repeated median
+throughput, keep the build-local closure no larger, and pass the existing 1.05x
+latency/CPU, 1.15x readiness, 64-MiB RSS-growth, 8-GiB process, and 2x build-time
+guardrails. No weighted score is used. A miss keeps HTTPS support enabled.
+
+A pass applies only to the exact loopback HTTP service. HTTPS deployments must
+keep OpenSSL enabled, and E7b cannot support claims about vulnerabilities,
+installed-package/container size, energy, other services, or automatic product
+promotion. Exact details are frozen in
+[`../experiments/e7b_contract.json`](../experiments/e7b_contract.json).
 
 ## E4a frozen accept-backlog tuner
 

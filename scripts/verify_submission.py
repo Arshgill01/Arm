@@ -109,6 +109,9 @@ EXPECTED_HASHES = {
     "experiments/e7a_contract.json": (
         "2d57010a168a777cc5de2ed2a7d6e0f11900d14a30d44ded6db34ecd85b1aa12"
     ),
+    "experiments/e7b_contract.json": (
+        "2c5cd9f8d84ef5f77fdd14c66a7822189ec09ff6688743e26f7f2fd7c77abea9"
+    ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
     ),
@@ -936,6 +939,48 @@ def main() -> int:
         or lto_validation.get("weighted_score_used") is not False
     ):
         raise ValueError("retained E7a result differs from the native no-win")
+
+    openssl_contract = load_object(ROOT / "experiments/e7b_contract.json")
+    openssl_profiles = openssl_contract.get("build", {}).get("profiles", {})
+    openssl_execution = openssl_contract.get("execution", {})
+    openssl_acceptance = openssl_contract.get("acceptance", {})
+    if (
+        openssl_contract.get("schema_version") != 1
+        or openssl_contract.get("experiment_id") != "E7b"
+        or openssl_contract.get("runtime", {}).get("commit")
+        != runtime_record.get("selected_commit")
+        or openssl_contract.get("runtime", {}).get("source_diff_sha256")
+        != EXPECTED_HASHES["patches/llama.cpp/b10216/e6f-current-series.patch"]
+        or openssl_contract.get("service")
+        != runtime_upgrade.get("contract", {}).get("service")
+        or openssl_profiles.get("openssl_on", {}).get("llama_openssl") is not True
+        or openssl_profiles.get("openssl_off", {}).get("llama_openssl")
+        is not False
+        or "CPPHTTPLIB_OPENSSL_SUPPORT"
+        not in openssl_profiles.get("openssl_on", {}).get(
+            "required_command_patterns", []
+        )
+        or "CPPHTTPLIB_OPENSSL_SUPPORT"
+        not in openssl_profiles.get("openssl_off", {}).get(
+            "forbidden_command_patterns", []
+        )
+        or openssl_execution.get("baseline_profile") != "openssl_on"
+        or openssl_execution.get("candidate_profile") != "openssl_off"
+        or [item.get("profile") for item in openssl_execution.get("order", [])]
+        != ["openssl_on", "openssl_off", "openssl_off", "openssl_on"]
+        or openssl_acceptance.get("required_baseline_system_dependency_basenames")
+        != ["libcrypto.so.3", "libssl.so.3"]
+        or openssl_acceptance.get("forbidden_candidate_system_dependency_basenames")
+        != ["libcrypto.so.3", "libssl.so.3"]
+        or openssl_acceptance.get("maximum_new_candidate_dependency_count") != 0
+        or openssl_acceptance.get("minimum_throughput_ratio") != 0.98
+        or openssl_acceptance.get("maximum_runtime_closure_ratio") != 1.0
+        or openssl_contract.get("selection_policy", {}).get("weighted_score_used")
+        is not False
+    ):
+        raise ValueError(
+            "frozen E7b OpenSSL ablation differs from the selected HTTP service"
+        )
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")
