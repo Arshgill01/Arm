@@ -18,6 +18,9 @@ authoritative, timestamped record; this file groups the significant additions.
 - Validated that adapter end to end on native Arm. E6g rebuilt and bound the
   exact source/build/server, launched through Pareto64, and reproduced 23/30
   with zero drift, failures, or missing prefix reuse.
+- Froze E6h to test the separately measured no-repack memory tier across the
+  historical-to-current runtime boundary, with exact quality/prefix, 3-GiB,
+  throughput, latency, CPU-time, readiness, and RSS-retention gates.
 
 - Added a fail-closed service-profile planner over the native E5h evidence.
   Explicit throughput and at-most-3-GiB policies select the repacked and

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the E6f current-runtime selected-service upgrade lane."""
+"""Validate matched historical/current service upgrade lanes."""
 
 from __future__ import annotations
 
@@ -52,6 +52,19 @@ ARTIFACT_INPUTS = {
     "tasks": "tasks-manifest.json",
 }
 
+EXPERIMENT_PROFILES = {
+    "E6f": {
+        "passed_status": "valid_current_runtime_upgrade_candidate",
+        "rejected_status": "valid_current_runtime_upgrade_rejected",
+        "claim_key": "upgrade_candidate_claim_allowed",
+    },
+    "E6h": {
+        "passed_status": "valid_current_runtime_memory_tier_upgrade_candidate",
+        "rejected_status": "valid_current_runtime_memory_tier_upgrade_rejected",
+        "claim_key": "memory_tier_upgrade_candidate_claim_allowed",
+    },
+}
+
 
 def expected_server_argv(
     server_path: str,
@@ -60,7 +73,7 @@ def expected_server_argv(
     candidate: str,
     service: dict[str, Any],
 ) -> list[str]:
-    return [
+    argv = [
         server_path,
         "--model",
         model_path,
@@ -101,6 +114,9 @@ def expected_server_argv(
         "--ubatch-size",
         str(service["micro_batch_size"]),
     ]
+    if not service["weight_repack"]:
+        argv.append("--no-repack")
+    return argv
 
 
 def validate_runtime_recipe(
@@ -110,6 +126,7 @@ def validate_runtime_recipe(
     contract: dict[str, Any],
 ) -> None:
     runtime = contract["runtimes"][runtime_name]
+    experiment_id = contract["experiment_id"]
     selected = contract["selected"]
     service = contract["service"]
     model = recipe.get("model", {})
@@ -117,7 +134,7 @@ def validate_runtime_recipe(
     model_path = model.get("path")
     if (
         recipe.get("schema_version") != 1
-        or recipe.get("experiment_id") != "E6f"
+        or recipe.get("experiment_id") != experiment_id
         or recipe.get("runtime_name") != runtime_name
         or recipe.get("source") != runtime
         or recipe.get("service") != service
@@ -129,14 +146,19 @@ def validate_runtime_recipe(
         or not model_path.endswith(".gguf")
         or runtime["commit"][:9] not in recipe.get("server_version", "")
     ):
-        raise ValueError("runtime recipe differs from the frozen E6f profile")
+        raise ValueError(
+            f"runtime recipe differs from the frozen {experiment_id} profile"
+        )
     expected = expected_server_argv(
         server_path,
         model_path,
         candidate=selected["candidate"],
         service=service,
     )
-    if recipe.get("argv") != expected or "--no-repack" in expected:
+    expected_no_repack = not service["weight_repack"]
+    if recipe.get("argv") != expected or (
+        ("--no-repack" in expected) is not expected_no_repack
+    ):
         raise ValueError("runtime recipe arguments differ from the selected service")
 
 
@@ -150,22 +172,27 @@ def validate_timed_invocation(cell_dir: Path, recipe: dict[str, Any]) -> None:
     if len(commands) != 1:
         raise ValueError(f"{cell_dir.name} lacks one timed server command")
     command = commands[0]
+    service = recipe["service"]
     required_fragments = [
         recipe["server_path"],
         f"--model {recipe['model']['path']}",
-        "--threads 4",
-        "--threads-batch 4",
-        "--ctx-size 256",
-        "--cache-type-k f16",
-        "--cache-type-v f16",
-        "--flash-attn auto",
-        "--parallel 1",
+        f"--threads {service['threads']}",
+        f"--threads-batch {service['threads']}",
+        "--ctx-size "
+        f"{service['context_per_slot'] * service['server_parallel_slots']}",
+        f"--cache-type-k {service['kv_cache_type_k']}",
+        f"--cache-type-v {service['kv_cache_type_v']}",
+        f"--flash-attn {service['flash_attention']}",
+        f"--parallel {service['server_parallel_slots']}",
         "--cache-prompt",
-        "--batch-size 64",
-        "--ubatch-size 64",
+        f"--batch-size {service['batch_size']}",
+        f"--ubatch-size {service['micro_batch_size']}",
     ]
     if any(fragment not in command for fragment in required_fragments):
         raise ValueError(f"{cell_dir.name} timed service invocation differs")
+    no_repack_present = "--no-repack" in command
+    if no_repack_present != (not service["weight_repack"]):
+        raise ValueError(f"{cell_dir.name} timed repack mode differs")
 
 
 def validate_source_and_builds(
@@ -188,7 +215,10 @@ def validate_source_and_builds(
         or source.get("current_patched", {}).get("patches_applied")
         != [patch["name"] for patch in runtimes["current_patched"]["patches"]]
     ):
-        raise ValueError("runtime source proof differs from the E6f contract")
+        raise ValueError(
+            "runtime source proof differs from the "
+            f"{contract['experiment_id']} contract"
+        )
     expected_files = [
         "common/reasoning-budget.cpp",
         "ggml/src/ggml-cpu/CMakeLists.txt",
@@ -224,7 +254,10 @@ def validate_source_and_builds(
             "tests": False,
             "curl": False,
         }:
-            raise ValueError(f"{name} build flags differ from the E6f contract")
+            raise ValueError(
+                f"{name} build flags differ from the {contract['experiment_id']} "
+                "contract"
+            )
         version = (build_dir / "server-version.txt").read_text(encoding="utf-8")
         if runtime["commit"][:9] not in version:
             raise ValueError(f"{name} server version differs from frozen source")
@@ -234,6 +267,11 @@ def validate_source_and_builds(
         for pattern in contract["selected"]["required_runtime_buffer_patterns"]:
             if pattern not in proof:
                 raise ValueError(f"{name} runtime proof lacks {pattern}")
+        for pattern in contract["selected"].get(
+            "forbidden_runtime_buffer_patterns", []
+        ):
+            if pattern in proof:
+                raise ValueError(f"{name} runtime proof unexpectedly contains {pattern}")
     return source
 
 
@@ -391,10 +429,14 @@ def build_manifest(
     patch_root: Path,
 ) -> dict[str, Any]:
     contract = load_object(contract_path)
-    if contract.get("schema_version") != 1 or contract.get("experiment_id") != "E6f":
-        raise ValueError("unsupported E6f contract")
+    experiment_id = contract.get("experiment_id")
+    profile = EXPERIMENT_PROFILES.get(experiment_id)
+    if contract.get("schema_version") != 1 or profile is None:
+        raise ValueError("unsupported current-runtime upgrade contract")
     if load_object(evidence_dir / "contract.json") != contract:
-        raise ValueError("artifact contract differs from frozen E6f contract")
+        raise ValueError(
+            f"artifact contract differs from frozen {experiment_id} contract"
+        )
     input_paths = {"manifest": manifest_path, "models": models_path, "tasks": tasks_path}
     for name, path in input_paths.items():
         expected = contract["inputs"][f"{name}_sha256"]
@@ -434,11 +476,13 @@ def build_manifest(
         raise ValueError("execution order does not cover every runtime cell once")
     provenance = load_object(evidence_dir / "provenance.json")
     if (
-        provenance.get("experiment_id") != "E6f"
+        provenance.get("experiment_id") != experiment_id
         or provenance.get("baseline_runtime") != baseline_runtime
         or provenance.get("candidate_runtime") != candidate_runtime
     ):
-        raise ValueError("provenance does not bind the E6f runtime pair")
+        raise ValueError(
+            f"provenance does not bind the {experiment_id} runtime pair"
+        )
 
     cells = []
     cell_paths: dict[tuple[str, int], Path] = {}
@@ -537,11 +581,11 @@ def build_manifest(
     run_id = str(provenance["github_run_id"])
     return {
         "schema_version": 1,
-        "experiment_id": "E6f",
+        "experiment_id": experiment_id,
         "status": (
-            "valid_current_runtime_upgrade_candidate"
+            profile["passed_status"]
             if upgrade["passed"]
-            else "valid_current_runtime_upgrade_rejected"
+            else profile["rejected_status"]
         ),
         "scope": contract["scope"],
         "source": {
@@ -587,7 +631,7 @@ def build_manifest(
             "cached_prefix_observed_in_every_measured_request": True,
             "historical_baseline_reproduced": True,
             "quality_drift_treated_as_upgrade_rejection": True,
-            "upgrade_candidate_claim_allowed": upgrade["passed"],
+            profile["claim_key"]: upgrade["passed"],
             "automatic_product_promotion_allowed": False,
             "energy_claim_allowed": False,
             "weighted_score_used": False,

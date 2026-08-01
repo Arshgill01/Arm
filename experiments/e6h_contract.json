@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E6h",
+  "title": "Current patched llama.cpp no-repack memory-tier upgrade lane",
+  "artifact_name_prefix": "e6h-current-runtime-memory-service",
+  "scope": "Quality- and SLO-gated application comparison of the measured Pareto64 no-repack memory tier on historical llama.cpp b10208 versus the complete validated Arm patch series on b10216",
+  "hypothesis": "Patched llama.cpp b10216 can reproduce the exact no-repack memory-tier behavior while retaining at least 95 percent of b10208 throughput, preserving median and p95 HTTP latency and measured server CPU seconds per request within 5 percent, adding no more than 64 MiB maximum RSS, and remaining below the tier's 3 GiB ceiling.",
+  "controlled_difference": "The runtime source package is the only profile-level difference: clean b10208 versus b10216 plus the exact three-patch Arm series. Model bytes, native/KleidiAI Release build flags, serving flags, disabled weight repacking, f16 K/V cache, 256-token context, 64/64 prompt batch, automatic Flash Attention, shared-prefix cache, four threads, one slot/client, task order, seed, and output cap are identical.",
+  "inputs": {
+    "manifest_path": "results/manifests/e3f-30656151957.json",
+    "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+  },
+  "runtimes": {
+    "baseline": {
+      "repository": "https://github.com/ggml-org/llama.cpp.git",
+      "tag": "b10208",
+      "commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+      "patches": []
+    },
+    "current_patched": {
+      "repository": "https://github.com/ggml-org/llama.cpp.git",
+      "tag": "b10216",
+      "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "patches": [
+        {
+          "name": "validated_arm_features",
+          "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+          "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+        },
+        {
+          "name": "q8_vector_stores",
+          "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+          "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+        },
+        {
+          "name": "reasoning_forced_token_guard",
+          "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+          "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+        }
+      ]
+    }
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "reference_correct": 23,
+    "reference_total": 30,
+    "reference_accuracy": 0.7666666666666667,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "required_runtime_buffer_patterns": [
+      "CPU_Mapped model buffer size"
+    ],
+    "forbidden_runtime_buffer_patterns": [
+      "CPU_REPACK model buffer size"
+    ]
+  },
+  "request": {
+    "instruction_role": "system",
+    "chat_template_mode": "model_jinja_system_instruction",
+    "temperature": 0.0,
+    "seed": 424242,
+    "max_output_tokens": 8,
+    "timeout_seconds": 30.0,
+    "warmup_task_ids": ["arithmetic-02", "logic-01"],
+    "measured_tasks": 30
+  },
+  "service": {
+    "threads": 4,
+    "server_parallel_slots": 1,
+    "client_concurrency": 1,
+    "prompt_cache": true,
+    "warmup_slot_ids": [0, 0],
+    "context_per_slot": 256,
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "flash_attention": "auto",
+    "batch_size": 64,
+    "micro_batch_size": 64,
+    "weight_repack": false
+  },
+  "build": {
+    "type": "Release",
+    "native": true,
+    "kleidiai": true,
+    "server": true,
+    "tests": false,
+    "curl": false
+  },
+  "execution": {
+    "fresh_server_per_cell": true,
+    "repetitions_per_runtime": 2,
+    "baseline_runtime": "baseline",
+    "candidate_runtime": "current_patched",
+    "order": [
+      {"runtime": "baseline", "repetition": 1},
+      {"runtime": "current_patched", "repetition": 1},
+      {"runtime": "current_patched", "repetition": 2},
+      {"runtime": "baseline", "repetition": 2}
+    ]
+  },
+  "selection_policy": {
+    "weighted_score_used": false,
+    "promotion_rule": "The current patched runtime is a no-repack memory-tier upgrade candidate only if it passes every frozen source, build, quality, prefix-reuse, throughput, latency, CPU-time, readiness, per-cell 3 GiB, and RSS-retention gate. Otherwise the memory tier remains pinned to b10208 and the complete result is retained without threshold changes."
+  },
+  "acceptance": {
+    "http_status": 200,
+    "termination_reason": "stop",
+    "request_failures": 0,
+    "reference_prediction_mismatches": 0,
+    "minimum_candidate_cached_tokens_per_request": 1,
+    "minimum_throughput_retention_ratio": 0.95,
+    "maximum_median_http_latency_ratio": 1.05,
+    "maximum_p95_http_latency_ratio": 1.05,
+    "maximum_cpu_seconds_per_request_ratio": 1.05,
+    "maximum_ready_time_ratio": 1.1,
+    "maximum_candidate_rss_increase_kib": 65536,
+    "maximum_ready_ms": 15000.0,
+    "maximum_process_rss_kib": 3145728,
+    "accepted_server_shell_exit_statuses": [0, 130]
+  },
+  "claim_boundary": "A passing E6h validates one selected-model native Arm no-repack memory-tier upgrade candidate only. It relies on E5h for the tier's historical fast-versus-memory tradeoff and does not prove an energy saving, model-wide speedup, full upstream matrix, fast-tier result, or automatic product promotion without a separate launch-contract integration."
+}

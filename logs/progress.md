@@ -1233,3 +1233,19 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Public clean-checkout run `30680198942` passed on exact retained-result commit
   `e92f4ff`: 122 tests, all 23 immutable hashes, E6g runtime/source/build/binary
   assertions, exact planner recomputation, and demo smoke.
+
+## 2026-08-01 — E6h current-runtime memory-tier lane frozen
+
+- Identified the remaining runtime split: E6g validates patched b10216 only for
+  the repacked fast service, while the ≤3-GiB no-repack tier remains application-
+  qualified on historical b10208.
+- Froze a reverse-balanced historical/current comparison with no repack in every
+  cell and all other model, build, service, workload, seed, and output settings
+  fixed. Runtime proofs must show the mapped buffer and no repack buffer.
+- Current source must reproduce every selected prediction and cached prefix,
+  retain at least 95% throughput, keep median/p95 latency and server CPU time
+  within 5%, readiness within 10%, RSS growth within 64 MiB, and every cell below
+  3 GiB. Even a pass requires separate memory-tier launch integration.
+- Refactored the E6f workflow/ingester to select either frozen contract while
+  keeping fast as the default. Python 3.10 replay of run `30678703184` remained
+  byte-identical at `da95b831…70ace`; the immutable E6f result did not change.

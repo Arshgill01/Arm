@@ -88,6 +88,9 @@ EXPECTED_HASHES = {
     "experiments/e6g_contract.json": (
         "92ad60fbc5fdf74ac10566230efcdbaf2322f9d4f68f1ed3822c2b3904fab1e8"
     ),
+    "experiments/e6h_contract.json": (
+        "e1e3bd876fb724358c1d6ab62d0ef25cbcabeac2b1fb6a972975d8cb5863f31d"
+    ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
     ),

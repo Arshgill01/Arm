@@ -1,17 +1,28 @@
-name: Arm E6f current-runtime selected service
+name: Arm current-runtime service upgrades
 
 on:
   workflow_dispatch:
+    inputs:
+      service_profile:
+        description: Frozen service profile to compare
+        required: true
+        default: fast
+        type: choice
+        options:
+          - fast
+          - memory
 
 permissions:
   contents: read
 
 env:
+  EXPERIMENT_ID: ${{ inputs.service_profile == 'memory' && 'E6h' || 'E6f' }}
+  CONTRACT_PATH: ${{ inputs.service_profile == 'memory' && 'experiments/e6h_contract.json' || 'experiments/e6f_contract.json' }}
   BASELINE_SHA: 9d9a6d29f6b981cc7f41983d26e56485c6af1811
   BASELINE_TAG: b10208
   CURRENT_SHA: 876a4321163249c43ca4e986818fab5ab081f282
   CURRENT_TAG: b10216
-  CONTRACT_SHA256: 9e1fde015ab33d3c2ecbe22c94cb8e09925f839171b8cfa266eb2ace94e0f09e
+  CONTRACT_SHA256: ${{ inputs.service_profile == 'memory' && 'e1e3bd876fb724358c1d6ab62d0ef25cbcabeac2b1fb6a972975d8cb5863f31d' || '9e1fde015ab33d3c2ecbe22c94cb8e09925f839171b8cfa266eb2ace94e0f09e' }}
   FEATURE_PATCH_SHA256: b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f
   Q8_PATCH_SHA256: 54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab
   REASONING_PATCH_SHA256: 2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783
@@ -19,11 +30,11 @@ env:
 
 jobs:
   compare:
-    name: Compare historical and current patched selected service
+    name: Compare historical and current patched ${{ inputs.service_profile }} service
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 60
     env:
-      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e6f-${{ github.run_id }}-${{ github.run_attempt }}
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/${{ inputs.service_profile == 'memory' && 'e6h' || 'e6f' }}-${{ github.run_id }}-${{ github.run_attempt }}
       BASELINE_DIR: /tmp/llama.cpp-E6f-baseline
       CURRENT_DIR: /tmp/llama.cpp-E6f-current
       BASELINE_BUILD: /tmp/llama.cpp-E6f-baseline-build
@@ -54,7 +65,7 @@ jobs:
           python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
           free -h | tee "$EVIDENCE_DIR/memory-before.txt"
           df -h | tee "$EVIDENCE_DIR/disk-before.txt"
-          cp experiments/e6f_contract.json "$EVIDENCE_DIR/contract.json"
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
           cp results/manifests/e3f-30656151957.json \
             "$EVIDENCE_DIR/selected-manifest.json"
           cp experiments/e3f_models.json "$EVIDENCE_DIR/models-manifest.json"
@@ -63,7 +74,7 @@ jobs:
           cp "$Q8_PATCH" "$EVIDENCE_DIR/patches/$(basename "$Q8_PATCH")"
           cp "$REASONING_PATCH" \
             "$EVIDENCE_DIR/patches/$(basename "$REASONING_PATCH")"
-          echo "$CONTRACT_SHA256  experiments/e6f_contract.json" \
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" \
             | sha256sum --check --strict
           echo '54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c  results/manifests/e3f-30656151957.json' \
             | sha256sum --check --strict
@@ -196,7 +207,7 @@ jobs:
             "$build_dir/bin/llama-server" --help \
               > "$output_dir/server-help.txt"
             for argument in --threads --threads-batch --cache-prompt \
-              --flash-attn --batch-size --ubatch-size; do
+              --flash-attn --batch-size --ubatch-size --no-repack; do
               grep -q -- "$argument" "$output_dir/server-help.txt"
             done
           done
@@ -212,20 +223,30 @@ jobs:
               build_dir="$CURRENT_BUILD"
             fi
             output_dir="$EVIDENCE_DIR/builds/$runtime"
-            "$build_dir/bin/llama-bench" \
-              --model "$MODEL_ROOT/$SELECTED_CANDIDATE/$entrypoint" \
-              --n-prompt 8 \
-              --n-gen 1 \
-              --threads 4 \
-              --repetitions 1 \
-              --output json \
-              --verbose \
+            bench_args=(
+              --model "$MODEL_ROOT/$SELECTED_CANDIDATE/$entrypoint"
+              --n-prompt 8
+              --n-gen 1
+              --threads 4
+              --repetitions 1
+              --output json
+              --verbose
+            )
+            if ! jq -e '.service.weight_repack' "$CONTRACT_PATH" >/dev/null; then
+              bench_args+=(--no-repack)
+            fi
+            "$build_dir/bin/llama-bench" "${bench_args[@]}" \
               > "$output_dir/runtime-proof.json" \
               2> "$output_dir/runtime-proof.stderr.log"
-            grep -q 'CPU_REPACK model buffer size' \
-              "$output_dir/runtime-proof.stderr.log"
             grep -q 'CPU_Mapped model buffer size' \
               "$output_dir/runtime-proof.stderr.log"
+            if jq -e '.service.weight_repack' "$CONTRACT_PATH" >/dev/null; then
+              grep -q 'CPU_REPACK model buffer size' \
+                "$output_dir/runtime-proof.stderr.log"
+            else
+              ! grep -q 'CPU_REPACK model buffer size' \
+                "$output_dir/runtime-proof.stderr.log"
+            fi
           done
 
       - name: Run reverse-balanced runtime matrix
@@ -262,36 +283,28 @@ jobs:
               RECIPE_PATH="$output_dir/recipe.json" python3 - <<'PY'
           import json
           import os
-          import subprocess
           from pathlib import Path
 
-          from experiments.e6f_ingest import capture_server_version
+          from experiments.e6f_ingest import (
+              capture_server_version,
+              expected_server_argv,
+          )
 
-          contract = json.loads(Path("experiments/e6f_contract.json").read_text())
-          models = json.loads(Path("experiments/e3f_models.json").read_text())
+          contract = json.loads(Path(os.environ["CONTRACT_PATH"]).read_text())
           runtime_name = os.environ["RUNTIME_NAME"]
           server = os.environ["SERVER_PATH"]
           model_path = os.environ["MODEL_PATH"]
           selected = contract["selected"]
           service = contract["service"]
-          argv = [
-              server, "--model", model_path, "--alias", selected["candidate"],
-              "--threads", str(service["threads"]),
-              "--threads-batch", str(service["threads"]),
-              "--ctx-size", str(service["context_per_slot"] * service["server_parallel_slots"]),
-              "--cache-type-k", service["kv_cache_type_k"],
-              "--cache-type-v", service["kv_cache_type_v"],
-              "--flash-attn", service["flash_attention"],
-              "--parallel", str(service["server_parallel_slots"]),
-              "--cont-batching", "--cache-prompt", "--host", "127.0.0.1",
-              "--port", "18081", "--no-webui", "--metrics", "--slots",
-              "--jinja", "--temp", "0.0", "--seed", "424242",
-              "--log-colors", "off", "--batch-size", str(service["batch_size"]),
-              "--ubatch-size", str(service["micro_batch_size"]),
-          ]
+          argv = expected_server_argv(
+              server,
+              model_path,
+              candidate=selected["candidate"],
+              service=service,
+          )
           recipe = {
               "schema_version": 1,
-              "experiment_id": "E6f",
+              "experiment_id": contract["experiment_id"],
               "runtime_name": runtime_name,
               "source": contract["runtimes"][runtime_name],
               "server_path": server,
@@ -308,30 +321,9 @@ jobs:
               json.dumps(recipe, indent=2, sort_keys=True) + "\n"
           )
           PY
+            mapfile -t server_argv < <(jq -r '.argv[]' "$output_dir/recipe.json")
             /usr/bin/time --verbose --output "$output_dir/server-time.log" \
-              "$server" \
-              --model "$model_path" \
-              --alias "$SELECTED_CANDIDATE" \
-              --threads 4 \
-              --threads-batch 4 \
-              --ctx-size 256 \
-              --cache-type-k f16 \
-              --cache-type-v f16 \
-              --flash-attn auto \
-              --parallel 1 \
-              --cont-batching \
-              --cache-prompt \
-              --host 127.0.0.1 \
-              --port 18081 \
-              --no-webui \
-              --metrics \
-              --slots \
-              --jinja \
-              --temp 0.0 \
-              --seed 424242 \
-              --log-colors off \
-              --batch-size 64 \
-              --ubatch-size 64 \
+              "${server_argv[@]}" \
               > "$output_dir/server.stdout.log" \
               2> "$output_dir/server.stderr.log" &
             active_timer_pid=$!
@@ -364,7 +356,7 @@ jobs:
               --max-output-tokens 8 \
               --seed 424242 \
               --timeout 30 \
-              --experiment-id E6f \
+              --experiment-id "$EXPERIMENT_ID" \
               --server-pid "$active_server_pid" \
               --cache-prompt \
               --output "$output_dir/probe.json"
@@ -399,7 +391,7 @@ jobs:
 
           provenance = {
               "schema_version": 1,
-              "experiment_id": "E6f",
+              "experiment_id": os.environ["EXPERIMENT_ID"],
               "git_commit": os.environ["GITHUB_SHA"],
               "github_run_id": os.environ["GITHUB_RUN_ID"],
               "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
@@ -413,7 +405,7 @@ jobs:
           PY
           python3 experiments/e6f_ingest.py \
             --evidence-dir "$EVIDENCE_DIR" \
-            --contract experiments/e6f_contract.json \
+            --contract "$CONTRACT_PATH" \
             --manifest results/manifests/e3f-30656151957.json \
             --models experiments/e3f_models.json \
             --tasks experiments/e3_tasks.json \
@@ -422,11 +414,11 @@ jobs:
           jq '{status, validation, selection, hypothesis, performance: (.performance | with_entries(.value = {source: .value.source, throughput: .value.requests_per_second, latency: .value.http_ms, server_cpu_seconds_per_request: .value.server_cpu_seconds_per_request, ready_ms: .value.ready_ms, rss: .value.maximum_rss_kib, quality: .value.quality}))}' \
             "$EVIDENCE_DIR/summary.json"
 
-      - name: Upload E6f evidence
+      - name: Upload current-runtime service evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: e6f-current-runtime-service-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ inputs.service_profile == 'memory' && 'e6h-current-runtime-memory-service' || 'e6f-current-runtime-service' }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ env.EVIDENCE_DIR }}
           if-no-files-found: error
           retention-days: 90

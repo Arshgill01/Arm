@@ -2,13 +2,11 @@ from __future__ import annotations
 
 import copy
 import json
-import os
 import tempfile
 import unittest
 from pathlib import Path
 
 from experiments.e6f_ingest import (
-    capture_server_version,
     evaluate_upgrade,
     expected_server_argv,
     validate_runtime_recipe,
@@ -18,10 +16,10 @@ from experiments.e6f_ingest import (
 ROOT = Path(__file__).resolve().parents[1]
 
 
-class E6fIngestTests(unittest.TestCase):
+class E6hIngestTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.contract = json.loads((ROOT / "experiments/e6f_contract.json").read_text())
+        cls.contract = json.loads((ROOT / "experiments/e6h_contract.json").read_text())
 
     def recipe(self, runtime_name: str) -> dict:
         runtime = self.contract["runtimes"][runtime_name]
@@ -29,7 +27,7 @@ class E6fIngestTests(unittest.TestCase):
         model_path = "/tmp/models/selected/model.gguf"
         return {
             "schema_version": 1,
-            "experiment_id": "E6f",
+            "experiment_id": "E6h",
             "runtime_name": runtime_name,
             "source": runtime,
             "server_path": server_path,
@@ -48,35 +46,26 @@ class E6fIngestTests(unittest.TestCase):
             ),
         }
 
-    def test_contract_is_balanced_historical_current_pair(self) -> None:
+    def test_contract_is_balanced_no_repack_upgrade(self) -> None:
         execution = self.contract["execution"]
-        self.assertEqual("baseline", execution["baseline_runtime"])
-        self.assertEqual("current_patched", execution["candidate_runtime"])
         self.assertEqual(
             ["baseline", "current_patched", "current_patched", "baseline"],
             [item["runtime"] for item in execution["order"]],
         )
+        self.assertFalse(self.contract["service"]["weight_repack"])
         self.assertEqual(
-            3, len(self.contract["runtimes"]["current_patched"]["patches"])
+            3_145_728, self.contract["acceptance"]["maximum_process_rss_kib"]
+        )
+        self.assertIn(
+            "CPU_REPACK model buffer size",
+            self.contract["selected"]["forbidden_runtime_buffer_patterns"],
         )
         self.assertIn("energy", self.contract["claim_boundary"].lower())
 
-    def test_server_version_captures_stderr(self) -> None:
-        with tempfile.TemporaryDirectory() as temporary:
-            server = Path(temporary) / "llama-server"
-            server.write_text(
-                "#!/bin/sh\nprintf 'version: 10216 (876a43211)\\n' >&2\n"
-            )
-            server.chmod(server.stat().st_mode | 0o100)
-            self.assertEqual(
-                "version: 10216 (876a43211)\n",
-                capture_server_version(os.fspath(server)),
-            )
-
-    def test_runtime_recipe_binds_source_model_and_service(self) -> None:
+    def test_recipe_requires_no_repack_for_both_runtimes(self) -> None:
         for runtime_name in self.contract["runtimes"]:
             recipe = self.recipe(runtime_name)
-            self.assertNotIn("--no-repack", recipe["argv"])
+            self.assertEqual("--no-repack", recipe["argv"][-1])
             validate_runtime_recipe(
                 recipe,
                 runtime_name=runtime_name,
@@ -84,45 +73,34 @@ class E6fIngestTests(unittest.TestCase):
             )
             with tempfile.TemporaryDirectory() as temporary:
                 cell = Path(temporary)
-                command = " ".join(recipe["argv"])
                 (cell / "server-time.log").write_text(
-                    f'Command being timed: "{command}"\n'
+                    f'Command being timed: "{" ".join(recipe["argv"])}"\n'
                 )
                 validate_timed_invocation(cell, recipe)
 
         invalid = copy.deepcopy(self.recipe("current_patched"))
-        invalid["source"]["commit"] = "0" * 40
-        with self.assertRaisesRegex(ValueError, "frozen E6f profile"):
+        invalid["argv"].remove("--no-repack")
+        with self.assertRaisesRegex(ValueError, "arguments differ"):
             validate_runtime_recipe(
                 invalid,
                 runtime_name="current_patched",
                 contract=self.contract,
             )
 
-    def test_upgrade_requires_every_quality_and_resource_gate(self) -> None:
-        def profile(
-            throughput: float,
-            median: float,
-            p95: float,
-            cpu: float,
-            ready: float,
-            rss: float,
-            exact: bool = True,
-        ) -> dict:
+    def test_upgrade_requires_every_retention_gate(self) -> None:
+        def profile(throughput: float, rss: float) -> dict:
             return {
-                "quality": {"exact_selected_predictions": exact},
+                "quality": {"exact_selected_predictions": True},
                 "requests_per_second": {"median": throughput},
-                "http_ms": {"median": median, "p95": p95},
-                "server_cpu_seconds_per_request": {"median": cpu},
-                "ready_ms": {"median": ready},
+                "http_ms": {"median": 2200.0, "p95": 3900.0},
+                "server_cpu_seconds_per_request": {"median": 8.5},
+                "ready_ms": {"median": 2100.0},
                 "maximum_rss_kib": {"max": rss},
             }
 
         performance = {
-            "baseline": profile(1.0, 1000, 1800, 4.0, 4000, 4_450_000),
-            "current_patched": profile(
-                0.98, 1010, 1820, 4.05, 4100, 4_480_000
-            ),
+            "baseline": profile(0.45, 2_381_000),
+            "current_patched": profile(0.44, 2_382_000),
         }
         result = evaluate_upgrade(
             performance,
@@ -133,7 +111,7 @@ class E6fIngestTests(unittest.TestCase):
         self.assertTrue(result["passed"])
         self.assertEqual("current_patched", result["selected_runtime"])
 
-        performance["current_patched"]["requests_per_second"]["median"] = 0.94
+        performance["current_patched"]["maximum_rss_kib"]["max"] = 2_500_000
         result = evaluate_upgrade(
             performance,
             acceptance=self.contract["acceptance"],
@@ -141,8 +119,7 @@ class E6fIngestTests(unittest.TestCase):
             candidate_runtime="current_patched",
         )
         self.assertFalse(result["passed"])
-        self.assertEqual("baseline", result["selected_runtime"])
-        self.assertFalse(result["throughput_retention_passed"])
+        self.assertFalse(result["rss_overhead_passed"])
 
 
 if __name__ == "__main__":

@@ -945,6 +945,28 @@ Independent Python 3.10 ingestion matched the uploaded result byte for byte at
 `13496b5e…404ac9`. See
 [`../results/reports/e6g-current-runtime-launch.md`](../results/reports/e6g-current-runtime-launch.md).
 
+## E6h frozen current-runtime no-repack memory-tier upgrade lane
+
+E5h qualifies a no-repack service below 3 GiB on historical llama.cpp `b10208`,
+while E6f/E6g validate only the repacked fast service on patched `b10216`. E6h
+tests whether that already-measured memory tier can cross the same runtime
+boundary without borrowing the fast tier's evidence.
+
+One native job builds clean `b10208` and exact three-patch `b10216`, then runs
+four fresh no-repack servers in historical–current–current–historical order.
+Every other model, build, f16/256/64, cached, four-thread, one-slot, task, seed,
+and output setting is held fixed. Runtime proofs must contain the mapped model
+buffer and must not contain a repack buffer.
+
+The current candidate must reproduce every selected prediction and cached
+prefix, retain at least 95% throughput, keep median/p95 HTTP latency and measured
+server CPU seconds/request within 1.05x, keep readiness within 1.10x, add no more
+than 64 MiB maximum RSS, and keep every cell below 3 GiB. A pass is only a
+no-repack memory-tier upgrade candidate; E5h remains the evidence for the tier's
+fast-versus-memory tradeoff, and a separate launch integration is required.
+Exact details are frozen in
+[`../experiments/e6h_contract.json`](../experiments/e6h_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server
