@@ -249,6 +249,16 @@ Arm all 30 requests reproduced 23/30 with zero drift or failures and prefix
 reuse throughout. A second raw `ldd` capture matched all 13 dependency names;
 neither OpenSSL library was present. HTTPS remains outside this contract.
 
+E9a closes with the deliberately compounded end-product comparison judges can
+read directly. One native two-logical-CPU Arm job ran the exact earliest E5b
+service and exact final E7c service four times each in reverse-balanced order.
+All 240 measured answers matched with zero failures or drift. The final service
+reached 1.7168x throughput, 0.5846x median latency, 0.7056x p95 latency, and
+0.5806x CPU seconds/request, while maximum RSS fell to 0.9575x. One baseline
+readiness outlier reached 10.13 seconds and remains included. We do not assign
+the compounded delta to one mechanism; the isolated E5c/E5e/E5f/E6f/E7b
+experiments remain the causal evidence.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -307,6 +317,9 @@ without changing measured inputs or post-observation thresholds.
 - an HTTP-only build and launch integration that removes two unused OpenSSL
   runtime edges, adds none, and reproduces exact quality through the E7b-bound
   adapter;
+- a final same-job comparison that retains all 240 raw request records and
+  measures 1.7168x throughput with 41.5% lower median latency against the exact
+  earliest admitted service;
 - a process-bound thread-efficiency study that rejects lower thread counts
   instead of confusing fewer active cores with less total CPU work;
 - three reviewable Arm source patches revalidated on current llama.cpp with

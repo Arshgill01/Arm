@@ -8,6 +8,12 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Product
 
+- Retained E9a's same-job native Arm final comparison. The exact E7c service
+  preserved all 240 measured answers and reached 1.7168x throughput, 0.5846x
+  median latency, 0.7056x p95 latency, and 0.5806x CPU seconds/request versus
+  the exact earliest E5b one-slot recipe. The result is explicitly compounded;
+  isolated experiments remain the causal evidence.
+
 - Froze E7c as the separate fail-closed integration for E7b's HTTP-only build.
   The launcher now understands E7b's evidence shape, binds the OpenSSL-off cache
   and server binary, rejects either forbidden dynamic dependency, records the

@@ -62,7 +62,7 @@ current llama.cpp. We claim the hot path, not a whole-model speedup.”
 
 ## 2:08–2:32 — Exact serving
 
-**Screen:** Show the E5b through E7c rows, then the terminal.
+**Screen:** Show the E5b through E9a rows and final comparison, then the terminal.
 
 ```bash
 python3 scripts/verify_submission.py
@@ -81,7 +81,11 @@ missed both its speed and footprint gates, so it stays off. Every other profile
 still fails closed. Finally, the loopback-only build removed two unused OpenSSL
 library edges with no new dependency and 99.981% throughput retention. Its
 separate E7b-bound adapter then proved those libraries absent and launched the
-exact HTTP service with the same 23/30 result. HTTPS remains unchanged.”
+exact HTTP service with the same 23/30 result. Finally, one same-job comparison
+ran the exact earliest and final recipes four times each. All 240 answers
+matched; the final service delivered 1.717 times throughput, 41.5% lower median
+latency, and 41.9% less CPU work per request. It is a compounded product result,
+not a single-mechanism claim. HTTPS remains unchanged.”
 
 ## 2:32–2:50 — Close
 

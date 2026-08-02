@@ -94,6 +94,9 @@ EXPECTED_HASHES = {
     "results/manifests/e7c-30696606993.json": (
         "f4e73971b0c6f2db25be52e365cf611848ec1bb1d738648bb43bdf4c2e1857cf"
     ),
+    "results/manifests/e9a-30764802071.json": (
+        "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d"
+    ),
     "configs/runtime-b10216-selected-service.json": (
         "9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de"
     ),
@@ -1180,6 +1183,54 @@ def main() -> int:
         or http_launch_validation.get("weighted_score_used") is not False
     ):
         raise ValueError("retained HTTP-only launch differs from E7c evidence")
+
+    final_comparison = load_object(
+        ROOT / "results/manifests/e9a-30764802071.json"
+    )
+    final_contract = load_object(ROOT / "experiments/e9a_contract.json")
+    final_hypothesis = final_comparison.get("hypothesis", {})
+    final_performance = final_comparison.get("performance", {})
+    earliest = final_performance.get("e5b_earliest", {})
+    final = final_performance.get("e7c_final", {})
+    earliest_dependencies = set(
+        final_comparison.get("builds", {})
+        .get("e5b_earliest", {})
+        .get("dynamic_dependency_basenames", [])
+    )
+    final_dependencies = set(
+        final_comparison.get("builds", {})
+        .get("e7c_final", {})
+        .get("dynamic_dependency_basenames", [])
+    )
+    if (
+        final_comparison.get("status") != "valid_final_service_win"
+        or final_comparison.get("contract") != final_contract
+        or final_comparison.get("provenance", {}).get("github_run_id")
+        != "30764802071"
+        or final_comparison.get("platform", {}).get("architecture") != "aarch64"
+        or final_comparison.get("platform", {}).get("logical_cpus") != 2
+        or final_hypothesis.get("passed") is not True
+        or final_hypothesis.get("throughput_ratio", 0) < 1.25
+        or final_hypothesis.get("median_http_latency_ratio", 99) > 0.85
+        or final_hypothesis.get("p95_http_latency_ratio", 99) > 0.85
+        or final_hypothesis.get("cpu_seconds_per_request_ratio", 99) > 0.85
+        or final_hypothesis.get("weighted_score_used") is not False
+        or earliest.get("quality", {}).get("exact_selected_predictions") is not True
+        or final.get("quality", {}).get("exact_selected_predictions") is not True
+        or len(earliest.get("samples", [])) != 120
+        or len(final.get("samples", [])) != 120
+        or any(item.get("cached_tokens") != 0 for item in earliest.get("samples", []))
+        or any(item.get("cached_tokens", 0) < 1 for item in final.get("samples", []))
+        or not {"libcrypto.so.3", "libssl.so.3"}.issubset(earliest_dependencies)
+        or {"libcrypto.so.3", "libssl.so.3"}.intersection(final_dependencies)
+        or final_comparison.get("validation", {}).get(
+            "single_mechanism_attribution_allowed"
+        )
+        is not False
+        or final_comparison.get("validation", {}).get("energy_claim_allowed")
+        is not False
+    ):
+        raise ValueError("retained final-service comparison differs from E9a")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

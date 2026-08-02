@@ -1206,6 +1206,23 @@ interpretation remains with the isolated E5c prompt-cache, E5e context, E5f
 batch, E6f runtime-upgrade, and E7b dependency experiments. Exact details are
 frozen in [`../experiments/e9a_contract.json`](../experiments/e9a_contract.json).
 
+### E9a outcome
+
+Native run `30764802071` passed all gates on a same-job two-logical-CPU
+Neoverse N2 runner. E5b/E7c repeated-median throughput was 0.27210/0.46713
+requests/s (1.71675x); pooled median latency was 3,576.09/2,090.72 ms
+(0.58464x); p95 was 5,251.61/3,705.49 ms (0.70559x); and median CPU
+seconds/request was 7.2725/4.2223 (0.58059x). Maximum RSS fell from 4,649,560
+to 4,452,100 KiB.
+
+All eight cells reproduced 23/30 with zero drift or failures. Baseline cached
+tokens remained zero; every final request reused at least 25 tokens. The final
+closure removed the two OpenSSL dependency names and was 201,368 bytes smaller.
+One baseline readiness cell took 10.13 seconds while the other three took about
+2.74 seconds; it remains included and stayed below the frozen 15-second cap.
+Python 3.10 replay was byte-identical at `39424e7f…012d`. See the retained
+[`report`](../results/reports/e9a-final-service-comparison.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

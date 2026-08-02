@@ -35,7 +35,7 @@
     <main id="main">
       <section class="opening" aria-labelledby="opening-title">
         <div class="opening-copy">
-          <p class="project-line">Cloud AI · native four-core Neoverse N2</p>
+          <p class="project-line">Cloud AI · native Neoverse N2</p>
           <h1 id="opening-title">The fastest model lost.</h1>
           <p class="opening-summary">
             Pareto64 rejects speedups that break the workload. It measures real
@@ -49,8 +49,8 @@
               <dd>76.67%</dd>
             </div>
             <div>
-              <dt>Final throughput</dt>
-              <dd>0.918 req/s</dd>
+              <dt>Final service gain</dt>
+              <dd>1.717×</dd>
             </div>
             <div>
               <dt>Compute buffer</dt>
@@ -174,13 +174,54 @@
 
       <section class="cache-section" id="serving" aria-labelledby="serving-title">
         <header class="section-heading">
-          <h2 id="serving-title">Reuse 25 tokens. Keep all 120 answers.</h2>
+          <h2 id="serving-title">The final service is 1.717× faster.</h2>
           <p>
-            The selected service was correct but repeated the same system and
-            chat-template prefix on every request. Quality-gated KV reuse
-            removed that work without changing a single prediction.
+            The exact earliest and final recipes ran four times each in one
+            native Arm job. All 240 measured answers matched. The comparison is
+            compounded; the isolated experiments below explain each decision.
           </p>
         </header>
+
+        <div class="cache-interaction">
+          <table>
+            <caption>
+              <strong>Same job, fresh processes, exact historical recipes.</strong>
+              The runner exposed two Neoverse N2 logical CPUs, so the ratios—not
+              cross-run absolute rates—are the final comparison.
+            </caption>
+            <thead>
+              <tr>
+                <th>Service recipe</th>
+                <th>Throughput</th>
+                <th>Median / p95 HTTP</th>
+                <th>CPU seconds/request</th>
+                <th>Maximum RSS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>E5b · earliest admitted</td>
+                <td>0.272 req/s</td>
+                <td>3,576 / 5,252 ms</td>
+                <td>7.2725 s</td>
+                <td>4,649,560 KiB</td>
+              </tr>
+              <tr>
+                <td>E7c · final HTTP service</td>
+                <td class="select-text">0.467 req/s · 1.717×</td>
+                <td>2,091 / 3,705 ms</td>
+                <td>4.2223 s</td>
+                <td>4,452,100 KiB</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            Median latency fell 41.5%, p95 fell 29.4%, and measured CPU work per
+            request fell 41.9%. Every cell reproduced 23/30 with zero drift or
+            failures. One baseline readiness outlier reached 10.13 seconds and
+            remains included under the frozen 15-second ceiling.
+          </p>
+        </div>
 
         <div class="cache-comparison">
           <div class="cache-side before">
@@ -644,6 +685,11 @@
             <div><strong>Verified HTTP-only launch</strong><p>The E7b-bound adapter matched 13 dependency names, launched on Arm, and reproduced 23/30 with zero drift or failures.</p></div>
             <span class="evidence-result select-text">Integrated</span>
           </li>
+          <li>
+            <span class="evidence-id">E9a</span>
+            <div><strong>Earliest versus final service</strong><p>All 240 answers matched; final throughput was 1.7168× with 41.5% lower median latency.</p></div>
+            <span class="evidence-result select-text">Final win</span>
+          </li>
         </ol>
 
         <div class="reproduce">
@@ -721,6 +767,9 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e7c-http-runtime-launch.md">
           Verified HTTP launch
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e9a-final-service-comparison.md">
+          Final service comparison
         </a>
       </div>
     </footer>

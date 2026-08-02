@@ -112,6 +112,12 @@ separate evidence-bound launch integration. E7c executes that exact path on
 native Arm: the adapter binds E7b, proves the OpenSSL-off cache and matching
 13-library inventory, launches the service, and reproduces 23/30 with zero
 drift or failures. HTTPS remains unchanged.
+E9a finally compares that exact service against the earliest admitted E5b
+one-slot recipe in one native Arm job. Across four reverse-balanced fresh
+processes per profile, every answer stays exact while the final service reaches
+**1.7168x throughput**, 0.5846x median latency, 0.7056x p95 latency, and
+0.5806x CPU seconds/request. The runner exposed two logical CPUs, so these are
+same-job ratios rather than cross-run absolute-throughput claims.
 
 ## Optimization map
 
@@ -133,6 +139,7 @@ preserved unless the row explicitly describes a rejected candidate.
 | Memory-tier runtime | Clean b10208 no-repack service | Compare, provenance-bind, and launch the same ≤3-GiB tier on patched b10216 | 23/30 twice at 1.0024x throughput, then 23/30 through the adapter at 2,381,040 KiB RSS | Admit only the exact E6i-validated integration |
 | Compiler/build | Patched b10216 fast service with LTO off | Enable upstream whole-program LTO and hash both transitive local runtime closures | Exact quality; **1.0014x** throughput; closure only **0.775% smaller** | Keep LTO off; retain the valid no-win |
 | HTTP dependency surface | Patched b10216 loopback service with HTTPS support linked | Disable unused `LLAMA_OPENSSL`, inventory the full dynamic closure, then launch through the E7b-bound adapter | Removes exactly `libssl.so.3` + `libcrypto.so.3`; adds none; **0.9998x** throughput; E7c reproduces 23/30 with a matching 13-library inventory | Integrate only the exact OpenSSL-off HTTP service; keep HTTPS unchanged |
+| Final compounded service | Earliest admitted E5b one-slot recipe | Exact E7c source/build/cache/context/batch/dependency recipe | **1.7168x** throughput; 0.5846x median latency; 0.5806x CPU seconds/request; exact answers in all eight cells | Accept the end-product delta; use isolated experiments for attribution |
 
 Rejected variants remain visible: two server slots, cached two-slot serving,
 q4_0 KV, batch 32, Flash Attention, lower thread counts, and LTO all missed at
@@ -202,10 +209,11 @@ repack flag that conflicts with the plan is refused.
 | [E7a](results/reports/e7a-lto-service.md) | Whole-program LTO preserved exact quality but gained only 0.137% throughput and reduced the local runtime closure only 0.775%; LTO-off remains selected |
 | [E7b](results/reports/e7b-openssl-service.md) | OpenSSL-off removed exactly two unused HTTPS dependency edges, added none, retained 99.981% throughput, and preserved exact quality and every guardrail |
 | [E7c](results/reports/e7c-http-runtime-launch.md) | The E7b-bound adapter launched the exact OpenSSL-off HTTP service on Arm: 23/30, zero drift/failures, prefix reuse throughout, and both forbidden libraries absent |
+| [E9a](results/reports/e9a-final-service-comparison.md) | Same-job final comparison preserved all 240 answers and reached 1.7168x throughput, 0.5846x median latency, and 0.5806x CPU seconds/request |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
-The E5f through E5j, E6d through E6i, and E7a through E7c results are retained under their
+The E5f through E5j, E6d through E6i, E7a through E7c, and E9a results are retained under their
 exact frozen contracts and independently re-ingested byte for byte.
 
 ## Repository map

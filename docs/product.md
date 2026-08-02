@@ -287,6 +287,17 @@ was 4.357 seconds and maximum RSS was 4,449,416 KiB. The claim is limited to
 this exact loopback HTTP service; HTTPS, security, installed-package, energy,
 other-profile, and full-upstream claims remain excluded.
 
+E9a measures the complete product delta without converting it into a causal
+claim. In one native two-logical-CPU Arm64 job, four reverse-balanced fresh
+processes per profile compared the exact E5b one-slot recipe with exact E7c.
+Every cell reproduced 23/30 with zero drift or failures. E7c delivered 1.71675x
+throughput, 0.58464x median latency, 0.70559x p95 latency, 0.58059x CPU
+seconds/request, and 0.95753x maximum RSS. Its closure also omitted the two
+OpenSSL libraries. One E5b readiness repetition reached 10.13 seconds but
+remained under the frozen 15-second ceiling and is not discarded. The result
+validates the compounded end product only; E5c, E5e, E5f, E6f, and E7b remain
+authoritative for mechanism-specific interpretation.
+
 ## Select a measured service profile
 
 Model selection and service-profile selection are separate obligations. The

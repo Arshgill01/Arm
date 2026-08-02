@@ -1,9 +1,12 @@
 # Judge evidence index
 
-All performance claims below come from native `aarch64` GitHub-hosted runners
-with four Neoverse N2 cores. Each compact manifest is generated from raw evidence
-by a fail-closed ingester. Raw artifacts are retained for 90 days by the linked
-public workflow run; compact manifests and reports are committed permanently.
+All performance claims below come from native `aarch64` GitHub-hosted Neoverse
+N2 runners. Each manifest records its exact CPU topology; E0–E7c used four
+logical CPUs, while E9a's same-job final comparison used two. No absolute rate
+is compared across those topologies. Each compact manifest is generated from
+raw evidence by a fail-closed ingester. Raw artifacts are retained for 90 days
+by the linked public workflow run; compact manifests and reports are committed
+permanently.
 
 | Claim | Native run | Compact evidence | SHA-256 |
 | --- | --- | --- | --- |
@@ -40,6 +43,7 @@ public workflow run; compact manifests and reports are committed permanently.
 | Whole-program LTO compiler/build no-win | [E7a `30692292700`](https://github.com/Arshgill01/Arm/actions/runs/30692292700) | [`e7a` manifest](../results/manifests/e7a-30692292700.json) · [`report`](../results/reports/e7a-lto-service.md) | `b48e6c12…b46839` |
 | HTTP-only OpenSSL dependency pruning | [E7b `30695349303`](https://github.com/Arshgill01/Arm/actions/runs/30695349303) | [`e7b` manifest](../results/manifests/e7b-30695349303.json) · [`report`](../results/reports/e7b-openssl-service.md) | `8dffd667…7ffd9b` |
 | Exact HTTP-only dependency-pruned launch | [E7c `30696606993`](https://github.com/Arshgill01/Arm/actions/runs/30696606993) | [`e7c` manifest](../results/manifests/e7c-30696606993.json) · [`report`](../results/reports/e7c-http-runtime-launch.md) | `f4e73971…e1857cf` |
+| Earliest-versus-final compounded service | [E9a `30764802071`](https://github.com/Arshgill01/Arm/actions/runs/30764802071) | [`e9a` manifest](../results/manifests/e9a-30764802071.json) · [`report`](../results/reports/e9a-final-service-comparison.md) | `39424e7f…012d` |
 | Public clean-checkout package validation | [`30697133805`](https://github.com/Arshgill01/Arm/actions/runs/30697133805) | 145 tests, 35 hashes including E7c, exact runtime/plan checks, demo smoke test | passed on native `aarch64` |
 
 ## Final selected package
@@ -71,6 +75,11 @@ public workflow run; compact manifests and reports are committed permanently.
   regression; E7c binds that evidence and executes the exact dependency-pruned
   service through the adapter. HTTPS and every other current-runtime profile
   remain unchanged.
+- Final same-job comparison: E9a runs the exact earliest E5b and exact E7c
+  recipes four times each. All 240 measured answers match; final throughput is
+  1.7168x, median/p95 latency ratios are 0.5846x/0.7056x, and CPU
+  seconds/request is 0.5806x. This is a compounded product result; E5c, E5e,
+  E5f, E6f, and E7b remain the mechanism evidence.
 
 ## Recompute locally
 

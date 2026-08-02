@@ -1528,3 +1528,25 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   authoritative for causal attribution.
 - Frozen contract SHA-256 is
   `56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928`.
+
+## 2026-08-02 — E9a final-service win retained
+
+- Native run `30764802071` passed in 25m40s on a two-logical-CPU Neoverse N2
+  GitHub-hosted Arm64 runner. This topology differs from earlier four-core
+  evidence, so only the same-job E9a ratios are used.
+- All eight fresh-process cells reproduced 23/30 with zero failures or drift.
+  E5b observed zero cached tokens; E7c reused at least 25 in every request.
+- Final throughput was 1.716753x baseline. Median/p95 latency ratios were
+  0.584641x/0.705592x, CPU seconds/request was 0.580589x, maximum RSS was
+  0.957531x, and throughput CV stayed below 0.09% in both profiles. Every
+  frozen gate passed.
+- One E5b readiness cell took 10,133 ms versus about 2,734–2,741 ms for its
+  other repetitions. The outlier is retained and remains under the frozen
+  15-second ceiling. E7c readiness stayed between 2,630 and 2,638 ms.
+- E5b resolved 15 dependency basenames including both OpenSSL libraries; E7c
+  resolved 13 without them. The eight-file local closure fell 201,368 bytes.
+- The committed manifest retains all 240 raw measured request records. Python
+  3.10.20 replay matched byte for byte at SHA-256
+  `39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d`.
+  E9a remains a compounded end-product result; E5c/E5e/E5f/E6f/E7b remain the
+  causal evidence.
