@@ -1593,3 +1593,29 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Artifact `e9b-preflight-30766707967-1` is retained for 90 days. Compact
   manifest SHA-256 is `9f654a9f…5162`. Work moves to the first ordered fallback,
   native prompt-cache generalization.
+
+## 2026-08-02 — E9c prompt-cache generalization frozen
+
+- Kept the exact E7c Q4_K_M source, three-patch OpenSSL-off build, binary
+  closure, four-thread one-slot service, 256-token context, f16 KV, 64/64
+  batch, repack, and launch arguments. Only request-level `cache_prompt`
+  changes, so this is not a new server-knob sweep.
+- Predeclared exactly nine points: one, two, and four alternating prefixes at
+  16, 32, and 64 exact shared tokens. Each point uses two repetitions per
+  cache state in no-cache/cache/cache/no-cache order, for 36 fresh processes
+  and 576 measured requests.
+- Fixed the 16-request task sequence, active-prefix cycling, one-cycle warmup,
+  deterministic native template/token construction, standalone-answer parser,
+  248-token prompt ceiling, and selected E3f prediction map before results.
+  The four marker IDs and single-token ` cache` filler were independently
+  checked against corrected Mistral tokenizer revision `b35d4dfe…4308`.
+- A point must preserve exact reference and paired outputs, show the expected
+  zero/on cache-token mechanism, keep throughput CV at or below 5%, reach at
+  least 1.05x throughput and prompt-encode speedup, and avoid p95 or CPU-time
+  regression. No weighted score is used.
+- Policy logic is also frozen: monotone eligible lengths become a minimum
+  threshold, non-monotone lengths become an explicit tested-only allowlist,
+  and no eligible length disables cache. There is no interpolation and no
+  energy, PMU, local-device, concurrency, or other-runtime claim.
+- Frozen contract SHA-256 is
+  `0a7f9adcaa3e68ffce137933115cd1f102732aa486ca1ed77cf35be99b6ed029`.

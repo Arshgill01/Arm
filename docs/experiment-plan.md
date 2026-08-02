@@ -19,6 +19,7 @@ No headline result is accepted until the experiment contract in
 | E7c | Can the product launch that exact dependency-pruned service without broadening its claims? | E7b-bound Pareto64 adapter | Source/build/binary/cache/`ldd` provenance passes, then the live HTTP service reproduces quality, cache reuse, readiness, and RSS gates |
 | E8a | Does shared-prefix reuse reduce real energy and tariff-derived cost on a stable local Arm device? | Exact E7c service and selected workload | Four valid cells per request policy preserve quality and environment state; cache-on reaches ≥1.10x throughput and ≤0.90x gross joules/request |
 | E9a | How much better is the exact final service than the earliest admitted deployable service? | Historical E5b one-slot recipe versus exact E7c HTTP recipe | Four reverse-balanced fresh-process repetitions preserve every answer and dependency boundary; final reaches ≥1.25x throughput and ≤0.85x latency/CPU ratios |
+| E9c | When does request-level prompt caching remain worthwhile as prefixes alternate? | Exact E7c one-slot service with 1, 2, or 4 prefixes sharing 16, 32, or 64 tokens | All nine predeclared points preserve exact outputs and expose scheduler noise; only points clearing every frozen throughput/encode/p95/CPU gate enter the bounded policy |
 | E7 | Is the whole project reproducible and judge-readable? | Clean native Arm job | One command emits manifest, raw data, summary, Pareto front, and demo assets |
 
 ## E2 frozen protocol
@@ -1268,6 +1269,42 @@ response would no longer test the exact E7c server, so E9b is retained as
 `blocked_api_prompt_logprobs`. No ARC Easy, HellaSwag, or WinoGrande score or
 sample was observed, tasks were not replaced, and the admission contract is
 unchanged. See the retained [`blocker report`](../results/reports/e9b-holdout-preflight-blocker.md).
+
+## E9c frozen prompt-cache generalization fallback
+
+E9c follows the ordered fallback only because the exact E7c OpenAI-compatible
+server cannot provide lm-eval's required prompt echo logprobs. It does not
+start another server-knob sweep. The source, OpenSSL-off build, Q4_K_M model,
+four threads, one slot, 256-token context, f16 KV, 64/64 batch, weight repack,
+and every launch argument remain the exact E7c recipe. Only the request-level
+`cache_prompt` boolean changes inside paired cells.
+
+Before results, the matrix fixes three prefix working-set cardinalities (one,
+two, and four) and three exact tokenized common-prefix lengths (16, 32, and
+64). The nine points run in a fixed interleaved order. Every point uses four
+fresh server processes in no-cache/cache/cache/no-cache order, two repetitions
+per request state, one warmup per active prefix, and the same 16-request task
+sequence. This yields exactly 36 fresh processes and 576 measured requests.
+Prefix construction is deterministic and validated through b10216's native
+`/apply-template`, `/tokenize`, and `/completion` endpoints. The four frozen
+variant marker IDs were independently checked against the pinned corrected
+Mistral tokenizer before launch.
+
+Every cell retains standalone answers, selected E3f prediction comparisons,
+HTTP/prompt/decode timing, cached/evaluated token counts, PID-bound process CPU,
+RSS, readiness, slots, metrics, source/build/binary closure, host state, and
+commands. A point is eligible only with zero failures or output mismatches,
+the exact cache mechanism, at most 5% throughput CV in both states, at least
+1.05x throughput and prompt-encode speedup, and no p95 latency or CPU
+seconds/request regression. Output drift and gate misses remain negative
+evidence.
+
+For each cardinality, a threshold is emitted only when eligible lengths form a
+monotone suffix of the three tested lengths. A non-monotone result emits an
+explicit tested-length allowlist; no eligible point disables cache. The policy
+never interpolates to untested prefix counts or lengths and makes no energy,
+PMU, concurrency, local-device, fleet, or other-runtime claim. Exact details
+are frozen in [`e9c_contract.json`](../experiments/e9c_contract.json).
 
 ## E4a frozen accept-backlog tuner
 

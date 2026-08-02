@@ -136,6 +136,9 @@ EXPECTED_HASHES = {
     "experiments/e9b_preflight_plan.json": (
         "ff492b46e512220abd2ea3135bd807881f5ac4e1f9c5ee8b9b77de31229f9cd0"
     ),
+    "experiments/e9c_contract.json": (
+        "0a7f9adcaa3e68ffce137933115cd1f102732aa486ca1ed77cf35be99b6ed029"
+    ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
     ),
@@ -472,7 +475,10 @@ def main() -> int:
         or thread_hypothesis.get("weighted_score_used") is not False
         or thread_hypothesis.get("metric_boundary")
         != "server process CPU time; not energy or power"
-        or {name: profile.get("threads") for name, profile in thread_performance.items()}
+        or {
+            name: profile.get("threads")
+            for name, profile in thread_performance.items()
+        }
         != {"threads2": 2, "threads3": 3, "threads4": 4}
         or any(
             profile.get("quality", {}).get("exact_selected_predictions") is not True
@@ -1299,6 +1305,44 @@ def main() -> int:
         is not False
     ):
         raise ValueError("retained E9b API blocker changed or gained task results")
+
+    cache_generalization = load_object(ROOT / "experiments/e9c_contract.json")
+    if (
+        cache_generalization.get("experiment_id") != "E9c"
+        or cache_generalization.get("service", {}).get("profile") != "e7c_final"
+        or cache_generalization.get("service", {}).get("source_commit")
+        != "876a4321163249c43ca4e986818fab5ab081f282"
+        or cache_generalization.get("service", {}).get("openssl") is not False
+        or cache_generalization.get("workload", {}).get("prefix_cardinalities")
+        != [1, 2, 4]
+        or cache_generalization.get("workload", {}).get("shared_prefix_tokens")
+        != [16, 32, 64]
+        or len(cache_generalization.get("workload", {}).get("measured_task_ids", []))
+        != 16
+        or cache_generalization.get("execution", {}).get(
+            "total_fresh_process_cells"
+        )
+        != 36
+        or cache_generalization.get("execution", {}).get(
+            "total_measured_requests"
+        )
+        != 576
+        or cache_generalization.get("validity", {}).get(
+            "maximum_throughput_coefficient_of_variation"
+        )
+        != 0.05
+        or cache_generalization.get("break_even", {}).get(
+            "minimum_throughput_ratio"
+        )
+        != 1.05
+        or cache_generalization.get("break_even", {}).get(
+            "minimum_prompt_encode_speedup_ratio"
+        )
+        != 1.05
+        or cache_generalization.get("break_even", {}).get("weighted_score_used")
+        is not False
+    ):
+        raise ValueError("E9c bounded cache contract changed after freeze")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

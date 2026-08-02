@@ -8,6 +8,12 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Product
 
+- Froze E9c as the first ordered fallback after E9b: a bounded native Arm
+  prompt-cache generalization matrix on the exact E7c service. Nine
+  predeclared prefix-cardinality/shared-token points use 36 reverse-balanced
+  fresh processes, exact-output and cache-mechanism checks, and a fail-closed
+  threshold/allowlist/disabled policy without untested interpolation.
+
 - Retained E9b's native exact-server API blocker before any external task
   result. Exact E7c and corrected-tokenizer parity passed, but b10216 cannot
   supply lm-eval's required echoed prompt logprobs; the full holdout did not

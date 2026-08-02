@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E9c",
+  "title": "Prompt-cache alternating-prefix generalization boundary",
+  "hypothesis": "The exact E7c service can retain exact selected outputs while prompt caching remains beneficial for at least one predeclared shared-prefix length under one, two, and four alternating-prefix workloads.",
+  "scope": "A bounded 3x3 native Arm64 prompt-cache generalization matrix on the exact E7c service; this is the first fallback after the retained E9b API blocker, not a broad server knob sweep.",
+  "inputs": {
+    "selected_manifest_path": "results/manifests/e3f-30656151957.json",
+    "selected_manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "e9a_contract_path": "experiments/e9a_contract.json",
+    "e9a_contract_sha256": "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928",
+    "e9b_blocker_path": "results/manifests/e9b-preflight-30766707967.json",
+    "e9b_blocker_sha256": "9f654a9fc5af6a02bcbb12d2cea84aa754d0c864ca83fd35943c627b38685162",
+    "probe_path": "experiments/e9c_probe.py",
+    "probe_sha256": "3289c4f1695bdb9b0ce12171fbc73e1efe08be8e2ad24de2f19338059fd92f38",
+    "ingest_path": "experiments/e9c_ingest.py",
+    "ingest_sha256": "a13f5a2bf2f25b9db76404397b7ab67d336d4d58d32a04bc99a0eba3a2a6b92a"
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "reference_source": "E3f repeated selected prediction map"
+  },
+  "service": {
+    "profile": "e7c_final",
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_tag": "b10216",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "threads": 4,
+    "threads_batch": 4,
+    "context_per_slot": 256,
+    "server_parallel_slots": 1,
+    "continuous_batching": true,
+    "server_prompt_cache": true,
+    "batch_size": 64,
+    "micro_batch_size": 64,
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "flash_attention": "auto",
+    "weight_repack": true,
+    "openssl": false
+  },
+  "prompt_construction": {
+    "endpoint": "/apply-template followed by /tokenize and native /completion",
+    "common_filler": "Cache followed by the smallest non-negative count of single-token ' cache' repetitions that makes the four-variant tokenized longest common prefix equal the frozen target.",
+    "tokenizer_preflight": {
+      "repository": "mistralai/Ministral-3-3B-Instruct-2512",
+      "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+      "transformers_version": "5.14.1",
+      "fix_mistral_regex": true,
+      "expected_common_filler_repetitions_by_target": {
+        "16": 13,
+        "32": 29,
+        "64": 61
+      },
+      "maximum_preflight_prompt_tokens": 143
+    },
+    "variant_markers": [
+      "alpha",
+      "beta",
+      "gamma",
+      "delta"
+    ],
+    "variant_marker_token_ids": [
+      17341,
+      20865,
+      33496,
+      24138
+    ],
+    "instruction_suffix": "Choose the correct option. Respond with only one uppercase letter: A, B, C, or D.",
+    "require_exact_tokenized_common_prefix": true,
+    "maximum_prompt_tokens": 248
+  },
+  "workload": {
+    "prefix_cardinalities": [
+      1,
+      2,
+      4
+    ],
+    "shared_prefix_tokens": [
+      16,
+      32,
+      64
+    ],
+    "warmup_task_id": "arithmetic-02",
+    "warmup_requests_per_point": "one complete active-prefix cycle",
+    "measured_task_ids": [
+      "arithmetic-01",
+      "arithmetic-02",
+      "logic-02",
+      "logic-03",
+      "code-01",
+      "data-03",
+      "evidence-02",
+      "evidence-04",
+      "arithmetic-01",
+      "arithmetic-02",
+      "logic-02",
+      "logic-03",
+      "code-01",
+      "data-03",
+      "evidence-02",
+      "evidence-04"
+    ],
+    "prefix_sequence": "request index modulo prefix cardinality",
+    "client_concurrency": 1,
+    "temperature": 0.0,
+    "seed": 424242,
+    "maximum_output_tokens": 8,
+    "timeout_seconds": 30.0
+  },
+  "execution": {
+    "fresh_server_per_cell": true,
+    "repetitions_per_cache_state": 2,
+    "cache_states": [
+      false,
+      true
+    ],
+    "within_point_order": [
+      {"cache_prompt": false, "repetition": 1},
+      {"cache_prompt": true, "repetition": 1},
+      {"cache_prompt": true, "repetition": 2},
+      {"cache_prompt": false, "repetition": 2}
+    ],
+    "point_order": [
+      {"prefix_cardinality": 1, "shared_prefix_tokens": 16},
+      {"prefix_cardinality": 2, "shared_prefix_tokens": 32},
+      {"prefix_cardinality": 4, "shared_prefix_tokens": 64},
+      {"prefix_cardinality": 4, "shared_prefix_tokens": 16},
+      {"prefix_cardinality": 2, "shared_prefix_tokens": 64},
+      {"prefix_cardinality": 1, "shared_prefix_tokens": 32},
+      {"prefix_cardinality": 1, "shared_prefix_tokens": 64},
+      {"prefix_cardinality": 2, "shared_prefix_tokens": 16},
+      {"prefix_cardinality": 4, "shared_prefix_tokens": 32}
+    ],
+    "total_fresh_process_cells": 36,
+    "total_measured_requests": 576
+  },
+  "validity": {
+    "required_architecture": "aarch64",
+    "request_failures": 0,
+    "reference_prediction_mismatches": 0,
+    "cache_off_output_mismatches": 0,
+    "cache_on_output_mismatches": 0,
+    "paired_cache_output_mismatches": 0,
+    "required_cache_off_tokens_per_request": 0,
+    "minimum_cache_on_tokens_per_request": "the point's frozen shared-prefix token count",
+    "maximum_throughput_coefficient_of_variation": 0.05,
+    "maximum_ready_ms": 15000.0,
+    "maximum_process_rss_kib": 8388608,
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ]
+  },
+  "break_even": {
+    "minimum_throughput_ratio": 1.05,
+    "minimum_prompt_encode_speedup_ratio": 1.05,
+    "maximum_p95_http_latency_ratio": 1.0,
+    "maximum_cpu_seconds_per_request_ratio": 1.0,
+    "rule": "A tested point is cache-eligible only if exact outputs, cache mechanism, scheduler-dispersion, throughput, prompt-encode, p95, and CPU gates all pass.",
+    "policy": "For each prefix cardinality, emit the smallest eligible shared-prefix length as a threshold only when every longer tested length is also eligible. If eligible lengths are non-monotone, emit only their explicit tested-length allowlist. If none qualify, disable cache. Never interpolate beyond 1, 2, or 4 prefixes or beyond 16, 32, or 64 shared tokens.",
+    "weighted_score_used": false
+  },
+  "negative_result_rule": "Retain output drift, non-monotonicity, scheduler noise, or a no-break-even result without changing points, repetitions, gates, or policy logic.",
+  "claim_boundary": "E9c supports a cache-enablement policy only for the exact selected model, exact E7c native Arm service, sequential one-slot requests, tested prefix cardinalities, tested token lengths, and retained task sequence. It makes no energy, PMU, local-device, other-runtime, concurrency, fleet, or untested-length claim."
+}
