@@ -1550,3 +1550,25 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d`.
   E9a remains a compounded end-product result; E5c/E5e/E5f/E6f/E7b remain the
   causal evidence.
+
+## 2026-08-02 — E9a validation passed; E9b preflight frozen
+
+- Native clean-checkout run `30766148919` passed at result commit `09a6fd1`
+  with 148 tests and 37 retained evidence hashes including E9a.
+- Selected ARC Easy, HellaSwag, and WinoGrande before observing external model
+  results. Their exact dataset revisions, task transforms, evaluation splits,
+  license sources, and purposes are recorded in the E9b preflight plan.
+- Froze 100 samples/task using a SHA-256 index ranking independent of model
+  outputs. The exact generated map hash is `c92200f7…2e49`; no `--limit` or
+  post-result task selection is allowed.
+- Pinned lm-evaluation-harness v0.4.12 at `6d642546…e5af`, zero-shot chat
+  templating, 256-token maximum length, sequential completion requests, sample
+  logs, and metrics before results. No accuracy floor is imposed and the
+  original admission contract is unchanged.
+- Source review found that harness auto-tokenizer support expects the vLLM
+  `/tokenizer_info` route, absent from llama.cpp b10216. The native preflight
+  instead requires a corrected, pinned Mistral tokenizer snapshot to match
+  llama.cpp `/tokenize` IDs exactly before exercising echo logprobs and two
+  synthetic lm-eval records. Benchmark records are forbidden in this step.
+- Frozen preflight-plan SHA-256 is
+  `ff492b46e512220abd2ea3135bd807881f5ac4e1f9c5ee8b9b77de31229f9cd0`.

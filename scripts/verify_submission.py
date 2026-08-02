@@ -130,6 +130,9 @@ EXPECTED_HASHES = {
     "experiments/e9a_contract.json": (
         "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928"
     ),
+    "experiments/e9b_preflight_plan.json": (
+        "ff492b46e512220abd2ea3135bd807881f5ac4e1f9c5ee8b9b77de31229f9cd0"
+    ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
     ),
@@ -1231,6 +1234,34 @@ def main() -> int:
         is not False
     ):
         raise ValueError("retained final-service comparison differs from E9a")
+
+    holdout_preflight = load_object(ROOT / "experiments/e9b_preflight_plan.json")
+    holdout_tasks = holdout_preflight.get("planned_holdout", {}).get("tasks", [])
+    if (
+        holdout_preflight.get("state") != "planned_before_external_task_results"
+        or holdout_preflight.get("harness", {}).get("commit")
+        != "6d642546f4688648fced259eb3302efd36ece5af"
+        or holdout_preflight.get("tokenizer", {}).get("revision")
+        != "b35d4dfe56c142746f54dbd64f579faab2744308"
+        or holdout_preflight.get("planned_holdout", {}).get("selected_before_results")
+        is not True
+        or holdout_preflight.get("planned_holdout", {}).get("samples_per_task") != 100
+        or holdout_preflight.get("planned_holdout", {}).get(
+            "admission_contract_rewrite_allowed"
+        )
+        is not False
+        or holdout_preflight.get("planned_holdout", {}).get("minimum_accuracy_gate")
+        is not None
+        or [item.get("task") for item in holdout_tasks]
+        != ["e9b_arc_easy", "e9b_hellaswag", "e9b_winogrande"]
+        or [item.get("license") for item in holdout_tasks]
+        != ["CC-BY-SA-4.0", "MIT", "Apache-2.0"]
+        or holdout_preflight.get("acceptance", {}).get(
+            "benchmark_task_results_allowed"
+        )
+        is not False
+    ):
+        raise ValueError("E9b task selection or preflight plan changed after freeze")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

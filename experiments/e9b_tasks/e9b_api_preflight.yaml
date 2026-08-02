@@ -1,0 +1,19 @@
+task: e9b_api_preflight
+dataset_path: json
+dataset_kwargs:
+  data_files:
+    validation: experiments/e9b_preflight_samples.jsonl
+output_type: multiple_choice
+validation_split: validation
+doc_to_text: "{{prompt}}"
+doc_to_target: label
+doc_to_choice: choices
+metric_list:
+  - metric: acc
+    aggregation: mean
+    higher_is_better: true
+  - metric: acc_norm
+    aggregation: mean
+    higher_is_better: true
+metadata:
+  version: 1.0

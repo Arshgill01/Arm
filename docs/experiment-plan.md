@@ -1223,6 +1223,36 @@ One baseline readiness cell took 10.13 seconds while the other three took about
 Python 3.10 replay was byte-identical at `39424e7f…012d`. See the retained
 [`report`](../results/reports/e9a-final-service-comparison.md).
 
+## E9b external holdout selected before results
+
+E9b is supplemental robustness evidence and does not modify the 30-task
+admission contract. Before observing any external task result, the evaluation
+selected three zero-shot multiple-choice tasks: ARC Easy for grade-school
+science, HellaSwag for adversarial continuation, and WinoGrande for referential
+commonsense. The pinned datasets are ARC revision `210d026f…0453`
+(CC-BY-SA-4.0), HellaSwag `218ec52e…6b76` (MIT), and WinoGrande
+`01e74176…67b5` (the original repository's Apache-2.0 license; its Hugging Face
+card omits a license field). The task transforms are copied from pinned
+lm-evaluation-harness v0.4.12 under MIT.
+
+Each task contributes exactly 100 records chosen without model outputs: rank
+every source index by SHA-256 of a frozen salt, task name, and index, then take
+the first 100. The generated map hash is `c92200f7…2e49`. Evaluation is
+zero-shot with the model chat template, 256-token maximum length, one request
+at a time, exact E7c build and launch flags, `acc` plus `acc_norm` where the
+task defines it, and complete per-sample logs. There is no accuracy pass gate;
+poor scores remain evidence. Q4_K_M is primary and Q4_0 is the preselected
+nearest control if the full run remains practical.
+
+The pinned harness's automatic remote tokenizer path requires
+`/tokenizer_info`, which llama.cpp b10216 does not expose. A native synthetic
+preflight therefore uses Transformers 5.14.1 and the exact Mistral tokenizer
+revision `b35d4dfe…4308` with its documented regex correction, saves a local
+snapshot, and requires token-for-token equality with llama.cpp `/tokenize`
+before testing completion echo logprobs through lm-eval. No ARC, HellaSwag, or
+WinoGrande result is allowed during preflight. The immutable details are in
+[`e9b_preflight_plan.json`](../experiments/e9b_preflight_plan.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

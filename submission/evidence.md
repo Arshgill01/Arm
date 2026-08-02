@@ -44,7 +44,7 @@ permanently.
 | HTTP-only OpenSSL dependency pruning | [E7b `30695349303`](https://github.com/Arshgill01/Arm/actions/runs/30695349303) | [`e7b` manifest](../results/manifests/e7b-30695349303.json) · [`report`](../results/reports/e7b-openssl-service.md) | `8dffd667…7ffd9b` |
 | Exact HTTP-only dependency-pruned launch | [E7c `30696606993`](https://github.com/Arshgill01/Arm/actions/runs/30696606993) | [`e7c` manifest](../results/manifests/e7c-30696606993.json) · [`report`](../results/reports/e7c-http-runtime-launch.md) | `f4e73971…e1857cf` |
 | Earliest-versus-final compounded service | [E9a `30764802071`](https://github.com/Arshgill01/Arm/actions/runs/30764802071) | [`e9a` manifest](../results/manifests/e9a-30764802071.json) · [`report`](../results/reports/e9a-final-service-comparison.md) | `39424e7f…012d` |
-| Public clean-checkout package validation | [`30697133805`](https://github.com/Arshgill01/Arm/actions/runs/30697133805) | 145 tests, 35 hashes including E7c, exact runtime/plan checks, demo smoke test | passed on native `aarch64` |
+| Public clean-checkout package validation | [`30766148919`](https://github.com/Arshgill01/Arm/actions/runs/30766148919) | 148 tests, 37 hashes including E9a, exact runtime/plan checks, demo smoke test | passed on native `aarch64` |
 
 ## Final selected package
 

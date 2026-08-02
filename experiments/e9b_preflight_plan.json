@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E9b-preflight",
+  "title": "Pinned external-holdout API and logprob compatibility preflight",
+  "state": "planned_before_external_task_results",
+  "scope": "A native Arm64 compatibility-only run against the exact E7c local OpenAI-compatible server. It uses two synthetic multiple-choice records and must not inspect an ARC, HellaSwag, or WinoGrande model result.",
+  "harness": {
+    "repository": "https://github.com/EleutherAI/lm-evaluation-harness.git",
+    "version": "0.4.12",
+    "commit": "6d642546f4688648fced259eb3302efd36ece5af",
+    "license": "MIT",
+    "model_backend": "local-completions",
+    "known_server_difference": "v0.4.12 auto-detection requires /tokenizer_info, which llama.cpp b10216 does not expose; the preflight therefore supplies a pinned local tokenizer snapshot only after proving its token IDs equal llama.cpp /tokenize output."
+  },
+  "tokenizer": {
+    "repository": "mistralai/Ministral-3-3B-Instruct-2512",
+    "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+    "license": "Apache-2.0",
+    "transformers_version": "5.14.1",
+    "fix_mistral_regex": true,
+    "parity_requirement": "Every predefined UTF-8, punctuation, contraction, task-format, and answer-prefix probe must produce exactly the same token IDs through the pinned tokenizer and llama.cpp /tokenize."
+  },
+  "planned_holdout": {
+    "selected_before_results": true,
+    "fewshot": 0,
+    "apply_chat_template": true,
+    "max_length": 256,
+    "batch_size": 1,
+    "concurrent_requests": 1,
+    "samples_per_task": 100,
+    "sample_selection": {
+      "algorithm": "Select the 100 indices with the lexicographically smallest SHA-256 digest of salt, task name, and index; present selected indices in ascending source order.",
+      "salt": "pareto64-e9b-holdout-v1",
+      "generator_path": "experiments/e9b_samples.py",
+      "generator_sha256": "fab766ab1e19441f38da5010ab54b1610f64a598cfbc030af0affe181147ee81",
+      "generated_map_sha256": "c92200f74c83666ee9e381e5edcb5d10bc66d8051ec07e9daa6805eab7632e49"
+    },
+    "tasks": [
+      {
+        "task": "e9b_arc_easy",
+        "purpose": "grade-school science multiple-choice robustness",
+        "dataset_repository": "allenai/ai2_arc",
+        "dataset_revision": "210d026faf9955653af8916fad021475a3f00453",
+        "evaluation_split": "test",
+        "split_size": 2376,
+        "license": "CC-BY-SA-4.0",
+        "license_source": "Hugging Face dataset-card metadata at the pinned revision",
+        "task_config_path": "experiments/e9b_tasks/e9b_arc_easy.yaml",
+        "task_config_sha256": "028b2dd1bc77c8423f8b7c64b2e7122c6906b153a5e1d8efdb55e22dc9e2c43a"
+      },
+      {
+        "task": "e9b_hellaswag",
+        "purpose": "adversarial commonsense continuation robustness",
+        "dataset_repository": "Rowan/hellaswag",
+        "dataset_revision": "218ec52e09a7e7462a5400043bb9a69a41d06b76",
+        "evaluation_split": "validation",
+        "split_size": 10042,
+        "license": "MIT",
+        "license_source": "Pinned dataset card linked to original repository commit a29ff8e9a04bba4bd6588223785ce105328adc57 LICENSE",
+        "task_config_path": "experiments/e9b_tasks/e9b_hellaswag.yaml",
+        "task_config_sha256": "3f58675493de6fcf9a4bcb1f2ed92d4eebe62555e7df856f48b5327e8a9c9224"
+      },
+      {
+        "task": "e9b_winogrande",
+        "purpose": "adversarial referential commonsense robustness",
+        "dataset_repository": "allenai/winogrande",
+        "dataset_revision": "01e74176c63542e6b0bcb004dcdea22d94fb67b5",
+        "evaluation_split": "validation",
+        "split_size": 1267,
+        "license": "Apache-2.0",
+        "license_source": "Original repository commit 727e837f77521ef38bcc56df3b275c8da43f45af LICENSE; the pinned Hugging Face card omits a license field",
+        "task_config_path": "experiments/e9b_tasks/e9b_winogrande.yaml",
+        "task_config_sha256": "b9d14abd83d487f6bb1695c247095fe2e621a78d8f9b50be40923114a2736844"
+      }
+    ],
+    "task_utils_path": "experiments/e9b_tasks/e9b_utils.py",
+    "task_utils_sha256": "0abc32405675001f3a56d305d7ee29766f0c5af5e1d03268406e3d79cf83a826",
+    "models": [
+      "ministral3_3b_q4_k_m",
+      "ministral3_3b_q4_0"
+    ],
+    "metrics": [
+      "acc",
+      "acc_norm where defined by the pinned task"
+    ],
+    "retain_per_sample_logs": true,
+    "minimum_accuracy_gate": null,
+    "admission_contract_rewrite_allowed": false
+  },
+  "server": {
+    "profile": "exact E7c OpenSSL-off b10216 performance service",
+    "e9a_contract_path": "experiments/e9a_contract.json",
+    "e9a_contract_sha256": "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928",
+    "runtime_contract_path": "configs/runtime-b10216-http-service.json",
+    "runtime_contract_sha256": "95cb669b70de98851b8bb2f04d7be6650745e0fbd39aa4d3256b5bb9c2a2b928",
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "selected_model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4"
+  },
+  "preflight_inputs": {
+    "script_path": "experiments/e9b_preflight.py",
+    "script_sha256": "892c438439dfc46c13054d57c519b7ccba6f58a0aab35a5e7c598ca0b494637d",
+    "synthetic_samples_path": "experiments/e9b_preflight_samples.jsonl",
+    "synthetic_samples_sha256": "0abd88d0d9abd70465a27cdc125b377bf69044beca5218edd14c3fc215ad03cf",
+    "synthetic_task_path": "experiments/e9b_tasks/e9b_api_preflight.yaml",
+    "synthetic_task_sha256": "40274fea6edc2ab62c7b1711b83c5d927238b1c73add5bb0ff2c70ccce59f2ff",
+    "models_manifest_path": "experiments/e3f_models.json",
+    "models_manifest_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d"
+  },
+  "acceptance": {
+    "required_architecture": "aarch64",
+    "exact_source_build_and_model_provenance": true,
+    "forbidden_dynamic_dependency_basenames": [
+      "libcrypto.so.3",
+      "libssl.so.3"
+    ],
+    "tokenizer_probe_mismatches": 0,
+    "saved_tokenizer_roundtrip_mismatches": 0,
+    "completion_echo_logprobs_required": true,
+    "synthetic_harness_samples_logged": 2,
+    "request_failures": 0,
+    "benchmark_task_results_allowed": false
+  },
+  "next_step": "Freeze the final E9b evaluation contract only after this preflight passes. A poor eventual task score is retained and does not alter task selection, sample selection, metrics, or the original 30-task admission contract.",
+  "claim_boundary": "This preflight can establish API, tokenizer, logprob, task-loader, and sample-log compatibility only. It makes no external-quality, performance, energy, other-runtime, local-device, or causal claim."
+}

@@ -1,0 +1,247 @@
+name: Arm E9b holdout API preflight
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PLAN_PATH: experiments/e9b_preflight_plan.json
+  PLAN_SHA256: ff492b46e512220abd2ea3135bd807881f5ac4e1f9c5ee8b9b77de31229f9cd0
+  SELECTED_CANDIDATE: ministral3_3b_q4_k_m
+
+jobs:
+  preflight:
+    name: Preflight exact E7c completion logprobs
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 45
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e9b-preflight-${{ github.run_id }}-${{ github.run_attempt }}
+      LLAMA_SOURCE: /tmp/llama.cpp-E9b-preflight
+      LLAMA_BUILD: /tmp/llama.cpp-E9b-preflight-build
+      HARNESS_SOURCE: /tmp/lm-evaluation-harness-E9b-preflight
+      MODEL_ROOT: /tmp/Pareto64-E9b-preflight/models
+      TOKENIZER_DIR: /tmp/Pareto64-E9b-preflight/tokenizer
+
+    steps:
+      - name: Check out frozen preflight
+        uses: actions/checkout@v7
+
+      - name: Select supported Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Capture host and verify frozen plan
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR/build" "$EVIDENCE_DIR/harness" \
+            "$EVIDENCE_DIR/patches" "$MODEL_ROOT"
+          test "$(uname -m)" = "aarch64"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          echo "$PLAN_SHA256  $PLAN_PATH" | sha256sum --check --strict
+          cp "$PLAN_PATH" "$EVIDENCE_DIR/preflight-plan.json"
+          while IFS=$'\t' read -r expected path; do
+            echo "$expected  $path" | sha256sum --check --strict
+          done < <(jq -r '[
+            [.preflight_inputs.script_sha256, .preflight_inputs.script_path],
+            [.preflight_inputs.synthetic_samples_sha256, .preflight_inputs.synthetic_samples_path],
+            [.preflight_inputs.synthetic_task_sha256, .preflight_inputs.synthetic_task_path],
+            [.preflight_inputs.models_manifest_sha256, .preflight_inputs.models_manifest_path],
+            [.server.e9a_contract_sha256, .server.e9a_contract_path],
+            [.server.runtime_contract_sha256, .server.runtime_contract_path],
+            [.planned_holdout.sample_selection.generator_sha256, .planned_holdout.sample_selection.generator_path],
+            [.planned_holdout.task_utils_sha256, .planned_holdout.task_utils_path]
+          ][] | @tsv' "$PLAN_PATH")
+          jq -r '.planned_holdout.tasks[] | [.task_config_sha256, .task_config_path] | @tsv' \
+            "$PLAN_PATH" | while IFS=$'\t' read -r expected path; do
+              echo "$expected  $path" | sha256sum --check --strict
+            done
+          python3 experiments/e9b_samples.py --output "$EVIDENCE_DIR/planned-samples.json"
+          echo 'c92200f74c83666ee9e381e5edcb5d10bc66d8051ec07e9daa6805eab7632e49  '"$EVIDENCE_DIR"'/planned-samples.json' \
+            | sha256sum --check --strict
+
+      - name: Pin runtime, harness, and selected model
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/ggml-org/llama.cpp.git "$LLAMA_SOURCE"
+          git -C "$LLAMA_SOURCE" checkout --detach \
+            876a4321163249c43ca4e986818fab5ab081f282
+          test "$(git -C "$LLAMA_SOURCE" rev-parse HEAD)" = \
+            876a4321163249c43ca4e986818fab5ab081f282
+          test "$(git -C "$LLAMA_SOURCE" describe --tags --exact-match)" = b10216
+          for patch in \
+            patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch \
+            patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch \
+            patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch; do
+            expected="$(jq -r --arg path "$patch" '.profiles.e7c_final.source.patches[] | select(.path == $path) | .sha256' experiments/e9a_contract.json)"
+            echo "$expected  $patch" | sha256sum --check --strict
+            cp "$patch" "$EVIDENCE_DIR/patches/$(basename "$patch")"
+            git -C "$LLAMA_SOURCE" apply --check "$GITHUB_WORKSPACE/$patch"
+            git -C "$LLAMA_SOURCE" apply "$GITHUB_WORKSPACE/$patch"
+          done
+          git -C "$LLAMA_SOURCE" diff --check
+          git -C "$LLAMA_SOURCE" diff --binary --full-index HEAD -- \
+            > "$EVIDENCE_DIR/source-diff.patch"
+          test "$(sha256sum "$EVIDENCE_DIR/source-diff.patch" | cut -d' ' -f1)" = \
+            e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893
+
+          git clone --filter=blob:none \
+            https://github.com/EleutherAI/lm-evaluation-harness.git \
+            "$HARNESS_SOURCE"
+          git -C "$HARNESS_SOURCE" checkout --detach \
+            6d642546f4688648fced259eb3302efd36ece5af
+          test "$(git -C "$HARNESS_SOURCE" rev-parse HEAD)" = \
+            6d642546f4688648fced259eb3302efd36ece5af
+          test -z "$(git -C "$HARNESS_SOURCE" status --short)"
+          git -C "$HARNESS_SOURCE" show -s --format=fuller HEAD \
+            | tee "$EVIDENCE_DIR/harness-commit.txt"
+
+          python3 -m pip install --disable-pip-version-check \
+            "${HARNESS_SOURCE}[api]" "transformers==5.14.1" \
+            2>&1 | tee "$EVIDENCE_DIR/pip-install.log"
+          python3 -m pip freeze | sort > "$EVIDENCE_DIR/pip-freeze.txt"
+          python3 - <<'PY' | tee "$EVIDENCE_DIR/lm-eval-version.txt"
+          from importlib.metadata import version
+          print(version("lm_eval"))
+          PY
+
+          repository="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].repository' experiments/e3f_models.json)"
+          revision="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].revision' experiments/e3f_models.json)"
+          model_path="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].path' experiments/e3f_models.json)"
+          model_sha="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].sha256' experiments/e3f_models.json)"
+          model_size="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].size_bytes' experiments/e3f_models.json)"
+          target="$MODEL_ROOT/$SELECTED_CANDIDATE/$model_path"
+          mkdir -p "$(dirname "$target")"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$target" \
+            "https://huggingface.co/$repository/resolve/$revision/$model_path?download=true"
+          test "$(stat --format='%s' "$target")" = "$model_size"
+          echo "$model_sha  $target" | sha256sum --check --strict
+          sha256sum "$target" | tee "$EVIDENCE_DIR/model-sha256.txt"
+
+      - name: Build and inventory exact E7c server
+        run: |
+          set -euo pipefail
+          mapfile -t cmake_args < <(jq -r '.profiles.e7c_final.build.cmake_arguments[]' \
+            experiments/e9a_contract.json)
+          printf '%s\n' "${cmake_args[@]}" > "$EVIDENCE_DIR/build/cmake-arguments.txt"
+          cmake -S "$LLAMA_SOURCE" -B "$LLAMA_BUILD" -G Ninja \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON "${cmake_args[@]}" \
+            2>&1 | tee "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' \
+            "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'ARM detected' "$EVIDENCE_DIR/build/configure.log"
+          grep -q '^LLAMA_OPENSSL:BOOL=OFF$' "$LLAMA_BUILD/CMakeCache.txt"
+          cp "$LLAMA_BUILD/CMakeCache.txt" "$EVIDENCE_DIR/build/CMakeCache.txt"
+          /usr/bin/time --verbose --output "$EVIDENCE_DIR/build/build-time.log" \
+            cmake --build "$LLAMA_BUILD" --target llama-server \
+              --parallel "$(nproc)" 2>&1 | tee "$EVIDENCE_DIR/build/build.log"
+          ninja -C "$LLAMA_BUILD" -t commands \
+            > "$EVIDENCE_DIR/build/build-commands.txt"
+          "$LLAMA_BUILD/bin/llama-server" --version 2>&1 \
+            | tee "$EVIDENCE_DIR/build/server-version.txt"
+          python3 experiments/e7a_runtime_closure.py \
+            --server "$LLAMA_BUILD/bin/llama-server" \
+            --build-root "$LLAMA_BUILD" \
+            --copy-dir "$EVIDENCE_DIR/build/runtime-files" \
+            --output "$EVIDENCE_DIR/build/runtime-closure.json"
+          jq -e '(.dynamic_dependency_basenames | index("libssl.so.3") == null) and (.dynamic_dependency_basenames | index("libcrypto.so.3") == null)' \
+            "$EVIDENCE_DIR/build/runtime-closure.json"
+
+      - name: Run synthetic tokenizer and harness preflight
+        run: |
+          set -euo pipefail
+          server_pid=""
+          cleanup() {
+            if [ -n "$server_pid" ] && kill -0 "$server_pid" 2>/dev/null; then
+              kill -INT "$server_pid" 2>/dev/null || true
+              wait "$server_pid" 2>/dev/null || true
+            fi
+          }
+          trap cleanup EXIT
+          entrypoint="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].entrypoint' experiments/e3f_models.json)"
+          model="$MODEL_ROOT/$SELECTED_CANDIDATE/$entrypoint"
+          server="$LLAMA_BUILD/bin/llama-server"
+          mapfile -t server_argv < <(python3 - "$server" "$model" <<'PY'
+          import sys
+          from experiments.e9a_ingest import expected_server_argv
+          print("\n".join(expected_server_argv(sys.argv[1], sys.argv[2], candidate="ministral3_3b_q4_k_m", profile_name="e7c_final")))
+          PY
+          )
+          printf '%s\n' "${server_argv[@]}" > "$EVIDENCE_DIR/server-argv.txt"
+          "${server_argv[@]}" > "$EVIDENCE_DIR/server.log" 2>&1 &
+          server_pid="$!"
+          echo "$server_pid" > "$EVIDENCE_DIR/server-pid.txt"
+          ready=false
+          for _ in $(seq 1 150); do
+            if curl --fail --silent http://127.0.0.1:18081/health \
+              > "$EVIDENCE_DIR/health.json"; then
+              ready=true
+              break
+            fi
+            sleep 0.1
+          done
+          test "$ready" = true
+          curl --fail --silent http://127.0.0.1:18081/props \
+            > "$EVIDENCE_DIR/props.json"
+
+          python3 experiments/e9b_preflight.py \
+            --base-url http://127.0.0.1:18081 \
+            --tokenizer-repository mistralai/Ministral-3-3B-Instruct-2512 \
+            --tokenizer-revision b35d4dfe56c142746f54dbd64f579faab2744308 \
+            --tokenizer-output "$TOKENIZER_DIR" \
+            --output "$EVIDENCE_DIR/direct-preflight.json"
+          find "$TOKENIZER_DIR" -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 sha256sum \
+            > "$EVIDENCE_DIR/tokenizer-files-sha256.txt"
+
+          model_args="model=$SELECTED_CANDIDATE,base_url=http://127.0.0.1:18081/v1/completions,tokenizer_backend=huggingface,tokenizer=$TOKENIZER_DIR,tokenized_requests=True,max_length=256,batch_size=1,num_concurrent=1,timeout=60,seed=424242"
+          printf '%s\n' "$model_args" > "$EVIDENCE_DIR/harness/model-args.txt"
+          lm-eval run \
+            --model local-completions \
+            --model_args "$model_args" \
+            --tasks e9b_api_preflight \
+            --include_path experiments/e9b_tasks \
+            --num_fewshot 0 \
+            --apply_chat_template \
+            --fewshot_as_multiturn false \
+            --log_samples \
+            --output_path "$EVIDENCE_DIR/harness/results" \
+            2>&1 | tee "$EVIDENCE_DIR/harness/lm-eval.log"
+
+          result_file="$(find "$EVIDENCE_DIR/harness/results" -type f -name 'results_*.json' -print -quit)"
+          sample_file="$(find "$EVIDENCE_DIR/harness/results" -type f -name 'samples_e9b_api_preflight_*.jsonl' -print -quit)"
+          test -n "$result_file"
+          test -n "$sample_file"
+          test "$(wc -l < "$sample_file")" = 2
+          jq -e '.results.e9b_api_preflight.acc != null and .results.e9b_api_preflight.acc_norm != null' \
+            "$result_file"
+          jq -e '.status == "compatible" and .completion_logprobs.continuation_logprob_present and .completion_logprobs.continuation_top_logprobs_present' \
+            "$EVIDENCE_DIR/direct-preflight.json"
+          jq -n \
+            --arg status compatible \
+            --arg result_file "${result_file#"$EVIDENCE_DIR/"}" \
+            --arg sample_file "${sample_file#"$EVIDENCE_DIR/"}" \
+            --argjson samples 2 \
+            '{schema_version: 1, status: $status, benchmark_results_observed: false, synthetic_samples_logged: $samples, result_file: $result_file, sample_file: $sample_file}' \
+            > "$EVIDENCE_DIR/preflight-summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum \
+            > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+
+      - name: Upload preflight evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: e9b-preflight-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error
