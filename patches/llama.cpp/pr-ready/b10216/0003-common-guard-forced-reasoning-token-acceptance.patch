@@ -1,0 +1,79 @@
+From 34c220fc6a55720058a4bfc7dac28ef9d2e99b3b Mon Sep 17 00:00:00 2001
+From: Arshdeep Singh <arshgill6120@gmail.com>
+Date: Sun, 2 Aug 2026 23:37:00 +0000
+Subject: [PATCH 3/3] common: guard forced reasoning-token acceptance
+
+The common sampler accepts generation-prompt tokens as prefill without applying
+logits. A trailing prompt token received after matching the reasoning start tag
+can therefore advance force_pos as though the first forced end token had been
+generated.
+
+Advance the forced sequence only when the accepted token matches the expected
+token. Add a regression that keeps the sampler in the forcing state after an
+unrelated trailing prompt token.
+
+Signed-off-by: Arshdeep Singh <arshgill6120@gmail.com>
+---
+ common/reasoning-budget.cpp     | 10 ++++++++++
+ tests/test-reasoning-budget.cpp | 19 ++++++++++++++++++-
+ 2 files changed, 28 insertions(+), 1 deletion(-)
+
+diff --git a/common/reasoning-budget.cpp b/common/reasoning-budget.cpp
+index 1fe242d06..f988aeadf 100644
+--- a/common/reasoning-budget.cpp
++++ b/common/reasoning-budget.cpp
+@@ -133,6 +133,16 @@ static void common_reasoning_budget_accept(struct llama_sampler * smpl, llama_to
+         }
+         case REASONING_BUDGET_FORCING:
+         {
++            if (ctx->force_pos >= ctx->forced_tokens.size() ||
++                token != ctx->forced_tokens[ctx->force_pos]) {
++                COM_TRC("ignoring unexpected token %d while forcing token %d\n",
++                        token,
++                        ctx->force_pos < ctx->forced_tokens.size()
++                            ? ctx->forced_tokens[ctx->force_pos]
++                            : -1);
++                break;
++            }
++
+             // track the end sequence within forced_tokens so it is also reported on DONE
+             const int32_t match = ctx->end_matcher.advance(token);
+             ctx->force_pos++;
+diff --git a/tests/test-reasoning-budget.cpp b/tests/test-reasoning-budget.cpp
+index 3bcc77e17..1b942791f 100644
+--- a/tests/test-reasoning-budget.cpp
++++ b/tests/test-reasoning-budget.cpp
+@@ -490,12 +490,29 @@ int main(void) {
+             SIZE_MAX, SIZE_MAX); // no forcing expected (natural end)
+     }
+ 
++    // Regression: the common sampler accepts every generation-prompt token as
++    // prefill without applying logits. A token following the matched start tag
++    // must not be mistaken for the end tag that budget=0 is about to force.
++    {
++        const std::vector<llama_token> start = {100};
++        const std::vector<llama_token> end = {101};
++        const std::vector<llama_token> forced = {101};
++        auto * sampler = common_reasoning_budget_init(
++            nullptr, {start}, {end}, forced, 0, REASONING_BUDGET_IDLE);
++
++        llama_sampler_accept(sampler, 100);
++        GGML_ASSERT(common_reasoning_budget_get_state(sampler) == REASONING_BUDGET_FORCING);
++        llama_sampler_accept(sampler, 50); // trailing generation-prompt newline
++        GGML_ASSERT(common_reasoning_budget_get_state(sampler) == REASONING_BUDGET_FORCING);
++        llama_sampler_free(sampler);
++    }
++
+     test_reasoning_budget_clone_mid_counting();
+     test_reasoning_budget_clone_mid_forcing();
+     test_reasoning_budget_force_manual();
+     test_reasoning_budget_end_match();
+ 
+-    printf("OK (12 tests passed)\n");
++    printf("OK (13 tests passed)\n");
+ 
+     printf("Testing UTF-8 boundary detection... ");
+     test_utf8_boundary_detection();
+-- 
+2.53.0
+

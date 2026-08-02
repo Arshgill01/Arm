@@ -8,6 +8,11 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Product
 
+- Froze E9d as the exact unpublished b10216 three-commit mail series. The
+  contract requires byte-identical aggregate application plus native GCC 14,
+  Clang 18, forced feature-selection, and targeted ASan+UBSan correctness; it
+  explicitly opens no upstream PR and adds no performance claim.
+
 - Retained E9c as a valid negative boundary after all 36 fresh processes and
   576 requests completed on native Arm. Cache mechanics and every performance
   gate passed, but 252 reference mismatches, 204 non-standalone responses, and

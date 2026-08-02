@@ -1,0 +1,41 @@
+From 34c220fc6a55720058a4bfc7dac28ef9d2e99b3b Mon Sep 17 00:00:00 2001
+From: Arshdeep Singh <arshgill6120@gmail.com>
+Date: Sun, 2 Aug 2026 23:38:00 +0000
+Subject: [PATCH 0/3] arm: tighten feature selection and inference paths
+
+This series contains three independently reviewable corrections found while
+validating llama.cpp on native aarch64:
+
+  1. Select KleidiAI Arm sources from the final compile-probe results instead
+     of feature-name substrings in -march.
+  2. Replace 32 scalar byte stores in the NEON Q8_0 quantizer with in-register
+     narrowing and two vector stores.
+  3. Prevent unrelated generation-prompt tokens from advancing the forced
+     reasoning-end sequence, with a focused regression test.
+
+The patches are kept separate because their mechanisms and correctness
+obligations differ. They are grouped here only as the exact b10216 series used
+by the Arm service validation; each commit can be reviewed independently.
+
+Existing native aarch64 evidence for this exact source diff includes clean
+application, the upstream quantizer and reasoning tests, reproduction of the
+invalid SVE-source selection before the feature fix, emitted-assembly checks,
+and a complete Arm CPU build followed by all 47 tests in the upstream main
+label. A separate local validation contract records GCC, Clang, and targeted
+ASan/UBSan results without changing these patches.
+
+Arshdeep Singh (3):
+  ggml-cpu: select KleidiAI sources from feature probes
+  ggml-cpu: use vector stores in quantize_row_q8_0
+  common: guard forced reasoning-token acceptance
+
+ common/reasoning-budget.cpp         | 10 ++++++++++
+ ggml/src/ggml-cpu/CMakeLists.txt    | 12 ++++--------
+ ggml/src/ggml-cpu/arch/arm/quants.c | 17 ++++++++++-------
+ tests/test-reasoning-budget.cpp     | 19 ++++++++++++++++++-
+ 4 files changed, 42 insertions(+), 16 deletions(-)
+
+
+base-commit: 876a4321163249c43ca4e986818fab5ab081f282
+-- 
+2.53.0

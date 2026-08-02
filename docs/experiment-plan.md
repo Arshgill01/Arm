@@ -20,6 +20,7 @@ No headline result is accepted until the experiment contract in
 | E8a | Does shared-prefix reuse reduce real energy and tariff-derived cost on a stable local Arm device? | Exact E7c service and selected workload | Four valid cells per request policy preserve quality and environment state; cache-on reaches ≥1.10x throughput and ≤0.90x gross joules/request |
 | E9a | How much better is the exact final service than the earliest admitted deployable service? | Historical E5b one-slot recipe versus exact E7c HTTP recipe | Four reverse-balanced fresh-process repetitions preserve every answer and dependency boundary; final reaches ≥1.25x throughput and ≤0.85x latency/CPU ratios |
 | E9c | When does request-level prompt caching remain worthwhile as prefixes alternate? | Exact E7c one-slot service with 1, 2, or 4 prefixes sharing 16, 32, or 64 tokens | All nine predeclared points preserve exact outputs and expose scheduler noise; only points clearing every frozen throughput/encode/p95/CPU gate enter the bounded policy |
+| E9d | Is the retained three-patch b10216 diff ready for local upstream review across compilers and sanitizers? | Exact unpublished three-commit mail series | `git am --3way` reproduces the retained diff; native GCC, native Clang, forced feature selection, and targeted ASan+UBSan correctness all pass |
 | E7 | Is the whole project reproducible and judge-readable? | Clean native Arm job | One command emits manifest, raw data, summary, Pareto front, and demo assets |
 
 ## E2 frozen protocol
@@ -1326,6 +1327,32 @@ cardinality policies are disabled and the performance ratios remain diagnostic
 only. The earlier E5c decision is not generalized beyond its exact measured
 workload. See the retained
 [`report`](../results/reports/e9c-prompt-cache-generalization.md).
+
+## E9d frozen local PR-ready patch series
+
+E9d follows the second ordered fallback after E9c completes. It does not change
+or rebase any source hunk. The exact b10216 aggregate diff
+`e11cdd4109…a9893` is represented as three focused `git format-patch` commits:
+validated KleidiAI feature selection, Q8_0 vector stores, and the
+reasoning-budget forced-token guard. Each patch has a descriptive message and
+`Signed-off-by` trailer; the cover letter names the exact base and existing
+native evidence. The series remains local and unpublished.
+
+One native `ubuntu-24.04-arm` job must apply the three messages with
+`git am --3way`, reproduce the aggregate full-index diff and four-file set, and
+then run independent GCC 14 and Clang 18 lanes. Each compiler builds and runs
+`test-quantize-fns` plus all 13 reasoning-budget tests. Each also builds the
+KleidiAI quantizer target under the predeclared
+`armv8.6-a+sve2+nosve` feature-selection stress configuration and must exclude
+the invalid SVE assembly source.
+
+A third targeted Clang debug build enables both llama and ggml AddressSanitizer
+and UndefinedBehaviorSanitizer options. The same quantizer and reasoning suites
+must exit zero with leak detection enabled and no ASan, LeakSanitizer, or UBSan
+diagnostic. Every gate is required; there is no performance claim, later-source
+applicability claim, full backend/platform CI claim, or upstream publication.
+The immutable inputs and acceptance rules are in
+[`e9d_contract.json`](../experiments/e9d_contract.json).
 
 ## E4a frozen accept-backlog tuner
 

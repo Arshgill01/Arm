@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E9d",
+  "title": "Local PR-ready llama.cpp patch-series compiler and sanitizer validation",
+  "scope": "Prepare the exact retained b10216 three-patch diff as an unpublished mail series and validate it with native GCC, native Clang, and targeted Clang ASan+UBSan correctness jobs.",
+  "upstream": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216",
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282"
+  },
+  "mail_series": {
+    "directory": "patches/llama.cpp/pr-ready/b10216",
+    "cover_letter": {
+      "path": "patches/llama.cpp/pr-ready/b10216/0000-cover-letter.patch",
+      "sha256": "9760fe1bd38d9e897ea98e4afc1c638bf1642869c710f3fc0f0a32ea9bdbdf3d"
+    },
+    "patches": [
+      {
+        "path": "patches/llama.cpp/pr-ready/b10216/0001-ggml-cpu-select-KleidiAI-sources-from-feature-probes.patch",
+        "sha256": "e079c30569b739cd6de0366439c6975a6c03e594d01740de8086a718fb94d50c",
+        "subject": "ggml-cpu: select KleidiAI sources from feature probes"
+      },
+      {
+        "path": "patches/llama.cpp/pr-ready/b10216/0002-ggml-cpu-use-vector-stores-in-quantize_row_q8_0.patch",
+        "sha256": "8427338153baf91bec3cc29f285a3381f50b30c784c53e7f36dc5c1c2eee2140",
+        "subject": "ggml-cpu: use vector stores in quantize_row_q8_0"
+      },
+      {
+        "path": "patches/llama.cpp/pr-ready/b10216/0003-common-guard-forced-reasoning-token-acceptance.patch",
+        "sha256": "da0eca74874f9738edcb4d66558057c9aca707353ef667fb6700ab734bf99598",
+        "subject": "common: guard forced reasoning-token acceptance"
+      }
+    ],
+    "apply_command": "git am --3way 0001-*.patch 0002-*.patch 0003-*.patch",
+    "required_signed_off_by": "Arshdeep Singh <arshgill6120@gmail.com>",
+    "expected_changed_files": [
+      "common/reasoning-budget.cpp",
+      "ggml/src/ggml-cpu/CMakeLists.txt",
+      "ggml/src/ggml-cpu/arch/arm/quants.c",
+      "tests/test-reasoning-budget.cpp"
+    ],
+    "aggregate_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893"
+  },
+  "ingester": {
+    "path": "experiments/e9d_ingest.py",
+    "sha256": "036a6debf636bc8d9d57ac9c2c0c405f3be1635007fc461d16ebf84d36787a04"
+  },
+  "host": {
+    "runner": "ubuntu-24.04-arm",
+    "architecture": "aarch64"
+  },
+  "toolchains": {
+    "gcc": {
+      "cc": "/usr/bin/gcc-14",
+      "cxx": "/usr/bin/g++-14",
+      "version_tokens": ["gcc-14", "g++-14"],
+      "c_cache_entry": "CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc-14",
+      "cxx_cache_entry": "CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++-14"
+    },
+    "clang": {
+      "cc": "/usr/bin/clang-18",
+      "cxx": "/usr/bin/clang++-18",
+      "version_tokens": ["clang version 18", "Target: aarch64"],
+      "c_cache_entry": "CMAKE_C_COMPILER:FILEPATH=/usr/bin/clang-18",
+      "cxx_cache_entry": "CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/clang++-18"
+    }
+  },
+  "native_targets": {
+    "cmake_build_type": "Release",
+    "kleidiai": false,
+    "native": true,
+    "build": ["test-quantize-fns", "test-reasoning-budget"],
+    "execute": ["test-quantize-fns -v", "test-reasoning-budget"]
+  },
+  "feature_stress": {
+    "arm_arch": "armv8.6-a+sve2+nosve",
+    "kleidiai": true,
+    "native": false,
+    "build": "test-quantize-fns",
+    "forbidden_build_source": "sve_dotprod_asm.S"
+  },
+  "sanitizers": {
+    "compiler": "clang-18/clang++-18",
+    "version_tokens": ["clang version 18", "Target: aarch64"],
+    "address": true,
+    "undefined": true,
+    "leak_detection": true,
+    "required_cache_entries": [
+      "CMAKE_C_COMPILER:FILEPATH=/usr/bin/clang-18",
+      "CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/clang++-18",
+      "LLAMA_SANITIZE_ADDRESS:BOOL=ON",
+      "LLAMA_SANITIZE_UNDEFINED:BOOL=ON",
+      "GGML_SANITIZE_ADDRESS:BOOL=ON",
+      "GGML_SANITIZE_UNDEFINED:BOOL=ON",
+      "GGML_CPU_KLEIDIAI:BOOL=OFF",
+      "GGML_NATIVE:BOOL=ON"
+    ],
+    "build": ["test-quantize-fns", "test-reasoning-budget"],
+    "execute": ["test-quantize-fns -v", "test-reasoning-budget"]
+  },
+  "acceptance": {
+    "all_required": true,
+    "git_am_three_way": true,
+    "aggregate_diff_exact": true,
+    "signed_off_by_every_patch": true,
+    "gcc_native_targets": true,
+    "clang_native_targets": true,
+    "gcc_feature_stress": true,
+    "clang_feature_stress": true,
+    "asan_clean": true,
+    "ubsan_clean": true,
+    "leak_sanitizer_clean": true
+  },
+  "claim_boundary": {
+    "scope": "Exact b10216 mail-series applicability and targeted native aarch64 GCC, Clang, ASan, and UBSan correctness only; not upstream review, merge readiness on later commits, a full platform/backend matrix, or new performance evidence.",
+    "upstream_pr_opened": false,
+    "performance_claim_added": false
+  }
+}

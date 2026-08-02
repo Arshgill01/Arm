@@ -1683,3 +1683,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   E5c remains bounded to its original workload.
 - Artifact `e9c-prompt-cache-30770403695-1` (ID `8840851593`, 9,551,133
   compressed bytes) is retained through 2026-10-31.
+
+## 2026-08-02 — E9d local PR-ready patch series frozen
+
+- Converted the exact retained b10216 four-file diff into three focused mail
+  patches plus a cover letter. Every patch has a wrapped commit message and
+  `Signed-off-by: Arshdeep Singh <arshgill6120@gmail.com>` trailer; the cover
+  letter binds base commit `876a4321…f282`. Nothing was published upstream.
+- A fresh local `git am --3way` replay produced the exact retained aggregate
+  source diff at SHA-256 `e11cdd41…a9893` with no whitespace error.
+- The frozen native job uses GCC 14 and Clang 18 to build and execute the
+  quantizer and 13-test reasoning targets, then stress-builds KleidiAI under
+  `armv8.6-a+sve2+nosve` with the invalid SVE source forbidden.
+- A separate targeted Clang build enables both llama and ggml ASan+UBSan
+  options, leak detection, halt-on-error behavior, and the same two correctness
+  suites. All gates are required; no performance or full-matrix claim is made.
+- Contract SHA-256 is
+  `ed8226d2e81f95bbb3e3f5d99d1598619cb4cbfadfb6322a9daba2025433b8d1`.

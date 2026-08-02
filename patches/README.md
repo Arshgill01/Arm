@@ -80,3 +80,11 @@ accepted until that workflow and its independent ingester pass. Native run
 `30676413765` passed the full build and all 47 executed tests with no failures,
 errors, or skips. The accepted scope is still one Arm CPU lane; no external
 pull request has been opened.
+
+E9d packages that exact four-file diff as an unpublished three-commit mail
+series with a cover letter, explicit b10216 base, focused messages, and
+`Signed-off-by` trailers. The local series and application instructions are in
+[`llama.cpp/pr-ready/b10216/`](llama.cpp/pr-ready/b10216/). Its frozen native
+validation adds GCC 14, Clang 18, the forced feature-selection configuration,
+and targeted Clang ASan+UBSan correctness without opening a pull request or
+claiming a broader upstream matrix.

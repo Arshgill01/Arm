@@ -1,0 +1,71 @@
+From 1f2e2cf5134113817e403f61bfc175c8e89c6f43 Mon Sep 17 00:00:00 2001
+From: Arshdeep Singh <arshgill6120@gmail.com>
+Date: Sun, 2 Aug 2026 23:35:00 +0000
+Subject: [PATCH 1/3] ggml-cpu: select KleidiAI sources from feature probes
+
+KleidiAI source selection currently searches the textual -march value for
+feature names. Modifier combinations such as +sve2+nosve can therefore include
+SVE assembly even after the authoritative HAVE_SVE compile probe fails under
+the final flags.
+
+Use the existing HAVE_DOTPROD, HAVE_MATMUL_INT8, HAVE_SME, and HAVE_SVE results
+instead. This keeps the source list aligned with the compile probes and changes
+no runtime feature detection.
+
+Signed-off-by: Arshdeep Singh <arshgill6120@gmail.com>
+---
+ ggml/src/ggml-cpu/CMakeLists.txt | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/ggml/src/ggml-cpu/CMakeLists.txt b/ggml/src/ggml-cpu/CMakeLists.txt
+index 836bae4d0..ef3a4c0c4 100644
+--- a/ggml/src/ggml-cpu/CMakeLists.txt
++++ b/ggml/src/ggml-cpu/CMakeLists.txt
+@@ -645,10 +645,6 @@ function(ggml_add_cpu_backend_variant_impl tag_name)
+         if (NOT ARCH_FLAGS_TEMP)
+             string(REGEX MATCH "-march=[^ ]+" ARCH_FLAGS_TEMP "${CMAKE_C_FLAGS}")
+         endif()
+-        string(FIND "${ARCH_FLAGS_TEMP}" "+dotprod" DOTPROD_ENABLED)
+-        string(FIND "${ARCH_FLAGS_TEMP}" "+i8mm" I8MM_ENABLED)
+-        string(FIND "${ARCH_FLAGS_TEMP}" "+sme" SME_ENABLED)
+-        string(FIND "${ARCH_FLAGS_TEMP}" "+sve" SVE_ENABLED)
+ 
+         set(PRIVATE_ARCH_FLAGS ${ARCH_FLAGS_TEMP})
+ 
+@@ -661,7 +657,7 @@ function(ggml_add_cpu_backend_variant_impl tag_name)
+             ${KLEIDIAI_SRC}/kai/ukernels/matmul/pack/kai_lhs_quant_pack_qai8dxp_f32.c
+             ${KLEIDIAI_SRC}/kai/ukernels/matmul/pack/kai_rhs_pack_nxk_qsi8cxp_qsi8cx_neon.c)
+ 
+-        if (NOT DOTPROD_ENABLED MATCHES -1)
++        if (HAVE_DOTPROD)
+             list(APPEND GGML_KLEIDIAI_SOURCES
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod.c
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod.c
+@@ -671,13 +667,13 @@ function(ggml_add_cpu_backend_variant_impl tag_name)
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod.c)
+         endif()
+ 
+-        if (NOT I8MM_ENABLED MATCHES -1)
++        if (HAVE_MATMUL_INT8)
+             list(APPEND GGML_KLEIDIAI_SOURCES
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm.c
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm.c)
+         endif()
+ 
+-        if (NOT SME_ENABLED MATCHES -1)
++        if (HAVE_SME)
+             list(APPEND GGML_KLEIDIAI_SME_SOURCES
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp1vlx4_qsi8cxp4vlx4_1vlx4vl_sme_mopa.c
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp1vlx4_qsi8cxp4vlx4_1vlx4vl_sme_mopa_asm.S
+@@ -715,7 +711,7 @@ function(ggml_add_cpu_backend_variant_impl tag_name)
+             set(PRIVATE_ARCH_FLAGS "-fno-tree-vectorize;${PRIVATE_ARCH_FLAGS}")
+         endif()
+ 
+-        if (NOT SVE_ENABLED MATCHES -1)
++        if (HAVE_SVE)
+             list(APPEND GGML_KLEIDIAI_SOURCES
+                 ${KLEIDIAI_SRC}/kai/kai_common_sve_asm.S
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod_asm.S
+-- 
+2.53.0
+

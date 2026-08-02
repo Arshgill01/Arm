@@ -1,0 +1,336 @@
+name: Arm E9d PR-ready patch series
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e9d_contract.json
+  CONTRACT_SHA256: ed8226d2e81f95bbb3e3f5d99d1598619cb4cbfadfb6322a9daba2025433b8d1
+  LLAMA_CPP_SHA: 876a4321163249c43ca4e986818fab5ab081f282
+  LLAMA_CPP_TAG: b10216
+
+jobs:
+  validate:
+    name: GCC, Clang, and ASan+UBSan
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 90
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e9d-${{ github.run_id }}-${{ github.run_attempt }}
+      SOURCE_DIR: /tmp/llama.cpp-E9d
+      BUILD_ROOT: /tmp/llama.cpp-E9d-builds
+
+    steps:
+      - name: Check out frozen mail series
+        uses: actions/checkout@v7
+
+      - name: Install pinned compiler lanes
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            clang-18 \
+            gcc-14 \
+            g++-14 \
+            ninja-build
+
+      - name: Capture native host and verify frozen inputs
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          mkdir -p "$EVIDENCE_DIR/mail" "$EVIDENCE_DIR/series" \
+            "$EVIDENCE_DIR/toolchains/gcc" \
+            "$EVIDENCE_DIR/toolchains/clang" \
+            "$EVIDENCE_DIR/sanitizers" "$BUILD_ROOT"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          df -h | tee "$EVIDENCE_DIR/disk.txt"
+          free -h | tee "$EVIDENCE_DIR/memory.txt"
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          ingest_path="$(jq -r '.ingester.path' "$CONTRACT_PATH")"
+          ingest_sha="$(jq -r '.ingester.sha256' "$CONTRACT_PATH")"
+          echo "$ingest_sha  $ingest_path" | sha256sum --check --strict
+          jq -r '[.mail_series.cover_letter, .mail_series.patches[]] |
+            .[] | [.sha256, .path] | @tsv' "$CONTRACT_PATH" |
+            while IFS=$'\t' read -r expected path; do
+              echo "$expected  $path" | sha256sum --check --strict
+              cp "$path" "$EVIDENCE_DIR/mail/$(basename "$path")"
+            done
+          {
+            gcc-14 --version
+            g++-14 --version
+          } | tee "$EVIDENCE_DIR/toolchains/gcc/compiler.txt"
+          {
+            clang-18 --version
+            clang++-18 --version
+          } | tee "$EVIDENCE_DIR/toolchains/clang/compiler.txt"
+          cp "$EVIDENCE_DIR/toolchains/clang/compiler.txt" \
+            "$EVIDENCE_DIR/sanitizers/compiler.txt"
+
+      - name: Apply and prove the exact mail series
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/ggml-org/llama.cpp.git "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$LLAMA_CPP_SHA"
+          test "$(git -C "$SOURCE_DIR" rev-parse HEAD)" = "$LLAMA_CPP_SHA"
+          test "$(git -C "$SOURCE_DIR" describe --tags --exact-match)" = \
+            "$LLAMA_CPP_TAG"
+          git -C "$SOURCE_DIR" config user.name 'E9d validation'
+          git -C "$SOURCE_DIR" config user.email 'e9d@example.invalid'
+          echo "$LLAMA_CPP_SHA" > "$EVIDENCE_DIR/series/base.txt"
+          mail_patches=()
+          while IFS= read -r path; do
+            mail_patches+=("$GITHUB_WORKSPACE/$path")
+          done < <(jq -r '.mail_series.patches[].path' "$CONTRACT_PATH")
+          git -C "$SOURCE_DIR" am --3way "${mail_patches[@]}" \
+            2>&1 | tee "$EVIDENCE_DIR/series/git-am.log"
+          echo 0 > "$EVIDENCE_DIR/series/git-am-exit.txt"
+          git -C "$SOURCE_DIR" rev-parse HEAD > "$EVIDENCE_DIR/series/tip.txt"
+          git -C "$SOURCE_DIR" diff --check "$LLAMA_CPP_SHA"..HEAD
+          git -C "$SOURCE_DIR" diff --name-only "$LLAMA_CPP_SHA"..HEAD \
+            | sort | tee "$EVIDENCE_DIR/series/patched-files.txt"
+          git -C "$SOURCE_DIR" diff --binary --full-index \
+            "$LLAMA_CPP_SHA"..HEAD \
+            > "$EVIDENCE_DIR/series/applied-series.patch"
+          expected_diff="$(jq -r '.mail_series.aggregate_diff_sha256' "$CONTRACT_PATH")"
+          echo "$expected_diff  $EVIDENCE_DIR/series/applied-series.patch" \
+            | sha256sum --check --strict
+          grep -q "^base-commit: $LLAMA_CPP_SHA$" \
+            "$EVIDENCE_DIR/mail/0000-cover-letter.patch"
+          if grep -q '\*\*\* \(SUBJECT\|BLURB\) HERE \*\*\*' \
+            "$EVIDENCE_DIR/mail/0000-cover-letter.patch"; then
+            echo 'Cover letter still contains a placeholder' >&2
+            exit 1
+          fi
+          python3 - <<'PY'
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          source = Path(os.environ["SOURCE_DIR"])
+          base = os.environ["LLAMA_CPP_SHA"]
+          raw = subprocess.check_output(
+              [
+                  "git", "-C", str(source), "log", "--reverse",
+                  "--format=%H%x1f%s%x1f%b%x1e", f"{base}..HEAD",
+              ],
+              text=True,
+          )
+          commits = []
+          for record in raw.split("\x1e"):
+              record = record.strip()
+              if not record:
+                  continue
+              commit, subject, body = record.split("\x1f", 2)
+              commits.append(
+                  {
+                      "commit": commit,
+                      "subject": subject,
+                      "signed_off_by": (
+                          "Signed-off-by: Arshdeep Singh "
+                          "<arshgill6120@gmail.com>" in body
+                      ),
+                  }
+              )
+          output = Path(os.environ["EVIDENCE_DIR"], "series", "commits.json")
+          output.write_text(json.dumps(commits, indent=2) + "\n")
+          PY
+          jq -e 'length == 3 and all(.signed_off_by)' \
+            "$EVIDENCE_DIR/series/commits.json"
+
+      - name: Build and run native GCC and Clang targets
+        run: |
+          set -euo pipefail
+          run_lane() {
+            local lane_name="$1"
+            local compiler_c="$2"
+            local compiler_cxx="$3"
+            local lane_dir="$EVIDENCE_DIR/toolchains/$lane_name"
+            local native_build="$BUILD_ROOT/$lane_name-native"
+            local feature_build="$BUILD_ROOT/$lane_name-feature"
+            mkdir -p "$lane_dir/native" "$lane_dir/feature"
+
+            cmake -S "$SOURCE_DIR" -B "$native_build" -G Ninja \
+              -DCMAKE_C_COMPILER="$compiler_c" \
+              -DCMAKE_CXX_COMPILER="$compiler_cxx" \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DBUILD_SHARED_LIBS=OFF \
+              -DGGML_CPU_KLEIDIAI=OFF \
+              -DGGML_NATIVE=ON \
+              -DLLAMA_BUILD_EXAMPLES=OFF \
+              -DLLAMA_BUILD_SERVER=OFF \
+              -DLLAMA_BUILD_TESTS=ON \
+              -DLLAMA_CURL=OFF \
+              2>&1 | tee "$lane_dir/native/configure.log"
+            cp "$native_build/CMakeCache.txt" \
+              "$lane_dir/native/CMakeCache.txt"
+            set +e
+            cmake --build "$native_build" \
+              --target test-quantize-fns test-reasoning-budget \
+              --parallel "$(nproc)" \
+              2>&1 | tee "$lane_dir/native/build.log"
+            build_status=${PIPESTATUS[0]}
+            set -e
+            echo "$build_status" > "$lane_dir/native/build-exit.txt"
+            test "$build_status" -eq 0
+
+            set +e
+            "$native_build/bin/test-quantize-fns" -v \
+              > "$lane_dir/native/quantize.stdout.log" \
+              2> "$lane_dir/native/quantize.stderr.log"
+            quantize_status=$?
+            "$native_build/bin/test-reasoning-budget" \
+              > "$lane_dir/native/reasoning.stdout.log" \
+              2> "$lane_dir/native/reasoning.stderr.log"
+            reasoning_status=$?
+            set -e
+            echo "$quantize_status" > "$lane_dir/native/quantize-exit.txt"
+            echo "$reasoning_status" > "$lane_dir/native/reasoning-exit.txt"
+            test "$quantize_status" -eq 0
+            test "$reasoning_status" -eq 0
+            grep -q 'OK (13 tests passed)' \
+              "$lane_dir/native/reasoning.stdout.log"
+
+            cmake -S "$SOURCE_DIR" -B "$feature_build" -G Ninja \
+              -DCMAKE_C_COMPILER="$compiler_c" \
+              -DCMAKE_CXX_COMPILER="$compiler_cxx" \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DBUILD_SHARED_LIBS=OFF \
+              -DGGML_CPU_ARM_ARCH=armv8.6-a+sve2+nosve \
+              -DGGML_CPU_KLEIDIAI=ON \
+              -DGGML_NATIVE=OFF \
+              -DLLAMA_BUILD_EXAMPLES=OFF \
+              -DLLAMA_BUILD_SERVER=OFF \
+              -DLLAMA_BUILD_TESTS=ON \
+              -DLLAMA_CURL=OFF \
+              2>&1 | tee "$lane_dir/feature/configure.log"
+            cp "$feature_build/CMakeCache.txt" \
+              "$lane_dir/feature/CMakeCache.txt"
+            set +e
+            cmake --build "$feature_build" --target test-quantize-fns \
+              --parallel "$(nproc)" --verbose \
+              2>&1 | tee "$lane_dir/feature/build.log"
+            feature_status=${PIPESTATUS[0]}
+            set -e
+            echo "$feature_status" > "$lane_dir/feature/build-exit.txt"
+            test "$feature_status" -eq 0
+            if grep -q 'sve_dotprod_asm.S' "$lane_dir/feature/build.log"; then
+              echo "$lane_name selected invalid SVE assembly" >&2
+              exit 1
+            fi
+          }
+
+          run_lane gcc /usr/bin/gcc-14 /usr/bin/g++-14
+          run_lane clang /usr/bin/clang-18 /usr/bin/clang++-18
+
+      - name: Run targeted Clang ASan and UBSan correctness
+        run: |
+          set -euo pipefail
+          sanitizer_build="$BUILD_ROOT/clang-sanitizers"
+          cmake -S "$SOURCE_DIR" -B "$sanitizer_build" -G Ninja \
+            -DCMAKE_C_COMPILER=/usr/bin/clang-18 \
+            -DCMAKE_CXX_COMPILER=/usr/bin/clang++-18 \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DGGML_CPU_KLEIDIAI=OFF \
+            -DGGML_NATIVE=ON \
+            -DGGML_SANITIZE_ADDRESS=ON \
+            -DGGML_SANITIZE_UNDEFINED=ON \
+            -DLLAMA_SANITIZE_ADDRESS=ON \
+            -DLLAMA_SANITIZE_UNDEFINED=ON \
+            -DLLAMA_BUILD_EXAMPLES=OFF \
+            -DLLAMA_BUILD_SERVER=OFF \
+            -DLLAMA_BUILD_TESTS=ON \
+            -DLLAMA_CURL=OFF \
+            2>&1 | tee "$EVIDENCE_DIR/sanitizers/configure.log"
+          cp "$sanitizer_build/CMakeCache.txt" \
+            "$EVIDENCE_DIR/sanitizers/CMakeCache.txt"
+          set +e
+          cmake --build "$sanitizer_build" \
+            --target test-quantize-fns test-reasoning-budget \
+            --parallel "$(nproc)" \
+            2>&1 | tee "$EVIDENCE_DIR/sanitizers/build.log"
+          build_status=${PIPESTATUS[0]}
+          set -e
+          echo "$build_status" > "$EVIDENCE_DIR/sanitizers/build-exit.txt"
+          test "$build_status" -eq 0
+
+          export ASAN_OPTIONS='detect_leaks=1:halt_on_error=1'
+          export UBSAN_OPTIONS='halt_on_error=1:print_stacktrace=1'
+          set +e
+          "$sanitizer_build/bin/test-quantize-fns" -v \
+            > "$EVIDENCE_DIR/sanitizers/quantize.stdout.log" \
+            2> "$EVIDENCE_DIR/sanitizers/quantize.stderr.log"
+          quantize_status=$?
+          "$sanitizer_build/bin/test-reasoning-budget" \
+            > "$EVIDENCE_DIR/sanitizers/reasoning.stdout.log" \
+            2> "$EVIDENCE_DIR/sanitizers/reasoning.stderr.log"
+          reasoning_status=$?
+          set -e
+          echo "$quantize_status" > "$EVIDENCE_DIR/sanitizers/quantize-exit.txt"
+          echo "$reasoning_status" > "$EVIDENCE_DIR/sanitizers/reasoning-exit.txt"
+          test "$quantize_status" -eq 0
+          test "$reasoning_status" -eq 0
+          grep -q 'OK (13 tests passed)' \
+            "$EVIDENCE_DIR/sanitizers/reasoning.stdout.log"
+          if grep -E -q 'ERROR: (AddressSanitizer|LeakSanitizer)|runtime error:' \
+            "$EVIDENCE_DIR/sanitizers/"*.log; then
+            echo 'Sanitizer diagnostics found' >&2
+            exit 1
+          fi
+
+      - name: Independently ingest all compiler evidence
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          contract = Path(os.environ["CONTRACT_PATH"])
+          data = json.loads(contract.read_text())
+          mail_hashes = {}
+          for entry in [
+              data["mail_series"]["cover_letter"],
+              *data["mail_series"]["patches"],
+          ]:
+              path = Path(entry["path"])
+              mail_hashes[path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
+          provenance = {
+              "schema_version": 1,
+              "experiment_id": "E9d",
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "git_commit": os.environ["GITHUB_SHA"],
+              "llama_cpp_commit": os.environ["LLAMA_CPP_SHA"],
+              "llama_cpp_tag": os.environ["LLAMA_CPP_TAG"],
+              "contract_sha256": hashlib.sha256(contract.read_bytes()).hexdigest(),
+              "mail_sha256": mail_hashes,
+          }
+          output = Path(os.environ["EVIDENCE_DIR"], "provenance.json")
+          output.write_text(json.dumps(provenance, indent=2, sort_keys=True) + "\n")
+          PY
+          python3 experiments/e9d_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root . \
+            --output "$EVIDENCE_DIR/summary.json"
+          jq '{status, series, compiler_lanes, sanitizers, validation}' \
+            "$EVIDENCE_DIR/summary.json"
+          test "$(jq -r '.status' "$EVIDENCE_DIR/summary.json")" = \
+            valid_pr_ready_patch_series
+
+      - name: Upload complete E9d evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e9d-pr-ready-patches-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90

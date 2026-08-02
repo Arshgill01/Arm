@@ -103,6 +103,27 @@ EXPECTED_HASHES = {
     "results/manifests/e9c-30770403695.json": (
         "29b075b605e5d84d6de66b07fb4ab3c1562236c9aa4e7fd43d51e0ff7932eed4"
     ),
+    "patches/llama.cpp/pr-ready/b10216/0000-cover-letter.patch": (
+        "9760fe1bd38d9e897ea98e4afc1c638bf1642869c710f3fc0f0a32ea9bdbdf3d"
+    ),
+    (
+        "patches/llama.cpp/pr-ready/b10216/"
+        "0001-ggml-cpu-select-KleidiAI-sources-from-feature-probes.patch"
+    ): (
+        "e079c30569b739cd6de0366439c6975a6c03e594d01740de8086a718fb94d50c"
+    ),
+    (
+        "patches/llama.cpp/pr-ready/b10216/"
+        "0002-ggml-cpu-use-vector-stores-in-quantize_row_q8_0.patch"
+    ): (
+        "8427338153baf91bec3cc29f285a3381f50b30c784c53e7f36dc5c1c2eee2140"
+    ),
+    (
+        "patches/llama.cpp/pr-ready/b10216/"
+        "0003-common-guard-forced-reasoning-token-acceptance.patch"
+    ): (
+        "da0eca74874f9738edcb4d66558057c9aca707353ef667fb6700ab734bf99598"
+    ),
     "configs/runtime-b10216-selected-service.json": (
         "9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de"
     ),
@@ -141,6 +162,9 @@ EXPECTED_HASHES = {
     ),
     "experiments/e9c_contract.json": (
         "a72ec175091e2e8b98adc12a795e5242cee49377f2683ddb2eefcbf564341c76"
+    ),
+    "experiments/e9d_contract.json": (
+        "ed8226d2e81f95bbb3e3f5d99d1598619cb4cbfadfb6322a9daba2025433b8d1"
     ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
@@ -1397,6 +1421,35 @@ def main() -> int:
         )
     ):
         raise ValueError("retained E9c output-regression boundary changed")
+
+    patch_contract = load_object(ROOT / "experiments/e9d_contract.json")
+    patch_entries = patch_contract.get("mail_series", {}).get("patches", [])
+    if (
+        patch_contract.get("experiment_id") != "E9d"
+        or patch_contract.get("upstream", {}).get("commit")
+        != "876a4321163249c43ca4e986818fab5ab081f282"
+        or patch_contract.get("mail_series", {}).get("aggregate_diff_sha256")
+        != "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893"
+        or len(patch_entries) != 3
+        or any(
+            "Signed-off-by: Arshdeep Singh <arshgill6120@gmail.com>"
+            not in (ROOT / entry["path"]).read_text(encoding="utf-8")
+            for entry in patch_entries
+        )
+        or patch_contract.get("toolchains", {}).get("gcc", {}).get("cc")
+        != "/usr/bin/gcc-14"
+        or patch_contract.get("toolchains", {}).get("clang", {}).get("cc")
+        != "/usr/bin/clang-18"
+        or patch_contract.get("sanitizers", {}).get("address") is not True
+        or patch_contract.get("sanitizers", {}).get("undefined") is not True
+        or patch_contract.get("claim_boundary", {}).get("upstream_pr_opened")
+        is not False
+        or patch_contract.get("claim_boundary", {}).get(
+            "performance_claim_added"
+        )
+        is not False
+    ):
+        raise ValueError("E9d local patch-series contract changed after freeze")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")
