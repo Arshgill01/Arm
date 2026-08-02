@@ -1501,3 +1501,30 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Left the sensor collector deliberately unfrozen. Linux, Apple Silicon, and
   Android expose materially different power and power-mode boundaries, and the
   authenticated platform reply has not yet been delivered into the task.
+
+## 2026-08-02 — E9a final-service comparison frozen
+
+- Deferred E8a after Apple Silicon was selected because the physical Mac is
+  unavailable overnight. No local-device, simulated-energy, hosted-runner PMU,
+  or CPU-time-as-energy work is included in this lane.
+- Reconstructed the earliest admitted service from E5b's retained manifest,
+  report, exact run commit, historical workflow, and historical launcher. This
+  matters because the current launcher has gained explicit service controls
+  since E5b; using it unmodified would silently modernize the baseline.
+- Froze a same-job native `ubuntu-24.04-arm` comparison against the exact E7c
+  OpenSSL-off b10216 recipe. Both sides share the selected model, task order,
+  request protocol, quality checks, client concurrency, and runner; the service
+  profiles intentionally preserve their historical cache/context/batch/runtime
+  differences.
+- Predeclared four fresh-process repetitions per profile in two opposite-start
+  blocks. The manifest retains all 240 measured request records plus raw
+  artifact logs, exact build and launch commands, process CPU/RSS/readiness,
+  binary hashes, and transitive dynamic dependency inventories.
+- Acceptance requires exact 23/30 predictions in every cell, zero failures or
+  drift, correct cache mechanisms, final OpenSSL absence, no more than 5%
+  throughput CV, at least 1.25x throughput, and at most 0.85x median/p95
+  latency and CPU ratios. Readiness remains capped at 15 seconds and RSS at
+  8 GiB. The result is explicitly compounded; isolated prior experiments remain
+  authoritative for causal attribution.
+- Frozen contract SHA-256 is
+  `56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928`.

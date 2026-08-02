@@ -18,6 +18,7 @@ No headline result is accepted until the experiment contract in
 | E7b | Can the loopback-only HTTP service drop unused HTTPS dependencies? | Exact patched `b10216` fast service | OpenSSL-off removes both frozen dependency edges, adds none, preserves quality, and clears every service/resource guardrail |
 | E7c | Can the product launch that exact dependency-pruned service without broadening its claims? | E7b-bound Pareto64 adapter | Source/build/binary/cache/`ldd` provenance passes, then the live HTTP service reproduces quality, cache reuse, readiness, and RSS gates |
 | E8a | Does shared-prefix reuse reduce real energy and tariff-derived cost on a stable local Arm device? | Exact E7c service and selected workload | Four valid cells per request policy preserve quality and environment state; cache-on reaches ≥1.10x throughput and ≤0.90x gross joules/request |
+| E9a | How much better is the exact final service than the earliest admitted deployable service? | Historical E5b one-slot recipe versus exact E7c HTTP recipe | Four reverse-balanced fresh-process repetitions preserve every answer and dependency boundary; final reaches ≥1.25x throughput and ≤0.85x latency/CPU ratios |
 | E7 | Is the whole project reproducible and judge-readable? | Clean native Arm job | One command emits manifest, raw data, summary, Pareto front, and demo assets |
 
 ## E2 frozen protocol
@@ -1164,11 +1165,46 @@ governor/power-mode, power-source, thermal, sample-integrity, throughput, and
 energy gates are predeclared in
 [`final-device-evidence.md`](final-device-evidence.md).
 
-The immutable contract and collector are not yet frozen because the
-authenticated platform label has not been delivered. Platform determines the
-available sensor domain, privilege boundary, power-mode evidence, and valid
-thermal/throttle checks; those cannot be inferred from merely having a local
-Arm device.
+Apple Silicon was selected as the eventual local target, but E8a is deferred
+until that physical device is awake and available. No Mac probe, synthetic
+energy value, hosted-runner PMU proxy, or CPU-time-as-energy claim is permitted
+in its absence.
+
+## E9a frozen final-service comparison
+
+E9a is the intentionally compounded judge-facing comparison between the exact
+earliest admitted one-slot E5b service and the exact final E7c service. The
+baseline is reconstructed from retained E5b run commit `beb9614`, not from the
+later evolved launcher: clean llama.cpp `b10208`, four threads, 2,048-token
+context, one slot, continuous batching, no prompt cache, and no explicit
+batch/KV/Flash arguments. The final profile is the exact three-patch llama.cpp
+`b10216` OpenSSL-off build with four threads, 256-token context, one slot,
+64/64 batch, f16 KV, auto Flash Attention, weight repack, and prefix caching.
+
+Both profiles use the same selected 2,146,497,824-byte Ministral 3B Q4_K_M
+model, 30-task sequence, two warmups, deterministic request protocol, client
+concurrency, and native `ubuntu-24.04-arm` job. Eight fresh processes run in two
+opposite-start blocks: E5b/E7c/E7c/E5b followed by
+E7c/E5b/E5b/E7c. The artifact retains both historical workflow/launcher
+snapshots, source revisions and patch diff, CMake inputs/caches, build commands,
+hashed binary closures and `ldd` inventories, host state, per-request answers,
+latency and cache counters, PID-bound CPU counters, readiness, process time,
+RSS, metrics, and slots.
+
+Before results, acceptance requires 23/30 with the exact selected prediction
+map in all eight cells, zero failures or drift, zero baseline cached tokens,
+at least one cached token in every final request, both OpenSSL libraries absent
+from the final dependency closure, and at most 5% throughput CV per profile.
+The final service must reach at least 1.25x repeated-median throughput and at
+most 0.85x pooled median latency, pooled p95 latency, and median CPU
+seconds/request. Every cell also retains the existing 15-second readiness and
+8-GiB RSS ceilings. A miss is a retained no-win; gates are not weakened.
+
+This comparison deliberately combines multiple accepted changes. E9a may
+describe the end-product delta but may not assign it to one mechanism. Causal
+interpretation remains with the isolated E5c prompt-cache, E5e context, E5f
+batch, E6f runtime-upgrade, and E7b dependency experiments. Exact details are
+frozen in [`../experiments/e9a_contract.json`](../experiments/e9a_contract.json).
 
 ## E4a frozen accept-backlog tuner
 

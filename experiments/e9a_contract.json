@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E9a",
+  "title": "Earliest admitted versus final compounded service",
+  "hypothesis": "The exact final E7c OpenSSL-off b10216 performance service preserves the E5b-selected answers while materially improving throughput, latency, and measured-window CPU time over the exact earliest admitted E5b one-slot service.",
+  "scope": "A same-job native Arm64 end-product comparison. The profiles intentionally compound the accepted changes between E5b and E7c; the result must not be attributed to any single mechanism.",
+  "inputs": {
+    "manifest_path": "results/manifests/e3f-30656151957.json",
+    "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "e5b_manifest_path": "results/manifests/e5b-30659829983.json",
+    "e5b_manifest_sha256": "aa529b16094ab398bf1d7c6aa698b452eeea6217f8016c280a5f2b6f947bf66c",
+    "e5b_report_path": "results/reports/e5b-selected-inference.md",
+    "e5b_report_sha256": "388945bd217095447ef7d7b0de09836f1afba8f27000279133f94ac7632760a8",
+    "e5b_contract_path": "experiments/e5b_contract.json",
+    "e5b_contract_sha256": "1b99387543577d6788491f1d8194697e7aa77bbc189c6f20d5d6344961c5c463",
+    "e5b_run_git_commit": "beb9614e2329b5b61357fd2f2422bebbb0488a89",
+    "e5b_historical_workflow_sha256": "4767c1bd5f1fe27328239a9cb280f2a01170d20745bc3301a42722f9f17e9eab",
+    "e5b_historical_launcher_sha256": "d6641398613f7ec8b790258ad24cbc9757e601aa8cf603e51d9c8396690358e8",
+    "e7c_manifest_path": "results/manifests/e7c-30696606993.json",
+    "e7c_manifest_sha256": "f4e73971b0c6f2db25be52e365cf611848ec1bb1d738648bb43bdf4c2e1857cf",
+    "e7c_contract_path": "experiments/e7c_contract.json",
+    "e7c_contract_sha256": "2f6a96acb0fa7c877c7f42083cd85b728c5779a75173bdcca62d801b306344de",
+    "e7c_runtime_contract_path": "configs/runtime-b10216-http-service.json",
+    "e7c_runtime_contract_sha256": "95cb669b70de98851b8bb2f04d7be6650745e0fbd39aa4d3256b5bb9c2a2b928",
+    "e7c_run_git_commit": "249e0444e95309bbdc8f5f2bdfd4401408ec4511",
+    "e7c_historical_workflow_sha256": "03372c91aecb32f4245913da59a15bcb6070ecc1c3fe8085b4eafc291f6167a1"
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "reference_correct": 23,
+    "reference_total": 30,
+    "reference_accuracy": 0.7666666666666667,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824
+  },
+  "request": {
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ],
+    "measured_tasks": 30,
+    "client_concurrency": 1,
+    "max_output_tokens": 8,
+    "instruction_role": "system",
+    "chat_template_mode": "model_jinja_system_instruction",
+    "temperature": 0.0,
+    "seed": 424242,
+    "timeout_seconds": 30.0
+  },
+  "profiles": {
+    "e5b_earliest": {
+      "source": {
+        "repository": "https://github.com/ggml-org/llama.cpp.git",
+        "tag": "b10208",
+        "commit": "9d9a6d29f6b981cc7f41983d26e56485c6af1811",
+        "patches": []
+      },
+      "build": {
+        "cmake_arguments": [
+          "-DCMAKE_BUILD_TYPE=Release",
+          "-DGGML_CPU_KLEIDIAI=ON",
+          "-DGGML_NATIVE=ON",
+          "-DLLAMA_BUILD_EXAMPLES=OFF",
+          "-DLLAMA_BUILD_SERVER=ON",
+          "-DLLAMA_BUILD_TESTS=OFF",
+          "-DLLAMA_CURL=OFF"
+        ]
+      },
+      "service": {
+        "threads": 4,
+        "context_per_slot": 2048,
+        "server_parallel_slots": 1,
+        "prompt_cache": false,
+        "request_cache_prompt": null,
+        "warmup_slot_ids": null,
+        "batch_size": null,
+        "micro_batch_size": null,
+        "kv_cache_type_k": null,
+        "kv_cache_type_v": null,
+        "flash_attention": null,
+        "weight_repack": null
+      }
+    },
+    "e7c_final": {
+      "source": {
+        "repository": "https://github.com/ggml-org/llama.cpp.git",
+        "tag": "b10216",
+        "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+        "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+        "changed_files": [
+          "common/reasoning-budget.cpp",
+          "ggml/src/ggml-cpu/CMakeLists.txt",
+          "ggml/src/ggml-cpu/arch/arm/quants.c",
+          "tests/test-reasoning-budget.cpp"
+        ],
+        "patches": [
+          {
+            "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+            "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+          },
+          {
+            "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+            "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+          },
+          {
+            "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+            "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+          }
+        ]
+      },
+      "build": {
+        "cmake_arguments": [
+          "-DCMAKE_BUILD_TYPE=Release",
+          "-DGGML_CPU_KLEIDIAI=ON",
+          "-DGGML_LTO=OFF",
+          "-DGGML_NATIVE=ON",
+          "-DLLAMA_BUILD_EXAMPLES=OFF",
+          "-DLLAMA_BUILD_SERVER=ON",
+          "-DLLAMA_BUILD_TESTS=OFF",
+          "-DLLAMA_CURL=OFF",
+          "-DLLAMA_OPENSSL=OFF"
+        ],
+        "forbidden_dynamic_dependency_basenames": [
+          "libcrypto.so.3",
+          "libssl.so.3"
+        ]
+      },
+      "service": {
+        "threads": 4,
+        "context_per_slot": 256,
+        "server_parallel_slots": 1,
+        "prompt_cache": true,
+        "request_cache_prompt": true,
+        "warmup_slot_ids": [
+          0,
+          0
+        ],
+        "batch_size": 64,
+        "micro_batch_size": 64,
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16",
+        "flash_attention": "auto",
+        "weight_repack": true
+      }
+    }
+  },
+  "execution": {
+    "baseline_profile": "e5b_earliest",
+    "candidate_profile": "e7c_final",
+    "fresh_server_per_cell": true,
+    "repetitions_per_profile": 4,
+    "order": [
+      {"profile": "e5b_earliest", "repetition": 1},
+      {"profile": "e7c_final", "repetition": 1},
+      {"profile": "e7c_final", "repetition": 2},
+      {"profile": "e5b_earliest", "repetition": 2},
+      {"profile": "e7c_final", "repetition": 3},
+      {"profile": "e5b_earliest", "repetition": 3},
+      {"profile": "e5b_earliest", "repetition": 4},
+      {"profile": "e7c_final", "repetition": 4}
+    ]
+  },
+  "acceptance": {
+    "required_architecture": "aarch64",
+    "http_status": 200,
+    "termination_reason": "stop",
+    "request_failures": 0,
+    "reference_prediction_mismatches": 0,
+    "required_baseline_cached_tokens_per_request": 0,
+    "minimum_candidate_cached_tokens_per_request": 1,
+    "minimum_throughput_ratio": 1.25,
+    "maximum_median_http_latency_ratio": 0.85,
+    "maximum_p95_http_latency_ratio": 0.85,
+    "maximum_cpu_seconds_per_request_ratio": 0.85,
+    "maximum_throughput_coefficient_of_variation": 0.05,
+    "maximum_ready_ms": 15000.0,
+    "maximum_process_rss_kib": 8388608,
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ]
+  },
+  "selection_policy": {
+    "rule": "Accept the final compounded service only when both profiles reproduce every selected answer in all four fresh-process repetitions, the expected cache mechanisms and final dependency pruning are observed, scheduler dispersion stays bounded, and the final profile passes every predeclared throughput, latency, CPU, readiness, and RSS gate.",
+    "no_win_rule": "Retain and report a valid negative result without weakening thresholds or reinterpreting the original E5b or E7c evidence.",
+    "weighted_score_used": false
+  },
+  "attribution": {
+    "rule": "Do not attribute the compounded E9a delta to one mechanism.",
+    "causal_evidence": [
+      "results/reports/e5c-prompt-cache.md",
+      "results/reports/e5e-kv-context-profile.md",
+      "results/reports/e5f-prompt-batch-profile.md",
+      "results/reports/e7b-openssl-service.md"
+    ]
+  },
+  "claim_boundary": "E9a compares two exact, historically admitted end-product recipes on one GitHub-hosted native Arm64 runner. It is intentionally compounded and supports no energy, PMU, single-mechanism, other-model, other-runtime, HTTPS, fleet, or local-device claim."
+}

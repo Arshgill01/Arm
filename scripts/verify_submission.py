@@ -124,6 +124,9 @@ EXPECTED_HASHES = {
     "experiments/e7c_contract.json": (
         "2f6a96acb0fa7c877c7f42083cd85b728c5779a75173bdcca62d801b306344de"
     ),
+    "experiments/e9a_contract.json": (
+        "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928"
+    ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
     ),
