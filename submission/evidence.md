@@ -45,6 +45,7 @@ permanently.
 | Exact HTTP-only dependency-pruned launch | [E7c `30696606993`](https://github.com/Arshgill01/Arm/actions/runs/30696606993) | [`e7c` manifest](../results/manifests/e7c-30696606993.json) · [`report`](../results/reports/e7c-http-runtime-launch.md) | `f4e73971…e1857cf` |
 | Earliest-versus-final compounded service | [E9a `30764802071`](https://github.com/Arshgill01/Arm/actions/runs/30764802071) | [`e9a` manifest](../results/manifests/e9a-30764802071.json) · [`report`](../results/reports/e9a-final-service-comparison.md) | `39424e7f…012d` |
 | External-holdout exact-server API blocker | [E9b preflight `30766707967`](https://github.com/Arshgill01/Arm/actions/runs/30766707967) | [`blocker` manifest](../results/manifests/e9b-preflight-30766707967.json) · [`report`](../results/reports/e9b-holdout-preflight-blocker.md) | `9f654a9f…5162` |
+| Alternating-prefix cache generalization rejected on output | [E9c `30770403695`](https://github.com/Arshgill01/Arm/actions/runs/30770403695) | [`e9c` manifest](../results/manifests/e9c-30770403695.json) · [`report`](../results/reports/e9c-prompt-cache-generalization.md) | `29b075b6…eed4` |
 | Public clean-checkout package validation | [`30766148919`](https://github.com/Arshgill01/Arm/actions/runs/30766148919) | 148 tests, 37 hashes including E9a, exact runtime/plan checks, demo smoke test | passed on native `aarch64` |
 
 ## Final selected package
@@ -81,6 +82,11 @@ permanently.
   1.7168x, median/p95 latency ratios are 0.5846x/0.7056x, and CPU
   seconds/request is 0.5806x. This is a compounded product result; E5c, E5e,
   E5f, E6f, and E7b remain the mechanism evidence.
+- Generalization boundary: E9c retains zero HTTP failures and working reuse at
+  all nine alternating-prefix points, but its frozen prompts cause 252
+  reference mismatches and 12 paired cache-state mismatches. The generated
+  policy disables cache for one, two, and four alternating prefixes; it does
+  not broaden E5c's exact workload claim.
 
 ## Recompute locally
 

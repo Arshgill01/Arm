@@ -8,6 +8,11 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Product
 
+- Retained E9c as a valid negative boundary after all 36 fresh processes and
+  576 requests completed on native Arm. Cache mechanics and every performance
+  gate passed, but 252 reference mismatches, 204 non-standalone responses, and
+  12 paired cache-state mismatches disabled all generalized cache policies.
+
 - Froze E9c as the first ordered fallback after E9b: a bounded native Arm
   prompt-cache generalization matrix on the exact E7c service. Nine
   predeclared prefix-cardinality/shared-token points use 36 reverse-balanced

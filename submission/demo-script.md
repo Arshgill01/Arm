@@ -62,7 +62,7 @@ current llama.cpp. We claim the hot path, not a whole-model speedup.”
 
 ## 2:08–2:32 — Exact serving
 
-**Screen:** Show the E5b through E9a rows and final comparison, then the terminal.
+**Screen:** Show the E5b through E9c rows and final comparison, then the terminal.
 
 ```bash
 python3 scripts/verify_submission.py
@@ -85,7 +85,9 @@ exact HTTP service with the same 23/30 result. Finally, one same-job comparison
 ran the exact earliest and final recipes four times each. All 240 answers
 matched; the final service delivered 1.717 times throughput, 41.5% lower median
 latency, and 41.9% less CPU work per request. It is a compounded product result,
-not a single-mechanism claim. HTTPS remains unchanged.”
+not a single-mechanism claim. A separate alternating-prefix matrix was faster
+at all nine points but changed answers, so every generalized cache policy is
+disabled. HTTPS remains unchanged.”
 
 ## 2:32–2:50 — Close
 

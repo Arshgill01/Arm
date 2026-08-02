@@ -100,6 +100,9 @@ EXPECTED_HASHES = {
     "results/manifests/e9b-preflight-30766707967.json": (
         "9f654a9fc5af6a02bcbb12d2cea84aa754d0c864ca83fd35943c627b38685162"
     ),
+    "results/manifests/e9c-30770403695.json": (
+        "29b075b605e5d84d6de66b07fb4ab3c1562236c9aa4e7fd43d51e0ff7932eed4"
+    ),
     "configs/runtime-b10216-selected-service.json": (
         "9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de"
     ),
@@ -1343,6 +1346,57 @@ def main() -> int:
         is not False
     ):
         raise ValueError("E9c bounded cache contract changed after freeze")
+
+    cache_result = load_object(
+        ROOT / "results/manifests/e9c-30770403695.json"
+    )
+    cache_validation = cache_result.get("validation", {})
+    cache_points = cache_result.get("points", [])
+    disabled_policy = {
+        str(cardinality): {
+            "eligible_shared_prefix_tokens": [],
+            "mode": "disabled",
+        }
+        for cardinality in (1, 2, 4)
+    }
+    performance_gates = (
+        "cache_mechanism_observed",
+        "scheduler_dispersion_passed",
+        "throughput_gate_passed",
+        "prompt_encode_gate_passed",
+        "p95_latency_gate_passed",
+        "cpu_time_gate_passed",
+        "zero_request_failures",
+    )
+    if (
+        cache_result.get("status")
+        != "valid_cache_generalization_output_regression"
+        or cache_result.get("provenance", {}).get("github_run_id")
+        != "30770403695"
+        or cache_result.get("platform", {}).get("architecture") != "aarch64"
+        or cache_result.get("platform", {}).get("logical_cpus") != 2
+        or cache_validation.get("total_request_failures") != 0
+        or cache_validation.get("total_invalid_prediction_responses") != 204
+        or cache_validation.get("total_reference_prediction_mismatches") != 252
+        or cache_validation.get("total_paired_cache_output_mismatches") != 12
+        or cache_validation.get("exact_outputs") is not False
+        or cache_validation.get("energy_claim_allowed") is not False
+        or cache_result.get("any_cache_eligible_point") is not False
+        or cache_result.get("cache_enablement_policy_by_prefix_cardinality")
+        != disabled_policy
+        or len(cache_points) != 9
+        or any(point.get("eligible") is not False for point in cache_points)
+        or any(
+            point.get("gates", {}).get(gate) is not True
+            for point in cache_points
+            for gate in performance_gates
+        )
+        or any(
+            point.get("gates", {}).get("exact_reference_outputs") is not False
+            for point in cache_points
+        )
+    ):
+        raise ValueError("retained E9c output-regression boundary changed")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

@@ -1309,6 +1309,24 @@ never interpolates to untested prefix counts or lengths and makes no energy,
 PMU, concurrency, local-device, fleet, or other-runtime claim. Exact details
 are frozen in [`e9c_contract.json`](../experiments/e9c_contract.json).
 
+### E9c outcome
+
+Native run `30770403695` completed all 36 fresh processes and 576 measured
+requests. The exact cache mechanism was observed at every point, both
+repetition CVs remained below 0.48%, and every throughput, prompt-encode, p95,
+and CPU-time gate passed. Observed cache-on throughput ranged from 1.9406x to
+2.4007x the paired cache-off rate.
+
+The output obligation failed first. There were zero HTTP failures, but the
+frozen alternating-prefix prompt construction produced 252 reference
+prediction mismatches, 204 non-standalone responses, and 12 paired cache-state
+output mismatches. The strict parser and task sequence were not changed. E9c is
+therefore retained as `valid_cache_generalization_output_regression`; all three
+cardinality policies are disabled and the performance ratios remain diagnostic
+only. The earlier E5c decision is not generalized beyond its exact measured
+workload. See the retained
+[`report`](../results/reports/e9c-prompt-cache-generalization.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

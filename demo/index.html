@@ -261,6 +261,54 @@
         <div class="cache-interaction">
           <table>
             <caption>
+              <strong>Prefix reuse did not generalize safely.</strong>
+              A frozen 36-process matrix tested 16, 32, and 64 shared tokens
+              while one, two, or four prefixes alternated.
+            </caption>
+            <thead>
+              <tr>
+                <th>Alternating prefixes</th>
+                <th>Throughput range</th>
+                <th>Reference mismatches</th>
+                <th>Paired cache drift</th>
+                <th>Policy</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>2.035×–2.401×</td>
+                <td>92</td>
+                <td>4</td>
+                <td class="reject-text">Disabled</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>1.941×–2.170×</td>
+                <td>80</td>
+                <td>8</td>
+                <td class="reject-text">Disabled</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>1.942×–2.140×</td>
+                <td>80</td>
+                <td>0</td>
+                <td class="reject-text">Disabled</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            All cache-mechanism and performance gates passed with zero HTTP
+            failures, but exact output failed: 252 reference mismatches and 204
+            non-standalone answers. Pareto64 keeps E5c bounded to its original
+            measured workload.
+          </p>
+        </div>
+
+        <div class="cache-interaction">
+          <table>
+            <caption>
               <strong>Cache + concurrency did not compound.</strong>
               We repeated the serving gate after promotion, with both slots
               preloaded and every measured request reusing the prefix.
@@ -690,6 +738,11 @@
             <div><strong>Earliest versus final service</strong><p>All 240 answers matched; final throughput was 1.7168× with 41.5% lower median latency.</p></div>
             <span class="evidence-result select-text">Final win</span>
           </li>
+          <li>
+            <span class="evidence-id">E9c</span>
+            <div><strong>Alternating-prefix boundary</strong><p>All performance gates passed, but 252 reference mismatches disabled every generalized cache policy.</p></div>
+            <span class="evidence-result reject-text">Bounded</span>
+          </li>
         </ol>
 
         <div class="reproduce">
@@ -716,6 +769,9 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5d-cached-concurrency.md">
           Concurrency boundary
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e9c-prompt-cache-generalization.md">
+          Cache generalization boundary
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5e-kv-context-profile.md">
           Memory profile

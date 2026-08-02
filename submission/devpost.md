@@ -259,6 +259,15 @@ readiness outlier reached 10.13 seconds and remains included. We do not assign
 the compounded delta to one mechanism; the isolated E5c/E5e/E5f/E6f/E7b
 experiments remain the causal evidence.
 
+E9c then tests the cache claim outside its original repeated-prefix workload,
+without changing the final service. A predeclared one/two/four-prefix by
+16/32/64-token matrix completed 576 requests with zero HTTP failures. Cache
+reuse and every performance gate passed, including 1.9406x–2.4007x throughput
+ratios, but the extended prompts produced 252 reference mismatches, 204
+non-standalone answers, and 12 cache-state output mismatches. Pareto64 therefore
+disables all three generalized policies. The result does not rewrite E5c; it
+makes E5c's exact workload boundary explicit.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -305,6 +314,8 @@ without changing measured inputs or post-observation thresholds.
 - quality-gated prompt reuse delivering 1.672x serving throughput and 41% lower
   median HTTP latency;
 - a cross-layer cache/concurrency test that rejected a marginal 1.0619x gain;
+- a bounded alternating-prefix cache test that preserved its negative output
+  regression and disabled every generalized policy despite faster execution;
 - context right-sizing that saves 183.36 MiB without KV quantization or drift;
 - prompt-batch right-sizing that cuts the compute buffer 75% and saves another
   14.48 MiB maximum RSS without answer drift;

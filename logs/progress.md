@@ -1662,3 +1662,24 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   bytes) retains the complete rejected matrix through 2026-10-31.
 - Second amended contract SHA-256 is
   `a72ec175091e2e8b98adc12a795e5242cee49377f2683ddb2eefcbf564341c76`.
+
+### E9c attempt 3 accepted as output-regression boundary
+
+- Native run `30770403695` completed all 36 fresh processes and 576 measured
+  requests in 48m9s. Workflow ingestion and a separate local replay produced
+  the same 617,514-byte manifest at SHA-256 `29b075b6…eed4`.
+- The exact E7c OpenSSL-off source, build, binary closure, Q4_K_M model, service
+  arguments, and two-core Neoverse N2 host were retained. There were zero HTTP
+  failures. Cache-off reuse was exactly zero, cache-on reuse cleared every
+  point-specific minimum, and repetition CV stayed below 0.48%.
+- All nine throughput, prompt-encode, p95, and CPU-time gate sets passed.
+  Cache-on/cache-off throughput ratios ranged from 1.9406x to 2.4007x.
+- Exact output failed before performance could qualify: 252 reference
+  mismatches, including 204 non-standalone responses, and 12 paired cache-state
+  output mismatches. The parser, prompts, tasks, points, and gates were not
+  changed after observation.
+- E9c is retained as `valid_cache_generalization_output_regression`. The
+  generated policy disables cache for one, two, and four alternating prefixes;
+  E5c remains bounded to its original workload.
+- Artifact `e9c-prompt-cache-30770403695-1` (ID `8840851593`, 9,551,133
+  compressed bytes) is retained through 2026-10-31.
