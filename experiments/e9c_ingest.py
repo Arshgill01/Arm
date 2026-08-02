@@ -213,6 +213,8 @@ def validate_case(
         "decode_ms",
         "cached_tokens",
         "evaluated_prompt_tokens",
+        "response_tokens_cached",
+        "response_tokens_evaluated",
     ):
         value = case.get(name)
         if not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
@@ -278,7 +280,7 @@ def validate_cell(
 
     construction = contract["prompt_construction"]
     expected_repetitions = construction["tokenizer_preflight"][
-        "expected_common_filler_repetitions_by_target"
+        "native_endpoint_common_filler_repetitions_by_target"
     ][str(shared_tokens)]
     prefix = probe.get("prefix_recipe", {})
     prefix_ids = prefix.get("common_prefix_token_ids")
@@ -363,16 +365,18 @@ def validate_cell(
         raise ValueError(f"{cell_dir.name} process evidence differs")
 
     failures = sum(
-        case.get("http_status") != 200
-        or case.get("error") is not None
-        or case.get("prediction") not in {"A", "B", "C", "D"}
+        case.get("http_status") != 200 or case.get("error") is not None
         for case in cases
+    )
+    invalid_predictions = sum(
+        case.get("prediction") not in {"A", "B", "C", "D"} for case in cases
     )
     mismatches = sum(
         case.get("prediction") != case["reference_prediction"] for case in cases
     )
     if (
         result.get("failures") != failures
+        or result.get("invalid_prediction_responses") != invalid_predictions
         or result.get("reference_prediction_mismatches") != mismatches
     ):
         raise ValueError(f"{cell_dir.name} result counts differ from raw cases")
@@ -390,6 +394,7 @@ def validate_cell(
             "process": process,
             "server_shell_exit_status": shell_exit,
             "failures": failures,
+            "invalid_prediction_responses": invalid_predictions,
             "reference_prediction_mismatches": mismatches,
         },
         cases,
@@ -470,6 +475,9 @@ def summarize_point(
             "failures": sum(cell["failures"] for cell in state_cells),
             "reference_prediction_mismatches": sum(
                 cell["reference_prediction_mismatches"] for cell in state_cells
+            ),
+            "invalid_prediction_responses": sum(
+                cell["invalid_prediction_responses"] for cell in state_cells
             ),
         }
 
@@ -629,6 +637,9 @@ def build_manifest(
     total_reference_mismatches = sum(
         cell["reference_prediction_mismatches"] for cell in all_cells
     )
+    total_invalid_predictions = sum(
+        cell["invalid_prediction_responses"] for cell in all_cells
+    )
     total_paired_mismatches = sum(
         point["paired_cache_output_mismatches"] for point in points
     )
@@ -685,6 +696,7 @@ def build_manifest(
             "bounded_predeclared_matrix": True,
             "raw_answers_retained_in_manifest": True,
             "total_request_failures": total_failures,
+            "total_invalid_prediction_responses": total_invalid_predictions,
             "total_reference_prediction_mismatches": total_reference_mismatches,
             "total_paired_cache_output_mismatches": total_paired_mismatches,
             "exact_outputs": exact_outputs,

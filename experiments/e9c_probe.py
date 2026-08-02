@@ -196,8 +196,6 @@ def request_completion(
         timings = response.get("timings")
         timings = timings if isinstance(timings, dict) else {}
         prediction = parse_prediction(content)
-        cached_tokens = response.get("tokens_cached", timings.get("cache_n"))
-        evaluated_tokens = response.get("tokens_evaluated", timings.get("prompt_n"))
         return {
             "index": index,
             "task_id": task["id"],
@@ -214,8 +212,10 @@ def request_completion(
             "reference_match": prediction == reference,
             "stop_type": response.get("stop_type"),
             "generated_tokens": timings.get("predicted_n"),
-            "cached_tokens": cached_tokens,
-            "evaluated_prompt_tokens": evaluated_tokens,
+            "cached_tokens": timings.get("cache_n"),
+            "evaluated_prompt_tokens": timings.get("prompt_n"),
+            "response_tokens_cached": response.get("tokens_cached"),
+            "response_tokens_evaluated": response.get("tokens_evaluated"),
             "encode_ms": timings.get("prompt_ms"),
             "decode_ms": timings.get("predicted_ms"),
             "http_ms": http_ms,
@@ -240,6 +240,8 @@ def request_completion(
             "generated_tokens": None,
             "cached_tokens": None,
             "evaluated_prompt_tokens": None,
+            "response_tokens_cached": None,
+            "response_tokens_evaluated": None,
             "encode_ms": None,
             "decode_ms": None,
             "http_ms": (time.perf_counter_ns() - started) / 1_000_000,
@@ -255,6 +257,8 @@ def require_measured_cases(cases: list[dict[str, Any]]) -> None:
             "http_ms",
             "cached_tokens",
             "evaluated_prompt_tokens",
+            "response_tokens_cached",
+            "response_tokens_evaluated",
         ):
             value = case.get(name)
             if (
@@ -388,12 +392,10 @@ def main() -> int:
         measured_requests=len(cases),
         elapsed_seconds=elapsed,
     )
-    failures = sum(
-        case["http_status"] != 200
-        or case["error"] is not None
-        or case["prediction"] is None
-        for case in cases
+    request_failures = sum(
+        case["http_status"] != 200 or case["error"] is not None for case in cases
     )
+    invalid_predictions = sum(case["prediction"] is None for case in cases)
     mismatches = sum(not case["reference_match"] for case in cases)
     output = {
         "schema_version": 1,
@@ -416,7 +418,8 @@ def main() -> int:
         "result": {
             "elapsed_seconds": elapsed,
             "requests_per_second": len(cases) / elapsed,
-            "failures": failures,
+            "failures": request_failures,
+            "invalid_prediction_responses": invalid_predictions,
             "reference_prediction_mismatches": mismatches,
             "http_ms": summarize([float(case["http_ms"]) for case in cases]),
             "encode_ms": summarize([float(case["encode_ms"]) for case in cases]),

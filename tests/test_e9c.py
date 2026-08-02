@@ -1,17 +1,76 @@
+import json
 import subprocess
 import sys
+import threading
 import unittest
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
 from experiments.e9c_ingest import build_policy, summarize_point
 from experiments.e9c_probe import (
     longest_common_prefix,
     parse_prediction,
+    request_completion,
     system_text,
 )
 
 
+class CompletionHandler(BaseHTTPRequestHandler):
+    def do_POST(self) -> None:
+        self.rfile.read(int(self.headers["Content-Length"]))
+        body = json.dumps(
+            {
+                "content": "A",
+                "stop_type": "eos",
+                "tokens_cached": 90,
+                "tokens_evaluated": 89,
+                "timings": {
+                    "cache_n": 7,
+                    "prompt_n": 10,
+                    "prompt_ms": 12.0,
+                    "predicted_n": 2,
+                    "predicted_ms": 3.0,
+                },
+            }
+        ).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def log_message(self, format: str, *args: object) -> None:
+        pass
+
+
 class E9cProbeTests(unittest.TestCase):
+    def test_completion_uses_timing_cache_reuse_not_root_context_size(self) -> None:
+        server = HTTPServer(("127.0.0.1", 0), CompletionHandler)
+        thread = threading.Thread(target=server.serve_forever)
+        thread.start()
+        try:
+            case = request_completion(
+                f"http://127.0.0.1:{server.server_port}",
+                index=0,
+                task={"id": "task"},
+                marker="alpha",
+                marker_index=0,
+                prompt_tokens=[1, 2, 3],
+                reference="A",
+                cache_prompt=True,
+                max_output_tokens=8,
+                seed=424242,
+                timeout=1.0,
+            )
+        finally:
+            server.shutdown()
+            thread.join()
+            server.server_close()
+        self.assertEqual(case["cached_tokens"], 7)
+        self.assertEqual(case["evaluated_prompt_tokens"], 10)
+        self.assertEqual(case["response_tokens_cached"], 90)
+        self.assertEqual(case["response_tokens_evaluated"], 89)
+
     def test_probe_supports_direct_workflow_entrypoint(self) -> None:
         root = Path(__file__).resolve().parents[1]
         completed = subprocess.run(
@@ -54,6 +113,7 @@ class E9cPolicyTests(unittest.TestCase):
             "ready_ms": 100.0,
             "process": {"maximum_rss_kib": 1000},
             "failures": 0,
+            "invalid_prediction_responses": 0,
             "reference_prediction_mismatches": 0,
         }
 

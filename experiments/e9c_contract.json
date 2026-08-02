@@ -16,9 +16,9 @@
     "e9b_blocker_path": "results/manifests/e9b-preflight-30766707967.json",
     "e9b_blocker_sha256": "9f654a9fc5af6a02bcbb12d2cea84aa754d0c864ca83fd35943c627b38685162",
     "probe_path": "experiments/e9c_probe.py",
-    "probe_sha256": "112b43312de1fb84f24d7755dc7709b23abc6e46b0d7825fc10d641118ae1325",
+    "probe_sha256": "63ffd1d62601642790c9c07d998120d5c37edebb8f137a3d4a8a1643b1b9971a",
     "ingest_path": "experiments/e9c_ingest.py",
-    "ingest_sha256": "a13f5a2bf2f25b9db76404397b7ab67d336d4d58d32a04bc99a0eba3a2a6b92a"
+    "ingest_sha256": "4ab18e274ba45550e8d8dd8324ce2b6ac984f1753e1f4061e2b9e3e170f10e70"
   },
   "selected": {
     "candidate": "ministral3_3b_q4_k_m",
@@ -53,11 +53,17 @@
       "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
       "transformers_version": "5.14.1",
       "fix_mistral_regex": true,
-      "expected_common_filler_repetitions_by_target": {
+      "transformers_common_filler_repetitions_by_target": {
         "16": 13,
         "32": 29,
         "64": 61
       },
+      "native_endpoint_common_filler_repetitions_by_target": {
+        "16": 14,
+        "32": 30,
+        "64": 62
+      },
+      "native_difference": "The native /apply-template then /tokenize path uses add_special=false, so its token array omits the Transformers preflight BOS and needs one additional single-token filler repetition.",
       "maximum_preflight_prompt_tokens": 143
     },
     "variant_markers": [

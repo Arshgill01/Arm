@@ -1288,7 +1288,10 @@ sequence. This yields exactly 36 fresh processes and 576 measured requests.
 Prefix construction is deterministic and validated through b10216's native
 `/apply-template`, `/tokenize`, and `/completion` endpoints. The four frozen
 variant marker IDs were independently checked against the pinned corrected
-Mistral tokenizer before launch.
+Mistral tokenizer before launch. The contract records the one-token BOS
+difference between Transformers chat-template tokenization and the native
+`add_special=false` endpoint path rather than treating their filler counts as
+interchangeable.
 
 Every cell retains standalone answers, selected E3f prediction comparisons,
 HTTP/prompt/decode timing, cached/evaluated token counts, PID-bound process CPU,

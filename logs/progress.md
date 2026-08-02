@@ -1636,3 +1636,29 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Amended contract SHA-256 is
   `ed579871a5fa0026f66050083121621a91c348f1328dffee4911e6d4a97c7faa`;
   its only content change is the probe implementation hash.
+
+### E9c attempt 2 completed matrix; instrumentation rejected
+
+- Native run `30768457642` completed all 36 fresh processes and 576 measured
+  requests in the frozen order, then stopped during independent ingestion.
+  All raw cells are retained; no point was skipped.
+- The native template/tokenize path omits the Transformers preflight BOS under
+  its explicit `add_special=false` request. It therefore needs 14/30/62 filler
+  repetitions rather than the Transformers-side 13/29/61 to reach the same
+  exact 16/32/64-token boundaries. The probe correctly solved those exact
+  boundaries; the redundant ingester expectation was wrong.
+- Source review against the retained responses also found that b10216's root
+  `tokens_cached`/`tokens_evaluated` fields describe the post-request context,
+  while the established `timings.cache_n`/`timings.prompt_n` fields capture
+  reused versus newly evaluated prompt tokens. Attempt 2 stored the former in
+  the mechanism fields, so it cannot satisfy the frozen exact cache-token gate
+  and is not promoted as valid performance evidence.
+- The repair records both field pairs, binds mechanism decisions only to the
+  timing reuse counters, and separates HTTP/request failures from standalone
+  output-format failures. Unit coverage asserts the field distinction. No
+  point, task, order, repetition, output parser, or acceptance threshold is
+  changed after observing the run.
+- Artifact `e9c-prompt-cache-30768457642-1` (ID `8840257505`, 9,482,149
+  bytes) retains the complete rejected matrix through 2026-10-31.
+- Second amended contract SHA-256 is
+  `a72ec175091e2e8b98adc12a795e5242cee49377f2683ddb2eefcbf564341c76`.
