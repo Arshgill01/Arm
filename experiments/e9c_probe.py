@@ -14,12 +14,19 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
 
-from experiments.e1_ingest import summarize
-from experiments.e5b_inference_probe import (
-    read_process_cpu,
-    summarize_process_cpu,
-)
-from experiments.e5b_ingest import reference_predictions
+try:
+    from experiments.e1_ingest import summarize
+    from experiments.e5b_inference_probe import (
+        read_process_cpu,
+        summarize_process_cpu,
+    )
+    from experiments.e5b_ingest import reference_predictions
+except ModuleNotFoundError as error:
+    if error.name != "experiments":
+        raise
+    from e1_ingest import summarize
+    from e5b_inference_probe import read_process_cpu, summarize_process_cpu
+    from e5b_ingest import reference_predictions
 
 
 LETTERS = {"A", "B", "C", "D"}

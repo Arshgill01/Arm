@@ -1619,3 +1619,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   energy, PMU, local-device, concurrency, or other-runtime claim.
 - Frozen contract SHA-256 is
   `0a7f9adcaa3e68ffce137933115cd1f102732aa486ca1ed77cf35be99b6ed029`.
+
+### E9c attempt 1 rejected before measurement
+
+- Native run `30768124860` passed host, source, model, build, OpenSSL-free
+  closure, and readiness checks, then stopped before its first warmup or
+  measured completion because direct script execution could not resolve the
+  package-qualified `experiments` import.
+- This is an orchestration defect, not a cache or model result. No probe JSON
+  or model output exists, and none of the nine points, repetitions, gates, or
+  policy rules changed. The repair adds the repository's established direct-
+  script import fallback and is validated through the exact workflow entry
+  point.
+- Artifact `e9c-prompt-cache-30768124860-1` (ID `8839695707`, 9,126,882
+  bytes) retains the failed attempt through 2026-10-31.
+- Amended contract SHA-256 is
+  `ed579871a5fa0026f66050083121621a91c348f1328dffee4911e6d4a97c7faa`;
+  its only content change is the probe implementation hash.

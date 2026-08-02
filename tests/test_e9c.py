@@ -1,4 +1,7 @@
+import subprocess
+import sys
 import unittest
+from pathlib import Path
 
 from experiments.e9c_ingest import build_policy, summarize_point
 from experiments.e9c_probe import (
@@ -9,6 +12,18 @@ from experiments.e9c_probe import (
 
 
 class E9cProbeTests(unittest.TestCase):
+    def test_probe_supports_direct_workflow_entrypoint(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        completed = subprocess.run(
+            [sys.executable, str(root / "experiments/e9c_probe.py"), "--help"],
+            cwd=root,
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+
     def test_longest_common_prefix_stops_at_first_variant(self) -> None:
         self.assertEqual(
             longest_common_prefix([[1, 2, 3, 7], [1, 2, 3, 8], [1, 2, 3, 9]]),
