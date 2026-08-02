@@ -97,6 +97,9 @@ EXPECTED_HASHES = {
     "results/manifests/e9a-30764802071.json": (
         "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d"
     ),
+    "results/manifests/e9b-preflight-30766707967.json": (
+        "9f654a9fc5af6a02bcbb12d2cea84aa754d0c864ca83fd35943c627b38685162"
+    ),
     "configs/runtime-b10216-selected-service.json": (
         "9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de"
     ),
@@ -1262,6 +1265,40 @@ def main() -> int:
         is not False
     ):
         raise ValueError("E9b task selection or preflight plan changed after freeze")
+
+    holdout_blocker = load_object(
+        ROOT / "results/manifests/e9b-preflight-30766707967.json"
+    )
+    if (
+        holdout_blocker.get("status") != "blocked_api_prompt_logprobs"
+        or holdout_blocker.get("provenance", {}).get("github_run_id")
+        != "30766707967"
+        or holdout_blocker.get("platform", {}).get("architecture") != "aarch64"
+        or holdout_blocker.get("platform", {}).get("logical_cpus") != 2
+        or holdout_blocker.get("frozen_plan", {}).get("sha256")
+        != "ff492b46e512220abd2ea3135bd807881f5ac4e1f9c5ee8b9b77de31229f9cd0"
+        or holdout_blocker.get("frozen_plan", {}).get(
+            "external_task_results_observed"
+        )
+        is not False
+        or holdout_blocker.get("completed_checks", {}).get(
+            "tokenizer_probe_parity_reached_completion_stage"
+        )
+        is not True
+        or holdout_blocker.get("blocker", {}).get("full_external_holdout_started")
+        is not False
+        or holdout_blocker.get("blocker", {}).get("exact_server_modification_allowed")
+        is not False
+        or holdout_blocker.get("decision", {}).get("e9b_full_evaluation")
+        != "not_run"
+        or holdout_blocker.get("decision", {}).get(
+            "original_30_task_admission_contract_changed"
+        )
+        is not False
+        or holdout_blocker.get("decision", {}).get("external_tasks_cherry_picked")
+        is not False
+    ):
+        raise ValueError("retained E9b API blocker changed or gained task results")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

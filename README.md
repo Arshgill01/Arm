@@ -210,6 +210,7 @@ repack flag that conflicts with the plan is refused.
 | [E7b](results/reports/e7b-openssl-service.md) | OpenSSL-off removed exactly two unused HTTPS dependency edges, added none, retained 99.981% throughput, and preserved exact quality and every guardrail |
 | [E7c](results/reports/e7c-http-runtime-launch.md) | The E7b-bound adapter launched the exact OpenSSL-off HTTP service on Arm: 23/30, zero drift/failures, prefix reuse throughout, and both forbidden libraries absent |
 | [E9a](results/reports/e9a-final-service-comparison.md) | Same-job final comparison preserved all 240 answers and reached 1.7168x throughput, 0.5846x median latency, and 0.5806x CPU seconds/request |
+| [E9b preflight](results/reports/e9b-holdout-preflight-blocker.md) | Exact E7c built and tokenizer parity passed, but b10216 cannot return the echoed prompt logprobs required by lm-eval; no external task result was observed |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.

@@ -1572,3 +1572,24 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   synthetic lm-eval records. Benchmark records are forbidden in this step.
 - Frozen preflight-plan SHA-256 is
   `ff492b46e512220abd2ea3135bd807881f5ac4e1f9c5ee8b9b77de31229f9cd0`.
+
+## 2026-08-02 — E9b exact-server API blocker retained
+
+- Native preflight `30766707967` built the exact E7c source and three-patch
+  diff, verified the selected Q4_K_M model, launched the exact service, and
+  retained its OpenSSL-free 13-name dependency inventory on two Neoverse N2
+  logical CPUs.
+- The tokenizer parity and saved-snapshot roundtrip checks completed before the
+  synthetic completion validator. The server handled the 12-token request,
+  but its response lacked the echoed prompt-token logprob shape required by
+  lm-eval's continuation-likelihood parser.
+- Pinned b10216 source confirms that `/v1/completions` rejects `echo=true`.
+  Patching the endpoint or inserting a response adapter would violate the exact
+  E7c evaluation target, so this is a genuine API blocker under the frozen
+  contract rather than a task result.
+- The full external holdout and Q4_0 control did not start. No external sample
+  or score was observed, no task was replaced, and the 30-task admission
+  contract remains unchanged.
+- Artifact `e9b-preflight-30766707967-1` is retained for 90 days. Compact
+  manifest SHA-256 is `9f654a9f…5162`. Work moves to the first ordered fallback,
+  native prompt-cache generalization.

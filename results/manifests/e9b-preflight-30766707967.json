@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E9b-preflight",
+  "status": "blocked_api_prompt_logprobs",
+  "scope": "Native compatibility-only preflight of pinned lm-evaluation-harness v0.4.12 against the exact E7c local OpenAI-compatible service",
+  "provenance": {
+    "github_run_id": "30766707967",
+    "github_run_attempt": 1,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30766707967",
+    "git_commit": "f2a079fb70609c3e4a5168a81b652b52149a3d3a",
+    "artifact": {
+      "id": 8839266941,
+      "name": "e9b-preflight-30766707967-1",
+      "size_bytes": 9118228,
+      "retention_days": 90,
+      "expires_at": "2026-10-31T20:55:26Z"
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "model_name": "Neoverse-N2",
+    "logical_cpus": 2,
+    "cores_per_socket": 2,
+    "sockets": 1,
+    "threads_per_core": 1,
+    "lscpu_sha256": "b8517ee4b7fd32a02cf2b39e9ba682e6df1229d9c401b447f3b5616042d3d59b"
+  },
+  "frozen_plan": {
+    "path": "experiments/e9b_preflight_plan.json",
+    "sha256": "ff492b46e512220abd2ea3135bd807881f5ac4e1f9c5ee8b9b77de31229f9cd0",
+    "planned_samples_sha256": "c92200f74c83666ee9e381e5edcb5d10bc66d8051ec07e9daa6805eab7632e49",
+    "external_task_results_observed": false
+  },
+  "runtime": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216",
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "server_version": "10216 (876a43211)",
+    "server_binary_sha256": "17eee7194694706be21f5bf4813cb53071b5cff8a15ddf5eaf1bbcbc7b99d71a",
+    "server_argv_sha256": "dce8f35fc87531e2ee85f2175ecc9d0a77808042a6977487532a69eb23e281fa",
+    "cmake_cache_sha256": "de2ab540eba269517ed9d93018a11fcd55e1ebf19a72cc9d621be4d8f8938c5e",
+    "build_commands_sha256": "563c5de739ec99ec52cea1e1ff5776d72f8789d807cc344a09641d6cd25cce46",
+    "build_elapsed_seconds": 371.7,
+    "runtime_closure": {
+      "sha256": "b3dffb2958392a9c72359d4263bb43794f4911d1efaec63c13155f3adf50befe",
+      "file_count": 8,
+      "size_bytes": 19857768,
+      "dynamic_dependency_basenames": [
+        "ld-linux-aarch64.so.1",
+        "libc.so.6",
+        "libgcc_s.so.1",
+        "libggml-base.so.0",
+        "libggml-cpu.so.0",
+        "libggml.so.0",
+        "libgomp.so.1",
+        "libllama-common.so.0",
+        "libllama-server-impl.so",
+        "libllama.so.0",
+        "libm.so.6",
+        "libmtmd.so.0",
+        "libstdc++.so.6"
+      ],
+      "forbidden_dependencies_present": []
+    }
+  },
+  "model": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "size_bytes": 2146497824
+  },
+  "harness": {
+    "repository": "https://github.com/EleutherAI/lm-evaluation-harness.git",
+    "version": "0.4.12",
+    "commit": "6d642546f4688648fced259eb3302efd36ece5af",
+    "commit_capture_sha256": "e96382407cdba9b043342bed9e743db0de18fe132829dcb4c6b207c9b7726d12",
+    "dependency_freeze_sha256": "161db433e5f30f128a1c947a155d2064dbb67ea23e8a76e0b9848eb8a9078a1f",
+    "backend": "local-completions",
+    "required_response_shape": "choices[].logprobs.token_logprobs must include echoed prompt tokens so continuation loglikelihood can be sliced at ctxlen"
+  },
+  "completed_checks": {
+    "frozen_input_hashes": true,
+    "native_architecture": true,
+    "exact_source_and_patch_diff": true,
+    "exact_selected_model_hash": true,
+    "exact_e7c_server_arguments": true,
+    "openssl_dependencies_absent": true,
+    "server_ready": true,
+    "tokenizer_probe_parity_reached_completion_stage": true,
+    "saved_tokenizer_roundtrip_reached_completion_stage": true
+  },
+  "blocker": {
+    "stage": "direct synthetic completion echo-logprob validation",
+    "exception": "ValueError: completion logprob shape is incompatible with lm-eval",
+    "script_location": "experiments/e9b_preflight.py:113",
+    "workflow_step_conclusion": "failure",
+    "server_log_sha256": "9890a24f5915fede81f131e410a9eacf456e8370bc3d3e3bb9fb472924de6d3c",
+    "server_log_observation": "The exact server completed the 12-token synthetic prompt request successfully before the validator rejected its logprob shape.",
+    "source_observation": {
+      "path": "tools/server/server-common.cpp",
+      "function": "oaicompat_completion_params_parse",
+      "behavior": "The pinned b10216 OpenAI completions parser rejects echo=true; prompt-token echo logprobs are unsupported."
+    },
+    "exact_server_modification_allowed": false,
+    "full_external_holdout_started": false,
+    "per_sample_external_logs_created": false
+  },
+  "decision": {
+    "e9b_full_evaluation": "not_run",
+    "reason": "The pinned multiple-choice harness cannot calculate continuation loglikelihood from the exact E7c server API without echoed prompt-token logprobs. Patching or replacing the server would weaken the exact-E7c contract.",
+    "fallback": "Run the predefined native prompt-cache generalization experiment.",
+    "original_30_task_admission_contract_changed": false,
+    "external_tasks_cherry_picked": false
+  },
+  "claim_boundary": "This retained negative result establishes an exact-server API incompatibility only. It contains no external holdout score and supports no quality, performance, energy, PMU, local-device, or other-runtime claim."
+}

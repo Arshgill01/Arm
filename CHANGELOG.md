@@ -8,6 +8,11 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Product
 
+- Retained E9b's native exact-server API blocker before any external task
+  result. Exact E7c and corrected-tokenizer parity passed, but b10216 cannot
+  supply lm-eval's required echoed prompt logprobs; the full holdout did not
+  start and the original admission contract remains unchanged.
+
 - Retained E9a's same-job native Arm final comparison. The exact E7c service
   preserved all 240 measured answers and reached 1.7168x throughput, 0.5846x
   median latency, 0.7056x p95 latency, and 0.5806x CPU seconds/request versus

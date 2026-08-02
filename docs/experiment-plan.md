@@ -1253,6 +1253,22 @@ before testing completion echo logprobs through lm-eval. No ARC, HellaSwag, or
 WinoGrande result is allowed during preflight. The immutable details are in
 [`e9b_preflight_plan.json`](../experiments/e9b_preflight_plan.json).
 
+### E9b preflight outcome
+
+Native run `30766707967` stopped at the intended compatibility gate before an
+external record was loaded. Exact E7c source, patches, build flags, selected
+model, launch arguments, and OpenSSL-free dependency closure all validated.
+The corrected pinned tokenizer also reached the completion stage only after
+every token-parity probe and saved-snapshot round trip passed.
+
+The synthetic completion then lacked the echoed prompt-token logprob shape
+lm-eval needs for continuation likelihood. This matches pinned b10216 source:
+its OpenAI completions parser rejects `echo=true`. Adapting or patching that
+response would no longer test the exact E7c server, so E9b is retained as
+`blocked_api_prompt_logprobs`. No ARC Easy, HellaSwag, or WinoGrande score or
+sample was observed, tasks were not replaced, and the admission contract is
+unchanged. See the retained [`blocker report`](../results/reports/e9b-holdout-preflight-blocker.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server
