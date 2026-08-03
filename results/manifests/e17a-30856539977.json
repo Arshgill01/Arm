@@ -1,0 +1,357 @@
+{
+  "artifact_validation": {
+    "all_workflow_inventoried_files_verified": true,
+    "inventory_sha256": "425c8aa1f4936b687bc68da275924b00d6d23722a97883f34f893e291fe5292d",
+    "workflow_inventoried_bytes": 21145546,
+    "workflow_inventoried_file_count": 105
+  },
+  "cells": {
+    "f16_f16": {
+      "answers": {
+        "arithmetic-02": "C",
+        "logic-01": "C",
+        "systems-04": "B"
+      },
+      "correct": 3,
+      "http_ms": {
+        "coefficient_of_variation": 0.18109009999075776,
+        "max": 1883.655307,
+        "mean": 1636.5882613333333,
+        "median": 1806.263045,
+        "min": 1219.846432,
+        "p95": 1883.655307,
+        "population_stddev": 296.3699318885537
+      },
+      "kv_allocation_mib": 104.0,
+      "probe_sha256": "28c4c332ac117c1181609d096314f52213822bdeecabebf80e1e9844001c03de",
+      "readiness_ms": 2524.988283,
+      "recipe_sha256": "d2632e2b50ba834cb0942179c298db4ca2abb67ab9ce77e3867b4485c159f42c",
+      "reference_prediction_mismatches": 0,
+      "requests_per_second": 0.6109147802629147,
+      "server_process_cpu": {
+        "average_cores_used": 3.9444730978975526,
+        "clock_ticks_per_second": 100,
+        "pid": 2427,
+        "seconds_per_request": 6.456666666666667,
+        "system_seconds": 0.03,
+        "system_ticks": 3,
+        "total_seconds": 19.37,
+        "total_ticks": 1937,
+        "user_seconds": 19.34,
+        "user_ticks": 1934
+      },
+      "server_stderr_sha256": "7c814cb98f7a904c495adfed3e731d3b466fc0ad4d938e86ee0b8c23b2683317",
+      "supported": true,
+      "total": 3
+    },
+    "q4_0_q4_0": {
+      "answers": {
+        "arithmetic-02": "C",
+        "logic-01": "C",
+        "systems-04": "B"
+      },
+      "correct": 3,
+      "http_ms": {
+        "coefficient_of_variation": 0.11062264396044025,
+        "max": 1601.586192,
+        "mean": 1452.3038996666667,
+        "median": 1525.994953,
+        "min": 1229.330554,
+        "p95": 1601.586192,
+        "population_stddev": 160.6576972151846
+      },
+      "kv_allocation_mib": 29.25,
+      "probe_sha256": "989e0d48d47dfa650a98528f38327b65b5de794beb9c410262629239d9b8ff54",
+      "readiness_ms": 2532.65398,
+      "recipe_sha256": "919fc9025551c601046606e407e8fdebc88d70e3302e9b6e69d2407684c963d7",
+      "reference_prediction_mismatches": 0,
+      "requests_per_second": 0.6884123764863394,
+      "server_process_cpu": {
+        "average_cores_used": 3.969844704404557,
+        "clock_ticks_per_second": 100,
+        "pid": 2500,
+        "seconds_per_request": 5.766666666666667,
+        "system_seconds": 0.02,
+        "system_ticks": 2,
+        "total_seconds": 17.3,
+        "total_ticks": 1730,
+        "user_seconds": 17.28,
+        "user_ticks": 1728
+      },
+      "server_stderr_sha256": "5bcb2816368c9053b06f7cd36daaa6f233ae0485014fc2220a31a7b17b7de432",
+      "supported": true,
+      "total": 3
+    },
+    "q8_0_q8_0": {
+      "answers": {
+        "arithmetic-02": "C",
+        "logic-01": "C",
+        "systems-04": "B"
+      },
+      "correct": 3,
+      "http_ms": {
+        "coefficient_of_variation": 0.10169757451586346,
+        "max": 1597.42276,
+        "mean": 1461.8185036666666,
+        "median": 1533.155954,
+        "min": 1254.876797,
+        "p95": 1597.42276,
+        "population_stddev": 148.66339620530886
+      },
+      "kv_allocation_mib": 55.25,
+      "probe_sha256": "9644b04326ccf7938e9c9d7f4619c8136adaeced43e9a5c9779978bf72a21f3d",
+      "readiness_ms": 2531.725608,
+      "recipe_sha256": "62f4cc567df799069eb50da776b8edca0ddf6721435fb55814fbc26aa7c4c5b9",
+      "reference_prediction_mismatches": 0,
+      "requests_per_second": 0.6839252412398389,
+      "server_process_cpu": {
+        "average_cores_used": 3.9394093895414724,
+        "clock_ticks_per_second": 100,
+        "pid": 2462,
+        "seconds_per_request": 5.760000000000001,
+        "system_seconds": 0.01,
+        "system_ticks": 1,
+        "total_seconds": 17.28,
+        "total_ticks": 1728,
+        "user_seconds": 17.27,
+        "user_ticks": 1727
+      },
+      "server_stderr_sha256": "dfcf8e4c369dad80f99a522d3e475ca2786b3501abd5199d2d5fc8d8783d20ef",
+      "supported": true,
+      "total": 3
+    }
+  },
+  "claim_boundary": "E17a establishes only native API, launch, request, and allocation compatibility for three frozen 1K single-slot cache pairs. Its three-task answers and timings are diagnostic. It makes no long-context, serving-density, quality-robustness, performance, energy, PMU, local-device, fleet, or cost claim.",
+  "contract_sha256": "c59e527ff3b8f51c5ad2b404b64b4d18f7dff2619a84411d515682bbb0da1e0a",
+  "decision": {
+    "long_context_successor_allowed": true,
+    "quality_or_performance_promotion_made": false,
+    "selection_basis": "structural API compatibility and KV allocation only",
+    "supported_quantized_configurations": [
+      "q8_0_q8_0",
+      "q4_0_q4_0"
+    ]
+  },
+  "experiment_id": "E17a",
+  "first_failure": {
+    "artifact_digest": "sha256:a3c09e979f6f49a1948d9d2979585db3425b024d7ff80a93c74b81d3efefd487",
+    "artifact_id": "8872171485",
+    "artifact_name": "e17a-kv-v-cache-preflight-30855155720-1",
+    "configuration_attempts_started": 0,
+    "manifest_sha256": "f1a9d291cbd11fa799ff0371b719062bd815fb3416421cc16b16a4f0f7194190",
+    "repair": [
+      "create the already-frozen cell evidence directory before invocation",
+      "invoke the exact hash-bound cell runner through bash"
+    ],
+    "repository_commit": "ed1216673fc190d4f9a8534031ea8adb312f0326",
+    "run_attempt": 1,
+    "run_id": "30855155720"
+  },
+  "github": {
+    "artifact_digest": "sha256:a1aeb6c2748695c505a686306690c584c81fd0c4362a806d7d76559ba2a674bc",
+    "artifact_id": "8872697322",
+    "artifact_name": "e17a-kv-v-cache-preflight-30856539977-1",
+    "artifact_size_bytes": 13915578,
+    "job_id": "91828765128",
+    "repository_commit": "a8fa6c1c386bde7dc32c2c428ad077e3a1388381",
+    "run_attempt": 1,
+    "run_id": "30856539977",
+    "run_log_sha256": "c9d37eb149407c0b6e650307b0a8fd25435ab297f4e5e36bbe89d050c90550a3",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30856539977"
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "runtime": {
+    "artifact": {
+      "digest": "sha256:3d360aed5fd02abf5421c3a23309f1abda56bf5f96c0e406a5c13897c15aae70",
+      "id": "8838874234",
+      "name": "e9a-final-service-30764802071-1",
+      "run_id": "30764802071",
+      "size_bytes": 18440490,
+      "summary_sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d"
+    },
+    "closure": {
+      "build_root": "/tmp/llama.cpp-E9a-e7c-build",
+      "file_count": 8,
+      "files": [
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-base.so.0.18.0",
+          "relative_path": "bin/libggml-base.so.0.18.0",
+          "sha256": "385ec42f2273f6dc933525d764e41997ac2079e32281b8bc7e80b2b085ce1c7f",
+          "size_bytes": 873464
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-cpu.so.0.18.0",
+          "relative_path": "bin/libggml-cpu.so.0.18.0",
+          "sha256": "f4c5bed7edfd76c3b76294511364a6aa21e03663a2b711a671435021ee5687fd",
+          "size_bytes": 1160432
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml.so.0.18.0",
+          "relative_path": "bin/libggml.so.0.18.0",
+          "sha256": "71fc4e6473cdd6ecbf57307ff4d24fa3b81dd5daefae6732f1368a08b4e7b177",
+          "size_bytes": 78176
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-common.so.0.0.10216",
+          "relative_path": "bin/libllama-common.so.0.0.10216",
+          "sha256": "52c5cee8fbb4c6c0bf6f6f6da9e66db6bcaebbd95319527118e2525f5acef4c7",
+          "size_bytes": 5325720
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-server-impl.so",
+          "relative_path": "bin/libllama-server-impl.so",
+          "sha256": "0326e2a172e4cdb9db806072af408d4a70c4932c6bb86ab7729a9a31df582c8a",
+          "size_bytes": 6949024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama.so.0.0.10216",
+          "relative_path": "bin/libllama.so.0.0.10216",
+          "sha256": "de8d27fabd5162718e017505c780831670232a26b2a3c3665f730c038d19c7b8",
+          "size_bytes": 3937120
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libmtmd.so.0.0.10216",
+          "relative_path": "bin/libmtmd.so.0.0.10216",
+          "sha256": "4f34d7dbde6f5b238cd9a23d80c3b3519b3f6690664b4cd6faefdeb5d46b9397",
+          "size_bytes": 1461024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/llama-server",
+          "relative_path": "bin/llama-server",
+          "sha256": "e15e14bd5d4f86e09a79603862f52db841de758ecc21b2c476a2ba92cc8ee40e",
+          "size_bytes": 72488
+        }
+      ],
+      "ldd_output": "\tlinux-vdso.so.1 (0x0000fff7df88a000)\n\tlibllama-server-impl.so => /tmp/llama.cpp-E9a-e7c-build/bin/libllama-server-impl.so (0x0000fff7df220000)\n\tlibstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000fff7def90000)\n\tlibgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000fff7def50000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000fff7ded90000)\n\t/lib/ld-linux-aarch64.so.1 (0x0000fff7df840000)\n\tlibllama-common.so.0 => /tmp/llama.cpp-E9a-e7c-build/bin/libllama-common.so.0 (0x0000fff7de970000)\n\tlibmtmd.so.0 => /tmp/llama.cpp-E9a-e7c-build/bin/libmtmd.so.0 (0x0000fff7de820000)\n\tlibllama.so.0 => /tmp/llama.cpp-E9a-e7c-build/bin/libllama.so.0 (0x0000fff7de4e0000)\n\tlibggml.so.0 => /tmp/llama.cpp-E9a-e7c-build/bin/libggml.so.0 (0x0000fff7de4b0000)\n\tlibggml-base.so.0 => /tmp/llama.cpp-E9a-e7c-build/bin/libggml-base.so.0 (0x0000fff7de3d0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000fff7de320000)\n\tlibggml-cpu.so.0 => /tmp/llama.cpp-E9a-e7c-build/bin/libggml-cpu.so.0 (0x0000fff7de180000)\n\tlibgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000fff7de100000)\n",
+      "runtime_dependencies": [
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9a-e7c-build/bin/libllama-server-impl.so",
+          "resolved_path": "/tmp/llama.cpp-E9a-e7c-build/bin/libllama-server-impl.so"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libstdc++.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgcc_s.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgcc_s.so.1"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libc.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libc.so.6"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/ld-linux-aarch64.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9a-e7c-build/bin/libllama-common.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9a-e7c-build/bin/libllama-common.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9a-e7c-build/bin/libmtmd.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9a-e7c-build/bin/libmtmd.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9a-e7c-build/bin/libllama.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9a-e7c-build/bin/libllama.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9a-e7c-build/bin/libggml.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9a-e7c-build/bin/libggml.so.0.18.0"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9a-e7c-build/bin/libggml-base.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9a-e7c-build/bin/libggml-base.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libm.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libm.so.6"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9a-e7c-build/bin/libggml-cpu.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9a-e7c-build/bin/libggml-cpu.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgomp.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0"
+        }
+      ],
+      "schema_version": 1,
+      "server_path": "/tmp/llama.cpp-E9a-e7c-build/bin/llama-server",
+      "server_relative_path": "bin/llama-server",
+      "system_dependencies_excluded": true,
+      "total_size_bytes": 19857448
+    }
+  },
+  "schema_version": 1,
+  "second_failure": {
+    "artifact_digest": "sha256:b818da16524ce873ea61b90c4da23f34d3499965356f8b5cf9f97d19148e1f39",
+    "artifact_id": "8872425138",
+    "artifact_name": "e17a-kv-v-cache-preflight-30855793293-1",
+    "configuration_processes_ready": 3,
+    "manifest_sha256": "64f8fcf94506ddd76d5672b02e0a0e58656c2e754970023e9c46a86c50cb0737",
+    "measured_model_requests_completed": 0,
+    "repair": [
+      "load the unchanged stable 30-task reference prediction map",
+      "filter it to the three already-frozen E17a task IDs",
+      "call the unchanged E5b HTTP request engine with that exact subset"
+    ],
+    "repository_commit": "0945a8912790730d6a5d4b46a3f23592ab83ac30",
+    "run_attempt": 1,
+    "run_id": "30855793293"
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "path": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+  },
+  "status": "valid_quantized_v_compatibility_preflight",
+  "validation": {
+    "all_answers_and_failures_retained": true,
+    "exact_e9a_runtime_closure": true,
+    "exact_selected_model": true,
+    "first_failure_retained": true,
+    "flash_attention_on_for_all_configurations": true,
+    "fresh_process_per_configuration": true,
+    "native_arm64": true,
+    "request_cache_disabled": true,
+    "scientific_contract_changed_by_repair": false,
+    "scientific_contract_changed_by_second_repair": false,
+    "second_failure_retained": true,
+    "subset_adapter_hash_bound": true
+  },
+  "workflow_summary_sha256": "4ddada645113782a0833148358fbcc94aaa49d3c07c00fd27428ecb9e8a5cf75"
+}
