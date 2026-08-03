@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E10b-preflight",
+  "status": "blocked_probe_path_type",
+  "scope": "First native execution of the frozen E10b exact-token probability experiment; retained as a pre-measurement harness failure",
+  "provenance": {
+    "github_run_id": "30797017450",
+    "github_run_attempt": 1,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30797017450",
+    "git_commit": "e9b4a045657acf0c08089ca7dabf38da504b72c2",
+    "artifact": {
+      "id": 8849376252,
+      "name": "e10b-exact-token-probabilities-30797017450-1",
+      "size_bytes": 9137774,
+      "retention_days": 90,
+      "expires_at": "2026-11-01T09:20:32Z"
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "model_name": "Neoverse-N2",
+    "logical_cpus": 2,
+    "lscpu_sha256": "e5f7302f9882c8b4eca9892fce7bab78f37c49da0f8babcb23d2c2db5ed004bc"
+  },
+  "completed_checks": {
+    "frozen_input_hashes": true,
+    "native_architecture": true,
+    "exact_b10216_source": true,
+    "four_patch_source_diff": true,
+    "selected_model_hash": true,
+    "native_gcc_build": true,
+    "openssl_dependencies_absent": true,
+    "first_fresh_server_ready": true,
+    "measured_request_started": false
+  },
+  "runtime": {
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_tag": "b10216",
+    "source_diff_sha256": "8ab4ea8e4a7412ec24f0fa4ebf49a23745c58cf66b8cfb2e99ac0ca53c69be12",
+    "server_version": "10216 (876a43211)",
+    "compiler": "GNU 13.3.0 for Linux aarch64",
+    "build_elapsed_seconds": 213.94,
+    "cmake_cache_sha256": "61b72b943fa0887ce16762e899fa7d4fd6b5fea729b014590c2c29f4248f702a",
+    "build_commands_sha256": "560906ffa7baff8e462e89c89dafea35cd9b2f2123e15e9a8173da7032979621",
+    "runtime_closure_sha256": "bc3aa54349733b2793ea74fb6595d4a7cc950abc2b903819c0e4d8bdc5d941d2",
+    "runtime_closure_file_count": 8,
+    "runtime_closure_size_bytes": 19792856,
+    "first_server_ready_ms": 2528.899331,
+    "first_server_peak_rss_kib": 4267740
+  },
+  "blocker": {
+    "stage": "first full-vocabulary cell before warmup or measurement",
+    "exception": "AttributeError: 'str' object has no attribute 'read_text'",
+    "location": "experiments/e10b_probe.py:258",
+    "cause": "The shared JSON loader requires pathlib.Path, while the probe passed the frozen E10a contract path string directly.",
+    "failed_log_sha256": "97647dee77b085417b7dbc1f2aee4b2748d79b4e289598062b9a14af4c386ce8",
+    "acceptance_gates_observed": false,
+    "source_primitive_implicated": false
+  },
+  "decision": {
+    "classification": "recoverable harness representation defect",
+    "repair": "Convert the already frozen path string to pathlib.Path and add a regression test; do not change workload, ordering, repetitions, primitive, or acceptance gates.",
+    "retry_allowed": true
+  },
+  "claim_boundary": "This failure proves only that the first E10b harness revision passed native source, build, model, dependency, and readiness checks before a local path-type error prevented all measurements. It supports no primitive, performance, quality, energy, or other-runtime claim."
+}

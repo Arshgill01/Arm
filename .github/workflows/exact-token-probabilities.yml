@@ -8,7 +8,7 @@ permissions:
 
 env:
   CONTRACT_PATH: experiments/e10b_contract.json
-  CONTRACT_SHA256: 3ca4c1f5f0f86faf7d3014bcec07ea83ea9a53ed845751b3e15e43bb3cfb7ae6
+  CONTRACT_SHA256: 58afef5cc26aebf52c65581ced0700f9f09915a6d52bcd49d4940d19d2dc01cd
   SELECTED_CANDIDATE: ministral3_3b_q4_k_m
 
 jobs:

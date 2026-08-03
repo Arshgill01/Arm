@@ -109,6 +109,15 @@ def model_vocab_size(origin: str, timeout: float) -> int:
     return n_vocab
 
 
+def load_prompt_construction(contract: dict[str, Any]) -> dict[str, Any]:
+    construction = load_object(Path(contract["inputs"]["e10a_contract_path"]))[
+        "prompt_construction"
+    ]
+    if not isinstance(construction, dict):
+        raise TypeError("E10a prompt construction is not an object")
+    return construction
+
+
 def extract_scores(
     response: dict[str, Any], mode: str, candidate_ids: list[int], n_vocab: int
 ) -> tuple[dict[str, float], int, list[int]]:
@@ -255,9 +264,7 @@ def main() -> int:
     tasks = load_object(args.tasks)
     task_by_id = {task["id"]: task for task in tasks["tasks"]}
     task = task_by_id[workload["task_id"]]
-    construction = load_object(contract["inputs"]["e10a_contract_path"])[
-        "prompt_construction"
-    ]
+    construction = load_prompt_construction(contract)
     timeout = float(workload["timeout_seconds"])
     recipe = solve_prefix_recipe(
         args.url,

@@ -6,12 +6,19 @@ import unittest
 from pathlib import Path
 
 from experiments.e10b_ingest import validate_raw_response
-from experiments.e10b_probe import extract_scores
+from experiments.e10b_probe import extract_scores, load_prompt_construction
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class E10bProbeTests(unittest.TestCase):
+    def test_prompt_construction_loads_frozen_path(self) -> None:
+        contract = json.loads((ROOT / "experiments/e10b_contract.json").read_text())
+        construction = load_prompt_construction(contract)
+        self.assertEqual(
+            construction["variant_markers"], ["alpha", "beta", "gamma", "delta"]
+        )
+
     def test_selected_scores_preserve_requested_order(self) -> None:
         response = {
             "completion_probabilities": [
