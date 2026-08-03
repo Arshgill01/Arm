@@ -1,0 +1,100 @@
+{
+  "artifact_validation": {
+    "all_extracted_regular_files_hashed": true,
+    "file_count": 69,
+    "inventory_sha256": "9e0bcbc62a21925aa08738f5e793459d814dadd45ce7a206c5e8ec3a521fc5e1",
+    "total_regular_file_bytes": 30215221
+  },
+  "claim_boundary": "The retained bytes are a successfully computed candidate matrix, but the frozen experiment remains invalid until exact metadata and statistics gates pass. This run provides no generated quantization, quality, service, energy, PMU, device, cost, or performance result.",
+  "completed_output": {
+    "command": [
+      "/tmp/llama.cpp-E12a-resume-build/bin/llama-imatrix",
+      "--model",
+      "/tmp/Pareto64-E12a-resume/models/Ministral-3-3B-Instruct-2512-BF16.gguf",
+      "--file",
+      "/home/runner/work/Arm/Arm/results/raw/e12a-resume-30847557186-1/calibration.txt",
+      "--in-file",
+      "/home/runner/work/Arm/Arm/results/raw/e12a-resume-30847557186-1/prior/imatrix.gguf",
+      "--output-file",
+      "/home/runner/work/Arm/Arm/results/raw/e12a-resume-30847557186-1/imatrix.gguf",
+      "--output-format",
+      "gguf",
+      "--ctx-size",
+      "512",
+      "--batch-size",
+      "512",
+      "--ubatch-size",
+      "128",
+      "--threads",
+      "4",
+      "--chunk",
+      "24",
+      "--chunks",
+      "8",
+      "--output-frequency",
+      "8",
+      "--no-ppl",
+      "--parse-special"
+    ],
+    "metadata_observed": false,
+    "path": "imatrix.gguf",
+    "process": {
+      "elapsed": "1:16:00",
+      "exit_status": 0,
+      "maximum_rss_kib": 7162400,
+      "percent_cpu": "398%"
+    },
+    "sha256": "2338867f1b51341e02d0f63ca4d7281731a94b0738d80413476581ae991a1548",
+    "size_bytes": 3010048,
+    "statistics_observed": false
+  },
+  "contract_sha256": "a46af4ddc89680006133dd2666e4d0097d277b1db06ac2db06685fb7426d6941",
+  "decision": {
+    "complete_imatrix_accepted": false,
+    "failed_run_rehabilitated": false,
+    "generated_quant_dispatch_allowed": false,
+    "matrix_recomputation_allowed": false,
+    "separately_frozen_inspection_only_recovery_allowed": true
+  },
+  "experiment_id": "E12a-resume",
+  "experiment_result_valid": false,
+  "failure": {
+    "cause": "The resumed matrix process exited successfully and wrote its final GGUF. The following llama-imatrix --show-statistics invocation omitted the required --model argument, so the step failed before statistics and metadata validation.",
+    "exception": "error: --model is required",
+    "repair_boundary": "A separately frozen successor may download the exact retained artifact, rebuild the exact native tool, download the exact BF16 model, add only the required --model argument to the statistics-only invocation, and dump metadata. It may not recompute or modify the matrix.",
+    "stage": "post-compute statistics inspection"
+  },
+  "github": {
+    "artifact_digest": "sha256:b5590336f79101eba00e18fa1d2bfd2c52173e437b9fc28a4d0ba2cc3394ffc2",
+    "artifact_id": "8871558287",
+    "artifact_name": "e12a-resume-30847557186-1",
+    "artifact_size_bytes": 12151900,
+    "job_id": "91799481977",
+    "repository_commit": "f3321bde74570de141266b111af364e7ea3722af",
+    "run_attempt": 1,
+    "run_id": "30847557186",
+    "run_log_sha256": "ee5f3e23b72f527b35e876396d9f1cff3b150f681f7d269d24c71f34925b7198",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30847557186"
+  },
+  "inspection_completed": false,
+  "matrix_compute_completed": true,
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "schema_version": 1,
+  "status": "invalid_postcompute_statistics_invocation_failure"
+}

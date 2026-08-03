@@ -1,0 +1,185 @@
+{
+  "acceptance": {
+    "minimum_imatrix_entries": 1,
+    "process_exit_status": 0,
+    "require_checkpoint_hash_match": true,
+    "require_checkpoint_load_log": true,
+    "require_chunk_skip_log": true,
+    "require_corpus_hash_match": true,
+    "require_exact_artifact_inventory": true,
+    "require_fresh_source_build_model": true,
+    "require_gguf_metadata": true,
+    "require_hash_unchanged_after_inspection": true,
+    "require_model_hash_match": true,
+    "require_original_command_and_successful_process": true,
+    "require_source_and_build_closure": true,
+    "require_statistics_capture": true,
+    "require_statistics_tensor_count": true,
+    "required_architecture": "aarch64",
+    "required_checkpoint_chunks": 24,
+    "required_chunk_count": 32,
+    "required_chunk_size": 512,
+    "required_final_chunks": 32,
+    "required_final_sha256": "2338867f1b51341e02d0f63ca4d7281731a94b0738d80413476581ae991a1548",
+    "required_final_size_bytes": 3010048,
+    "required_imatrix_entries": 182,
+    "required_new_chunks": 8
+  },
+  "build": {
+    "cmake_arguments": [
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DGGML_CPU_KLEIDIAI=ON",
+      "-DGGML_LTO=OFF",
+      "-DGGML_NATIVE=ON",
+      "-DLLAMA_BUILD_SERVER=OFF",
+      "-DLLAMA_BUILD_TESTS=OFF",
+      "-DLLAMA_CURL=OFF",
+      "-DLLAMA_OPENSSL=OFF"
+    ],
+    "forbidden_dynamic_dependency_basenames": [
+      "libcrypto.so.3",
+      "libssl.so.3"
+    ],
+    "runner": "ubuntu-24.04-arm",
+    "targets": [
+      "llama-imatrix",
+      "llama-quantize"
+    ]
+  },
+  "claim_boundary": "A pass accepts only the exact already-computed application-conditioned importance matrix under the original gates. It is not a new calibration run and provides no generated quantization, model quality, service, energy, PMU, local-device, fleet, or cost result.",
+  "decision": {
+    "failed_run_rehabilitated": false,
+    "failure_rule": "Retain any artifact, hash, inventory, native platform, source, build, model, original-command, metadata, chunk-count, entry-set, statistics, or post-inspection hash failure. Never recompute the matrix in this lane.",
+    "inspection_success_authorizes_generated_quant_successor": true
+  },
+  "experiment_id": "E12a-inspection-recovery",
+  "hypothesis": "The exact hash-bound GGUF written by the successful 24-to-32 chunk continuation satisfies the original metadata and tensor-statistics gates.",
+  "inputs": {
+    "failure_manifest_path": "results/manifests/e12a-resume-30847557186.json",
+    "failure_manifest_sha256": "3683f835d08b6e0334377ae0f82ad141dd6264ee905fb4d5f4da35e81e9497aa",
+    "failure_retainer_path": "experiments/e12a_resume_inspection_failure_retain.py",
+    "failure_retainer_sha256": "b4664f9985a130b779a8c3e76389b2e2b1ec37672820897c3f49b0da6c4883fd",
+    "freeze_path": "experiments/e12a_inspection_recovery_freeze.py",
+    "freeze_sha256": "7699bf3fffd90ea3bb01cef645905765a0b5e43f2c40f57ddcb41fd38b9713be",
+    "ingest_path": "experiments/e12a_inspection_recovery_ingest.py",
+    "ingest_sha256": "b7f4fc91076aede271540875c5ea0636f6af295fff8376168394214b73e4daf5",
+    "resume_contract_path": "experiments/e12a_resume_contract.json",
+    "resume_contract_sha256": "a46af4ddc89680006133dd2666e4d0097d277b1db06ac2db06685fb7426d6941",
+    "test_path": "tests/test_e12a_inspection_recovery.py",
+    "test_sha256": "8de0304ec0a6ce3d17f2f8a6b7603925da4db57bdbfdb695ac4121201472b9a4"
+  },
+  "inspection": {
+    "matrix_mutation_allowed": false,
+    "matrix_recomputation_allowed": false,
+    "metadata_dump": "gguf-py gguf_dump --json --json-array",
+    "metadata_dump_python": "Python 3.10 with numpy==2.2.6",
+    "require_read_only_mode": true,
+    "require_sha256_before_and_after": true,
+    "statistics_argv_after_binary": [
+      "--model",
+      "MODEL_PATH",
+      "--in-file",
+      "MATRIX_PATH",
+      "--show-statistics",
+      "--ctx-size",
+      "512",
+      "--threads",
+      "4"
+    ]
+  },
+  "model": {
+    "license": "Apache-2.0",
+    "path": "Ministral-3-3B-Instruct-2512-BF16.gguf",
+    "provenance": "Exact LFS SHA-256 and size from the Hugging Face model API at the pinned revision",
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "sha256": "413b0d1fa42c2656f6c61aab88171191fc2df2d07427d82b047c89ac977bc266",
+    "size_bytes": 6866220032
+  },
+  "prerequisite": {
+    "artifact_digest": "sha256:b5590336f79101eba00e18fa1d2bfd2c52173e437b9fc28a4d0ba2cc3394ffc2",
+    "artifact_id": "8871558287",
+    "artifact_name": "e12a-resume-30847557186-1",
+    "artifact_size_bytes": 12151900,
+    "artifact_validation": {
+      "all_extracted_regular_files_hashed": true,
+      "file_count": 69,
+      "inventory_sha256": "9e0bcbc62a21925aa08738f5e793459d814dadd45ce7a206c5e8ec3a521fc5e1",
+      "total_regular_file_bytes": 30215221
+    },
+    "completed_output": {
+      "command": [
+        "/tmp/llama.cpp-E12a-resume-build/bin/llama-imatrix",
+        "--model",
+        "/tmp/Pareto64-E12a-resume/models/Ministral-3-3B-Instruct-2512-BF16.gguf",
+        "--file",
+        "/home/runner/work/Arm/Arm/results/raw/e12a-resume-30847557186-1/calibration.txt",
+        "--in-file",
+        "/home/runner/work/Arm/Arm/results/raw/e12a-resume-30847557186-1/prior/imatrix.gguf",
+        "--output-file",
+        "/home/runner/work/Arm/Arm/results/raw/e12a-resume-30847557186-1/imatrix.gguf",
+        "--output-format",
+        "gguf",
+        "--ctx-size",
+        "512",
+        "--batch-size",
+        "512",
+        "--ubatch-size",
+        "128",
+        "--threads",
+        "4",
+        "--chunk",
+        "24",
+        "--chunks",
+        "8",
+        "--output-frequency",
+        "8",
+        "--no-ppl",
+        "--parse-special"
+      ],
+      "metadata_observed": false,
+      "path": "imatrix.gguf",
+      "process": {
+        "elapsed": "1:16:00",
+        "exit_status": 0,
+        "maximum_rss_kib": 7162400,
+        "percent_cpu": "398%"
+      },
+      "sha256": "2338867f1b51341e02d0f63ca4d7281731a94b0738d80413476581ae991a1548",
+      "size_bytes": 3010048,
+      "statistics_observed": false
+    },
+    "failure_manifest_sha256": "3683f835d08b6e0334377ae0f82ad141dd6264ee905fb4d5f4da35e81e9497aa",
+    "job_id": "91799481977",
+    "repository_commit": "f3321bde74570de141266b111af364e7ea3722af",
+    "run_attempt": 1,
+    "run_id": "30847557186"
+  },
+  "schema_version": 1,
+  "source": {
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "patches": [
+      {
+        "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      }
+    ],
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "tag": "b10216",
+    "tools": [
+      "llama-imatrix",
+      "llama-quantize"
+    ]
+  },
+  "state": "frozen after the post-compute statistics failure was retained and before observing the completed matrix's metadata or statistics",
+  "title": "Inspection-only recovery of exact completed E12a matrix bytes"
+}
