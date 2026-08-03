@@ -8,6 +8,13 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Product
 
+- Retained E9e as a premeasurement stop. Exact b10216's draft initializer
+  loads the target path, all 240 frozen E9a completions contain only two
+  generated tokens, and LLM-Runner's independent backends cannot consume the
+  selected GGUF Q4_K_M identity. License and storage checks passed, but the
+  required mechanism, comparability, and workload gates failed, so no
+  speculative or cross-runtime benchmark was launched.
+
 - Retained E9d as an honest strict-sanitizer rejection. The exact unpublished
   mail series passed native GCC 14, Clang 18, and both forced feature builds,
   but strict UBSan stopped an upstream quantizer test. A pristine b10216

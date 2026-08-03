@@ -109,6 +109,9 @@ EXPECTED_HASHES = {
     "results/manifests/e9d-30773922751.json": (
         "c6b29cf315cb921974cba1b1ea182014627ea74a053f8af9e6728201a72e6153"
     ),
+    "results/manifests/e9e-feasibility.json": (
+        "35fb97a6b96e0cc8532ddf670e723e9a6b6cf2a0a628c303a5dab710505ffac2"
+    ),
     "patches/llama.cpp/pr-ready/b10216/0000-cover-letter.patch": (
         "9760fe1bd38d9e897ea98e4afc1c638bf1642869c710f3fc0f0a32ea9bdbdf3d"
     ),
@@ -1512,6 +1515,46 @@ def main() -> int:
         is not False
     ):
         raise ValueError("E9d local patch-series contract changed after freeze")
+
+    feasibility = load_object(ROOT / "results/manifests/e9e-feasibility.json")
+    feasibility_gates = feasibility.get("gates", {})
+    if (
+        feasibility.get("experiment_id") != "E9e"
+        or feasibility.get("status") != "no_measured_experiment_launched"
+        or feasibility.get("decision") != "stop_before_measurement"
+        or feasibility_gates.get("all_required_for_measurement") is not False
+        or feasibility_gates.get("mechanism_sound_on_exact_runtime") is not False
+        or feasibility_gates.get("exact_model_comparable") is not False
+        or feasibility_gates.get("quality_contract_meaningful_for_mechanism")
+        is not False
+        or feasibility_gates.get("license_and_provenance_sound") is not True
+        or feasibility.get("measurement", {}).get("launched") is not False
+        or feasibility.get("measurement", {}).get(
+            "native_performance_claim_added"
+        )
+        is not False
+        or feasibility.get("selected_service", {})
+        .get("runtime", {})
+        .get("commit")
+        != "876a4321163249c43ca4e986818fab5ab081f282"
+        or feasibility.get("selected_service", {})
+        .get("model", {})
+        .get("sha256")
+        != "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4"
+        or feasibility.get("selected_service", {})
+        .get("generated_tokens", {})
+        .get("unique")
+        != [2]
+        or feasibility.get("speculative_decoding", {})
+        .get("draft_model_initializer", {})
+        .get("loads_requested_draft_path")
+        is not False
+        or feasibility.get("llm_runner", {}).get("model_comparability")
+        is not False
+        or feasibility.get("validation", {}).get("energy_claim_allowed")
+        is not False
+    ):
+        raise ValueError("E9e feasibility stop changed or gained a measurement")
 
     local_assets = verify_demo()
     print("Pareto64 submission verification passed")

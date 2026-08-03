@@ -65,7 +65,7 @@ the hot path, not a whole-model speedup.”
 
 ## 2:08–2:32 — Exact serving
 
-**Screen:** Show the E5b through E9c rows and final comparison, then the terminal.
+**Screen:** Show the E5b through E9e rows and final comparison, then the terminal.
 
 ```bash
 python3 scripts/verify_submission.py

@@ -1,0 +1,137 @@
+{
+  "assessed_at_utc": "2026-08-03T00:46:40Z",
+  "decision": "stop_before_measurement",
+  "experiment_id": "E9e",
+  "gates": {
+    "all_required_for_measurement": false,
+    "exact_model_comparable": false,
+    "license_and_provenance_sound": true,
+    "mechanism_sound_on_exact_runtime": false,
+    "native_arm_runner_available_if_qualified": true,
+    "quality_contract_meaningful_for_mechanism": false,
+    "storage_preflight_passed": true
+  },
+  "inspection": {
+    "available_storage_gib": 20,
+    "large_model_download_started": false,
+    "scratch_source_bytes_approximate": 233832448
+  },
+  "llm_runner": {
+    "backend_pins": {
+      "executorch": "v1.2.0",
+      "llama_cpp": "b7870",
+      "mnn": "3.6.0",
+      "onnxruntime": "v1.24.2",
+      "onnxruntime_genai": "v0.12.0"
+    },
+    "commit": "8ba39e40fa754b87deb99a998c31de3b850094d5",
+    "exact_ministral_configuration_present": false,
+    "exact_q4_k_m_portable_to_non_llama_backend": false,
+    "framework_model_configurations": [
+      "executorchTextConfig-llama-3.2-1B.json",
+      "llamaTextConfig-llama-3.2-1B.json",
+      "llamaTextConfig-phi-2.json",
+      "llamaVisionConfig-qwen2-vl-2B.json",
+      "mnnTextConfig-llama-3.2-1B.json",
+      "mnnVisionConfig-qwen2.5-3B.json",
+      "mnnVisionConfig-qwen3.5-2B.json",
+      "onnxrtTextConfig-llama-3.2-1B.json",
+      "onnxrtTextConfig-phi-4.json"
+    ],
+    "license_files": [
+      "LICENSES/Apache-2.0.txt",
+      "LICENSES/BSD-3-Clause.txt"
+    ],
+    "model_comparability": false,
+    "non_llama_backend_reason": "The non-llama backends require their own exported artifacts; none consumes the selected GGUF Q4_K_M byte stream or preserves its exact quantization identity.",
+    "readme_sha256": "b03324d1024bc0310b03828ca35484c05b4899603ec646387163a7317116c521",
+    "same_llama_backend_is_independent_runtime": false,
+    "source_url": "https://github.com/Arm-Examples/LLM-Runner/tree/8ba39e40fa754b87deb99a998c31de3b850094d5"
+  },
+  "measurement": {
+    "launched": false,
+    "native_performance_claim_added": false,
+    "reason": "The premeasurement mechanism, exact-model-comparability, and workload-fit gates did not all pass."
+  },
+  "official_model_artifacts": {
+    "gguf": {
+      "license": "Apache-2.0",
+      "repository": "mistralai/Ministral-3-3B-Instruct-2512-GGUF",
+      "revision_observed": "eb599d408350ea2bb60452cb86be7c7b2fc28227",
+      "selected_artifact_identical": false
+    },
+    "onnx": {
+      "exact_selected_q4_k_m_semantics": false,
+      "license": "Apache-2.0",
+      "public_and_ungated": true,
+      "repository": "mistralai/Ministral-3-3B-Instruct-2512-ONNX",
+      "revision_observed": "e1128d389145f96bb1c3c2625cb8ca255ffa7034"
+    }
+  },
+  "schema_version": 1,
+  "scope": "Tightly bounded premeasurement feasibility study of speculative decoding or an independent LLM-Runner backend for the exact final E7c service.",
+  "selected_service": {
+    "e9a_manifest": {
+      "path": "results/manifests/e9a-30764802071.json",
+      "sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d"
+    },
+    "generated_tokens": {
+      "maximum": 2,
+      "minimum": 2,
+      "retained_sample_count": 240,
+      "unique": [
+        2
+      ]
+    },
+    "model": {
+      "file": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "license": "Apache-2.0",
+      "producer": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+      "producer_revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+      "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "size_bytes": 2146497824,
+      "source_model": "mistralai/Ministral-3-3B-Instruct-2512",
+      "source_revision": "b35d4dfe56c142746f54dbd64f579faab2744308"
+    },
+    "quality": {
+      "accuracy": 0.7666666666666667,
+      "admission_contract_changed": false,
+      "maximum_output_tokens": 8,
+      "selected_correct_tasks": 23,
+      "tasks": 30
+    },
+    "runtime": {
+      "aggregate_patch_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+      "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "tag": "b10216"
+    }
+  },
+  "speculative_decoding": {
+    "compatible_official_ministral_draft_identified": false,
+    "draft_model_initializer": {
+      "loads_requested_draft_path": false,
+      "observed_load_expression": "llama_model_load_from_file(params.model.path.c_str(), mparams)",
+      "requested_draft_path_expression": "params.speculative.draft.mparams.path",
+      "source_line_url": "https://github.com/ggml-org/llama.cpp/blob/876a4321163249c43ca4e986818fab5ab081f282/common/speculative.cpp#L2331-L2338",
+      "untouched_by_retained_patch_series": true
+    },
+    "exact_source_files": {
+      "common/arg.cpp": "89a36149e136d410e5bff3379804cf6422a56340169cdf70db16da0be25d01e2",
+      "common/speculative.cpp": "b09a03c21b78850191bb6fb19f1db9e8e1655960a761911942eb3f390dfe46c7",
+      "docs/speculative.md": "36fb57a62b0cc231a26728d28585a53d28601c9f2de8013dab110698e3a474d9"
+    },
+    "model_specific_speculator_for_exact_target_identified": false,
+    "ngram_implementation_present": true,
+    "ngram_workload_fit": false,
+    "ngram_workload_reason": "All 240 retained E9a completions contain exactly two generated tokens, leaving no meaningful multi-token draft/verification window. Replacing the frozen acceptance workload with long-form generation would change the quality contract.",
+    "source_documentation_url": "https://github.com/ggml-org/llama.cpp/blob/876a4321163249c43ca4e986818fab5ab081f282/docs/speculative.md"
+  },
+  "status": "no_measured_experiment_launched",
+  "validation": {
+    "energy_claim_allowed": false,
+    "hosted_runner_pmu_claim_allowed": false,
+    "model_conversion_equivalence_assumed": false,
+    "result_cherry_picked": false,
+    "single_mechanism_performance_claim_allowed": false
+  }
+}

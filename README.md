@@ -131,6 +131,12 @@ test in upstream `test-quantize-fns`; the same failure reproduces on pristine
 b10216, while a non-gating lane excluding that one check passes all remaining
 ASan/UBSan/leak and reasoning tests. The strict result stays failed, so no
 sanitizer-clean or publication-readiness claim is made.
+E9e then stops the final speculative/cross-runtime fallback before measurement.
+Exact b10216 loads the target path in its draft-model initializer, the frozen
+service emits only two generated tokens per retained request, and LLM-Runner's
+independent backends cannot consume the selected GGUF Q4_K_M identity. License
+review passes, but mechanism, model-equivalence, and workload gates do not; no
+benchmark or portability claim is manufactured.
 
 ## Optimization map
 
@@ -155,6 +161,7 @@ preserved unless the row explicitly describes a rejected candidate.
 | Final compounded service | Earliest admitted E5b one-slot recipe | Exact E7c source/build/cache/context/batch/dependency recipe | **1.7168x** throughput; 0.5846x median latency; 0.5806x CPU seconds/request; exact answers in all eight cells | Accept the end-product delta; use isolated experiments for attribution |
 | Alternating-prefix cache boundary | Exact E7c cache off/on over 1, 2, or 4 prefixes and 16/32/64 shared tokens | Frozen 36-process generalization matrix | 1.9406x–2.4007x throughput ratios, but 252 reference mismatches and 12 paired cache-state mismatches | Disable all generalized policies; keep E5c workload boundary |
 | Unpublished patch-series hardening | Exact retained b10216 three-patch diff | Three-way mail replay, GCC 14, Clang 18, feature stress, strict and controlled sanitizers | Compiler lanes pass; strict UBSan failure reproduces on pristine b10216; non-gating scoped lane passes | Retain exact mail series; do not claim fully sanitizer-clean or publication-ready |
+| Speculative / cross-runtime feasibility | Exact E7c model, runtime, and 30-task workload | Preflight exact mechanism, model identity, workload fit, licenses, and storage | License/storage pass; exact-runtime draft loading, two-token completions, and non-portable backend artifacts fail required gates | Stop before measurement; add no performance or portability claim |
 
 Rejected variants remain visible: two server slots, cached two-slot serving,
 q4_0 KV, batch 32, Flash Attention, lower thread counts, and LTO all missed at
@@ -228,12 +235,13 @@ repack flag that conflicts with the plan is refused.
 | [E9b preflight](results/reports/e9b-holdout-preflight-blocker.md) | Exact E7c built and tokenizer parity passed, but b10216 cannot return the echoed prompt logprobs required by lm-eval; no external task result was observed |
 | [E9c](results/reports/e9c-prompt-cache-generalization.md) | All cache/performance gates passed across the bounded alternating-prefix matrix, but output regression disabled every generalized cache policy |
 | [E9d](results/reports/e9d-pr-ready-patch-series.md) | Exact unpublished mail series passed GCC/Clang and feature lanes; strict UBSan failure reproduced on pristine b10216, so sanitizer-clean readiness remains rejected |
+| [E9e](results/reports/e9e-speculative-cross-runtime-feasibility.md) | Bounded source/model/workload review failed three premeasurement gates; no speculative or cross-runtime benchmark was launched |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
 The E5f through E5j, E6d through E6i, E7a through E7c, and E9a/E9c results are
 retained under their exact frozen contracts and independently re-ingested byte
-for byte.
+for byte. E9e separately retains its reproducible premeasurement stop record.
 
 ## Repository map
 

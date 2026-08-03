@@ -739,9 +739,24 @@
             <span class="evidence-result select-text">Final win</span>
           </li>
           <li>
+            <span class="evidence-id">E9b</span>
+            <div><strong>Independent holdout preflight</strong><p>Exact E7c passed tokenizer parity, but its API could not return required echoed prompt logprobs; no task result was observed.</p></div>
+            <span class="evidence-result reject-text">Blocked safely</span>
+          </li>
+          <li>
             <span class="evidence-id">E9c</span>
             <div><strong>Alternating-prefix boundary</strong><p>All performance gates passed, but 252 reference mismatches disabled every generalized cache policy.</p></div>
             <span class="evidence-result reject-text">Bounded</span>
+          </li>
+          <li>
+            <span class="evidence-id">E9d</span>
+            <div><strong>Unpublished patch-series hardening</strong><p>GCC and Clang passed; strict UBSan reproduced an inherited upstream test mismatch on pristine b10216.</p></div>
+            <span class="evidence-result reject-text">Not PR-ready</span>
+          </li>
+          <li>
+            <span class="evidence-id">E9e</span>
+            <div><strong>Speculative / cross-runtime feasibility</strong><p>Mechanism, exact-model, and two-token workload gates failed, so no benchmark was launched.</p></div>
+            <span class="evidence-result reject-text">Stopped before run</span>
           </li>
         </ol>
 
@@ -826,6 +841,15 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e9a-final-service-comparison.md">
           Final service comparison
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e9b-holdout-preflight-blocker.md">
+          Holdout API blocker
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e9d-pr-ready-patch-series.md">
+          Patch-series hardening
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e9e-speculative-cross-runtime-feasibility.md">
+          Feasibility stop
         </a>
       </div>
     </footer>

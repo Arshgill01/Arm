@@ -1737,3 +1737,23 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Artifact `e9d-pr-ready-patches-30773922751-1` (ID `8841707316`, 107,544
   compressed bytes) is retained through 2026-11-01. Independent local ingest
   reproduced the summary byte for byte at SHA-256 `c6b29cf3…e6153`.
+
+## 2026-08-03 — E9e feasibility stopped before measurement
+
+- Inspected exact llama.cpp b10216 (`876a4321…f282`). Its draft initializer
+  records `params.speculative.draft.mparams.path` but calls the loader with
+  `params.model.path`; the file is untouched by the retained three-patch series.
+- No compatible official Ministral 3 draft/model-specific speculator was found
+  in the inspected exact documentation. The model-free n-gram path exists, but
+  all 240 retained E9a completions contain exactly two generated tokens, so the
+  frozen workload provides no meaningful draft/verification window.
+- Inspected Arm LLM-Runner `8ba39e40…94d5`. None of its nine checked-in model
+  configurations covers Ministral. Non-llama backends require different model
+  exports and cannot consume the exact selected GGUF Q4_K_M; the llama backend
+  is not an independent runtime.
+- Official Ministral GGUF and ONNX repositories are Apache-2.0, and LLM-Runner
+  retains Apache-2.0/BSD-3-Clause license texts. The license gate passed. A
+  20-GiB storage preflight passed and no large model download was started.
+- Mechanism, exact-model-comparability, and quality-workload gates failed. E9e
+  is retained as `no_measured_experiment_launched`; no Arm runner, performance,
+  energy, PMU, cost, or portability claim was used.

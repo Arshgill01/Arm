@@ -21,6 +21,7 @@ No headline result is accepted until the experiment contract in
 | E9a | How much better is the exact final service than the earliest admitted deployable service? | Historical E5b one-slot recipe versus exact E7c HTTP recipe | Four reverse-balanced fresh-process repetitions preserve every answer and dependency boundary; final reaches ≥1.25x throughput and ≤0.85x latency/CPU ratios |
 | E9c | When does request-level prompt caching remain worthwhile as prefixes alternate? | Exact E7c one-slot service with 1, 2, or 4 prefixes sharing 16, 32, or 64 tokens | All nine predeclared points preserve exact outputs and expose scheduler noise; only points clearing every frozen throughput/encode/p95/CPU gate enter the bounded policy |
 | E9d | Is the retained three-patch b10216 diff ready for local upstream review across compilers and sanitizers? | Exact unpublished three-commit mail series | `git am --3way` reproduces the retained diff; native GCC, native Clang, forced feature selection, and targeted ASan+UBSan correctness all pass |
+| E9e | Is speculative decoding or an independent LLM-Runner backend ready for a defensible final-service experiment? | Exact E7c runtime, model, and quality workload | License/provenance, runtime mechanism, exact-model comparability, and meaningful quality-workload gates all pass before any measurement starts |
 | E7 | Is the whole project reproducible and judge-readable? | Clean native Arm job | One command emits manifest, raw data, summary, Pareto front, and demo assets |
 
 ## E2 frozen protocol
@@ -1377,6 +1378,34 @@ feature-stress, ASan, leak, reasoning, and supplemental scoped-UBSan check, but
 the unchanged strict gate still failed. E9d closes as
 `invalid_pr_ready_patch_series`; the unpublished mail series is retained
 without a sanitizer-clean or publication-readiness claim.
+
+## E9e bounded speculative / cross-runtime feasibility
+
+E9e is the final ordered fallback and is explicitly premeasurement. A measured
+job is allowed only if four gates pass together: compatible licenses and pinned
+provenance, a sound mechanism on the exact E7c runtime, exact or separately
+quality-qualified model comparability, and a workload that makes the mechanism
+meaningful without changing the 30-task admission contract.
+
+Source inspection stops both candidate lanes. Exact llama.cpp b10216 stores and
+logs the requested draft path but loads `params.model.path`; this source is
+outside the retained patch series. No compatible official Ministral 3 draft or
+model-specific speculator was identified in the inspected exact documentation.
+The model-free n-gram path exists, but all 240 retained E9a completions contain
+exactly two generated tokens, so the frozen workload provides no meaningful
+multi-token draft/verification window.
+
+Arm LLM-Runner commit `8ba39e40…94d5` has no Ministral model configuration.
+Its non-llama backends require separate exported artifacts and cannot consume
+the selected GGUF Q4_K_M identity; its llama backend would be the same runtime
+behind a wrapper. The official Ministral ONNX export is Apache-2.0 and public,
+but it is not the selected Q4_K_M artifact or proven output-equivalent.
+
+Licensing and storage gates pass, but mechanism, model-comparability, and
+workload gates fail. No model download, runner job, or performance measurement
+is launched. The stop decision and exact hashes are retained in the
+[`manifest`](../results/manifests/e9e-feasibility.json) and
+[`report`](../results/reports/e9e-speculative-cross-runtime-feasibility.md).
 
 ## E4a frozen accept-backlog tuner
 

@@ -6,7 +6,8 @@ logical CPUs, while E9a's same-job final comparison used two. No absolute rate
 is compared across those topologies. Each compact manifest is generated from
 raw evidence by a fail-closed ingester. Raw artifacts are retained for 90 days
 by the linked public workflow run; compact manifests and reports are committed
-permanently.
+permanently. E9e is a source/model/workload feasibility stop, so it has no
+native run or performance artifact.
 
 | Claim | Native run | Compact evidence | SHA-256 |
 | --- | --- | --- | --- |
@@ -47,6 +48,7 @@ permanently.
 | External-holdout exact-server API blocker | [E9b preflight `30766707967`](https://github.com/Arshgill01/Arm/actions/runs/30766707967) | [`blocker` manifest](../results/manifests/e9b-preflight-30766707967.json) · [`report`](../results/reports/e9b-holdout-preflight-blocker.md) | `9f654a9f…5162` |
 | Alternating-prefix cache generalization rejected on output | [E9c `30770403695`](https://github.com/Arshgill01/Arm/actions/runs/30770403695) | [`e9c` manifest](../results/manifests/e9c-30770403695.json) · [`report`](../results/reports/e9c-prompt-cache-generalization.md) | `29b075b6…eed4` |
 | Unpublished patch-series strict sanitizer rejection | [E9d `30773922751`](https://github.com/Arshgill01/Arm/actions/runs/30773922751) | [`e9d` manifest](../results/manifests/e9d-30773922751.json) · [`report`](../results/reports/e9d-pr-ready-patch-series.md) | `c6b29cf3…e6153` |
+| Speculative / cross-runtime premeasurement stop | Not launched: required gates failed | [`e9e` manifest](../results/manifests/e9e-feasibility.json) · [`report`](../results/reports/e9e-speculative-cross-runtime-feasibility.md) | `35fb97a6…ffac2` |
 | Public clean-checkout package validation | [`30766148919`](https://github.com/Arshgill01/Arm/actions/runs/30766148919) | 148 tests, 37 hashes including E9a, exact runtime/plan checks, demo smoke test | passed on native `aarch64` |
 
 ## Final selected package

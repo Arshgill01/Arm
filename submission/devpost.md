@@ -268,6 +268,18 @@ non-standalone answers, and 12 cache-state output mismatches. Pareto64 therefore
 disables all three generalized policies. The result does not rewrite E5c; it
 makes E5c's exact workload boundary explicit.
 
+The independent-holdout and final fallback lanes also stop honestly. E9b
+reached tokenizer parity against exact E7c, but b10216 could not return the
+echoed prompt logprobs required by the pinned lm-evaluation-harness API; no
+external task result was observed. E9d's unpublished three-patch mail series
+passed native GCC and Clang lanes, while strict UBSan reproduced an inherited
+test-function mismatch on pristine b10216, so publication readiness remains
+rejected. E9e then found no defensible speculative or cross-runtime measurement:
+the exact runtime's draft loader uses the target path, all frozen completions
+are only two tokens, and independent LLM-Runner backends cannot consume the
+selected GGUF Q4_K_M identity. No benchmark was launched after those gates
+failed.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -367,8 +379,9 @@ dominates every use case.
   beyond the proven Arm CPU lane to sanitizer, platform, and backend jobs;
 - expand the workload beyond the compact deterministic acceptance suite;
 - add cost and energy evidence on a host with available counters;
-- evaluate the same evidence contract across additional LLM-Runner backends;
-  and
+- evaluate additional LLM-Runner backends only after binding an exact or
+  separately quality-qualified model artifact and a genuinely independent
+  runtime; and
 - package more planner policies for common Graviton, Cobalt, Axion, and Ampere
   deployment envelopes.
 
