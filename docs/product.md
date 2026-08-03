@@ -298,6 +298,20 @@ remained under the frozen 15-second ceiling and is not discarded. The result
 validates the compounded end product only; E5c, E5e, E5f, E6f, and E7b remain
 authoritative for mechanism-specific interpretation.
 
+E16c adds an exact two-worker deployment tier without changing the default
+single-process recipe. On one native four-core Arm host, two workers mapping the
+same identity-bound read-only packed arena reduce summed PSS from 6,815,078 KiB
+to 4,723,364 KiB while retaining 1.00044x aggregate throughput and every exact
+answer. The tier is admitted only when the sidecar's model, source diff, CPU
+feature set, vector length, format, tensor layouts, and complete SHA-256 all
+match. It does not promise lower per-process RSS, cross-host portability, cold
+startup, energy, or fleet economics.
+
+The asymmetric scheduler remains experimental and disabled. E15b's strict
+two-CPU confirmation found only 1.00427x throughput for split 2/4 and exactly
+1.00000x CPU seconds/request, so it failed the predeclared efficiency gate and
+the product retains tied 4/4 thread pools.
+
 ## Select a measured service profile
 
 Model selection and service-profile selection are separate obligations. The

@@ -1829,6 +1829,44 @@ unmeasured. See the retained
 [`manifest`](../results/manifests/e16b-30842925537.json) and
 [`report`](../results/reports/e16b-repack-sidecar-loader.md).
 
+## E15b exact two-CPU scheduler confirmation
+
+E15a's four-CPU runner topology made its original two-logical-CPU contract
+invalid. E15b freezes a confirmatory comparison after disclosing those
+descriptive outcomes. It binds both server and client to the lowest two CPUs,
+captures every server thread's affinity before and after the workload, and
+compares only tied 4/4 with split 2/4 across six reverse-balanced pairs. The
+original E15a throughput, latency, encode, CPU, cache, quality, and dispersion
+gates remain unchanged.
+
+Native run `30851607665` completes all 12 processes with exact 23/30 predictions
+and zero failures. Split 2/4 reaches 1.00427x throughput, 0.99977x median
+latency, 0.99897x p95, and 1.00393x encode latency, but CPU seconds/request is
+exactly 1.00000x. It therefore fails the unchanged 0.98x CPU gate and is not
+promoted. See the retained
+[`manifest`](../results/manifests/e15b-30851607665.json) and
+[`report`](../results/reports/e15b-affinity-split-scheduler.md).
+
+## E16c frozen two-worker shared repack arena
+
+E16c advances only E16b's validated loader into the previously unmeasured
+multi-process boundary. Each cell launches two simultaneous workers. The
+baseline gives each worker a private runtime repack; the candidate maps one
+verified identity-bound sidecar read-only into both. Four reverse-balanced
+groups per configuration retain synchronized start skew, raw requests, process
+CPU, readiness, mappings, and post-workload RSS/PSS. Summed PSS is the primary
+memory metric because per-process RSS double-counts shared pages.
+
+Native run `30851609576` passes every gate. The shared configuration saves
+2,091,714 KiB of median summed PSS, reducing it to 0.69308x baseline, while
+retaining 1.00044x aggregate throughput, 0.99889x median latency, 1.00389x p95,
+and 0.99832x CPU/request. All 480 requests reproduce exact selected answers.
+Group readiness falls to 0.45641x. Summed RSS remains essentially unchanged,
+so no per-process RSS claim is permitted. The final sidecar re-verifies all 183
+tensors and is deleted before artifact upload. See the retained
+[`manifest`](../results/manifests/e16c-30851609576.json) and
+[`report`](../results/reports/e16c-shared-repack-arena.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server
