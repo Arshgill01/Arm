@@ -1721,3 +1721,19 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `-fno-sanitize=function` diagnostic. The latter cannot satisfy the unchanged
   strict sanitizer acceptance criterion. Revised contract SHA-256 is
   `0716dc06…b745`.
+
+## 2026-08-03 — E9d inherited sanitizer blocker confirmed
+
+- Native diagnostic run `30773922751` completed in 27m11s. All exact-series,
+  GCC 14, Clang 18, native-test, and feature-stress gates passed again.
+- The strict patched sanitizer lane reproduced only the function-type UBSan
+  failure; reasoning passed 13/13 and ASan/leak checks remained clean. The
+  pristine b10216 control reproduced the same upstream diagnostic and exit 1.
+- The predeclared non-gating lane excluding only UBSan `function` passed both
+  patched targets with ASan, leak detection, and remaining UBSan checks clean.
+  It did not change the strict acceptance result.
+- E9d closes as `invalid_pr_ready_patch_series`; no upstream PR was opened and
+  no sanitizer-clean, later-source, full-matrix, or performance claim is made.
+- Artifact `e9d-pr-ready-patches-30773922751-1` (ID `8841707316`, 107,544
+  compressed bytes) is retained through 2026-11-01. Independent local ingest
+  reproduced the summary byte for byte at SHA-256 `c6b29cf3…e6153`.

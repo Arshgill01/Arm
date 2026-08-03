@@ -1371,6 +1371,13 @@ predeclares a pristine-b10216 control plus a non-gating scoped diagnostic to
 attribute the failure. See the retained
 [`report`](../results/reports/e9d-pr-ready-patch-series.md).
 
+Native diagnostic run `30773922751` confirmed the same function-type UBSan
+failure on pristine b10216. The exact patched series passed every GCC, Clang,
+feature-stress, ASan, leak, reasoning, and supplemental scoped-UBSan check, but
+the unchanged strict gate still failed. E9d closes as
+`invalid_pr_ready_patch_series`; the unpublished mail series is retained
+without a sanitizer-clean or publication-readiness claim.
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

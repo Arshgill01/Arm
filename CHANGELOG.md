@@ -8,6 +8,13 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Product
 
+- Retained E9d as an honest strict-sanitizer rejection. The exact unpublished
+  mail series passed native GCC 14, Clang 18, and both forced feature builds,
+  but strict UBSan stopped an upstream quantizer test. A pristine b10216
+  control reproduced the same function-type diagnostic; a non-gating scoped
+  lane passed remaining ASan/UBSan/leak checks. No PR or readiness claim was
+  published.
+
 - Froze E9d as the exact unpublished b10216 three-commit mail series. The
   contract requires byte-identical aggregate application plus native GCC 14,
   Clang 18, forced feature-selection, and targeted ASan+UBSan correctness; it

@@ -32,3 +32,8 @@ modify. The strict failure is retained and the series is not claimed
 sanitizer-clean. E9d revision 2 adds a pristine-base attribution control and a
 non-gating scoped diagnostic; neither weakens or replaces the strict gate. See
 [`../../../../results/reports/e9d-pr-ready-patch-series.md`](../../../../results/reports/e9d-pr-ready-patch-series.md).
+
+The pristine control reproduced that strict UBSan diagnostic. The scoped lane
+passed all remaining sanitizer checks, but the unchanged strict gate did not;
+the series is retained unpublished as exact review material, not labeled fully
+sanitizer-clean or publication-ready.

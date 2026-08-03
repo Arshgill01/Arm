@@ -124,6 +124,13 @@ performance gates pass at every point, with 1.9406x–2.4007x throughput ratios,
 but the extended prompts produce 252 reference mismatches, including 204
 non-standalone answers, plus 12 paired cache-state mismatches. Every generalized
 policy is disabled; E5c remains bounded to its exact quality-gated workload.
+E9d packages the exact b10216 source diff as an unpublished three-message mail
+series and validates it under GCC 14 and Clang 18. Both native and forced
+feature-selection lanes pass. Strict UBSan finds an incompatible function-call
+test in upstream `test-quantize-fns`; the same failure reproduces on pristine
+b10216, while a non-gating lane excluding that one check passes all remaining
+ASan/UBSan/leak and reasoning tests. The strict result stays failed, so no
+sanitizer-clean or publication-readiness claim is made.
 
 ## Optimization map
 
@@ -147,6 +154,7 @@ preserved unless the row explicitly describes a rejected candidate.
 | HTTP dependency surface | Patched b10216 loopback service with HTTPS support linked | Disable unused `LLAMA_OPENSSL`, inventory the full dynamic closure, then launch through the E7b-bound adapter | Removes exactly `libssl.so.3` + `libcrypto.so.3`; adds none; **0.9998x** throughput; E7c reproduces 23/30 with a matching 13-library inventory | Integrate only the exact OpenSSL-off HTTP service; keep HTTPS unchanged |
 | Final compounded service | Earliest admitted E5b one-slot recipe | Exact E7c source/build/cache/context/batch/dependency recipe | **1.7168x** throughput; 0.5846x median latency; 0.5806x CPU seconds/request; exact answers in all eight cells | Accept the end-product delta; use isolated experiments for attribution |
 | Alternating-prefix cache boundary | Exact E7c cache off/on over 1, 2, or 4 prefixes and 16/32/64 shared tokens | Frozen 36-process generalization matrix | 1.9406x–2.4007x throughput ratios, but 252 reference mismatches and 12 paired cache-state mismatches | Disable all generalized policies; keep E5c workload boundary |
+| Unpublished patch-series hardening | Exact retained b10216 three-patch diff | Three-way mail replay, GCC 14, Clang 18, feature stress, strict and controlled sanitizers | Compiler lanes pass; strict UBSan failure reproduces on pristine b10216; non-gating scoped lane passes | Retain exact mail series; do not claim fully sanitizer-clean or publication-ready |
 
 Rejected variants remain visible: two server slots, cached two-slot serving,
 q4_0 KV, batch 32, Flash Attention, lower thread counts, and LTO all missed at
@@ -219,6 +227,7 @@ repack flag that conflicts with the plan is refused.
 | [E9a](results/reports/e9a-final-service-comparison.md) | Same-job final comparison preserved all 240 answers and reached 1.7168x throughput, 0.5846x median latency, and 0.5806x CPU seconds/request |
 | [E9b preflight](results/reports/e9b-holdout-preflight-blocker.md) | Exact E7c built and tokenizer parity passed, but b10216 cannot return the echoed prompt logprobs required by lm-eval; no external task result was observed |
 | [E9c](results/reports/e9c-prompt-cache-generalization.md) | All cache/performance gates passed across the bounded alternating-prefix matrix, but output regression disabled every generalized cache policy |
+| [E9d](results/reports/e9d-pr-ready-patch-series.md) | Exact unpublished mail series passed GCC/Clang and feature lanes; strict UBSan failure reproduced on pristine b10216, so sanitizer-clean readiness remains rejected |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.

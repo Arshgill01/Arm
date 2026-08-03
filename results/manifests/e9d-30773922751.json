@@ -1,0 +1,171 @@
+{
+  "compiler_lanes": {
+    "clang": {
+      "compiler": "Ubuntu clang version 18.1.3 (1ubuntu1)\nTarget: aarch64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /usr/bin\nUbuntu clang version 18.1.3 (1ubuntu1)\nTarget: aarch64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /usr/bin",
+      "compiler_bound": true,
+      "feature_build_exit_status": 0,
+      "feature_configuration_bound": true,
+      "invalid_sve_source_absent": true,
+      "native_build_exit_status": 0,
+      "native_configuration_bound": true,
+      "quantize_exit_status": 0,
+      "quantize_output_present": true,
+      "reasoning_exit_status": 0,
+      "reasoning_suite_passed": true
+    },
+    "gcc": {
+      "compiler": "gcc-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\ng++-14 (Ubuntu 14.2.0-4ubuntu2~24.04.1) 14.2.0\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+      "compiler_bound": true,
+      "feature_build_exit_status": 0,
+      "feature_configuration_bound": true,
+      "invalid_sve_source_absent": true,
+      "native_build_exit_status": 0,
+      "native_configuration_bound": true,
+      "quantize_exit_status": 0,
+      "quantize_output_present": true,
+      "reasoning_exit_status": 0,
+      "reasoning_suite_passed": true
+    }
+  },
+  "experiment_id": "E9d",
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 2,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "contract_sha256": "0716dc065fc10b5eb2435b88ac83dcebd60fc16e549aa051b06482650a84b745",
+    "experiment_id": "E9d",
+    "git_commit": "968a8e464be7274b97d0a62ea41b73df3085ba1b",
+    "github_run_attempt": "1",
+    "github_run_id": "30773922751",
+    "llama_cpp_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "llama_cpp_tag": "b10216",
+    "mail_sha256": {
+      "0000-cover-letter.patch": "9760fe1bd38d9e897ea98e4afc1c638bf1642869c710f3fc0f0a32ea9bdbdf3d",
+      "0001-ggml-cpu-select-KleidiAI-sources-from-feature-probes.patch": "e079c30569b739cd6de0366439c6975a6c03e594d01740de8086a718fb94d50c",
+      "0002-ggml-cpu-use-vector-stores-in-quantize_row_q8_0.patch": "8427338153baf91bec3cc29f285a3381f50b30c784c53e7f36dc5c1c2eee2140",
+      "0003-common-guard-forced-reasoning-token-acceptance.patch": "da0eca74874f9738edcb4d66558057c9aca707353ef667fb6700ab734bf99598"
+    },
+    "schema_version": 1
+  },
+  "sanitizer_diagnostics": {
+    "strict_failure_attribution": "inherited_pristine_b10216_test_function_type_ub",
+    "strict_gate_unchanged": true,
+    "strict_pristine_base": {
+      "address_sanitizer_clean": true,
+      "build_exit_status": 0,
+      "function_type_diagnostic": true,
+      "leak_sanitizer_clean": true,
+      "quantize_exit_status": 1,
+      "reasoning_exit_status": null,
+      "reasoning_suite_passed": null,
+      "undefined_sanitizer_clean": false
+    },
+    "supplemental_scoped_patch": {
+      "acceptance_gate": false,
+      "address_sanitizer_clean": true,
+      "build_exit_status": 0,
+      "excluded_ubsan_check": "function",
+      "function_type_diagnostic": false,
+      "leak_sanitizer_clean": true,
+      "passed": true,
+      "quantize_exit_status": 0,
+      "reasoning_exit_status": 0,
+      "reasoning_suite_passed": true,
+      "undefined_sanitizer_clean": true
+    }
+  },
+  "sanitizers": {
+    "address_sanitizer_clean": true,
+    "build_exit_status": 0,
+    "compiler": "Ubuntu clang version 18.1.3 (1ubuntu1)\nTarget: aarch64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /usr/bin\nUbuntu clang version 18.1.3 (1ubuntu1)\nTarget: aarch64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /usr/bin",
+    "compiler_bound": true,
+    "configuration_bound": true,
+    "function_type_diagnostic": true,
+    "leak_sanitizer_clean": true,
+    "quantize_exit_status": 1,
+    "reasoning_exit_status": 0,
+    "reasoning_suite_passed": true,
+    "undefined_sanitizer_clean": false
+  },
+  "schema_version": 1,
+  "series": {
+    "aggregate_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "base_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "changed_files": [
+      "common/reasoning-budget.cpp",
+      "ggml/src/ggml-cpu/CMakeLists.txt",
+      "ggml/src/ggml-cpu/arch/arm/quants.c",
+      "tests/test-reasoning-budget.cpp"
+    ],
+    "commits": [
+      {
+        "commit": "6909e535eaf2a6d45f5cfe443309aa2063f7a369",
+        "signed_off_by": true,
+        "subject": "ggml-cpu: select KleidiAI sources from feature probes"
+      },
+      {
+        "commit": "0e783900c94ca3e1e89103b20379206931feecfb",
+        "signed_off_by": true,
+        "subject": "ggml-cpu: use vector stores in quantize_row_q8_0"
+      },
+      {
+        "commit": "5b892237640434ddd21131bc07a697b7721d4685",
+        "signed_off_by": true,
+        "subject": "common: guard forced reasoning-token acceptance"
+      }
+    ],
+    "cover_letter_complete": true,
+    "git_am_three_way_passed": true,
+    "tip_commit": "5b892237640434ddd21131bc07a697b7721d4685"
+  },
+  "source": {
+    "artifact_name": "e9d-pr-ready-patches-30773922751-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30773922751"
+  },
+  "status": "invalid_pr_ready_patch_series",
+  "validation": {
+    "address_sanitizer_clean": true,
+    "aggregate_diff_exact": true,
+    "all_acceptance_criteria_passed": false,
+    "claim_scope": "Exact b10216 mail-series applicability and targeted native aarch64 GCC, Clang, ASan, and UBSan correctness only; not upstream review, merge readiness on later commits, a full platform/backend matrix, or new performance evidence.",
+    "clang_compiler_bound": true,
+    "clang_feature_stress_passed": true,
+    "clang_native_build_passed": true,
+    "clang_native_configuration_bound": true,
+    "clang_quantize_passed": true,
+    "clang_reasoning_passed": true,
+    "cover_letter_complete": true,
+    "gcc_compiler_bound": true,
+    "gcc_feature_stress_passed": true,
+    "gcc_native_build_passed": true,
+    "gcc_native_configuration_bound": true,
+    "gcc_quantize_passed": true,
+    "gcc_reasoning_passed": true,
+    "leak_sanitizer_clean": true,
+    "mail_series_applied": true,
+    "performance_claim_added": false,
+    "sanitizer_build_passed": true,
+    "sanitizer_compiler_bound": true,
+    "sanitizer_configuration_bound": true,
+    "sanitizer_quantize_passed": false,
+    "sanitizer_reasoning_passed": true,
+    "undefined_sanitizer_clean": false,
+    "upstream_pr_opened": false
+  }
+}

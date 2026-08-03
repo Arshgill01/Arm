@@ -362,7 +362,8 @@ dominates every use case.
 
 ## What's next
 
-- prepare the validated three-patch series for maintainer review, then extend
+- resolve or isolate the inherited strict-UBSan test-function mismatch before
+  considering the prepared three-patch series for maintainer review, then extend
   beyond the proven Arm CPU lane to sanitizer, platform, and backend jobs;
 - expand the workload beyond the compact deterministic acceptance suite;
 - add cost and energy evidence on a host with available counters;

@@ -106,6 +106,9 @@ EXPECTED_HASHES = {
     "results/manifests/e9d-30772783697.json": (
         "9814c115e177a6bf87856f2df28d10e4ebdf71d0d093c2132dc68295ecc25016"
     ),
+    "results/manifests/e9d-30773922751.json": (
+        "c6b29cf315cb921974cba1b1ea182014627ea74a053f8af9e6728201a72e6153"
+    ),
     "patches/llama.cpp/pr-ready/b10216/0000-cover-letter.patch": (
         "9760fe1bd38d9e897ea98e4afc1c638bf1642869c710f3fc0f0a32ea9bdbdf3d"
     ),
@@ -1429,6 +1432,10 @@ def main() -> int:
     patch_failure = load_object(
         ROOT / "results/manifests/e9d-30772783697.json"
     )
+    patch_diagnostic = load_object(
+        ROOT / "results/manifests/e9d-30773922751.json"
+    )
+    patch_diagnostics = patch_diagnostic.get("sanitizer_diagnostics", {})
     patch_entries = patch_contract.get("mail_series", {}).get("patches", [])
     if (
         patch_contract.get("experiment_id") != "E9d"
@@ -1472,6 +1479,36 @@ def main() -> int:
         or patch_failure.get("validation", {}).get("undefined_sanitizer_clean")
         is not False
         or patch_failure.get("validation", {}).get("upstream_pr_opened")
+        is not False
+        or patch_diagnostic.get("status") != "invalid_pr_ready_patch_series"
+        or patch_diagnostic.get("provenance", {}).get("github_run_id")
+        != "30773922751"
+        or patch_diagnostic.get("platform", {}).get("architecture")
+        != "aarch64"
+        or patch_diagnostic.get("validation", {}).get(
+            "all_acceptance_criteria_passed"
+        )
+        is not False
+        or patch_diagnostic.get("validation", {}).get(
+            "sanitizer_quantize_passed"
+        )
+        is not False
+        or patch_diagnostic.get("validation", {}).get(
+            "undefined_sanitizer_clean"
+        )
+        is not False
+        or patch_diagnostics.get("strict_failure_attribution")
+        != "inherited_pristine_b10216_test_function_type_ub"
+        or patch_diagnostics.get("strict_gate_unchanged") is not True
+        or patch_diagnostics.get("strict_pristine_base", {}).get(
+            "function_type_diagnostic"
+        )
+        is not True
+        or patch_diagnostics.get("supplemental_scoped_patch", {}).get("passed")
+        is not True
+        or patch_diagnostics.get("supplemental_scoped_patch", {}).get(
+            "acceptance_gate"
+        )
         is not False
     ):
         raise ValueError("E9d local patch-series contract changed after freeze")
