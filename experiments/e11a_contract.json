@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E11a",
+  "title": "Exploratory stock-quant external quality frontier",
+  "state": "frozen while prerequisite E10d run 30818303255 is in progress and before any E10d or new-candidate external result is observed",
+  "scope": "Eight previously unevaluated stock Ministral 3 3B quantizations run through the exact frozen E10d native Arm64 serial scorer. The in-flight E10d Q4_K_M cell is reused as the ninth anchor, and its Q4_0 cell is retained as a diagnostic control, only if the complete E10d aggregate passes unchanged.",
+  "hypothesis": "At least one stock format is non-dominated against Q4_K_M on the three independent external-quality coordinates and package bytes. This quality-size exploration does not make a serving-performance claim and cannot promote a replacement without matched service evidence and a new sealed confirmation.",
+  "inputs": {
+    "plan_path": "experiments/e11a_plan.json",
+    "plan_sha256": "e592630c1f6738b853875a5ab44abbd1bc7715cf9fd4b8408f8d42d7c2b8fff8",
+    "models_path": "experiments/e11a_models.json",
+    "models_sha256": "5cb8c990a9c79b28f5d8ecf06656e54305462561f0885b6be65228472e0a91b1",
+    "adapter_contract_path": "experiments/e10d_contract.json",
+    "adapter_contract_sha256": "ee7672a610b3bc29628eccda4ee960efe5c1da4f577a7ef681097cf27b563c71",
+    "cell_runner_path": "experiments/e11a_cell.sh",
+    "cell_runner_sha256": "60da79d224cf145aee9041d889aa842febe6ace3e9080a6555c73b3b9ee2b00c",
+    "ingest_path": "experiments/e11a_ingest.py",
+    "ingest_sha256": "2b21621e4fa3389bbdc9557a5375c7e220d1a3eedd11d33e2c161f636d03f19a",
+    "test_path": "tests/test_e11a.py",
+    "test_sha256": "f900749c93c2bebc849ef88432862aeb3e5e18f5022fd56c2b0192447d4f4075"
+  },
+  "prerequisite": {
+    "experiment": "E10d",
+    "github_run_id": "30818303255",
+    "github_run_attempt": 1,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30818303255",
+    "git_commit": "da3cc4f24ddc0d545c63abe196e22dd8711f84dc",
+    "contract_sha256": "ee7672a610b3bc29628eccda4ee960efe5c1da4f577a7ef681097cf27b563c71",
+    "aggregate_artifact_name": "e10d-aggregate-30818303255-1",
+    "primary_artifact_name": "e10d-ministral3_3b_q4_k_m-30818303255-1",
+    "control_artifact_name": "e10d-ministral3_3b_q4_0-30818303255-1",
+    "required_conclusion": "success",
+    "required_aggregate_status": "valid_external_holdout",
+    "failure_rule": "If the referenced run fails, is incomplete, lacks the named aggregate artifact, or does not independently validate, do not dispatch E11a and do not substitute a rerun. Retain the prerequisite failure first."
+  },
+  "models": [
+    {
+      "candidate": "ministral3_3b_q3_k_s",
+      "quantization": "Q3_K_S",
+      "path": "Ministral-3-3B-Instruct-2512-Q3_K_S.gguf",
+      "size_bytes": 1639150880,
+      "sha256": "35e350edab573bba67d5f5ffa07bad0edd41fec7fd0ba4f4fc8c05760bf54b8a"
+    },
+    {
+      "candidate": "ministral3_3b_q3_k_m",
+      "quantization": "Q3_K_M",
+      "path": "Ministral-3-3B-Instruct-2512-Q3_K_M.gguf",
+      "size_bytes": 1795552544,
+      "sha256": "91489d8d75b0a9e682e2f17ab9f25260ab935cddf6edc8f3510b8c691993c5d5"
+    },
+    {
+      "candidate": "ministral3_3b_iq4_xs",
+      "quantization": "IQ4_XS",
+      "path": "Ministral-3-3B-Instruct-2512-IQ4_XS.gguf",
+      "size_bytes": 1959277856,
+      "sha256": "d847cdafe9459948337183eb0eeca2ee3ce0c1aed45066580e01e5751dcf3476"
+    },
+    {
+      "candidate": "ministral3_3b_iq4_nl",
+      "quantization": "IQ4_NL",
+      "path": "Ministral-3-3B-Instruct-2512-IQ4_NL.gguf",
+      "size_bytes": 2051290400,
+      "sha256": "0479b05eb4890b51edf1213fb6d0d9466e93c685da491943d1a5aeb8013d49f8"
+    },
+    {
+      "candidate": "ministral3_3b_q4_k_s",
+      "quantization": "Q4_K_S",
+      "path": "Ministral-3-3B-Instruct-2512-Q4_K_S.gguf",
+      "size_bytes": 2053256480,
+      "sha256": "9973a0014ea4c7d4f2080cd468a89328ba760fbd3e2f872da2a92855d69bb50b"
+    },
+    {
+      "candidate": "ministral3_3b_q5_k_m",
+      "quantization": "Q5_K_M",
+      "path": "Ministral-3-3B-Instruct-2512-Q5_K_M.gguf",
+      "size_bytes": 2473653536,
+      "sha256": "8f208f4a8785aa1bdd8b506e36b036ac60c7f7a7fb144e3353781c74c58a33db"
+    },
+    {
+      "candidate": "ministral3_3b_q6_k",
+      "quantization": "Q6_K",
+      "path": "Ministral-3-3B-Instruct-2512-Q6_K.gguf",
+      "size_bytes": 2821256480,
+      "sha256": "ca22c676b97aad1d50952416f44ddd6d8130e24c11c474aed5e8865dd7e35297"
+    },
+    {
+      "candidate": "ministral3_3b_q8_0",
+      "quantization": "Q8_0",
+      "path": "Ministral-3-3B-Instruct-2512-Q8_0.gguf",
+      "size_bytes": 3651679520,
+      "sha256": "920163471715241a9d99367d507e2ad94d1ebc34d0d169d25e5d97a49ec72556"
+    }
+  ],
+  "anchor_model": {
+    "role": "primary",
+    "candidate": "ministral3_3b_q4_k_m",
+    "quantization": "Q4_K_M",
+    "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "size_bytes": 2146497824
+  },
+  "full_candidate_order": [
+    "ministral3_3b_q3_k_s",
+    "ministral3_3b_q3_k_m",
+    "ministral3_3b_iq4_xs",
+    "ministral3_3b_iq4_nl",
+    "ministral3_3b_q4_k_s",
+    "ministral3_3b_q4_k_m",
+    "ministral3_3b_q5_k_m",
+    "ministral3_3b_q6_k",
+    "ministral3_3b_q8_0"
+  ],
+  "model_repository": {
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "license": "Apache-2.0"
+  },
+  "quality_contract": {
+    "adapter": "Exact E10d request preparation, tokenizer parity, synthetic preflight, serial exact-token scorer, cache isolation, metrics, per-sample logs, and raw response retention.",
+    "tasks": [
+      "e9b_arc_easy",
+      "e9b_hellaswag",
+      "e9b_winogrande"
+    ],
+    "samples_per_task": 100,
+    "requests_per_model": 14374,
+    "quality_coordinates": [
+      "e9b_arc_easy.acc_norm",
+      "e9b_hellaswag.acc_norm",
+      "e9b_winogrande.acc"
+    ],
+    "minimum_accuracy_gate": null,
+    "weighted_score": false,
+    "dominance": "Maximize all three quality coordinates and minimize model size. A point dominates only when it is no worse on every coordinate and strictly better on at least one.",
+    "shortlist": "Every non-dominated quality-size point advances to matched native service measurement; there is no post-result count cap."
+  },
+  "execution": {
+    "runner": "ubuntu-24.04-arm",
+    "fresh_server_per_model": true,
+    "matrix_jobs": 8,
+    "source_and_service": "Exact E7c OpenSSL-off b10216 service plus the validated E10b probability_ids response primitive.",
+    "all_models_same_pinned_repository_revision": true,
+    "tokenizer_parity_per_model": true,
+    "synthetic_preflight_before_dataset_preparation": true,
+    "full_results_observed_only_after_contract_freeze": true,
+    "raw_http_responses_per_model": 14374
+  },
+  "acceptance": {
+    "required_architecture": "aarch64",
+    "request_failures": 0,
+    "minimum_accuracy_gate": null,
+    "maximum_ready_ms": 15000.0,
+    "maximum_process_rss_kib": 15728640,
+    "accepted_server_shell_exit_statuses": [0, 130]
+  },
+  "negative_result_rule": "Retain unsupported quant types, load failures, tokenizer mismatch, preflight failure, cache-policy mismatch, raw-response loss, incomplete cells, low or mixed quality, regression against Q4_K_M or Q4_0, and dominated points without changing models, tasks, samples, metrics, adapter, or dominance.",
+  "decision": {
+    "quality_result_can_promote_product": false,
+    "matched_native_service_phase_required": true,
+    "new_sealed_confirmation_required": true,
+    "original_30_task_admission_contract_rewrite_allowed": false
+  },
+  "claim_boundary": "E11a can establish only an exploratory external quality-size frontier across nine exact stock Ministral quantizations using the validated E10d serial scorer on native Arm64. It does not establish end-product service performance, promote a replacement model, rewrite the original admission contract, or make energy, PMU, local-device, fleet, cost, mixed-quant, imatrix, pruning, causal-kernel, or other-runtime claims."
+}

@@ -1,0 +1,194 @@
+name: Arm E11a stock quant external quality frontier
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  E11A_CONTRACT_PATH: experiments/e11a_contract.json
+  E11A_CONTRACT_SHA256: f4d2f07e3a2b2ef7e9e326b2d228ad7368e257919bcd6d0ec50aef6953ff64ea
+  E10D_RUN_ID: "30818303255"
+  E10D_AGGREGATE_ARTIFACT: e10d-aggregate-30818303255-1
+  LLAMA_COMMIT: 876a4321163249c43ca4e986818fab5ab081f282
+  HARNESS_COMMIT: 6d642546f4688648fced259eb3302efd36ece5af
+
+jobs:
+  prerequisite:
+    name: Validate exact frozen E10d prerequisite
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 20
+    steps:
+      - name: Check out frozen E11a experiment
+        uses: actions/checkout@v7
+
+      - name: Download exact E10d aggregate
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ env.E10D_AGGREGATE_ARTIFACT }}
+          path: results/raw/e11a-prerequisite
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.E10D_RUN_ID }}
+
+      - name: Validate exact E10d aggregate identity and status
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = "aarch64"
+          echo "$E11A_CONTRACT_SHA256  $E11A_CONTRACT_PATH" | sha256sum --check --strict
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          e11 = json.loads(Path("experiments/e11a_contract.json").read_text())
+          evidence = Path("results/raw/e11a-prerequisite")
+          retained_contract = evidence / "contract.json"
+          summary_path = evidence / "summary.json"
+          if hashlib.sha256(retained_contract.read_bytes()).hexdigest() != e11["prerequisite"]["contract_sha256"]:
+              raise ValueError("retained E10d contract hash differs")
+          summary = json.loads(summary_path.read_text())
+          models = summary.get("models")
+          validation = summary.get("validation")
+          if (
+              summary.get("status") != e11["prerequisite"]["required_aggregate_status"]
+              or summary.get("contract_sha256") != e11["prerequisite"]["contract_sha256"]
+              or not isinstance(models, list)
+              or len(models) != 2
+              or models[0].get("model") != e11["anchor_model"]
+              or models[1].get("model", {}).get("candidate") != "ministral3_3b_q4_0"
+              or models[0].get("request_failures") != 0
+              or models[1].get("request_failures") != 0
+              or not isinstance(validation, dict)
+              or not validation
+              or not all(validation.values())
+          ):
+              raise ValueError("E10d prerequisite aggregate differs")
+          output = {
+              "schema_version": 1,
+              "experiment_id": "E11a-prerequisite",
+              "status": "valid_exact_e10d_prerequisite",
+              "source_run_id": e11["prerequisite"]["github_run_id"],
+              "source_run_attempt": e11["prerequisite"]["github_run_attempt"],
+              "source_artifact": e11["prerequisite"]["aggregate_artifact_name"],
+              "aggregate_summary_sha256": hashlib.sha256(summary_path.read_bytes()).hexdigest(),
+              "prepared_sha256": summary["prepared_sha256"],
+          }
+          (evidence / "prerequisite-summary.json").write_text(
+              json.dumps(output, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+
+      - name: Upload retained prerequisite validation
+        uses: actions/upload-artifact@v6
+        with:
+          name: e11a-prerequisite-${{ github.run_id }}-${{ github.run_attempt }}
+          path: results/raw/e11a-prerequisite
+          retention-days: 90
+          if-no-files-found: error
+
+  evaluate:
+    name: ${{ matrix.candidate }} native stock quant holdout
+    needs: prerequisite
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        candidate:
+          - ministral3_3b_q3_k_s
+          - ministral3_3b_q3_k_m
+          - ministral3_3b_iq4_xs
+          - ministral3_3b_iq4_nl
+          - ministral3_3b_q4_k_s
+          - ministral3_3b_q5_k_m
+          - ministral3_3b_q6_k
+          - ministral3_3b_q8_0
+    env:
+      CANDIDATE: ${{ matrix.candidate }}
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e11a-${{ matrix.candidate }}-${{ github.run_id }}-${{ github.run_attempt }}
+      LLAMA_SOURCE: /tmp/llama.cpp-E11a-${{ matrix.candidate }}
+      LLAMA_BUILD: /tmp/llama.cpp-E11a-${{ matrix.candidate }}-build
+      HARNESS_SOURCE: /tmp/lm-evaluation-harness-E11a-${{ matrix.candidate }}
+      E11A_VENV: /tmp/Pareto64-E11a-${{ matrix.candidate }}-venv
+      MODEL_ROOT: /tmp/Pareto64-E11a-${{ matrix.candidate }}/models
+      HF_HOME: /tmp/Pareto64-E11a-${{ matrix.candidate }}/huggingface
+
+    steps:
+      - name: Check out frozen E11a experiment
+        uses: actions/checkout@v7
+
+      - name: Select pinned Python line
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Run complete frozen native quality cell
+        run: bash experiments/e11a_cell.sh
+
+      - name: Upload complete model cell
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: e11a-${{ matrix.candidate }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error
+
+  aggregate:
+    name: Aggregate frozen nine-model quality-size frontier
+    needs: [prerequisite, evaluate]
+    if: ${{ always() && needs.prerequisite.result == 'success' }}
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - name: Check out frozen E11a experiment
+        uses: actions/checkout@v7
+
+      - name: Download all current-run E11a cells
+        uses: actions/download-artifact@v7
+        with:
+          pattern: e11a-ministral3_3b_*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: results/raw/e11a-aggregate/cells
+
+      - name: Download exact E10d anchor aggregate
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ env.E10D_AGGREGATE_ARTIFACT }}
+          path: results/raw/e11a-aggregate/anchor
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.E10D_RUN_ID }}
+
+      - name: Validate complete frontier aggregate
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = "aarch64"
+          echo "$E11A_CONTRACT_SHA256  $E11A_CONTRACT_PATH" | sha256sum --check --strict
+          mapfile -t summaries < <(find results/raw/e11a-aggregate/cells -name summary.json -type f | sort)
+          test "${#summaries[@]}" -eq 8
+          args=()
+          for summary in "${summaries[@]}"; do
+            args+=(--cell "$summary")
+          done
+          mkdir -p results/raw/e11a-aggregate/combined
+          python3 experiments/e11a_ingest.py aggregate \
+            --contract "$E11A_CONTRACT_PATH" \
+            "${args[@]}" \
+            --anchor results/raw/e11a-aggregate/anchor/summary.json \
+            --output results/raw/e11a-aggregate/combined/summary.json
+          cp "$E11A_CONTRACT_PATH" results/raw/e11a-aggregate/combined/contract.json
+          find results/raw/e11a-aggregate/combined -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum \
+            > results/raw/e11a-aggregate/combined/file-inventory-sha256.txt
+
+      - name: Upload aggregate evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: e11a-aggregate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: results/raw/e11a-aggregate
+          retention-days: 90
+          if-no-files-found: error
