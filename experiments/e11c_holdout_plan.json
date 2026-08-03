@@ -11,6 +11,8 @@
     "sample_generator_sha256": "5ef7a70daaa4f6fbd7bf62041a65563f2b1c4a487d74253d4ecf6e5d95aa4ab5",
     "sample_map_path": "experiments/e11c_sample_map.json",
     "sample_map_sha256": "40b232cb4fd94d1f74bb34eb9c85e925c4e6de576252bd8240855adb7e7bb991",
+    "prepare_path": "experiments/e11c_prepare.py",
+    "prepare_sha256": "664d1d4f77904e45d600cb2dde54704a7204e6f80af95cc0d192ef718928a15e",
     "task_computer_security_path": "experiments/e11c_tasks/e11c_mmlu_computer_security.yaml",
     "task_computer_security_sha256": "dfbafde8e8e07248601225650135c741f276a6049d9e44ef7621dd9b4a477f37",
     "task_machine_learning_path": "experiments/e11c_tasks/e11c_mmlu_machine_learning.yaml",
@@ -92,6 +94,37 @@
       "e11c_mmlu_computer_security": ["acc"],
       "e11c_mmlu_machine_learning": ["acc"],
       "e11c_mmlu_business_ethics": ["acc"]
+    },
+    "task_shapes": {
+      "e11c_mmlu_computer_security": {
+        "samples": 80,
+        "choices": 320,
+        "token_score_requests": 320,
+        "minimum_candidate_tokens": 1,
+        "maximum_candidate_tokens": 1
+      },
+      "e11c_mmlu_machine_learning": {
+        "samples": 80,
+        "choices": 320,
+        "token_score_requests": 320,
+        "minimum_candidate_tokens": 1,
+        "maximum_candidate_tokens": 1
+      },
+      "e11c_mmlu_business_ethics": {
+        "samples": 80,
+        "choices": 320,
+        "token_score_requests": 320,
+        "minimum_candidate_tokens": 1,
+        "maximum_candidate_tokens": 1
+      }
+    },
+    "expected_summary": {
+      "samples": 240,
+      "choices": 960,
+      "serial_candidate_requests": 960,
+      "token_score_requests": 960,
+      "unique_tokenized_texts": 1200,
+      "tokenizer_parity_mismatches": 0
     }
   },
   "candidate_policy": {
