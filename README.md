@@ -322,6 +322,7 @@ repack flag that conflicts with the plan is refused.
 | [E12a resume first run](results/reports/e12a-resume-python-environment-failure.md) | Checkpoint, corpus, native build, and BF16 identity passed, but the GGUF dumper used a Python environment without NumPy; matrix compute never started and no completed result exists |
 | [E12a resume second run](results/reports/e12a-resume-statistics-invocation-failure.md) | All remaining chunks completed and wrote hash-bound bytes, but the following statistics command omitted required `--model`; the run remains invalid and a frozen inspection-only, no-recompute recovery is required |
 | [E12a inspection recovery](results/reports/e12a-inspection-metadata-dependency-failure.md) | Corrected statistics passed for all 182 tensors with unchanged matrix bytes, but the metadata dumper lacked PyYAML; a frozen metadata-only recovery may add that dependency without repeating compute, statistics, build, or model download |
+| [E12a complete matrix](results/reports/e12a-application-imatrix-complete.md) | The metadata-only successor accepts the exact 32-chunk, 182-entry matrix with byte-identical independent replay; computation and statistics were not repeated, and generated quantization is now authorized once E11a also passes |
 | [E17a first preflight](results/reports/e17a-preflight-permission-failure.md) | Exact runtime and model checks passed, but the cell runner lacked executable permission; zero cache configurations or requests started, and a frozen shell-invocation-only successor retains every scientific control |
 | [E13a](results/reports/e13a-cache-certificate.md) | Byte-exact fail-closed routing reached 1.84765x throughput, but six safe unknown warmup fallbacks violated the frozen decision-count expectation; the policy remains rejected |
 | [E14a](results/reports/e14a-selective-repack-instrumentation-failure.md) | All eight native cells completed with exact quality, but missing verbosity-4 mechanism logs invalidate the frontier and forbid promotion |
@@ -336,7 +337,7 @@ repack flag that conflicts with the plan is refused.
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
 The E5f through E5j, E6d through E6i, E7a through E7c, E9a/E9c, E10a through
-E10f, E12a, E13a/E13b, E14a/E14b, E15a/E15b, and E16a/E16b/E16c results are retained under their exact frozen
+E10f, E12a, E13a/E13b, E14a/E14b, E15a/E15b, E16a/E16b/E16c, and E17a results are retained under their exact frozen
 contracts and independently re-ingested byte for byte. E9e separately retains its reproducible
 premeasurement stop record.
 

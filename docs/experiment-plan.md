@@ -1558,6 +1558,24 @@ remains blocked until E12a independently produces a valid importance matrix.
 See the retained [`manifest`](../results/manifests/e10f-30829237582.json) and
 [`report`](../results/reports/e10f-safe-sampled-external-holdout.md).
 
+## E12a completed application-conditioned importance matrix
+
+E12a's five-hour original job retained a valid 24-of-32-chunk checkpoint. A
+separately frozen continuation later completed the remaining eight chunks and
+wrote the exact 3,010,048-byte matrix, but post-compute statistics and metadata
+inspection exposed three distinct workflow defects. Each failure is retained
+and remains invalid: a wrong Python environment, a missing `--model` argument
+on the statistics-only command, and a missing PyYAML metadata dependency.
+
+The final metadata-only successor changes no scientific input and repeats no
+matrix or statistics work. Native run `30855550027` validates the retained
+182-tensor statistics and accepts SHA-256 `2338867f…a1548` as a 32-chunk,
+182-entry imatrix whose ordered datasets and entry names match the checkpoint.
+Independent ingestion reproduces its summary byte for byte. E12a now satisfies
+the generated-quant prerequisite without rehabilitating any failed run. See
+the retained [`manifest`](../results/manifests/e12a-metadata-recovery-30855550027.json)
+and [`report`](../results/reports/e12a-application-imatrix-complete.md).
+
 ## E13a frozen fail-closed cache certificate
 
 E13a takes the next distinct cache-safety mechanism after E10a rejected a
