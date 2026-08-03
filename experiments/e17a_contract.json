@@ -1,0 +1,127 @@
+{
+  "acceptance": {
+    "all_three_configurations_must_be_attempted": true,
+    "f16_control_must_launch_and_serve": true,
+    "failed_quantized_launch_is_valid_negative_evidence": true,
+    "quantized_allocation_must_be_below_f16": true,
+    "quantized_successor_requires_at_least_one_structurally_supported_quantized_configuration": true,
+    "required_architecture": "aarch64",
+    "successful_cell_requires_exact_allocation_log": true,
+    "successful_cell_requires_zero_request_failures": true
+  },
+  "claim_boundary": "E17a establishes only native API, launch, request, and allocation compatibility for three frozen 1K single-slot cache pairs. Its three-task answers and timings are diagnostic. It makes no long-context, serving-density, quality-robustness, performance, energy, PMU, local-device, fleet, or cost claim.",
+  "decision": {
+    "preflight_makes_performance_claim": false,
+    "preflight_promotes_service_configuration": false,
+    "successor_configuration_rule": "Include every frozen quantized candidate that launches, serves all preflight requests, and proves a smaller KV allocation; do not use preflight quality or performance to cherry-pick among supported candidates."
+  },
+  "execution": {
+    "batch_size": 1024,
+    "configurations": {
+      "f16_f16": {
+        "context_size": 1024,
+        "flash_attention": "on",
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16"
+      },
+      "q4_0_q4_0": {
+        "context_size": 1024,
+        "flash_attention": "on",
+        "kv_cache_type_k": "q4_0",
+        "kv_cache_type_v": "q4_0"
+      },
+      "q8_0_q8_0": {
+        "context_size": 1024,
+        "flash_attention": "on",
+        "kv_cache_type_k": "q8_0",
+        "kv_cache_type_v": "q8_0"
+      }
+    },
+    "fresh_process_per_configuration": true,
+    "max_output_tokens": 8,
+    "micro_batch_size": 512,
+    "order": [
+      "f16_f16",
+      "q8_0_q8_0",
+      "q4_0_q4_0"
+    ],
+    "parallel_slots": 1,
+    "quantized_candidates": [
+      "q8_0_q8_0",
+      "q4_0_q4_0"
+    ],
+    "request_cache_prompt": false,
+    "runner": "ubuntu-24.04-arm",
+    "seed": 424242,
+    "threads": 4
+  },
+  "experiment_id": "E17a",
+  "hypothesis": "The exact E9a b10216 server can launch the selected Q4_K_M model with quantized K and V caches when flash attention is explicitly enabled.",
+  "inputs": {
+    "cell_path": "experiments/e17a_kv_preflight_cell.sh",
+    "cell_sha256": "789410558c3cbde4d067a60142120d1af03cea19881cb2d5d75055a678e303a2",
+    "e9a_manifest_path": "results/manifests/e9a-30764802071.json",
+    "e9a_manifest_sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d",
+    "freeze_path": "experiments/e17a_kv_preflight_freeze.py",
+    "freeze_sha256": "cfab28a7ee732912988ac4e700bc000a8ebe2ffdb972619839d52f2995f43a11",
+    "ingest_path": "experiments/e17a_kv_preflight_ingest.py",
+    "ingest_sha256": "319835b826c4e770fc290a943d0574bc4c48fc2dd5a275f23b37a0a45939b3f0",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "probe_path": "experiments/e5b_inference_probe.py",
+    "probe_sha256": "82ebd56316705df93b59aea9c05c31b59cdd0c4c9fd31ef16608dbc0e86702db",
+    "selected_manifest_path": "results/manifests/e3f-30656151957.json",
+    "selected_manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "source_tasks_path": "experiments/e3_tasks.json",
+    "source_tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "tasks_path": "experiments/e17a_tasks.json",
+    "tasks_sha256": "86c2919def198b2be80d286925c7f2cb20668a47012d65c2b4c3f6f0e718e044",
+    "test_path": "tests/test_e17a.py",
+    "test_sha256": "1efc1f93ad9dd967582b12d3dc053ea4bc0d47cd0f70e33b433b40b950f601db"
+  },
+  "quality_preflight": {
+    "expected_answers": {
+      "arithmetic-02": "C",
+      "logic-01": "C",
+      "systems-04": "B"
+    },
+    "quality_or_performance_result_may_select_successor": false,
+    "reference_predictions": {
+      "arithmetic-02": "C",
+      "logic-01": "C",
+      "systems-04": "B"
+    },
+    "task_ids": [
+      "arithmetic-02",
+      "logic-01",
+      "systems-04"
+    ],
+    "task_selection_reason": "one stable arithmetic control, one stable logic control, and the previously K-q4-sensitive systems-04 task"
+  },
+  "runtime": {
+    "artifact": {
+      "digest": "sha256:3d360aed5fd02abf5421c3a23309f1abda56bf5f96c0e406a5c13897c15aae70",
+      "id": "8838874234",
+      "name": "e9a-final-service-30764802071-1",
+      "run_id": "30764802071",
+      "size_bytes": 18440490,
+      "summary_sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d"
+    },
+    "configuration": "e7c_final",
+    "openssl": "off",
+    "server_sha256": "e15e14bd5d4f86e09a79603862f52db841de758ecc21b2c476a2ba92cc8ee40e",
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_tag": "b10216"
+  },
+  "schema_version": 1,
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "path": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+  },
+  "state": "frozen before observing any quantized-V launch, allocation, answer, quality, latency, throughput, or failure result",
+  "title": "Bounded quantized-V compatibility preflight"
+}

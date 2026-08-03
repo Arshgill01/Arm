@@ -1,0 +1,25 @@
+{
+  "instruction": "Choose the correct option. Respond with only one uppercase letter: A, B, C, or D.",
+  "license": "Apache-2.0",
+  "schema_version": 1,
+  "tasks": [
+    {
+      "answer": "C",
+      "category": "arithmetic",
+      "id": "arithmetic-02",
+      "prompt": "What is 15 percent of 240?\nA. 24\nB. 30\nC. 36\nD. 40"
+    },
+    {
+      "answer": "C",
+      "category": "logic",
+      "id": "logic-01",
+      "prompt": "All cobalt objects in a collection are metal. No metal object in the collection is transparent. Which conclusion must be true?\nA. Every transparent object is cobalt.\nB. Some cobalt objects are transparent.\nC. No cobalt object is transparent.\nD. No transparent objects exist."
+    },
+    {
+      "answer": "B",
+      "category": "systems_reasoning",
+      "id": "systems-04",
+      "prompt": "Batching raises throughput from 40 to 68 requests/s. What is the relative throughput gain?\nA. 28 percent\nB. 70 percent\nC. 140 percent\nD. 170 percent"
+    }
+  ]
+}
