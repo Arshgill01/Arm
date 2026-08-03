@@ -1,0 +1,165 @@
+name: Arm E20a bounded CPU graph-node timing
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e20a_contract.json
+  CONTRACT_SHA256: 93b78071c89edee24969dd3e4d66ae2eb63de2b782b5be0a6a3b25ffec002ed2
+
+jobs:
+  profile:
+    name: Profile exact selected service without hosted PMU claims
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 180
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e20a-${{ github.run_id }}-${{ github.run_attempt }}
+      SOURCE_DIR: /tmp/llama.cpp-E20a
+      BUILD_DIR: /tmp/llama.cpp-E20a-build
+      MODEL_ROOT: /tmp/Pareto64-E20a/models
+
+    steps:
+      - name: Check out frozen software-timing experiment
+        uses: actions/checkout@v7
+
+      - name: Verify native host and every frozen input
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          mkdir -p "$EVIDENCE_DIR/frozen-inputs" "$EVIDENCE_DIR/build" \
+            "$EVIDENCE_DIR/patches" "$MODEL_ROOT"
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          while IFS=$'\t' read -r expected input_file; do
+            echo "$expected  $input_file" | sha256sum --check --strict
+            mkdir -p "$EVIDENCE_DIR/frozen-inputs/$(dirname "$input_file")"
+            cp "$input_file" "$EVIDENCE_DIR/frozen-inputs/$input_file"
+          done < <(jq -r '.inputs as $inputs | $inputs | to_entries[] | select(.key | endswith("_path")) | [$inputs[(.key | sub("_path$"; "_sha256"))], .value] | @tsv' "$CONTRACT_PATH")
+          python3 -m unittest tests.test_e20a
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          free -b | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          {
+            gcc --version
+            g++ --version
+            cmake --version
+            ninja --version
+          } | tee "$EVIDENCE_DIR/compiler.txt"
+
+      - name: Build exact instrumentable OpenSSL-off runtime
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            "$(jq -r '.source.repository' "$CONTRACT_PATH")" "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$(jq -r '.source.commit' "$CONTRACT_PATH")"
+          test "$(git -C "$SOURCE_DIR" describe --tags --exact-match)" = \
+            "$(jq -r '.source.tag' "$CONTRACT_PATH")"
+          while IFS=$'\t' read -r patch_path patch_sha; do
+            echo "$patch_sha  $patch_path" | sha256sum --check --strict
+            cp "$patch_path" "$EVIDENCE_DIR/patches/$(basename "$patch_path")"
+            git -C "$SOURCE_DIR" apply --check "$GITHUB_WORKSPACE/$patch_path"
+            git -C "$SOURCE_DIR" apply "$GITHUB_WORKSPACE/$patch_path"
+          done < <(jq -r '.source.patches[] | [.path, .sha256] | @tsv' "$CONTRACT_PATH")
+          git -C "$SOURCE_DIR" diff --check
+          git -C "$SOURCE_DIR" diff --name-only HEAD | sort \
+            | tee "$EVIDENCE_DIR/patched-files.txt"
+          git -C "$SOURCE_DIR" diff --binary --full-index HEAD -- \
+            > "$EVIDENCE_DIR/source-diff.patch"
+          echo "$(jq -r '.source.source_diff_sha256' "$CONTRACT_PATH")  $EVIDENCE_DIR/source-diff.patch" \
+            | sha256sum --check --strict
+          jq '.source' "$CONTRACT_PATH" > "$EVIDENCE_DIR/source.json"
+          mapfile -t cmake_args < <(jq -r '.build.cmake_arguments[]' "$CONTRACT_PATH")
+          cmake -S "$SOURCE_DIR" -B "$BUILD_DIR" -G Ninja \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON "${cmake_args[@]}" \
+            2>&1 | tee "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' \
+            "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'ARM detected' "$EVIDENCE_DIR/build/configure.log"
+          grep -q '^LLAMA_OPENSSL:BOOL=OFF$' "$BUILD_DIR/CMakeCache.txt"
+          cp "$BUILD_DIR/CMakeCache.txt" "$EVIDENCE_DIR/build/CMakeCache.txt"
+          /usr/bin/time --verbose --output "$EVIDENCE_DIR/build/build-time.log" \
+            cmake --build "$BUILD_DIR" --target llama-server llama-bench \
+              --parallel "$(nproc)" \
+            2>&1 | tee "$EVIDENCE_DIR/build/build.log"
+          ninja -C "$BUILD_DIR" -t commands > "$EVIDENCE_DIR/build/build-commands.txt"
+          "$BUILD_DIR/bin/llama-server" --version 2>&1 \
+            | tee "$EVIDENCE_DIR/build/server-version.txt"
+          "$BUILD_DIR/bin/llama-bench" --help > "$EVIDENCE_DIR/build/bench-help.txt"
+          strings "$BUILD_DIR/bin/libggml-cpu.so.0.18.0" \
+            | grep '^GGML_CPU_NODE_TIMING$' \
+            > "$EVIDENCE_DIR/build/timing-environment-symbol.txt"
+          python3 experiments/e7a_runtime_closure.py \
+            --server "$BUILD_DIR/bin/llama-server" \
+            --build-root "$BUILD_DIR" \
+            --copy-dir "$EVIDENCE_DIR/build/server-runtime-files" \
+            --output "$EVIDENCE_DIR/build/server-runtime-closure.json"
+          python3 experiments/e7a_runtime_closure.py \
+            --server "$BUILD_DIR/bin/llama-bench" \
+            --build-root "$BUILD_DIR" \
+            --copy-dir "$EVIDENCE_DIR/build/bench-runtime-files" \
+            --output "$EVIDENCE_DIR/build/bench-runtime-closure.json"
+
+      - name: Download exact selected model
+        run: |
+          set -euo pipefail
+          repository="$(jq -r '.selected.repository' "$CONTRACT_PATH")"
+          revision="$(jq -r '.selected.revision' "$CONTRACT_PATH")"
+          entrypoint="$(jq -r '.selected.path' "$CONTRACT_PATH")"
+          model_sha="$(jq -r '.selected.model_sha256' "$CONTRACT_PATH")"
+          model_size="$(jq -r '.selected.model_size_bytes' "$CONTRACT_PATH")"
+          MODEL="$MODEL_ROOT/$entrypoint"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$MODEL" \
+            "https://huggingface.co/$repository/resolve/$revision/$entrypoint?download=true"
+          test "$(stat --format='%s' "$MODEL")" = "$model_size"
+          echo "$model_sha  $MODEL" | sha256sum --check --strict
+          sha256sum "$MODEL" | tee "$EVIDENCE_DIR/model-sha256.txt"
+          stat --format='%s' "$MODEL" > "$EVIDENCE_DIR/model-size.txt"
+          echo "MODEL=$MODEL" >> "$GITHUB_ENV"
+
+      - name: Run six frozen control and timed benchmark cases
+        run: |
+          set -euo pipefail
+          while IFS= read -r case_name; do
+            bash experiments/e20a_bench_cell.sh "$case_name"
+          done < <(jq -r '.benchmark.cases[].name' "$CONTRACT_PATH")
+
+      - name: Prove exact selected quality with timing enabled
+        run: |
+          set -euo pipefail
+          bash experiments/e20a_quality.sh
+
+      - name: Independently validate and select or reject a fusion family
+        run: |
+          set -euo pipefail
+          jq -n \
+            --arg git_commit "$GITHUB_SHA" \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg run_attempt "$GITHUB_RUN_ATTEMPT" \
+            '{schema_version: 1, experiment_id: "E20a", git_commit: $git_commit, github_run_id: $run_id, github_run_attempt: $run_attempt}' \
+            > "$EVIDENCE_DIR/provenance.json"
+          python3 experiments/e20a_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum \
+            > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          free -b | tee "$EVIDENCE_DIR/memory-after.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+          jq '{status, quality: .quality.probe, selection, validation}' \
+            "$EVIDENCE_DIR/summary.json"
+
+      - name: Upload complete software-timing evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e20a-cpu-node-timing-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error

@@ -1,0 +1,64 @@
+diff --git a/ggml/src/ggml-cpu/ggml-cpu.c b/ggml/src/ggml-cpu/ggml-cpu.c
+index 491316f74..e34a7e3d5 100644
+--- a/ggml/src/ggml-cpu/ggml-cpu.c
++++ b/ggml/src/ggml-cpu/ggml-cpu.c
+@@ -3022,6 +3022,7 @@ struct ggml_cplan ggml_graph_plan(
+ // Try to fuse the current node with subsequent nodes for better performance.
+ // Returns the number of nodes skipped by fusion (>=1), or 0 if no fusion was applied.
+ static bool ggml_cpu_disable_fusion = false;  // initialized once in ggml_cpu_init(), read-only afterwards
++static bool ggml_cpu_node_timing    = false;  // initialized once in ggml_cpu_init(), read-only afterwards
+ 
+ static int ggml_cpu_try_fuse_ops(
+         const struct ggml_cgraph * cgraph,
+@@ -3097,6 +3098,11 @@ static thread_ret_t ggml_graph_compute_thread(void * data) {
+             continue;
+         }
+ 
++        const int node_index = node_n;
++        const int64_t timing_start_us = state->ith == 0 && ggml_cpu_node_timing
++            ? ggml_time_us()
++            : 0;
++
+         // TODO: move fused-op detection into ggml_graph_plan so fusion decisions are made once at planning time
+         // Try fused ops, fall back to normal compute
+         const int n_fused = ggml_cpu_try_fuse_ops(cgraph, node_n, &params, cplan);
+@@ -3114,6 +3120,27 @@ static thread_ret_t ggml_graph_compute_thread(void * data) {
+ 
+         if (node_n + 1 < cgraph->n_nodes) {
+             ggml_barrier(state->threadpool);
++        } else if (ggml_cpu_node_timing) {
++            // The normal final barrier is below the loop. Add a timing-only
++            // barrier so the last node's duration includes every worker.
++            ggml_barrier(state->threadpool);
++        }
++
++        if (state->ith == 0 && ggml_cpu_node_timing) {
++            const int64_t elapsed_us = ggml_time_us() - timing_start_us;
++            fprintf(stderr,
++                    "ggml_cpu_node_timing\tgraph=%d\tnode=%d\top=%s\tname=%s"
++                    "\tsrc0=%s\tsrc1=%s\tne=%" PRId64 ",%" PRId64 ",%" PRId64 ",%" PRId64
++                    "\tfused_nodes=%d\telapsed_us=%" PRId64 "\n",
++                    atomic_load_explicit(&tp->n_graph, memory_order_relaxed),
++                    node_index,
++                    ggml_op_name(node->op),
++                    node->name,
++                    node->src[0] ? node->src[0]->name : "",
++                    node->src[1] ? node->src[1]->name : "",
++                    node->ne[0], node->ne[1], node->ne[2], node->ne[3],
++                    n_fused,
++                    elapsed_us);
+         }
+     }
+ 
+@@ -3888,6 +3915,11 @@ void ggml_cpu_init(void) {
+             ggml_cpu_disable_fusion = (env != NULL && atoi(env) == 1);
+         }
+ 
++        {
++            const char * env = getenv("GGML_CPU_NODE_TIMING");
++            ggml_cpu_node_timing = (env != NULL && atoi(env) == 1);
++        }
++
+         is_first_call = false;
+     }
+ 
