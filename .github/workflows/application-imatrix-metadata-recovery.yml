@@ -1,0 +1,172 @@
+name: Arm E12a exact matrix metadata recovery
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e12a_metadata_recovery_contract.json
+  CONTRACT_SHA256: 15d5866c387781d7a83f7e10f5828c48d9e2db97f14ddcef6fd34e379e0eef59
+  SOURCE_RUN_ID: "30854613238"
+  SOURCE_ARTIFACT_NAME: e12a-inspection-recovery-30854613238-1
+  SOURCE_ARTIFACT_ID: "8872135870"
+  EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e12a-metadata-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+  LLAMA_SOURCE: /tmp/llama.cpp-E12a-metadata
+  METADATA_VENV: /tmp/Pareto64-E12a-metadata-venv
+
+jobs:
+  metadata:
+    name: Dump metadata from exact read-only matrix
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - name: Check out frozen metadata-only recovery
+        uses: actions/checkout@v7
+
+      - name: Select pinned Python line
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Download exact inspected-matrix artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ env.SOURCE_ARTIFACT_NAME }}
+          path: ${{ env.EVIDENCE_DIR }}/source-artifact
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Verify frozen contract and retained statistics
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          jq -r '
+            .inputs as $inputs
+            | $inputs
+            | to_entries[]
+            | select(.key | endswith("_path"))
+            | [$inputs[.key | sub("_path$"; "_sha256")], .value]
+            | @tsv
+          ' "$CONTRACT_PATH" | while IFS=$'\t' read -r expected input_file; do
+            echo "$expected  $input_file" | sha256sum --check --strict
+          done
+          python3 -m unittest tests.test_e12a tests.test_e12a_resume \
+            tests.test_e12a_inspection_recovery tests.test_e12a_metadata_recovery
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          cp results/manifests/e12a-inspection-recovery-30854613238.json \
+            "$EVIDENCE_DIR/failure-manifest.json"
+          cp experiments/e12a_metadata_recovery_freeze.py "$EVIDENCE_DIR/freeze.py"
+          cp experiments/e12a_metadata_recovery_ingest.py "$EVIDENCE_DIR/ingest.py"
+          cp tests/test_e12a_metadata_recovery.py "$EVIDENCE_DIR/test.py"
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$SOURCE_ARTIFACT_ID" \
+            > "$EVIDENCE_DIR/source-artifact.json"
+          test "$(jq -r '.name' "$EVIDENCE_DIR/source-artifact.json")" = \
+            "$SOURCE_ARTIFACT_NAME"
+          test "$(jq -r '.digest' "$EVIDENCE_DIR/source-artifact.json")" = \
+            sha256:8575c0714a93dcf808a9017d18319431835d38fddaa281527b4fc9e343da92b2
+          matrix="$EVIDENCE_DIR/source-artifact/completed/imatrix.gguf"
+          statistics="$EVIDENCE_DIR/source-artifact/imatrix-statistics.log"
+          echo "2338867f1b51341e02d0f63ca4d7281731a94b0738d80413476581ae991a1548  $matrix" \
+            | sha256sum --check --strict
+          echo "64aa1fa92b333347fb22106fe484230ad6e01baf3b4978c32c358f2cbd39bc66  $statistics" \
+            | sha256sum --check --strict
+          grep -q 'Computing statistics for .* (182 tensors)' "$statistics"
+          chmod 0444 "$matrix"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          git rev-parse HEAD | tee "$EVIDENCE_DIR/repository-commit.txt"
+          jq -n \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --argjson run_attempt "$GITHUB_RUN_ATTEMPT" \
+            --arg sha "$GITHUB_SHA" \
+            --arg ref "$GITHUB_REF" \
+            --arg runner_os "$RUNNER_OS" \
+            --arg runner_arch "$RUNNER_ARCH" \
+            '{run_id: $run_id, run_attempt: $run_attempt, sha: $sha, ref: $ref, runner_os: $runner_os, runner_arch: $runner_arch}' \
+            > "$EVIDENCE_DIR/github.json"
+
+      - name: Prepare exact metadata parser
+        run: |
+          set -euo pipefail
+          repository="$(jq -r '.metadata.source_repository' "$CONTRACT_PATH")"
+          commit="$(jq -r '.metadata.source_commit' "$CONTRACT_PATH")"
+          tag="$(jq -r '.metadata.source_tag' "$CONTRACT_PATH")"
+          git clone --filter=blob:none "$repository" "$LLAMA_SOURCE"
+          git -C "$LLAMA_SOURCE" checkout --detach "$commit"
+          test "$(git -C "$LLAMA_SOURCE" rev-parse HEAD)" = "$commit"
+          test "$(git -C "$LLAMA_SOURCE" describe --tags --exact-match)" = "$tag"
+          test -z "$(git -C "$LLAMA_SOURCE" status --short)"
+          jq -n \
+            --arg repository "$repository" \
+            --arg commit "$commit" \
+            --arg tag "$tag" \
+            '{repository: $repository, commit: $commit, tag: $tag, clean: true}' \
+            > "$EVIDENCE_DIR/gguf-source.json"
+          python3 -m venv "$METADATA_VENV"
+          "$METADATA_VENV/bin/python" -m pip install --disable-pip-version-check \
+            numpy==2.2.6 pyyaml==6.0.3 \
+            2>&1 | tee "$EVIDENCE_DIR/pip-install.log"
+          "$METADATA_VENV/bin/python" -m pip freeze | sort > "$EVIDENCE_DIR/pip-freeze.txt"
+
+      - name: Dump exact metadata without recomputation
+        run: |
+          set -euo pipefail
+          matrix="$EVIDENCE_DIR/source-artifact/completed/imatrix.gguf"
+          sha256sum "$matrix" | tee "$EVIDENCE_DIR/matrix-before-sha256.txt"
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          contract = json.loads(Path(os.environ["CONTRACT_PATH"]).read_text())
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          matrix = evidence / "source-artifact/completed/imatrix.gguf"
+          replacements = {"MATRIX_PATH": str(matrix)}
+          argv = [str(Path(os.environ["METADATA_VENV"]) / "bin/python")]
+          argv.extend(
+              replacements.get(argument, argument)
+              for argument in contract["metadata"]["command_after_python"]
+          )
+          (evidence / "metadata-command.json").write_text(
+              json.dumps({"argv": argv}, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          mapfile -t metadata_argv < <(jq -r '.argv[]' "$EVIDENCE_DIR/metadata-command.json")
+          PYTHONPATH="$LLAMA_SOURCE/gguf-py" "${metadata_argv[@]}" \
+            > "$EVIDENCE_DIR/imatrix-metadata.json"
+          sha256sum "$matrix" | tee "$EVIDENCE_DIR/matrix-after-sha256.txt"
+          cmp "$EVIDENCE_DIR/matrix-before-sha256.txt" \
+            "$EVIDENCE_DIR/matrix-after-sha256.txt"
+          test "$(stat --format='%a' "$matrix")" = 444
+
+      - name: Independently validate metadata-only recovery
+        run: |
+          set -euo pipefail
+          python3 experiments/e12a_metadata_recovery_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-after.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+          jq '{status, statistics, imatrix, validation}' "$EVIDENCE_DIR/summary.json"
+
+      - name: Upload metadata-only recovery evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e12a-metadata-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error

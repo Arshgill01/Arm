@@ -1,0 +1,75 @@
+{
+  "artifact_validation": {
+    "all_extracted_regular_files_hashed": true,
+    "file_count": 111,
+    "inventory_sha256": "5bcb388cf897effc9775b91f357a12db4f79dca57801d51394f3cfeaf3715fa7",
+    "total_regular_file_bytes": 42411274
+  },
+  "claim_boundary": "The exact matrix and complete 182-tensor statistics are retained, but the original metadata gate remains unevaluated. This run provides no generated quantization, quality, service, energy, PMU, device, cost, or performance result.",
+  "contract_sha256": "6b2c1159eee5615ba38ecebfc3c8ad5c850f2ec3b9318e6415fa35e63904e13d",
+  "decision": {
+    "complete_imatrix_accepted": false,
+    "failed_run_rehabilitated": false,
+    "generated_quant_dispatch_allowed": false,
+    "matrix_recomputation_allowed": false,
+    "separately_frozen_metadata_only_recovery_allowed": true,
+    "statistics_repetition_allowed": false
+  },
+  "experiment_id": "E12a-inspection-recovery",
+  "experiment_result_valid": false,
+  "failure": {
+    "cause": "The inspection venv pinned NumPy but omitted PyYAML, which gguf-py's package import requires before the metadata dumper can start.",
+    "exception": "ModuleNotFoundError: No module named 'yaml'",
+    "repair_boundary": "A separately frozen metadata-only successor may download this exact artifact, check out the exact gguf-py source, install numpy==2.2.6 and pyyaml==6.0.3, and dump the exact read-only matrix. It may not rebuild the native tool, redownload the model, repeat statistics, recompute, or modify the matrix.",
+    "stage": "post-statistics GGUF metadata dump"
+  },
+  "github": {
+    "artifact_digest": "sha256:8575c0714a93dcf808a9017d18319431835d38fddaa281527b4fc9e343da92b2",
+    "artifact_id": "8872135870",
+    "artifact_name": "e12a-inspection-recovery-30854613238-1",
+    "artifact_size_bytes": 16395137,
+    "job_id": "91822569926",
+    "repository_commit": "40c11abad81c89d7a99a2d1586b79a727a8a2f30",
+    "run_attempt": 1,
+    "run_id": "30854613238",
+    "run_log_sha256": "e236a05315ca5ffeac931104bdc26a1f887d52b590e8ab2651172075e0a80a16",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30854613238"
+  },
+  "matrix": {
+    "sha256": "2338867f1b51341e02d0f63ca4d7281731a94b0738d80413476581ae991a1548",
+    "size_bytes": 3010048,
+    "unchanged_before_and_after_inspection": true
+  },
+  "matrix_compute_completed": true,
+  "metadata_completed": false,
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "schema_version": 1,
+  "statistics": {
+    "process": {
+      "elapsed": "0:00.02",
+      "exit_status": 0,
+      "maximum_rss_kib": 15736,
+      "percent_cpu": "100%"
+    },
+    "sha256": "64aa1fa92b333347fb22106fe484230ad6e01baf3b4978c32c358f2cbd39bc66",
+    "tensor_count": 182
+  },
+  "statistics_completed": true,
+  "status": "invalid_postinspection_metadata_dependency_failure"
+}

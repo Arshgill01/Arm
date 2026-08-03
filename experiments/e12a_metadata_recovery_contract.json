@@ -1,0 +1,120 @@
+{
+  "acceptance": {
+    "require_entry_names_match_checkpoint": true,
+    "require_exact_source_artifact_inventory": true,
+    "require_matrix_hash_unchanged": true,
+    "require_matrix_read_only_mode": true,
+    "require_ordered_dataset_metadata": true,
+    "required_architecture": "aarch64",
+    "required_chunk_size": 512,
+    "required_final_chunks": 32,
+    "required_imatrix_entries": 182,
+    "required_matrix_sha256": "2338867f1b51341e02d0f63ca4d7281731a94b0738d80413476581ae991a1548",
+    "required_matrix_size_bytes": 3010048,
+    "required_statistics_sha256": "64aa1fa92b333347fb22106fe484230ad6e01baf3b4978c32c358f2cbd39bc66",
+    "required_statistics_tensors": 182
+  },
+  "claim_boundary": "A pass accepts the exact previously computed application-conditioned matrix without repeating computation or statistics. It is not a new calibration run and provides no generated quantization, quality, service, energy, PMU, local-device, fleet, or cost result.",
+  "decision": {
+    "failed_runs_rehabilitated": false,
+    "failure_rule": "Retain any artifact, inventory, source, dependency, matrix, statistics, metadata, dataset-order, chunk-count, entry-set, or post-dump hash failure.",
+    "metadata_success_authorizes_generated_quant_successor": true
+  },
+  "experiment_id": "E12a-metadata-recovery",
+  "hypothesis": "The exact read-only matrix that already passed the 182-tensor statistics gate also satisfies the original 32-chunk GGUF metadata gates.",
+  "inputs": {
+    "failure_manifest_path": "results/manifests/e12a-inspection-recovery-30854613238.json",
+    "failure_manifest_sha256": "577b4756b6268ef4e9642145fa6f2a7436acaf8a27355f305fdf7cba07c7fa4e",
+    "failure_retainer_path": "experiments/e12a_metadata_dependency_failure_retain.py",
+    "failure_retainer_sha256": "e2a17ae5c4b02fea96c777d8f3f18a2ba603dda6223f4c2ac58499d4b4d0133e",
+    "freeze_path": "experiments/e12a_metadata_recovery_freeze.py",
+    "freeze_sha256": "ed354d2333a0efe3229126b5304870ec215ca7eb1b97a035c1cd29e2e17b817b",
+    "ingest_path": "experiments/e12a_metadata_recovery_ingest.py",
+    "ingest_sha256": "55e60ee749358d1f7956b4b85c0a864784664bda99b3d3a14630b5bb05bfd4db",
+    "inspection_contract_path": "experiments/e12a_inspection_recovery_contract.json",
+    "inspection_contract_sha256": "6b2c1159eee5615ba38ecebfc3c8ad5c850f2ec3b9318e6415fa35e63904e13d",
+    "test_path": "tests/test_e12a_metadata_recovery.py",
+    "test_sha256": "312c4835ddb3328ff4ec60ec6d40dadbff4c695073e79f4ed7ca35b913c065a7"
+  },
+  "metadata": {
+    "command_after_python": [
+      "-m",
+      "gguf.scripts.gguf_dump",
+      "MATRIX_PATH",
+      "--json",
+      "--json-array"
+    ],
+    "dependencies": [
+      "numpy==2.2.6",
+      "pyyaml==6.0.3"
+    ],
+    "matrix_mutation_allowed": false,
+    "matrix_recomputation_allowed": false,
+    "model_download_allowed": false,
+    "native_tool_rebuild_allowed": false,
+    "python": "3.10",
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_repository": "https://github.com/ggml-org/llama.cpp.git",
+    "source_tag": "b10216",
+    "statistics_repetition_allowed": false
+  },
+  "prerequisite": {
+    "artifact_digest": "sha256:8575c0714a93dcf808a9017d18319431835d38fddaa281527b4fc9e343da92b2",
+    "artifact_id": "8872135870",
+    "artifact_name": "e12a-inspection-recovery-30854613238-1",
+    "artifact_size_bytes": 16395137,
+    "artifact_validation": {
+      "all_extracted_regular_files_hashed": true,
+      "file_count": 111,
+      "inventory_sha256": "5bcb388cf897effc9775b91f357a12db4f79dca57801d51394f3cfeaf3715fa7",
+      "total_regular_file_bytes": 42411274
+    },
+    "failure_manifest_sha256": "577b4756b6268ef4e9642145fa6f2a7436acaf8a27355f305fdf7cba07c7fa4e",
+    "job_id": "91822569926",
+    "matrix": {
+      "sha256": "2338867f1b51341e02d0f63ca4d7281731a94b0738d80413476581ae991a1548",
+      "size_bytes": 3010048,
+      "unchanged_before_and_after_inspection": true
+    },
+    "repository_commit": "40c11abad81c89d7a99a2d1586b79a727a8a2f30",
+    "run_attempt": 1,
+    "run_id": "30854613238",
+    "statistics": {
+      "process": {
+        "elapsed": "0:00.02",
+        "exit_status": 0,
+        "maximum_rss_kib": 15736,
+        "percent_cpu": "100%"
+      },
+      "sha256": "64aa1fa92b333347fb22106fe484230ad6e01baf3b4978c32c358f2cbd39bc66",
+      "tensor_count": 182
+    }
+  },
+  "schema_version": 1,
+  "source": {
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "patches": [
+      {
+        "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      }
+    ],
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "tag": "b10216",
+    "tools": [
+      "llama-imatrix",
+      "llama-quantize"
+    ]
+  },
+  "state": "frozen after retaining the successful statistics and PyYAML failure, before observing any completed metadata dump",
+  "title": "Metadata-only validation of exact completed E12a matrix"
+}
