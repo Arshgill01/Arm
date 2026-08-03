@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E12b-plan",
+  "title": "Matched imatrix and mixed-tensor quantization frontier",
+  "state": "candidate recipes and comparison policy frozen while E10d run 30818303255 and E12a run 30822632328 are in progress and before either run's model result or imatrix statistics are observed",
+  "hypothesis": "At least one imatrix-conditioned or predefined mixed-tensor recipe is non-dominated against its same-tool no-imatrix control and the stock E11a ladder on external quality and model bytes.",
+  "prerequisites": {
+    "e10d": {
+      "run_id": "30818303255",
+      "run_attempt": 1,
+      "artifact": "e10d-aggregate-30818303255-1",
+      "contract_sha256": "ee7672a610b3bc29628eccda4ee960efe5c1da4f577a7ef681097cf27b563c71",
+      "required_status": "valid_external_holdout"
+    },
+    "e12a": {
+      "run_id": "30822632328",
+      "run_attempt": 1,
+      "artifact": "e12a-imatrix-30822632328-1",
+      "git_commit": "204636445ee3e6ba712ea5fce001312c0bd9c044",
+      "contract_sha256": "549ea26150cae35fee1cdc841746a4eb1a6b066496c004186c9d0330d6a29959",
+      "required_status": "valid_application_conditioned_imatrix"
+    },
+    "failure_rule": "If either exact referenced run fails, is incomplete, or does not independently validate, do not dispatch E12b and do not silently substitute a rerun. Retain the prerequisite failure first."
+  },
+  "source_model": {
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "path": "Ministral-3-3B-Instruct-2512-BF16.gguf",
+    "sha256": "413b0d1fa42c2656f6c61aab88171191fc2df2d07427d82b047c89ac977bc266",
+    "size_bytes": 6866220032,
+    "license": "Apache-2.0"
+  },
+  "quantizer": {
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "tag": "b10216",
+    "threads": 4,
+    "same_binary_for_every_candidate": true,
+    "requantization_allowed": false,
+    "dry_run": false
+  },
+  "candidates": [
+    {
+      "candidate": "e12b_q3_k_m_control",
+      "role": "matched no-imatrix control",
+      "base_quantization": "Q3_K_M",
+      "uses_imatrix": false,
+      "argv_after_binary": ["BF16_PATH", "OUTPUT_PATH", "q3_k_m", "4"]
+    },
+    {
+      "candidate": "e12b_q3_k_m_imatrix",
+      "role": "stock-equivalent imatrix candidate",
+      "base_quantization": "Q3_K_M",
+      "uses_imatrix": true,
+      "argv_after_binary": ["--imatrix", "IMATRIX_PATH", "BF16_PATH", "OUTPUT_PATH", "q3_k_m", "4"]
+    },
+    {
+      "candidate": "e12b_iq4_xs_control",
+      "role": "matched no-imatrix control",
+      "base_quantization": "IQ4_XS",
+      "uses_imatrix": false,
+      "argv_after_binary": ["BF16_PATH", "OUTPUT_PATH", "iq4_xs", "4"]
+    },
+    {
+      "candidate": "e12b_iq4_xs_imatrix",
+      "role": "stock-equivalent imatrix candidate",
+      "base_quantization": "IQ4_XS",
+      "uses_imatrix": true,
+      "argv_after_binary": ["--imatrix", "IMATRIX_PATH", "BF16_PATH", "OUTPUT_PATH", "iq4_xs", "4"]
+    },
+    {
+      "candidate": "e12b_q4_k_s_control",
+      "role": "matched no-imatrix control",
+      "base_quantization": "Q4_K_S",
+      "uses_imatrix": false,
+      "argv_after_binary": ["BF16_PATH", "OUTPUT_PATH", "q4_k_s", "4"]
+    },
+    {
+      "candidate": "e12b_q4_k_s_imatrix",
+      "role": "stock-equivalent imatrix candidate",
+      "base_quantization": "Q4_K_S",
+      "uses_imatrix": true,
+      "argv_after_binary": ["--imatrix", "IMATRIX_PATH", "BF16_PATH", "OUTPUT_PATH", "q4_k_s", "4"]
+    },
+    {
+      "candidate": "e12b_q3_k_m_output_embed_q6",
+      "role": "predefined mixed-tensor candidate",
+      "base_quantization": "Q3_K_M",
+      "uses_imatrix": true,
+      "argv_after_binary": [
+        "--imatrix", "IMATRIX_PATH",
+        "--output-tensor-type", "q6_k",
+        "--token-embedding-type", "q6_k",
+        "BF16_PATH", "OUTPUT_PATH", "q3_k_m", "4"
+      ]
+    },
+    {
+      "candidate": "e12b_iq4_xs_v_down_q5",
+      "role": "predefined mixed-tensor candidate",
+      "base_quantization": "IQ4_XS",
+      "uses_imatrix": true,
+      "argv_after_binary": [
+        "--imatrix", "IMATRIX_PATH",
+        "--tensor-type", "attn_v=q5_k",
+        "--tensor-type", "ffn_down=q5_k",
+        "BF16_PATH", "OUTPUT_PATH", "iq4_xs", "4"
+      ]
+    },
+    {
+      "candidate": "e12b_q4_k_s_edge_layers_q6",
+      "role": "predefined mixed-tensor candidate",
+      "base_quantization": "Q4_K_S",
+      "uses_imatrix": true,
+      "argv_after_binary": [
+        "--imatrix", "IMATRIX_PATH",
+        "--tensor-type", "blk\\.(0|1|24|25)\\.=q6_k",
+        "BF16_PATH", "OUTPUT_PATH", "q4_k_s", "4"
+      ]
+    }
+  ],
+  "matched_pairs": [
+    ["e12b_q3_k_m_control", "e12b_q3_k_m_imatrix"],
+    ["e12b_iq4_xs_control", "e12b_iq4_xs_imatrix"],
+    ["e12b_q4_k_s_control", "e12b_q4_k_s_imatrix"]
+  ],
+  "quality": {
+    "adapter": "Exact validated E10d serial probability_ids scorer with the same tokenizer parity, synthetic preflight, request cache isolation, raw compressed responses, and independent ingestion.",
+    "tasks": ["e9b_arc_easy", "e9b_hellaswag", "e9b_winogrande"],
+    "samples_per_task": 100,
+    "token_score_requests_per_model": 14374,
+    "coordinates": ["e9b_arc_easy.acc_norm", "e9b_hellaswag.acc_norm", "e9b_winogrande.acc"],
+    "minimum_accuracy_gate": null,
+    "same_prepared_workload_required": true
+  },
+  "frontier": {
+    "weighted_score": false,
+    "maximize": ["e9b_arc_easy.acc_norm", "e9b_hellaswag.acc_norm", "e9b_winogrande.acc"],
+    "minimize": ["model_size_bytes"],
+    "dominance": "A point dominates only when no worse on every frozen coordinate and strictly better on at least one.",
+    "comparisons": [
+      "Every imatrix stock-equivalent against its matched same-tool no-imatrix control",
+      "Every generated point against the exact E11a stock ladder after E11a independently validates",
+      "Every mixed candidate against all generated and stock points"
+    ],
+    "shortlist": "Advance every valid non-dominated point to matched native service measurement; do not impose a post-result count cap."
+  },
+  "acceptance": {
+    "runner": "ubuntu-24.04-arm",
+    "required_architecture": "aarch64",
+    "quantize_exit_status": 0,
+    "request_failures": 0,
+    "maximum_ready_ms": 15000.0,
+    "maximum_process_rss_kib": 15728640,
+    "required_imatrix_metadata_on_imatrix_candidates": true,
+    "forbidden_imatrix_metadata_on_controls": true,
+    "required_tensor_override_log_on_mixed_candidates": true,
+    "raw_responses_per_model": 14374
+  },
+  "decision": {
+    "quality_result_can_promote_product": false,
+    "matched_native_service_required": true,
+    "e11c_sealed_confirmation_required": true,
+    "original_30_task_admission_contract_rewrite_allowed": false,
+    "negative_result_rule": "Retain quantizer rejection, missing imatrix metadata, unmatched tensor regex, output hash or size failure, load failure, tokenizer mismatch, scoring failure, low or mixed quality, larger files, matched-control regression, stock regression, dominated points, and incomplete cells without changing recipes, data, tasks, samples, adapter, or dominance."
+  },
+  "claim_boundary": "E12b can establish only an exploratory quality-size frontier and matched imatrix deltas for nine exact b10216-generated recipes. It cannot promote a model before native service evidence and E11c confirmation, cannot attribute mixed-recipe outcomes to one tensor group, and supports no energy, PMU, local-device, fleet, cost, pruning, other-runtime, or general hardware claim."
+}
