@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E11a",
+  "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+  "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+  "license": "Apache-2.0",
+  "base_model": "mistralai/Ministral-3-3B-Instruct-2512",
+  "parameter_scale": "3.4B language model",
+  "provenance": {
+    "source": "Hugging Face model API with blobs=true at the exact revision",
+    "api_url": "https://huggingface.co/api/models/unsloth/Ministral-3-3B-Instruct-2512-GGUF/revision/7564922f37fa5bbb62b87f09a55c12f1f91d7a6a?blobs=true",
+    "verified_revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "retrieved_utc": "2026-08-03"
+  },
+  "variants": [
+    {
+      "candidate": "ministral3_3b_q3_k_s",
+      "quantization": "Q3_K_S",
+      "path": "Ministral-3-3B-Instruct-2512-Q3_K_S.gguf",
+      "size_bytes": 1639150880,
+      "sha256": "35e350edab573bba67d5f5ffa07bad0edd41fec7fd0ba4f4fc8c05760bf54b8a"
+    },
+    {
+      "candidate": "ministral3_3b_q3_k_m",
+      "quantization": "Q3_K_M",
+      "path": "Ministral-3-3B-Instruct-2512-Q3_K_M.gguf",
+      "size_bytes": 1795552544,
+      "sha256": "91489d8d75b0a9e682e2f17ab9f25260ab935cddf6edc8f3510b8c691993c5d5"
+    },
+    {
+      "candidate": "ministral3_3b_iq4_xs",
+      "quantization": "IQ4_XS",
+      "path": "Ministral-3-3B-Instruct-2512-IQ4_XS.gguf",
+      "size_bytes": 1959277856,
+      "sha256": "d847cdafe9459948337183eb0eeca2ee3ce0c1aed45066580e01e5751dcf3476"
+    },
+    {
+      "candidate": "ministral3_3b_iq4_nl",
+      "quantization": "IQ4_NL",
+      "path": "Ministral-3-3B-Instruct-2512-IQ4_NL.gguf",
+      "size_bytes": 2051290400,
+      "sha256": "0479b05eb4890b51edf1213fb6d0d9466e93c685da491943d1a5aeb8013d49f8"
+    },
+    {
+      "candidate": "ministral3_3b_q4_k_s",
+      "quantization": "Q4_K_S",
+      "path": "Ministral-3-3B-Instruct-2512-Q4_K_S.gguf",
+      "size_bytes": 2053256480,
+      "sha256": "9973a0014ea4c7d4f2080cd468a89328ba760fbd3e2f872da2a92855d69bb50b"
+    },
+    {
+      "candidate": "ministral3_3b_q4_k_m",
+      "quantization": "Q4_K_M",
+      "path": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "size_bytes": 2146497824,
+      "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "role": "selected quality and service anchor"
+    },
+    {
+      "candidate": "ministral3_3b_q5_k_m",
+      "quantization": "Q5_K_M",
+      "path": "Ministral-3-3B-Instruct-2512-Q5_K_M.gguf",
+      "size_bytes": 2473653536,
+      "sha256": "8f208f4a8785aa1bdd8b506e36b036ac60c7f7a7fb144e3353781c74c58a33db"
+    },
+    {
+      "candidate": "ministral3_3b_q6_k",
+      "quantization": "Q6_K",
+      "path": "Ministral-3-3B-Instruct-2512-Q6_K.gguf",
+      "size_bytes": 2821256480,
+      "sha256": "ca22c676b97aad1d50952416f44ddd6d8130e24c11c474aed5e8865dd7e35297"
+    },
+    {
+      "candidate": "ministral3_3b_q8_0",
+      "quantization": "Q8_0",
+      "path": "Ministral-3-3B-Instruct-2512-Q8_0.gguf",
+      "size_bytes": 3651679520,
+      "sha256": "920163471715241a9d99367d507e2ad94d1ebc34d0d169d25e5d97a49ec72556"
+    }
+  ]
+}

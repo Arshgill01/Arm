@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E11a",
+  "title": "Arm-aware stock Ministral quantization frontier",
+  "state": "candidate universe and decision policy frozen while E10d is running and before any E10d or new-variant external result is observed",
+  "scope": "An exploratory quality and native Arm service frontier across all nine stock quantizations identified in the maximum-ambition campaign. E10d supplies the exact Q4_K_M anchor and Q4_0 diagnostic control only if its frozen validator passes. The eight remaining candidates are evaluated without changing the E10d task, sample, tokenizer, metric, or serial scoring contract.",
+  "hypothesis": "At least one stock format is non-dominated against Q4_K_M on external quality, package size, native Arm service throughput, peak RSS, or readiness. IQ4_NL is a specific Arm mechanism candidate because pinned b10216 contains a NEON dot-product repack path for that type; this is a hypothesis, not a result.",
+  "inputs": {
+    "models_path": "experiments/e11a_models.json",
+    "models_sha256": "5cb8c990a9c79b28f5d8ecf06656e54305462561f0885b6be65228472e0a91b1",
+    "e10d_contract_path": "experiments/e10d_contract.json",
+    "e10d_contract_sha256": "ee7672a610b3bc29628eccda4ee960efe5c1da4f577a7ef681097cf27b563c71",
+    "holdout_sample_map_path": "experiments/e10d_sample_map.json",
+    "holdout_sample_map_sha256": "9c7a4f9313888cde1a4437b2ee776b14721fda4146ae4b7fe10dc74ec0d7fe7b"
+  },
+  "candidate_order": [
+    "ministral3_3b_q3_k_s",
+    "ministral3_3b_q3_k_m",
+    "ministral3_3b_iq4_xs",
+    "ministral3_3b_iq4_nl",
+    "ministral3_3b_q4_k_s",
+    "ministral3_3b_q4_k_m",
+    "ministral3_3b_q5_k_m",
+    "ministral3_3b_q6_k",
+    "ministral3_3b_q8_0"
+  ],
+  "quality_phase": {
+    "prerequisite": "The E10d serial exact-token adapter, tokenizer parity, raw retention, and aggregate validation must pass unchanged.",
+    "tasks": [
+      "e9b_arc_easy",
+      "e9b_hellaswag",
+      "e9b_winogrande"
+    ],
+    "samples_per_task": 100,
+    "official_metrics": {
+      "e9b_arc_easy": ["acc", "acc_norm"],
+      "e9b_hellaswag": ["acc", "acc_norm"],
+      "e9b_winogrande": ["acc"]
+    },
+    "frontier_quality_coordinates": [
+      "e9b_arc_easy.acc_norm",
+      "e9b_hellaswag.acc_norm",
+      "e9b_winogrande.acc"
+    ],
+    "minimum_accuracy_gate": null,
+    "retain_per_sample_logs": true,
+    "reuse_rule": "Reuse E10d Q4_K_M and Q4_0 results only byte-for-byte after E10d passes; never rerun them merely to obtain a preferable outcome.",
+    "new_candidates": [
+      "ministral3_3b_q3_k_s",
+      "ministral3_3b_q3_k_m",
+      "ministral3_3b_iq4_xs",
+      "ministral3_3b_iq4_nl",
+      "ministral3_3b_q4_k_s",
+      "ministral3_3b_q5_k_m",
+      "ministral3_3b_q6_k",
+      "ministral3_3b_q8_0"
+    ]
+  },
+  "exploratory_frontier_rule": {
+    "coordinates": "Maximize each of the three frozen quality coordinates while minimizing model bytes. No weighted quality score is used for dominance.",
+    "dominance": "A candidate dominates another only when it is no worse on all three quality coordinates and model bytes, and strictly better on at least one.",
+    "ties": "Exact quality ties retain the smaller model. Exact size and quality ties retain both as identical frontier points.",
+    "poor_result_rule": "Every result remains in the full table even if dominated, below Q4_0, or unexpectedly broken.",
+    "shortlist": "Advance every non-dominated quality-size point to matched native service measurement; do not impose a post-hoc cap."
+  },
+  "service_phase": {
+    "runner": "ubuntu-24.04-arm",
+    "service": "Exact E7c one-slot OpenSSL-off b10216 recipe without the E10b response patch, because end-product generation service performance is the target.",
+    "workload": "Exact E9a 30-task service workload and quality checks, with fresh processes and reverse-balanced Q4_K_M anchor ordering.",
+    "measurements": [
+      "exact answers",
+      "throughput",
+      "median/p95 latency",
+      "CPU seconds per request",
+      "peak RSS",
+      "startup/readiness",
+      "request failures",
+      "model buffer and repack mechanism logs"
+    ],
+    "frontier_coordinates": "Quality coordinates, model bytes, median throughput, median latency, CPU seconds per request, peak RSS, and readiness remain separate; no weighted score.",
+    "promotion": "A stock variant can become a candidate tier only after it is non-dominated in matched native service evidence and then passes a separately frozen sealed quality confirmation."
+  },
+  "sealed_confirmation": {
+    "required": true,
+    "selected_before_exploratory_results": false,
+    "rule": "Select and freeze a new licensed task/sample holdout before inspecting service-phase outcomes, then run only the mechanically selected shortlist. The existing 30-task admission contract remains unchanged."
+  },
+  "negative_result_rule": "Retain model download/hash failure, unsupported quant type, load failure, tokenizer mismatch, scoring failure, low or mixed quality, regression against Q4_K_M or Q4_0, repack absence, performance regression, memory regression, or readiness regression without changing candidates, tasks, samples, metrics, or dominance rules.",
+  "claim_boundary": "E11a can construct an exploratory stock-quant quality/size frontier and a separately matched native Arm service frontier for the exact pinned repository and runtime. It cannot promote a replacement model without a new sealed confirmation, rewrite the original 30-task admission contract, attribute format performance solely to one kernel, or make energy, PMU, local-device, fleet, cost, mixed-quant, imatrix, pruning, or other-runtime claims."
+}
