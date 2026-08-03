@@ -1,0 +1,161 @@
+name: Arm E17b long-context K/V density
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e17b_contract.json
+  CONTRACT_SHA256: e3201357fe0b4728ae89d1d0754ac8aebabae2ecd5ed1e00e31bb0575edbbb6d
+  E9A_RUN_ID: "30764802071"
+  E9A_ARTIFACT: e9a-final-service-30764802071-1
+  E9A_ARTIFACT_ID: "8838874234"
+
+jobs:
+  long_context_density:
+    name: Test frozen 16K four-slot and eight-slot cells
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 180
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e17b-${{ github.run_id }}-${{ github.run_attempt }}
+      E9A_DIR: ${{ github.workspace }}/results/raw/e17b-e9a-prerequisite
+      MODEL_ROOT: /tmp/Pareto64-E17b/models
+
+    steps:
+      - name: Check out frozen long-context experiment
+        uses: actions/checkout@v7
+
+      - name: Download exact retained E9a service artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ env.E9A_ARTIFACT }}
+          path: ${{ env.E9A_DIR }}
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.E9A_RUN_ID }}
+
+      - name: Verify contract, native host, runtime, and resource tool
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          test -x /usr/bin/prlimit
+          test -x /usr/bin/time
+          mkdir -p "$EVIDENCE_DIR/frozen-inputs" "$MODEL_ROOT"
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          jq -r '
+            .inputs as $inputs
+            | $inputs
+            | to_entries[]
+            | select(.key | endswith("_path"))
+            | [$inputs[.key | sub("_path$"; "_sha256")], .value]
+            | @tsv
+          ' "$CONTRACT_PATH" | while IFS=$'\t' read -r expected input_file; do
+            echo "$expected  $input_file" | sha256sum --check --strict
+            mkdir -p "$EVIDENCE_DIR/frozen-inputs/$(dirname "$input_file")"
+            cp "$input_file" "$EVIDENCE_DIR/frozen-inputs/$input_file"
+          done
+          python3 -m unittest tests.test_e17b
+          echo "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d  $E9A_DIR/summary.json" \
+            | sha256sum --check --strict
+          cmp "$E9A_DIR/summary.json" results/manifests/e9a-30764802071.json
+          cp -R "$E9A_DIR/builds/e7c_final" "$EVIDENCE_DIR/runtime"
+          cp "$E9A_DIR/summary.json" "$EVIDENCE_DIR/e9a-workflow-summary.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$E9A_ARTIFACT_ID" \
+            > "$EVIDENCE_DIR/e9a-artifact.json"
+          test "$(jq -r '.digest' "$EVIDENCE_DIR/e9a-artifact.json")" = \
+            sha256:3d360aed5fd02abf5421c3a23309f1abda56bf5f96c0e406a5c13897c15aae70
+          runtime_bin="$EVIDENCE_DIR/runtime/runtime-files/bin"
+          chmod +x "$runtime_bin/llama-server"
+          ln -sfn libllama-common.so.0.0.10216 "$runtime_bin/libllama-common.so.0"
+          ln -sfn libmtmd.so.0.0.10216 "$runtime_bin/libmtmd.so.0"
+          ln -sfn libllama.so.0.0.10216 "$runtime_bin/libllama.so.0"
+          ln -sfn libggml.so.0.18.0 "$runtime_bin/libggml.so.0"
+          ln -sfn libggml-base.so.0.18.0 "$runtime_bin/libggml-base.so.0"
+          ln -sfn libggml-cpu.so.0.18.0 "$runtime_bin/libggml-cpu.so.0"
+          echo "e15e14bd5d4f86e09a79603862f52db841de758ecc21b2c476a2ba92cc8ee40e  $runtime_bin/llama-server" \
+            | sha256sum --check --strict
+          echo "LD_LIBRARY_PATH=$runtime_bin" >> "$GITHUB_ENV"
+          echo "SERVER=$runtime_bin/llama-server" >> "$GITHUB_ENV"
+          LD_LIBRARY_PATH="$runtime_bin" ldd "$runtime_bin/llama-server" \
+            | tee "$EVIDENCE_DIR/runtime-ldd.txt"
+          if grep -q 'not found' "$EVIDENCE_DIR/runtime-ldd.txt"; then exit 1; fi
+          if grep -Eq 'lib(crypto|ssl)\.so\.3' "$EVIDENCE_DIR/runtime-ldd.txt"; then exit 1; fi
+          LD_LIBRARY_PATH="$runtime_bin" "$runtime_bin/llama-server" --version \
+            2>&1 | tee "$EVIDENCE_DIR/server-version.txt"
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          cp experiments/e17b_tasks.json "$EVIDENCE_DIR/tasks.json"
+          cp experiments/e17b_probe.py "$EVIDENCE_DIR/probe.py"
+          cp experiments/e17b_cell.sh "$EVIDENCE_DIR/cell.sh"
+          cp experiments/e17b_freeze.py "$EVIDENCE_DIR/freeze.py"
+          cp experiments/e17b_ingest.py "$EVIDENCE_DIR/ingest.py"
+          cp tests/test_e17b.py "$EVIDENCE_DIR/test.py"
+          cp results/manifests/e17a-30856539977.json "$EVIDENCE_DIR/e17a-retained-manifest.json"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          free -b | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          /usr/bin/prlimit --version | tee "$EVIDENCE_DIR/prlimit-version.txt"
+          git rev-parse HEAD | tee "$EVIDENCE_DIR/repository-commit.txt"
+
+      - name: Download and verify exact selected model
+        run: |
+          set -euo pipefail
+          repository="$(jq -r '.selected.repository' "$CONTRACT_PATH")"
+          revision="$(jq -r '.selected.revision' "$CONTRACT_PATH")"
+          entrypoint="$(jq -r '.selected.path' "$CONTRACT_PATH")"
+          model_sha="$(jq -r '.selected.model_sha256' "$CONTRACT_PATH")"
+          model_size="$(jq -r '.selected.model_size_bytes' "$CONTRACT_PATH")"
+          MODEL="$MODEL_ROOT/$entrypoint"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$MODEL" \
+            "https://huggingface.co/$repository/resolve/$revision/$entrypoint?download=true"
+          test "$(stat --format='%s' "$MODEL")" = "$model_size"
+          echo "$model_sha  $MODEL" | sha256sum --check --strict
+          sha256sum "$MODEL" | tee "$EVIDENCE_DIR/model-sha256.txt"
+          echo "MODEL=$MODEL" >> "$GITHUB_ENV"
+
+      - name: Run all nine frozen long-context cells
+        run: |
+          set -euo pipefail
+          index=0
+          while IFS=$'\t' read -r configuration slots repetition; do
+            index=$((index + 1))
+            printf -v cell_index '%02d' "$index"
+            cell_dir="$EVIDENCE_DIR/cells/${cell_index}-${configuration}-s${slots}-r${repetition}"
+            mkdir -p "$cell_dir"
+            set +e
+            bash experiments/e17b_cell.sh \
+              "$cell_index" "$configuration" "$slots" "$repetition"
+            caller_status=$?
+            set -e
+            echo "$caller_status" > "$cell_dir/caller-exit.txt"
+          done < <(jq -r '.execution.cells[] | [.configuration, .slots, .repetition] | @tsv' "$CONTRACT_PATH")
+          test "$index" -eq 9
+
+      - name: Independently validate long-context density
+        run: |
+          set -euo pipefail
+          python3 experiments/e17b_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          free -b | tee "$EVIDENCE_DIR/memory-after.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+          jq '{status, gates, decision, validation}' "$EVIDENCE_DIR/summary.json"
+
+      - name: Upload complete E17b evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e17b-long-context-density-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error

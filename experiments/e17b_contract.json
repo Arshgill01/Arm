@@ -1,0 +1,210 @@
+{
+  "acceptance": {
+    "all_nine_cells_attempted": true,
+    "at_least_one_quantized_eight_slot_cell_must_serve_for_density_win": true,
+    "f16_four_slot_cells_must_serve": true,
+    "failed_eight_slot_launch_is_valid_resource_negative": true,
+    "maximum_eight_to_four_slot_p95_ratio": 2.0,
+    "maximum_q4_allocation_ratio": 0.35,
+    "maximum_q8_allocation_ratio": 0.6,
+    "maximum_quantized_four_slot_p95_ratio": 1.15,
+    "minimum_eight_to_four_slot_throughput_ratio": 0.9,
+    "minimum_quantized_four_slot_throughput_ratio": 0.9,
+    "quantized_promotion_requires_all_eight_exact_answers_in_all_three_cells": true,
+    "required_architecture": "aarch64",
+    "successful_cell_requires_all_prompt_cache_counts_zero": true,
+    "successful_cell_requires_exact_allocation_log": true,
+    "successful_cell_requires_zero_request_failures": true
+  },
+  "claim_boundary": "E17b can establish only exact-runtime 16K synthetic retrieval quality, four-slot service behavior, and eight-slot capacity under a 15 GiB process address-space ceiling on a four-vCPU Neoverse-N2 GitHub Arm runner. It does not establish broad task quality, maximum model context, fleet scaling, energy, PMU, local-device, or cost claims.",
+  "decision": {
+    "eight_slot_result_is_capacity_and_service_evidence_not_a_repeated_default_benchmark": true,
+    "evaluate_both_e17a_supported_quantized_pairs": true,
+    "four_slot_performance_uses_two_repetitions": true,
+    "no_global_service_promotion_without_separate_general_quality_confirmation": true,
+    "promote_only_candidates_passing_quality_allocation_and_service_gates": true,
+    "retain_f16_eight_slot_success_or_resource_failure": true
+  },
+  "execution": {
+    "batch_size": 1024,
+    "cells": [
+      {
+        "configuration": "f16_f16",
+        "repetition": 1,
+        "slots": 4
+      },
+      {
+        "configuration": "q8_0_q8_0",
+        "repetition": 1,
+        "slots": 4
+      },
+      {
+        "configuration": "q4_0_q4_0",
+        "repetition": 1,
+        "slots": 4
+      },
+      {
+        "configuration": "q4_0_q4_0",
+        "repetition": 2,
+        "slots": 4
+      },
+      {
+        "configuration": "q8_0_q8_0",
+        "repetition": 2,
+        "slots": 4
+      },
+      {
+        "configuration": "f16_f16",
+        "repetition": 2,
+        "slots": 4
+      },
+      {
+        "configuration": "q4_0_q4_0",
+        "repetition": 1,
+        "slots": 8
+      },
+      {
+        "configuration": "q8_0_q8_0",
+        "repetition": 1,
+        "slots": 8
+      },
+      {
+        "configuration": "f16_f16",
+        "repetition": 1,
+        "slots": 8
+      }
+    ],
+    "configurations": {
+      "f16_f16": {
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16"
+      },
+      "q4_0_q4_0": {
+        "kv_cache_type_k": "q4_0",
+        "kv_cache_type_v": "q4_0"
+      },
+      "q8_0_q8_0": {
+        "kv_cache_type_k": "q8_0",
+        "kv_cache_type_v": "q8_0"
+      }
+    },
+    "continuous_batching": true,
+    "eight_slot_order_places_resource_risk_last": true,
+    "flash_attention": "on",
+    "four_slot_order_is_reverse_balanced": true,
+    "logical_cpus": 4,
+    "micro_batch_size": 512,
+    "process_address_space_limit_bytes": 16106127360,
+    "quantized_candidates": [
+      "q8_0_q8_0",
+      "q4_0_q4_0"
+    ],
+    "runner": "ubuntu-24.04-arm",
+    "threads": 4,
+    "threads_batch": 4
+  },
+  "experiment_id": "E17b",
+  "hypothesis": "At least one E17a-supported quantized K/V pair preserves the frozen 16K retrieval answers and four-slot service SLO while admitting eight 16K slots under the same 15 GiB process address-space ceiling.",
+  "inputs": {
+    "cell_path": "experiments/e17b_cell.sh",
+    "cell_sha256": "85958efcb6f9a0fd526e858fb6130a230c293667709d1e9f942feb5ef9725fe9",
+    "e17a_contract_path": "experiments/e17a_second_successor_contract.json",
+    "e17a_contract_sha256": "c59e527ff3b8f51c5ad2b404b64b4d18f7dff2619a84411d515682bbb0da1e0a",
+    "e17a_manifest_path": "results/manifests/e17a-30856539977.json",
+    "e17a_manifest_sha256": "55fa5832ee722deb9689e98835dca14445d0552bcd4f620964bfcd7ae794deff",
+    "e9a_manifest_path": "results/manifests/e9a-30764802071.json",
+    "e9a_manifest_sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d",
+    "freeze_path": "experiments/e17b_freeze.py",
+    "freeze_sha256": "44ef4c2818101d825d5fdc80858c265673e6323c7640418f786dedeb3a23d61f",
+    "ingest_path": "experiments/e17b_ingest.py",
+    "ingest_sha256": "df40f8efccf7bd6cffa964209cd96c2981435a40827a053273360cbba1bbbe6c",
+    "probe_path": "experiments/e17b_probe.py",
+    "probe_sha256": "c3fd6845fab55c5cac60e6337897a4f83920a59342a4cb8887068840375b1371",
+    "tasks_path": "experiments/e17b_tasks.json",
+    "tasks_sha256": "5b579e3cbe0fb8615d1fe75fd69e9449726e1fee77ca9a386b180329ff81198e",
+    "test_path": "tests/test_e17b.py",
+    "test_sha256": "84c882387b0e5d3e8a5ccd4066cca14a505cb9527ba4f9a686334028f025a439"
+  },
+  "negative_result_rule": "Retain long-context answer drift, probability-support failure, timeout, allocation regression, process-limit failure, latency or throughput regression, and incomplete density without changing tasks, prompt length, slot counts, cache types, resource ceiling, order, or gates.",
+  "prerequisite": {
+    "artifact_digest": "sha256:a1aeb6c2748695c505a686306690c584c81fd0c4362a806d7d76559ba2a674bc",
+    "artifact_id": "8872697322",
+    "artifact_name": "e17a-kv-v-cache-preflight-30856539977-1",
+    "run_id": "30856539977",
+    "selection_basis": "E17a structural API compatibility and allocation only",
+    "summary_sha256": "55fa5832ee722deb9689e98835dca14445d0552bcd4f620964bfcd7ae794deff",
+    "supported_quantized_configurations": [
+      "q8_0_q8_0",
+      "q4_0_q4_0"
+    ]
+  },
+  "runtime": {
+    "artifact": {
+      "digest": "sha256:3d360aed5fd02abf5421c3a23309f1abda56bf5f96c0e406a5c13897c15aae70",
+      "id": "8838874234",
+      "name": "e9a-final-service-30764802071-1",
+      "run_id": "30764802071",
+      "size_bytes": 18440490,
+      "summary_sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d"
+    },
+    "configuration": "e7c_final",
+    "openssl": "off",
+    "server_sha256": "e15e14bd5d4f86e09a79603862f52db841de758ecc21b2c476a2ba92cc8ee40e",
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_tag": "b10216"
+  },
+  "schema_version": 1,
+  "scoring": {
+    "grammar": "root ::= [ABCD]",
+    "maximum_output_tokens": 1,
+    "n_probs": 32,
+    "prediction": "highest conditional A/B/C/D probability; alphabetical exact-tie break",
+    "retain_sampled_output": true,
+    "samplers": [
+      "temperature"
+    ],
+    "seed": 424242,
+    "temperature": 1.0
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "path": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+  },
+  "state": "frozen after E17a structurally admitted q8/q8 and q4/q4, before observing any 16K prompt, four-slot, eight-slot, quality, latency, throughput, memory, or failure result",
+  "title": "16K long-context quantized-K/V quality and density",
+  "workload": {
+    "answers": {
+      "retrieval-08-a": "A",
+      "retrieval-20-b": "B",
+      "retrieval-35-c": "C",
+      "retrieval-50-d": "D",
+      "retrieval-65-a": "A",
+      "retrieval-80-b": "B",
+      "retrieval-90-c": "C",
+      "retrieval-96-d": "D"
+    },
+    "client_concurrency_equals_slots": true,
+    "client_requests_per_cell": 8,
+    "context_tokens_per_slot": 16384,
+    "fresh_process_per_cell": true,
+    "measured_tasks": 8,
+    "needle_fractions": [
+      0.08,
+      0.2,
+      0.35,
+      0.5,
+      0.65,
+      0.8,
+      0.9,
+      0.96
+    ],
+    "prompt_cache": false,
+    "prompt_token_maximum": 15000,
+    "prompt_token_minimum": 14500,
+    "request_timeout_seconds": 600.0
+  }
+}
