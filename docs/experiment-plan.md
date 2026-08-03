@@ -1586,6 +1586,19 @@ change. A discrepancy in any frozen trace prompt fingerprint aborts before the
 measured trace. The independent pre-result boundary is in
 [`e13b_contract.json`](../experiments/e13b_contract.json).
 
+### E13b outcome
+
+Native run `30833985784` passes every separately frozen gate. Both controller
+traces contain exactly 146 certified-cache, 19 calibrated-fallback, and zero
+unknown requests, and all 660 baseline/controller responses match byte for
+byte. The certificate reaches 1.85158x aggregate throughput, 0.94427x p95
+latency, and 0.53934x CPU seconds/request with zero failures and stable
+repetitions. This admits only the exact 44-entry certificate over the retained
+reversed trace; absent fingerprints still fail closed to uncached execution.
+E13a's count-gate rejection remains unchanged. See the retained
+[`manifest`](../results/manifests/e13b-30833985784.json) and
+[`report`](../results/reports/e13b-cache-certificate-successor.md).
+
 ## E14a frozen tensor-selective repack frontier
 
 E14a tests a distinct memory/throughput mechanism rather than another serving
@@ -1650,6 +1663,19 @@ request definition, and acceptance object. No tensor group or gate was selected
 from the descriptive failed-run values. Every observed point and failure will
 be retained, and E14b cannot rehabilitate E14a. Exact successor provenance is
 frozen in [`e14b_contract.json`](../experiments/e14b_contract.json).
+
+### E14b outcome
+
+Native run `30834588144` captures the required mechanism records in all eight
+cells and produces a valid four-point non-dominated frontier. Every one of the
+240 requests succeeds, all repetitions reproduce the 23/30 answer map, and
+throughput CV stays below 0.433%. Neither predeclared selective point clears the
+unchanged combined product gate: attention-raw retains 78.06% of full-repack
+throughput while saving only 22.14% of its extra RSS, and attention-plus-FFN-
+down retains 62.56% while saving 46.11% and exceeding the p95 limit. Full repack
+remains selected; no threshold, tensor group, or hook is promoted. See the
+retained [`manifest`](../results/manifests/e14b-30834588144.json) and
+[`report`](../results/reports/e14b-selective-repack-frontier.md).
 
 ## E4a frozen accept-backlog tuner
 

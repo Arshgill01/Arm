@@ -94,6 +94,7 @@ class E14bIngestTests(unittest.TestCase):
         for script in (
             "e14b_freeze.py",
             "e14b_ingest.py",
+            "e14b_retain.py",
         ):
             completed = subprocess.run(
                 [sys.executable, str(root / "experiments" / script), "--help"],

@@ -60,6 +60,8 @@ artifact.
 | Probability serialization compatibility preflight | [E10e `30827797407`](https://github.com/Arshgill01/Arm/actions/runs/30827797407) | [`e10e` manifest](../results/manifests/e10e-30827797407.json) · [`report`](../results/reports/e10e-probability-compatibility.md) | `3e689b52…7e167` |
 | Fail-closed cache certificate rejected on frozen count | [E13a `30830903248`](https://github.com/Arshgill01/Arm/actions/runs/30830903248) | [`e13a` manifest](../results/manifests/e13a-30830903248.json) · [`report`](../results/reports/e13a-cache-certificate.md) | `fdbd2b68…2f8a` |
 | Selective-repack frontier invalid on missing mechanism logs | [E14a `30832494881`](https://github.com/Arshgill01/Arm/actions/runs/30832494881) | [`e14a` manifest](../results/manifests/e14a-30832494881.json) · [`report`](../results/reports/e14a-selective-repack-instrumentation-failure.md) | `27a49eac…2a866d` |
+| Calibration-known cache certificate admitted at exact-fingerprint boundary | [E13b `30833985784`](https://github.com/Arshgill01/Arm/actions/runs/30833985784) | [`e13b` manifest](../results/manifests/e13b-30833985784.json) · [`report`](../results/reports/e13b-cache-certificate-successor.md) | `570b8deb…02a19` |
+| Selective-repack frontier valid with no promoted selective tier | [E14b `30834588144`](https://github.com/Arshgill01/Arm/actions/runs/30834588144) | [`e14b` manifest](../results/manifests/e14b-30834588144.json) · [`report`](../results/reports/e14b-selective-repack-frontier.md) | `571e15d5…663c3b` |
 | Final judge-package clean-checkout validation | [`30798816900`](https://github.com/Arshgill01/Arm/actions/runs/30798816900) | 175 tests, 55 hashes through E10b, exact runtime/plan checks, four gallery assets, video-word ceiling, demo smoke test | passed on native `aarch64` at `03ae10d` |
 
 ## Final selected package
@@ -126,6 +128,14 @@ artifact.
   and performance gate. Six transition warmups are unknown to calibration and
   safely fall back, contradicting the frozen zero-unknown decision count. The
   count gate remains failed and the policy is not admitted.
+- Cache-certificate successor: E13b freezes a different, fully calibration-known
+  reversed trace before execution. Both controller repetitions make exactly
+  146 certified, 19 calibrated-fallback, and zero unknown decisions; all output
+  bytes match uncached, throughput is 1.85158x, p95 is 0.94427x, and CPU/request
+  is 0.53934x. Admission is restricted to the retained fingerprint certificate.
+- Selective-repack boundary: E14a remains invalid. E14b changes only uniform log
+  verbosity, validates all four non-dominated points, and rejects both selective
+  candidates on the unchanged combined target. Full repack remains selected.
 
 ## Recompute locally
 

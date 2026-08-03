@@ -168,6 +168,15 @@ seconds/request falls to 0.54068x. The contract is still rejected: six
 point-transition warmup fingerprints correctly route through unknown fallback,
 while the frozen decision inventory predicted zero. Every other gate passes,
 but the count gate remains unchanged and the policy is not promoted.
+E13b freezes a separate reversed temporal trace whose transition warmups are
+all mechanically calibration-known. It reproduces every uncached byte, routes
+the predeclared 146/19/0 certified/calibrated/unknown decisions in both traces,
+and reaches 1.85158x throughput with 0.94427x p95 and 0.53934x CPU/request.
+This admits only that exact certificate boundary; missing fingerprints still
+fail closed. E14b then repairs only E14a's log verbosity and validates the
+four-point selective-repack frontier. Both selective points miss the unchanged
+joint 80%-throughput/40%-extra-RSS product target, so full repack remains the
+selected service and the experimental hook is not promoted.
 
 ## Optimization map
 
@@ -199,7 +208,8 @@ preserved unless the row explicitly describes a rejected candidate.
 | Pinned external holdout | Exact serial scorer over 300 preselected samples per model | Evaluate Q4_K_M and Q4_0 on ARC Easy, HellaSwag, and WinoGrande | Both cells hit missing one-token probability entries; paired aggregate skipped | Reject the comparison; retain all partial/raw evidence and test compatibility separately |
 | Probability serialization compatibility | Exact two failed Q4_0 continuations | Force one-byte sampled token 1046 while reading each original target's raw score | Both continuations complete twice; original-prefix and repeat deltas are 0.0 | Permit only a separately frozen full successor; do not rehabilitate E10d |
 | Fail-closed cache certificate | All-uncached 165-request temporal trace | Certify 44 exact prompt fingerprints, deny four, and route unknowns uncached | Byte-exact outputs; 1.84765x throughput; 0.90716x p95; six safe unknown fallbacks differed from the frozen count | Reject E13a on the unchanged decision-count gate; retain the otherwise passing evidence |
-| Selective weight repack | Full-repack and no-repack memory/throughput endpoints | Leave two predeclared tensor families in mapped storage | Eight cells and 240 exact requests completed, but verbosity 3 omitted frozen buffer/tensor proof | Retain E14a as invalid; repeat only as a separately frozen verbosity-corrected successor |
+| Calibration-known cache certificate | All-uncached reversed 165-request trace | Restrict transitions to fingerprints derived before E13b and fail closed otherwise | Byte-exact outputs; **1.85158x** throughput; 0.94427x p95; exact 146/19/0 decisions twice | Admit only the retained exact-fingerprint boundary; do not generalize semantically |
+| Selective weight repack | Full-repack and no-repack memory/throughput endpoints | Leave two predeclared tensor families in mapped storage | Valid four-point frontier; selective points retain 78.06%/62.56% throughput and save 22.14%/46.11% of extra RSS | Retain E14a as invalid and E14b as a valid no-promotion result; keep full repack |
 
 Rejected variants remain visible: two server slots, cached two-slot serving,
 q4_0 KV, batch 32, Flash Attention, lower thread counts, and LTO all missed at
@@ -282,12 +292,14 @@ repack flag that conflicts with the plan is refused.
 | [E10e](results/reports/e10e-probability-compatibility.md) | A safe sampled-token path completed both retained compatibility failures twice with zero requested-score delta |
 | [E13a](results/reports/e13a-cache-certificate.md) | Byte-exact fail-closed routing reached 1.84765x throughput, but six safe unknown warmup fallbacks violated the frozen decision-count expectation; the policy remains rejected |
 | [E14a](results/reports/e14a-selective-repack-instrumentation-failure.md) | All eight native cells completed with exact quality, but missing verbosity-4 mechanism logs invalidate the frontier and forbid promotion |
+| [E13b](results/reports/e13b-cache-certificate-successor.md) | A separately frozen calibration-known trace passes every gate at 1.85158x throughput with byte-exact output and exact decision counts; admission remains fingerprint-bounded |
+| [E14b](results/reports/e14b-selective-repack-frontier.md) | The corrected four-point frontier is valid, but neither selective tier clears the unchanged joint target; full repack remains selected |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
 The E5f through E5j, E6d through E6i, E7a through E7c, E9a/E9c, E10a through
-E10e, E13a, and failed E14a results are retained under their exact frozen contracts and
-independently re-ingested byte for byte. E9e separately retains its reproducible
+E10e, E13a/E13b, and E14a/E14b results are retained under their exact frozen
+contracts and independently re-ingested byte for byte. E9e separately retains its reproducible
 premeasurement stop record.
 
 ## Repository map

@@ -319,6 +319,17 @@ warmups are absent from calibration and correctly fall back as unknown, while
 the frozen trace predicted zero unknown fallbacks. We preserve the count-gate
 failure rather than rewriting an otherwise attractive result.
 
+E13b is a separately frozen successor, not a repaired score. Its reversed
+temporal trace uses only transition fingerprints mechanically present in the
+pre-existing calibration record. Across 660 requests it matches every uncached
+output byte, produces the exact frozen 146/19/0 certified, calibrated-fallback,
+and unknown decisions twice, and reaches 1.85158x throughput with 0.94427x p95.
+We admit only that exact certificate boundary; unseen fingerprints remain
+uncached. E14b likewise changes only E14a's uniform log verbosity. The resulting
+four-point selective-repack frontier is valid, but neither selective candidate
+passes the predeclared combined throughput/RSS target. Full repack stays the
+fast tier, and the experimental exclusion hook is not promoted.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto

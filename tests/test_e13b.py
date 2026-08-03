@@ -116,6 +116,7 @@ class E13bIngestTests(unittest.TestCase):
             "e13b_probe.py",
             "e13b_ingest.py",
             "e13b_freeze.py",
+            "e13b_retain.py",
         ):
             completed = subprocess.run(
                 [sys.executable, str(root / "experiments" / script), "--help"],

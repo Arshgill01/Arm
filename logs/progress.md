@@ -1891,3 +1891,27 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `bc0f051b…b4a55`) was independently validated into a compact failure
   manifest. A separately frozen successor may add only uniform verbosity 4;
   configurations, order, repetitions, requests, and gates remain unchanged.
+
+## 2026-08-03 — E13b cache-certificate successor admitted narrowly
+
+- Native run `30833985784` completed four fresh E7c servers and 660 measured
+  requests in all-uncached / certificate / certificate / all-uncached order.
+- Independent ingestion reproduced the workflow summary byte for byte. Every
+  output matches, every request succeeds, and both controller traces contain
+  the frozen 146 certified, 19 calibrated-fallback, and zero unknown decisions.
+- The certificate reaches 1.85158x throughput, 0.94427x p95, and 0.53934x CPU
+  seconds/request. Every frozen gate passes. Admission is limited to the exact
+  retained fingerprints; E13a remains rejected and unknown prompts remain
+  uncached.
+
+## 2026-08-03 — E14b selective-repack frontier retained without promotion
+
+- Native run `30834588144` completed the corrected eight-cell experiment and
+  240 requests. Verbosity 4 proves mapped/repack buffers and exact tensor
+  exclusions in every cell; all answers remain 23/30 with zero failures.
+- All four points are stable and non-dominated. Attention-raw retains 78.06%
+  throughput while saving 22.14% of full repack's extra RSS; attention-plus-
+  FFN-down retains 62.56% while saving 46.11% and missing the p95 gate.
+- Neither selective tier clears the unchanged combined target. Full repack
+  remains selected, E14a remains invalid, and the default-off hook is not
+  promoted.
