@@ -26,7 +26,7 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Check out public repository
+      - name: Check out repository
         uses: actions/checkout@v7
 
       - name: Select supported Python

@@ -1760,11 +1760,10 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 
 ## 2026-08-03 — final submission evidence reconciled
 
-- Audited the judge package after the E9e checkpoint. The evidence index,
-  compliance checklist, and requirements dossier still cited earlier public
-  validation runs even though final native Arm run `30775565670` had passed on
-  exact commit `70ceae6` with 163 tests and 49 hashes; all three now identify
-  that final proof.
+- Audited the judge package after the E9e checkpoint. Native Arm run
+  `30775565670` passed on exact commit `70ceae6` with 163 tests and 49 hashes;
+  the later final-package run `30775996806` passed the same gates plus four
+  gallery-asset and video-word checks at exact commit `5d3d4f3`.
 - Rendered the current demo at 1,440×900 in Chromium. The committed overview
   still showed the older cache-throughput headline and four-core wording, so it
   was replaced with the final 1.717×/Neoverse-N2 view.
@@ -1821,3 +1820,23 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   the final E9a–E9e checkpoint validates 163 focused tests, not the earlier 145.
 - No repository visibility, hosting, video, account, Devpost form, submission,
   physical-device, notification, or hosted-runner action was taken.
+
+## 2026-08-03 — active-goal completion audit
+
+- Mapped the original requirements to current repository evidence: the folder,
+  origin remote, requirements/track/resource deep dive, single Cloud AI product,
+  multi-front experiments, raw/derived evidence, progress journal, native E2E
+  workflows, checkpoint history, and bounded Telegram decision bridge all exist.
+- Verified from the live GitHub run record and logs that `30775996806`, not the
+  earlier E9e checkpoint run, is the latest native judge-package proof. At exact
+  commit `5d3d4f3`, it passed 163 tests, 49 hashes, four gallery assets, the
+  video-script ceiling, and demo smoke on `aarch64`.
+- Updated all current judge-package pointers to that later run and removed the
+  workflow step label that incorrectly called the repository public. Later
+  commits remain documentation/handoff-only and are validated locally because
+  private-repository runner use may be metered.
+- The remaining goal state still requires an entrant-controlled public
+  visibility change and anonymous verification, external hosting/account/form
+  actions, and the explicitly deferred awake local Mac E8a run. No further
+  meaningful in-scope action is available without one of those external-state
+  changes.

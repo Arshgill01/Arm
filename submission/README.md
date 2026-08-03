@@ -32,10 +32,13 @@ python3 scripts/verify_submission.py
 python3 -m unittest discover -s tests -v
 ```
 
-The final E9a–E9e native Arm clean-checkout run is
-[`30775565670`](https://github.com/Arshgill01/Arm/actions/runs/30775565670),
+The latest native Arm judge-package clean-checkout run is
+[`30775996806`](https://github.com/Arshgill01/Arm/actions/runs/30775996806),
 covering 163 tests, 49 immutable evidence hashes, planner replay, and the demo
-smoke test at commit `70ceae6`.
+smoke test at commit `5d3d4f3`. It also validates all four gallery assets and
+the enforced video-script word ceiling. Later commits are documentation and
+entrant-handoff corrections validated locally without starting another private-
+repository hosted job.
 
 The GitHub repository is currently private and must pass the explicit
 [`publication-handoff.md`](publication-handoff.md) gate before submission. It

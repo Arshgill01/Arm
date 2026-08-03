@@ -98,11 +98,11 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Submission and developer experience
 
-- Reconciled the judge package with the final `70ceae6` native validation:
+- Reconciled the judge package with the final `5d3d4f3` native validation:
   163 tests, 49 immutable evidence hashes, planner replay, and demo smoke passed
-  in GitHub Actions Arm64 run `30775565670`. Re-rendered the overview and added a
-  dedicated 1,440×900 E9a final-service gallery image; the browser reported no
-  warnings.
+  in GitHub Actions Arm64 run `30775996806`. The same run validates the four
+  1,440×900 gallery images and video-word ceiling; the browser reported no
+  warnings during the preceding render audit.
 - Corrected the video timing contract after a spoken-word audit found 626 words
   behind the old 2m50s label. The revised 2m45s script has 363 spoken words and
   keeps the quality refusal, service win, Arm patch, and final negative
@@ -122,6 +122,9 @@ authoritative, timestamped record; this file groups the significant additions.
   evidence-backed recommendations, stop gates, and signed-out final checks.
   Corrected the paste-ready Devpost draft's stale 145-test line to the final
   retained 163-test count.
+- Corrected the final validation pointer from the earlier E9a–E9e evidence
+  checkpoint to the later native judge-package run at `5d3d4f3`, and renamed
+  the checkout step so it does not imply the still-private repository is public.
 
 - Extended the focused suite to 145 tests and the immutable verifier to 35
   hashes, including the corrected complete E7c contract and byte-identical

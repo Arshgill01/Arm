@@ -52,7 +52,7 @@ artifact.
 | Alternating-prefix cache generalization rejected on output | [E9c `30770403695`](https://github.com/Arshgill01/Arm/actions/runs/30770403695) | [`e9c` manifest](../results/manifests/e9c-30770403695.json) · [`report`](../results/reports/e9c-prompt-cache-generalization.md) | `29b075b6…eed4` |
 | Unpublished patch-series strict sanitizer rejection | [E9d `30773922751`](https://github.com/Arshgill01/Arm/actions/runs/30773922751) | [`e9d` manifest](../results/manifests/e9d-30773922751.json) · [`report`](../results/reports/e9d-pr-ready-patch-series.md) | `c6b29cf3…e6153` |
 | Speculative / cross-runtime premeasurement stop | Not launched: required gates failed | [`e9e` manifest](../results/manifests/e9e-feasibility.json) · [`report`](../results/reports/e9e-speculative-cross-runtime-feasibility.md) | `35fb97a6…ffac2` |
-| E9a–E9e checkpoint clean-checkout validation | [`30775565670`](https://github.com/Arshgill01/Arm/actions/runs/30775565670) | 163 tests, 49 hashes through E9e, exact runtime/plan checks, demo smoke test | passed on native `aarch64` at `70ceae6` |
+| Final judge-package clean-checkout validation | [`30775996806`](https://github.com/Arshgill01/Arm/actions/runs/30775996806) | 163 tests, 49 hashes through E9e, exact runtime/plan checks, four gallery assets, video-word ceiling, demo smoke test | passed on native `aarch64` at `5d3d4f3` |
 
 ## Final selected package
 
