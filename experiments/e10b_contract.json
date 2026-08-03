@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E10b",
+  "title": "Exact-token probability response primitive",
+  "scope": "A bounded native Arm64 validation of a source primitive that selects exact pre-sampling token probabilities from the same full softmax already computed by llama-server. It compares full-vocabulary and four-token response modes on one previously exposed E10a request shape. It is not an external holdout, a complete candidate-scoring endpoint, a cache policy, or an end-product performance claim.",
+  "hypothesis": "On exact patched b10216 and the selected Ministral 3B Q4_K_M model, probability_ids returns A/B/C/D log probabilities equal to the existing full-vocabulary n_probs path within 1e-6 while reducing response bytes by at least 99% without increasing median HTTP latency by more than 5%.",
+  "negative_result_rule": "Retain build failures, schema failures, probability mismatch, reordered or missing token IDs, response-size failure, latency regression, source-identity mismatch, or native mechanism failure without changing the prompt, token set, repetitions, tolerance, or promotion gates.",
+  "inputs": {
+    "e9a_contract_path": "experiments/e9a_contract.json",
+    "e9a_contract_sha256": "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928",
+    "e10a_contract_path": "experiments/e10a_contract.json",
+    "e10a_contract_sha256": "1d921053d01957783b56aca7ef84c9c1c84000c5194f5212507fd50349d52397",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "selected_manifest_path": "results/manifests/e3f-30656151957.json",
+    "selected_manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "primitive_patch_path": "patches/llama.cpp/b10216/0004-server-select-exact-token-probabilities.patch",
+    "primitive_patch_sha256": "e9372472e0f6f8c0d01142ff370c5cbdc895db217e0e5f5b664ef1c9359dc3ec",
+    "probe_path": "experiments/e10b_probe.py",
+    "probe_sha256": "9c3f221347adc491cc050b699fdcfa6cdd66141f26da3dbd4017ef9d6009e04f",
+    "ingest_path": "experiments/e10b_ingest.py",
+    "ingest_sha256": "645ae9d0072a87f82afa187e700d945b80b09a3971165eea0ea93cd06641ca83"
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824
+  },
+  "service": {
+    "profile": "e7c_final_plus_probability_ids",
+    "base_profile": "e7c_final",
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_tag": "b10216",
+    "source_diff_sha256": "8ab4ea8e4a7412ec24f0fa4ebf49a23745c58cf66b8cfb2e99ac0ca53c69be12",
+    "threads": 4,
+    "threads_batch": 4,
+    "context_per_slot": 256,
+    "server_parallel_slots": 1,
+    "continuous_batching": true,
+    "server_prompt_cache": true,
+    "batch_size": 64,
+    "micro_batch_size": 64,
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "flash_attention": "auto",
+    "weight_repack": true,
+    "openssl": false
+  },
+  "primitive": {
+    "request_field": "probability_ids",
+    "response_field": "selected_logprobs",
+    "maximum_selected_token_ids": 256,
+    "distribution": "raw pre-sampling model softmax",
+    "selected_token_order": "request order",
+    "backend_sampling_disabled_for_exact_selection": true,
+    "post_sampling_probabilities_allowed": false,
+    "sampling_semantics_changed": false
+  },
+  "workload": {
+    "task_id": "logic-02",
+    "calibration_source": "The exact request shape already exposed by E10a; no independent task holdout is consumed.",
+    "shared_prefix_tokens": 64,
+    "prefix_marker": "alpha",
+    "candidate_texts": ["A", "B", "C", "D"],
+    "candidate_tokenization": "Each candidate text must tokenize to exactly one token with add_special=false and parse_special=false.",
+    "maximum_output_tokens": 1,
+    "temperature": 0.0,
+    "seed": 424242,
+    "cache_prompt": false,
+    "stream": false,
+    "warmup_requests_per_cell": 1,
+    "measured_requests_per_cell": 3,
+    "timeout_seconds": 60.0
+  },
+  "execution": {
+    "fresh_server_per_cell": true,
+    "cell_order": [
+      {"mode": "full_vocab", "repetition": 1},
+      {"mode": "selected", "repetition": 1},
+      {"mode": "selected", "repetition": 2},
+      {"mode": "full_vocab", "repetition": 2}
+    ],
+    "total_fresh_process_cells": 4,
+    "total_measured_requests": 12,
+    "measured_requests_per_mode": 6,
+    "raw_response_retention": "Every measured HTTP response is gzip-compressed and retained with compressed and uncompressed SHA-256 and byte count."
+  },
+  "acceptance": {
+    "request_failures": 0,
+    "maximum_absolute_log_probability_delta": 0.000001,
+    "require_exact_selected_id_order": true,
+    "require_all_candidate_predictions_equal": true,
+    "minimum_full_vocab_entries": 100000,
+    "maximum_selected_entries": 4,
+    "maximum_selected_to_full_response_bytes_ratio": 0.01,
+    "maximum_selected_to_full_median_http_latency_ratio": 1.05,
+    "maximum_ready_ms": 15000.0,
+    "maximum_process_rss_kib": 8388608,
+    "accepted_server_shell_exit_statuses": [0, 130]
+  },
+  "decision": {
+    "promote_rule": "Promote the exact-token response primitive for a separately frozen multi-token evaluator only if every validity, parity, response-size, and latency gate passes.",
+    "stop_rule": "If any gate fails, retain the native result and do not use the primitive for external quality claims.",
+    "weighted_score_used": false
+  },
+  "claim_boundary": "A passing E10b proves only that exact requested next-token log probabilities match the existing full-vocabulary server path and avoid its response payload on the tested native Arm service. It does not prove multi-token candidate scoring, prefix forking, lm-evaluation-harness compatibility, external-task quality, cache safety, energy, PMU, local-device, fleet, concurrency, cost, or other-runtime performance."
+}

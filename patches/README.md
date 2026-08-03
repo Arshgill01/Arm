@@ -88,3 +88,22 @@ series with a cover letter, explicit b10216 base, focused messages, and
 validation adds GCC 14, Clang 18, the forced feature-selection configuration,
 and targeted Clang ASan+UBSan correctness without opening a pull request or
 claiming a broader upstream matrix.
+
+## Exact-token probability selector
+
+[`llama.cpp/b10216/0004-server-select-exact-token-probabilities.patch`](llama.cpp/b10216/0004-server-select-exact-token-probabilities.patch)
+adds a bounded `probability_ids` request field to exact b10216. The server
+already materializes and normalizes the full pre-sampling vocabulary when
+returning log probabilities; the patch selects up to 256 caller-specified token
+IDs from that same distribution and returns them in request order as
+`selected_logprobs`. It disables backend sampling for the request, rejects
+post-sampling probabilities, changes no logits or sampled-token semantics, and
+avoids labeling selected entries as top-N results.
+
+Local x86_64 compilation passed. A direct test against upstream's public
+Stories 260K fixture matched two selected log probabilities to the existing
+top-N path within `1e-6` while reducing the response from 2,663 to 2,107 bytes.
+E10b freezes the stronger native Arm proof against the exact selected model:
+full-vocabulary parity, exact selected order, raw response retention, payload,
+latency, source/build identity, and negative-result gates. This is an experiment
+input, not an opened upstream pull request or a complete candidate scorer.

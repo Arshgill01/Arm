@@ -1,0 +1,258 @@
+diff --git a/tools/server/README.md b/tools/server/README.md
+index f45c01897..91fe117db 100644
+--- a/tools/server/README.md
++++ b/tools/server/README.md
+@@ -541,6 +541,12 @@ These words will not be included in the completion, so make sure to add them to
+ - Note: In streaming mode (`stream`), only `content`, `tokens` and `stop` will be returned until end of completion. Responses are sent using the [Server-sent events](https://html.spec.whatwg.org/multipage/server-sent-events.html) standard. Note: the browser's `EventSource` interface cannot be used due to its lack of `POST` request support.
+
+ - `completion_probabilities`: An array of token probabilities for each completion. The array's length is `n_predict`. Each item in the array has a nested array `top_logprobs`. It contains at **maximum** `n_probs` elements:
++
++- `probability_ids`: An optional array of up to 256 exact token IDs. When set,
++  each completion probability entry contains `selected_logprobs` for precisely
++  those IDs in request order instead of `top_logprobs`. This is a pre-sampling
++  distribution and cannot be combined with `post_sampling_probs`. It avoids a
++  full-vocabulary response when scoring a known continuation token.
+   ```
+   {
+     "content": "<the generated completion text>",
+diff --git a/tools/server/server-context.cpp b/tools/server/server-context.cpp
+index 4655b518e..3ea7cfc8f 100644
+--- a/tools/server/server-context.cpp
++++ b/tools/server/server-context.cpp
+@@ -1814,7 +1814,9 @@ private:
+                 return false;
+             }
+
+-            const bool need_pre_sample_logits = task.params.sampling.n_probs > 0 && !task.params.post_sampling_probs;
++            const bool need_pre_sample_logits =
++                (task.params.sampling.n_probs > 0 || !task.params.probability_ids.empty()) &&
++                !task.params.post_sampling_probs;
+
+             bool backend_sampling = true;
+
+@@ -1985,6 +1987,7 @@ private:
+
+     void populate_token_probs(const server_slot & slot, completion_token_output & result, bool post_sampling, bool special, int idx) const {
+         const size_t n_probs_request = slot.task->params.sampling.n_probs;
++        const auto & probability_ids = slot.task->params.probability_ids;
+
+         if (post_sampling) {
+             const auto * cur_p = common_sampler_get_candidates(slot.smpl.get(), true);
+@@ -2015,7 +2018,8 @@ private:
+                 });
+             }
+         } else {
+-            std::vector<llama_token_data> cur = get_token_probabilities(ctx_tgt, idx, n_probs_request);
++            std::vector<llama_token_data> cur = get_token_probabilities(
++                ctx_tgt, idx, probability_ids.empty() ? n_probs_request : 0);
+             const size_t max_probs = cur.size();
+             const size_t n_probs = std::min(max_probs, n_probs_request);
+
+@@ -2028,14 +2032,27 @@ private:
+                 }
+             }
+
+-            // set probability for top n_probs tokens
+-            result.probs.reserve(n_probs);
+-            for (size_t i = 0; i < n_probs; i++) {
+-                result.probs.push_back({
+-                    cur[i].id,
+-                    common_token_to_piece(ctx_tgt, cur[i].id, special),
+-                    cur[i].p
+-                });
++            if (!probability_ids.empty()) {
++                result.probs_selected = true;
++                result.probs.reserve(probability_ids.size());
++                for (const auto token : probability_ids) {
++                    GGML_ASSERT((size_t) token < cur.size() && cur[token].id == token);
++                    result.probs.push_back({
++                        token,
++                        common_token_to_piece(ctx_tgt, token, special),
++                        cur[token].p
++                    });
++                }
++            } else {
++                // set probability for top n_probs tokens
++                result.probs.reserve(n_probs);
++                for (size_t i = 0; i < n_probs; i++) {
++                    result.probs.push_back({
++                        cur[i].id,
++                        common_token_to_piece(ctx_tgt, cur[i].id, special),
++                        cur[i].p
++                    });
++                }
+             }
+         }
+     }
+@@ -2108,7 +2125,7 @@ private:
+         res->oaicompat_cmpl_id = slot.task->params.oaicompat_cmpl_id;
+
+         // populate res.probs_output
+-        if (slot.task->params.sampling.n_probs > 0) {
++        if (slot.task->params.sampling.n_probs > 0 || !slot.task->params.probability_ids.empty()) {
+             res->prob_output = tkn; // copy the token probs
+         }
+
+@@ -2163,7 +2180,7 @@ private:
+         res->oaicompat_cmpl_id = slot.task->params.oaicompat_cmpl_id;
+
+         // populate res.probs_output
+-        if (slot.task->params.sampling.n_probs > 0) {
++        if (slot.task->params.sampling.n_probs > 0 || !slot.task->params.probability_ids.empty()) {
+             if (!slot.task->params.stream && slot.stop == STOP_TYPE_WORD) {
+                 const llama_tokens stop_word_toks = common_tokenize(ctx_tgt, slot.stopping_word, false);
+
+@@ -3825,7 +3842,7 @@ private:
+             result.text_to_send = common_token_to_piece(slot.ctx_tgt, result.tok, accept_special_token(slot, result.tok));
+             result.prob         = 1.0f; // TODO: set it here instead of doing inside populate_token_probs
+
+-            if (slot.task->params.sampling.n_probs > 0) {
++            if (slot.task->params.sampling.n_probs > 0 || !slot.task->params.probability_ids.empty()) {
+                 populate_token_probs(slot, result, slot.task->params.post_sampling_probs, params_base.special, tok_idx);
+             }
+
+diff --git a/tools/server/server-schema.cpp b/tools/server/server-schema.cpp
+index 674d3ba33..225db99b1 100644
+--- a/tools/server/server-schema.cpp
++++ b/tools/server/server-schema.cpp
+@@ -180,6 +180,30 @@ std::vector<std::unique_ptr<field>> make_llama_cmpl_schema(const common_params &
+         ->add_alias("logprobs") // use "logprobs" if "n_probs" wasn't provided
+         ->set_desc("If greater than 0, output the probabilities of top N tokens for each generated token"));
+
++    add((new field_json("probability_ids"))
++        ->set_desc("Return pre-sampling probabilities for up to 256 exact token ids")
++        ->set_handler([&](field_eval_context & ctx, const json & data) {
++            const auto & values = data.at("probability_ids");
++            if (!values.is_array() || values.size() > 256) {
++                throw std::invalid_argument("must be an array of at most 256 token ids");
++            }
++
++            std::unordered_set<llama_token> seen;
++            for (const auto & value : values) {
++                if (!value.is_number_integer()) {
++                    throw std::invalid_argument("entries must be integer token ids");
++                }
++                const auto token = value.get<llama_token>();
++                if (token < 0 || token >= llama_vocab_n_tokens(ctx.vocab)) {
++                    throw std::invalid_argument("token id is outside the model vocabulary");
++                }
++                if (!seen.insert(token).second) {
++                    throw std::invalid_argument("token ids must be unique");
++                }
++                ctx.params.probability_ids.push_back(token);
++            }
++        }));
++
+     add((new field_num("min_keep", params.sampling.min_keep))
+         ->set_hard_limits(0, INT32_MAX)
+         ->set_desc("If greater than 0, force samplers to return at least N possible tokens"));
+@@ -558,6 +582,11 @@ task_params eval_llama_cmpl_schema(
+             params.sampling.dry_penalty_last_n = n_ctx_slot;
+         }
+
++        if (!params.probability_ids.empty() && params.post_sampling_probs) {
++            throw std::invalid_argument(
++                "probability_ids requires pre-sampling probabilities");
++        }
++
+         // if "reasoning_format" is not provided, its handler will not be called, we will need to handle it here
+         auto reasoning_format = params.chat_parser_params.reasoning_format;
+         params.chat_parser_params.reasoning_in_content = params.stream && (reasoning_format == COMMON_REASONING_FORMAT_DEEPSEEK_LEGACY);
+diff --git a/tools/server/server-task.cpp b/tools/server/server-task.cpp
+index 070f1ade2..666170075 100644
+--- a/tools/server/server-task.cpp
++++ b/tools/server/server-task.cpp
+@@ -81,6 +81,7 @@ json task_params::to_json(bool only_metrics) const {
+             {"speculative.types",         common_speculative_type_name_str(speculative.types)},
+             {"timings_per_token",         timings_per_token},
+             {"post_sampling_probs",       post_sampling_probs},
++            {"probability_ids",           probability_ids},
+             {"backend_sampling",          sampling.backend_sampling},
+             {"lora",                      lora},
+         };
+@@ -140,6 +141,7 @@ json task_params::to_json(bool only_metrics) const {
+         {"speculative.types",         common_speculative_type_name_str(speculative.types)},
+         {"timings_per_token",         timings_per_token},
+         {"post_sampling_probs",       post_sampling_probs},
++        {"probability_ids",           probability_ids},
+         {"backend_sampling",          sampling.backend_sampling},
+         {"lora",                      lora},
+     };
+@@ -320,10 +322,9 @@ json completion_token_output::probs_vector_to_json(const std::vector<completion_
+                 post_sampling_probs ? "prob" : "logprob",
+                 post_sampling_probs ? p.prob : logarithm(p.prob)
+             },
+-            {
+-                post_sampling_probs ? "top_probs" : "top_logprobs",
+-                p.to_json(post_sampling_probs)
+-            },
++            {p.probs_selected ? "selected_logprobs" :
++                    (post_sampling_probs ? "top_probs" : "top_logprobs"),
++                p.to_json(post_sampling_probs)},
+         });
+     }
+     return out;
+diff --git a/tools/server/server-task.h b/tools/server/server-task.h
+index 411d91807..53a511460 100644
+--- a/tools/server/server-task.h
++++ b/tools/server/server-task.h
+@@ -75,6 +75,11 @@ struct task_params {
+     bool timings_per_token   = false;
+     bool post_sampling_probs = false;
+
++    // Return pre-sampling probabilities for these exact token ids. This is
++    // bounded separately from n_probs so callers do not need a full-vocabulary
++    // response to score a known continuation token.
++    std::vector<llama_token> probability_ids;
++
+     struct common_params_sampling sampling;
+     struct common_params_speculative speculative;
+
+@@ -320,6 +325,7 @@ struct completion_token_output {
+     llama_token tok;
+     float prob;
+     std::string text_to_send;
++    bool probs_selected = false;
+     struct prob_info {
+         llama_token tok;
+         std::string txt;
+diff --git a/tools/server/tests/unit/test_completion.py b/tools/server/tests/unit/test_completion.py
+index 9375e0110..c72fb585b 100644
+--- a/tools/server/tests/unit/test_completion.py
++++ b/tools/server/tests/unit/test_completion.py
+@@ -462,6 +462,35 @@ def test_n_probs():
+             assert "bytes" in prob and type(prob["bytes"]) == list
+
+
++def test_probability_ids_match_top_logprobs():
++    global server
++    server.start()
++    request = {
++        "prompt": "I believe the meaning of life is",
++        "n_probs": 10,
++        "temperature": 0.0,
++        "n_predict": 1,
++        "cache_prompt": False,
++    }
++    baseline = server.make_request("POST", "/completion", data=request)
++    assert baseline.status_code == 200
++    top = baseline.body["completion_probabilities"][0]["top_logprobs"]
++    selected_ids = [top[0]["id"], top[3]["id"]]
++
++    selected = server.make_request("POST", "/completion", data={
++        **request,
++        "n_probs": 0,
++        "probability_ids": selected_ids,
++    })
++    assert selected.status_code == 200
++    output = selected.body["completion_probabilities"][0]
++    assert "top_logprobs" not in output
++    assert [item["id"] for item in output["selected_logprobs"]] == selected_ids
++    expected = {item["id"]: item["logprob"] for item in top}
++    for item in output["selected_logprobs"]:
++        assert item["logprob"] == pytest.approx(expected[item["id"]], abs=1e-6)
++
++
+ def test_n_probs_stream():
+     global server
+     server.start()

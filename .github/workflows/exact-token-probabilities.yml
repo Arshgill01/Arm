@@ -1,0 +1,322 @@
+name: Arm E10b exact-token probability primitive
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e10b_contract.json
+  CONTRACT_SHA256: 3ca4c1f5f0f86faf7d3014bcec07ea83ea9a53ed845751b3e15e43bb3cfb7ae6
+  SELECTED_CANDIDATE: ministral3_3b_q4_k_m
+
+jobs:
+  exact-token-probabilities:
+    name: Frozen exact-token parity and payload proof
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 90
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e10b-exact-token-probabilities-${{ github.run_id }}-${{ github.run_attempt }}
+      LLAMA_SOURCE: /tmp/llama.cpp-E10b
+      LLAMA_BUILD: /tmp/llama.cpp-E10b-build
+      MODEL_ROOT: /tmp/Pareto64-E10b/models
+
+    steps:
+      - name: Check out frozen exact-token contract
+        uses: actions/checkout@v7
+
+      - name: Capture native host and verify frozen inputs
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR/build" "$EVIDENCE_DIR/cells" \
+            "$EVIDENCE_DIR/patches" "$MODEL_ROOT"
+          test "$(uname -m)" = aarch64
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          cc --version | tee "$EVIDENCE_DIR/compiler.txt"
+          jq -n \
+            --arg github_runner_arch "$RUNNER_ARCH" \
+            --arg github_runner_os "$RUNNER_OS" \
+            --arg logical_cpus "$(nproc)" \
+            '{github_runner_arch: $github_runner_arch, github_runner_os: $github_runner_os, logical_cpus: ($logical_cpus | tonumber)}' \
+            > "$EVIDENCE_DIR/environment.json"
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          while IFS=$'\t' read -r expected input_path; do
+            echo "$expected  $input_path" | sha256sum --check --strict
+          done < <(jq -r '.inputs | [
+            [.selected_manifest_sha256, .selected_manifest_path],
+            [.models_sha256, .models_path],
+            [.tasks_sha256, .tasks_path],
+            [.e9a_contract_sha256, .e9a_contract_path],
+            [.e10a_contract_sha256, .e10a_contract_path],
+            [.primitive_patch_sha256, .primitive_patch_path],
+            [.probe_sha256, .probe_path],
+            [.ingest_sha256, .ingest_path]
+          ][] | @tsv' "$CONTRACT_PATH")
+          cp "$(jq -r '.inputs.selected_manifest_path' "$CONTRACT_PATH")" \
+            "$EVIDENCE_DIR/selected-manifest.json"
+          cp "$(jq -r '.inputs.models_path' "$CONTRACT_PATH")" \
+            "$EVIDENCE_DIR/models-manifest.json"
+          cp "$(jq -r '.inputs.tasks_path' "$CONTRACT_PATH")" \
+            "$EVIDENCE_DIR/tasks-manifest.json"
+          cp "$(jq -r '.inputs.e9a_contract_path' "$CONTRACT_PATH")" \
+            "$EVIDENCE_DIR/e9a-contract.json"
+          cp "$(jq -r '.inputs.e10a_contract_path' "$CONTRACT_PATH")" \
+            "$EVIDENCE_DIR/e10a-contract.json"
+          cp "$(jq -r '.inputs.primitive_patch_path' "$CONTRACT_PATH")" \
+            "$EVIDENCE_DIR/patches/0004-server-select-exact-token-probabilities.patch"
+          jq -e '
+            .execution.total_fresh_process_cells == 4 and
+            .execution.total_measured_requests == 12 and
+            (.execution.cell_order | length) == 4 and
+            (.workload.candidate_texts == ["A", "B", "C", "D"]) and
+            (.primitive.maximum_selected_token_ids == 256)
+          ' "$CONTRACT_PATH"
+
+      - name: Pin exact b10216 source, patch primitive, and selected model
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/ggml-org/llama.cpp.git "$LLAMA_SOURCE"
+          source_commit="$(jq -r '.service.source_commit' "$CONTRACT_PATH")"
+          source_tag="$(jq -r '.service.source_tag' "$CONTRACT_PATH")"
+          git -C "$LLAMA_SOURCE" checkout --detach "$source_commit"
+          test "$(git -C "$LLAMA_SOURCE" rev-parse HEAD)" = "$source_commit"
+          test "$(git -C "$LLAMA_SOURCE" describe --tags --exact-match)" = "$source_tag"
+          jq -r '.profiles.e7c_final.source.patches[] | [.path, .sha256] | @tsv' \
+            experiments/e9a_contract.json | while IFS=$'\t' read -r patch expected; do
+              echo "$expected  $patch" | sha256sum --check --strict
+              cp "$patch" "$EVIDENCE_DIR/patches/$(basename "$patch")"
+              git -C "$LLAMA_SOURCE" apply --check "$GITHUB_WORKSPACE/$patch"
+              git -C "$LLAMA_SOURCE" apply "$GITHUB_WORKSPACE/$patch"
+            done
+          primitive_patch="$(jq -r '.inputs.primitive_patch_path' "$CONTRACT_PATH")"
+          git -C "$LLAMA_SOURCE" apply --check "$GITHUB_WORKSPACE/$primitive_patch"
+          git -C "$LLAMA_SOURCE" apply "$GITHUB_WORKSPACE/$primitive_patch"
+          git -C "$LLAMA_SOURCE" diff --check
+          git -C "$LLAMA_SOURCE" diff --binary --full-index HEAD -- \
+            > "$EVIDENCE_DIR/source-diff.patch"
+          test "$(sha256sum "$EVIDENCE_DIR/source-diff.patch" | cut -d' ' -f1)" = \
+            "$(jq -r '.service.source_diff_sha256' "$CONTRACT_PATH")"
+          git -C "$LLAMA_SOURCE" diff --name-only > "$EVIDENCE_DIR/patched-files.txt"
+          jq -n \
+            --arg commit "$source_commit" \
+            --arg tag "$source_tag" \
+            --argjson patches "$(find "$EVIDENCE_DIR/patches" -type f -printf '%f\n' | sort | jq -Rsc 'split("\n")[:-1]')" \
+            '{commit: $commit, tag: $tag, patches_applied: $patches}' \
+            > "$EVIDENCE_DIR/source.json"
+
+          repository="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].repository' experiments/e3f_models.json)"
+          revision="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].revision' experiments/e3f_models.json)"
+          model_path="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].path' experiments/e3f_models.json)"
+          model_sha="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].sha256' experiments/e3f_models.json)"
+          model_size="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].size_bytes' experiments/e3f_models.json)"
+          target="$MODEL_ROOT/$SELECTED_CANDIDATE/$model_path"
+          mkdir -p "$(dirname "$target")"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$target" \
+            "https://huggingface.co/$repository/resolve/$revision/$model_path?download=true"
+          test "$(stat --format='%s' "$target")" = "$model_size"
+          echo "$model_sha  $target" | sha256sum --check --strict
+          sha256sum "$target" | tee "$EVIDENCE_DIR/model-sha256.txt"
+
+      - name: Build and inventory patched E7c OpenSSL-off service
+        run: |
+          set -euo pipefail
+          mapfile -t cmake_args < <(jq -r \
+            '.profiles.e7c_final.build.cmake_arguments[]' experiments/e9a_contract.json)
+          python3 - "${cmake_args[@]}" <<'PY'
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          Path(os.environ["EVIDENCE_DIR"], "build", "configure-command.json").write_text(
+              json.dumps(
+                  {"generator": "Ninja", "cmake_arguments": sys.argv[1:]},
+                  indent=2,
+                  sort_keys=True,
+              )
+              + "\n"
+          )
+          PY
+          cmake -S "$LLAMA_SOURCE" -B "$LLAMA_BUILD" -G Ninja \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON "${cmake_args[@]}" \
+            2>&1 | tee "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' \
+            "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'ARM detected' "$EVIDENCE_DIR/build/configure.log"
+          grep -q '^LLAMA_OPENSSL:BOOL=OFF$' "$LLAMA_BUILD/CMakeCache.txt"
+          cp "$LLAMA_BUILD/CMakeCache.txt" "$EVIDENCE_DIR/build/CMakeCache.txt"
+          /usr/bin/time --verbose --output "$EVIDENCE_DIR/build/build-time.log" \
+            cmake --build "$LLAMA_BUILD" --target llama-server \
+              --parallel "$(nproc)" 2>&1 | tee "$EVIDENCE_DIR/build/build.log"
+          ninja -C "$LLAMA_BUILD" -t commands \
+            > "$EVIDENCE_DIR/build/build-commands.txt"
+          "$LLAMA_BUILD/bin/llama-server" --version 2>&1 \
+            | tee "$EVIDENCE_DIR/build/server-version.txt"
+          python3 experiments/e7a_runtime_closure.py \
+            --server "$LLAMA_BUILD/bin/llama-server" \
+            --build-root "$LLAMA_BUILD" \
+            --copy-dir "$EVIDENCE_DIR/build/runtime-files" \
+            --output "$EVIDENCE_DIR/build/runtime-closure.json"
+          jq -e '
+            (.dynamic_dependency_basenames | index("libssl.so.3") == null) and
+            (.dynamic_dependency_basenames | index("libcrypto.so.3") == null)
+          ' "$EVIDENCE_DIR/build/runtime-closure.json"
+
+      - name: Run reverse-balanced exact-token comparison
+        run: |
+          set -euo pipefail
+          active_timer_pid=""
+          active_server_pid=""
+          cleanup() {
+            if [ -n "$active_server_pid" ] && kill -0 "$active_server_pid" 2>/dev/null; then
+              kill -INT "$active_server_pid" 2>/dev/null || true
+            fi
+            if [ -n "$active_timer_pid" ] && kill -0 "$active_timer_pid" 2>/dev/null; then
+              wait "$active_timer_pid" 2>/dev/null || true
+            fi
+          }
+          trap cleanup EXIT
+          entrypoint="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].entrypoint' experiments/e3f_models.json)"
+          model="$MODEL_ROOT/$SELECTED_CANDIDATE/$entrypoint"
+          server="$LLAMA_BUILD/bin/llama-server"
+
+          run_cell() {
+            local index="$1"
+            local mode="$2"
+            local repetition="$3"
+            local output_dir
+            output_dir="$EVIDENCE_DIR/cells/$(printf '%02d' "$index")-${mode}-r${repetition}"
+            mkdir -p "$output_dir"
+            {
+              date --utc --iso-8601=seconds
+              uptime
+              cat /proc/loadavg
+              free -h
+            } > "$output_dir/runner-state-before.txt"
+            SERVER="$server" MODEL="$model" OUTPUT="$output_dir/recipe.json" \
+              python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          from experiments.e6f_ingest import capture_server_version
+          from experiments.e9a_ingest import expected_server_argv
+
+          contract = json.loads(Path(os.environ["CONTRACT_PATH"]).read_text())
+          server = os.environ["SERVER"]
+          model = os.environ["MODEL"]
+          selected = contract["selected"]
+          recipe = {
+              "schema_version": 1,
+              "experiment_id": "E10b",
+              "profile_name": contract["service"]["profile"],
+              "service": contract["service"],
+              "server_path": server,
+              "server_version": capture_server_version(server),
+              "model": {
+                  "path": model,
+                  "sha256": selected["model_sha256"],
+                  "size_bytes": selected["model_size_bytes"],
+              },
+              "argv": expected_server_argv(
+                  server,
+                  model,
+                  candidate=selected["candidate"],
+                  profile_name="e7c_final",
+              ),
+          }
+          Path(os.environ["OUTPUT"]).write_text(
+              json.dumps(recipe, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+            mapfile -t server_argv < <(jq -r '.argv[]' "$output_dir/recipe.json")
+            /usr/bin/time --verbose --output "$output_dir/server-time.log" \
+              "${server_argv[@]}" \
+              > "$output_dir/server.stdout.log" \
+              2> "$output_dir/server.stderr.log" &
+            active_timer_pid=$!
+            python3 experiments/e3d_http_quality.py wait \
+              --url http://127.0.0.1:18081 \
+              --timeout 45 \
+              --output "$output_dir/readiness.json"
+            active_server_pid=""
+            for _ in $(seq 1 50); do
+              active_server_pid="$(pgrep -P "$active_timer_pid" -x llama-server || true)"
+              if [ -n "$active_server_pid" ]; then break; fi
+              sleep 0.1
+            done
+            test -n "$active_server_pid"
+            echo "$active_server_pid" > "$output_dir/server-pid.txt"
+            python3 experiments/e10b_probe.py \
+              --url http://127.0.0.1:18081 \
+              --contract "$CONTRACT_PATH" \
+              --tasks experiments/e3_tasks.json \
+              --mode "$mode" \
+              --repetition "$repetition" \
+              --server-pid "$active_server_pid" \
+              --raw-dir "$output_dir/raw" \
+              --output "$output_dir/probe.json"
+            curl --fail --silent http://127.0.0.1:18081/metrics \
+              > "$output_dir/metrics.txt"
+            curl --fail --silent http://127.0.0.1:18081/slots \
+              > "$output_dir/slots.json"
+            curl --fail --silent http://127.0.0.1:18081/health \
+              > "$output_dir/health.json"
+            kill -INT "$active_server_pid"
+            set +e
+            wait "$active_timer_pid"
+            local server_status=$?
+            set -e
+            echo "$server_status" > "$output_dir/server-shell-exit.txt"
+            [[ "$server_status" -eq 0 || "$server_status" -eq 130 ]]
+            active_timer_pid=""
+            active_server_pid=""
+          }
+
+          cell_index=0
+          while IFS=$'\t' read -r mode repetition; do
+            cell_index=$((cell_index + 1))
+            run_cell "$cell_index" "$mode" "$repetition"
+          done < <(jq -r '
+            .execution.cell_order[] | [.mode, .repetition] | @tsv
+          ' "$CONTRACT_PATH")
+          test "$cell_index" -eq 4
+          trap - EXIT
+
+      - name: Record provenance and independently validate evidence
+        run: |
+          set -euo pipefail
+          jq -n \
+            --arg git_commit "$GITHUB_SHA" \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg run_attempt "$GITHUB_RUN_ATTEMPT" \
+            '{schema_version: 1, experiment_id: "E10b", git_commit: $git_commit, github_run_id: $run_id, github_run_attempt: $run_attempt}' \
+            > "$EVIDENCE_DIR/provenance.json"
+          python3 experiments/e10b_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root . \
+            --output "$EVIDENCE_DIR/summary.json"
+          jq '{status, promote_exact_token_primitive, validation, platform, aggregate}' \
+            "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum \
+            > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+
+      - name: Upload complete E10b evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e10b-exact-token-probabilities-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90

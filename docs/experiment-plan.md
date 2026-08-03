@@ -23,6 +23,7 @@ No headline result is accepted until the experiment contract in
 | E9d | Is the retained three-patch b10216 diff ready for local upstream review across compilers and sanitizers? | Exact unpublished three-commit mail series | `git am --3way` reproduces the retained diff; native GCC, native Clang, forced feature selection, and targeted ASan+UBSan correctness all pass |
 | E9e | Is speculative decoding or an independent LLM-Runner backend ready for a defensible final-service experiment? | Exact E7c runtime, model, and quality workload | License/provenance, runtime mechanism, exact-model comparability, and meaningful quality-workload gates all pass before any measurement starts |
 | E10a | Can an observable cache-only confidence signal separate E9c's known semantic drift before any guard is designed? | Exact E7c service, E9c-exposed tasks, 64 shared tokens, and A/B/C/D post-grammar probabilities | Drift reproduces with stable request-shape labels and every drifted cached top-1 margin is strictly below every stable cached margin |
+| E10b | Can the exact runtime return known-token probabilities without a full-vocabulary payload? | Exact patched b10216 E7c service plus one bounded response-selector patch | A/B/C/D log probabilities match within 1e-6, selected order is exact, payload falls at least 99%, and median HTTP latency does not regress more than 5% |
 | E7 | Is the whole project reproducible and judge-readable? | Clean native Arm job | One command emits manifest, raw data, summary, Pareto front, and demo assets |
 
 ## E2 frozen protocol
@@ -1468,6 +1469,36 @@ selected and the independent holdout remains unobserved. The result therefore
 stops the proposed margin-guard branch without weakening its quality gate. See
 the retained [`manifest`](../results/manifests/e10a-30793728347.json) and
 [`report`](../results/reports/e10a-cache-divergence.md).
+
+## E10b frozen exact-token probability primitive
+
+E10a's negative margin result closes its proposed cache-guard holdout. E10b
+therefore moves to the candidate-scoring lane at the smallest useful source
+boundary. Exact b10216 already computes a full pre-sampling softmax for its
+`n_probs` response, but callers must request a top-N prefix large enough to
+contain a known continuation token. The local patch adds a bounded
+`probability_ids` selector that returns up to 256 exact token IDs from that same
+distribution in request order as `selected_logprobs`. It rejects duplicates,
+out-of-vocabulary IDs, and post-sampling mode and disables backend sampling so
+the full raw logits remain available. It changes neither logits nor the sampled
+token.
+
+The native comparison uses the exact E7c b10216 OpenSSL-off service plus only
+that patch and the selected Q4_K_M model. It consumes no new holdout: the one
+prompt is the already exposed E10a `logic-02` shape, with A/B/C/D each required
+to tokenize as one exact token. Four fresh servers run full-vocabulary,
+selected, selected, and full-vocabulary cells in reverse-balanced order. Each
+cell has one warmup and three cache-disabled measured requests. Every raw HTTP
+response is retained compressed with both byte counts and hashes.
+
+Promotion requires every A/B/C/D log probability to match within `1e-6`, exact
+candidate ranking, at least 100,000 full-vocabulary entries, exactly four
+selected entries in request order, at least 99% median response-byte reduction,
+and selected median HTTP latency no more than 5% above full-vocabulary mode.
+E10b can promote only this response primitive for a separately frozen
+multi-token evaluator. It cannot claim a complete candidate scorer, prefix
+forking, external quality, cache safety, or end-product performance. The exact
+contract is [`e10b_contract.json`](../experiments/e10b_contract.json).
 
 ## E4a frozen accept-backlog tuner
 
