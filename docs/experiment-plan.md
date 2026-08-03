@@ -22,6 +22,7 @@ No headline result is accepted until the experiment contract in
 | E9c | When does request-level prompt caching remain worthwhile as prefixes alternate? | Exact E7c one-slot service with 1, 2, or 4 prefixes sharing 16, 32, or 64 tokens | All nine predeclared points preserve exact outputs and expose scheduler noise; only points clearing every frozen throughput/encode/p95/CPU gate enter the bounded policy |
 | E9d | Is the retained three-patch b10216 diff ready for local upstream review across compilers and sanitizers? | Exact unpublished three-commit mail series | `git am --3way` reproduces the retained diff; native GCC, native Clang, forced feature selection, and targeted ASan+UBSan correctness all pass |
 | E9e | Is speculative decoding or an independent LLM-Runner backend ready for a defensible final-service experiment? | Exact E7c runtime, model, and quality workload | License/provenance, runtime mechanism, exact-model comparability, and meaningful quality-workload gates all pass before any measurement starts |
+| E10a | Can an observable cache-only confidence signal separate E9c's known semantic drift before any guard is designed? | Exact E7c service, E9c-exposed tasks, 64 shared tokens, and A/B/C/D post-grammar probabilities | Drift reproduces with stable request-shape labels and every drifted cached top-1 margin is strictly below every stable cached margin |
 | E7 | Is the whole project reproducible and judge-readable? | Clean native Arm job | One command emits manifest, raw data, summary, Pareto front, and demo assets |
 
 ## E2 frozen protocol
@@ -1406,6 +1407,43 @@ workload gates fail. No model download, runner job, or performance measurement
 is launched. The stop decision and exact hashes are retained in the
 [`manifest`](../results/manifests/e9e-feasibility.json) and
 [`report`](../results/reports/e9e-speculative-cross-runtime-feasibility.md).
+
+## E10a frozen cache-divergence calibration
+
+E10a begins the cache-safe serving lane because E9c showed a large performance
+opportunity and a narrow deterministic output boundary, while E9e confirmed
+that decode speculation is not meaningful for the current two-token product
+workload. It is deliberately an instrument-first calibration, not a cache
+policy or a broad knob sweep.
+
+The exact E7c source, three-patch set, OpenSSL-off build, Q4_K_M model, four
+threads, one slot, 256-token context, f16 KV, 64/64 prompt batches, repacked
+weights, and launch arguments are unchanged. The calibration uses only the
+eight task IDs already exposed by E9c, repeated in the same order, and the
+single 64-token shared-prefix stress length where E9c observed true letter
+flips. One, two, and four alternating prefixes run in fixed order with two
+reverse-balanced cache-off/cache-on repetitions and a fresh server for every
+cell: 12 processes, 192 measured requests, and 96 paired comparisons.
+
+Each request constrains output to exactly one A/B/C/D byte and asks pinned
+b10216's native `/completion` endpoint for the full normalized post-grammar
+candidate distribution. The emitted temperature-one sample is retained only
+as mechanism evidence. The deterministic prediction is the highest candidate
+probability, with alphabetical tie-breaking. Raw distributions, top-1 margin,
+paired Jensen-Shannon divergence, maximum probability delta, top-2 overlap,
+prompt-token hash, timings, process CPU, RSS, readiness, source, build, binary,
+and dependency closure are all retained.
+
+Before results, the only cache-only separation rule is fixed: at least one
+paired top-1 flip must reproduce, each request-shape fingerprint must keep the
+same drift label across repetitions, and the maximum cached margin among
+drifted pairs must be strictly below the minimum cached margin among stable
+pairs. Pair divergence is diagnostic because it requires an uncached shadow.
+E10a selects no threshold and observes no holdout. Only a passing calibration
+permits a separately frozen guard and independent task holdout; otherwise the
+negative result is retained without tuning on unseen tasks. Exact inputs and
+boundaries are in
+[`e10a_contract.json`](../experiments/e10a_contract.json).
 
 ## E4a frozen accept-backlog tuner
 
