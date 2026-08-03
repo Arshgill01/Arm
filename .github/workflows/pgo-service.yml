@@ -79,7 +79,8 @@ jobs:
           test "$(git -C "$SOURCE_DIR" rev-parse HEAD)" = "$CURRENT_SHA"
           test "$(git -C "$SOURCE_DIR" describe --tags --exact-match)" = "$CURRENT_TAG"
           test -z "$(git -C "$SOURCE_DIR" status --short)"
-          while IFS=$'\t' read -r _ patch_path patch_sha; do
+          while IFS=$'\t' read -r _ patch_relative patch_sha; do
+            patch_path="$GITHUB_WORKSPACE/$patch_relative"
             echo "$patch_sha  $patch_path" | sha256sum --check --strict
             git -C "$SOURCE_DIR" apply --check "$patch_path"
             git -C "$SOURCE_DIR" apply "$patch_path"

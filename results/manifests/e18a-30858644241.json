@@ -1,0 +1,182 @@
+{
+  "artifact_validation": {
+    "all_extracted_regular_files_hashed": true,
+    "file_count": 23,
+    "files": [
+      {
+        "path": "compiler.txt",
+        "sha256": "53fa074480ef985e455735619d727fced49823ba23f36cdacd970330fc2357d0",
+        "size_bytes": 590
+      },
+      {
+        "path": "contract.json",
+        "sha256": "649f95192ca2a9c063cde9ddafcc211693bd09e5150726f1c8f3223dea51e09c",
+        "size_bytes": 10702
+      },
+      {
+        "path": "disk-before.txt",
+        "sha256": "5ee7b8bd2e65834b6986b8ef3795f766901a35927440194234b57bcdd86f6b46",
+        "size_bytes": 372
+      },
+      {
+        "path": "frozen-inputs/experiments/e18a_cell.sh",
+        "sha256": "360ce0ed576175f22953debc1bb6f9aabb744a854712ab47098ac0085988a860",
+        "size_bytes": 3557
+      },
+      {
+        "path": "frozen-inputs/experiments/e18a_freeze.py",
+        "sha256": "b21dc5f926f47a2d19ac3611f5a7e45af5f4080c33fea936186917371619e179",
+        "size_bytes": 9491
+      },
+      {
+        "path": "frozen-inputs/experiments/e18a_ingest.py",
+        "sha256": "bfefd282c92187a33f18993f4fd53fbf5b86ba3389885eff3d52e33202da91b6",
+        "size_bytes": 15347
+      },
+      {
+        "path": "frozen-inputs/experiments/e18a_profile_inventory.py",
+        "sha256": "94af7da6b59e9afb215be92157ac268930c8f6d9b30cb9936022cac9c7466cdc",
+        "size_bytes": 1745
+      },
+      {
+        "path": "frozen-inputs/experiments/e3_tasks.json",
+        "sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+        "size_bytes": 8510
+      },
+      {
+        "path": "frozen-inputs/experiments/e3f_models.json",
+        "sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+        "size_bytes": 2154
+      },
+      {
+        "path": "frozen-inputs/experiments/e5b_inference_probe.py",
+        "sha256": "82ebd56316705df93b59aea9c05c31b59cdd0c4c9fd31ef16608dbc0e86702db",
+        "size_bytes": 17974
+      },
+      {
+        "path": "frozen-inputs/experiments/e7a_contract.json",
+        "sha256": "2d57010a168a777cc5de2ed2a7d6e0f11900d14a30d44ded6db34ecd85b1aa12",
+        "size_bytes": 6475
+      },
+      {
+        "path": "frozen-inputs/experiments/e7a_runtime_closure.py",
+        "sha256": "3e347f3e33a166e8df93952e1cb92798bab71abff467ca42959c6bcc0833510d",
+        "size_bytes": 5113
+      },
+      {
+        "path": "frozen-inputs/patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+        "size_bytes": 1332
+      },
+      {
+        "path": "frozen-inputs/patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783",
+        "size_bytes": 2535
+      },
+      {
+        "path": "frozen-inputs/patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f",
+        "size_bytes": 3058
+      },
+      {
+        "path": "frozen-inputs/results/manifests/e3f-30656151957.json",
+        "sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+        "size_bytes": 102388
+      },
+      {
+        "path": "frozen-inputs/results/manifests/e7c-30696606993.json",
+        "sha256": "f4e73971b0c6f2db25be52e365cf611848ec1bb1d738648bb43bdf4c2e1857cf",
+        "size_bytes": 6994
+      },
+      {
+        "path": "frozen-inputs/results/manifests/e9a-30764802071.json",
+        "sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d",
+        "size_bytes": 202030
+      },
+      {
+        "path": "frozen-inputs/tests/test_e18a.py",
+        "sha256": "234df6779806fb172574f95e7c79ba9f7a1c2e3c0eaf6ba2fca69146b642e312",
+        "size_bytes": 4693
+      },
+      {
+        "path": "lscpu.txt",
+        "sha256": "e5f7302f9882c8b4eca9892fce7bab78f37c49da0f8babcb23d2c2db5ed004bc",
+        "size_bytes": 2355
+      },
+      {
+        "path": "memory-before.txt",
+        "sha256": "a43f5a753f759075605b3c7778a7ebd494dc0a4196e9b960580742f7553d5f72",
+        "size_bytes": 207
+      },
+      {
+        "path": "repository-commit.txt",
+        "sha256": "c94248f51e97f45fccd01a683c4772155327c882c5e89401a5f80074fcbd0aa6",
+        "size_bytes": 41
+      },
+      {
+        "path": "uname.txt",
+        "sha256": "2b2d2155a3ee4b0765bc71c1658528f1dc5fc194f033a9dc1680ed43ee7269e0",
+        "size_bytes": 124
+      }
+    ],
+    "total_regular_file_bytes": 407787
+  },
+  "claim_boundary": "No compiler build, PGO training, model request, or measured service process started. This run provides no PGO, quality, performance, memory, energy, PMU, device, fleet, or cost result.",
+  "contract_sha256": "649f95192ca2a9c063cde9ddafcc211693bd09e5150726f1c8f3223dea51e09c",
+  "decision": {
+    "exact_contract_retry_after_path_repair_allowed": true,
+    "failed_run_rehabilitated": false,
+    "pgo_result_accepted": false
+  },
+  "experiment_id": "E18a",
+  "experiment_result_valid": false,
+  "failure": {
+    "builds_started": 0,
+    "measured_processes_started": 0,
+    "measured_requests_completed": 0,
+    "message": "git -C changed the patch-path resolution base to the cloned source, so the repository-relative patch path could not be opened",
+    "model_downloaded": false,
+    "profile_training_started": false,
+    "repair_boundary": "Resolve each unchanged contract patch path against GITHUB_WORKSPACE. Do not change the PGO mechanism, workload, order, repetitions, gates, source, model, service, or claim boundary.",
+    "source_patches_applied": 0,
+    "stage": "first source patch application"
+  },
+  "github": {
+    "artifact_digest": "sha256:2a3b2f74caa49109db5ded16fb2c07c2fa6126866bdd54f838fc5ed66fa10bb8",
+    "artifact_id": "8873443762",
+    "artifact_name": "e18a-workload-pgo-30858644241-1",
+    "artifact_size_bytes": 63854,
+    "job_id": "91835461038",
+    "repository_commit": "979a0071dfb3e7ab6e4fb5824401dc949817c79a",
+    "run_attempt": 1,
+    "run_id": "30858644241",
+    "run_log_sha256": "2f1d83a9bc73e6f6aef9a5537298a7fe80b3216355c4bbae956391fa2ebca9c5",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30858644241"
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "promotion_decision_permitted": false,
+  "schema_version": 1,
+  "status": "invalid_premeasurement_relative_patch_path_failure",
+  "validated_before_failure": {
+    "exact_contract": true,
+    "frozen_inputs_verified": 16,
+    "native_arm64": true,
+    "source_commit_checked_out": true
+  }
+}
