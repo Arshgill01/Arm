@@ -24,9 +24,9 @@ criteria while still concentrating on one coherent workload and one track.
 - Audited the current x86_64 host. It is suitable for orchestration, tests,
   AArch64 cross-code generation, and LLVM-MCA modeling, but too noisy and not Arm
   hardware, so it cannot support final performance claims.
-- Confirmed free native Linux Arm64 and Apple Silicon runners for the public
-  GitHub repository. The organizer separately confirmed Apple Silicon counts for
-  Mobile AI.
+- Confirmed that public GitHub repositories qualify for free native Linux Arm64
+  and Apple Silicon runners. The organizer separately confirmed Apple Silicon
+  counts for Mobile AI.
 - Found the official late guidance that running on Arm alone is insufficient;
   the project must expose baseline, technical changes, measured benefit, and
   reusable artifacts.
