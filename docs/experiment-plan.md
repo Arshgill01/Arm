@@ -1521,6 +1521,37 @@ error; that run is retained separately, and the retry changed no experimental
 gate. See the retained [`manifest`](../results/manifests/e10b-30797568757.json)
 and [`report`](../results/reports/e10b-exact-token-probabilities.md).
 
+## E13a frozen fail-closed cache certificate
+
+E13a takes the next distinct cache-safety mechanism after E10a rejected a
+margin-only guard. It is not another cache knob sweep. The complete retained
+E9c result is the calibration set: an exact tokenized-prompt SHA-256 is
+certified only when every one of its cache-off and cache-on observations
+completed and every returned byte string was identical. Any observed
+difference is denied, and a fingerprint absent from calibration fails closed
+to uncached execution. The deterministic rule produces 44 certified and four
+denied fingerprints from all 288 E9c pairs; no individual example is manually
+selected.
+
+The temporal holdout reuses the exact selected Q4_K_M model and exact E7c
+OpenSSL-off b10216 one-slot binary closure. It concatenates the complete frozen
+E9c point order into one 165-request service trace: 144 measured requests plus
+21 point-transition warmups. Four fresh processes execute all-uncached,
+certificate, certificate, and all-uncached in A–B–B–A order, for 660 requests.
+Each controller trace must route exactly 149 requests through its certificate,
+16 through calibrated fallback, and zero through unknown fallback. The
+uncached baseline and every fallback request must report zero reused tokens.
+
+Promotion requires zero request failures, byte-exact baseline repeats,
+byte-exact controller repeats, byte-exact controller-versus-uncached pairs, at
+least 80% cache activation among certified measured requests, at most 5%
+throughput CV in both modes, at least 1.70x aggregate throughput, no p95 or CPU
+seconds/request regression, readiness within 15 seconds, and per-process RSS
+within 8 GiB. Results cannot expand beyond the exact calibrated fingerprints,
+sequence, model, service, and native host; unseen prompts remain uncached. The
+complete pre-result boundary is in
+[`e13a_contract.json`](../experiments/e13a_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server
