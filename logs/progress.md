@@ -1002,7 +1002,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Local focused tests, scoped Ruff, JSON validation, exact retained-plan
   recomputation, and the submission verifier pass. The verifier now pins 15
   evidence/configuration/plan hashes.
-- Public clean-checkout run `30674971776` passed on native `aarch64` from exact
+- GitHub Actions clean-checkout run `30674971776` passed on native `aarch64` from exact
   product commit `d274a6b`: 103 tests, all 15 hashes, exact retained model and
   service plans, and the dependency-free demo smoke test.
 
@@ -1018,7 +1018,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Focused launcher, CLI, and service-planner tests pass for both throughput and
   at-most-3-GiB routing, exact `--no-repack` emission, hash binding, manual
   conflict, incomplete input, and impossible-policy refusal.
-- Public clean-checkout run `30675220682` passed on native `aarch64` from exact
+- GitHub Actions clean-checkout run `30675220682` passed on native `aarch64` from exact
   launch-binding commit `f2c367e`: 104 tests, all 15 pinned hashes, exact plan
   checks, and the dependency-free demo smoke test.
 
@@ -1056,7 +1056,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   The retained claim is limited to current-revision applicability, targeted
   correctness, and direct Q8 hot-path performance; no model-wide or full
   upstream-CI result is implied.
-- Public clean-checkout run `30676167725` passed on native `aarch64` from the
+- GitHub Actions clean-checkout run `30676167725` passed on native `aarch64` from the
   exact retained-result commit `b9dbd76`: 106 tests, all 16 immutable hashes,
   E6d mechanism and gate checks, exact planner recomputation, and the
   dependency-free demo smoke test.
@@ -1086,7 +1086,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `63c0e450d967208e3eb81d21571c73354e8520940933434914920db5d63c27f1`.
   This accepts one upstream-equivalent native Arm CPU lane only, not the full
   platform, sanitizer, packaging, accelerator, or release matrix.
-- Public clean-checkout run `30676781968` passed on native `aarch64` from exact
+- GitHub Actions clean-checkout run `30676781968` passed on native `aarch64` from exact
   retained-result commit `23ee4e5`: 108 tests, all 17 immutable hashes, E6d/E6e
   evidence checks, exact planner recomputation, and the demo smoke test.
 
@@ -1140,7 +1140,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Python 3.10 independent ingestion matched the uploaded summary byte for byte
   at SHA-256
   `747b6795d42be691c07cf5aac38237095477d06149e787cc313ec2b9558c4ff7`.
-- Public clean-checkout run `30677849517` passed on native `aarch64` from exact
+- GitHub Actions clean-checkout run `30677849517` passed on native `aarch64` from exact
   retained-result commit `cdcb34b`: 114 tests, all 18 immutable hashes,
   E5j/E6d/E6e evidence checks, exact planner recomputation, and the demo smoke
   test.
@@ -1230,7 +1230,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Independent Python 3.10 ingestion reproduced the uploaded result byte for byte
   at SHA-256
   `13496b5e62e50bc3e617e6a80631c87ac6bc29015ea83499cb2ff885ec404ac9`.
-- Public clean-checkout run `30680198942` passed on exact retained-result commit
+- GitHub Actions clean-checkout run `30680198942` passed on exact retained-result commit
   `e92f4ff`: 122 tests, all 23 immutable hashes, E6g runtime/source/build/binary
   assertions, exact planner recomputation, and demo smoke.
 
@@ -1273,7 +1273,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - The retained decision is only a no-repack memory-tier upgrade candidate. E5h
   remains the fast-versus-memory comparison, and a separate launch integration
   must pass before Pareto64 can start this profile on b10216.
-- Public clean-checkout run `30690973261` passed on exact retained-result commit
+- GitHub Actions clean-checkout run `30690973261` passed on exact retained-result commit
   `3af7da4`: 125 tests, all 25 immutable hashes, E6h result assertions, exact
   planner/runtime checks, and the dependency-free demo smoke test.
 
@@ -1311,7 +1311,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - This integrates only the exact memory service. E6g remains the separate fast
   integration; other profiles, energy, and the full upstream matrix remain out
   of scope.
-- Public clean-checkout run `30691572261` passed on exact retained-result commit
+- GitHub Actions clean-checkout run `30691572261` passed on exact retained-result commit
   `60aa902`: 128 tests, all 28 immutable hashes, both current-runtime launch
   integrations, exact planner/runtime assertions, and demo smoke.
 
@@ -1359,7 +1359,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `b48e6c129d1f3305c2b788b422bc5321cd415b2bc2b26460804063ebc3b46839`.
   This is a retained compiler/build no-win, not an energy or broader service
   claim.
-- Public clean-checkout run `30692856958` passed on exact retained-result commit
+- GitHub Actions clean-checkout run `30692856958` passed on exact retained-result commit
   `23ee23e`: 135 tests, all 30 immutable hashes, E7a contract/result assertions,
   exact planner/runtime checks, and the dependency-free demo smoke test.
 
@@ -1417,7 +1417,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   OpenSSL-off is admitted only as a candidate for a separate loopback HTTP
   launch integration; HTTPS, security, installed-package size, energy, and
   other-service claims remain excluded.
-- Public clean-checkout run `30695888838` passed on exact retained-result commit
+- GitHub Actions clean-checkout run `30695888838` passed on exact retained-result commit
   `d00be1c`: 141 tests, all 32 immutable hashes, E7b contract/result assertions,
   exact planner/runtime checks, and the dependency-free demo smoke test.
 
@@ -1479,7 +1479,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `f4e73971b0c6f2db25be52e365cf611848ec1bb1d738648bb43bdf4c2e1857cf`.
   HTTPS, security, installed-package, energy, other-profile, and full-upstream
   claims remain excluded.
-- Public clean-checkout run `30697133805` passed on exact retained-result commit
+- GitHub Actions clean-checkout run `30697133805` passed on exact retained-result commit
   `915717e`: native `aarch64`, all 145 tests, all 35 immutable hashes, E7c
   dependency/launch assertions, exact planner/runtime checks, and the
   dependency-free demo smoke test.
@@ -1780,6 +1780,30 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   E8a remain explicit entrant/device handoffs rather than inferred completions.
 - Audited the claimed 2m50s video script after the final evidence additions.
   Its voice blocks had grown to 626 words, which would take about 3m41s even at
-  170 words/minute. Rewrote it to 359 spoken words under a 2m45s shot plan while
+  170 words/minute. Rewrote it to 363 spoken words under a 2m45s shot plan while
   preserving the hook, quality refusal, E9a comparison, Arm patch, and E9b–E9e
   boundaries. The verifier now enforces a 390-spoken-word ceiling.
+
+## 2026-08-03 — live requirements and publication gate audited
+
+- Rechecked the controlling rules, Cloud AI track details, schedule, latest
+  organizer guidance, and project gallery. The August 14 deadline, public
+  Apache/MIT repository requirement, unrestricted judge-access requirement,
+  optional sub-three-minute video terms, judging weights, and Cloud AI scope
+  remain unchanged. The gallery remains unpublished and still exposes the four
+  recorded entrant survey fields.
+- Queried the live GitHub repository state. `Arshgill01/Arm` is private, despite
+  earlier checklist language claiming a public repository. Corrected the
+  current judge package and historical run labels without changing prior
+  experimental evidence. Repository publication and subsequent anonymous
+  source/license/workflow checks are now a mandatory entrant handoff.
+- Audited publication readiness without changing visibility. The Git object
+  store was 14.77 MiB with no garbage and a 617,514-byte largest historical
+  blob; no tracked sensitive filename matched the bounded audit patterns.
+- Pinned Gitleaks v8.28.0 and scanned all 135 existing commits. The four initial
+  generic-key findings were retained SHA-256 manifest fields. Added exact
+  fingerprint exceptions only and retained a clean full-history rescan.
+- Stopped further hosted Arm dispatches because private-repository runner use
+  may consume metered minutes under the no-paid-services boundary. This
+  documentation-only checkpoint uses `[skip ci]`; the previously retained
+  native validation at `5d3d4f3` remains the latest architecture execution.

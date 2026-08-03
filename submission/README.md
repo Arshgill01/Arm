@@ -7,6 +7,8 @@ and media needed for the Arm Create: AI Optimization Challenge 2026 entry.
 - [`evidence.md`](evidence.md): compact claim-to-run index with immutable hashes.
 - [`demo-script.md`](demo-script.md): public video script under three minutes.
 - [`compliance.md`](compliance.md): final technical and account checklist.
+- [`publication-handoff.md`](publication-handoff.md): mandatory repository
+  visibility and anonymous-access gate.
 
 The ready-to-upload 1,440×900 gallery assets are in
 [`../output/playwright/`](../output/playwright/): project overview, interactive
@@ -28,12 +30,14 @@ python3 scripts/verify_submission.py
 python3 -m unittest discover -s tests -v
 ```
 
-The final E9a–E9e public native Arm clean-checkout run is
+The final E9a–E9e native Arm clean-checkout run is
 [`30775565670`](https://github.com/Arshgill01/Arm/actions/runs/30775565670),
 covering 163 tests, 49 immutable evidence hashes, planner replay, and the demo
 smoke test at commit `70ceae6`.
 
-The repository does not publish or configure a hosted site automatically.
-Before final submission, the entrant must put the static `demo/` directory at a
-public URL that remains available through September 4, 2026, upload the video,
-and replace the URL placeholders in `devpost.md` and `compliance.md`.
+The GitHub repository is currently private and must pass the explicit
+[`publication-handoff.md`](publication-handoff.md) gate before submission. It
+also does not publish or configure a hosted site automatically. The entrant must
+put the static `demo/` directory at a public URL that remains available through
+September 4, 2026, upload the video, and replace the URL placeholders in
+`devpost.md` and `compliance.md`.

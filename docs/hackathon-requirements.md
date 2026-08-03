@@ -1,6 +1,6 @@
 # Hackathon requirements dossier
 
-Last verified: 2026-08-01 UTC. Authoritative source links are collected in
+Last verified: 2026-08-03 UTC. Authoritative source links are collected in
 [`source-registry.md`](source-registry.md).
 
 ## Event identity and schedule
@@ -148,7 +148,7 @@ The July 24 update also says judges will look beyond the pitch to the actual
 implementation and artifacts. Reusable optimized models, scripts, tools,
 migration notes, templates, benchmarks, and lessons are specifically encouraged.
 
-Rechecking the live update on August 1 confirms the organizer's requested
+Rechecking the live update on August 3 confirms the organizer's requested
 evaluation chain: make the baseline, technical change, measured improvement,
 and practical meaning easy to find in the README. Pareto64's judge summary now
 uses that exact structure and keeps rejected optimizations in the same map.
@@ -167,7 +167,10 @@ the rule defects in `open-questions.md`.
 - [x] One and only one published track is selected on the submission: Cloud AI.
 - [x] Work performed during the submission period is identified by commits and
       a changelog.
-- [x] Public GitHub repository exists.
+- [ ] Public GitHub repository exists. The live GitHub API reported the current
+      repository as private on 2026-08-03; this mandatory gate requires the
+      entrant action and anonymous checks in
+      [`../submission/publication-handoff.md`](../submission/publication-handoff.md).
 - [x] Apache-2.0 license is present in the local project.
 - [x] GitHub detects the repository license as Apache-2.0 after push.
 - [x] All dependencies, models, datasets, and generated assets have provenance
@@ -176,7 +179,9 @@ the rule defects in `open-questions.md`.
       163 tests, 49 immutable evidence hashes, planner replay, and demo smoke at
       final E9a–E9e native run
       [`30775565670`](https://github.com/Arshgill01/Arm/actions/runs/30775565670).
-- [x] Repeated before/after results and raw evidence are published.
+- [x] Repeated before/after results and compact evidence are retained in Git.
+- [ ] Raw workflow evidence is anonymously accessible after repository
+      publication.
 - [x] Correctness or quality guardrails show optimization did not silently break
       the workload.
 - [ ] Working demo remains freely accessible through September 4, 2026.

@@ -100,31 +100,41 @@ authoritative, timestamped record; this file groups the significant additions.
 
 - Reconciled the judge package with the final `70ceae6` native validation:
   163 tests, 49 immutable evidence hashes, planner replay, and demo smoke passed
-  in public Arm64 run `30775565670`. Re-rendered the overview and added a
+  in GitHub Actions Arm64 run `30775565670`. Re-rendered the overview and added a
   dedicated 1,440×900 E9a final-service gallery image; the browser reported no
   warnings.
 - Corrected the video timing contract after a spoken-word audit found 626 words
-  behind the old 2m50s label. The revised 2m45s script has 359 spoken words and
+  behind the old 2m50s label. The revised 2m45s script has 363 spoken words and
   keeps the quality refusal, service win, Arm patch, and final negative
   boundaries. Submission verification now fails above 390 spoken words.
+- Rechecked the controlling rules, track page, organizer guidance, schedule,
+  and unpublished gallery on August 3; no technical or submission requirement
+  changed.
+- Corrected a mandatory publication false-pass after the live GitHub API
+  reported `Arshgill01/Arm` as private. The repository and workflow evidence
+  require an entrant-controlled visibility change plus anonymous-access checks
+  before submission; no publication action was taken.
+- Added a publication handoff and a pinned full-history Gitleaks audit. Four
+  SHA-256 evidence values were narrowly allowlisted by exact fingerprint; no
+  credential finding, sensitive filename, or large-history artifact remains.
 
 - Extended the focused suite to 145 tests and the immutable verifier to 35
   hashes, including the corrected complete E7c contract and byte-identical
   native launch manifest.
-- Passed the updated public clean-checkout package on native `aarch64`: all 145
+- Passed the updated GitHub Actions clean-checkout package on native `aarch64`: all 145
   tests, 35 hashes, exact E7c dependency/launch assertions, planner/runtime
   checks, and demo smoke test succeeded.
 - Extended the focused suite to 141 tests and the immutable verifier to 32
   hashes, including the frozen E7b contract and independently replayed native
   dependency-pruning result. The updated evidence row renders without desktop
   or mobile overflow and produces no browser warnings or errors.
-- Passed the updated public clean-checkout package on native `aarch64`: all 141
+- Passed the updated GitHub Actions clean-checkout package on native `aarch64`: all 141
   tests, 32 hashes, exact E7b dependency/result checks, planner/runtime
   assertions, and demo smoke succeeded.
 - Extended the focused suite to 135 tests and the immutable verifier to 30
   hashes, including the frozen E7a compiler/build contract and independently
   replayed native no-win manifest.
-- Passed the updated public clean-checkout package on native `aarch64`: all 135
+- Passed the updated GitHub Actions clean-checkout package on native `aarch64`: all 135
   tests, 30 hashes, exact evidence/plan checks, and demo smoke test succeeded.
 - Extended the product guide, demo, video script, and submission narrative with
   the measured service-envelope decision and its refusal behavior.

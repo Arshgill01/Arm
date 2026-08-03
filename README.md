@@ -15,7 +15,7 @@ August 15 at 04:30 IST).
 **Pareto64** is the final Cloud AI direction: a quality-constrained deployment
 planner and verified launch path for Arm64 AI inference. Native feasibility,
 quality, serving, and novelty gates have passed; rejected speedups and empty
-frontiers remain part of the public evidence.
+frontiers remain part of the retained evidence.
 
 The product core is now executable: it validates schema-1 E3, E3b, E3c, E3d,
 E3e, or E3f evidence, applies explicit quality and SLO gates, recomputes the Pareto

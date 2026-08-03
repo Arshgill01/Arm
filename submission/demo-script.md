@@ -85,4 +85,4 @@ python3 -m pareto64 service-plan \
 
 **Voice:** “Pareto64 turns Arm optimization from a leaderboard into a sequence
 of provable obligations: measure, reject, select, verify, and launch. Every win,
-near-miss, patch, and raw run is public.”
+near-miss, patch, and raw run is retained and ready for review.”

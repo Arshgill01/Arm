@@ -5,9 +5,12 @@ N2 runners. Each manifest records its exact CPU topology; E0–E7c used four
 logical CPUs, while E9a's same-job final comparison used two. No absolute rate
 is compared across those topologies. Each compact manifest is generated from
 raw evidence by a fail-closed ingester. Raw artifacts are retained for 90 days
-by the linked public workflow run; compact manifests and reports are committed
-permanently. E9e is a source/model/workload feasibility stop, so it has no
-native run or performance artifact.
+by the linked GitHub Actions workflow run; compact manifests and reports are
+committed permanently. The links are not anonymously accessible while the
+repository remains private; the mandatory publication gate is tracked in
+[`publication-handoff.md`](publication-handoff.md). E9e is a
+source/model/workload feasibility stop, so it has no native run or performance
+artifact.
 
 | Claim | Native run | Compact evidence | SHA-256 |
 | --- | --- | --- | --- |

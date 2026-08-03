@@ -1111,7 +1111,7 @@ replay matched the uploaded result byte for byte at `8dffd667…7ffd9b`.
 OpenSSL-off is a dependency-pruning candidate for a separate loopback HTTP
 launch integration; it is not yet an automatic product default. See
 [`../results/reports/e7b-openssl-service.md`](../results/reports/e7b-openssl-service.md).
-Public clean-checkout run `30695888838` then passed all 141 tests, 32 immutable
+GitHub Actions clean-checkout run `30695888838` then passed all 141 tests, 32 immutable
 hashes, E7b assertions, planner/runtime checks, and demo smoke on exact retained
 commit `d00be1c`.
 
@@ -1153,7 +1153,7 @@ capture matched on 13 dependency basenames, with neither forbidden OpenSSL
 library present. Python 3.10 replay was byte-identical at
 `f4e73971…e1857cf`.
 
-Public clean-checkout run `30697133805` passed on the retained E7c result
+GitHub Actions clean-checkout run `30697133805` passed on the retained E7c result
 commit: native `aarch64`, all 145 tests, 35 immutable evidence hashes, exact
 planner/runtime assertions, and the dependency-free demo smoke test.
 

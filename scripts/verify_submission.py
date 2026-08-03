@@ -198,6 +198,7 @@ REQUIRED_SUBMISSION_FILES = (
     "submission/evidence.md",
     "submission/demo-script.md",
     "submission/compliance.md",
+    "submission/publication-handoff.md",
 )
 GALLERY_FILES = (
     "output/playwright/pareto64-overview.png",

@@ -1,6 +1,6 @@
 # Experiment environment audit
 
-Audited: 2026-07-31 UTC.
+Audited: 2026-08-03 UTC.
 
 ## Current development host
 
@@ -32,19 +32,23 @@ The host lacks native Arm execution, QEMU/binfmt, Arm GCC/sysroots, Docker
 Buildx, and a GPU. Emulation can later test compatibility but must never be
 reported as Arm performance.
 
-## Native Arm routes available without new paid infrastructure
+## Native Arm routes and current billing boundary
 
-The public GitHub repository qualifies for free native standard hosted runners:
+GitHub provides these native standard hosted-runner labels:
 
 - `ubuntu-24.04-arm`: 4 Arm64 vCPUs, 16 GiB RAM, 14 GiB SSD;
 - `ubuntu-22.04-arm`: same published class;
 - `macos-26`: 4-vCPU Apple Silicon, 14 GiB RAM.
 
-GitHub states public standard runner use is free and unlimited, subject to normal
-concurrency/job limits. Linux Arm runners use images managed in partnership with
-Arm; the underlying processor/environment must still be captured in every run.
+GitHub states standard runner use is free and unlimited for public repositories,
+subject to normal concurrency/job limits. The repository is currently private,
+so additional hosted jobs may consume private-repository minutes. Under the
+no-paid-services boundary, no further hosted job should be launched until the
+repository is public or the entrant explicitly confirms an included, non-billed
+allowance. Linux Arm runners use images managed in partnership with Arm; the
+underlying processor/environment must still be captured in every run.
 
-This gives two immediate paths:
+The retained native runs establish two technically available paths:
 
 - Cloud AI: Linux Arm64 runner for native server/inference experiments.
 - Mobile AI: Apple Silicon runner, which an Arm organizer explicitly confirmed

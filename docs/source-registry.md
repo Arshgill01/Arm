@@ -1,24 +1,25 @@
 # Source registry
 
-All sources were accessed on 2026-07-31 UTC unless noted. “Authority” reflects
+All sources were accessed on 2026-07-31 UTC unless noted. Controlling event
+pages and current organizer guidance were rechecked on 2026-08-03. “Authority” reflects
 how heavily the source should control a project decision.
 
 | Source | Authority | Use |
 | --- | --- | --- |
 | [Devpost overview](https://arm-ai-optimization-challenge.devpost.com/) | Official event page | Core ask, optimization fronts, deliverables, prizes, criteria |
-| [Official rules](https://arm-ai-optimization-challenge.devpost.com/rules) | Controlling official rules | Eligibility, dates, ownership, testing, judging, prize terms |
-| [Track details](https://arm-ai-optimization-challenge.devpost.com/details/trackdetails) | Official event page | Physical, Cloud, and Mobile definitions and suggested tools |
-| [Schedule](https://arm-ai-optimization-challenge.devpost.com/details/dates) | Official event page | Public timeline; conflicts are resolved in favor of rules |
+| [Official rules](https://arm-ai-optimization-challenge.devpost.com/rules) | Controlling official rules, rechecked 2026-08-03 | Eligibility, dates, ownership, testing, judging, prize terms |
+| [Track details](https://arm-ai-optimization-challenge.devpost.com/details/trackdetails) | Official event page, rechecked 2026-08-03 | Physical, Cloud, and Mobile definitions and suggested tools |
+| [Schedule](https://arm-ai-optimization-challenge.devpost.com/details/dates) | Official event page, rechecked 2026-08-03 | Public timeline; conflicts are resolved in favor of rules |
 | [Resources](https://arm-ai-optimization-challenge.devpost.com/resources) | Official event page | Arm program, learning paths, GitHub organization, Discord |
-| [Project gallery](https://arm-ai-optimization-challenge.devpost.com/project-gallery) | Official event page, rechecked 2026-08-01 | Gallery publication state and entrant survey fields; no entries public yet |
+| [Project gallery](https://arm-ai-optimization-challenge.devpost.com/project-gallery) | Official event page, rechecked 2026-08-03 | Gallery remains unpublished; four entrant survey fields are exposed |
 | [Arm Create](https://developer.arm.com/arm-create) | Official Arm page | Organizer framing and event confirmation |
 | [Arm Developer Program](https://developer.arm.com/) | Official Arm page | Account, documentation, tools, support |
 | [Arm Learning Paths](https://learn.arm.com/) | Official Arm documentation | Reproducible platform tutorials and examples |
 | [Arm Developer Ecosystem GitHub](https://github.com/ArmDeveloperEcosystem) | Official Arm GitHub org | Sample code and reusable project foundations |
 | [Prior challenge winners](https://newsroom.arm.com/blog/arm-ai-dev-challenge) | Official Arm editorial | Signals from the previous, differently scoped challenge |
-| [Strengthen Your Optimization Story](https://arm-ai-optimization-challenge.devpost.com/updates/45456-arm-ai-optimization-challenge-strengthen-your-optimization-story) | Official organizer update, rechecked 2026-08-01 | Baseline/change/evidence expectations and reusable artifacts |
+| [Strengthen Your Optimization Story](https://arm-ai-optimization-challenge.devpost.com/updates/45456-arm-ai-optimization-challenge-strengthen-your-optimization-story) | Official organizer update, rechecked 2026-08-03 | Baseline/change/evidence expectations and reusable artifacts |
 | [Office-hours recap](https://arm-ai-optimization-challenge.devpost.com/updates/45305-arm-create-ai-optimization-challenge-office-hours-recap) | Official organizer update, rechecked 2026-08-01 | Repository/license reminder, measurement examples, Performix |
-| [Judging session and August 3 office hours](https://arm-ai-optimization-challenge.devpost.com/updates/45539-judging-criteria-event-this-friday-and-august-3-office-hours) | Official organizer update, rechecked 2026-08-01 | Live concept review and clarification opportunities |
+| [Judging session and August 3 office hours](https://arm-ai-optimization-challenge.devpost.com/updates/45539-judging-criteria-event-this-friday-and-august-3-office-hours) | Official organizer update, rechecked 2026-08-03 | Live concept review and clarification opportunities; no new submission requirement found |
 | [Apple Silicon discussion](https://arm-ai-optimization-challenge.devpost.com/forum_topics/44631-does-an-apple-silicon-mac-qualify-for-the-mobile-ai-track) | Official organizer answer | Confirms Apple Silicon optimization counts for Mobile AI |
 | [Arm Performix](https://developer.arm.com/servers-and-cloud-computing/arm-performix) | Official Arm documentation | Neoverse profiler, machine-readable results, CI support |
 | [Arm MCP Server](https://github.com/mcp/arm/arm-mcp) | Official Arm repository/registry | Arm knowledge, migration checks, LLVM-MCA, remote Performix workflows |

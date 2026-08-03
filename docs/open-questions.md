@@ -1,6 +1,6 @@
 # Official-page contradictions and open questions
 
-Last verified: 2026-07-31 UTC.
+Last verified: 2026-08-03 UTC.
 
 These are evidence gaps, not permission to ignore a requirement.
 
