@@ -55,7 +55,7 @@ artifact.
 | Cache-margin guard rejected before holdout | [E10a `30793728347`](https://github.com/Arshgill01/Arm/actions/runs/30793728347) | [`e10a` manifest](../results/manifests/e10a-30793728347.json) · [`report`](../results/reports/e10a-cache-divergence.md) | `c511ec9e…7d53` |
 | Exact-token first-run harness failure | [E10b preflight `30797017450`](https://github.com/Arshgill01/Arm/actions/runs/30797017450) | [`failure` manifest](../results/manifests/e10b-preflight-30797017450.json) · [`report`](../results/reports/e10b-preflight-failure.md) | `f79b9aed…5089` |
 | Exact-token probability primitive | [E10b `30797568757`](https://github.com/Arshgill01/Arm/actions/runs/30797568757) | [`e10b` manifest](../results/manifests/e10b-30797568757.json) · [`report`](../results/reports/e10b-exact-token-probabilities.md) | `4b1e73bb…5c83` |
-| Final judge-package clean-checkout validation | [`30775996806`](https://github.com/Arshgill01/Arm/actions/runs/30775996806) | 163 tests, 49 hashes through E9e, exact runtime/plan checks, four gallery assets, video-word ceiling, demo smoke test | passed on native `aarch64` at `5d3d4f3` |
+| Final judge-package clean-checkout validation | [`30798816900`](https://github.com/Arshgill01/Arm/actions/runs/30798816900) | 175 tests, 55 hashes through E10b, exact runtime/plan checks, four gallery assets, video-word ceiling, demo smoke test | passed on native `aarch64` at `03ae10d` |
 
 ## Final selected package
 

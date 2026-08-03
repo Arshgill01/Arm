@@ -28,7 +28,8 @@ authoritative, timestamped record; this file groups the significant additions.
 
 - Extended the immutable submission verifier to 55 hashes and explicit E10a,
   E10b-failure, and E10b claim-boundary checks; the focused suite now contains
-  175 tests.
+  175 tests. Native clean-checkout run `30798816900` passes the full package,
+  planner replay, gallery checks, video-word ceiling, and static demo smoke.
 - Updated the judge index, Devpost draft, experiment plan, README, and static
   HTML demo with the E10a/E10b evidence and its narrow response-path claim.
 - Recorded that `Arshgill01/Arm` is public. Anonymous repository, raw license,

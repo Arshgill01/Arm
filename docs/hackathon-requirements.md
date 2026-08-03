@@ -176,10 +176,10 @@ the rule defects in `open-questions.md`.
 - [x] All dependencies, models, datasets, and generated assets have provenance
       and compatible rights.
 - [x] Clean-checkout setup/run/validation succeeds on the intended Arm target:
-      163 tests, 49 immutable evidence hashes, planner replay, four gallery
+      175 tests, 55 immutable evidence hashes, planner replay, four gallery
       assets, video-word ceiling, and demo smoke at final native judge-package
       run
-      [`30775996806`](https://github.com/Arshgill01/Arm/actions/runs/30775996806).
+      [`30798816900`](https://github.com/Arshgill01/Arm/actions/runs/30798816900).
 - [x] Repeated before/after results and compact evidence are retained in Git.
 - [x] Current linked raw workflow evidence is anonymously accessible after
       repository publication.
