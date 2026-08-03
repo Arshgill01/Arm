@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E10c",
+  "status": "failed_frozen_parity_gates",
+  "promote_candidate_scorer": false,
+  "scope": "Native Arm64 reverse-balanced comparison of the exact E10b serial probability_ids reference and the unmodified frozen E10c shared-prefix /score implementation on the selected E7c OpenSSL-off service",
+  "provenance": {
+    "github_run_id": "30812791972",
+    "github_run_attempt": 1,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30812791972",
+    "git_commit": "cf5c37745d28b03e7ac0528e01baf41e0c2ddfd1",
+    "artifact": {
+      "id": 8855844452,
+      "name": "e10c-candidate-scorer-30812791972-1",
+      "size_bytes": 9700330,
+      "sha256": "ca1014614f2c9dd02f34304378b6bcdc461c99676d0746c654e5d7900be7d855",
+      "retention_days": 90,
+      "expires_at": "2026-11-01T12:14:46Z"
+    },
+    "contract_sha256": "a8196cf4958e0c93589c11e1a721dd79a912cb6e0af6ce6525b8c3ddf544db19",
+    "negative_ingest_path": "experiments/e10c_negative_ingest.py",
+    "negative_ingest_sha256": "d771d73ad886934953c204fa135654cb5f0396463483f08129f7f43da64c0e28",
+    "independent_summary_sha256": "e6c3c7698f58ff4f506f6054f9a2d684957410c34b7cec312e6a8cf73655d538",
+    "raw_probe_sha256": {
+      "01-serial-r1": "ea44ec4ceeceaddabb55d86b1d0531acf51de6f8d4d70ffd8dadb5352544d747",
+      "02-forked-r1": "bc47b595526a3c0f2105a2b538d11d816b8b1bee14f56a09e551d5d1c2a7c722",
+      "03-forked-r2": "5f04300f0cb423d051a2869e6f261f5cd6009dc1c04b8ae6b56566971d30faf2",
+      "04-serial-r2": "5340857ef1f81b5f4ef85de970ea219e7f073d1fd0e24b1f924e03c2d0500301"
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "model_name": "Neoverse-N2",
+    "logical_cpus": 4,
+    "sockets": 1,
+    "threads_per_core": 1,
+    "github_runner_os": "Linux",
+    "github_runner_arch": "ARM64",
+    "image_os": "ubuntu24-arm64",
+    "image_version": "20260719.67.1"
+  },
+  "runtime": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "source_tag": "b10216",
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_diff_sha256": "88f79504ab00d1d6aca3f83cd9daba7fc5810fd1e8814b276deec7376ddd029e",
+    "patch_count": 5,
+    "server_version": "10216 (876a43211)",
+    "compiler": "GNU 13.3.0 for Linux aarch64",
+    "openssl_enabled": false,
+    "runtime_closure_sha256": "e9fb62687ff43af5e24a04d4f7cfae1a6365a0362e0e8f4a77c45d8ee6c1f2f0",
+    "runtime_closure_file_count": 8,
+    "runtime_closure_size_bytes": 19860648,
+    "maximum_build_rss_kib": 2752912
+  },
+  "model": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "size_bytes": 2146497824
+  },
+  "workload": {
+    "task_count": 30,
+    "candidate_labels": ["A", "B", "C", "D"],
+    "candidate_token_ids": [1065, 1066, 1067, 1068],
+    "fresh_process_cells": 4,
+    "cell_order": [
+      {"mode": "serial", "repetition": 1},
+      {"mode": "forked", "repetition": 1},
+      {"mode": "forked", "repetition": 2},
+      {"mode": "serial", "repetition": 2}
+    ],
+    "measured_task_evaluations": 120,
+    "request_failures": 0,
+    "cache_prompt": false,
+    "multi_token_calibration_candidate_count": 4
+  },
+  "aggregate": {
+    "accuracy": {
+      "serial": 0.7,
+      "forked": 0.7
+    },
+    "predictions_identical": true,
+    "prompt_hashes_identical": true,
+    "maximum_absolute_single_token_logprob_delta": 0.0012346844351860398,
+    "maximum_absolute_multi_token_sum_logprob_delta": 0.09551615749218456,
+    "maximum_absolute_multi_token_token_logprob_delta": 0.13800942582795983,
+    "serial": {
+      "median_http_ms": 6180.8453625,
+      "p95_http_ms": 9499.870438,
+      "median_cpu_seconds_per_task": 25.336666666666666,
+      "median_tasks_per_second": 0.15667963330094137,
+      "maximum_rss_kib": 4525004,
+      "median_ready_ms": 2597.272647,
+      "prompt_evaluations": 240
+    },
+    "forked": {
+      "median_http_ms": 1555.445732,
+      "p95_http_ms": 2395.30881,
+      "median_cpu_seconds_per_task": 6.3615,
+      "median_tasks_per_second": 0.6220342964476946,
+      "maximum_rss_kib": 4523824,
+      "median_ready_ms": 2628.866971,
+      "prompt_evaluations": 60
+    },
+    "forked_to_serial_ratios": {
+      "median_http_latency": 0.2516558238840747,
+      "median_cpu_seconds_per_task": 0.25107880542033945,
+      "median_tasks_per_second": 3.970103090890737,
+      "maximum_rss": 0.9997392267498548,
+      "prompt_evaluations": 0.25
+    }
+  },
+  "validation": {
+    "native_arm64_same_job": true,
+    "exact_source_and_model": true,
+    "fresh_server_per_cell": true,
+    "reverse_balanced_order": true,
+    "zero_request_failures": true,
+    "exact_prediction_parity": true,
+    "exact_prompt_identity": true,
+    "single_token_parity_gate": false,
+    "multi_token_sum_parity_gate": false,
+    "multi_token_token_parity_gate": false,
+    "latency_gate": true,
+    "cpu_gate": true,
+    "prompt_evaluations_gate": true,
+    "rss_gate": true,
+    "candidate_scorer_promotion_allowed": false,
+    "external_holdout_claim_allowed": false,
+    "energy_claim_allowed": false
+  },
+  "diagnosis": {
+    "native_root_causes": [
+      "The original scorer computed a direct double-precision log-softmax while the serial probability_ids reference uses the server float softmax and float-safe logarithm path.",
+      "Continuation slots from one scorer request advanced together in a decode batch, producing large native continuation-token differences from independently re-prefilled serial requests."
+    ],
+    "local_non_claim_diagnostic": {
+      "architecture": "x86_64",
+      "model": "ggml-org/test-model-stories260K F32",
+      "observation": "Matching the probability representation, serializing candidates, and then rewinding one sequence still left a 0.00048065185546875 second-token delta against the frozen full-prefix re-prefill reference.",
+      "interpretation": "The frozen reference and an incremental cache-sharing continuation use numerically different compute paths. Re-prefilling every growing prefix would remove the intended reuse and cannot support the frozen performance hypothesis."
+    }
+  },
+  "decision": {
+    "result": "do_not_promote_candidate_scorer",
+    "weighted_score_used": false,
+    "gates_changed_after_observation": false,
+    "next_step": "Use the already validated serial probability_ids primitive for any external holdout compatibility path; preserve E10c only as negative mechanism evidence."
+  },
+  "claim_boundary": "E10c is a negative result. It shows a large efficiency signal and identical 30-task predictions for this candidate-scoring implementation, but it failed every frozen numerical parity gate and supports no exact-scorer promotion or external-quality claim. The local repair diagnostic is not native performance evidence. No energy, PMU, Mac, fleet, other-model, other-quant or other-runtime claim is allowed."
+}
