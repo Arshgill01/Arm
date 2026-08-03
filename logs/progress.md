@@ -1778,3 +1778,8 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Extended the submission verifier to require all four gallery images. Public
   hosting, video upload, account/eligibility confirmations, and physical-device
   E8a remain explicit entrant/device handoffs rather than inferred completions.
+- Audited the claimed 2m50s video script after the final evidence additions.
+  Its voice blocks had grown to 626 words, which would take about 3m41s even at
+  170 words/minute. Rewrote it to 359 spoken words under a 2m45s shot plan while
+  preserving the hook, quality refusal, E9a comparison, Arm patch, and E9b–E9e
+  boundaries. The verifier now enforces a 390-spoken-word ceiling.

@@ -103,6 +103,10 @@ authoritative, timestamped record; this file groups the significant additions.
   in public Arm64 run `30775565670`. Re-rendered the overview and added a
   dedicated 1,440×900 E9a final-service gallery image; the browser reported no
   warnings.
+- Corrected the video timing contract after a spoken-word audit found 626 words
+  behind the old 2m50s label. The revised 2m45s script has 359 spoken words and
+  keeps the quality refusal, service win, Arm patch, and final negative
+  boundaries. Submission verification now fails above 390 spoken words.
 
 - Extended the focused suite to 145 tests and the immutable verifier to 35
   hashes, including the corrected complete E7c contract and byte-identical

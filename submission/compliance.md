@@ -22,7 +22,7 @@ Last technical review: 2026-08-03 UTC. The submission deadline is August 14,
 - [x] English project overview, functionality, implementation, challenges,
       accomplishments, learning, and future work are drafted.
 - [x] Interactive no-dependency demo is implemented and browser-tested.
-- [x] Video script is under three minutes (2m50s).
+- [x] Video script is under three minutes (2m45s; 359 spoken words).
 - [x] The E9a–E9e checkpoint passes clean-checkout native Arm validation in
       public workflow run
       [`30775565670`](https://github.com/Arshgill01/Arm/actions/runs/30775565670):
@@ -42,7 +42,7 @@ E9a–E9e demo on August 3 with zero browser warnings.
 - [ ] Verify that URL works without credentials and will remain available through
       September 4, 2026.
 - [ ] Replace `<ADD PUBLIC DEMO URL>` in `submission/devpost.md`.
-- [ ] Record the 2m50s script on the intended native Arm evidence path.
+- [ ] Record the 2m45s script on the intended native Arm evidence path.
 - [ ] Upload the video publicly to YouTube, Vimeo, or Youku.
 - [ ] Replace `<ADD PUBLIC VIDEO URL>` in `submission/devpost.md`.
 - [ ] Add screenshots from `output/playwright/` to the Devpost gallery.

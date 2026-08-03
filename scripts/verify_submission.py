@@ -274,6 +274,25 @@ def verify_gallery() -> int:
     return len(GALLERY_FILES)
 
 
+def verify_video_script() -> int:
+    lines = (ROOT / "submission/demo-script.md").read_text(encoding="utf-8").splitlines()
+    spoken: list[str] = []
+    capture = False
+    for line in lines:
+        if line.startswith("**Voice:**"):
+            capture = True
+            line = line.removeprefix("**Voice:**")
+        elif capture and not line:
+            capture = False
+        if capture:
+            spoken.extend(line.split())
+    if len(spoken) > 390:
+        raise ValueError(
+            f"demo script has {len(spoken)} spoken words; maximum is 390"
+        )
+    return len(spoken)
+
+
 def main() -> int:
     missing = [
         path for path in REQUIRED_SUBMISSION_FILES if not (ROOT / path).is_file()
@@ -1583,12 +1602,14 @@ def main() -> int:
 
     local_assets = verify_demo()
     gallery_assets = verify_gallery()
+    spoken_words = verify_video_script()
     print("Pareto64 submission verification passed")
     print(f"selected candidate: {plan['selected']['name']}")
     print(f"selected accuracy: {plan['selected']['metrics']['minimum_accuracy']:.4f}")
     print(f"verified evidence files: {len(EXPECTED_HASHES)}")
     print(f"verified demo links/assets: {local_assets}")
     print(f"verified 1440x900 gallery assets: {gallery_assets}")
+    print(f"verified demo-script spoken words: {spoken_words}/390")
     return 0
 
 

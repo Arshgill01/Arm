@@ -1,4 +1,4 @@
-# Public demo script — 2 minutes 50 seconds
+# Public demo script — 2 minutes 45 seconds
 
 Record at 1440×900 or 1920×1080. Show the browser and terminal at readable zoom.
 Use no copyrighted music or third-party footage.
@@ -11,59 +11,49 @@ Use no copyrighted music or third-party footage.
 faster and slightly smaller—but it failed the workload. Pareto64 selected the
 only package that cleared quality and every deployment SLO.”
 
-## 0:18–0:43 — The quality frontier
+## 0:18–0:40 — The quality frontier
 
 **Screen:** Point to the 70% Q4_0 marker, the fixed 75% line, and the selected
 76.67% Q4_K_M marker. Keep all four selected metrics visible.
 
-**Voice:** “Every experiment is checksum-pinned and repeated. The planner locks
-experiment quality first, then evaluates latency, load time, memory, and size.
-There is no weighted score to hide a bad tradeoff.”
+**Voice:** “Every experiment is pinned and repeated. The planner locks quality
+first, then evaluates latency, memory, load time, and size. There is no weighted
+score to hide a bad tradeoff.”
 
-## 0:43–1:08 — Interactive refusal
+## 0:40–1:00 — Interactive refusal
 
 **Screen:** Navigate to “Decision lab.” Click “Latency temptation.” Show
 `No feasible candidate`, then return to “Quality deployment.”
 
-**Voice:** “Even if an operator lowers the policy after measurement, the faster
-model stays rejected because its frozen experiment gate failed. Tightening the
-latency SLO makes the selected model fail too, so Pareto64 refuses deployment
-instead of moving the goalposts.”
+**Voice:** “Lowering a policy after measurement cannot rescue the faster model:
+its experiment gate already failed. Tighten latency and the selected model fails
+too, so Pareto64 refuses deployment instead of moving the goalposts.”
 
-## 1:08–1:43 — Serving optimization
+## 1:00–1:42 — Serving optimization
 
 **Screen:** Scroll to “Reuse 25 tokens. Keep all 120 answers.” Point to the
 throughput bars, concurrency boundary, context/KV profile, and prompt-batch
 profile.
 
-**Voice:** “More server slots gained only 1.9%, so we rejected them. Shared
-prefix caching was different: all 120 answers stayed identical, throughput rose
-1.67 times, and median latency fell 41%. We then tested both together. Two
-cached slots gained only 6.2% and nearly doubled latency, so one slot stayed the
-default. Then we right-sized its context from 2,048 to 256 tokens: all answers
-stayed exact, throughput stayed at 99.6%, and maximum RSS fell 183 MiB. q4 KV
-saved more but changed an answer, so f16 stayed. Batch 64 then cut the compute
-buffer 75%. Finally, disabling Arm weight repacking saved another 1.98 GiB but
-halved throughput. The service planner now selects the fast layout for a
-throughput envelope, the no-repack layout below three GiB, and refuses an
-envelope neither measured tier can meet. Three and two server threads barely
-reduced CPU work per request but lost 24% and 49% throughput, so four stayed.”
+**Voice:** “More server slots gained only 1.9%, so we rejected them. Shared-prefix
+caching preserved all 120 answers, raised throughput 1.67 times, and cut median
+latency 41%. Combining cache and concurrency nearly doubled latency, so one slot
+stayed. Right-sizing context saved 183 MiB; q4 KV saved more but changed an
+answer. Batch 64 cut the compute buffer 75%. Disabling Arm weight repacking
+saved another 1.98 GiB but halved throughput, so the planner exposes separate
+fast and under-three-GiB tiers—and refuses an envelope neither tier measured.”
 
-## 1:43–2:08 — Arm-specific patch
+## 1:42–2:08 — Arm-specific patch
 
 **Screen:** Scroll to the before/after assembly section.
 
-**Voice:** “Pareto64 also produced bounded Arm source work. In llama.cpp’s Q8
-activation quantizer, we replaced 32 scalar byte stores with six NEON narrows
-and two vector stores. Direct throughput doubled from 5.1 to 10.3 gigabytes per
-second with bit-identical output and neutral real-model inference. The complete
-three-patch series then passed a full Arm CPU build and all 47 executed tests on
-current llama.cpp. Its unpublished mail series also passed native GCC and Clang
-lanes, but strict UBSan exposed an inherited upstream test-function mismatch;
-the pristine control reproduced it, so we kept readiness rejected. We claim
-the hot path, not a whole-model speedup.”
+**Voice:** “In llama.cpp’s Q8 activation quantizer, we replaced 32 scalar stores
+with six NEON narrows and two vector stores. Direct throughput doubled from 5.1
+to 10.3 gigabytes per second with bit-identical output. The full Arm CPU lane
+then passed 47 tests. Real-model inference stayed neutral, so we claim the hot
+path—not a whole-model speedup.”
 
-## 2:08–2:32 — Exact serving
+## 2:08–2:36 — Exact serving and final boundaries
 
 **Screen:** Show the E5b through E9e rows and final comparison, then the terminal.
 
@@ -71,28 +61,18 @@ the hot path, not a whole-model speedup.”
 python3 scripts/verify_submission.py
 ```
 
-**Voice:** “The exact selected service then cleared every current-runtime gate:
-all answers stayed stable, throughput held, and memory rose only 100 KiB. The
-hash-verifying adapter can opt into that build only when its E6f evidence,
-patched source diff, CMake build, binary, model, and exact service profile all
-agree. We then ran that adapter end to end on Arm: it launched the service and
-reproduced all 30 selected predictions with no drift or failures. The no-repack
-tier separately retained 100.24% throughput and stayed below 3 GiB on current
-source. Its own E6h-bound adapter then launched that exact tier at 2.27 GiB RSS,
-again with no drift or failures. Whole-program LTO then kept every answer but
-missed both its speed and footprint gates, so it stays off. Every other profile
-still fails closed. Finally, the loopback-only build removed two unused OpenSSL
-library edges with no new dependency and 99.981% throughput retention. Its
-separate E7b-bound adapter then proved those libraries absent and launched the
-exact HTTP service with the same 23/30 result. Finally, one same-job comparison
-ran the exact earliest and final recipes four times each. All 240 answers
-matched; the final service delivered 1.717 times throughput, 41.5% lower median
-latency, and 41.9% less CPU work per request. It is a compounded product result,
-not a single-mechanism claim. A separate alternating-prefix matrix was faster
-at all nine points but changed answers, so every generalized cache policy is
-disabled. HTTPS remains unchanged.”
+**Voice:** “The hash-verifying adapter reproduced all 30 task outputs with zero
+drift. OpenSSL-off removed two unused library edges and retained 99.981% of
+throughput. Then one same-job comparison ran the exact earliest and final
+recipes four times each. All 240 answers matched: final throughput was 1.717
+times, median latency fell 41.5%, and CPU work per request fell 41.9%. This is a
+compounded product result; isolated experiments provide attribution. The
+external holdout stopped before task results when the exact API lacked required
+logprobs. Alternating prefixes changed answers, strict sanitizer readiness
+failed on an inherited test, and speculative/cross-runtime gates failed before
+measurement. We publish those boundaries too.”
 
-## 2:32–2:50 — Close
+## 2:36–2:45 — Close
 
 **Screen:** Run the service planner command, show `repack_off` and
 `--no-weight-repack`, then end on the top of the demo.
