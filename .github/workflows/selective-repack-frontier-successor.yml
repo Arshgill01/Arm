@@ -1,0 +1,202 @@
+name: Arm E14b verbosity-corrected selective-repack frontier
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e14b_contract.json
+  CONTRACT_SHA256: 53fb5fabab276520ce66502f723af33eacc5e034605252846d2e7eab1533979d
+  SELECTED_CANDIDATE: ministral3_3b_q4_k_m
+
+jobs:
+  frontier:
+    name: Verbosity-corrected four-point frontier on native Arm64
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 120
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e14b-${{ github.run_id }}-${{ github.run_attempt }}
+      SOURCE_DIR: /tmp/llama.cpp-E14b
+      BUILD_DIR: /tmp/llama.cpp-E14b-build
+      MODEL_ROOT: /tmp/Pareto64-E14b/models
+
+    steps:
+      - name: Check out frozen E14b experiment
+        uses: actions/checkout@v7
+
+      - name: Capture host and verify every frozen input
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          mkdir -p "$EVIDENCE_DIR/build" "$EVIDENCE_DIR/cells" \
+            "$EVIDENCE_DIR/patches" "$MODEL_ROOT"
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          jq -r '
+            .inputs as $inputs
+            | $inputs
+            | to_entries[]
+            | select(.key | endswith("_path"))
+            | [$inputs[.key | sub("_path$"; "_sha256")], .value]
+            | @tsv
+          ' "$CONTRACT_PATH" | while IFS=$'\t' read -r expected path; do
+            echo "$expected  $path" | sha256sum --check --strict
+          done
+          python3 -m unittest tests.test_e14b
+
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          cp results/manifests/e3f-30656151957.json \
+            "$EVIDENCE_DIR/selected-manifest.json"
+          cp configs/cloud-quality.json "$EVIDENCE_DIR/deployment-policy.json"
+          cp experiments/e3f_models.json "$EVIDENCE_DIR/models-manifest.json"
+          cp experiments/e3f_contract.json "$EVIDENCE_DIR/runtime-contract.json"
+          cp experiments/e3_tasks.json "$EVIDENCE_DIR/tasks-manifest.json"
+          for patch in $(jq -r '.source.patches[].path' "$CONTRACT_PATH"); do
+            cp "$patch" "$EVIDENCE_DIR/patches/$(basename "$patch")"
+          done
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          {
+            cc --version
+            c++ --version
+            cmake --version
+            ninja --version
+          } | tee "$EVIDENCE_DIR/toolchain.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          git rev-parse HEAD | tee "$EVIDENCE_DIR/repository-commit.txt"
+
+      - name: Pin source and apply the exact four-patch series
+        run: |
+          set -euo pipefail
+          repository="$(jq -r '.source.repository' "$CONTRACT_PATH")"
+          commit="$(jq -r '.source.commit' "$CONTRACT_PATH")"
+          tag="$(jq -r '.source.tag' "$CONTRACT_PATH")"
+          git clone --filter=blob:none "$repository" "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$commit"
+          test "$(git -C "$SOURCE_DIR" rev-parse HEAD)" = "$commit"
+          test "$(git -C "$SOURCE_DIR" describe --tags --exact-match)" = "$tag"
+          test -z "$(git -C "$SOURCE_DIR" status --short)"
+          while IFS= read -r patch; do
+            git -C "$SOURCE_DIR" apply --check "$GITHUB_WORKSPACE/$patch"
+            git -C "$SOURCE_DIR" apply "$GITHUB_WORKSPACE/$patch"
+          done < <(jq -r '.source.patches[].path' "$CONTRACT_PATH")
+          git -C "$SOURCE_DIR" diff --check
+          git -C "$SOURCE_DIR" diff --name-only HEAD | sort \
+            | tee "$EVIDENCE_DIR/patched-files.txt"
+          diff -u \
+            <(jq -r '.source.changed_files[]' "$CONTRACT_PATH") \
+            "$EVIDENCE_DIR/patched-files.txt"
+          git -C "$SOURCE_DIR" diff --binary --full-index HEAD -- \
+            > "$EVIDENCE_DIR/source-diff.patch"
+          echo "$(jq -r '.source.aggregate_diff_sha256' "$CONTRACT_PATH")  $EVIDENCE_DIR/source-diff.patch" \
+            | sha256sum --check --strict
+          jq -n \
+            --arg repository "$repository" \
+            --arg commit "$commit" \
+            --arg tag "$tag" \
+            --argjson patches "$(jq -c '[.source.patches[].path | split("/")[-1]]' "$CONTRACT_PATH")" \
+            '{schema_version: 1, repository: $repository, commit: $commit, tag: $tag, patches_applied: $patches}' \
+            > "$EVIDENCE_DIR/source.json"
+
+      - name: Build and inventory the exact experimental server
+        run: |
+          set -euo pipefail
+          mapfile -t cmake_args < <(jq -r '.build.cmake_arguments[]' "$CONTRACT_PATH")
+          python3 - "${cmake_args[@]}" <<'PY' > "$EVIDENCE_DIR/build/configure-command.json"
+          import json
+          import sys
+
+          print(json.dumps({"cmake_arguments": sys.argv[1:]}, indent=2, sort_keys=True))
+          PY
+          cmake -S "$SOURCE_DIR" -B "$BUILD_DIR" -G Ninja \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON "${cmake_args[@]}" \
+            2>&1 | tee "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' \
+            "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'ARM detected' "$EVIDENCE_DIR/build/configure.log"
+          cp "$BUILD_DIR/CMakeCache.txt" "$EVIDENCE_DIR/build/CMakeCache.txt"
+          /usr/bin/time --verbose --output "$EVIDENCE_DIR/build/build-time.log" \
+            cmake --build "$BUILD_DIR" --target llama-server --parallel "$(nproc)" \
+            2>&1 | tee "$EVIDENCE_DIR/build/build.log"
+          ninja -C "$BUILD_DIR" -t commands \
+            > "$EVIDENCE_DIR/build/build-commands.txt"
+          "$BUILD_DIR/bin/llama-server" --version 2>&1 \
+            | tee "$EVIDENCE_DIR/build/server-version.txt"
+          "$BUILD_DIR/bin/llama-server" --help \
+            > "$EVIDENCE_DIR/build/server-help.txt"
+          grep -q -- '--no-repack' "$EVIDENCE_DIR/build/server-help.txt"
+          grep -q -- '--log-verbosity' "$EVIDENCE_DIR/build/server-help.txt"
+          python3 experiments/e7a_runtime_closure.py \
+            --server "$BUILD_DIR/bin/llama-server" \
+            --build-root "$BUILD_DIR" \
+            --copy-dir "$EVIDENCE_DIR/build/runtime-files" \
+            --output "$EVIDENCE_DIR/build/runtime-closure.json"
+          ! grep -Eq 'lib(ssl|crypto)\.so' \
+            "$EVIDENCE_DIR/build/runtime-closure.json"
+
+      - name: Download and verify the exact selected model
+        run: |
+          set -euo pipefail
+          repository="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].repository' experiments/e3f_models.json)"
+          revision="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].revision' experiments/e3f_models.json)"
+          model_path="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].path' experiments/e3f_models.json)"
+          model="$MODEL_ROOT/$SELECTED_CANDIDATE/$model_path"
+          mkdir -p "$(dirname "$model")"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$model" \
+            "https://huggingface.co/$repository/resolve/$revision/$model_path?download=true"
+          test "$(stat --format='%s' "$model")" = \
+            "$(jq -r '.selected.model_size_bytes' "$CONTRACT_PATH")"
+          echo "$(jq -r '.selected.model_sha256' "$CONTRACT_PATH")  $model" \
+            | sha256sum --check --strict
+          sha256sum "$model" | tee "$EVIDENCE_DIR/model-sha256.txt"
+
+      - name: Run the frozen reverse-balanced eight-cell matrix
+        run: |
+          set -euo pipefail
+          model_path="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].path' experiments/e3f_models.json)"
+          model="$MODEL_ROOT/$SELECTED_CANDIDATE/$model_path"
+          index=0
+          while IFS=$'\t' read -r configuration repetition; do
+            index=$((index + 1))
+            experiments/e14b_cell.sh \
+              "$CONTRACT_PATH" "$EVIDENCE_DIR" "$BUILD_DIR/bin/llama-server" \
+              "$model" "$index" "$configuration" "$repetition"
+          done < <(jq -r '.execution.order[] | [.configuration, .repetition] | @tsv' "$CONTRACT_PATH")
+          test "$index" -eq "$(jq -r '.execution.total_fresh_processes' "$CONTRACT_PATH")"
+
+      - name: Independently validate and inventory complete evidence
+        run: |
+          set -euo pipefail
+          jq -n \
+            --arg experiment_id E14b \
+            --arg git_commit "$GITHUB_SHA" \
+            --arg github_run_id "$GITHUB_RUN_ID" \
+            --argjson github_run_attempt "$GITHUB_RUN_ATTEMPT" \
+            --arg runner_os "$RUNNER_OS" \
+            --arg runner_arch "$RUNNER_ARCH" \
+            '{schema_version: 1, experiment_id: $experiment_id, git_commit: $git_commit, github_run_id: $github_run_id, github_run_attempt: $github_run_attempt, runner_os: $runner_os, runner_arch: $runner_arch}' \
+            > "$EVIDENCE_DIR/provenance.json"
+          python3 experiments/e14b_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary.json"
+          jq '{status, promoted, selection, gates, candidate_gates, frontier, performance: (.performance | with_entries(.value = {quality: .value.quality, throughput: .value.requests_per_second, http_ms: .value.http_ms, cpu_seconds_per_request: .value.server_cpu_seconds_per_request, maximum_rss_kib: .value.maximum_rss_kib, ready_ms: .value.ready_ms, buffers_mib: {mapped: .value.mapped_buffer_mib, repack: .value.repack_buffer_mib, total: .value.total_model_buffers_mib}}))}' \
+            "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum \
+            > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+
+      - name: Upload complete E14b evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e14b-selective-repack-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error

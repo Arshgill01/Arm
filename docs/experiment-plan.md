@@ -1635,6 +1635,22 @@ A separately frozen successor may add verbosity 4 uniformly while changing no
 configuration, request, ordering, repetition, or acceptance gate. E14a remains
 invalid regardless of that successor.
 
+## E14b frozen verbosity-corrected selective-repack successor
+
+E14b is the separately named instrumentation repair. E14a's result was observed
+before this freeze and remains invalid. The successor repeats the same exact
+model, source and four-patch diff, four configurations, A–B–C–D–D–C–B–A order,
+two repetitions, 240 requests, quality contract and acceptance thresholds.
+The only recipe change is appending `--log-verbosity 4` uniformly to all eight
+fresh processes so the already-required mapped-buffer, repack-buffer, and
+tensor-exclusion records are captured.
+
+The contract mechanically asserts equality with E14a's configurations, order,
+request definition, and acceptance object. No tensor group or gate was selected
+from the descriptive failed-run values. Every observed point and failure will
+be retained, and E14b cannot rehabilitate E14a. Exact successor provenance is
+frozen in [`e14b_contract.json`](../experiments/e14b_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server
