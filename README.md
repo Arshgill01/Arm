@@ -307,6 +307,7 @@ repack flag that conflicts with the plan is refused.
 | [E10d](results/reports/e10d-external-holdout-failure.md) | Both 300-sample model loops hit missing probability entries; the pair and all partial task metrics remain invalid |
 | [E10e](results/reports/e10e-probability-compatibility.md) | A safe sampled-token path completed both retained compatibility failures twice with zero requested-score delta |
 | [E10f](results/reports/e10f-safe-sampled-external-holdout.md) | Both exact quantizations complete the pinned 300-sample native holdout with zero failures; the mixed per-task result is supplemental and non-cherry-picked |
+| [E12a](results/reports/e12a-application-imatrix-timeout.md) | The exact native 32-chunk application-imatrix run reached its five-hour job ceiling; a valid 24-chunk checkpoint is retained, but the matrix is incomplete and no generated-quant dispatch is permitted |
 | [E13a](results/reports/e13a-cache-certificate.md) | Byte-exact fail-closed routing reached 1.84765x throughput, but six safe unknown warmup fallbacks violated the frozen decision-count expectation; the policy remains rejected |
 | [E14a](results/reports/e14a-selective-repack-instrumentation-failure.md) | All eight native cells completed with exact quality, but missing verbosity-4 mechanism logs invalidate the frontier and forbid promotion |
 | [E13b](results/reports/e13b-cache-certificate-successor.md) | A separately frozen calibration-known trace passes every gate at 1.85158x throughput with byte-exact output and exact decision counts; admission remains fingerprint-bounded |
@@ -318,7 +319,7 @@ repack flag that conflicts with the plan is refused.
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
 The E5f through E5j, E6d through E6i, E7a through E7c, E9a/E9c, E10a through
-E10f, E13a/E13b, E14a/E14b, and E16a/E16b results are retained under their exact frozen
+E10f, E12a, E13a/E13b, E14a/E14b, and E16a/E16b results are retained under their exact frozen
 contracts and independently re-ingested byte for byte. E9e separately retains its reproducible
 premeasurement stop record.
 

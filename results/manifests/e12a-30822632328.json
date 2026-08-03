@@ -1,0 +1,134 @@
+{
+  "artifact_validation": {
+    "all_extracted_regular_files_hashed": true,
+    "file_count": 55,
+    "inventory_sha256": "a57373b07ca1f89659985c276e65d78cd65578803af5b22e4039fab803ce9c3c",
+    "total_regular_file_bytes": 27100215
+  },
+  "claim_boundary": "E12a produced a structurally valid 24-of-32-chunk periodic checkpoint before its native job timed out. It is not a complete importance matrix, quantized-model result, or quality/performance claim. Only a separately frozen exact continuation from chunk 24 may use it.",
+  "contract_sha256": "549ea26150cae35fee1cdc841746a4eb1a6b066496c004186c9d0330d6a29959",
+  "corpus": {
+    "corpus_bytes": 309892,
+    "corpus_sha256": "8c4c6ed67bbdd4990dd7ce26df1400e7a8268b366b77b4f54448fd69d54ee2b5",
+    "maximum_record_tokens": 312,
+    "minimum_record_tokens": 41,
+    "records": 720,
+    "rendered_token_count_sum": 69956,
+    "source_counts": {
+      "application": 240,
+      "arc_easy_train": 160,
+      "hellaswag_train": 160,
+      "winogrande_train": 160
+    }
+  },
+  "decision": {
+    "application_imatrix_accepted": false,
+    "original_e12b_dispatch_allowed": false,
+    "resume_may_change_model_corpus_source_chunks_or_gates": false,
+    "separately_frozen_exact_checkpoint_resume_allowed": true,
+    "timeout_retained": true
+  },
+  "experiment_id": "E12a",
+  "experiment_result_valid": false,
+  "failure": {
+    "full_validation_reached": false,
+    "generation_step_cancelled_at": "2026-08-03T19:25:51Z",
+    "generation_step_elapsed_seconds": 17215,
+    "generation_step_started_at": "2026-08-03T14:38:56Z",
+    "job_timeout_minutes": 300,
+    "message": "The operation was canceled.",
+    "type": "github_job_timeout"
+  },
+  "generation": {
+    "context_tokens": 512,
+    "declared_chunks": 32,
+    "estimated_generation_seconds": 18220.2,
+    "seconds_per_pass": 569.39
+  },
+  "github": {
+    "artifact_digest": "sha256:120665a1ebc6e49f00f6f51136834a04e5b2ee3e8ffbe6c5c67f6d5480dec05d",
+    "artifact_expires_at": "2026-11-01T14:25:36Z",
+    "artifact_id": "8868581019",
+    "artifact_name": "e12a-imatrix-30822632328-1",
+    "artifact_size_bytes": 10288264,
+    "conclusion": "cancelled",
+    "job_id": "91716127342",
+    "repository_commit": "204636445ee3e6ba712ea5fce001312c0bd9c044",
+    "run_attempt": 1,
+    "run_id": "30822632328",
+    "run_log_sha256": "95675b03488999f4576d361bbcef9b6c3ee21cb7683813039947b68b28450d4d",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30822632328"
+  },
+  "model": {
+    "license": "Apache-2.0",
+    "path": "Ministral-3-3B-Instruct-2512-BF16.gguf",
+    "provenance": "Exact LFS SHA-256 and size from the Hugging Face model API at the pinned revision",
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "sha256": "413b0d1fa42c2656f6c61aab88171191fc2df2d07427d82b047c89ac977bc266",
+    "size_bytes": 6866220032
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "promotion_decision_permitted": false,
+  "resume_checkpoint": {
+    "activation_statistics_observed_before_resume_freeze": false,
+    "completed_fraction": 0.75,
+    "metadata": {
+      "chunk_count": 24,
+      "chunk_size": 512,
+      "datasets": [
+        "/home/runner/work/Arm/Arm/results/raw/e12a-30822632328-1/calibration.txt"
+      ],
+      "entries": 182,
+      "general_type": "imatrix",
+      "gguf_tensors": 364
+    },
+    "next_chunk": 24,
+    "path": "imatrix.gguf",
+    "remaining_chunks": 8,
+    "sha256": "b95f4dca6ab074764253e7c981971cfb9e9ad687aecb26c0b364642ac9e4b48f",
+    "size_bytes": 3009952
+  },
+  "schema_version": 1,
+  "source": {
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "patches": [
+      {
+        "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      }
+    ],
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "tag": "b10216",
+    "tools": [
+      "llama-imatrix",
+      "llama-quantize"
+    ]
+  },
+  "status": "invalid_native_timeout_with_resume_checkpoint"
+}
