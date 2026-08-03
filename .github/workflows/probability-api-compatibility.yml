@@ -1,0 +1,173 @@
+name: Arm E10e probability API compatibility preflight
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PLAN_PATH: experiments/e10e_probability_plan.json
+  PLAN_SHA256: 9cada2521c4f813c437bf7aa7c4a3d800a41a973dc9b9c781b5a05f15721c6cc
+  E10D_CONTRACT_PATH: experiments/e10d_contract.json
+  LLAMA_SOURCE: /tmp/llama.cpp-E10e
+  LLAMA_BUILD: /tmp/llama.cpp-E10e-build
+  MODEL_ROOT: /tmp/Pareto64-E10e/models
+  EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e10e-${{ github.run_id }}-${{ github.run_attempt }}
+
+jobs:
+  compatibility:
+    name: Reproduce and isolate exact probability gaps
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 120
+
+    steps:
+      - name: Check out frozen E10e experiment
+        uses: actions/checkout@v7
+
+      - name: Verify frozen contract and capture native host
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR/build" "$EVIDENCE_DIR/patches" "$MODEL_ROOT"
+          test "$(uname -m)" = "aarch64"
+          echo "$PLAN_SHA256  $PLAN_PATH" | sha256sum --check --strict
+          while IFS=$'\t' read -r expected input_path; do
+            echo "$expected  $input_path" | sha256sum --check --strict
+          done < <(jq -r '.inputs as $inputs | $inputs | to_entries[] | select(.key | endswith("_path")) | [$inputs[(.key | sub("_path$"; "_sha256"))], .value] | @tsv' "$PLAN_PATH")
+          python3 -m unittest tests.test_e10e
+          cp "$PLAN_PATH" "$EVIDENCE_DIR/contract.json"
+          cp results/manifests/e10d-ministral3_3b_q4_0-30818303255.json \
+            "$EVIDENCE_DIR/e10d-failure-manifest.json"
+          cp experiments/e10d_contract.json "$EVIDENCE_DIR/e10d-contract.json"
+          cp experiments/e9a_contract.json "$EVIDENCE_DIR/e9a-contract.json"
+          cp experiments/e3f_models.json "$EVIDENCE_DIR/models-manifest.json"
+          cp experiments/e10e_failure_cases.json "$EVIDENCE_DIR/failure-cases.json"
+          cp patches/llama.cpp/b10216/0004-server-select-exact-token-probabilities.patch \
+            "$EVIDENCE_DIR/patches/0004-server-select-exact-token-probabilities.patch"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          git rev-parse HEAD | tee "$EVIDENCE_DIR/repository-commit.txt"
+          jq -n \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --argjson run_attempt "$GITHUB_RUN_ATTEMPT" \
+            --arg sha "$GITHUB_SHA" \
+            --arg ref "$GITHUB_REF" \
+            --arg runner_os "$RUNNER_OS" \
+            --arg runner_arch "$RUNNER_ARCH" \
+            '{run_id: $run_id, run_attempt: $run_attempt, sha: $sha, ref: $ref, runner_os: $runner_os, runner_arch: $runner_arch}' \
+            > "$EVIDENCE_DIR/github.json"
+
+      - name: Pin exact source, patches, and failed model
+        run: |
+          set -euo pipefail
+          source_commit="$(jq -r '.service.source_commit' "$PLAN_PATH")"
+          source_tag="$(jq -r '.service.source_tag' "$PLAN_PATH")"
+          git clone --filter=blob:none https://github.com/ggml-org/llama.cpp.git "$LLAMA_SOURCE"
+          git -C "$LLAMA_SOURCE" checkout --detach "$source_commit"
+          test "$(git -C "$LLAMA_SOURCE" rev-parse HEAD)" = "$source_commit"
+          test "$(git -C "$LLAMA_SOURCE" describe --tags --exact-match)" = "$source_tag"
+          jq -r '.profiles.e7c_final.source.patches[] | [.path, .sha256] | @tsv' \
+            experiments/e9a_contract.json | while IFS=$'\t' read -r patch expected; do
+              echo "$expected  $patch" | sha256sum --check --strict
+              cp "$patch" "$EVIDENCE_DIR/patches/$(basename "$patch")"
+              git -C "$LLAMA_SOURCE" apply --check "$GITHUB_WORKSPACE/$patch"
+              git -C "$LLAMA_SOURCE" apply "$GITHUB_WORKSPACE/$patch"
+            done
+          primitive_patch="$(jq -r '.inputs.primitive_patch_path' "$PLAN_PATH")"
+          git -C "$LLAMA_SOURCE" apply --check "$GITHUB_WORKSPACE/$primitive_patch"
+          git -C "$LLAMA_SOURCE" apply "$GITHUB_WORKSPACE/$primitive_patch"
+          git -C "$LLAMA_SOURCE" diff --check
+          git -C "$LLAMA_SOURCE" diff --binary --full-index HEAD -- \
+            > "$EVIDENCE_DIR/source-diff.patch"
+          test "$(sha256sum "$EVIDENCE_DIR/source-diff.patch" | cut -d' ' -f1)" = \
+            "$(jq -r '.service.source_diff_sha256' "$PLAN_PATH")"
+          git -C "$LLAMA_SOURCE" diff --name-only | sort \
+            > "$EVIDENCE_DIR/patched-files.txt"
+          jq -n \
+            --arg commit "$source_commit" \
+            --arg tag "$source_tag" \
+            --argjson patches "$(find "$EVIDENCE_DIR/patches" -type f -printf '%f\n' | sort | jq -Rsc 'split("\n")[:-1]')" \
+            '{commit: $commit, tag: $tag, patches_applied: $patches}' \
+            > "$EVIDENCE_DIR/source.json"
+
+          repository="$(jq -r '.model_source.repository' "$PLAN_PATH")"
+          revision="$(jq -r '.model_source.revision' "$PLAN_PATH")"
+          entrypoint="$(jq -r '.model_source.path' "$PLAN_PATH")"
+          model_sha="$(jq -r '.model.sha256' "$PLAN_PATH")"
+          model_size="$(jq -r '.model.size_bytes' "$PLAN_PATH")"
+          model="$MODEL_ROOT/$entrypoint"
+          mkdir -p "$(dirname "$model")"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$model" \
+            "https://huggingface.co/$repository/resolve/$revision/$entrypoint?download=true"
+          test "$(stat --format='%s' "$model")" = "$model_size"
+          echo "$model_sha  $model" | sha256sum --check --strict
+          sha256sum "$model" | tee "$EVIDENCE_DIR/model-sha256.txt"
+
+      - name: Build and inventory exact E7c plus E10b server
+        run: |
+          set -euo pipefail
+          mapfile -t cmake_args < <(jq -r '.profiles.e7c_final.build.cmake_arguments[]' experiments/e9a_contract.json)
+          python3 - "${cmake_args[@]}" <<'PY' > "$EVIDENCE_DIR/build/configure-command.json"
+          import json
+          import sys
+          print(json.dumps({"cmake_arguments": sys.argv[1:]}, indent=2, sort_keys=True))
+          PY
+          cmake -S "$LLAMA_SOURCE" -B "$LLAMA_BUILD" -G Ninja \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON "${cmake_args[@]}" \
+            2>&1 | tee "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'ARM detected' "$EVIDENCE_DIR/build/configure.log"
+          grep -q '^LLAMA_OPENSSL:BOOL=OFF$' "$LLAMA_BUILD/CMakeCache.txt"
+          cp "$LLAMA_BUILD/CMakeCache.txt" "$EVIDENCE_DIR/build/CMakeCache.txt"
+          /usr/bin/time --verbose --output "$EVIDENCE_DIR/build/build-time.log" \
+            cmake --build "$LLAMA_BUILD" --target llama-server --parallel "$(nproc)" \
+            2>&1 | tee "$EVIDENCE_DIR/build/build.log"
+          ninja -C "$LLAMA_BUILD" -t commands > "$EVIDENCE_DIR/build/build-commands.txt"
+          "$LLAMA_BUILD/bin/llama-server" --version 2>&1 \
+            | tee "$EVIDENCE_DIR/build/server-version.txt"
+          c++ --version > "$EVIDENCE_DIR/build/compiler-full.txt"
+          head -1 "$EVIDENCE_DIR/build/compiler-full.txt" > "$EVIDENCE_DIR/build/compiler.txt"
+          python3 experiments/e7a_runtime_closure.py \
+            --server "$LLAMA_BUILD/bin/llama-server" \
+            --build-root "$LLAMA_BUILD" \
+            --copy-dir "$EVIDENCE_DIR/build/runtime-files" \
+            --output "$EVIDENCE_DIR/build/runtime-closure.json"
+          jq -e '(.dynamic_dependency_basenames | index("libssl.so.3") == null) and (.dynamic_dependency_basenames | index("libcrypto.so.3") == null)' \
+            "$EVIDENCE_DIR/build/runtime-closure.json"
+
+      - name: Run three fresh-process compatibility variants
+        run: |
+          set -euo pipefail
+          entrypoint="$(jq -r '.model_source.path' "$PLAN_PATH")"
+          experiments/e10e_cell.sh \
+            "$PLAN_PATH" \
+            "$E10D_CONTRACT_PATH" \
+            experiments/e10e_failure_cases.json \
+            "$EVIDENCE_DIR" \
+            "$LLAMA_BUILD/bin/llama-server" \
+            "$MODEL_ROOT/$entrypoint"
+
+      - name: Independently validate and inventory retained evidence
+        run: |
+          set -euo pipefail
+          python3 experiments/e10e_probability_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --plan "$PLAN_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+
+      - name: Upload complete probability compatibility evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e10e-probability-preflight-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error
