@@ -1807,3 +1807,17 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   may consume metered minutes under the no-paid-services boundary. This
   documentation-only checkpoint uses `[skip ci]`; the previously retained
   native validation at `5d3d4f3` remains the latest architecture execution.
+
+## 2026-08-03 — entrant submission packet completed
+
+- Re-read the unpublished Devpost gallery without changing or submitting an
+  entry. Captured the exact four custom survey prompts and all selectable
+  options. Prepared evidence-backed recommended selections while leaving the
+  two personal sentiment answers explicitly subject to entrant confirmation.
+- Added one ordered handoff covering the publication stop gate, paste-ready
+  identity, suggested technology tags, gallery sequence and caption, URL
+  placeholder policy, signed-out link checks, and final UTC/IST deadline.
+- Found and corrected one stale current-state claim in the paste-ready draft:
+  the final E9a–E9e checkpoint validates 163 focused tests, not the earlier 145.
+- No repository visibility, hosting, video, account, Devpost form, submission,
+  physical-device, notification, or hosted-runner action was taken.

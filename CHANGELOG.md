@@ -117,6 +117,11 @@ authoritative, timestamped record; this file groups the significant additions.
 - Added a publication handoff and a pinned full-history Gitleaks audit. Four
   SHA-256 evidence values were narrowly allowlisted by exact fingerprint; no
   credential finding, sensitive filename, or large-history artifact remains.
+- Added a final entrant handoff from a live read-only Devpost gallery audit:
+  exact field identity, gallery order, all four survey prompts with
+  evidence-backed recommendations, stop gates, and signed-out final checks.
+  Corrected the paste-ready Devpost draft's stale 145-test line to the final
+  retained 163-test count.
 
 - Extended the focused suite to 145 tests and the immutable verifier to 35
   hashes, including the corrected complete E7c contract and byte-identical

@@ -9,6 +9,8 @@ and media needed for the Arm Create: AI Optimization Challenge 2026 entry.
 - [`compliance.md`](compliance.md): final technical and account checklist.
 - [`publication-handoff.md`](publication-handoff.md): mandatory repository
   visibility and anonymous-access gate.
+- [`entrant-handoff.md`](entrant-handoff.md): exact field, gallery, survey, and
+  final signed-out review packet.
 
 The ready-to-upload 1,440×900 gallery assets are in
 [`../output/playwright/`](../output/playwright/): project overview, interactive

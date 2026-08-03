@@ -52,7 +52,9 @@ E9a–E9e demo on August 3 with zero browser warnings.
 - [ ] Add screenshots from `output/playwright/` to the Devpost gallery.
 - [ ] Confirm all required Devpost fields and the **Cloud AI** category.
 - [ ] Answer the four entrant-only survey fields about build difficulty,
-      missing support, future Arm use, and plans to continue the project.
+      missing support, future Arm use, and plans to continue the project using
+      the exact prompts and recommended answers in
+      [`entrant-handoff.md`](entrant-handoff.md).
 - [ ] Review the final text for entrant name/team and contact information.
 - [ ] Submit before August 14, 2026 at 23:00 UTC.
 
@@ -65,4 +67,5 @@ python3 -m http.server 4174 --directory demo
 ```
 
 Repository publication, hosting, and account steps require the entrant's
-external accounts and are intentionally not automated by this repository.
+external accounts and are intentionally not automated by this repository. The
+ordered final procedure is in [`entrant-handoff.md`](entrant-handoff.md).
