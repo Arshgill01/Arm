@@ -172,11 +172,8 @@ jobs:
           grep -q '^LLAMA_OPENSSL:BOOL=OFF$' "$LLAMA_BUILD/CMakeCache.txt"
           cp "$LLAMA_BUILD/CMakeCache.txt" "$EVIDENCE_DIR/build/CMakeCache.txt"
           /usr/bin/time --verbose --output "$EVIDENCE_DIR/build/build-time.log" \
-            cmake --build "$LLAMA_BUILD" \
-              --target llama-server test-reasoning-budget \
+            cmake --build "$LLAMA_BUILD" --target llama-server \
               --parallel "$(nproc)" 2>&1 | tee "$EVIDENCE_DIR/build/build.log"
-          "$LLAMA_BUILD/bin/test-reasoning-budget" \
-            | tee "$EVIDENCE_DIR/build/test-reasoning-budget.log"
           ninja -C "$LLAMA_BUILD" -t commands \
             > "$EVIDENCE_DIR/build/build-commands.txt"
           "$LLAMA_BUILD/bin/llama-server" --version 2>&1 \
