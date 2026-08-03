@@ -1,0 +1,347 @@
+diff --git a/ggml/src/ggml-cpu/repack.cpp b/ggml/src/ggml-cpu/repack.cpp
+index 606f888c01c91572ac5416fd0a932e503f334947..371c328f7e32c51f5d64940c8399dbd39b30e92f 100644
+--- a/ggml/src/ggml-cpu/repack.cpp
++++ b/ggml/src/ggml-cpu/repack.cpp
+@@ -21,6 +21,17 @@
+ #include <fstream>
+ #include <mutex>
+ #include <string>
++#include <unordered_map>
++#include <unordered_set>
++
++#if !defined(_WIN32)
++#include <fcntl.h>
++#include <sys/mman.h>
++#include <sys/stat.h>
++#include <unistd.h>
++#endif
++
++#include "../../../vendor/nlohmann/json.hpp"
+ 
+ #include "repack.h"
+ 
+@@ -4819,12 +4830,299 @@ static void ggml_backend_cpu_repack_dump_tensor(
+     }
+ }
+ 
++namespace {
++
++constexpr size_t GGML_CPU_REPACK_SIDECAR_DATA_OFFSET = 1024 * 1024;
++constexpr char GGML_CPU_REPACK_SIDECAR_MAGIC[16] = {
++    'P', '6', '4', 'A', 'R', 'M', 'P', 'A', 'C', 'K', 'V', '1', '\0', '\0', '\0', '\0',
++};
++
++struct ggml_cpu_repack_sidecar_tensor {
++    ggml_type type;
++    ggml_type parameter_type;
++    int64_t ne[4];
++    size_t size;
++    size_t offset;
++    int64_t columns;
++    int64_t interleave;
++};
++
++struct ggml_cpu_repack_sidecar_context {
++#if !defined(_WIN32)
++    int fd;
++#endif
++    void * mapping;
++    size_t size;
++    std::unordered_map<std::string, ggml_cpu_repack_sidecar_tensor> tensors;
++    std::unordered_set<std::string> loaded;
++    std::mutex mutex;
++};
++
++[[noreturn]] static void ggml_cpu_repack_sidecar_abort(const std::string & message) {
++    GGML_ABORT("CPU repack sidecar rejected: %s", message.c_str());
++}
++
++static const char * ggml_cpu_repack_sidecar_required_env(const char * name) {
++    const char * value = std::getenv(name);
++    if (value == nullptr || value[0] == '\0') {
++        ggml_cpu_repack_sidecar_abort(std::string("missing required environment variable ") + name);
++    }
++    return value;
++}
++
++static ggml_type ggml_cpu_repack_sidecar_type(const std::string & name) {
++    for (int value = 0; value < GGML_TYPE_COUNT; ++value) {
++        const auto type = static_cast<ggml_type>(value);
++        const char * candidate = ggml_type_name(type);
++        if (candidate != nullptr && name == candidate) {
++            return type;
++        }
++    }
++    ggml_cpu_repack_sidecar_abort("unknown tensor type " + name);
++}
++
++static void ggml_cpu_repack_sidecar_require_string(
++        const nlohmann::json & object,
++        const char * key,
++        const char * expected) {
++    if (!object.contains(key) || !object.at(key).is_string() || object.at(key).get<std::string>() != expected) {
++        ggml_cpu_repack_sidecar_abort(std::string("binding differs for ") + key);
++    }
++}
++
++static uint64_t ggml_cpu_repack_sidecar_read_u64(std::ifstream & input) {
++    unsigned char bytes[8];
++    if (!input.read(reinterpret_cast<char *>(bytes), sizeof(bytes))) {
++        ggml_cpu_repack_sidecar_abort("header length is truncated");
++    }
++    uint64_t value = 0;
++    for (size_t index = 0; index < sizeof(bytes); ++index) {
++        value |= static_cast<uint64_t>(bytes[index]) << (index * 8);
++    }
++    return value;
++}
++
++static ggml_cpu_repack_sidecar_context * ggml_cpu_repack_sidecar_open(
++        const char * path,
++        size_t requested_size) {
++#if defined(_WIN32)
++    GGML_UNUSED(path);
++    GGML_UNUSED(requested_size);
++    ggml_cpu_repack_sidecar_abort("read-only mapping is implemented only for POSIX hosts");
++#else
++    std::ifstream input(path, std::ios::binary);
++    if (!input) {
++        ggml_cpu_repack_sidecar_abort(std::string("cannot open ") + path);
++    }
++    char magic[sizeof(GGML_CPU_REPACK_SIDECAR_MAGIC)];
++    if (!input.read(magic, sizeof(magic)) ||
++            std::memcmp(magic, GGML_CPU_REPACK_SIDECAR_MAGIC, sizeof(magic)) != 0) {
++        ggml_cpu_repack_sidecar_abort("magic differs");
++    }
++    const uint64_t header_size = ggml_cpu_repack_sidecar_read_u64(input);
++    if (header_size == 0 || header_size > GGML_CPU_REPACK_SIDECAR_DATA_OFFSET - sizeof(magic) - 8) {
++        ggml_cpu_repack_sidecar_abort("header length is invalid");
++    }
++    std::string encoded(header_size, '\0');
++    if (!input.read(encoded.data(), encoded.size())) {
++        ggml_cpu_repack_sidecar_abort("header is truncated");
++    }
++
++    nlohmann::json header;
++    try {
++        header = nlohmann::json::parse(encoded);
++    } catch (const std::exception & error) {
++        ggml_cpu_repack_sidecar_abort(std::string("header JSON is invalid: ") + error.what());
++    }
++    if (!header.is_object() || header.dump() != encoded) {
++        ggml_cpu_repack_sidecar_abort("header is not canonical JSON");
++    }
++    if (header.value("schema_version", 0) != 1 ||
++            header.value("format", std::string()) != "pareto64-arm-repack-sidecar" ||
++            header.value("data_offset", 0ULL) != GGML_CPU_REPACK_SIDECAR_DATA_OFFSET ||
++            header.value("arena_size_bytes", 0ULL) != requested_size) {
++        ggml_cpu_repack_sidecar_abort("container metadata differs");
++    }
++
++    const auto & binding = header.at("binding");
++    ggml_cpu_repack_sidecar_require_string(
++        binding, "experiment_id", ggml_cpu_repack_sidecar_required_env("GGML_CPU_REPACK_SIDECAR_EXPERIMENT_ID"));
++    ggml_cpu_repack_sidecar_require_string(
++        binding, "source_model_sha256", ggml_cpu_repack_sidecar_required_env("GGML_CPU_REPACK_SIDECAR_MODEL_SHA256"));
++    ggml_cpu_repack_sidecar_require_string(
++        binding, "llama_cpp_commit", ggml_cpu_repack_sidecar_required_env("GGML_CPU_REPACK_SIDECAR_SOURCE_COMMIT"));
++    ggml_cpu_repack_sidecar_require_string(
++        binding, "source_diff_sha256", ggml_cpu_repack_sidecar_required_env("GGML_CPU_REPACK_SIDECAR_SOURCE_DIFF_SHA256"));
++    if (binding.value("repack_dump_format_version", 0) != 1 ||
++            binding.value("sidecar_format_version", 0) != 1) {
++        ggml_cpu_repack_sidecar_abort("format-version binding differs");
++    }
++    const auto & cpu = binding.at("cpu");
++    ggml_cpu_repack_sidecar_require_string(
++        cpu, "architecture", ggml_cpu_repack_sidecar_required_env("GGML_CPU_REPACK_SIDECAR_ARCHITECTURE"));
++    ggml_cpu_repack_sidecar_require_string(
++        cpu, "common_features_sha256", ggml_cpu_repack_sidecar_required_env("GGML_CPU_REPACK_SIDECAR_CPU_FEATURES_SHA256"));
++    const int64_t expected_sve = std::strtoll(
++        ggml_cpu_repack_sidecar_required_env("GGML_CPU_REPACK_SIDECAR_SVE_BYTES"), nullptr, 10);
++    if (expected_sve < 0 || cpu.value("sve_vector_length_bytes", -1) != expected_sve) {
++        ggml_cpu_repack_sidecar_abort("SVE vector-length binding differs");
++    }
++
++    auto * context = new ggml_cpu_repack_sidecar_context {
++        /* .fd      = */ -1,
++        /* .mapping = */ nullptr,
++        /* .size    = */ requested_size,
++        /* .tensors = */ {},
++        /* .loaded  = */ {},
++        /* .mutex   = */ {},
++    };
++    try {
++        const auto & tensors = header.at("tensors");
++        if (!tensors.is_array() || tensors.empty() ||
++                header.value("tensor_count", 0ULL) != tensors.size()) {
++            ggml_cpu_repack_sidecar_abort("tensor inventory is invalid");
++        }
++        for (const auto & record : tensors) {
++            ggml_cpu_repack_sidecar_tensor tensor {
++                /* .type           = */ ggml_cpu_repack_sidecar_type(record.at("type").get<std::string>()),
++                /* .parameter_type = */ ggml_cpu_repack_sidecar_type(record.at("parameter_type").get<std::string>()),
++                /* .ne             = */ {
++                    record.at("ne0").get<int64_t>(), record.at("ne1").get<int64_t>(),
++                    record.at("ne2").get<int64_t>(), record.at("ne3").get<int64_t>(),
++                },
++                /* .size           = */ record.at("bytes").get<size_t>(),
++                /* .offset         = */ record.at("buffer_offset").get<size_t>(),
++                /* .columns        = */ record.at("columns").get<int64_t>(),
++                /* .interleave     = */ record.at("interleave").get<int64_t>(),
++            };
++            const std::string name = record.at("tensor").get<std::string>();
++            if (name.empty() || tensor.size == 0 || tensor.offset > requested_size ||
++                    tensor.size > requested_size - tensor.offset ||
++                    !context->tensors.emplace(name, tensor).second) {
++                ggml_cpu_repack_sidecar_abort("tensor inventory has invalid or duplicate entries");
++            }
++        }
++    } catch (const std::exception & error) {
++        delete context;
++        ggml_cpu_repack_sidecar_abort(std::string("tensor inventory is invalid: ") + error.what());
++    }
++
++    context->fd = open(path, O_RDONLY | O_CLOEXEC);
++    if (context->fd < 0) {
++        delete context;
++        ggml_cpu_repack_sidecar_abort(std::string("cannot open mapping for ") + path);
++    }
++    struct stat status;
++    if (fstat(context->fd, &status) != 0 || status.st_size < 0 ||
++            static_cast<uint64_t>(status.st_size) != GGML_CPU_REPACK_SIDECAR_DATA_OFFSET + requested_size) {
++        close(context->fd);
++        delete context;
++        ggml_cpu_repack_sidecar_abort("file size differs");
++    }
++    context->mapping = mmap(
++        nullptr, requested_size, PROT_READ, MAP_SHARED, context->fd,
++        static_cast<off_t>(GGML_CPU_REPACK_SIDECAR_DATA_OFFSET));
++    if (context->mapping == MAP_FAILED) {
++        close(context->fd);
++        delete context;
++        ggml_cpu_repack_sidecar_abort("read-only mmap failed");
++    }
++    GGML_LOG_INFO(
++        "CPU repack sidecar: mapped %zu bytes read-only from %s with %zu bound tensors\n",
++        requested_size, path, context->tensors.size());
++    return context;
++#endif
++}
++
++static void ggml_cpu_repack_sidecar_free(ggml_backend_buffer_t buffer) {
++    auto * context = static_cast<ggml_cpu_repack_sidecar_context *>(buffer->context);
++    if (context == nullptr) {
++        return;
++    }
++#if !defined(_WIN32)
++    munmap(context->mapping, context->size);
++    close(context->fd);
++#endif
++    delete context;
++}
++
++static void * ggml_cpu_repack_sidecar_base(ggml_backend_buffer_t buffer) {
++    return static_cast<ggml_cpu_repack_sidecar_context *>(buffer->context)->mapping;
++}
++
++static void ggml_cpu_repack_sidecar_reject_memset(
++        ggml_backend_buffer_t,
++        struct ggml_tensor *,
++        uint8_t,
++        size_t,
++        size_t) {
++    ggml_cpu_repack_sidecar_abort("attempted to modify read-only mapped weights");
++}
++
++static void ggml_cpu_repack_sidecar_reject_clear(ggml_backend_buffer_t, uint8_t) {
++    ggml_cpu_repack_sidecar_abort("attempted to clear read-only mapped weights");
++}
++
++static void ggml_cpu_repack_sidecar_get_tensor(
++        ggml_backend_buffer_t,
++        const struct ggml_tensor * tensor,
++        void * data,
++        size_t offset,
++        size_t size) {
++    std::memcpy(data, static_cast<const char *>(tensor->data) + offset, size);
++}
++
++static bool ggml_cpu_repack_sidecar_load_tensor(
++        ggml_backend_buffer_t buffer,
++        struct ggml_tensor * tensor,
++        const ggml::cpu::repack::tensor_traits_base * tensor_traits,
++        size_t size) {
++    if (std::getenv("GGML_CPU_REPACK_SIDECAR") == nullptr) {
++        return false;
++    }
++    auto * context = static_cast<ggml_cpu_repack_sidecar_context *>(buffer->context);
++    const auto found = context->tensors.find(tensor->name);
++    if (found == context->tensors.end()) {
++        ggml_cpu_repack_sidecar_abort(std::string("missing tensor ") + tensor->name);
++    }
++    const auto & expected = found->second;
++    const auto base = reinterpret_cast<uintptr_t>(context->mapping);
++    const auto data = reinterpret_cast<uintptr_t>(tensor->data);
++    if (data < base || data - base != expected.offset || size != expected.size ||
++            tensor->type != expected.type || tensor_traits->parameter_type() != expected.parameter_type ||
++            tensor_traits->column_group_size() != expected.columns ||
++            tensor_traits->interleave_size() != expected.interleave) {
++        ggml_cpu_repack_sidecar_abort(std::string("layout differs for tensor ") + tensor->name);
++    }
++    for (size_t dimension = 0; dimension < 4; ++dimension) {
++        if (tensor->ne[dimension] != expected.ne[dimension]) {
++            ggml_cpu_repack_sidecar_abort(std::string("shape differs for tensor ") + tensor->name);
++        }
++    }
++    std::lock_guard<std::mutex> lock(context->mutex);
++    if (!context->loaded.insert(tensor->name).second) {
++        ggml_cpu_repack_sidecar_abort(std::string("tensor loaded more than once: ") + tensor->name);
++    }
++    if (context->loaded.size() == context->tensors.size()) {
++        GGML_LOG_INFO(
++            "CPU repack sidecar: validated and loaded all %zu tensors without runtime repacking\n",
++            context->loaded.size());
++    }
++    return true;
++}
++
++} // namespace
++
+ static void ggml_backend_cpu_repack_buffer_set_tensor(ggml_backend_buffer_t buffer, struct ggml_tensor * tensor,
+                                                        const void * data, size_t offset, size_t size) {
+     GGML_ASSERT(offset == 0);
+     GGML_ASSERT(size == ggml_nbytes(tensor));
+ 
+     auto tensor_traits = (ggml::cpu::repack::tensor_traits_base *) tensor->extra;
++    if (ggml_cpu_repack_sidecar_load_tensor(buffer, tensor, tensor_traits, size)) {
++        GGML_UNUSED(data);
++        return;
++    }
+     auto OK            = tensor_traits->repack(tensor, data, size);
+ 
+     GGML_ASSERT(OK == 0);
+@@ -4838,6 +5136,24 @@ static const char * ggml_backend_cpu_repack_buffer_type_get_name(ggml_backend_bu
+ }
+ 
+ static ggml_backend_buffer_t ggml_backend_cpu_repack_buffer_type_alloc_buffer(ggml_backend_buffer_type_t buft, size_t size) {
++    const char * sidecar = std::getenv("GGML_CPU_REPACK_SIDECAR");
++    if (sidecar != nullptr && sidecar[0] != '\0') {
++        auto * context = ggml_cpu_repack_sidecar_open(sidecar, size);
++        static const struct ggml_backend_buffer_i sidecar_interface = {
++            /* .free_buffer   = */ ggml_cpu_repack_sidecar_free,
++            /* .get_base      = */ ggml_cpu_repack_sidecar_base,
++            /* .init_tensor   = */ ggml_backend_cpu_repack_buffer_init_tensor,
++            /* .memset_tensor = */ ggml_cpu_repack_sidecar_reject_memset,
++            /* .set_tensor    = */ ggml_backend_cpu_repack_buffer_set_tensor,
++            /* .get_tensor    = */ ggml_cpu_repack_sidecar_get_tensor,
++            /* .set_tensor_2d = */ nullptr,
++            /* .get_tensor_2d = */ nullptr,
++            /* .cpy_tensor    = */ nullptr,
++            /* .clear         = */ ggml_cpu_repack_sidecar_reject_clear,
++            /* .reset         = */ nullptr,
++        };
++        return ggml_backend_buffer_init(buft, sidecar_interface, context, size);
++    }
+     ggml_backend_buffer_t buffer = ggml_backend_buft_alloc_buffer(ggml_backend_cpu_buffer_type(), size);
+ 
+     if (buffer == nullptr) {

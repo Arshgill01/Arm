@@ -1,0 +1,259 @@
+{
+  "acceptance": {
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ],
+    "correct_per_repetition": 23,
+    "generated_binary_cleanup_required": true,
+    "http_status": 200,
+    "invalid_model_identity_must_fail_before_readiness": true,
+    "loader_mapping_offset_hex": "00100000",
+    "loader_mapping_permissions": "r--s",
+    "material_benefit_rule": "At least one of peak RSS, post-workload PSS, or readiness must meet its frozen ratio after all exactness and retention gates pass.",
+    "maximum_cpu_seconds_per_request_ratio": 1.03,
+    "maximum_median_http_latency_ratio": 1.05,
+    "maximum_p95_http_latency_ratio": 1.05,
+    "maximum_peak_rss_ratio": 0.75,
+    "maximum_post_workload_pss_ratio": 0.75,
+    "maximum_process_rss_kib": 7340032,
+    "maximum_readiness_ratio": 0.8,
+    "maximum_ready_ms": 120000,
+    "maximum_throughput_coefficient_of_variation": 0.1,
+    "minimum_packed_buffer_coverage_fraction": 0.99,
+    "minimum_tensor_count": 100,
+    "minimum_throughput_retention_ratio": 0.97,
+    "post_result_gate_change_permitted": false,
+    "reference_prediction_mismatches": 0,
+    "request_failures": 0,
+    "required_architecture": "aarch64",
+    "required_common_cpu_features": [
+      "asimd",
+      "asimddp"
+    ],
+    "stable_predictions_across_all_cells": true,
+    "termination_reason": "stop"
+  },
+  "artifact_name_prefix": "e16b-repack-sidecar-loader",
+  "build": {
+    "cmake_arguments": [
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DGGML_CPU_KLEIDIAI=ON",
+      "-DGGML_LTO=OFF",
+      "-DGGML_NATIVE=ON",
+      "-DLLAMA_BUILD_EXAMPLES=OFF",
+      "-DLLAMA_BUILD_SERVER=ON",
+      "-DLLAMA_BUILD_TESTS=OFF",
+      "-DLLAMA_CURL=OFF",
+      "-DLLAMA_OPENSSL=OFF"
+    ],
+    "forbidden_dynamic_dependency_basenames": [
+      "libcrypto.so.3",
+      "libssl.so.3"
+    ]
+  },
+  "claim_boundary": "E16b may claim only the observed single-process Neoverse N2 identity-bound read-only loader result. It cannot claim cold-storage startup, multi-process physical sharing, portability to other CPUs or source/model hashes, energy, or amortized construction economics without separate experiments.",
+  "execution": {
+    "baseline_configuration": "normal_repack",
+    "configurations": [
+      "normal_repack",
+      "sidecar_loader"
+    ],
+    "delete_generated_raw_tensors_after_sidecar_verification": true,
+    "delete_sidecar_after_all_cells_and_final_verification": true,
+    "fresh_server_per_cell": true,
+    "invalid_identity_preflight_process": 1,
+    "loader_configuration": "sidecar_loader",
+    "measured_processes": 8,
+    "one_time_sidecar_construction_process": 1,
+    "order": [
+      {
+        "configuration": "normal_repack",
+        "repetition": 1
+      },
+      {
+        "configuration": "sidecar_loader",
+        "repetition": 1
+      },
+      {
+        "configuration": "sidecar_loader",
+        "repetition": 2
+      },
+      {
+        "configuration": "normal_repack",
+        "repetition": 2
+      },
+      {
+        "configuration": "sidecar_loader",
+        "repetition": 3
+      },
+      {
+        "configuration": "normal_repack",
+        "repetition": 3
+      },
+      {
+        "configuration": "normal_repack",
+        "repetition": 4
+      },
+      {
+        "configuration": "sidecar_loader",
+        "repetition": 4
+      }
+    ],
+    "order_design": "ABBA followed by BAAB",
+    "repetitions_per_configuration": 4,
+    "total_measured_requests": 240,
+    "total_processes_including_preflights": 10
+  },
+  "experiment_id": "E16b",
+  "hypothesis": "Mapping the E16a-validated packed arena read-only can eliminate runtime weight repacking and its anonymous copy while preserving the exact E7c service output and steady-state performance.",
+  "inputs": {
+    "cell_runner_path": "experiments/e16b_cell.sh",
+    "cell_runner_sha256": "7cdb9add74ea1c175c735431459c7947a4694ab47daa4b6b7b79a11b2aa970a6",
+    "constructor_path": "experiments/e16b_construct.sh",
+    "constructor_sha256": "2fa6d25632b6938820e571a3d370902fa98e8d6515b99558b3fcd7c960230b98",
+    "dump_patch_path": "patches/llama.cpp/b10216/0006-repack-sidecar-feasibility-dump.patch",
+    "dump_patch_sha256": "7257b6d668230a4cc5e9480b24b6a6f9665e403a14e7244203f9672760805b5c",
+    "e16a_result_path": "results/manifests/e16a-30837796757.json",
+    "e16a_result_sha256": "cd3ed3ceb1fe5e6b02284e43b8bcf1e6c6cfdfb7178fe41a07a401935234c686",
+    "e9a_contract_path": "experiments/e9a_contract.json",
+    "e9a_contract_sha256": "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928",
+    "freeze_path": "experiments/e16b_freeze.py",
+    "freeze_sha256": "c7f26fd793cf186be52edbbf361cbea86a0a96d0ac6cf2992c104b216a1afbff",
+    "ingest_path": "experiments/e16b_ingest.py",
+    "ingest_sha256": "1ec9be5cd8aa5698b17c1dc12d2b66c3d2c136b60761bec1fa7c7f6e7ba10fcb",
+    "loader_patch_path": "patches/llama.cpp/b10216/0007-repack-sidecar-readonly-loader.patch",
+    "loader_patch_sha256": "5dc4beeeb50b5c5430632431c1462ee8d454409e9ff51a69bd671e0a859f47d6",
+    "manifest_path": "results/manifests/e3f-30656151957.json",
+    "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "patch_1_path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+    "patch_1_sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f",
+    "patch_2_path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+    "patch_2_sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+    "patch_3_path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+    "patch_3_sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783",
+    "policy_path": "configs/cloud-quality.json",
+    "policy_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+    "runtime_contract_path": "experiments/e3f_contract.json",
+    "runtime_contract_sha256": "a43ebf2b44aba9bac7e44e18a979901715cd23855df0d2c16c93375382977551",
+    "sidecar_builder_path": "experiments/e16a_sidecar.py",
+    "sidecar_builder_sha256": "cb3f3d3db0e15b4ab2b0995520da9a154e915281ffe82ec3a8888cea2a8ab7c8",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+  },
+  "measurement_boundary": "All comparative cells use fresh processes on one ubuntu-24.04-arm job, the exact E7c service argv, the same generated sidecar, and reverse-balanced order. Linux page cache is neither flushed nor claimed cold; readiness is same-job process startup under the observed cache state. Sidecar construction cost is measured separately and excluded from steady-state request metrics.",
+  "mechanism": {
+    "complete_sidecar_verification_before_each_loader_process": true,
+    "default_behavior_unchanged_when_both_unset": true,
+    "dump_environment_variable": "GGML_CPU_REPACK_DUMP_DIR",
+    "dump_format_version": 1,
+    "mapped_file_offset_bytes": 1048576,
+    "mapping_protection": "PROT_READ",
+    "mapping_sharing": "MAP_SHARED",
+    "proof_log_verbosity": 4,
+    "repacking_skipped_only_after_per_tensor_binding": true,
+    "runtime_binding_fields": [
+      "experiment ID",
+      "source GGUF SHA-256",
+      "llama.cpp commit",
+      "aggregate source diff SHA-256",
+      "architecture",
+      "common CPU feature hash",
+      "SVE vector length",
+      "format versions",
+      "complete tensor name/type/shape/layout inventory"
+    ],
+    "sidecar_data_offset_bytes": 1048576,
+    "sidecar_environment_variable": "GGML_CPU_REPACK_SIDECAR",
+    "sidecar_format_version": 1,
+    "source_gguf_remains_metadata_authority": true
+  },
+  "negative_result_rule": "Retain any loader crash, identity/layout rejection, quality drift, unstable cell, performance regression, or absent material benefit without changing the thresholds or rebuilding the observed sidecar.",
+  "prerequisite": {
+    "experiment_id": "E16a",
+    "loader_successor_authorized": true,
+    "manifest_path": "results/manifests/e16a-30837796757.json",
+    "manifest_sha256": "cd3ed3ceb1fe5e6b02284e43b8bcf1e6c6cfdfb7178fe41a07a401935234c686",
+    "required_status": "valid_loader_feasibility"
+  },
+  "promotion_rule": "Promote the exact sidecar-loader configuration only if every identity, read-only mapping, per-tensor layout, exact-output, stability, throughput, latency, CPU, cleanup, and fail-closed gate passes and at least one frozen startup or memory benefit is material.",
+  "request": {
+    "chat_template_mode": "model_jinja_system_instruction",
+    "instruction_role": "system",
+    "max_output_tokens": 8,
+    "measured_tasks": 30,
+    "seed": 424242,
+    "temperature": 0.0,
+    "timeout_seconds": 30.0,
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ]
+  },
+  "schema_version": 1,
+  "scope": "Build one provenance-bound sidecar, reject a deliberately mismatched identity before readiness, then compare normal repacking with the exact read-only sidecar loader in eight reverse-balanced fresh native Arm64 processes and 240 measured requests.",
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "reference_accuracy": 0.7666666666666667,
+    "reference_correct": 23,
+    "reference_total": 30
+  },
+  "service": {
+    "batch_size": 64,
+    "client_concurrency": 1,
+    "context_per_slot": 256,
+    "flash_attention": "auto",
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "micro_batch_size": 64,
+    "prompt_cache": true,
+    "request_cache_prompt": true,
+    "server_parallel_slots": 1,
+    "threads": 4,
+    "warmup_slot_ids": [
+      0,
+      0
+    ],
+    "weight_repack": true
+  },
+  "source": {
+    "aggregate_diff_sha256": "48a7611bbe6e22a0303bf0b8855dbab3f718ca6d56d5a594a8ef1650f959f003",
+    "changed_files": [
+      "common/reasoning-budget.cpp",
+      "ggml/src/ggml-cpu/CMakeLists.txt",
+      "ggml/src/ggml-cpu/arch/arm/quants.c",
+      "ggml/src/ggml-cpu/repack.cpp",
+      "tests/test-reasoning-budget.cpp"
+    ],
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "patches": [
+      {
+        "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      },
+      {
+        "path": "patches/llama.cpp/b10216/0006-repack-sidecar-feasibility-dump.patch",
+        "sha256": "7257b6d668230a4cc5e9480b24b6a6f9665e403a14e7244203f9672760805b5c"
+      },
+      {
+        "path": "patches/llama.cpp/b10216/0007-repack-sidecar-readonly-loader.patch",
+        "sha256": "5dc4beeeb50b5c5430632431c1462ee8d454409e9ff51a69bd671e0a859f47d6"
+      }
+    ],
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216"
+  },
+  "title": "Fail-closed read-only Arm repack-sidecar loader comparison"
+}

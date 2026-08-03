@@ -1963,3 +1963,28 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - E16a authorizes a separately frozen fail-closed read-only mmap loader
   comparison. It does not claim that such a loader exists or improves startup,
   RSS, PSS, sharing, throughput, or deployability.
+
+## 2026-08-03 — E16b read-only loader frozen after local correctness proof
+
+- Added a default-off loader that parses the canonical E16a container, requires
+  explicit model/source/CPU bindings, maps only its packed arena read-only and
+  shared, validates every tensor's exact GGUF-derived layout, and refuses all
+  writes. The unset path remains normal repacking.
+- A bounded x86 Q4_0 smoke—not performance evidence—mapped 179 tensors, reached
+  readiness, produced the same sampled bytes as normal repacking, showed an
+  `r--s` mapping at offset `00100000`, and rejected a deliberately wrong model
+  identity with exit status 134 before readiness.
+- The first smoke attempt exposed the local host's small `/tmp` tmpfs and
+  aborted during dumping. Its 245 MiB of generated tensor files were removed,
+  the retry used repository scratch, and the successful 1,655,504,896-byte
+  sidecar was fully verified before deletion.
+- The frozen native comparison builds one exact Q4_K_M sidecar and runs four
+  normal plus four loader processes in ABBA/BAAB order. It retains 240 exact
+  requests, throughput, latency, CPU/request, peak RSS, post-workload RSS/PSS,
+  readiness, page faults, map permissions, an identity-rejection preflight,
+  construction cost, source/binary closure, and bounded cleanup evidence.
+- Promotion thresholds were committed before Arm results: ≥0.97 throughput,
+  ≤1.05 median/p95 latency, ≤1.03 CPU/request, and a material ≤0.75 RSS/PSS or
+  ≤0.80 readiness ratio after every exactness and mechanism gate passes. Page
+  cache is not represented as cold, and no sharing, portability, or energy
+  claim is permitted.

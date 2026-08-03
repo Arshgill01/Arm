@@ -1760,6 +1760,39 @@ See the retained
 [`manifest`](../results/manifests/e16a-30837796757.json) and
 [`report`](../results/reports/e16a-repack-sidecar-feasibility.md).
 
+## E16b frozen fail-closed read-only sidecar loader
+
+E16b consumes only E16a's passing representation boundary. A default-off
+b10216 patch opens the same format, requires explicit model/source/CPU identity
+bindings, parses its canonical header, checks its complete file size, and maps
+only the packed arena with `PROT_READ | MAP_SHARED`. As the unchanged GGUF
+loader supplies each source tensor, E16b checks the exact name, source and
+parameter types, four dimensions, size, arena-relative offset, column group,
+and interleave before skipping that tensor's runtime repack. Missing identity,
+container, or layout evidence aborts before readiness; write and clear methods
+also abort.
+
+The native job constructs and fully verifies one Q4_K_M sidecar, then first
+launches a deliberately wrong model-identity preflight that must fail before
+readiness. The measured comparison uses eight fresh exact-E7c servers in ABBA
+then BAAB order: four normal-repack and four sidecar-loader repetitions, 30
+unchanged tasks each. Every loader launch rehashes the complete sidecar before
+execution. Each cell retains exact outputs, failures, throughput, median/p95
+latency, process CPU seconds/request, peak RSS, post-workload RSS/PSS,
+readiness, page faults, `/proc` mapping permissions, logs, commands, source,
+binary closure, and runner state.
+
+Promotion requires exact 23/30 predictions in all 240 requests, zero failures,
+stable output, complete loader proof, wrong-identity rejection, throughput at
+least 97% of normal, median and p95 latency no worse than 1.05x, CPU/request no
+worse than 1.03x, and at least one of peak RSS/PSS at most 0.75x or readiness at
+most 0.80x. Linux page cache is not flushed, so readiness is explicitly a
+same-job observed-cache measurement rather than a cold-storage claim. The
+one-time construction cost is separate, and E16b cannot establish
+multi-process physical sharing, cross-CPU portability, or energy. Exact frozen
+inputs and gates are in
+[`e16b_contract.json`](../experiments/e16b_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

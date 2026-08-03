@@ -1,0 +1,287 @@
+name: Arm E16b persistent repack-sidecar loader
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e16b_contract.json
+  CONTRACT_SHA256: 21afc1afdfd1d72de6c023b4263d7e439fdd17ac07f15f812118761a777c4bb9
+  SELECTED_CANDIDATE: ministral3_3b_q4_k_m
+
+jobs:
+  loader-comparison:
+    name: Compare normal repack with read-only sidecar on native Arm64
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 180
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e16b-${{ github.run_id }}-${{ github.run_attempt }}
+      SOURCE_DIR: /tmp/llama.cpp-E16b
+      BUILD_DIR: /tmp/llama.cpp-E16b-build
+      MODEL_ROOT: /tmp/Pareto64-E16b/models
+
+    steps:
+      - name: Check out frozen E16b experiment
+        uses: actions/checkout@v7
+
+      - name: Capture host and verify every frozen input
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          mkdir -p "$EVIDENCE_DIR/build" "$EVIDENCE_DIR/cells" \
+            "$EVIDENCE_DIR/patches" "$EVIDENCE_DIR/invalid-identity" "$MODEL_ROOT"
+          echo "SIDECAR_PATH=$RUNNER_TEMP/pareto64-e16b-sidecar.bin" >> "$GITHUB_ENV"
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          jq -r '
+            .inputs as $inputs
+            | $inputs
+            | to_entries[]
+            | select(.key | endswith("_path"))
+            | [$inputs[.key | sub("_path$"; "_sha256")], .value]
+            | @tsv
+          ' "$CONTRACT_PATH" | while IFS=$'\t' read -r expected input_file; do
+            echo "$expected  $input_file" | sha256sum --check --strict
+          done
+          python3 -m unittest tests.test_e16a tests.test_e16b
+
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          cp results/manifests/e3f-30656151957.json \
+            "$EVIDENCE_DIR/selected-manifest.json"
+          cp configs/cloud-quality.json "$EVIDENCE_DIR/deployment-policy.json"
+          cp experiments/e3f_models.json "$EVIDENCE_DIR/models-manifest.json"
+          cp experiments/e3f_contract.json "$EVIDENCE_DIR/runtime-contract.json"
+          cp experiments/e3_tasks.json "$EVIDENCE_DIR/tasks-manifest.json"
+          cp results/manifests/e16a-30837796757.json \
+            "$EVIDENCE_DIR/e16a-prerequisite.json"
+          while IFS= read -r patch_file; do
+            cp "$patch_file" "$EVIDENCE_DIR/patches/$(basename "$patch_file")"
+          done < <(jq -r '.source.patches[].path' "$CONTRACT_PATH")
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          cat /proc/cpuinfo > "$EVIDENCE_DIR/cpuinfo.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          {
+            cc --version
+            c++ --version
+            cmake --version
+            ninja --version
+          } | tee "$EVIDENCE_DIR/toolchain.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          git rev-parse HEAD | tee "$EVIDENCE_DIR/repository-commit.txt"
+          python3 experiments/e16a_sidecar.py identity \
+            --contract "$CONTRACT_PATH" \
+            --output "$EVIDENCE_DIR/sidecar-identity.json"
+
+      - name: Pin source and apply exact loader patch series
+        run: |
+          set -euo pipefail
+          repository="$(jq -r '.source.repository' "$CONTRACT_PATH")"
+          commit="$(jq -r '.source.commit' "$CONTRACT_PATH")"
+          tag="$(jq -r '.source.tag' "$CONTRACT_PATH")"
+          git clone --filter=blob:none "$repository" "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$commit"
+          test "$(git -C "$SOURCE_DIR" rev-parse HEAD)" = "$commit"
+          test "$(git -C "$SOURCE_DIR" describe --tags --exact-match)" = "$tag"
+          test -z "$(git -C "$SOURCE_DIR" status --short)"
+          while IFS= read -r patch_file; do
+            git -C "$SOURCE_DIR" apply --check "$GITHUB_WORKSPACE/$patch_file"
+            git -C "$SOURCE_DIR" apply "$GITHUB_WORKSPACE/$patch_file"
+          done < <(jq -r '.source.patches[].path' "$CONTRACT_PATH")
+          git -C "$SOURCE_DIR" diff --check
+          git -C "$SOURCE_DIR" diff --name-only HEAD | sort \
+            | tee "$EVIDENCE_DIR/patched-files.txt"
+          diff -u \
+            <(jq -r '.source.changed_files[]' "$CONTRACT_PATH") \
+            "$EVIDENCE_DIR/patched-files.txt"
+          git -C "$SOURCE_DIR" diff --binary --full-index HEAD -- \
+            > "$EVIDENCE_DIR/source-diff.patch"
+          echo "$(jq -r '.source.aggregate_diff_sha256' "$CONTRACT_PATH")  $EVIDENCE_DIR/source-diff.patch" \
+            | sha256sum --check --strict
+          jq -n \
+            --arg repository "$repository" \
+            --arg commit "$commit" \
+            --arg tag "$tag" \
+            --argjson patches "$(jq -c '[.source.patches[].path | split("/")[-1]]' "$CONTRACT_PATH")" \
+            '{schema_version: 1, repository: $repository, commit: $commit, tag: $tag, patches_applied: $patches}' \
+            > "$EVIDENCE_DIR/source.json"
+
+      - name: Build and inventory exact loader server
+        run: |
+          set -euo pipefail
+          mapfile -t cmake_args < <(jq -r '.build.cmake_arguments[]' "$CONTRACT_PATH")
+          python3 - "${cmake_args[@]}" <<'PY' > "$EVIDENCE_DIR/build/configure-command.json"
+          import json
+          import sys
+
+          print(json.dumps({"cmake_arguments": sys.argv[1:]}, indent=2, sort_keys=True))
+          PY
+          cmake -S "$SOURCE_DIR" -B "$BUILD_DIR" -G Ninja \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON "${cmake_args[@]}" \
+            2>&1 | tee "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' \
+            "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'ARM detected' "$EVIDENCE_DIR/build/configure.log"
+          cp "$BUILD_DIR/CMakeCache.txt" "$EVIDENCE_DIR/build/CMakeCache.txt"
+          /usr/bin/time --verbose --output "$EVIDENCE_DIR/build/build-time.log" \
+            cmake --build "$BUILD_DIR" --target llama-server --parallel "$(nproc)" \
+            2>&1 | tee "$EVIDENCE_DIR/build/build.log"
+          ninja -C "$BUILD_DIR" -t commands \
+            > "$EVIDENCE_DIR/build/build-commands.txt"
+          "$BUILD_DIR/bin/llama-server" --version 2>&1 \
+            | tee "$EVIDENCE_DIR/build/server-version.txt"
+          python3 experiments/e7a_runtime_closure.py \
+            --server "$BUILD_DIR/bin/llama-server" \
+            --build-root "$BUILD_DIR" \
+            --copy-dir "$EVIDENCE_DIR/build/runtime-files" \
+            --output "$EVIDENCE_DIR/build/runtime-closure.json"
+          ! grep -Eq 'lib(ssl|crypto)\.so' \
+            "$EVIDENCE_DIR/build/runtime-closure.json"
+
+      - name: Download and verify exact selected model
+        run: |
+          set -euo pipefail
+          repository="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].repository' experiments/e3f_models.json)"
+          revision="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].revision' experiments/e3f_models.json)"
+          model_file="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].path' experiments/e3f_models.json)"
+          model="$MODEL_ROOT/$SELECTED_CANDIDATE/$model_file"
+          mkdir -p "$(dirname "$model")"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$model" \
+            "https://huggingface.co/$repository/resolve/$revision/$model_file?download=true"
+          test "$(stat --format='%s' "$model")" = \
+            "$(jq -r '.selected.model_size_bytes' "$CONTRACT_PATH")"
+          echo "$(jq -r '.selected.model_sha256' "$CONTRACT_PATH")  $model" \
+            | sha256sum --check --strict
+          sha256sum "$model" | tee "$EVIDENCE_DIR/model-sha256.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after-model.txt"
+
+      - name: Construct and verify one reusable sidecar
+        run: |
+          set -euo pipefail
+          model_file="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].path' experiments/e3f_models.json)"
+          model="$MODEL_ROOT/$SELECTED_CANDIDATE/$model_file"
+          experiments/e16b_construct.sh \
+            "$CONTRACT_PATH" "$EVIDENCE_DIR" "$BUILD_DIR/bin/llama-server" \
+            "$model" "$EVIDENCE_DIR/sidecar-identity.json" "$SIDECAR_PATH"
+          test -f "$SIDECAR_PATH"
+          df -h | tee "$EVIDENCE_DIR/disk-after-sidecar.txt"
+
+      - name: Prove wrong identity fails before readiness
+        run: |
+          set -euo pipefail
+          index="$EVIDENCE_DIR/construction/sidecar-index.json"
+          mapfile -t launch < <(jq -r '.argv[]' "$EVIDENCE_DIR/construction/recipe.json")
+          wrong_model_sha="$(printf '0%.0s' {1..64})"
+          ulimit -c 0
+          set +e
+          timeout 120 env \
+            GGML_CPU_REPACK_SIDECAR="$SIDECAR_PATH" \
+            GGML_CPU_REPACK_SIDECAR_EXPERIMENT_ID="$(jq -r '.header.binding.experiment_id' "$index")" \
+            GGML_CPU_REPACK_SIDECAR_MODEL_SHA256="$wrong_model_sha" \
+            GGML_CPU_REPACK_SIDECAR_SOURCE_COMMIT="$(jq -r '.header.binding.llama_cpp_commit' "$index")" \
+            GGML_CPU_REPACK_SIDECAR_SOURCE_DIFF_SHA256="$(jq -r '.header.binding.source_diff_sha256' "$index")" \
+            GGML_CPU_REPACK_SIDECAR_ARCHITECTURE="$(jq -r '.header.binding.cpu.architecture' "$index")" \
+            GGML_CPU_REPACK_SIDECAR_CPU_FEATURES_SHA256="$(jq -r '.header.binding.cpu.common_features_sha256' "$index")" \
+            GGML_CPU_REPACK_SIDECAR_SVE_BYTES="$(jq -r '.header.binding.cpu.sve_vector_length_bytes' "$index")" \
+            "${launch[@]}" \
+            > "$EVIDENCE_DIR/invalid-identity/server.stdout.log" \
+            2> "$EVIDENCE_DIR/invalid-identity/server.stderr.log"
+          server_status=$?
+          set -e
+          readiness_succeeded=false
+          if curl --fail --silent --max-time 2 \
+            http://127.0.0.1:18081/health >/dev/null 2>&1; then
+            readiness_succeeded=true
+          fi
+          jq -n \
+            --argjson server_exit_status "$server_status" \
+            --argjson readiness_succeeded "$readiness_succeeded" \
+            --arg deliberately_wrong_model_sha256 "$wrong_model_sha" \
+            '{schema_version: 1, server_exit_status: $server_exit_status, readiness_succeeded: $readiness_succeeded, deliberately_wrong_model_sha256: $deliberately_wrong_model_sha256}' \
+            > "$EVIDENCE_DIR/invalid-identity/result.json"
+          test "$server_status" -ne 0
+          test "$server_status" -ne 124
+          test "$readiness_succeeded" = false
+          grep -q 'binding differs for source_model_sha256' \
+            "$EVIDENCE_DIR/invalid-identity/server.stderr.log"
+
+      - name: Run reverse-balanced normal versus loader cells
+        run: |
+          set -euo pipefail
+          model_file="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].files[0].path' experiments/e3f_models.json)"
+          model="$MODEL_ROOT/$SELECTED_CANDIDATE/$model_file"
+          index="$EVIDENCE_DIR/construction/sidecar-index.json"
+          while IFS=$'\t' read -r configuration repetition; do
+            experiments/e16b_cell.sh \
+              "$CONTRACT_PATH" "$EVIDENCE_DIR" "$BUILD_DIR/bin/llama-server" \
+              "$model" "$SIDECAR_PATH" "$index" "$configuration" "$repetition"
+          done < <(jq -r '.execution.order[] | [.configuration, .repetition] | @tsv' "$CONTRACT_PATH")
+
+      - name: Reverify and delete the generated sidecar
+        run: |
+          set -euo pipefail
+          index="$EVIDENCE_DIR/construction/sidecar-index.json"
+          python3 experiments/e16a_sidecar.py verify \
+            --sidecar "$SIDECAR_PATH" --index "$index" \
+            > "$EVIDENCE_DIR/final-sidecar-verification.json"
+          SIDECAR_FILE="$SIDECAR_PATH" INDEX_FILE="$index" python3 - <<'PY' \
+            > "$EVIDENCE_DIR/sidecar-cleanup.json"
+          import json
+          import os
+          from pathlib import Path
+
+          from experiments.e16a_sidecar import sha256_file
+
+          sidecar = Path(os.environ["SIDECAR_FILE"])
+          index = json.loads(Path(os.environ["INDEX_FILE"]).read_text())
+          if sidecar.stat().st_size != index["sidecar_size_bytes"]:
+              raise ValueError("sidecar size differs before cleanup")
+          digest = sha256_file(sidecar)
+          if digest != index["sidecar_sha256"]:
+              raise ValueError("sidecar hash differs before cleanup")
+          size = sidecar.stat().st_size
+          sidecar.unlink()
+          print(json.dumps({
+              "deleted_sidecar_bytes": size,
+              "deleted_sidecar_sha256": digest,
+              "sidecar_cleanup_complete": not sidecar.exists(),
+          }, indent=2, sort_keys=True))
+          PY
+          test ! -e "$SIDECAR_PATH"
+          df -h | tee "$EVIDENCE_DIR/disk-after-cleanup.txt"
+
+      - name: Independently validate and inventory bounded evidence
+        run: |
+          set -euo pipefail
+          jq -n \
+            --arg experiment_id E16b \
+            --arg git_commit "$GITHUB_SHA" \
+            --arg github_run_id "$GITHUB_RUN_ID" \
+            --argjson github_run_attempt "$GITHUB_RUN_ATTEMPT" \
+            --arg runner_os "$RUNNER_OS" \
+            --arg runner_arch "$RUNNER_ARCH" \
+            '{schema_version: 1, experiment_id: $experiment_id, git_commit: $git_commit, github_run_id: $github_run_id, github_run_attempt: $github_run_attempt, runner_os: $runner_os, runner_arch: $runner_arch}' \
+            > "$EVIDENCE_DIR/provenance.json"
+          python3 experiments/e16b_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary.json"
+          jq '{status, promoted, gates, failed_gates, ratios, decision}' \
+            "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum \
+            > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+
+      - name: Upload complete bounded E16b evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e16b-repack-sidecar-loader-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error
