@@ -1,0 +1,2527 @@
+{
+  "acceptance": {
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ],
+    "exact_baseline_repeat_mismatches": 0,
+    "exact_controller_repeat_mismatches": 0,
+    "exact_controller_vs_uncached_mismatches": 0,
+    "maximum_cpu_seconds_per_request_ratio": 1.0,
+    "maximum_p95_http_latency_ratio": 1.0,
+    "maximum_process_rss_kib": 8388608,
+    "maximum_ready_ms": 15000.0,
+    "maximum_throughput_coefficient_of_variation": 0.05,
+    "minimum_certified_measured_cache_hit_fraction": 0.8,
+    "minimum_throughput_ratio": 1.7,
+    "request_failures": 0,
+    "required_architecture": "aarch64",
+    "required_baseline_cached_tokens": 0,
+    "required_fallback_cached_tokens": 0,
+    "server_binary_sha256": "ec60d4975757948cd330dfa82c1f8d274ea67e73cb319ce623f02232dcf61dbd",
+    "weighted_score_used": false
+  },
+  "calibration": {
+    "artifact_id": 8840851593,
+    "artifact_name": "e9c-prompt-cache-30770403695-1",
+    "e13a_results_observed_during_freeze": true,
+    "e13b_results_observed_during_freeze": false,
+    "manifest_sha256": "29b075b605e5d84d6de66b07fb4ab3c1562236c9aa4e7fd43d51e0ff7932eed4",
+    "run_attempt": 1,
+    "run_id": "30770403695"
+  },
+  "claim_boundary": "A passing E13b result supports only the exact 48 calibrated tokenized prompt fingerprints, exact selected model, exact E7c b10216 one-slot service, reversed frozen trace, and tested native GitHub Arm64 host. Unknown fingerprints fail closed. It makes no unseen-task, untested-sequence, concurrency, fleet, energy, PMU, local-device, cost, or other-runtime claim.",
+  "execution": {
+    "cell_order": [
+      {
+        "policy": "all_uncached",
+        "repetition": 1
+      },
+      {
+        "policy": "certificate",
+        "repetition": 1
+      },
+      {
+        "policy": "certificate",
+        "repetition": 2
+      },
+      {
+        "policy": "all_uncached",
+        "repetition": 2
+      }
+    ],
+    "client_concurrency": 1,
+    "expected_controller_requests_per_trace": {
+      "calibration_fallback": 19,
+      "certified_cache": 146,
+      "unknown_fallback": 0
+    },
+    "fresh_server_per_cell": true,
+    "total_fresh_processes": 4,
+    "total_requests": 660
+  },
+  "experiment_id": "E13b",
+  "hypothesis": "A static certificate derived only from the complete retained E9c calibration can preserve byte-exact uncached outputs on a reversed native Arm64 temporal sequence while retaining at least 1.70x aggregate throughput when every transition warmup is mechanically bound to a calibration-known prompt fingerprint.",
+  "inputs": {
+    "calibration_manifest": {
+      "path": "results/manifests/e9c-30770403695.json",
+      "sha256": "29b075b605e5d84d6de66b07fb4ab3c1562236c9aa4e7fd43d51e0ff7932eed4"
+    },
+    "cell_runner": {
+      "path": "experiments/e13b_cell.sh",
+      "sha256": "7d5525b9a9ec0ec89ada5a1bc65839d50af6c945e66a0e7e1941ce685969047f"
+    },
+    "e13a_contract": {
+      "path": "experiments/e13a_contract.json",
+      "sha256": "2c1a9ba6afed27b04cbcc2d82a0153907e8939f196074c536783d7ddb5853226"
+    },
+    "e13a_manifest": {
+      "path": "results/manifests/e13a-30830903248.json",
+      "sha256": "fdbd2b68da48d1ff40b250376b4efbb45a476774a827ae843913db3e9c6f2f8a"
+    },
+    "e13a_report": {
+      "path": "results/reports/e13a-cache-certificate.md",
+      "sha256": "7a7a6b27a598259c5f4b4e18fbce5786091130db5360a092720d4423986ce1dd"
+    },
+    "e9a_contract": {
+      "path": "experiments/e9a_contract.json",
+      "sha256": "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928"
+    },
+    "e9c_contract": {
+      "path": "experiments/e9c_contract.json",
+      "sha256": "a72ec175091e2e8b98adc12a795e5242cee49377f2683ddb2eefcbf564341c76"
+    },
+    "freeze": {
+      "path": "experiments/e13b_freeze.py",
+      "sha256": "594e371d7cbaa5d83a8f4cd5b4c6dabd11c53807386a03ea9ae53190c74d1d9f"
+    },
+    "ingest": {
+      "path": "experiments/e13b_ingest.py",
+      "sha256": "8dc8621ecad503bb82951928cb3ca40b4521b1e1f95e4f21927aa721fb65ac38"
+    },
+    "models": {
+      "path": "experiments/e3f_models.json",
+      "sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d"
+    },
+    "probe": {
+      "path": "experiments/e13b_probe.py",
+      "sha256": "7843e6f7833efb989e05111361197c5421c964f8c8b25097c5df17a51578c34b"
+    },
+    "selected_manifest": {
+      "path": "results/manifests/e3f-30656151957.json",
+      "sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c"
+    },
+    "tasks": {
+      "path": "experiments/e3_tasks.json",
+      "sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    }
+  },
+  "negative_result_rule": "Retain any output, mechanism, scheduler-dispersion, throughput, latency, CPU, startup, or RSS gate failure without changing the calibration classification, trace, order, repetitions, or thresholds.",
+  "policy": {
+    "algorithm": "Certify an exact tokenized-prompt SHA-256 only when every retained E9c cache-off/cache-on observation completed and every exact response byte string was identical. Deny any fingerprint with a failure or difference. Route fingerprints absent from both sets uncached.",
+    "calibration_paired_observations": 288,
+    "certified_allowlist": [
+      {
+        "observed_exact_responses": [
+          "C"
+        ],
+        "paired_observations": 8,
+        "points": [
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 32
+          },
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "beta"
+        ],
+        "prompt_sha256": "029dee6c1fc726602cb11dc52d01fc14fe022d03007f4ca2f329c1b0f3ee9c0f",
+        "task_ids": [
+          "arithmetic-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "D"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "0609b5ff91ec44db25d379709658fcfe6ac3b5d86e841ab151de797428a4ba92",
+        "task_ids": [
+          "evidence-04"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 8,
+        "points": [
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 16
+          },
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "beta"
+        ],
+        "prompt_sha256": "07deae988112519d3554d61b54a4f43909b834b518620aaf644d71c0271e0984",
+        "task_ids": [
+          "data-03"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "C"
+        ],
+        "paired_observations": 12,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 16
+          },
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 16
+          },
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "0eae404dd34ad7b34171cc5bead0ab3d8e898fd708259bc48510ab0e1d54e345",
+        "task_ids": [
+          "code-01"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 8,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 16
+          },
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "11e40fa6be913fdbb7ddcb563f3d1149a66454f78e4deacfbd1bb14a41e825b6",
+        "task_ids": [
+          "logic-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "D. To reduce time-order and thermal"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "delta"
+        ],
+        "prompt_sha256": "14eaa8f668c608fbe5fb0e6ddfcc5c9e68e8c5d84dba59006763593aaf94f6d2",
+        "task_ids": [
+          "evidence-04"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "gamma"
+        ],
+        "prompt_sha256": "25a660280ba86e31957dd1405fc5d133bf9f210fa542e421a8489d5d473b5fb1",
+        "task_ids": [
+          "logic-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "C"
+        ],
+        "paired_observations": 8,
+        "points": [
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 16
+          },
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "beta"
+        ],
+        "prompt_sha256": "30e74861d094daa7a023b4346d616f03836753d6ac443e5e4e4d256e3d505e73",
+        "task_ids": [
+          "arithmetic-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "The correct answer is **B**. Respond"
+        ],
+        "paired_observations": 12,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 32
+          },
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 32
+          },
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "32a85c74e9b5d576a9595d4d57377e95fe2c5fb3b2a289051a255da355248dbd",
+        "task_ids": [
+          "arithmetic-01"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "C"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "gamma"
+        ],
+        "prompt_sha256": "3417a01df2b93fb7995905f0fca52c05183ceb8ed1ceec3aa0d66240f3d203a0",
+        "task_ids": [
+          "evidence-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "366c5cf94a5710090bfa54cc64cd44fca165d0a97f7872da6f731d3f060ac48f",
+        "task_ids": [
+          "logic-03"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "delta"
+        ],
+        "prompt_sha256": "40be880e28af6c244f6965f4521fc0cbcb74c30f136fff9d822b67263d29d0e4",
+        "task_ids": [
+          "logic-03"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "C"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "4827934050663a900996f9b150d82b64823e36809e188290b3a45beee95ef8e9",
+        "task_ids": [
+          "arithmetic-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "D. To reduce time-order and thermal"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "48e5ccc615409a0ef72a748fd2b9ddae0149bc6e2857c269c2ca4b364a1f2399",
+        "task_ids": [
+          "evidence-04"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "C"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "4d1158c6c9e92f0602ca909f14966c7b0f9deeb3dab76edfab14b25c622024d8",
+        "task_ids": [
+          "arithmetic-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "D. To reduce time-order and thermal"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "beta"
+        ],
+        "prompt_sha256": "4db8b1b4761f94240b04448d433d5c595981a38302dbd53900b5cf2a24e5539f",
+        "task_ids": [
+          "evidence-04"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "The correct relation that must hold is:\n\n"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "gamma"
+        ],
+        "prompt_sha256": "53cd7e76906aabdbbe887bbf43018a044dd4e6d2ad89f73f9d1335db4f1f6256",
+        "task_ids": [
+          "logic-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "D"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "delta"
+        ],
+        "prompt_sha256": "541ffd8612040f1bcfe7a03fe093603af10755ac48e830ba77c27615f96139a6",
+        "task_ids": [
+          "evidence-04"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "delta"
+        ],
+        "prompt_sha256": "55c39ecb690695742bcef761a44f110b4c9e700df86959430311f0987d6234b6",
+        "task_ids": [
+          "logic-03"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "C"
+        ],
+        "paired_observations": 8,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 32
+          },
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "58ac18d1caba84dc71f2cbf70b3dd129d2ab2c53d4d3833db447b45bc901e150",
+        "task_ids": [
+          "evidence-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "C"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "gamma"
+        ],
+        "prompt_sha256": "5a111fb5aa4bd1d83fdeddd5a155f7b81db7919b7899f1d49cd8d4430a06196d",
+        "task_ids": [
+          "evidence-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "D. To reduce time-order and thermal"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "delta"
+        ],
+        "prompt_sha256": "70f9afa0786c6549fed2bd0947f0778352377a822630c5b0035f591efdc52de5",
+        "task_ids": [
+          "evidence-04"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "C"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "gamma"
+        ],
+        "prompt_sha256": "761aacba46973afcab557834f2b8465f5cdc9e1e47c9483c71934511ed20a9eb",
+        "task_ids": [
+          "evidence-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "Given that exactly one of alerts A and"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "7ae569e6fcd33524f72600a32102af3b917e5a77d910e6dfe90404cc5e66542e",
+        "task_ids": [
+          "logic-03"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "Given that **exactly one of alerts"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "delta"
+        ],
+        "prompt_sha256": "93a5074cae6d8eccb2c2bbac317697306f8c34573bab928e8d0cda27540878aa",
+        "task_ids": [
+          "logic-03"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "D"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "beta"
+        ],
+        "prompt_sha256": "9d09c40ee183f28c856741a0c46dfd13127132f55dae353b071b0b6ae93a1a06",
+        "task_ids": [
+          "evidence-04"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "The correct answer is **C. "
+        ],
+        "paired_observations": 12,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 32
+          },
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 32
+          },
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "9e765ddf1778b061a3171a816c11b960b8da330fa2fdf1aef358d5219ef287cf",
+        "task_ids": [
+          "code-01"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "C"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "a56bc36e664b1dc052017c71ff26ea5c9156529d01eff51c309d84565f2d4beb",
+        "task_ids": [
+          "arithmetic-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "The correct relation that must hold is:\n\n"
+        ],
+        "paired_observations": 8,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 64
+          },
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "aaf3eeb5b7ab7f1f147f84967d9e5302d0239846de8d2429769c16b0810e6d55",
+        "task_ids": [
+          "logic-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "D. To reduce time-order and thermal"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "b29dcd80b291b80a264f7321799d0bd26322d7d31eaf5cd7dd43562c4cbce994",
+        "task_ids": [
+          "evidence-04"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "C"
+        ],
+        "paired_observations": 8,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 16
+          },
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "ba59e6e15c70ed1663549d8fd01eec9b80943bdea2c79356bbf282d38104eb04",
+        "task_ids": [
+          "evidence-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "bb94dbf82001112f4296488756d3bd82bafaff723dafc3e7f5f8ae389acef87b",
+        "task_ids": [
+          "data-03"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "Given that **exactly one of alerts"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "beta"
+        ],
+        "prompt_sha256": "be44e0b3a849e787fb3d47d84c195ec79eeca6f7efe19e4562e9d9c4785e420c",
+        "task_ids": [
+          "logic-03"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "gamma"
+        ],
+        "prompt_sha256": "be7d26ccc18efc1cdcf142bec678565de4a596989095860aa812e1930d852fba",
+        "task_ids": [
+          "logic-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "The correct answer is **C. "
+        ],
+        "paired_observations": 12,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 64
+          },
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 64
+          },
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "cda64d701878d4de62300a84c05d208bf2ee80c6bbdd1597ab77f639ee15a0ce",
+        "task_ids": [
+          "code-01"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 12,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 16
+          },
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 16
+          },
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "cfe1f92b2024366b2174a0266aec770325a6b270643c09a7f3390a7f51553d03",
+        "task_ids": [
+          "arithmetic-01"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "beta"
+        ],
+        "prompt_sha256": "d4ed0823ebb99a1d23bdef422c7303c88282fd606cadc789e66d30aea94756b4",
+        "task_ids": [
+          "logic-03"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "beta"
+        ],
+        "prompt_sha256": "dd4b63e431a0abe47e3a4e74ffbfce1d662a6971c287898d8e85647f9592b5ea",
+        "task_ids": [
+          "logic-03"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 16
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "e2637c380951e1a5445c1be0bb4ae1ac7821b7b98422228619f4ab1b84dc07ad",
+        "task_ids": [
+          "data-03"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "C"
+        ],
+        "paired_observations": 8,
+        "points": [
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 64
+          },
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "beta"
+        ],
+        "prompt_sha256": "e29d77583816f2704c8eb1f0fce2a5c19f48ac92b4666d6e3d8dc92f694a0f13",
+        "task_ids": [
+          "arithmetic-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "The correct answer is **B. "
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "e879d771a2a3c9f31ca1e1b64d7387fb6f4322f08d989f98293af525571291ee",
+        "task_ids": [
+          "data-03"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 8,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 32
+          },
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "e9ac4a570d500d939d0252ee1bb0667d9db3d07f1607568149abca9db5442940",
+        "task_ids": [
+          "logic-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "ec8a31e9c1dcc4bb0b03b6dec1a83c68eef734b20003e069b8adddc381544b66",
+        "task_ids": [
+          "logic-03"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B"
+        ],
+        "paired_observations": 8,
+        "points": [
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 32
+          },
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "beta"
+        ],
+        "prompt_sha256": "f00a2cec67842c3b06391dd801d65e44fa2ebb8d029f6b8e95230689972cc468",
+        "task_ids": [
+          "data-03"
+        ]
+      }
+    ],
+    "fallback_denylist": [
+      {
+        "observed_exact_responses": [
+          "D",
+          "D. To reduce time-order and thermal"
+        ],
+        "paired_observations": 4,
+        "points": [
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 32
+          }
+        ],
+        "prefix_markers": [
+          "beta"
+        ],
+        "prompt_sha256": "1b14de078d2d571b5fbbb19aa44f82f2075b9e20b881ab642b213dfdc9c8f70f",
+        "task_ids": [
+          "evidence-04"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "C",
+          "C. Reproduce the measured configuration"
+        ],
+        "paired_observations": 8,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 64
+          },
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "32a3ea5cefe5b9d389951288fd3e667e113dc2322b54bbb8843605fc222cb10e",
+        "task_ids": [
+          "evidence-02"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "The correct answer is **B**. Respond",
+          "The correct answer is **C**. Respond"
+        ],
+        "paired_observations": 12,
+        "points": [
+          {
+            "prefix_cardinality": 1,
+            "shared_prefix_tokens": 64
+          },
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 64
+          },
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "alpha"
+        ],
+        "prompt_sha256": "98085bead66cacac19f2e731c7e3d6f27962aaaaeed44ce5426ebd929985dfdc",
+        "task_ids": [
+          "arithmetic-01"
+        ]
+      },
+      {
+        "observed_exact_responses": [
+          "B",
+          "The correct answer is **B. "
+        ],
+        "paired_observations": 8,
+        "points": [
+          {
+            "prefix_cardinality": 2,
+            "shared_prefix_tokens": 64
+          },
+          {
+            "prefix_cardinality": 4,
+            "shared_prefix_tokens": 64
+          }
+        ],
+        "prefix_markers": [
+          "beta"
+        ],
+        "prompt_sha256": "d8cff3ef7d5cf6d49c9dd8f367a17eafdc24269b0d0733c9c1dc9eaa80bb38d9",
+        "task_ids": [
+          "data-03"
+        ]
+      }
+    ],
+    "post_observation_tuning_permitted": false,
+    "unknown_policy": "fail_closed_uncached"
+  },
+  "predecessor": {
+    "correction_boundary": "E13a remains rejected. E13b derives its warmup fingerprints and decision counts from E9c calibration records, reverses the point sequence, and leaves every quality/performance threshold unchanged.",
+    "experiment_id": "E13a",
+    "failed_gates": [
+      "frozen_decision_counts"
+    ],
+    "manifest_sha256": "fdbd2b68da48d1ff40b250376b4efbb45a476774a827ae843913db3e9c6f2f8a",
+    "run_id": "30830903248",
+    "status": "valid_cache_certificate_rejected"
+  },
+  "prompt_construction": {
+    "common_filler": "Cache followed by the smallest non-negative count of single-token ' cache' repetitions that makes the four-variant tokenized longest common prefix equal the frozen target.",
+    "endpoint": "/apply-template followed by /tokenize and native /completion",
+    "instruction_suffix": "Choose the correct option. Respond with only one uppercase letter: A, B, C, or D.",
+    "maximum_prompt_tokens": 248,
+    "require_exact_tokenized_common_prefix": true,
+    "tokenizer_preflight": {
+      "fix_mistral_regex": true,
+      "maximum_preflight_prompt_tokens": 143,
+      "native_difference": "The native /apply-template then /tokenize path uses add_special=false, so its token array omits the Transformers preflight BOS and needs one additional single-token filler repetition.",
+      "native_endpoint_common_filler_repetitions_by_target": {
+        "16": 14,
+        "32": 30,
+        "64": 62
+      },
+      "repository": "mistralai/Ministral-3-3B-Instruct-2512",
+      "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+      "transformers_common_filler_repetitions_by_target": {
+        "16": 13,
+        "32": 29,
+        "64": 61
+      },
+      "transformers_version": "5.14.1"
+    },
+    "variant_marker_token_ids": [
+      17341,
+      20865,
+      33496,
+      24138
+    ],
+    "variant_markers": [
+      "alpha",
+      "beta",
+      "gamma",
+      "delta"
+    ]
+  },
+  "schema_version": 1,
+  "scope": "A separately frozen temporal-sequence successor to rejected E13a on the exact E7c service. The point order is reversed and each transition warmup duplicates the first calibrated active-prefix cycle. This is not a gate edit, server-knob sweep, unseen-task claim, or universal cache-safety claim.",
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "reference_source": "E3f repeated selected prediction map"
+  },
+  "service": {
+    "batch_size": 64,
+    "context_per_slot": 256,
+    "continuous_batching": true,
+    "flash_attention": "auto",
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "micro_batch_size": 64,
+    "openssl": false,
+    "profile": "e7c_final",
+    "server_parallel_slots": 1,
+    "server_prompt_cache": true,
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "source_tag": "b10216",
+    "threads": 4,
+    "threads_batch": 4,
+    "weight_repack": true
+  },
+  "title": "Calibration-known cache certificate temporal successor",
+  "workload": {
+    "client_concurrency": 1,
+    "fresh_process_trace": true,
+    "maximum_output_tokens": 8,
+    "measured_requests": 144,
+    "measured_task_ids": [
+      "arithmetic-01",
+      "arithmetic-02",
+      "logic-02",
+      "logic-03",
+      "code-01",
+      "data-03",
+      "evidence-02",
+      "evidence-04",
+      "arithmetic-01",
+      "arithmetic-02",
+      "logic-02",
+      "logic-03",
+      "code-01",
+      "data-03",
+      "evidence-02",
+      "evidence-04"
+    ],
+    "point_order": [
+      {
+        "prefix_cardinality": 4,
+        "shared_prefix_tokens": 32
+      },
+      {
+        "prefix_cardinality": 2,
+        "shared_prefix_tokens": 16
+      },
+      {
+        "prefix_cardinality": 1,
+        "shared_prefix_tokens": 64
+      },
+      {
+        "prefix_cardinality": 1,
+        "shared_prefix_tokens": 32
+      },
+      {
+        "prefix_cardinality": 2,
+        "shared_prefix_tokens": 64
+      },
+      {
+        "prefix_cardinality": 4,
+        "shared_prefix_tokens": 16
+      },
+      {
+        "prefix_cardinality": 4,
+        "shared_prefix_tokens": 64
+      },
+      {
+        "prefix_cardinality": 2,
+        "shared_prefix_tokens": 32
+      },
+      {
+        "prefix_cardinality": 1,
+        "shared_prefix_tokens": 16
+      }
+    ],
+    "point_warmup_requests": 21,
+    "point_warmup_strategy": "For each point, duplicate the first prefix_cardinality requests from E9c cache_off_r1 before the unchanged 16-request measured sequence. Exact token fingerprints and decisions are frozen.",
+    "point_warmups": [
+      {
+        "measured_requests": [
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "32a85c74e9b5d576a9595d4d57377e95fe2c5fb3b2a289051a255da355248dbd",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "029dee6c1fc726602cb11dc52d01fc14fe022d03007f4ca2f329c1b0f3ee9c0f",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "be7d26ccc18efc1cdcf142bec678565de4a596989095860aa812e1930d852fba",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "40be880e28af6c244f6965f4521fc0cbcb74c30f136fff9d822b67263d29d0e4",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "9e765ddf1778b061a3171a816c11b960b8da330fa2fdf1aef358d5219ef287cf",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "f00a2cec67842c3b06391dd801d65e44fa2ebb8d029f6b8e95230689972cc468",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "3417a01df2b93fb7995905f0fca52c05183ceb8ed1ceec3aa0d66240f3d203a0",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "14eaa8f668c608fbe5fb0e6ddfcc5c9e68e8c5d84dba59006763593aaf94f6d2",
+            "task_id": "evidence-04"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "32a85c74e9b5d576a9595d4d57377e95fe2c5fb3b2a289051a255da355248dbd",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "029dee6c1fc726602cb11dc52d01fc14fe022d03007f4ca2f329c1b0f3ee9c0f",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "be7d26ccc18efc1cdcf142bec678565de4a596989095860aa812e1930d852fba",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "40be880e28af6c244f6965f4521fc0cbcb74c30f136fff9d822b67263d29d0e4",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "9e765ddf1778b061a3171a816c11b960b8da330fa2fdf1aef358d5219ef287cf",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "f00a2cec67842c3b06391dd801d65e44fa2ebb8d029f6b8e95230689972cc468",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "3417a01df2b93fb7995905f0fca52c05183ceb8ed1ceec3aa0d66240f3d203a0",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "14eaa8f668c608fbe5fb0e6ddfcc5c9e68e8c5d84dba59006763593aaf94f6d2",
+            "task_id": "evidence-04"
+          }
+        ],
+        "prefix_cardinality": 4,
+        "requests": [
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "32a85c74e9b5d576a9595d4d57377e95fe2c5fb3b2a289051a255da355248dbd",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "029dee6c1fc726602cb11dc52d01fc14fe022d03007f4ca2f329c1b0f3ee9c0f",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "be7d26ccc18efc1cdcf142bec678565de4a596989095860aa812e1930d852fba",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "40be880e28af6c244f6965f4521fc0cbcb74c30f136fff9d822b67263d29d0e4",
+            "task_id": "logic-03"
+          }
+        ],
+        "shared_prefix_tokens": 32
+      },
+      {
+        "measured_requests": [
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cfe1f92b2024366b2174a0266aec770325a6b270643c09a7f3390a7f51553d03",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "30e74861d094daa7a023b4346d616f03836753d6ac443e5e4e4d256e3d505e73",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "11e40fa6be913fdbb7ddcb563f3d1149a66454f78e4deacfbd1bb14a41e825b6",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "dd4b63e431a0abe47e3a4e74ffbfce1d662a6971c287898d8e85647f9592b5ea",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "0eae404dd34ad7b34171cc5bead0ab3d8e898fd708259bc48510ab0e1d54e345",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "07deae988112519d3554d61b54a4f43909b834b518620aaf644d71c0271e0984",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "ba59e6e15c70ed1663549d8fd01eec9b80943bdea2c79356bbf282d38104eb04",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "9d09c40ee183f28c856741a0c46dfd13127132f55dae353b071b0b6ae93a1a06",
+            "task_id": "evidence-04"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cfe1f92b2024366b2174a0266aec770325a6b270643c09a7f3390a7f51553d03",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "30e74861d094daa7a023b4346d616f03836753d6ac443e5e4e4d256e3d505e73",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "11e40fa6be913fdbb7ddcb563f3d1149a66454f78e4deacfbd1bb14a41e825b6",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "dd4b63e431a0abe47e3a4e74ffbfce1d662a6971c287898d8e85647f9592b5ea",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "0eae404dd34ad7b34171cc5bead0ab3d8e898fd708259bc48510ab0e1d54e345",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "07deae988112519d3554d61b54a4f43909b834b518620aaf644d71c0271e0984",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "ba59e6e15c70ed1663549d8fd01eec9b80943bdea2c79356bbf282d38104eb04",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "9d09c40ee183f28c856741a0c46dfd13127132f55dae353b071b0b6ae93a1a06",
+            "task_id": "evidence-04"
+          }
+        ],
+        "prefix_cardinality": 2,
+        "requests": [
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cfe1f92b2024366b2174a0266aec770325a6b270643c09a7f3390a7f51553d03",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "30e74861d094daa7a023b4346d616f03836753d6ac443e5e4e4d256e3d505e73",
+            "task_id": "arithmetic-02"
+          }
+        ],
+        "shared_prefix_tokens": 16
+      },
+      {
+        "measured_requests": [
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "98085bead66cacac19f2e731c7e3d6f27962aaaaeed44ce5426ebd929985dfdc",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "4d1158c6c9e92f0602ca909f14966c7b0f9deeb3dab76edfab14b25c622024d8",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "aaf3eeb5b7ab7f1f147f84967d9e5302d0239846de8d2429769c16b0810e6d55",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "7ae569e6fcd33524f72600a32102af3b917e5a77d910e6dfe90404cc5e66542e",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cda64d701878d4de62300a84c05d208bf2ee80c6bbdd1597ab77f639ee15a0ce",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "e879d771a2a3c9f31ca1e1b64d7387fb6f4322f08d989f98293af525571291ee",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "32a3ea5cefe5b9d389951288fd3e667e113dc2322b54bbb8843605fc222cb10e",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "b29dcd80b291b80a264f7321799d0bd26322d7d31eaf5cd7dd43562c4cbce994",
+            "task_id": "evidence-04"
+          },
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "98085bead66cacac19f2e731c7e3d6f27962aaaaeed44ce5426ebd929985dfdc",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "4d1158c6c9e92f0602ca909f14966c7b0f9deeb3dab76edfab14b25c622024d8",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "aaf3eeb5b7ab7f1f147f84967d9e5302d0239846de8d2429769c16b0810e6d55",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "7ae569e6fcd33524f72600a32102af3b917e5a77d910e6dfe90404cc5e66542e",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cda64d701878d4de62300a84c05d208bf2ee80c6bbdd1597ab77f639ee15a0ce",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "e879d771a2a3c9f31ca1e1b64d7387fb6f4322f08d989f98293af525571291ee",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "32a3ea5cefe5b9d389951288fd3e667e113dc2322b54bbb8843605fc222cb10e",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "b29dcd80b291b80a264f7321799d0bd26322d7d31eaf5cd7dd43562c4cbce994",
+            "task_id": "evidence-04"
+          }
+        ],
+        "prefix_cardinality": 1,
+        "requests": [
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "98085bead66cacac19f2e731c7e3d6f27962aaaaeed44ce5426ebd929985dfdc",
+            "task_id": "arithmetic-01"
+          }
+        ],
+        "shared_prefix_tokens": 64
+      },
+      {
+        "measured_requests": [
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "32a85c74e9b5d576a9595d4d57377e95fe2c5fb3b2a289051a255da355248dbd",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "4827934050663a900996f9b150d82b64823e36809e188290b3a45beee95ef8e9",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "e9ac4a570d500d939d0252ee1bb0667d9db3d07f1607568149abca9db5442940",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "ec8a31e9c1dcc4bb0b03b6dec1a83c68eef734b20003e069b8adddc381544b66",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "9e765ddf1778b061a3171a816c11b960b8da330fa2fdf1aef358d5219ef287cf",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "bb94dbf82001112f4296488756d3bd82bafaff723dafc3e7f5f8ae389acef87b",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "58ac18d1caba84dc71f2cbf70b3dd129d2ab2c53d4d3833db447b45bc901e150",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "48e5ccc615409a0ef72a748fd2b9ddae0149bc6e2857c269c2ca4b364a1f2399",
+            "task_id": "evidence-04"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "32a85c74e9b5d576a9595d4d57377e95fe2c5fb3b2a289051a255da355248dbd",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "4827934050663a900996f9b150d82b64823e36809e188290b3a45beee95ef8e9",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "e9ac4a570d500d939d0252ee1bb0667d9db3d07f1607568149abca9db5442940",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "ec8a31e9c1dcc4bb0b03b6dec1a83c68eef734b20003e069b8adddc381544b66",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "9e765ddf1778b061a3171a816c11b960b8da330fa2fdf1aef358d5219ef287cf",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "bb94dbf82001112f4296488756d3bd82bafaff723dafc3e7f5f8ae389acef87b",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "58ac18d1caba84dc71f2cbf70b3dd129d2ab2c53d4d3833db447b45bc901e150",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "48e5ccc615409a0ef72a748fd2b9ddae0149bc6e2857c269c2ca4b364a1f2399",
+            "task_id": "evidence-04"
+          }
+        ],
+        "prefix_cardinality": 1,
+        "requests": [
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "32a85c74e9b5d576a9595d4d57377e95fe2c5fb3b2a289051a255da355248dbd",
+            "task_id": "arithmetic-01"
+          }
+        ],
+        "shared_prefix_tokens": 32
+      },
+      {
+        "measured_requests": [
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "98085bead66cacac19f2e731c7e3d6f27962aaaaeed44ce5426ebd929985dfdc",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "e29d77583816f2704c8eb1f0fce2a5c19f48ac92b4666d6e3d8dc92f694a0f13",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "aaf3eeb5b7ab7f1f147f84967d9e5302d0239846de8d2429769c16b0810e6d55",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "be44e0b3a849e787fb3d47d84c195ec79eeca6f7efe19e4562e9d9c4785e420c",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cda64d701878d4de62300a84c05d208bf2ee80c6bbdd1597ab77f639ee15a0ce",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "d8cff3ef7d5cf6d49c9dd8f367a17eafdc24269b0d0733c9c1dc9eaa80bb38d9",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "32a3ea5cefe5b9d389951288fd3e667e113dc2322b54bbb8843605fc222cb10e",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "4db8b1b4761f94240b04448d433d5c595981a38302dbd53900b5cf2a24e5539f",
+            "task_id": "evidence-04"
+          },
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "98085bead66cacac19f2e731c7e3d6f27962aaaaeed44ce5426ebd929985dfdc",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "e29d77583816f2704c8eb1f0fce2a5c19f48ac92b4666d6e3d8dc92f694a0f13",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "aaf3eeb5b7ab7f1f147f84967d9e5302d0239846de8d2429769c16b0810e6d55",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "be44e0b3a849e787fb3d47d84c195ec79eeca6f7efe19e4562e9d9c4785e420c",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cda64d701878d4de62300a84c05d208bf2ee80c6bbdd1597ab77f639ee15a0ce",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "d8cff3ef7d5cf6d49c9dd8f367a17eafdc24269b0d0733c9c1dc9eaa80bb38d9",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "32a3ea5cefe5b9d389951288fd3e667e113dc2322b54bbb8843605fc222cb10e",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "4db8b1b4761f94240b04448d433d5c595981a38302dbd53900b5cf2a24e5539f",
+            "task_id": "evidence-04"
+          }
+        ],
+        "prefix_cardinality": 2,
+        "requests": [
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "98085bead66cacac19f2e731c7e3d6f27962aaaaeed44ce5426ebd929985dfdc",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "e29d77583816f2704c8eb1f0fce2a5c19f48ac92b4666d6e3d8dc92f694a0f13",
+            "task_id": "arithmetic-02"
+          }
+        ],
+        "shared_prefix_tokens": 64
+      },
+      {
+        "measured_requests": [
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cfe1f92b2024366b2174a0266aec770325a6b270643c09a7f3390a7f51553d03",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "30e74861d094daa7a023b4346d616f03836753d6ac443e5e4e4d256e3d505e73",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "25a660280ba86e31957dd1405fc5d133bf9f210fa542e421a8489d5d473b5fb1",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "55c39ecb690695742bcef761a44f110b4c9e700df86959430311f0987d6234b6",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "0eae404dd34ad7b34171cc5bead0ab3d8e898fd708259bc48510ab0e1d54e345",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "07deae988112519d3554d61b54a4f43909b834b518620aaf644d71c0271e0984",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "5a111fb5aa4bd1d83fdeddd5a155f7b81db7919b7899f1d49cd8d4430a06196d",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "541ffd8612040f1bcfe7a03fe093603af10755ac48e830ba77c27615f96139a6",
+            "task_id": "evidence-04"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cfe1f92b2024366b2174a0266aec770325a6b270643c09a7f3390a7f51553d03",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "30e74861d094daa7a023b4346d616f03836753d6ac443e5e4e4d256e3d505e73",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "25a660280ba86e31957dd1405fc5d133bf9f210fa542e421a8489d5d473b5fb1",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "55c39ecb690695742bcef761a44f110b4c9e700df86959430311f0987d6234b6",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "0eae404dd34ad7b34171cc5bead0ab3d8e898fd708259bc48510ab0e1d54e345",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "07deae988112519d3554d61b54a4f43909b834b518620aaf644d71c0271e0984",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "5a111fb5aa4bd1d83fdeddd5a155f7b81db7919b7899f1d49cd8d4430a06196d",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "541ffd8612040f1bcfe7a03fe093603af10755ac48e830ba77c27615f96139a6",
+            "task_id": "evidence-04"
+          }
+        ],
+        "prefix_cardinality": 4,
+        "requests": [
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cfe1f92b2024366b2174a0266aec770325a6b270643c09a7f3390a7f51553d03",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "30e74861d094daa7a023b4346d616f03836753d6ac443e5e4e4d256e3d505e73",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "25a660280ba86e31957dd1405fc5d133bf9f210fa542e421a8489d5d473b5fb1",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "55c39ecb690695742bcef761a44f110b4c9e700df86959430311f0987d6234b6",
+            "task_id": "logic-03"
+          }
+        ],
+        "shared_prefix_tokens": 16
+      },
+      {
+        "measured_requests": [
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "98085bead66cacac19f2e731c7e3d6f27962aaaaeed44ce5426ebd929985dfdc",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "e29d77583816f2704c8eb1f0fce2a5c19f48ac92b4666d6e3d8dc92f694a0f13",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "53cd7e76906aabdbbe887bbf43018a044dd4e6d2ad89f73f9d1335db4f1f6256",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "93a5074cae6d8eccb2c2bbac317697306f8c34573bab928e8d0cda27540878aa",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cda64d701878d4de62300a84c05d208bf2ee80c6bbdd1597ab77f639ee15a0ce",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "d8cff3ef7d5cf6d49c9dd8f367a17eafdc24269b0d0733c9c1dc9eaa80bb38d9",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "761aacba46973afcab557834f2b8465f5cdc9e1e47c9483c71934511ed20a9eb",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "70f9afa0786c6549fed2bd0947f0778352377a822630c5b0035f591efdc52de5",
+            "task_id": "evidence-04"
+          },
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "98085bead66cacac19f2e731c7e3d6f27962aaaaeed44ce5426ebd929985dfdc",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "e29d77583816f2704c8eb1f0fce2a5c19f48ac92b4666d6e3d8dc92f694a0f13",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "53cd7e76906aabdbbe887bbf43018a044dd4e6d2ad89f73f9d1335db4f1f6256",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "93a5074cae6d8eccb2c2bbac317697306f8c34573bab928e8d0cda27540878aa",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cda64d701878d4de62300a84c05d208bf2ee80c6bbdd1597ab77f639ee15a0ce",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "d8cff3ef7d5cf6d49c9dd8f367a17eafdc24269b0d0733c9c1dc9eaa80bb38d9",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "761aacba46973afcab557834f2b8465f5cdc9e1e47c9483c71934511ed20a9eb",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "70f9afa0786c6549fed2bd0947f0778352377a822630c5b0035f591efdc52de5",
+            "task_id": "evidence-04"
+          }
+        ],
+        "prefix_cardinality": 4,
+        "requests": [
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "98085bead66cacac19f2e731c7e3d6f27962aaaaeed44ce5426ebd929985dfdc",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "e29d77583816f2704c8eb1f0fce2a5c19f48ac92b4666d6e3d8dc92f694a0f13",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "gamma",
+            "prefix_marker_index": 2,
+            "prompt_sha256": "53cd7e76906aabdbbe887bbf43018a044dd4e6d2ad89f73f9d1335db4f1f6256",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "delta",
+            "prefix_marker_index": 3,
+            "prompt_sha256": "93a5074cae6d8eccb2c2bbac317697306f8c34573bab928e8d0cda27540878aa",
+            "task_id": "logic-03"
+          }
+        ],
+        "shared_prefix_tokens": 64
+      },
+      {
+        "measured_requests": [
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "32a85c74e9b5d576a9595d4d57377e95fe2c5fb3b2a289051a255da355248dbd",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "029dee6c1fc726602cb11dc52d01fc14fe022d03007f4ca2f329c1b0f3ee9c0f",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "e9ac4a570d500d939d0252ee1bb0667d9db3d07f1607568149abca9db5442940",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "d4ed0823ebb99a1d23bdef422c7303c88282fd606cadc789e66d30aea94756b4",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "9e765ddf1778b061a3171a816c11b960b8da330fa2fdf1aef358d5219ef287cf",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "f00a2cec67842c3b06391dd801d65e44fa2ebb8d029f6b8e95230689972cc468",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "58ac18d1caba84dc71f2cbf70b3dd129d2ab2c53d4d3833db447b45bc901e150",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "1b14de078d2d571b5fbbb19aa44f82f2075b9e20b881ab642b213dfdc9c8f70f",
+            "task_id": "evidence-04"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "32a85c74e9b5d576a9595d4d57377e95fe2c5fb3b2a289051a255da355248dbd",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "029dee6c1fc726602cb11dc52d01fc14fe022d03007f4ca2f329c1b0f3ee9c0f",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "e9ac4a570d500d939d0252ee1bb0667d9db3d07f1607568149abca9db5442940",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "d4ed0823ebb99a1d23bdef422c7303c88282fd606cadc789e66d30aea94756b4",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "9e765ddf1778b061a3171a816c11b960b8da330fa2fdf1aef358d5219ef287cf",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "f00a2cec67842c3b06391dd801d65e44fa2ebb8d029f6b8e95230689972cc468",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "58ac18d1caba84dc71f2cbf70b3dd129d2ab2c53d4d3833db447b45bc901e150",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "calibration_fallback",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "1b14de078d2d571b5fbbb19aa44f82f2075b9e20b881ab642b213dfdc9c8f70f",
+            "task_id": "evidence-04"
+          }
+        ],
+        "prefix_cardinality": 2,
+        "requests": [
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "32a85c74e9b5d576a9595d4d57377e95fe2c5fb3b2a289051a255da355248dbd",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "beta",
+            "prefix_marker_index": 1,
+            "prompt_sha256": "029dee6c1fc726602cb11dc52d01fc14fe022d03007f4ca2f329c1b0f3ee9c0f",
+            "task_id": "arithmetic-02"
+          }
+        ],
+        "shared_prefix_tokens": 32
+      },
+      {
+        "measured_requests": [
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cfe1f92b2024366b2174a0266aec770325a6b270643c09a7f3390a7f51553d03",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "a56bc36e664b1dc052017c71ff26ea5c9156529d01eff51c309d84565f2d4beb",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "11e40fa6be913fdbb7ddcb563f3d1149a66454f78e4deacfbd1bb14a41e825b6",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "366c5cf94a5710090bfa54cc64cd44fca165d0a97f7872da6f731d3f060ac48f",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "0eae404dd34ad7b34171cc5bead0ab3d8e898fd708259bc48510ab0e1d54e345",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "e2637c380951e1a5445c1be0bb4ae1ac7821b7b98422228619f4ab1b84dc07ad",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "ba59e6e15c70ed1663549d8fd01eec9b80943bdea2c79356bbf282d38104eb04",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "0609b5ff91ec44db25d379709658fcfe6ac3b5d86e841ab151de797428a4ba92",
+            "task_id": "evidence-04"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cfe1f92b2024366b2174a0266aec770325a6b270643c09a7f3390a7f51553d03",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "a56bc36e664b1dc052017c71ff26ea5c9156529d01eff51c309d84565f2d4beb",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "11e40fa6be913fdbb7ddcb563f3d1149a66454f78e4deacfbd1bb14a41e825b6",
+            "task_id": "logic-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "366c5cf94a5710090bfa54cc64cd44fca165d0a97f7872da6f731d3f060ac48f",
+            "task_id": "logic-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "0eae404dd34ad7b34171cc5bead0ab3d8e898fd708259bc48510ab0e1d54e345",
+            "task_id": "code-01"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "e2637c380951e1a5445c1be0bb4ae1ac7821b7b98422228619f4ab1b84dc07ad",
+            "task_id": "data-03"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "ba59e6e15c70ed1663549d8fd01eec9b80943bdea2c79356bbf282d38104eb04",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "0609b5ff91ec44db25d379709658fcfe6ac3b5d86e841ab151de797428a4ba92",
+            "task_id": "evidence-04"
+          }
+        ],
+        "prefix_cardinality": 1,
+        "requests": [
+          {
+            "expected_decision": "certified_cache",
+            "prefix_marker": "alpha",
+            "prefix_marker_index": 0,
+            "prompt_sha256": "cfe1f92b2024366b2174a0266aec770325a6b270643c09a7f3390a7f51553d03",
+            "task_id": "arithmetic-01"
+          }
+        ],
+        "shared_prefix_tokens": 16
+      }
+    ],
+    "prefix_cardinalities": [
+      1,
+      2,
+      4
+    ],
+    "prefix_sequence": "request index modulo prefix cardinality",
+    "seed": 424242,
+    "shared_prefix_tokens": [
+      16,
+      32,
+      64
+    ],
+    "temperature": 0.0,
+    "timeout_seconds": 30.0,
+    "trace_requests": 165,
+    "warmup_requests_per_point": "one complete active-prefix cycle",
+    "warmup_task_id": "arithmetic-02"
+  }
+}

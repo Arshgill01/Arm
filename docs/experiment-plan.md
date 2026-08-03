@@ -1565,6 +1565,27 @@ changed after observation. See the retained
 [`manifest`](../results/manifests/e13a-30830903248.json) and
 [`report`](../results/reports/e13a-cache-certificate.md).
 
+## E13b frozen calibration-known temporal successor
+
+E13b does not rehabilitate E13a or edit its failed decision-count gate. It
+freezes a new temporal sequence from pre-existing E9c calibration metadata.
+The nine point order is reversed. At each transition, the warmup cycle
+duplicates the first `prefix_cardinality` requests from that point's E9c
+cache-off calibration sequence, so every warmup has a retained exact token
+fingerprint before E13b runs. The unchanged 16-request measured sequence then
+follows. All 165 trace prompt hashes and policy decisions, including the 21
+warmups, are in the contract.
+
+The complete 165-request trace mechanically contains 146 certified-cache, 19
+calibrated-fallback and zero unknown requests. No count comes from an E13b
+result. Four fresh E7c servers still run all-uncached, certificate, certificate,
+and all-uncached in A–B–B–A order. E13a's byte-exact output gates, zero-failure
+rule, 1.70x throughput floor, p95 and CPU non-regression requirements, 5% CV
+ceiling, startup/RSS limits and fail-closed unknown policy are copied without
+change. A discrepancy in any frozen trace prompt fingerprint aborts before the
+measured trace. The independent pre-result boundary is in
+[`e13b_contract.json`](../experiments/e13b_contract.json).
+
 ## E14a frozen tensor-selective repack frontier
 
 E14a tests a distinct memory/throughput mechanism rather than another serving
