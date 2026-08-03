@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E10b",
+  "status": "valid_exact_token_primitive",
+  "promote_exact_token_primitive": true,
+  "scope": "Native Arm64 parity, response-payload, and latency proof for a bounded exact-token probability selector on the exact E7c service plus one source patch",
+  "provenance": {
+    "github_run_id": "30797568757",
+    "github_run_attempt": 1,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30797568757",
+    "git_commit": "0c7040e76321170a5f382477385648b67880bc42",
+    "artifact": {
+      "id": 8849620973,
+      "name": "e10b-exact-token-probabilities-30797568757-1",
+      "size_bytes": 29358819,
+      "retention_days": 90,
+      "expires_at": "2026-11-01T09:29:08Z"
+    },
+    "contract_sha256": "58afef5cc26aebf52c65581ced0700f9f09915a6d52bcd49d4940d19d2dc01cd",
+    "artifact_summary_sha256": "b4222f2b8284829dc93285be1612134f63ecdcb635f2956422dd22cd44e5c2eb",
+    "independent_local_summary_sha256": "b4222f2b8284829dc93285be1612134f63ecdcb635f2956422dd22cd44e5c2eb",
+    "artifact_inventory_sha256": "afca24f0b4a357a127291af31d9fcb23ebc429bdfc832e10306f72fc3dcb8a17"
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "model_name": "Neoverse-N2",
+    "logical_cpus": 4,
+    "sockets": 1,
+    "threads_per_core": 1,
+    "github_runner_os": "Linux",
+    "github_runner_arch": "ARM64"
+  },
+  "runtime": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "source_tag": "b10216",
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_diff_sha256": "8ab4ea8e4a7412ec24f0fa4ebf49a23745c58cf66b8cfb2e99ac0ca53c69be12",
+    "primitive_patch_sha256": "e9372472e0f6f8c0d01142ff370c5cbdc895db217e0e5f5b664ef1c9359dc3ec",
+    "server_version": "10216 (876a43211)",
+    "compiler": "GNU 13.3.0 for Linux aarch64",
+    "openssl_enabled": false,
+    "runtime_closure_sha256": "23022d19e2af9e75463cc05b6933e56994f484ea9d5bf67cc113d6b6d9bdfe8c",
+    "runtime_closure_file_count": 8,
+    "runtime_closure_size_bytes": 19792856,
+    "dynamic_dependency_basenames": [
+      "ld-linux-aarch64.so.1",
+      "libc.so.6",
+      "libgcc_s.so.1",
+      "libggml-base.so.0.18.0",
+      "libggml-cpu.so.0.18.0",
+      "libggml.so.0.18.0",
+      "libgomp.so.1.0.0",
+      "libllama-common.so.0.0.10216",
+      "libllama-server-impl.so",
+      "libllama.so.0.0.10216",
+      "libm.so.6",
+      "libmtmd.so.0.0.10216",
+      "libstdc++.so.6.0.33"
+    ]
+  },
+  "model": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "size_bytes": 2146497824
+  },
+  "workload": {
+    "task_id": "logic-02",
+    "prompt_sha256": "aaf3eeb5b7ab7f1f147f84967d9e5302d0239846de8d2429769c16b0810e6d55",
+    "shared_prefix_tokens": 64,
+    "candidate_texts": ["A", "B", "C", "D"],
+    "candidate_token_ids": [1065, 1066, 1067, 1068],
+    "vocabulary_entries": 131072,
+    "cache_prompt": false,
+    "fresh_process_cells": 4,
+    "measured_requests": 12,
+    "measured_requests_per_mode": 6,
+    "request_failures": 0
+  },
+  "aggregate": {
+    "paired_requests": 6,
+    "maximum_absolute_logprob_delta": 3.5762786865234375e-7,
+    "candidate_ranking": [1066, 1068, 1065, 1067],
+    "all_candidate_predictions_equal": true,
+    "all_sampled_outputs_equal": true,
+    "full_vocab_http_ms": {
+      "median": 3591.645334,
+      "p95": 3617.810982,
+      "coefficient_of_variation": 0.006489794545826285
+    },
+    "selected_http_ms": {
+      "median": 2925.1358885,
+      "p95": 2929.871984,
+      "coefficient_of_variation": 0.0008969799787875225
+    },
+    "selected_to_full_median_http_latency_ratio": 0.8144278224827641,
+    "full_vocab_median_response_bytes": 12565398.0,
+    "selected_median_response_bytes": 2778.5,
+    "selected_to_full_median_response_bytes_ratio": 0.00022112311921994036,
+    "full_vocab_median_requests_per_second": 0.22160217276809924,
+    "selected_median_requests_per_second": 0.3416899794453742,
+    "selected_to_full_median_throughput_ratio": 1.5419071716546013,
+    "full_vocab_median_cpu_seconds_per_request": 12.088333333333335,
+    "selected_median_cpu_seconds_per_request": 11.629999999999999,
+    "selected_to_full_median_cpu_seconds_per_request_ratio": 0.9620846546256719,
+    "full_vocab_maximum_rss_kib": 4691508,
+    "selected_maximum_rss_kib": 4277688,
+    "full_vocab_median_ready_ms": 2682.7522550000003,
+    "selected_median_ready_ms": 2684.3623115
+  },
+  "validation": {
+    "native_arm64_same_job": true,
+    "exact_b10216_base_service": true,
+    "primitive_patch_applied": true,
+    "fresh_server_per_cell": true,
+    "cache_disabled_per_request": true,
+    "zero_request_failures": true,
+    "full_vocab_mechanism_observed": true,
+    "selected_id_order_exact": true,
+    "logprob_parity_pass": true,
+    "candidate_prediction_parity_pass": true,
+    "sampled_output_parity_pass": true,
+    "response_payload_gate_pass": true,
+    "latency_non_regression_gate_pass": true,
+    "external_holdout_observed": false,
+    "complete_candidate_scorer_claim_allowed": false,
+    "energy_claim_allowed": false
+  },
+  "decision": {
+    "result": "promote_for_separately_frozen_multi_token_evaluator",
+    "weighted_score_used": false,
+    "first_failed_run_retained_as": "results/manifests/e10b-preflight-30797017450.json"
+  },
+  "claim_boundary": "E10b proves only that four exact requested next-token log probabilities match the existing full-vocabulary server path and avoid its response payload on this native Arm service. It does not prove multi-token candidate scoring, prefix forking, lm-evaluation-harness compatibility, external-task quality, cache safety, energy, PMU, local-device, fleet, concurrency, cost, or other-runtime performance."
+}

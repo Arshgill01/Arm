@@ -1500,6 +1500,27 @@ multi-token evaluator. It cannot claim a complete candidate scorer, prefix
 forking, external quality, cache safety, or end-product performance. The exact
 contract is [`e10b_contract.json`](../experiments/e10b_contract.json).
 
+### E10b outcome
+
+Native run `30797568757` passed every frozen gate on a four-logical-CPU
+Neoverse N2 runner. Across six paired requests, the maximum A/B/C/D log-probability
+delta was `3.5763e-7`; candidate ranking and sampled output were identical.
+Median response size fell from 12,565,398 to 2,778.5 bytes (0.000221x), while
+median HTTP latency fell from 3,591.65 to 2,925.14 ms (0.8144x). The selected
+path used 0.9621x median CPU seconds/request. Zero requests failed, all four
+fresh processes met readiness/RSS gates, and the OpenSSL-free eight-file local
+runtime closure was retained.
+
+The primitive is promoted only for a separately frozen multi-token evaluator.
+The result does not establish an external quality score or full candidate
+scorer, and the 1.5419x cell-throughput ratio is not presented as a model-compute
+speedup: prompt evaluation remained nearly unchanged while the selected path
+avoided sorting, serializing, retaining, and transferring 131,072 JSON entries.
+The first native attempt failed before warmup on a string-versus-`Path` harness
+error; that run is retained separately, and the retry changed no experimental
+gate. See the retained [`manifest`](../results/manifests/e10b-30797568757.json)
+and [`report`](../results/reports/e10b-exact-token-probabilities.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

@@ -758,6 +758,16 @@
             <div><strong>Speculative / cross-runtime feasibility</strong><p>Mechanism, exact-model, and two-token workload gates failed, so no benchmark was launched.</p></div>
             <span class="evidence-result reject-text">Stopped before run</span>
           </li>
+          <li>
+            <span class="evidence-id">E10a</span>
+            <div><strong>Cache-confidence calibration</strong><p>Four drifted pairs reproduced, but their top-1 margins overlapped stable requests; no threshold was selected.</p></div>
+            <span class="evidence-result reject-text">Guard rejected</span>
+          </li>
+          <li>
+            <span class="evidence-id">E10b</span>
+            <div><strong>Exact-token probability response</strong><p>Four scores matched within 3.58e-7 with identical sampled output; median payload fell 99.9779%.</p></div>
+            <span class="evidence-result select-text">Primitive promoted</span>
+          </li>
         </ol>
 
         <div class="reproduce">
@@ -787,6 +797,9 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e9c-prompt-cache-generalization.md">
           Cache generalization boundary
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e10b-exact-token-probabilities.md">
+          Exact-token response
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5e-kv-context-profile.md">
           Memory profile

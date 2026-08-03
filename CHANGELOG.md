@@ -4,6 +4,37 @@ Pareto64 and this repository were created during the Arm Create: AI
 Optimization Challenge 2026 submission period. The full Git history is the
 authoritative, timestamped record; this file groups the significant additions.
 
+## 2026-08-03
+
+### Native evidence
+
+- Retained E10a's native cache-divergence calibration as a negative result.
+  Four semantic drifts reproduced, but cached top-1 margins overlapped stable
+  requests, so no margin threshold or independent holdout was selected.
+- Added a bounded exact-token probability selector to exact llama.cpp b10216.
+  It returns up to 256 requested pre-sampling token scores in request order
+  without changing logits or sampled-token semantics.
+- Retained E10b's first native attempt after source, build, dependency, model,
+  and readiness checks passed but a string-versus-`Path` probe error stopped
+  execution before warmup. The repair added a real-input regression test and
+  changed no experiment gate.
+- Passed E10b on a four-logical-CPU Neoverse N2 runner. Across six pairs, all
+  four requested log probabilities matched the existing full-vocabulary path
+  within `3.58e-7`, sampled output was identical, median response size fell
+  99.9779%, and median HTTP latency fell 18.6%. The result promotes only the
+  response primitive for a separately frozen multi-token evaluator.
+
+### Submission and publication
+
+- Extended the immutable submission verifier to 55 hashes and explicit E10a,
+  E10b-failure, and E10b claim-boundary checks; the focused suite now contains
+  175 tests.
+- Updated the judge index, Devpost draft, experiment plan, README, and static
+  HTML demo with the E10a/E10b evidence and its narrow response-path claim.
+- Recorded that `Arshgill01/Arm` is public. Anonymous repository, raw license,
+  current workflow, and credential-disabled clone checks pass. Static demo
+  hosting and video publication remain separate entrant actions.
+
 ## 2026-08-01
 
 ### Product

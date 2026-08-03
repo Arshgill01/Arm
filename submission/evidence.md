@@ -6,9 +6,9 @@ logical CPUs, while E9a's same-job final comparison used two. No absolute rate
 is compared across those topologies. Each compact manifest is generated from
 raw evidence by a fail-closed ingester. Raw artifacts are retained for 90 days
 by the linked GitHub Actions workflow run; compact manifests and reports are
-committed permanently. The links are not anonymously accessible while the
-repository remains private; the mandatory publication gate is tracked in
-[`publication-handoff.md`](publication-handoff.md). E9e is a
+committed permanently. The repository is public, so source, reports, and
+workflow pages are anonymously accessible. The remaining publication handoff
+is tracked in [`publication-handoff.md`](publication-handoff.md). E9e is a
 source/model/workload feasibility stop, so it has no native run or performance
 artifact.
 
@@ -52,6 +52,9 @@ artifact.
 | Alternating-prefix cache generalization rejected on output | [E9c `30770403695`](https://github.com/Arshgill01/Arm/actions/runs/30770403695) | [`e9c` manifest](../results/manifests/e9c-30770403695.json) · [`report`](../results/reports/e9c-prompt-cache-generalization.md) | `29b075b6…eed4` |
 | Unpublished patch-series strict sanitizer rejection | [E9d `30773922751`](https://github.com/Arshgill01/Arm/actions/runs/30773922751) | [`e9d` manifest](../results/manifests/e9d-30773922751.json) · [`report`](../results/reports/e9d-pr-ready-patch-series.md) | `c6b29cf3…e6153` |
 | Speculative / cross-runtime premeasurement stop | Not launched: required gates failed | [`e9e` manifest](../results/manifests/e9e-feasibility.json) · [`report`](../results/reports/e9e-speculative-cross-runtime-feasibility.md) | `35fb97a6…ffac2` |
+| Cache-margin guard rejected before holdout | [E10a `30793728347`](https://github.com/Arshgill01/Arm/actions/runs/30793728347) | [`e10a` manifest](../results/manifests/e10a-30793728347.json) · [`report`](../results/reports/e10a-cache-divergence.md) | `c511ec9e…7d53` |
+| Exact-token first-run harness failure | [E10b preflight `30797017450`](https://github.com/Arshgill01/Arm/actions/runs/30797017450) | [`failure` manifest](../results/manifests/e10b-preflight-30797017450.json) · [`report`](../results/reports/e10b-preflight-failure.md) | `f79b9aed…5089` |
+| Exact-token probability primitive | [E10b `30797568757`](https://github.com/Arshgill01/Arm/actions/runs/30797568757) | [`e10b` manifest](../results/manifests/e10b-30797568757.json) · [`report`](../results/reports/e10b-exact-token-probabilities.md) | `4b1e73bb…5c83` |
 | Final judge-package clean-checkout validation | [`30775996806`](https://github.com/Arshgill01/Arm/actions/runs/30775996806) | 163 tests, 49 hashes through E9e, exact runtime/plan checks, four gallery assets, video-word ceiling, demo smoke test | passed on native `aarch64` at `5d3d4f3` |
 
 ## Final selected package
@@ -93,6 +96,15 @@ artifact.
   reference mismatches and 12 paired cache-state mismatches. The generated
   policy disables cache for one, two, and four alternating prefixes; it does
   not broaden E5c's exact workload claim.
+- Cache-confidence boundary: E10a reproduces four cache-state drifts, but cached
+  top-1 margins overlap stable requests. No margin threshold or holdout is
+  selected.
+- Candidate-response primitive: E10b adds a bounded exact-ID selector to the
+  same pre-sampling softmax. On native Arm, four requested probabilities match
+  the 131,072-entry path within `3.58e-7`, sampled output is identical, median
+  response bytes fall 99.9779%, and median HTTP latency falls 18.6%. This
+  promotes only a response primitive for a separately frozen multi-token
+  evaluator, not a complete scorer or external quality claim.
 
 ## Recompute locally
 

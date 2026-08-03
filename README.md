@@ -137,6 +137,15 @@ service emits only two generated tokens per retained request, and LLM-Runner's
 independent backends cannot consume the selected GGUF Q4_K_M identity. License
 review passes, but mechanism, model-equivalence, and workload gates do not; no
 benchmark or portability claim is manufactured.
+E10a then asks whether cached top-1 margin can guard E9c's output drift. The
+native calibration reproduces four drifted pairs, but their maximum cached
+margin (0.02794) overlaps stable pairs down to 0.01221. The required strict gap
+is negative, so no threshold or holdout is selected. E10b instead addresses the
+candidate-scoring API boundary with a bounded exact-token probability selector.
+On native Arm, A/B/C/D probabilities match the full 131,072-token response
+within 3.58e-7, sampled output stays identical, median payload falls from 12.57
+MB to 2.78 KB, and median HTTP latency falls 18.6%. This promotes only the
+response primitive for a separately frozen multi-token evaluator.
 
 ## Optimization map
 
@@ -162,6 +171,8 @@ preserved unless the row explicitly describes a rejected candidate.
 | Alternating-prefix cache boundary | Exact E7c cache off/on over 1, 2, or 4 prefixes and 16/32/64 shared tokens | Frozen 36-process generalization matrix | 1.9406x–2.4007x throughput ratios, but 252 reference mismatches and 12 paired cache-state mismatches | Disable all generalized policies; keep E5c workload boundary |
 | Unpublished patch-series hardening | Exact retained b10216 three-patch diff | Three-way mail replay, GCC 14, Clang 18, feature stress, strict and controlled sanitizers | Compiler lanes pass; strict UBSan failure reproduces on pristine b10216; non-gating scoped lane passes | Retain exact mail series; do not claim fully sanitizer-clean or publication-ready |
 | Speculative / cross-runtime feasibility | Exact E7c model, runtime, and 30-task workload | Preflight exact mechanism, model identity, workload fit, licenses, and storage | License/storage pass; exact-runtime draft loading, two-token completions, and non-portable backend artifacts fail required gates | Stop before measurement; add no performance or portability claim |
+| Cache-confidence guard | E9c-exposed 64-token cache drift | Calibrate cached top-1 margin before any threshold or holdout | Four drifted pairs reproduce, but margins overlap stable pairs; strict separation gap is −0.01573 | Reject a margin-only guard; select no threshold |
+| Exact-token probability response | Full 131,072-entry pre-sampling response | Select four known token IDs from the same softmax | Maximum log-probability delta 3.58e-7; identical sample; response 0.000221x and median HTTP latency 0.8144x | Promote only the response primitive for a separately frozen evaluator |
 
 Rejected variants remain visible: two server slots, cached two-slot serving,
 q4_0 KV, batch 32, Flash Attention, lower thread counts, and LTO all missed at
@@ -236,10 +247,13 @@ repack flag that conflicts with the plan is refused.
 | [E9c](results/reports/e9c-prompt-cache-generalization.md) | All cache/performance gates passed across the bounded alternating-prefix matrix, but output regression disabled every generalized cache policy |
 | [E9d](results/reports/e9d-pr-ready-patch-series.md) | Exact unpublished mail series passed GCC/Clang and feature lanes; strict UBSan failure reproduced on pristine b10216, so sanitizer-clean readiness remains rejected |
 | [E9e](results/reports/e9e-speculative-cross-runtime-feasibility.md) | Bounded source/model/workload review failed three premeasurement gates; no speculative or cross-runtime benchmark was launched |
+| [E10a](results/reports/e10a-cache-divergence.md) | Native calibration reproduced cache drift, but top-1 margins overlapped stable requests; no guard threshold or holdout was selected |
+| [E10b preflight](results/reports/e10b-preflight-failure.md) | Native source/build/readiness passed before a retained path-type harness failure prevented all measurements |
+| [E10b](results/reports/e10b-exact-token-probabilities.md) | Exact A/B/C/D log probabilities matched within 3.58e-7 with identical sampled output; median payload fell 99.9779% and HTTP latency fell 18.6% |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
-The E5f through E5j, E6d through E6i, E7a through E7c, and E9a/E9c results are
+The E5f through E5j, E6d through E6i, E7a through E7c, E9a/E9c, and E10a/E10b results are
 retained under their exact frozen contracts and independently re-ingested byte
 for byte. E9e separately retains its reproducible premeasurement stop record.
 

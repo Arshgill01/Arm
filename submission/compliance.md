@@ -35,11 +35,9 @@ E9a–E9e demo on August 3 with zero browser warnings.
 
 ## Entrant actions still required
 
-- [ ] Review [`publication-handoff.md`](publication-handoff.md), then change
-      `Arshgill01/Arm` from private to public. This is mandatory before
-      submission.
-- [ ] Verify anonymous access to the source, Apache-2.0 license, clone URL, and
-      linked workflow evidence after the visibility change.
+- [x] `Arshgill01/Arm` is public.
+- [x] Anonymous HTTP access to the source, Apache-2.0 license, and linked E10b
+      workflow evidence was verified on August 3, 2026.
 - [ ] Confirm personal/team eligibility and appoint the submitting representative.
 - [x] Devpost account is registered for the event (live check, July 31, 2026).
 - [ ] Join/confirm the Arm Developer Program with an Arm ID.

@@ -167,9 +167,9 @@ the rule defects in `open-questions.md`.
 - [x] One and only one published track is selected on the submission: Cloud AI.
 - [x] Work performed during the submission period is identified by commits and
       a changelog.
-- [ ] Public GitHub repository exists. The live GitHub API reported the current
-      repository as private on 2026-08-03; this mandatory gate requires the
-      entrant action and anonymous checks in
+- [x] Public GitHub repository exists. GitHub reports `Arshgill01/Arm` as public;
+      anonymous source, license, workflow, and clone checks passed on 2026-08-03
+      as recorded in
       [`../submission/publication-handoff.md`](../submission/publication-handoff.md).
 - [x] Apache-2.0 license is present in the local project.
 - [x] GitHub detects the repository license as Apache-2.0 after push.
@@ -181,8 +181,8 @@ the rule defects in `open-questions.md`.
       run
       [`30775996806`](https://github.com/Arshgill01/Arm/actions/runs/30775996806).
 - [x] Repeated before/after results and compact evidence are retained in Git.
-- [ ] Raw workflow evidence is anonymously accessible after repository
-      publication.
+- [x] Current linked raw workflow evidence is anonymously accessible after
+      repository publication.
 - [x] Correctness or quality guardrails show optimization did not silently break
       the workload.
 - [ ] Working demo remains freely accessible through September 4, 2026.

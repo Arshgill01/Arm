@@ -280,6 +280,19 @@ are only two tokens, and independent LLM-Runner backends cannot consume the
 selected GGUF Q4_K_M identity. No benchmark was launched after those gates
 failed.
 
+The next campaign kept the same stop discipline. E10a calibrated cached top-1
+margin as a possible guard for E9c's semantic drift. Four drifted pairs
+reproduced, but their margins overlapped stable requests, so the strict
+separation gate failed and no threshold or holdout was selected. E10b moved to
+the narrower candidate-scoring API bottleneck. A bounded b10216 server patch
+selects four caller-known token IDs from the same pre-sampling softmax instead
+of serializing all 131,072 vocabulary entries. In one native four-process
+reverse-balanced job, all A/B/C/D probabilities matched within 3.58e-7,
+candidate ranking and sampled output were identical, median response fell from
+12.57 MB to 2.78 KB, and median HTTP latency fell 18.6%. The primitive is now
+eligible for a separately frozen multi-token evaluator; no external quality or
+complete-scorer claim is inherited.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -328,6 +341,10 @@ without changing measured inputs or post-observation thresholds.
 - a cross-layer cache/concurrency test that rejected a marginal 1.0619x gain;
 - a bounded alternating-prefix cache test that preserved its negative output
   regression and disabled every generalized policy despite faster execution;
+- a cache-confidence calibration that rejected an overlapping margin guard
+  before consuming a holdout;
+- a native exact-token probability primitive that preserves scores and sampled
+  output while cutting the four-ID response payload 99.9779%;
 - context right-sizing that saves 183.36 MiB without KV quantization or drift;
 - prompt-batch right-sizing that cuts the compute buffer 75% and saves another
   14.48 MiB maximum RSS without answer drift;

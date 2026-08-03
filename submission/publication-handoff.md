@@ -1,12 +1,13 @@
-# Repository publication handoff
+# Repository publication record
 
 Checked: 2026-08-03 UTC.
 
-The official rules require a public source repository. GitHub currently reports
-`Arshgill01/Arm` as **private**. The repository-level Apache-2.0 license is
-detected, but the source, workflow runs, and evidence links are not anonymously
-accessible until the entrant changes visibility. This is a mandatory
-pre-submission blocker, not a completed requirement.
+The official rules require a public source repository. GitHub reports
+`Arshgill01/Arm` as **public**. On August 3, 2026, unauthenticated HTTP checks
+returned 200 for the repository root, raw Apache-2.0 license, and current E10b
+workflow evidence. A fresh HTTPS clone with credential helpers disabled also
+succeeded and contained the license. Repository visibility is no longer a
+pre-submission blocker.
 
 ## Pre-publication audit
 
@@ -27,28 +28,18 @@ pre-submission blocker, not a completed requirement.
   the `Signed-off-by` identity in the retained unpublished patch series. The
   entrant must confirm that those identities and all retained evidence are
   intended for public release.
-- No repository visibility, hosting, Devpost, video, or upstream-publication
-  action was taken by this audit.
+- No static-site hosting, Devpost submission, video upload, or upstream patch
+  publication was performed by this audit.
 
-## Entrant publication gate
+## Completed publication checks
 
-Before changing visibility:
+The visibility change was completed after the retained history and audit were
+reviewed. The following anonymous checks now pass:
 
-1. Review the complete history and the identities noted above.
-2. Confirm that the retained manifests, reports, logs, patches, and screenshots
-   are intended to be public.
-3. Change repository visibility only through an authenticated GitHub action
-   after accepting GitHub's visibility-change warnings.
+1. the repository root and raw Apache-2.0 license are readable;
+2. the current linked workflow run is readable;
+3. an anonymous HTTPS clone succeeds with credential helpers disabled; and
+4. `gh repo view` reports `PUBLIC`.
 
-After changing visibility, verify from an unauthenticated browser or clean
-anonymous environment that:
-
-1. the repository root, Apache-2.0 license, README, and source are readable;
-2. the workflow-run links in `submission/evidence.md` are readable;
-3. an anonymous clone succeeds; and
-4. the Devpost source URL points to the public repository.
-
-Only after those checks pass should the public-repository items in
-`submission/compliance.md` and `docs/hackathon-requirements.md` be marked
-complete. Static demo hosting and public video upload remain separate entrant
-actions.
+The Devpost source field still needs entrant review. Static demo hosting and
+public video upload remain separate entrant actions.

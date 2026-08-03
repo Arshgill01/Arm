@@ -40,9 +40,9 @@ the enforced video-script word ceiling. Later commits are documentation and
 entrant-handoff corrections validated locally without starting another private-
 repository hosted job.
 
-The GitHub repository is currently private and must pass the explicit
-[`publication-handoff.md`](publication-handoff.md) gate before submission. It
-also does not publish or configure a hosted site automatically. The entrant must
-put the static `demo/` directory at a public URL that remains available through
-September 4, 2026, upload the video, and replace the URL placeholders in
-`devpost.md` and `compliance.md`.
+The GitHub repository is public, and anonymous HTTP checks pass for the source,
+license, and current native workflow evidence. It does not yet publish or
+configure a hosted site automatically. The entrant must put the static `demo/`
+directory at a public URL that remains available through September 4, 2026,
+upload the video, and replace the URL placeholders in `devpost.md` and
+`compliance.md`.

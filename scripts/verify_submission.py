@@ -113,27 +113,30 @@ EXPECTED_HASHES = {
     "results/manifests/e9e-feasibility.json": (
         "35fb97a6b96e0cc8532ddf670e723e9a6b6cf2a0a628c303a5dab710505ffac2"
     ),
+    "results/manifests/e10a-30793728347.json": (
+        "c511ec9ef0aec72d0f2481ab89998a5e4d9a721b4397b93ab1ec6127b1837d53"
+    ),
+    "results/manifests/e10b-preflight-30797017450.json": (
+        "f79b9aeda523d509c31a2e299b609a4fa8f98ea3bb7713f545a061ce826d5089"
+    ),
+    "results/manifests/e10b-30797568757.json": (
+        "4b1e73bb4db399ace625f814509268b2df75a90a025fa586dc2937823c4b5c83"
+    ),
     "patches/llama.cpp/pr-ready/b10216/0000-cover-letter.patch": (
         "9760fe1bd38d9e897ea98e4afc1c638bf1642869c710f3fc0f0a32ea9bdbdf3d"
     ),
     (
         "patches/llama.cpp/pr-ready/b10216/"
         "0001-ggml-cpu-select-KleidiAI-sources-from-feature-probes.patch"
-    ): (
-        "e079c30569b739cd6de0366439c6975a6c03e594d01740de8086a718fb94d50c"
-    ),
+    ): ("e079c30569b739cd6de0366439c6975a6c03e594d01740de8086a718fb94d50c"),
     (
         "patches/llama.cpp/pr-ready/b10216/"
         "0002-ggml-cpu-use-vector-stores-in-quantize_row_q8_0.patch"
-    ): (
-        "8427338153baf91bec3cc29f285a3381f50b30c784c53e7f36dc5c1c2eee2140"
-    ),
+    ): ("8427338153baf91bec3cc29f285a3381f50b30c784c53e7f36dc5c1c2eee2140"),
     (
         "patches/llama.cpp/pr-ready/b10216/"
         "0003-common-guard-forced-reasoning-token-acceptance.patch"
-    ): (
-        "da0eca74874f9738edcb4d66558057c9aca707353ef667fb6700ab734bf99598"
-    ),
+    ): ("da0eca74874f9738edcb4d66558057c9aca707353ef667fb6700ab734bf99598"),
     "configs/runtime-b10216-selected-service.json": (
         "9d4750364878e4f5f4c95d6b09f619a85b16019791341ac12fe9b9b1e78672de"
     ),
@@ -175,6 +178,15 @@ EXPECTED_HASHES = {
     ),
     "experiments/e9d_contract.json": (
         "0716dc065fc10b5eb2435b88ac83dcebd60fc16e549aa051b06482650a84b745"
+    ),
+    "experiments/e10a_contract.json": (
+        "1d921053d01957783b56aca7ef84c9c1c84000c5194f5212507fd50349d52397"
+    ),
+    "experiments/e10b_contract.json": (
+        "58afef5cc26aebf52c65581ced0700f9f09915a6d52bcd49d4940d19d2dc01cd"
+    ),
+    "patches/llama.cpp/b10216/0004-server-select-exact-token-probabilities.patch": (
+        "e9372472e0f6f8c0d01142ff370c5cbdc895db217e0e5f5b664ef1c9359dc3ec"
     ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
@@ -220,7 +232,7 @@ def sha256_file(path: Path) -> str:
 def load_object(path: Path) -> dict[str, Any]:
     value = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(value, dict):
-        raise ValueError(f"{path} must contain a JSON object")
+        raise TypeError(f"{path} must contain a JSON object")
     return value
 
 
@@ -262,10 +274,7 @@ def verify_demo() -> int:
 def verify_gallery() -> int:
     for relative in GALLERY_FILES:
         header = (ROOT / relative).read_bytes()[:24]
-        if (
-            len(header) != 24
-            or header[:16] != b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR"
-        ):
+        if len(header) != 24 or header[:16] != b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR":
             raise ValueError(f"gallery asset is not a valid PNG: {relative}")
         width, height = struct.unpack(">II", header[16:24])
         if (width, height) != (1440, 900):
@@ -277,7 +286,9 @@ def verify_gallery() -> int:
 
 
 def verify_video_script() -> int:
-    lines = (ROOT / "submission/demo-script.md").read_text(encoding="utf-8").splitlines()
+    lines = (
+        (ROOT / "submission/demo-script.md").read_text(encoding="utf-8").splitlines()
+    )
     spoken: list[str] = []
     capture = False
     for line in lines:
@@ -289,9 +300,7 @@ def verify_video_script() -> int:
         if capture:
             spoken.extend(line.split())
     if len(spoken) > 390:
-        raise ValueError(
-            f"demo script has {len(spoken)} spoken words; maximum is 390"
-        )
+        raise ValueError(f"demo script has {len(spoken)} spoken words; maximum is 390")
     return len(spoken)
 
 
@@ -455,10 +464,8 @@ def main() -> int:
         or repack_off.get("maximum_rss_kib", {}).get("max", 0) > 3_145_728
         or repack_on.get("weight_repack") is not True
         or repack_off.get("weight_repack") is not False
-        or repack_on.get("quality", {}).get("exact_selected_predictions")
-        is not True
-        or repack_off.get("quality", {}).get("exact_selected_predictions")
-        is not True
+        or repack_on.get("quality", {}).get("exact_selected_predictions") is not True
+        or repack_off.get("quality", {}).get("exact_selected_predictions") is not True
         or repack_on.get("mechanism", {}).get("repack_buffer_mib", 0) <= 0
         or repack_off.get("mechanism", {}).get("repack_buffer_mib") != 0
     ):
@@ -517,9 +524,7 @@ def main() -> int:
         is not False
         or flash_ablation.get("selection", {}).get("default_configuration")
         != "flash_auto"
-        or flash_ablation.get("selection", {}).get(
-            "validated_default_configuration"
-        )
+        or flash_ablation.get("selection", {}).get("validated_default_configuration")
         is not None
         or flash_hypothesis.get("passed") is not False
         or flash_hypothesis.get("quality_passed") is not True
@@ -530,8 +535,7 @@ def main() -> int:
         or flash_hypothesis.get("weighted_score_used") is not False
         or flash_auto.get("mechanism", {}).get("resolved_enabled") is not True
         or flash_off.get("mechanism", {}).get("resolved_enabled") is not False
-        or flash_auto.get("quality", {}).get("exact_selected_predictions")
-        is not True
+        or flash_auto.get("quality", {}).get("exact_selected_predictions") is not True
         or flash_off.get("quality", {}).get("exact_selected_predictions") is not True
     ):
         raise ValueError("retained Flash Attention ablation differs from E5i evidence")
@@ -546,20 +550,16 @@ def main() -> int:
         or thread_profile.get("selection", {}).get("selected_configuration")
         != "threads4"
         or thread_profile.get("selection", {}).get("selected_threads") != 4
-        or thread_profile.get("validation", {}).get(
-            "thread_efficiency_claim_allowed"
-        )
+        or thread_profile.get("validation", {}).get("thread_efficiency_claim_allowed")
         is not False
-        or thread_profile.get("validation", {}).get("energy_claim_allowed")
-        is not False
+        or thread_profile.get("validation", {}).get("energy_claim_allowed") is not False
         or thread_hypothesis.get("passed") is not False
         or thread_hypothesis.get("eligible_configurations") != []
         or thread_hypothesis.get("weighted_score_used") is not False
         or thread_hypothesis.get("metric_boundary")
         != "server process CPU time; not energy or power"
         or {
-            name: profile.get("threads")
-            for name, profile in thread_performance.items()
+            name: profile.get("threads") for name, profile in thread_performance.items()
         }
         != {"threads2": 2, "threads3": 3, "threads4": 4}
         or any(
@@ -575,10 +575,8 @@ def main() -> int:
         is not False
         or thread_gates.get("threads3", {}).get("throughput_retention_passed")
         is not False
-        or thread_gates.get("threads2", {}).get("latency_retention_passed")
-        is not False
-        or thread_gates.get("threads3", {}).get("latency_retention_passed")
-        is not False
+        or thread_gates.get("threads2", {}).get("latency_retention_passed") is not False
+        or thread_gates.get("threads3", {}).get("latency_retention_passed") is not False
     ):
         raise ValueError("retained thread profile differs from E5j evidence")
 
@@ -642,9 +640,7 @@ def main() -> int:
     ):
         raise ValueError("retained current-upstream patch evidence differs from E6d")
 
-    upstream_lane = load_object(
-        ROOT / "results/manifests/e6e-30676413765.json"
-    )
+    upstream_lane = load_object(ROOT / "results/manifests/e6e-30676413765.json")
     upstream_source = upstream_lane.get("source", {})
     upstream_build = upstream_lane.get("build", {})
     upstream_tests = upstream_lane.get("tests", {})
@@ -653,8 +649,7 @@ def main() -> int:
     upstream_passed = set(upstream_tests.get("passed_test_names", []))
     if (
         upstream_lane.get("status") != "valid_upstream_arm_cpu_lane"
-        or upstream_lane.get("host")
-        != {"architecture": "aarch64", "native": True}
+        or upstream_lane.get("host") != {"architecture": "aarch64", "native": True}
         or upstream_source.get("github_run_id") != "30676413765"
         or upstream_source.get("llama_cpp_tag") != "b10216"
         or upstream_source.get("llama_cpp_commit")
@@ -680,8 +675,7 @@ def main() -> int:
         <= upstream_passed
         or set(upstream_criteria.values()) != {True}
         or len(upstream_criteria) != 10
-        or upstream_validation.get("upstream_arm_cpu_lane_claim_allowed")
-        is not True
+        or upstream_validation.get("upstream_arm_cpu_lane_claim_allowed") is not True
         or upstream_validation.get("weighted_score_used") is not False
         or upstream_validation.get("claim_scope")
         != (
@@ -701,8 +695,7 @@ def main() -> int:
     upgrade_performance = runtime_upgrade.get("performance", {})
     if (
         runtime_upgrade.get("status") != "valid_current_runtime_upgrade_candidate"
-        or runtime_upgrade.get("provenance", {}).get("github_run_id")
-        != "30678703184"
+        or runtime_upgrade.get("provenance", {}).get("github_run_id") != "30678703184"
         or upgrade_source.get("baseline", {}).get("commit")
         != "9d9a6d29f6b981cc7f41983d26e56485c6af1811"
         or upgrade_source.get("current_patched", {}).get("commit")
@@ -758,8 +751,7 @@ def main() -> int:
     source_diff_path = ROOT / runtime_record.get("source_diff_path", "")
     if (
         runtime_contract.get("schema_version") != 1
-        or runtime_contract.get("promotion_mode")
-        != "explicit_evidence_bound_upgrade"
+        or runtime_contract.get("promotion_mode") != "explicit_evidence_bound_upgrade"
         or runtime_contract.get("selected_candidate")
         != upgrade_selection.get("candidate")
         or runtime_manifest_record.get("sha256")
@@ -786,16 +778,13 @@ def main() -> int:
         runtime_contract["service"],
     )
 
-    launch_integration = load_object(
-        ROOT / "results/manifests/e6g-30679814341.json"
-    )
+    launch_integration = load_object(ROOT / "results/manifests/e6g-30679814341.json")
     launch_quality = launch_integration.get("quality", {})
     launch_performance = launch_integration.get("performance", {})
     launch_runtime = launch_integration.get("runtime_provenance", {})
     launch_validation = launch_integration.get("validation", {})
     if (
-        launch_integration.get("status")
-        != "valid_current_runtime_launch_integration"
+        launch_integration.get("status") != "valid_current_runtime_launch_integration"
         or launch_integration.get("provenance", {}).get("github_run_id")
         != "30679814341"
         or launch_integration.get("platform", {}).get("architecture") != "aarch64"
@@ -804,9 +793,7 @@ def main() -> int:
         or launch_quality.get("exact_selected_predictions") is not True
         or launch_quality.get("reference_prediction_mismatches") != 0
         or launch_quality.get("request_failures") != 0
-        or launch_quality.get(
-            "cached_prefix_observed_in_every_measured_request"
-        )
+        or launch_quality.get("cached_prefix_observed_in_every_measured_request")
         is not True
         or launch_performance.get("ready_ms", 99_999) > 15_000
         or launch_performance.get("maximum_rss_kib", 99_999_999) > 8_388_608
@@ -839,8 +826,7 @@ def main() -> int:
     if (
         memory_upgrade.get("status")
         != "valid_current_runtime_memory_tier_upgrade_candidate"
-        or memory_upgrade.get("provenance", {}).get("github_run_id")
-        != "30690331795"
+        or memory_upgrade.get("provenance", {}).get("github_run_id") != "30690331795"
         or memory_upgrade.get("platform", {}).get("architecture") != "aarch64"
         or memory_upgrade.get("selection", {}).get("candidate")
         != "ministral3_3b_q4_k_m"
@@ -864,8 +850,7 @@ def main() -> int:
         or memory_hypothesis.get("candidate_rss_increase_kib", 99_999) > 65_536
         or any(
             profile.get("quality", {}).get("exact_selected_predictions") is not True
-            or profile.get("maximum_rss_kib", {}).get("max", 99_999_999)
-            > 3_145_728
+            or profile.get("maximum_rss_kib", {}).get("max", 99_999_999) > 3_145_728
             for profile in memory_performance.values()
         )
         or memory_validation.get("memory_tier_upgrade_candidate_claim_allowed")
@@ -882,9 +867,7 @@ def main() -> int:
     )
     memory_runtime_record = memory_runtime_contract.get("runtime", {})
     memory_runtime_manifest = memory_runtime_contract.get("runtime_manifest", {})
-    memory_model_manifest = memory_runtime_contract.get(
-        "model_selection_manifest", {}
-    )
+    memory_model_manifest = memory_runtime_contract.get("model_selection_manifest", {})
     if (
         memory_runtime_contract.get("schema_version") != 1
         or memory_runtime_contract.get("promotion_mode")
@@ -897,8 +880,7 @@ def main() -> int:
         or memory_model_manifest.get("sha256")
         != EXPECTED_HASHES["results/manifests/e3f-30656151957.json"]
         or memory_runtime_record != runtime_record
-        or memory_runtime_contract.get("service", {}).get("weight_repack")
-        is not False
+        or memory_runtime_contract.get("service", {}).get("weight_repack") is not False
     ):
         raise ValueError("current-runtime memory launch contract differs from E6h")
     validate_runtime_upgrade_service(
@@ -924,13 +906,9 @@ def main() -> int:
         or memory_launch_inputs.get("runtime_contract_sha256")
         != EXPECTED_HASHES["configs/runtime-b10216-memory-service.json"]
         or memory_launch_service != memory_runtime_contract.get("service")
-        or memory_launch_contract.get("acceptance", {}).get(
-            "maximum_process_rss_kib"
-        )
+        or memory_launch_contract.get("acceptance", {}).get("maximum_process_rss_kib")
         != 3_145_728
-        or memory_launch_contract.get("selection_policy", {}).get(
-            "weighted_score_used"
-        )
+        or memory_launch_contract.get("selection_policy", {}).get("weighted_score_used")
         is not False
     ):
         raise ValueError("frozen E6i launch integration differs from E6h")
@@ -942,38 +920,30 @@ def main() -> int:
     memory_launch_validation = memory_launch.get("validation", {})
     memory_launch_selection = memory_launch.get("selection", {})
     if (
-        memory_launch.get("status")
-        != "valid_current_runtime_memory_launch_integration"
-        or memory_launch.get("provenance", {}).get("github_run_id")
-        != "30691254831"
+        memory_launch.get("status") != "valid_current_runtime_memory_launch_integration"
+        or memory_launch.get("provenance", {}).get("github_run_id") != "30691254831"
         or memory_launch.get("platform", {}).get("architecture") != "aarch64"
         or memory_launch_selection.get("candidate")
         != memory_upgrade.get("selection", {}).get("candidate")
         or memory_launch_selection.get("runtime_commit")
         != runtime_record.get("selected_commit")
-        or memory_launch_selection.get("service", {}).get("weight_repack")
-        is not False
+        or memory_launch_selection.get("service", {}).get("weight_repack") is not False
         or memory_launch_quality.get("correct") != 23
         or memory_launch_quality.get("total") != 30
         or memory_launch_quality.get("exact_selected_predictions") is not True
         or memory_launch_quality.get("reference_prediction_mismatches") != 0
         or memory_launch_quality.get("request_failures") != 0
-        or memory_launch_quality.get(
-            "cached_prefix_observed_in_every_measured_request"
-        )
+        or memory_launch_quality.get("cached_prefix_observed_in_every_measured_request")
         is not True
         or memory_launch_performance.get("ready_ms", 99_999) > 15_000
-        or memory_launch_performance.get("maximum_rss_kib", 99_999_999)
-        > 3_145_728
+        or memory_launch_performance.get("maximum_rss_kib", 99_999_999) > 3_145_728
         or memory_launch_runtime.get("runtime_manifest_sha256")
         != EXPECTED_HASHES["results/manifests/e6h-30690331795.json"]
         or memory_launch_runtime.get("runtime_contract_sha256")
         != EXPECTED_HASHES["configs/runtime-b10216-memory-service.json"]
         or memory_launch_runtime.get("source_diff_sha256")
         != EXPECTED_HASHES["patches/llama.cpp/b10216/e6f-current-series.patch"]
-        or memory_launch_validation.get(
-            "current_runtime_memory_launch_claim_allowed"
-        )
+        or memory_launch_validation.get("current_runtime_memory_launch_claim_allowed")
         is not True
         or memory_launch_validation.get("live_server_executed_through_adapter")
         is not True
@@ -1005,12 +975,9 @@ def main() -> int:
         or lto_execution.get("candidate_profile") != "lto_on"
         or [item.get("profile") for item in lto_execution.get("order", [])]
         != ["lto_off", "lto_on", "lto_on", "lto_off"]
-        or lto_acceptance.get("performance_branch_minimum_throughput_ratio")
-        != 1.03
-        or lto_acceptance.get("footprint_branch_minimum_throughput_ratio")
-        != 0.98
-        or lto_acceptance.get("footprint_branch_maximum_runtime_closure_ratio")
-        != 0.95
+        or lto_acceptance.get("performance_branch_minimum_throughput_ratio") != 1.03
+        or lto_acceptance.get("footprint_branch_minimum_throughput_ratio") != 0.98
+        or lto_acceptance.get("footprint_branch_maximum_runtime_closure_ratio") != 0.95
         or lto_contract.get("selection_policy", {}).get("weighted_score_used")
         is not False
     ):
@@ -1025,8 +992,7 @@ def main() -> int:
         lto_result.get("status") != "valid_lto_no_win"
         or lto_result.get("provenance", {}).get("github_run_id") != "30692292700"
         or lto_result.get("platform", {}).get("architecture") != "aarch64"
-        or lto_result.get("selection", {}).get("candidate")
-        != "ministral3_3b_q4_k_m"
+        or lto_result.get("selection", {}).get("candidate") != "ministral3_3b_q4_k_m"
         or lto_result.get("selection", {}).get("selected_profile") != "lto_off"
         or lto_hypothesis.get("passed") is not False
         or lto_hypothesis.get("common_guardrails_passed") is not True
@@ -1035,8 +1001,7 @@ def main() -> int:
         or lto_hypothesis.get("throughput_ratio", 99) >= 1.03
         or lto_hypothesis.get("runtime_closure_ratio", 0) <= 0.95
         or any(
-            profile.get("quality", {}).get("exact_selected_predictions")
-            is not True
+            profile.get("quality", {}).get("exact_selected_predictions") is not True
             for profile in lto_performance.values()
         )
         or set(lto_builds) != {"lto_off", "lto_on"}
@@ -1067,8 +1032,7 @@ def main() -> int:
         or openssl_contract.get("service")
         != runtime_upgrade.get("contract", {}).get("service")
         or openssl_profiles.get("openssl_on", {}).get("llama_openssl") is not True
-        or openssl_profiles.get("openssl_off", {}).get("llama_openssl")
-        is not False
+        or openssl_profiles.get("openssl_off", {}).get("llama_openssl") is not False
         or "CPPHTTPLIB_OPENSSL_SUPPORT"
         not in openssl_profiles.get("openssl_on", {}).get(
             "required_command_patterns", []
@@ -1103,15 +1067,12 @@ def main() -> int:
     baseline_build = openssl_builds.get("openssl_on", {})
     candidate_build = openssl_builds.get("openssl_off", {})
     if (
-        openssl_result.get("status")
-        != "valid_http_dependency_pruning_candidate"
-        or openssl_result.get("provenance", {}).get("github_run_id")
-        != "30695349303"
+        openssl_result.get("status") != "valid_http_dependency_pruning_candidate"
+        or openssl_result.get("provenance", {}).get("github_run_id") != "30695349303"
         or openssl_result.get("platform", {}).get("architecture") != "aarch64"
         or openssl_result.get("selection", {}).get("candidate")
         != "ministral3_3b_q4_k_m"
-        or openssl_result.get("selection", {}).get("selected_profile")
-        != "openssl_off"
+        or openssl_result.get("selection", {}).get("selected_profile") != "openssl_off"
         or openssl_hypothesis.get("passed") is not True
         or openssl_hypothesis.get("dependency_pruning_passed") is not True
         or openssl_hypothesis.get("removed_dependencies")
@@ -1120,8 +1081,7 @@ def main() -> int:
         or openssl_hypothesis.get("throughput_ratio", 0) < 0.98
         or openssl_hypothesis.get("runtime_closure_ratio", 99) > 1.0
         or any(
-            profile.get("quality", {}).get("exact_selected_predictions")
-            is not True
+            profile.get("quality", {}).get("exact_selected_predictions") is not True
             for profile in openssl_performance.values()
         )
         or set(openssl_builds) != {"openssl_on", "openssl_off"}
@@ -1140,12 +1100,10 @@ def main() -> int:
         or openssl_validation.get("openssl_build_mechanism_verified") is not True
         or openssl_validation.get("transitive_runtime_dependencies_inventoried")
         is not True
-        or openssl_validation.get("http_dependency_pruning_claim_allowed")
-        is not True
+        or openssl_validation.get("http_dependency_pruning_claim_allowed") is not True
         or openssl_validation.get("https_deployment_supported_by_candidate")
         is not False
-        or openssl_validation.get("automatic_product_promotion_allowed")
-        is not False
+        or openssl_validation.get("automatic_product_promotion_allowed") is not False
         or openssl_validation.get("security_claim_allowed") is not False
         or openssl_validation.get("energy_claim_allowed") is not False
         or openssl_validation.get("weighted_score_used") is not False
@@ -1156,9 +1114,7 @@ def main() -> int:
         ROOT / "configs/runtime-b10216-http-service.json"
     )
     http_runtime_manifest = http_runtime_contract.get("runtime_manifest", {})
-    http_model_manifest = http_runtime_contract.get(
-        "model_selection_manifest", {}
-    )
+    http_model_manifest = http_runtime_contract.get("model_selection_manifest", {})
     http_runtime_build = http_runtime_contract.get("build", {})
     if (
         http_runtime_contract.get("schema_version") != 1
@@ -1173,14 +1129,12 @@ def main() -> int:
         != EXPECTED_HASHES["results/manifests/e3f-30656151957.json"]
         or http_runtime_contract.get("runtime") != runtime_record
         or http_runtime_build.get("selected_profile") != "openssl_off"
-        or "GGML_LTO:BOOL=OFF"
-        not in http_runtime_build.get("cmake_cache_entries", [])
+        or "GGML_LTO:BOOL=OFF" not in http_runtime_build.get("cmake_cache_entries", [])
         or "LLAMA_OPENSSL:BOOL=OFF"
         not in http_runtime_build.get("cmake_cache_entries", [])
         or http_runtime_build.get("forbidden_dynamic_dependency_basenames")
         != ["libcrypto.so.3", "libssl.so.3"]
-        or http_runtime_contract.get("service", {}).get("weight_repack")
-        is not True
+        or http_runtime_contract.get("service", {}).get("weight_repack") is not True
     ):
         raise ValueError("HTTP-only runtime launch contract differs from E7b")
     validate_runtime_upgrade_service(
@@ -1212,9 +1166,7 @@ def main() -> int:
             "forbidden_runtime_dependency_basenames"
         )
         != ["libcrypto.so.3", "libssl.so.3"]
-        or http_launch_contract.get("selection_policy", {}).get(
-            "weighted_score_used"
-        )
+        or http_launch_contract.get("selection_policy", {}).get("weighted_score_used")
         is not False
     ):
         raise ValueError("frozen E7c launch integration differs from E7b")
@@ -1229,10 +1181,8 @@ def main() -> int:
         "dynamic_dependency_basenames", []
     )
     if (
-        http_launch.get("status")
-        != "valid_http_dependency_pruned_launch_integration"
-        or http_launch.get("provenance", {}).get("github_run_id")
-        != "30696606993"
+        http_launch.get("status") != "valid_http_dependency_pruned_launch_integration"
+        or http_launch.get("provenance", {}).get("github_run_id") != "30696606993"
         or http_launch.get("platform", {}).get("architecture") != "aarch64"
         or http_launch.get("selection", {}).get("candidate")
         != http_runtime_contract.get("selected_candidate")
@@ -1243,13 +1193,10 @@ def main() -> int:
         or http_launch_quality.get("exact_selected_predictions") is not True
         or http_launch_quality.get("reference_prediction_mismatches") != 0
         or http_launch_quality.get("request_failures") != 0
-        or http_launch_quality.get(
-            "cached_prefix_observed_in_every_measured_request"
-        )
+        or http_launch_quality.get("cached_prefix_observed_in_every_measured_request")
         is not True
         or http_launch_performance.get("ready_ms", 99_999) > 15_000
-        or http_launch_performance.get("maximum_rss_kib", 99_999_999)
-        > 8_388_608
+        or http_launch_performance.get("maximum_rss_kib", 99_999_999) > 8_388_608
         or http_launch_runtime.get("runtime_manifest_sha256")
         != EXPECTED_HASHES["results/manifests/e7b-30695349303.json"]
         or http_launch_runtime.get("runtime_contract_sha256")
@@ -1258,12 +1205,8 @@ def main() -> int:
         != EXPECTED_HASHES["patches/llama.cpp/b10216/e6f-current-series.patch"]
         or http_launch_source.get("dynamic_dependency_basenames")
         != http_launch_dependencies
-        or set(http_launch_dependencies).intersection(
-            {"libcrypto.so.3", "libssl.so.3"}
-        )
-        or http_launch_validation.get(
-            "http_dependency_pruned_launch_claim_allowed"
-        )
+        or set(http_launch_dependencies).intersection({"libcrypto.so.3", "libssl.so.3"})
+        or http_launch_validation.get("http_dependency_pruned_launch_claim_allowed")
         is not True
         or http_launch_validation.get("openssl_dependencies_absent") is not True
         or http_launch_validation.get("runtime_dependency_inventory_verified")
@@ -1278,9 +1221,7 @@ def main() -> int:
     ):
         raise ValueError("retained HTTP-only launch differs from E7c evidence")
 
-    final_comparison = load_object(
-        ROOT / "results/manifests/e9a-30764802071.json"
-    )
+    final_comparison = load_object(ROOT / "results/manifests/e9a-30764802071.json")
     final_contract = load_object(ROOT / "experiments/e9a_contract.json")
     final_hypothesis = final_comparison.get("hypothesis", {})
     final_performance = final_comparison.get("performance", {})
@@ -1299,8 +1240,7 @@ def main() -> int:
     if (
         final_comparison.get("status") != "valid_final_service_win"
         or final_comparison.get("contract") != final_contract
-        or final_comparison.get("provenance", {}).get("github_run_id")
-        != "30764802071"
+        or final_comparison.get("provenance", {}).get("github_run_id") != "30764802071"
         or final_comparison.get("platform", {}).get("architecture") != "aarch64"
         or final_comparison.get("platform", {}).get("logical_cpus") != 2
         or final_hypothesis.get("passed") is not True
@@ -1347,9 +1287,7 @@ def main() -> int:
         != ["e9b_arc_easy", "e9b_hellaswag", "e9b_winogrande"]
         or [item.get("license") for item in holdout_tasks]
         != ["CC-BY-SA-4.0", "MIT", "Apache-2.0"]
-        or holdout_preflight.get("acceptance", {}).get(
-            "benchmark_task_results_allowed"
-        )
+        or holdout_preflight.get("acceptance", {}).get("benchmark_task_results_allowed")
         is not False
     ):
         raise ValueError("E9b task selection or preflight plan changed after freeze")
@@ -1359,15 +1297,12 @@ def main() -> int:
     )
     if (
         holdout_blocker.get("status") != "blocked_api_prompt_logprobs"
-        or holdout_blocker.get("provenance", {}).get("github_run_id")
-        != "30766707967"
+        or holdout_blocker.get("provenance", {}).get("github_run_id") != "30766707967"
         or holdout_blocker.get("platform", {}).get("architecture") != "aarch64"
         or holdout_blocker.get("platform", {}).get("logical_cpus") != 2
         or holdout_blocker.get("frozen_plan", {}).get("sha256")
         != "ff492b46e512220abd2ea3135bd807881f5ac4e1f9c5ee8b9b77de31229f9cd0"
-        or holdout_blocker.get("frozen_plan", {}).get(
-            "external_task_results_observed"
-        )
+        or holdout_blocker.get("frozen_plan", {}).get("external_task_results_observed")
         is not False
         or holdout_blocker.get("completed_checks", {}).get(
             "tokenizer_probe_parity_reached_completion_stage"
@@ -1377,8 +1312,7 @@ def main() -> int:
         is not False
         or holdout_blocker.get("blocker", {}).get("exact_server_modification_allowed")
         is not False
-        or holdout_blocker.get("decision", {}).get("e9b_full_evaluation")
-        != "not_run"
+        or holdout_blocker.get("decision", {}).get("e9b_full_evaluation") != "not_run"
         or holdout_blocker.get("decision", {}).get(
             "original_30_task_admission_contract_changed"
         )
@@ -1401,21 +1335,15 @@ def main() -> int:
         != [16, 32, 64]
         or len(cache_generalization.get("workload", {}).get("measured_task_ids", []))
         != 16
-        or cache_generalization.get("execution", {}).get(
-            "total_fresh_process_cells"
-        )
+        or cache_generalization.get("execution", {}).get("total_fresh_process_cells")
         != 36
-        or cache_generalization.get("execution", {}).get(
-            "total_measured_requests"
-        )
+        or cache_generalization.get("execution", {}).get("total_measured_requests")
         != 576
         or cache_generalization.get("validity", {}).get(
             "maximum_throughput_coefficient_of_variation"
         )
         != 0.05
-        or cache_generalization.get("break_even", {}).get(
-            "minimum_throughput_ratio"
-        )
+        or cache_generalization.get("break_even", {}).get("minimum_throughput_ratio")
         != 1.05
         or cache_generalization.get("break_even", {}).get(
             "minimum_prompt_encode_speedup_ratio"
@@ -1426,9 +1354,7 @@ def main() -> int:
     ):
         raise ValueError("E9c bounded cache contract changed after freeze")
 
-    cache_result = load_object(
-        ROOT / "results/manifests/e9c-30770403695.json"
-    )
+    cache_result = load_object(ROOT / "results/manifests/e9c-30770403695.json")
     cache_validation = cache_result.get("validation", {})
     cache_points = cache_result.get("points", [])
     disabled_policy = {
@@ -1448,10 +1374,8 @@ def main() -> int:
         "zero_request_failures",
     )
     if (
-        cache_result.get("status")
-        != "valid_cache_generalization_output_regression"
-        or cache_result.get("provenance", {}).get("github_run_id")
-        != "30770403695"
+        cache_result.get("status") != "valid_cache_generalization_output_regression"
+        or cache_result.get("provenance", {}).get("github_run_id") != "30770403695"
         or cache_result.get("platform", {}).get("architecture") != "aarch64"
         or cache_result.get("platform", {}).get("logical_cpus") != 2
         or cache_validation.get("total_request_failures") != 0
@@ -1478,12 +1402,8 @@ def main() -> int:
         raise ValueError("retained E9c output-regression boundary changed")
 
     patch_contract = load_object(ROOT / "experiments/e9d_contract.json")
-    patch_failure = load_object(
-        ROOT / "results/manifests/e9d-30772783697.json"
-    )
-    patch_diagnostic = load_object(
-        ROOT / "results/manifests/e9d-30773922751.json"
-    )
+    patch_failure = load_object(ROOT / "results/manifests/e9d-30772783697.json")
+    patch_diagnostic = load_object(ROOT / "results/manifests/e9d-30773922751.json")
     patch_diagnostics = patch_diagnostic.get("sanitizer_diagnostics", {})
     patch_entries = patch_contract.get("mail_series", {}).get("patches", [])
     if (
@@ -1507,44 +1427,30 @@ def main() -> int:
         or patch_contract.get("sanitizers", {}).get("undefined") is not True
         or patch_contract.get("claim_boundary", {}).get("upstream_pr_opened")
         is not False
-        or patch_contract.get("claim_boundary", {}).get(
-            "performance_claim_added"
-        )
+        or patch_contract.get("claim_boundary", {}).get("performance_claim_added")
         is not False
         or patch_contract.get("claim_boundary", {}).get(
             "strict_sanitizer_gate_unchanged"
         )
         is not True
         or patch_failure.get("status") != "invalid_pr_ready_patch_series"
-        or patch_failure.get("provenance", {}).get("github_run_id")
-        != "30772783697"
+        or patch_failure.get("provenance", {}).get("github_run_id") != "30772783697"
         or patch_failure.get("platform", {}).get("architecture") != "aarch64"
-        or patch_failure.get("validation", {}).get(
-            "all_acceptance_criteria_passed"
-        )
+        or patch_failure.get("validation", {}).get("all_acceptance_criteria_passed")
         is not False
         or patch_failure.get("validation", {}).get("sanitizer_quantize_passed")
         is not False
         or patch_failure.get("validation", {}).get("undefined_sanitizer_clean")
         is not False
-        or patch_failure.get("validation", {}).get("upstream_pr_opened")
-        is not False
+        or patch_failure.get("validation", {}).get("upstream_pr_opened") is not False
         or patch_diagnostic.get("status") != "invalid_pr_ready_patch_series"
-        or patch_diagnostic.get("provenance", {}).get("github_run_id")
-        != "30773922751"
-        or patch_diagnostic.get("platform", {}).get("architecture")
-        != "aarch64"
-        or patch_diagnostic.get("validation", {}).get(
-            "all_acceptance_criteria_passed"
-        )
+        or patch_diagnostic.get("provenance", {}).get("github_run_id") != "30773922751"
+        or patch_diagnostic.get("platform", {}).get("architecture") != "aarch64"
+        or patch_diagnostic.get("validation", {}).get("all_acceptance_criteria_passed")
         is not False
-        or patch_diagnostic.get("validation", {}).get(
-            "sanitizer_quantize_passed"
-        )
+        or patch_diagnostic.get("validation", {}).get("sanitizer_quantize_passed")
         is not False
-        or patch_diagnostic.get("validation", {}).get(
-            "undefined_sanitizer_clean"
-        )
+        or patch_diagnostic.get("validation", {}).get("undefined_sanitizer_clean")
         is not False
         or patch_diagnostics.get("strict_failure_attribution")
         != "inherited_pristine_b10216_test_function_type_ub"
@@ -1555,9 +1461,7 @@ def main() -> int:
         is not True
         or patch_diagnostics.get("supplemental_scoped_patch", {}).get("passed")
         is not True
-        or patch_diagnostics.get("supplemental_scoped_patch", {}).get(
-            "acceptance_gate"
-        )
+        or patch_diagnostics.get("supplemental_scoped_patch", {}).get("acceptance_gate")
         is not False
     ):
         raise ValueError("E9d local patch-series contract changed after freeze")
@@ -1575,17 +1479,11 @@ def main() -> int:
         is not False
         or feasibility_gates.get("license_and_provenance_sound") is not True
         or feasibility.get("measurement", {}).get("launched") is not False
-        or feasibility.get("measurement", {}).get(
-            "native_performance_claim_added"
-        )
+        or feasibility.get("measurement", {}).get("native_performance_claim_added")
         is not False
-        or feasibility.get("selected_service", {})
-        .get("runtime", {})
-        .get("commit")
+        or feasibility.get("selected_service", {}).get("runtime", {}).get("commit")
         != "876a4321163249c43ca4e986818fab5ab081f282"
-        or feasibility.get("selected_service", {})
-        .get("model", {})
-        .get("sha256")
+        or feasibility.get("selected_service", {}).get("model", {}).get("sha256")
         != "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4"
         or feasibility.get("selected_service", {})
         .get("generated_tokens", {})
@@ -1595,12 +1493,125 @@ def main() -> int:
         .get("draft_model_initializer", {})
         .get("loads_requested_draft_path")
         is not False
-        or feasibility.get("llm_runner", {}).get("model_comparability")
-        is not False
-        or feasibility.get("validation", {}).get("energy_claim_allowed")
-        is not False
+        or feasibility.get("llm_runner", {}).get("model_comparability") is not False
+        or feasibility.get("validation", {}).get("energy_claim_allowed") is not False
     ):
         raise ValueError("E9e feasibility stop changed or gained a measurement")
+
+    cache_calibration = load_object(ROOT / "results/manifests/e10a-30793728347.json")
+    calibration = cache_calibration.get("aggregate_calibration", {})
+    margin_interval = calibration.get("cached_top1_margin_interval", {})
+    cache_calibration_validation = cache_calibration.get("validation", {})
+    if (
+        cache_calibration.get("status") != "valid_cache_margin_not_separable"
+        or cache_calibration.get("proceed_to_frozen_holdout") is not False
+        or cache_calibration.get("provenance", {}).get("github_run_id") != "30793728347"
+        or cache_calibration.get("platform", {}).get("architecture") != "aarch64"
+        or cache_calibration.get("platform", {}).get("logical_cpus") != 4
+        or calibration.get("paired_requests") != 96
+        or calibration.get("semantic_drift_pairs") != 4
+        or calibration.get("stable_pairs") != 92
+        or calibration.get("cached_top1_margin_separable") is not False
+        or margin_interval.get("strict_gap", 0) >= 0
+        or cache_calibration_validation.get("guard_threshold_selected") is not False
+        or cache_calibration_validation.get("holdout_observed") is not False
+        or cache_calibration_validation.get("energy_claim_allowed") is not False
+    ):
+        raise ValueError("retained E10a cache-margin rejection changed")
+
+    exact_token_preflight = load_object(
+        ROOT / "results/manifests/e10b-preflight-30797017450.json"
+    )
+    if (
+        exact_token_preflight.get("status") != "blocked_probe_path_type"
+        or exact_token_preflight.get("provenance", {}).get("github_run_id")
+        != "30797017450"
+        or exact_token_preflight.get("platform", {}).get("architecture") != "aarch64"
+        or exact_token_preflight.get("completed_checks", {}).get(
+            "first_fresh_server_ready"
+        )
+        is not True
+        or exact_token_preflight.get("completed_checks", {}).get(
+            "measured_request_started"
+        )
+        is not False
+        or exact_token_preflight.get("blocker", {}).get("acceptance_gates_observed")
+        is not False
+        or exact_token_preflight.get("blocker", {}).get("source_primitive_implicated")
+        is not False
+        or exact_token_preflight.get("decision", {}).get("retry_allowed") is not True
+    ):
+        raise ValueError("retained E10b preflight failure changed or gained a result")
+
+    exact_token_contract = load_object(ROOT / "experiments/e10b_contract.json")
+    exact_token_result = load_object(ROOT / "results/manifests/e10b-30797568757.json")
+    exact_token_aggregate = exact_token_result.get("aggregate", {})
+    exact_token_validation = exact_token_result.get("validation", {})
+    if (
+        exact_token_contract.get("experiment_id") != "E10b"
+        or exact_token_contract.get("service", {}).get("source_commit")
+        != "876a4321163249c43ca4e986818fab5ab081f282"
+        or exact_token_contract.get("service", {}).get("openssl") is not False
+        or exact_token_contract.get("execution", {}).get("total_fresh_process_cells")
+        != 4
+        or exact_token_contract.get("execution", {}).get("total_measured_requests")
+        != 12
+        or exact_token_contract.get("acceptance", {}).get(
+            "maximum_absolute_log_probability_delta"
+        )
+        != 0.000001
+        or exact_token_contract.get("acceptance", {}).get(
+            "maximum_selected_to_full_response_bytes_ratio"
+        )
+        != 0.01
+        or exact_token_contract.get("acceptance", {}).get(
+            "maximum_selected_to_full_median_http_latency_ratio"
+        )
+        != 1.05
+        or exact_token_result.get("status") != "valid_exact_token_primitive"
+        or exact_token_result.get("promote_exact_token_primitive") is not True
+        or exact_token_result.get("provenance", {}).get("github_run_id")
+        != "30797568757"
+        or exact_token_result.get("provenance", {}).get("artifact_summary_sha256")
+        != exact_token_result.get("provenance", {}).get(
+            "independent_local_summary_sha256"
+        )
+        or exact_token_result.get("platform", {}).get("architecture") != "aarch64"
+        or exact_token_result.get("platform", {}).get("logical_cpus") != 4
+        or exact_token_result.get("workload", {}).get("request_failures") != 0
+        or exact_token_result.get("workload", {}).get("vocabulary_entries") != 131072
+        or exact_token_aggregate.get("paired_requests") != 6
+        or exact_token_aggregate.get("maximum_absolute_logprob_delta", 99) > 0.000001
+        or exact_token_aggregate.get("all_candidate_predictions_equal") is not True
+        or exact_token_aggregate.get("all_sampled_outputs_equal") is not True
+        or exact_token_aggregate.get("selected_to_full_median_response_bytes_ratio", 99)
+        > 0.01
+        or exact_token_aggregate.get("selected_to_full_median_http_latency_ratio", 99)
+        > 1.05
+        or any(
+            exact_token_validation.get(gate) is not True
+            for gate in (
+                "native_arm64_same_job",
+                "exact_b10216_base_service",
+                "primitive_patch_applied",
+                "fresh_server_per_cell",
+                "zero_request_failures",
+                "selected_id_order_exact",
+                "logprob_parity_pass",
+                "candidate_prediction_parity_pass",
+                "sampled_output_parity_pass",
+                "response_payload_gate_pass",
+                "latency_non_regression_gate_pass",
+            )
+        )
+        or exact_token_validation.get("external_holdout_observed") is not False
+        or exact_token_validation.get("complete_candidate_scorer_claim_allowed")
+        is not False
+        or exact_token_validation.get("energy_claim_allowed") is not False
+        or exact_token_result.get("decision", {}).get("weighted_score_used")
+        is not False
+    ):
+        raise ValueError("retained E10b primitive result changed or broadened")
 
     local_assets = verify_demo()
     gallery_assets = verify_gallery()
