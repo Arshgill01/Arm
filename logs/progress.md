@@ -1915,3 +1915,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Neither selective tier clears the unchanged combined target. Full repack
   remains selected, E14a remains invalid, and the default-off hook is not
   promoted.
+
+## 2026-08-03 — E16a persistent-prepack feasibility frozen
+
+- Added a default-off b10216 instrumentation patch that records the complete
+  repacked tensor arena, relative offsets, quantization layout, and separate
+  absolute runtime base without changing the unset inference path.
+- Added a canonical provenance-bound sidecar builder/verifier. A local x86
+  correctness smoke serialized and reverified all 179 Q4_0 packed tensors,
+  1,654,456,320 bytes, with 100% arena coverage. This is not Arm evidence or a
+  performance claim.
+- Removed exactly the smoke test's 179 generated tensor binaries and one
+  generated 1,655,504,896-byte sidecar after retaining their compact index,
+  per-tensor hashes, inventory, and runtime record.
+- The frozen native job uses two fresh Q4_K_M processes, 60 exact quality
+  requests, complete tensor and sidecar byte identity, CPU-feature/SVE binding,
+  at least 99% arena coverage, and explicit generated-binary cleanup. A passing
+  result authorizes only a separately frozen mmap-loader experiment.

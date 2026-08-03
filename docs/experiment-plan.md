@@ -1677,6 +1677,35 @@ remains selected; no threshold, tensor group, or hook is promoted. See the
 retained [`manifest`](../results/manifests/e14b-30834588144.json) and
 [`report`](../results/reports/e14b-selective-repack-frontier.md).
 
+## E16a frozen persistent Arm-repack sidecar feasibility
+
+E16a is a source-mechanism preflight for persistent packed weights, not another
+serving-flag sweep. A default-off b10216 patch exposes each completed repacked
+tensor as bytes plus its exact name, source and parameter types, dimensions,
+buffer-relative offset, byte count, column group, and interleave. The absolute
+allocation address is retained separately and is deliberately excluded from the
+serialized format. Unset input leaves normal model loading unchanged.
+
+Two fresh native `ubuntu-24.04-arm` E7c-derived processes load the exact selected
+Q4_K_M model, dump the complete packed arena, and each run the unchanged 30-task
+quality workload. A standard-library builder binds the arena to the model hash,
+b10216 commit, aggregate four-patch diff, common CPU feature mask, SVE vector
+length, format version, and every tensor hash. It writes tensors at their
+original arena-relative offsets behind a fixed canonical header and independently
+verifies every region. The two processes must match on CPU identity, tensor
+metadata, every tensor SHA-256, and complete sidecar SHA-256; they must each
+retain at least 100 tensors and cover at least 99% of the reported repack buffer.
+
+Both quality repetitions must reproduce 23/30, zero reference drift, zero
+request failures, and a stable prediction map. Only if every frozen gate passes
+may a separately named loader experiment mmap the sidecar and compare startup,
+RSS/PSS, and steady-state service behavior against normal runtime repacking.
+E16a itself makes none of those performance or deployability claims. To bound
+storage, each temporary multi-gigabyte tensor dump and sidecar is deleted only
+after complete hashes, verification, metadata, runtime addresses, quality, and
+cleanup counts are retained. Exact inputs and gates are in
+[`e16a_contract.json`](../experiments/e16a_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

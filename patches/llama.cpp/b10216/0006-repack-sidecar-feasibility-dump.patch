@@ -1,0 +1,128 @@
+diff --git a/ggml/src/ggml-cpu/repack.cpp b/ggml/src/ggml-cpu/repack.cpp
+index 9689ca3ced8fa4b00df712a624aade1c1797bce2..606f888c01c91572ac5416fd0a932e503f334947 100644
+--- a/ggml/src/ggml-cpu/repack.cpp
++++ b/ggml/src/ggml-cpu/repack.cpp
+@@ -14,7 +14,13 @@
+ #include <cmath>
+ #include <cstring>
+ #include <cassert>
++#include <cctype>
++#include <cstdint>
+ #include <cstdio>  // for GGML_ASSERT
++#include <cstdlib>
++#include <fstream>
++#include <mutex>
++#include <string>
+ 
+ #include "repack.h"
+ 
+@@ -4153,10 +4159,25 @@ template <> void gemm<block_q2_K, 1, 16, GGML_TYPE_Q8_K>(int n, float * s, size_
+ class tensor_traits_base : public ggml::cpu::tensor_traits {
+   public:
+     virtual int repack(struct ggml_tensor * t, const void * data, size_t data_size) = 0;
++    virtual int64_t interleave_size() const = 0;
++    virtual int64_t column_group_size() const = 0;
++    virtual ggml_type parameter_type() const = 0;
+ };
+ 
+ template <typename BLOC_TYPE, int64_t INTER_SIZE, int64_t NB_COLS, ggml_type PARAM_TYPE> class tensor_traits : public tensor_traits_base {
+ 
++    int64_t interleave_size() const override {
++        return INTER_SIZE;
++    }
++
++    int64_t column_group_size() const override {
++        return NB_COLS;
++    }
++
++    ggml_type parameter_type() const override {
++        return PARAM_TYPE;
++    }
++
+     bool work_size(int /* n_threads */, const struct ggml_tensor * op, size_t & size) override {
+         // not realy a GGML_TYPE_Q8_0 but same size.
+         switch (op->op) {
+@@ -4730,6 +4751,74 @@ static enum ggml_status ggml_backend_cpu_repack_buffer_init_tensor(ggml_backend_
+     return GGML_STATUS_SUCCESS;
+ }
+ 
++static void ggml_backend_cpu_repack_dump_tensor(
++        ggml_backend_buffer_t buffer,
++        const struct ggml_tensor * tensor,
++        const ggml::cpu::repack::tensor_traits_base * tensor_traits,
++        size_t size) {
++    const char * directory = std::getenv("GGML_CPU_REPACK_DUMP_DIR");
++    if (directory == nullptr || directory[0] == '\0') {
++        return;
++    }
++
++    std::string safe_name(tensor->name);
++    for (char & character : safe_name) {
++        const unsigned char value = static_cast<unsigned char>(character);
++        if (!std::isalnum(value) && character != '.' && character != '_' && character != '-') {
++            character = '_';
++        }
++    }
++    if (safe_name.empty() || safe_name == "." || safe_name == "..") {
++        GGML_ABORT("cannot dump repacked tensor with unsafe name '%s'", tensor->name);
++    }
++
++    static std::mutex dump_mutex;
++    static bool inventory_initialized = false;
++    std::lock_guard<std::mutex> lock(dump_mutex);
++    const std::string prefix(directory);
++    const auto base = reinterpret_cast<uintptr_t>(ggml_backend_buffer_get_base(buffer));
++    const auto data = reinterpret_cast<uintptr_t>(tensor->data);
++    const std::string tensor_path = prefix + "/" + safe_name + ".bin";
++    std::ofstream tensor_output(tensor_path, std::ios::binary | std::ios::trunc);
++    if (!tensor_output.write(static_cast<const char *>(tensor->data), size)) {
++        GGML_ABORT("failed to dump repacked tensor '%s' to '%s'", tensor->name, tensor_path.c_str());
++    }
++    tensor_output.close();
++    if (!tensor_output) {
++        GGML_ABORT("failed to close repacked tensor dump '%s'", tensor_path.c_str());
++    }
++
++    const std::string inventory_path = prefix + "/inventory.tsv";
++    std::ofstream inventory_output(
++        inventory_path,
++        std::ios::out | (inventory_initialized ? std::ios::app : std::ios::trunc));
++    if (!inventory_initialized) {
++        const std::string runtime_path = prefix + "/runtime.tsv";
++        std::ofstream runtime_output(runtime_path, std::ios::out | std::ios::trunc);
++        runtime_output
++            << "buffer_base\tbuffer_size_bytes\n0x" << std::hex << base << std::dec << '\t'
++            << ggml_backend_buffer_get_size(buffer) << '\n';
++        if (!runtime_output) {
++            GGML_ABORT("failed to write repack runtime identity '%s'", runtime_path.c_str());
++        }
++        inventory_output << "tensor\tfile\ttype\tparameter_type\tne0\tne1\tne2\tne3\tbytes\tbuffer_offset\tcolumns\tinterleave\n";
++        inventory_initialized = true;
++    }
++    inventory_output
++        << tensor->name << '\t'
++        << safe_name << ".bin\t"
++        << ggml_type_name(tensor->type) << '\t'
++        << ggml_type_name(tensor_traits->parameter_type()) << '\t'
++        << tensor->ne[0] << '\t' << tensor->ne[1] << '\t'
++        << tensor->ne[2] << '\t' << tensor->ne[3] << '\t'
++        << size << '\t' << data - base << '\t'
++        << tensor_traits->column_group_size() << '\t'
++        << tensor_traits->interleave_size() << '\n';
++    if (!inventory_output) {
++        GGML_ABORT("failed to append repacked tensor inventory '%s'", inventory_path.c_str());
++    }
++}
++
+ static void ggml_backend_cpu_repack_buffer_set_tensor(ggml_backend_buffer_t buffer, struct ggml_tensor * tensor,
+                                                        const void * data, size_t offset, size_t size) {
+     GGML_ASSERT(offset == 0);
+@@ -4739,7 +4828,7 @@ static void ggml_backend_cpu_repack_buffer_set_tensor(ggml_backend_buffer_t buff
+     auto OK            = tensor_traits->repack(tensor, data, size);
+ 
+     GGML_ASSERT(OK == 0);
+-    GGML_UNUSED(buffer);
++    ggml_backend_cpu_repack_dump_tensor(buffer, tensor, tensor_traits, size);
+ }
+ 
+ static const char * ggml_backend_cpu_repack_buffer_type_get_name(ggml_backend_buffer_type_t buft) {

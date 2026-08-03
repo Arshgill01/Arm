@@ -1,0 +1,199 @@
+{
+  "acceptance": {
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ],
+    "correct_per_repetition": 23,
+    "generated_binary_cleanup_required": true,
+    "http_status": 200,
+    "identical_complete_sidecar_sha256_between_repetitions": true,
+    "identical_cpu_identity_between_repetitions": true,
+    "identical_tensor_metadata_between_repetitions": true,
+    "identical_tensor_sha256_between_repetitions": true,
+    "minimum_packed_buffer_coverage_fraction": 0.99,
+    "minimum_tensor_count": 100,
+    "post_result_gate_change_permitted": false,
+    "predictions_stable_between_repetitions": true,
+    "reference_prediction_mismatches": 0,
+    "request_failures": 0,
+    "required_architecture": "aarch64",
+    "required_common_cpu_features": [
+      "asimd",
+      "asimddp"
+    ],
+    "sidecar_verification_status": "valid_sidecar",
+    "termination_reason": "stop"
+  },
+  "artifact_name_prefix": "e16a-repack-sidecar-feasibility",
+  "build": {
+    "cmake_arguments": [
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DGGML_CPU_KLEIDIAI=ON",
+      "-DGGML_LTO=OFF",
+      "-DGGML_NATIVE=ON",
+      "-DLLAMA_BUILD_EXAMPLES=OFF",
+      "-DLLAMA_BUILD_SERVER=ON",
+      "-DLLAMA_BUILD_TESTS=OFF",
+      "-DLLAMA_CURL=OFF",
+      "-DLLAMA_OPENSSL=OFF"
+    ],
+    "forbidden_dynamic_dependency_basenames": [
+      "libcrypto.so.3",
+      "libssl.so.3"
+    ]
+  },
+  "claim_boundary": "E16a can establish only deterministic serialization feasibility for the exact Q4_K_M model, b10216 four-patch diff, GitHub native Arm64 feature identity, and packed layout. It cannot claim a usable loader, shared mapping, memory saving, startup gain, throughput gain, energy result, or portability to a different CPU identity.",
+  "execution": {
+    "build_sidecar_after_each_process": true,
+    "delete_only_generated_raw_tensor_bins_and_sidecars_after_hashing": true,
+    "fresh_server_per_repetition": true,
+    "order": [
+      1,
+      2
+    ],
+    "repetitions": 2,
+    "retain_indexes_inventories_runtime_addresses_and_quality": true,
+    "total_fresh_processes": 2,
+    "total_measured_requests": 60,
+    "verify_each_complete_sidecar_before_comparison": true
+  },
+  "experiment_id": "E16a",
+  "hypothesis": "The exact native Arm packed-weight arena is deterministic and position-independent for a model hash, source diff, CPU feature set, and kernel-layout inventory, so it can be serialized into a verified sidecar before implementing a mapped loader.",
+  "inputs": {
+    "cell_runner_path": "experiments/e16a_cell.sh",
+    "cell_runner_sha256": "b2a33934551103a25c5963411b3885287105cf30df848b8512c98e0dd9f030e4",
+    "dump_patch_path": "patches/llama.cpp/b10216/0006-repack-sidecar-feasibility-dump.patch",
+    "dump_patch_sha256": "7257b6d668230a4cc5e9480b24b6a6f9665e403a14e7244203f9672760805b5c",
+    "e9a_contract_path": "experiments/e9a_contract.json",
+    "e9a_contract_sha256": "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928",
+    "freeze_path": "experiments/e16a_freeze.py",
+    "freeze_sha256": "136aa183063fb6ccd8c601755aefe3dca15312a1b7c8832120a754f2d34b2a7f",
+    "ingest_path": "experiments/e16a_ingest.py",
+    "ingest_sha256": "dc873124228ea8749c6bdfa0690deeaad6180e084ec17ca254b6ae2be97e26ca",
+    "manifest_path": "results/manifests/e3f-30656151957.json",
+    "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "patch_1_path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+    "patch_1_sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f",
+    "patch_2_path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+    "patch_2_sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+    "patch_3_path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+    "patch_3_sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783",
+    "policy_path": "configs/cloud-quality.json",
+    "policy_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+    "runtime_contract_path": "experiments/e3f_contract.json",
+    "runtime_contract_sha256": "a43ebf2b44aba9bac7e44e18a979901715cd23855df0d2c16c93375382977551",
+    "sidecar_builder_path": "experiments/e16a_sidecar.py",
+    "sidecar_builder_sha256": "cb3f3d3db0e15b4ab2b0995520da9a154e915281ffe82ec3a8888cea2a8ab7c8",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+  },
+  "mechanism": {
+    "absolute_buffer_base_excluded_from_sidecar": true,
+    "arena_layout": "original packed-buffer-relative tensor offsets",
+    "default_behavior_unchanged_when_unset": true,
+    "dump_format_version": 1,
+    "environment_variable": "GGML_CPU_REPACK_DUMP_DIR",
+    "proof_log_verbosity": 4,
+    "sidecar_binding": [
+      "source GGUF SHA-256",
+      "llama.cpp commit",
+      "aggregate source diff SHA-256",
+      "architecture and common CPU feature mask",
+      "SVE vector length",
+      "dump and sidecar format versions",
+      "complete tensor metadata and hashes"
+    ],
+    "sidecar_data_offset_bytes": 1048576,
+    "sidecar_format_version": 1,
+    "sidecar_magic_ascii": "P64ARMPACKV1",
+    "tensor_binding": [
+      "name",
+      "source type",
+      "repack parameter type",
+      "dimensions",
+      "bytes",
+      "buffer offset",
+      "column group",
+      "interleave",
+      "sha256"
+    ]
+  },
+  "negative_result_rule": "Retain any metadata, tensor, sidecar, architecture, quality, or cleanup failure without editing the sidecar format or acceptance gates. Do not start a mapped loader from a failed preflight.",
+  "promotion_rule": "Only if every feasibility and quality gate passes may a separately frozen loader experiment mmap this format and measure startup, RSS/PSS, and service throughput against normal runtime repacking.",
+  "request": {
+    "chat_template_mode": "model_jinja_system_instruction",
+    "instruction_role": "system",
+    "max_output_tokens": 8,
+    "measured_tasks": 30,
+    "seed": 424242,
+    "temperature": 0.0,
+    "timeout_seconds": 30.0,
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ]
+  },
+  "schema_version": 1,
+  "scope": "Two fresh native Arm64 E7c-derived processes dump every packed tensor, run the exact 30-task quality workload, build and verify a fixed-format sidecar, and compare all metadata, tensor hashes, and container bytes. This is a feasibility gate, not a startup, RSS, PSS, or throughput claim.",
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "reference_accuracy": 0.7666666666666667,
+    "reference_correct": 23,
+    "reference_total": 30
+  },
+  "service": {
+    "batch_size": 64,
+    "client_concurrency": 1,
+    "context_per_slot": 256,
+    "flash_attention": "auto",
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "micro_batch_size": 64,
+    "prompt_cache": true,
+    "request_cache_prompt": true,
+    "server_parallel_slots": 1,
+    "threads": 4,
+    "warmup_slot_ids": [
+      0,
+      0
+    ],
+    "weight_repack": true
+  },
+  "source": {
+    "aggregate_diff_sha256": "4c9a3d6f148894bd78609cd11cfc990275391bda8f457b0d458d5730c047bd89",
+    "changed_files": [
+      "common/reasoning-budget.cpp",
+      "ggml/src/ggml-cpu/CMakeLists.txt",
+      "ggml/src/ggml-cpu/arch/arm/quants.c",
+      "ggml/src/ggml-cpu/repack.cpp",
+      "tests/test-reasoning-budget.cpp"
+    ],
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "patches": [
+      {
+        "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      },
+      {
+        "path": "patches/llama.cpp/b10216/0006-repack-sidecar-feasibility-dump.patch",
+        "sha256": "7257b6d668230a4cc5e9480b24b6a6f9665e403a14e7244203f9672760805b5c"
+      }
+    ],
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216"
+  },
+  "title": "Persistent Arm-repack deterministic sidecar feasibility"
+}
