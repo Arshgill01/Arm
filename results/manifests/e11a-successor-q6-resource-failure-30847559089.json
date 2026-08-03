@@ -1,0 +1,2106 @@
+{
+  "artifact_validation": {
+    "all_extracted_regular_files_hashed": true,
+    "file_count": 14466,
+    "inventory_format": "sha256, two spaces, relative POSIX path, newline",
+    "inventory_sha256": "1936b84ec6218e0d3b002cfb2ef41bf859b28fc80b916bb638a1bb35f3775b86",
+    "total_regular_file_bytes": 81122426
+  },
+  "claim_boundary": "The complete safe-sampled quality scoring is structurally valid and had zero request failures, but the server exceeded the frozen 8 GiB RSS ceiling. Q6_K is not a valid deployable stock-frontier cell and cannot be admitted by raising the resource gate after observation. Its quality coordinates may be shown only as a resource-infeasible point.",
+  "contract_sha256": "0f373d8c503f74239adf283a240289d015c0a4623cb2413aab3497bb43843853",
+  "decision": {
+    "aggregate_successor_may_classify_resource_infeasible_point": true,
+    "change_frozen_rss_gate_after_observation": false,
+    "prior_seven_valid_one_q8_recovery_contract_applicable": false,
+    "q6_k_deployable_frontier_eligible": false,
+    "repeat_scoring_required": false,
+    "valid_scoring_may_be_retained_as_infeasible_point": true
+  },
+  "experiment_id": "E11a-successor",
+  "experiment_result_valid": false,
+  "failure": {
+    "excess_rss_kib": 196740,
+    "maximum_allowed_rss_kib": 8388608,
+    "maximum_process_rss_kib": 8585348,
+    "rss_ratio_to_limit": 1.0234532356262207,
+    "scoring_completed_before_rejection": true,
+    "server_exit_status": 0,
+    "type": "frozen_peak_rss_gate_exceeded"
+  },
+  "github": {
+    "artifact_digest": "sha256:6bbb4aad0a2e92f52769104626a9f9cfc46aeaff5dc671f68fdc67e00557beb4",
+    "artifact_expires_at": "2026-11-01T19:51:06Z",
+    "artifact_id": "8872868477",
+    "artifact_name": "e11a-successor-ministral3_3b_q6_k-30847559089-1",
+    "artifact_size_bytes": 40732032,
+    "job_conclusion": "failure",
+    "job_id": "91799485556",
+    "job_log_sha256": "6697987cb1ad212a1e92161e0d52117b190e38ad1f665aef9b67bff0cae52f3d",
+    "repository_commit": "f3321bde74570de141266b111af364e7ea3722af",
+    "run_attempt": 1,
+    "run_id": "30847559089",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30847559089"
+  },
+  "model": {
+    "candidate": "ministral3_3b_q6_k",
+    "path": "Ministral-3-3B-Instruct-2512-Q6_K.gguf",
+    "quantization": "Q6_K",
+    "role": "new stock ladder candidate",
+    "sha256": "ca22c676b97aad1d50952416f44ddd6d8130e24c11c474aed5e8865dd7e35297",
+    "size_bytes": 2821256480
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "preflight": {
+    "maximum_repeat_sum_logprob_delta": 0.0,
+    "maximum_repeat_token_logprob_delta": 0.0,
+    "status": "pass"
+  },
+  "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+  "promotion_decision_permitted": false,
+  "quality_coordinates": {
+    "e9b_arc_easy.acc_norm": 0.57,
+    "e9b_hellaswag.acc_norm": 0.72,
+    "e9b_winogrande.acc": 0.58
+  },
+  "readiness_ms": 3132.412436,
+  "runtime": {
+    "build_process": {
+      "elapsed": "3:25.00",
+      "exit_status": 0,
+      "maximum_rss_kib": 2847280,
+      "percent_cpu": "330%"
+    },
+    "cmake_cache_sha256": "03e22b4bbcf4b0877f1bb56f854d65a1b13960718b49d784a55b9d4e259099be",
+    "configure_command": {
+      "cmake_arguments": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DGGML_CPU_KLEIDIAI=ON",
+        "-DGGML_LTO=OFF",
+        "-DGGML_NATIVE=ON",
+        "-DLLAMA_BUILD_EXAMPLES=OFF",
+        "-DLLAMA_BUILD_SERVER=ON",
+        "-DLLAMA_BUILD_TESTS=OFF",
+        "-DLLAMA_CURL=OFF",
+        "-DLLAMA_OPENSSL=OFF"
+      ]
+    },
+    "dynamic_dependency_basenames": [
+      "ld-linux-aarch64.so.1",
+      "libc.so.6",
+      "libgcc_s.so.1",
+      "libggml-base.so.0.18.0",
+      "libggml-cpu.so.0.18.0",
+      "libggml.so.0.18.0",
+      "libgomp.so.1.0.0",
+      "libllama-common.so.0.0.10216",
+      "libllama-server-impl.so",
+      "libllama.so.0.0.10216",
+      "libm.so.6",
+      "libmtmd.so.0.0.10216",
+      "libstdc++.so.6.0.33"
+    ],
+    "runtime_closure": {
+      "build_root": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build",
+      "file_count": 8,
+      "files": [
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-base.so.0.18.0",
+          "relative_path": "bin/libggml-base.so.0.18.0",
+          "sha256": "30cfa878b19f63fac88356a1dbea89664bcd3511dd28ac7ceb521924ffc85b07",
+          "size_bytes": 873464
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-cpu.so.0.18.0",
+          "relative_path": "bin/libggml-cpu.so.0.18.0",
+          "sha256": "d1116d1b03a03ec0ed3a949ca8bcb69bf851928c0feace805b02f0b831a07c24",
+          "size_bytes": 1160360
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml.so.0.18.0",
+          "relative_path": "bin/libggml.so.0.18.0",
+          "sha256": "3adf45f0cffdc8159564b7e5a7769cceee5ab9999e324e3b60b58e9097fda81d",
+          "size_bytes": 78176
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-common.so.0.0.10216",
+          "relative_path": "bin/libllama-common.so.0.0.10216",
+          "sha256": "20b7eadc05c3dabbc5610e637920206c715644563ce0d40215e977062a18ca56",
+          "size_bytes": 5326232
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-server-impl.so",
+          "relative_path": "bin/libllama-server-impl.so",
+          "sha256": "c914d580bae32cf62b024a88599ab3cc237f8a318b84687a8aa2bc982b17a8f3",
+          "size_bytes": 6950456
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama.so.0.0.10216",
+          "relative_path": "bin/libllama.so.0.0.10216",
+          "sha256": "a6327009710519848e5049bd0c9a7eeb14000f82e39eb4bbfd6039573b85abc8",
+          "size_bytes": 3937000
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libmtmd.so.0.0.10216",
+          "relative_path": "bin/libmtmd.so.0.0.10216",
+          "sha256": "d7ed4bf973e5f38ecfdd7bedea413b9fb215bc247695e69b8d820eccaec5902c",
+          "size_bytes": 1460952
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/llama-server",
+          "relative_path": "bin/llama-server",
+          "sha256": "32d7c350efbf5210f24a5291e4187fd1dfa7fb67cb42eb766da29aa112c12ab1",
+          "size_bytes": 72488
+        }
+      ],
+      "ldd_output": "\tlinux-vdso.so.1 (0x0000ff937e67c000)\n\tlibllama-server-impl.so => /tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama-server-impl.so (0x0000ff937e010000)\n\tlibstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ff937dd80000)\n\tlibgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ff937dd40000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ff937db80000)\n\t/lib/ld-linux-aarch64.so.1 (0x0000ff937e630000)\n\tlibllama-common.so.0 => /tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama-common.so.0 (0x0000ff937d750000)\n\tlibmtmd.so.0 => /tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libmtmd.so.0 (0x0000ff937d600000)\n\tlibllama.so.0 => /tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama.so.0 (0x0000ff937d2c0000)\n\tlibggml.so.0 => /tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml.so.0 (0x0000ff937d290000)\n\tlibggml-base.so.0 => /tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml-base.so.0 (0x0000ff937d1b0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ff937d100000)\n\tlibggml-cpu.so.0 => /tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml-cpu.so.0 (0x0000ff937cf60000)\n\tlibgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000ff937cee0000)\n",
+      "runtime_dependencies": [
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama-server-impl.so",
+          "resolved_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama-server-impl.so"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libstdc++.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgcc_s.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgcc_s.so.1"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libc.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libc.so.6"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/ld-linux-aarch64.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama-common.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama-common.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libmtmd.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libmtmd.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml.so.0.18.0"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml-base.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml-base.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libm.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libm.so.6"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml-cpu.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml-cpu.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgomp.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0"
+        }
+      ],
+      "schema_version": 1,
+      "server_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/llama-server",
+      "server_relative_path": "bin/llama-server",
+      "system_dependencies_excluded": true,
+      "total_size_bytes": 19859128
+    },
+    "server_version": "version: 10216 (876a43211)\nbuilt with GNU 13.3.0 for Linux aarch64"
+  },
+  "schema_version": 1,
+  "scoring": {
+    "candidate_requests": 1000,
+    "elapsed_seconds": 7732.242260183,
+    "metrics": {
+      "e9b_arc_easy": {
+        "acc": 0.69,
+        "acc_norm": 0.57
+      },
+      "e9b_hellaswag": {
+        "acc": 0.49,
+        "acc_norm": 0.72
+      },
+      "e9b_winogrande": {
+        "acc": 0.58
+      }
+    },
+    "process_cpu": {
+      "average_cores_used": 3.959319815630743,
+      "clock_ticks_per_second": 100,
+      "pid": 2359,
+      "seconds_per_request": 2.1298469458744953,
+      "system_seconds": 31.59,
+      "system_ticks": 3159,
+      "total_seconds": 30614.42,
+      "total_ticks": 3061442,
+      "user_seconds": 30582.83,
+      "user_ticks": 3058283
+    },
+    "raw_response_count": 14374,
+    "request_failures": 0,
+    "samples_per_second": 0.03879857742492665,
+    "tasks": [
+      {
+        "samples": [
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 21
+          },
+          {
+            "gold_index": 3,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 22
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 53
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 58
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 64
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 3,
+            "source_index": 74
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 1,
+            "source_index": 88
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 117
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 121
+          },
+          {
+            "gold_index": 2,
+            "prediction": 1,
+            "prediction_norm": 0,
+            "source_index": 130
+          },
+          {
+            "gold_index": 2,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 139
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 143
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 153
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 0,
+            "source_index": 154
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 2,
+            "source_index": 157
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 174
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 3,
+            "source_index": 193
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 196
+          },
+          {
+            "gold_index": 2,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 197
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 216
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 241
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 288
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 3,
+            "source_index": 314
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 334
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 378
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 384
+          },
+          {
+            "gold_index": 3,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 424
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 429
+          },
+          {
+            "gold_index": 2,
+            "prediction": 1,
+            "prediction_norm": 3,
+            "source_index": 450
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 479
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 489
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 492
+          },
+          {
+            "gold_index": 2,
+            "prediction": 3,
+            "prediction_norm": 0,
+            "source_index": 496
+          },
+          {
+            "gold_index": 1,
+            "prediction": 2,
+            "prediction_norm": 1,
+            "source_index": 563
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 2,
+            "source_index": 565
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 1,
+            "source_index": 574
+          },
+          {
+            "gold_index": 2,
+            "prediction": 1,
+            "prediction_norm": 3,
+            "source_index": 585
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 608
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 650
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 657
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 662
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 663
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 667
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 671
+          },
+          {
+            "gold_index": 2,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 677
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 690
+          },
+          {
+            "gold_index": 2,
+            "prediction": 0,
+            "prediction_norm": 2,
+            "source_index": 724
+          },
+          {
+            "gold_index": 1,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 735
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 751
+          },
+          {
+            "gold_index": 3,
+            "prediction": 0,
+            "prediction_norm": 2,
+            "source_index": 812
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 842
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 847
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 1,
+            "source_index": 886
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 901
+          },
+          {
+            "gold_index": 2,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 927
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 956
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 1011
+          },
+          {
+            "gold_index": 2,
+            "prediction": 0,
+            "prediction_norm": 2,
+            "source_index": 1014
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 3,
+            "source_index": 1022
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 1030
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 3,
+            "source_index": 1051
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 1090
+          },
+          {
+            "gold_index": 2,
+            "prediction": 1,
+            "prediction_norm": 0,
+            "source_index": 1159
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 1160
+          },
+          {
+            "gold_index": 1,
+            "prediction": 3,
+            "prediction_norm": 1,
+            "source_index": 1162
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 1182
+          },
+          {
+            "gold_index": 1,
+            "prediction": 2,
+            "prediction_norm": 3,
+            "source_index": 1225
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 1228
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1234
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 1259
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 1272
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 1283
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 2,
+            "source_index": 1302
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 0,
+            "source_index": 1336
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1362
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 1401
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 1587
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 3,
+            "source_index": 1597
+          },
+          {
+            "gold_index": 3,
+            "prediction": 2,
+            "prediction_norm": 3,
+            "source_index": 1628
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 2,
+            "source_index": 1659
+          },
+          {
+            "gold_index": 0,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 1663
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 2,
+            "source_index": 1729
+          },
+          {
+            "gold_index": 2,
+            "prediction": 1,
+            "prediction_norm": 2,
+            "source_index": 1753
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 1845
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 3,
+            "source_index": 1859
+          },
+          {
+            "gold_index": 1,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 1880
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 3,
+            "source_index": 1928
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 1943
+          },
+          {
+            "gold_index": 2,
+            "prediction": 1,
+            "prediction_norm": 2,
+            "source_index": 1958
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 1972
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 1973
+          },
+          {
+            "gold_index": 1,
+            "prediction": 2,
+            "prediction_norm": 1,
+            "source_index": 1997
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 2001
+          },
+          {
+            "gold_index": 2,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 2032
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 2057
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 2070
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 2085
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 2106
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 0,
+            "source_index": 2238
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 2265
+          }
+        ],
+        "task": "e9b_arc_easy"
+      },
+      {
+        "samples": [
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 114
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 3,
+            "source_index": 336
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 493
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 2,
+            "source_index": 558
+          },
+          {
+            "gold_index": 2,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 580
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 586
+          },
+          {
+            "gold_index": 2,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 593
+          },
+          {
+            "gold_index": 0,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 705
+          },
+          {
+            "gold_index": 3,
+            "prediction": 1,
+            "prediction_norm": 3,
+            "source_index": 868
+          },
+          {
+            "gold_index": 1,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 1000
+          },
+          {
+            "gold_index": 1,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 1027
+          },
+          {
+            "gold_index": 2,
+            "prediction": 3,
+            "prediction_norm": 2,
+            "source_index": 1086
+          },
+          {
+            "gold_index": 0,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 1163
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 1,
+            "source_index": 1342
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1439
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 1549
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 0,
+            "source_index": 1611
+          },
+          {
+            "gold_index": 2,
+            "prediction": 1,
+            "prediction_norm": 2,
+            "source_index": 1613
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 0,
+            "source_index": 1712
+          },
+          {
+            "gold_index": 2,
+            "prediction": 0,
+            "prediction_norm": 1,
+            "source_index": 1726
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 1859
+          },
+          {
+            "gold_index": 2,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 1872
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 2027
+          },
+          {
+            "gold_index": 2,
+            "prediction": 0,
+            "prediction_norm": 2,
+            "source_index": 2067
+          },
+          {
+            "gold_index": 2,
+            "prediction": 1,
+            "prediction_norm": 2,
+            "source_index": 2078
+          },
+          {
+            "gold_index": 1,
+            "prediction": 2,
+            "prediction_norm": 1,
+            "source_index": 2151
+          },
+          {
+            "gold_index": 1,
+            "prediction": 3,
+            "prediction_norm": 1,
+            "source_index": 2332
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 2344
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 2415
+          },
+          {
+            "gold_index": 3,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 2456
+          },
+          {
+            "gold_index": 0,
+            "prediction": 2,
+            "prediction_norm": 0,
+            "source_index": 2548
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 1,
+            "source_index": 2556
+          },
+          {
+            "gold_index": 2,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 2685
+          },
+          {
+            "gold_index": 2,
+            "prediction": 3,
+            "prediction_norm": 2,
+            "source_index": 2987
+          },
+          {
+            "gold_index": 3,
+            "prediction": 1,
+            "prediction_norm": 2,
+            "source_index": 3027
+          },
+          {
+            "gold_index": 1,
+            "prediction": 2,
+            "prediction_norm": 1,
+            "source_index": 3036
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 3208
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 3316
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 3323
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 1,
+            "source_index": 3354
+          },
+          {
+            "gold_index": 2,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 3390
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 3417
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 3451
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 3573
+          },
+          {
+            "gold_index": 2,
+            "prediction": 3,
+            "prediction_norm": 2,
+            "source_index": 3681
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 3830
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 3839
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 0,
+            "source_index": 3919
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 3967
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 4005
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 4228
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 1,
+            "source_index": 4333
+          },
+          {
+            "gold_index": 1,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 4340
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 4362
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 4371
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 4382
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 0,
+            "source_index": 4545
+          },
+          {
+            "gold_index": 0,
+            "prediction": 3,
+            "prediction_norm": 0,
+            "source_index": 4630
+          },
+          {
+            "gold_index": 3,
+            "prediction": 1,
+            "prediction_norm": 3,
+            "source_index": 4635
+          },
+          {
+            "gold_index": 3,
+            "prediction": 2,
+            "prediction_norm": 3,
+            "source_index": 4992
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 5112
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 5218
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 1,
+            "source_index": 5414
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 5443
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 5655
+          },
+          {
+            "gold_index": 0,
+            "prediction": 2,
+            "prediction_norm": 0,
+            "source_index": 5922
+          },
+          {
+            "gold_index": 2,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 5954
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 5998
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 6181
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 6326
+          },
+          {
+            "gold_index": 0,
+            "prediction": 2,
+            "prediction_norm": 0,
+            "source_index": 6417
+          },
+          {
+            "gold_index": 2,
+            "prediction": 3,
+            "prediction_norm": 0,
+            "source_index": 6444
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 0,
+            "source_index": 6458
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 6545
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 6715
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 1,
+            "source_index": 6746
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 6801
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 6988
+          },
+          {
+            "gold_index": 2,
+            "prediction": 1,
+            "prediction_norm": 2,
+            "source_index": 7099
+          },
+          {
+            "gold_index": 3,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 7115
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 7145
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 0,
+            "source_index": 7214
+          },
+          {
+            "gold_index": 3,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 7353
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 7494
+          },
+          {
+            "gold_index": 0,
+            "prediction": 3,
+            "prediction_norm": 0,
+            "source_index": 7622
+          },
+          {
+            "gold_index": 1,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 7660
+          },
+          {
+            "gold_index": 2,
+            "prediction": 1,
+            "prediction_norm": 2,
+            "source_index": 7664
+          },
+          {
+            "gold_index": 2,
+            "prediction": 2,
+            "prediction_norm": 2,
+            "source_index": 7792
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 8016
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 8177
+          },
+          {
+            "gold_index": 2,
+            "prediction": 1,
+            "prediction_norm": 2,
+            "source_index": 8547
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 8789
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 9055
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 9293
+          },
+          {
+            "gold_index": 1,
+            "prediction": 2,
+            "prediction_norm": 1,
+            "source_index": 9362
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 0,
+            "source_index": 9405
+          },
+          {
+            "gold_index": 0,
+            "prediction": 2,
+            "prediction_norm": 0,
+            "source_index": 9577
+          },
+          {
+            "gold_index": 2,
+            "prediction": 0,
+            "prediction_norm": 3,
+            "source_index": 9696
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 9800
+          },
+          {
+            "gold_index": 3,
+            "prediction": 3,
+            "prediction_norm": 3,
+            "source_index": 9951
+          }
+        ],
+        "task": "e9b_hellaswag"
+      },
+      {
+        "samples": [
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 9
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 14
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 16
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 17
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 29
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 32
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 47
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 58
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 64
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 1,
+            "source_index": 66
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 68
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 76
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 83
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 90
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 91
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 98
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 117
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 131
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 132
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 144
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 160
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 0,
+            "source_index": 162
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 177
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 189
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 200
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 213
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 237
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 239
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 300
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 309
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 342
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 352
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 1,
+            "source_index": 354
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 1,
+            "source_index": 362
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 398
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 408
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 409
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 417
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 433
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 450
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 457
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 472
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 527
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 536
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 538
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 541
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 549
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 563
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 571
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 594
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 1,
+            "source_index": 603
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 625
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 662
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 663
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 681
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 694
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 700
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 726
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 732
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 743
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 749
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 781
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 789
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 835
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 846
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 859
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 870
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 873
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 907
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 913
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 914
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 915
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 929
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 0,
+            "source_index": 948
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 956
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 967
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 972
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 983
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 1056
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 1059
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 1060
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 1,
+            "source_index": 1065
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1071
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1073
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1088
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 1090
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1103
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1114
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1138
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 1140
+          },
+          {
+            "gold_index": 0,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1154
+          },
+          {
+            "gold_index": 1,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 1175
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1203
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1216
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1224
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 1228
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1230
+          },
+          {
+            "gold_index": 1,
+            "prediction": 1,
+            "prediction_norm": 1,
+            "source_index": 1249
+          },
+          {
+            "gold_index": 0,
+            "prediction": 0,
+            "prediction_norm": 0,
+            "source_index": 1252
+          }
+        ],
+        "task": "e9b_winogrande"
+      }
+    ],
+    "token_score_requests": 14374
+  },
+  "server_process": {
+    "elapsed": "2:08:58",
+    "exit_status": 0,
+    "maximum_rss_kib": 8585348,
+    "percent_cpu": "395%"
+  },
+  "status": "invalid_stock_quant_resource_gate_failure_with_valid_scoring",
+  "stock_frontier_cell_valid": false
+}
