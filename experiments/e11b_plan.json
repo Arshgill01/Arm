@@ -3,6 +3,12 @@
   "experiment_id": "E11b-plan",
   "title": "Matched native Arm stock-quant service frontier",
   "state": "decision policy frozen before E10d or E11a external-quality outcomes are observed; the concrete contract must bind the exact successful E11a run and its mechanically derived shortlist",
+  "inputs": {
+    "probe_path": "experiments/e11b_probe.py",
+    "probe_sha256": "fea890df302606ef137ec3f7e075f8973b66eb484026bf99c047c49e55610d69",
+    "test_path": "tests/test_e11b.py",
+    "test_sha256": "3b2117c7adfa645600d6746b8ca13526b15573d20e9f92d377f87c8a4ea4f0cf"
+  },
   "prerequisite": {
     "experiment": "E11a",
     "required_status": "valid_stock_quant_quality_ladder",
