@@ -1,0 +1,285 @@
+{
+  "acceptance": {
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ],
+    "correct_per_worker": 23,
+    "generated_binary_cleanup_required": true,
+    "http_status": 200,
+    "loader_mapping_offset_hex": "00100000",
+    "loader_mapping_permissions": "r--s",
+    "maximum_group_readiness_ratio": 0.8,
+    "maximum_measurement_start_skew_ms": 10.0,
+    "maximum_median_http_latency_ratio": 1.05,
+    "maximum_p95_http_latency_ratio": 1.05,
+    "maximum_process_rss_kib": 7340032,
+    "maximum_ready_ms_per_worker": 120000,
+    "maximum_server_cpu_seconds_per_request_ratio": 1.03,
+    "maximum_summed_post_workload_pss_ratio": 0.75,
+    "maximum_throughput_coefficient_of_variation": 0.1,
+    "minimum_aggregate_throughput_retention_ratio": 0.95,
+    "minimum_packed_buffer_coverage_fraction": 0.99,
+    "minimum_summed_post_workload_pss_saved_kib": 1048576,
+    "minimum_tensor_count": 100,
+    "post_result_gate_change_permitted": false,
+    "reference_prediction_mismatches": 0,
+    "request_failures": 0,
+    "required_architecture": "aarch64",
+    "required_common_cpu_features": [
+      "asimd",
+      "asimddp"
+    ],
+    "required_logical_cpus": 4,
+    "required_model_name": "Neoverse-N2",
+    "stable_predictions_across_all_workers": true,
+    "termination_reason": "stop"
+  },
+  "build": {
+    "cmake_arguments": [
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DGGML_CPU_KLEIDIAI=ON",
+      "-DGGML_LTO=OFF",
+      "-DGGML_NATIVE=ON",
+      "-DLLAMA_BUILD_EXAMPLES=OFF",
+      "-DLLAMA_BUILD_SERVER=ON",
+      "-DLLAMA_BUILD_TESTS=OFF",
+      "-DLLAMA_CURL=OFF",
+      "-DLLAMA_OPENSSL=OFF"
+    ],
+    "forbidden_dynamic_dependency_basenames": [
+      "libcrypto.so.3",
+      "libssl.so.3"
+    ]
+  },
+  "claim_boundary": "E16c can establish only observed two-process physical sharing for one exact model, source diff, CPU identity, sidecar, and four-core native runner. It cannot claim per-process RSS reduction, cold-storage startup, more than two workers, other CPUs/models, energy, PMU, local-device, fleet, or cost.",
+  "execution": {
+    "baseline_configuration": "normal_repack_workers",
+    "candidate_configuration": "shared_sidecar_workers",
+    "configurations": [
+      "normal_repack_workers",
+      "shared_sidecar_workers"
+    ],
+    "delete_generated_raw_tensors_after_sidecar_verification": true,
+    "delete_sidecar_after_all_groups_and_final_verification": true,
+    "fresh_worker_group_per_cell": true,
+    "measured_requests_per_group": 60,
+    "measured_worker_processes": 16,
+    "one_time_sidecar_construction_process": 1,
+    "order": [
+      {
+        "configuration": "normal_repack_workers",
+        "repetition": 1
+      },
+      {
+        "configuration": "shared_sidecar_workers",
+        "repetition": 1
+      },
+      {
+        "configuration": "shared_sidecar_workers",
+        "repetition": 2
+      },
+      {
+        "configuration": "normal_repack_workers",
+        "repetition": 2
+      },
+      {
+        "configuration": "shared_sidecar_workers",
+        "repetition": 3
+      },
+      {
+        "configuration": "normal_repack_workers",
+        "repetition": 3
+      },
+      {
+        "configuration": "normal_repack_workers",
+        "repetition": 4
+      },
+      {
+        "configuration": "shared_sidecar_workers",
+        "repetition": 4
+      }
+    ],
+    "order_design": "ABBA followed by BAAB",
+    "repetitions_per_configuration": 4,
+    "total_measured_requests": 480,
+    "workers_per_group": 2
+  },
+  "experiment_id": "E16c",
+  "hypothesis": "Mapping one verified packed arena MAP_SHARED into two simultaneous E7c workers can reduce their summed post-workload PSS by at least 25 percent versus two normal-repack workers while retaining at least 95 percent of aggregate throughput and exact output.",
+  "inputs": {
+    "constructor_path": "experiments/e16b_construct.sh",
+    "constructor_sha256": "2fa6d25632b6938820e571a3d370902fa98e8d6515b99558b3fcd7c960230b98",
+    "dual_probe_path": "experiments/e16c_dual_probe.py",
+    "dual_probe_sha256": "070b7f869f0c1ae93bce34d14daf74acab6ec675ab80a4c2b307bdfb0838324d",
+    "dump_patch_path": "patches/llama.cpp/b10216/0006-repack-sidecar-feasibility-dump.patch",
+    "dump_patch_sha256": "7257b6d668230a4cc5e9480b24b6a6f9665e403a14e7244203f9672760805b5c",
+    "e16a_result_path": "results/manifests/e16a-30837796757.json",
+    "e16a_result_sha256": "cd3ed3ceb1fe5e6b02284e43b8bcf1e6c6cfdfb7178fe41a07a401935234c686",
+    "e16b_contract_path": "experiments/e16b_contract.json",
+    "e16b_contract_sha256": "ce1829b89fd72a5dd8b84f04893fc0c5299175926bbdbe851584d9631de089fc",
+    "e16b_report_path": "results/reports/e16b-repack-sidecar-loader.md",
+    "e16b_report_sha256": "5826d048d99928c6a25d78bdbb7e65ec7f1cccfe5f5253d81caecf32b0f0ff5f",
+    "e16b_result_path": "results/manifests/e16b-30842925537.json",
+    "e16b_result_sha256": "fc5500c38af75b00571fc2fd57c3efbc00b5e764c0965ddf9bc2a4809e676ddc",
+    "e9a_contract_path": "experiments/e9a_contract.json",
+    "e9a_contract_sha256": "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928",
+    "freeze_path": "experiments/e16c_shared_arena_freeze.py",
+    "freeze_sha256": "204a51a4d0ab1ea92146a4f7d63d8ad8a8571b609e5fd56b0839dcc774db6a56",
+    "group_runner_path": "experiments/e16c_shared_arena_group.sh",
+    "group_runner_sha256": "54430756cee99c4d0e4a744147929df7ecaab6191e143921b023f0aedbe5c232",
+    "ingest_path": "experiments/e16c_shared_arena_ingest.py",
+    "ingest_sha256": "78c7f18d45e29b36bdc09bf0b92713a7351b8d41b4ed183ce96e314127aae515",
+    "loader_patch_path": "patches/llama.cpp/b10216/0007-repack-sidecar-readonly-loader.patch",
+    "loader_patch_sha256": "5dc4beeeb50b5c5430632431c1462ee8d454409e9ff51a69bd671e0a859f47d6",
+    "manifest_path": "results/manifests/e3f-30656151957.json",
+    "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "patch_1_path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+    "patch_1_sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f",
+    "patch_2_path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+    "patch_2_sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+    "patch_3_path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+    "patch_3_sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783",
+    "policy_path": "configs/cloud-quality.json",
+    "policy_sha256": "7395bc6b7673c8a174300454b91dc17c043d649694bf0a488871b032a7fbba33",
+    "runtime_contract_path": "experiments/e3f_contract.json",
+    "runtime_contract_sha256": "a43ebf2b44aba9bac7e44e18a979901715cd23855df0d2c16c93375382977551",
+    "sidecar_builder_path": "experiments/e16a_sidecar.py",
+    "sidecar_builder_sha256": "cb3f3d3db0e15b4ab2b0995520da9a154e915281ffe82ec3a8888cea2a8ab7c8",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "test_path": "tests/test_e16c.py",
+    "test_sha256": "6528cc1eaa818068cd1ed1285b1c711aaf1eba4e93a495bab2c407a75b92a986"
+  },
+  "measurement_boundary": "Each cell launches two fresh workers simultaneously on one four-core native GitHub Arm64 job. CPU counters and request time cover only the synchronized dual 30-task measured windows. Summed PSS is captured from both live PIDs after both workloads. Linux page cache is not flushed. Construction and verification are measured separately and excluded from steady state.",
+  "mechanism": {
+    "complete_sidecar_verification_before_each_loader_process": true,
+    "default_behavior_unchanged_when_both_unset": true,
+    "dump_environment_variable": "GGML_CPU_REPACK_DUMP_DIR",
+    "dump_format_version": 1,
+    "mapped_file_offset_bytes": 1048576,
+    "mapping_protection": "PROT_READ",
+    "mapping_sharing": "MAP_SHARED",
+    "per_process_rss_memory_claim_allowed": false,
+    "proof_log_verbosity": 4,
+    "repacking_skipped_only_after_per_tensor_binding": true,
+    "runtime_binding_fields": [
+      "experiment ID",
+      "source GGUF SHA-256",
+      "llama.cpp commit",
+      "aggregate source diff SHA-256",
+      "architecture",
+      "common CPU feature hash",
+      "SVE vector length",
+      "format versions",
+      "complete tensor name/type/shape/layout inventory"
+    ],
+    "same_sidecar_inode_required": true,
+    "sidecar_data_offset_bytes": 1048576,
+    "sidecar_environment_variable": "GGML_CPU_REPACK_SIDECAR",
+    "sidecar_format_version": 1,
+    "simultaneous_measurement_barrier_required": true,
+    "source_gguf_remains_metadata_authority": true,
+    "summed_pss_is_primary_memory_metric": true,
+    "worker_count": 2,
+    "worker_ports": [
+      18081,
+      18082
+    ]
+  },
+  "negative_result_rule": "Retain worker startup failure, memory pressure, mapping mismatch, quality drift, synchronization failure, performance regression, or insufficient summed-PSS saving without changing worker count, order, workload, or gates.",
+  "prerequisite": {
+    "artifact_id": "8867796505",
+    "artifact_name": "e16b-repack-sidecar-loader-30842925537-1",
+    "contract_sha256": "ce1829b89fd72a5dd8b84f04893fc0c5299175926bbdbe851584d9631de089fc",
+    "experiment_id": "E16b",
+    "manifest_sha256": "fc5500c38af75b00571fc2fd57c3efbc00b5e764c0965ddf9bc2a4809e676ddc",
+    "multi_process_sharing_previously_unmeasured": true,
+    "required_status": "valid_sidecar_loader_promoted",
+    "run_attempt": 1,
+    "run_id": "30842925537",
+    "single_process_loader_promoted": true,
+    "workflow_summary_sha256": "6503f1dee18d6c2eeaca8fd420e3870e40e3099b7e97268e52bedd3f048fae1d"
+  },
+  "promotion_rule": "Admit multi-process physical sharing only if every worker has exact stable output, both loader mappings are read-only shared views of the same sidecar inode and offset, the barrier is synchronized, throughput/latency/CPU are retained, and summed PSS clears both the ratio and absolute saving gates.",
+  "request": {
+    "chat_template_mode": "model_jinja_system_instruction",
+    "instruction_role": "system",
+    "max_output_tokens": 8,
+    "measured_tasks": 30,
+    "seed": 424242,
+    "temperature": 0.0,
+    "timeout_seconds": 30.0,
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ]
+  },
+  "schema_version": 1,
+  "scope": "Construct one provenance-bound sidecar, then compare two simultaneous normal-repack workers against two simultaneous read-only loader workers in eight reverse-balanced fresh two-process groups. Both workers receive the exact 30-task workload concurrently on separate loopback ports.",
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "reference_accuracy": 0.7666666666666667,
+    "reference_correct": 23,
+    "reference_total": 30
+  },
+  "service": {
+    "batch_size": 64,
+    "client_concurrency": 1,
+    "context_per_slot": 256,
+    "flash_attention": "auto",
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "micro_batch_size": 64,
+    "prompt_cache": true,
+    "request_cache_prompt": true,
+    "server_parallel_slots": 1,
+    "threads": 4,
+    "warmup_slot_ids": [
+      0,
+      0
+    ],
+    "weight_repack": true
+  },
+  "source": {
+    "aggregate_diff_sha256": "48a7611bbe6e22a0303bf0b8855dbab3f718ca6d56d5a594a8ef1650f959f003",
+    "changed_files": [
+      "common/reasoning-budget.cpp",
+      "ggml/src/ggml-cpu/CMakeLists.txt",
+      "ggml/src/ggml-cpu/arch/arm/quants.c",
+      "ggml/src/ggml-cpu/repack.cpp",
+      "tests/test-reasoning-budget.cpp"
+    ],
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "patches": [
+      {
+        "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      },
+      {
+        "path": "patches/llama.cpp/b10216/0006-repack-sidecar-feasibility-dump.patch",
+        "sha256": "7257b6d668230a4cc5e9480b24b6a6f9665e403a14e7244203f9672760805b5c"
+      },
+      {
+        "path": "patches/llama.cpp/b10216/0007-repack-sidecar-readonly-loader.patch",
+        "sha256": "5dc4beeeb50b5c5430632431c1462ee8d454409e9ff51a69bd671e0a859f47d6"
+      }
+    ],
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216"
+  },
+  "state": "frozen after E16b admitted only the single-process loader and before observing any simultaneous-worker PSS, throughput, or quality result",
+  "title": "Two-worker shared Arm repack-sidecar physical-memory boundary"
+}
