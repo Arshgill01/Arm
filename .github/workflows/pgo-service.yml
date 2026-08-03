@@ -1,4 +1,4 @@
-name: Arm E18a workload-trained GCC PGO service
+name: Arm E18a workload-trained GCC PGO service successor
 
 on:
   workflow_dispatch:
@@ -7,8 +7,8 @@ permissions:
   contents: read
 
 env:
-  CONTRACT_PATH: experiments/e18a_contract.json
-  CONTRACT_SHA256: 649f95192ca2a9c063cde9ddafcc211693bd09e5150726f1c8f3223dea51e09c
+  CONTRACT_PATH: experiments/e18a_successor_contract.json
+  CONTRACT_SHA256: 0069ca34c075c068beea1102e26a80725afc9cb9db56677e4af09fa125cbdc36
   CURRENT_SHA: 876a4321163249c43ca4e986818fab5ab081f282
   CURRENT_TAG: b10216
   SELECTED_CANDIDATE: ministral3_3b_q4_k_m
@@ -17,7 +17,7 @@ jobs:
   compare:
     name: Compare exact Release control and workload-trained PGO
     runs-on: ubuntu-24.04-arm
-    timeout-minutes: 120
+    timeout-minutes: 180
     env:
       EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e18a-${{ github.run_id }}-${{ github.run_attempt }}
       SOURCE_DIR: /tmp/llama.cpp-E18a
@@ -56,7 +56,7 @@ jobs:
             mkdir -p "$EVIDENCE_DIR/frozen-inputs/$(dirname "$input_file")"
             cp "$input_file" "$EVIDENCE_DIR/frozen-inputs/$input_file"
           done
-          python3 -m unittest tests.test_e18a
+          python3 -m unittest tests.test_e18a tests.test_e18a_successor
           cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
           uname -a | tee "$EVIDENCE_DIR/uname.txt"
           lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
@@ -251,7 +251,7 @@ jobs:
             --concurrency 1 \
             --max-output-tokens 8 \
             --seed 424242 \
-            --timeout 30 \
+            --timeout "$(jq -r '.training.request_timeout_seconds' "$CONTRACT_PATH")" \
             --experiment-id E18a \
             --server-pid "$active_server_pid" \
             --cache-prompt \
@@ -342,7 +342,7 @@ jobs:
               json.dumps(provenance, indent=2, sort_keys=True) + "\n"
           )
           PY
-          python3 experiments/e18a_ingest.py \
+          python3 experiments/e18a_successor_ingest.py \
             --evidence-dir "$EVIDENCE_DIR" \
             --contract "$CONTRACT_PATH" \
             --root "$GITHUB_WORKSPACE" \
