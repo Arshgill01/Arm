@@ -1,0 +1,62 @@
+{
+  "artifact_validation": {
+    "all_extracted_regular_files_hashed": true,
+    "file_count": 51,
+    "inventory_sha256": "becc9b3de968172274f446adb1bd5d110a11058ea1a8cd69d47596f605348c95",
+    "total_regular_file_bytes": 33768238
+  },
+  "claim_boundary": "No configuration process or model request started. This run provides no KV compatibility, allocation, answer, quality, performance, long-context, energy, PMU, device, fleet, or cost result.",
+  "configuration_attempts_started": 0,
+  "contract_sha256": "a9f2739083cff0b86ee3e2c7869d8ced88e0eddbadf6699ef329b234a2151f53",
+  "decision": {
+    "compatibility_result_accepted": false,
+    "failed_run_rehabilitated": false,
+    "long_context_successor_allowed": false,
+    "separately_committed_shell_invocation_repair_allowed": true
+  },
+  "experiment_id": "E17a",
+  "experiment_result_valid": false,
+  "failure": {
+    "cause": "The new cell runner was stored without an executable mode. The wrapper then attempted to write caller-exit.txt before the cell directory existed.",
+    "exception": "experiments/e17a_kv_preflight_cell.sh: Permission denied",
+    "repair_boundary": "A separately committed successor may invoke the exact hash-bound runner through bash and create the expected cell directory before invocation. No contract, runtime, model, configuration, order, task, request, gate, or selection rule may change.",
+    "stage": "pre-cell shell invocation"
+  },
+  "github": {
+    "artifact_digest": "sha256:a3c09e979f6f49a1948d9d2979585db3425b024d7ff80a93c74b81d3efefd487",
+    "artifact_id": "8872171485",
+    "artifact_name": "e17a-kv-v-cache-preflight-30855155720-1",
+    "artifact_size_bytes": 13834993,
+    "job_id": "91824331649",
+    "repository_commit": "ed1216673fc190d4f9a8534031ea8adb312f0326",
+    "run_attempt": 1,
+    "run_id": "30855155720",
+    "run_log_sha256": "7b55df8e61a1bf997e21922aa68ac95c68f80e3900102df72c69053d42337877",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30855155720"
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "schema_version": 1,
+  "status": "invalid_premeasurement_cell_permission_failure",
+  "validated_before_failure": {
+    "exact_contract_and_inputs": true,
+    "exact_e9a_runtime_closure": true,
+    "exact_selected_model_downloaded": true,
+    "native_server_launchable": true
+  }
+}

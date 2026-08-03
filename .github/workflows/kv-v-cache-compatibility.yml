@@ -8,8 +8,8 @@ permissions:
   contents: read
 
 env:
-  CONTRACT_PATH: experiments/e17a_contract.json
-  CONTRACT_SHA256: a9f2739083cff0b86ee3e2c7869d8ced88e0eddbadf6699ef329b234a2151f53
+  CONTRACT_PATH: experiments/e17a_successor_contract.json
+  CONTRACT_SHA256: 3f25fe713c0a5983e36eac746c24367f96302f2ee54427021536426c840d7c5c
   E9A_RUN_ID: "30764802071"
   E9A_ARTIFACT: e9a-final-service-30764802071-1
   E9A_ARTIFACT_ID: "8838874234"
@@ -57,7 +57,7 @@ jobs:
             mkdir -p "$EVIDENCE_DIR/frozen-inputs/$(dirname "$input_file")"
             cp "$input_file" "$EVIDENCE_DIR/frozen-inputs/$input_file"
           done
-          python3 -m unittest tests.test_e17a
+          python3 -m unittest tests.test_e17a tests.test_e17a_successor
           echo "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d  $E9A_DIR/summary.json" \
             | sha256sum --check --strict
           cmp "$E9A_DIR/summary.json" results/manifests/e9a-30764802071.json
@@ -96,6 +96,10 @@ jobs:
           cp experiments/e17a_kv_preflight_freeze.py "$EVIDENCE_DIR/freeze.py"
           cp experiments/e17a_kv_preflight_ingest.py "$EVIDENCE_DIR/ingest.py"
           cp tests/test_e17a.py "$EVIDENCE_DIR/test.py"
+          cp results/manifests/e17a-30855155720.json "$EVIDENCE_DIR/first-failure.json"
+          cp experiments/e17a_successor_freeze.py "$EVIDENCE_DIR/successor-freeze.py"
+          cp experiments/e17a_successor_ingest.py "$EVIDENCE_DIR/successor-ingest.py"
+          cp tests/test_e17a_successor.py "$EVIDENCE_DIR/successor-test.py"
           uname -a | tee "$EVIDENCE_DIR/uname.txt"
           lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
           free -h | tee "$EVIDENCE_DIR/memory-before.txt"
@@ -137,8 +141,9 @@ jobs:
             index=$((index + 1))
             printf -v cell_index '%02d' "$index"
             cell_dir="$EVIDENCE_DIR/cells/${cell_index}-${configuration}"
+            mkdir -p "$cell_dir"
             set +e
-            experiments/e17a_kv_preflight_cell.sh "$cell_index" "$configuration"
+            bash experiments/e17a_kv_preflight_cell.sh "$cell_index" "$configuration"
             caller_status=$?
             set -e
             echo "$caller_status" > "$cell_dir/caller-exit.txt"
@@ -148,7 +153,7 @@ jobs:
       - name: Independently validate bounded preflight
         run: |
           set -euo pipefail
-          python3 experiments/e17a_kv_preflight_ingest.py \
+          python3 experiments/e17a_successor_ingest.py \
             --evidence-dir "$EVIDENCE_DIR" \
             --contract "$CONTRACT_PATH" \
             --root "$GITHUB_WORKSPACE" \
