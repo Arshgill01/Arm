@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E11b-plan",
+  "title": "Matched native Arm stock-quant service frontier",
+  "state": "decision policy frozen before E10d or E11a external-quality outcomes are observed; the concrete contract must bind the exact successful E11a run and its mechanically derived shortlist",
+  "prerequisite": {
+    "experiment": "E11a",
+    "required_status": "valid_stock_quant_quality_ladder",
+    "selection_rule": "Take every candidate in quality_size_frontier except the Q4_K_M anchor. Do not add, remove, cap, or reorder candidates after observing model results.",
+    "empty_selection_rule": "If Q4_K_M is the only frontier point, retain a valid stop-before-measurement decision and do not run a service matrix.",
+    "invalid_prerequisite_rule": "If E11a is incomplete or fails independent validation, retain the blocker and do not dispatch E11b."
+  },
+  "comparison": {
+    "anchor": "ministral3_3b_q4_k_m",
+    "candidate_source": "Exact mechanically selected E11a quality-size frontier",
+    "runner": "ubuntu-24.04-arm",
+    "source": "Exact pinned b10216 E7c source plus patches 0001, 0002, and 0003; exclude the evaluator-only E10b probability_ids patch.",
+    "build": "Exact E7c OpenSSL-off native Release build",
+    "service": "Exact one-slot E7c service recipe for both models, changing only the model identity and alias.",
+    "workload": "Exact E9a 30-task service workload, system instruction, chat template, warmups, deterministic generation parameters, cache policy, and request sequence.",
+    "fresh_process_per_cell": true,
+    "repetitions_per_model": 4,
+    "pair_order": [
+      {"role": "anchor", "repetition": 1},
+      {"role": "candidate", "repetition": 1},
+      {"role": "candidate", "repetition": 2},
+      {"role": "anchor", "repetition": 2},
+      {"role": "candidate", "repetition": 3},
+      {"role": "anchor", "repetition": 3},
+      {"role": "anchor", "repetition": 4},
+      {"role": "candidate", "repetition": 4}
+    ],
+    "same_job_pairing": true,
+    "one_pair_per_selected_candidate": true
+  },
+  "measurements": [
+    "exact response and predicted answer for every request and repetition",
+    "official 30-task accuracy and agreement with the Q4_K_M reference",
+    "requests per second",
+    "median, p95, and p99 HTTP latency",
+    "server CPU seconds per request",
+    "maximum RSS",
+    "startup/readiness",
+    "request failures and HTTP status",
+    "prompt-cache token counts",
+    "model buffer and Arm repack log lines",
+    "binary and dynamic dependency closure",
+    "source revision, patch set, build commands, service argv, host state, and raw cells"
+  ],
+  "validity_gates": {
+    "architecture": "aarch64",
+    "request_failures": 0,
+    "http_status": 200,
+    "termination_reason": "stop",
+    "minimum_cached_tokens_per_request": 1,
+    "maximum_ready_ms": 15000.0,
+    "maximum_process_rss_kib": 15728640,
+    "maximum_throughput_coefficient_of_variation": 0.05,
+    "predictions_stable_across_repetitions": true,
+    "exact_e7c_source_build_service": true,
+    "forbidden_dynamic_dependencies": ["libcrypto.so.3", "libssl.so.3"]
+  },
+  "quality_policy": {
+    "original_30_task_admission_contract_rewritten": false,
+    "minimum_new_accuracy_gate": null,
+    "rule": "Report the exact 30-task accuracy and anchor agreement, but use the already frozen E11a external metrics as the exploratory quality coordinates. Do not reinterpret the 30-task set as a new admission gate and do not discard a stable negative result."
+  },
+  "frontier_policy": {
+    "weighted_score": false,
+    "coordinates": {
+      "maximize": [
+        "e9b_arc_easy.acc_norm",
+        "e9b_hellaswag.acc_norm",
+        "e9b_winogrande.acc",
+        "median requests per second"
+      ],
+      "minimize": [
+        "model size bytes",
+        "median HTTP latency",
+        "p95 HTTP latency",
+        "median server CPU seconds per request",
+        "maximum RSS",
+        "median readiness"
+      ]
+    },
+    "dominance": "A valid point dominates another only when it is no worse on every frozen coordinate and strictly better on at least one.",
+    "noise_rule": "Report ratios and dispersion without inventing an improvement gate after observation. A promotion candidate must be non-dominated and pass every validity gate."
+  },
+  "sealed_confirmation": {
+    "required_before_promotion": true,
+    "freeze_before_e11b_service_outcomes": true,
+    "selection": "Use a new pinned, licensed task/sample holdout not used to construct the exploratory E11a frontier. Bind its task versions, sample indices, metrics, adapter, and hashes before any E11b service result is read.",
+    "candidate_rule": "Run only valid non-dominated E11b points plus the Q4_K_M anchor; preserve poor results."
+  },
+  "negative_result_rule": "Retain and report unsupported load or repack paths, process failure, output instability, quality regression, service regression, high dispersion, memory regression, readiness regression, dominated points, and an empty shortlist without changing the prerequisite, order, repetitions, workload, coordinates, or gates.",
+  "claim_boundary": "E11b can establish a matched native Arm service frontier only for the exact stock candidates mechanically selected by E11a. It cannot promote a replacement before sealed confirmation, attribute the entire result to quantization or one kernel, rewrite the original admission contract, or support energy, PMU, local-device, fleet, cost, mixed-quant, imatrix, pruning, other-runtime, or general hardware claims."
+}
