@@ -1,0 +1,394 @@
+{
+  "acceptance": {
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ],
+    "all_raw_responses_retained_once": true,
+    "all_sampled_text_must_equal": ".",
+    "all_sampled_tokens_must_equal": 1046,
+    "maximum_preflight_repeat_delta": 1e-06,
+    "maximum_process_rss_kib": 8388608,
+    "maximum_ready_ms": 15000.0,
+    "minimum_accuracy_gate": null,
+    "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+    "request_failures": 0,
+    "required_architecture": "aarch64",
+    "server_binary_sha256": "32d7c350efbf5210f24a5291e4187fd1dfa7fb67cb42eb766da29aa112c12ab1",
+    "tokenizer_parity_mismatches": 0
+  },
+  "claim_boundary": "E11a-successor can establish only an exploratory external quality/size frontier across nine exact stock Ministral quantizations using E10f's validated safe-sampled scorer on native Arm64. It does not establish end-product service performance, promote a model, rewrite prior contracts, or support energy, PMU, local-device, fleet, cost, mixed-quant, imatrix, pruning, causal-kernel, or other-runtime claims.",
+  "decision": {
+    "matched_native_service_required": true,
+    "negative_result_rule": "Retain model download/hash failure, unsupported quant type, load failure, tokenizer mismatch, scoring failure, low or mixed quality, regression against Q4_K_M or Q4_0, repack absence, performance regression, memory regression, or readiness regression without changing candidates, tasks, samples, metrics, or dominance rules.",
+    "original_30_task_admission_contract_rewrite_allowed": false,
+    "original_e10d_rewrite_allowed": false,
+    "quality_result_can_promote_product": false,
+    "sealed_confirmation_required": true
+  },
+  "execution": {
+    "aggregate_timeout_minutes": 30,
+    "all_eight_new_candidates_required": true,
+    "cell_timeout_minutes": 360,
+    "exact_e10f_binary_closure_reused": true,
+    "exact_prepared_workload_reused": true,
+    "fresh_server_per_model": true,
+    "matrix_models_run_in_separate_native_jobs": true,
+    "per_sample_logs": true,
+    "raw_http_responses": true,
+    "runner": "ubuntu-24.04-arm"
+  },
+  "experiment_id": "E11a-successor",
+  "external_holdout": {
+    "harness": {
+      "commit": "6d642546f4688648fced259eb3302efd36ece5af",
+      "known_server_difference": "v0.4.12 auto-detection requires /tokenizer_info, which llama.cpp b10216 does not expose; the preflight therefore supplies a pinned local tokenizer snapshot only after proving its token IDs equal llama.cpp /tokenize output.",
+      "license": "MIT",
+      "model_backend": "local-completions",
+      "repository": "https://github.com/EleutherAI/lm-evaluation-harness.git",
+      "version": "0.4.12"
+    },
+    "selected_before_results": true,
+    "task_provenance": [
+      {
+        "dataset_repository": "allenai/ai2_arc",
+        "dataset_revision": "210d026faf9955653af8916fad021475a3f00453",
+        "evaluation_split": "test",
+        "license": "CC-BY-SA-4.0",
+        "license_source": "Hugging Face dataset-card metadata at the pinned revision",
+        "purpose": "grade-school science multiple-choice robustness",
+        "split_size": 2376,
+        "task": "e9b_arc_easy"
+      },
+      {
+        "dataset_repository": "Rowan/hellaswag",
+        "dataset_revision": "218ec52e09a7e7462a5400043bb9a69a41d06b76",
+        "evaluation_split": "validation",
+        "license": "MIT",
+        "license_source": "Pinned dataset card linked to original repository commit a29ff8e9a04bba4bd6588223785ce105328adc57 LICENSE",
+        "purpose": "adversarial commonsense continuation robustness",
+        "split_size": 10042,
+        "task": "e9b_hellaswag"
+      },
+      {
+        "dataset_repository": "allenai/winogrande",
+        "dataset_revision": "01e74176c63542e6b0bcb004dcdea22d94fb67b5",
+        "evaluation_split": "validation",
+        "license": "Apache-2.0",
+        "license_source": "Original repository commit 727e837f77521ef38bcc56df3b275c8da43f45af LICENSE; the pinned Hugging Face card omits a license field",
+        "purpose": "adversarial referential commonsense robustness",
+        "split_size": 1267,
+        "task": "e9b_winogrande"
+      }
+    ],
+    "tokenizer": {
+      "fix_mistral_regex": true,
+      "license": "Apache-2.0",
+      "parity_requirement": "Every predefined UTF-8, punctuation, contraction, task-format, and answer-prefix probe must produce exactly the same token IDs through the pinned tokenizer and llama.cpp /tokenize.",
+      "repository": "mistralai/Ministral-3-3B-Instruct-2512",
+      "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+      "transformers_version": "5.14.1"
+    }
+  },
+  "frontier": {
+    "candidate_outcomes_observed_before_freeze": false,
+    "coordinates": [
+      "e9b_arc_easy.acc_norm",
+      "e9b_hellaswag.acc_norm",
+      "e9b_winogrande.acc",
+      "model_size_bytes"
+    ],
+    "dominance": "A candidate dominates another only when it is no worse on all three quality coordinates and model bytes, and strictly better on at least one.",
+    "shortlist": "Advance every non-dominated quality-size point to matched native service measurement; do not impose a post-hoc cap.",
+    "weighted_score": false
+  },
+  "full_candidate_order": [
+    "ministral3_3b_q3_k_s",
+    "ministral3_3b_q3_k_m",
+    "ministral3_3b_iq4_xs",
+    "ministral3_3b_iq4_nl",
+    "ministral3_3b_q4_k_s",
+    "ministral3_3b_q4_k_m",
+    "ministral3_3b_q5_k_m",
+    "ministral3_3b_q6_k",
+    "ministral3_3b_q8_0"
+  ],
+  "hypothesis": "At least one stock format is non-dominated against Q4_K_M on external quality, package size, native Arm service throughput, peak RSS, or readiness. IQ4_NL is a specific Arm mechanism candidate because pinned b10216 contains a NEON dot-product repack path for that type; this is a hypothesis, not a result.",
+  "inputs": {
+    "base_plan_path": "experiments/e11a_plan.json",
+    "base_plan_sha256": "e592630c1f6738b853875a5ab44abbd1bc7715cf9fd4b8408f8d42d7c2b8fff8",
+    "cell_runner_path": "experiments/e10f_cell.sh",
+    "cell_runner_sha256": "4ac007f6b3705d9bf118c7ba0a681eef95137f70272af3941fefc45284f09337",
+    "e10f_contract_path": "experiments/e10f_contract.json",
+    "e10f_contract_sha256": "8c68811a36bb94e47a5bba92c44fe41d898385c1d2215d63c9b2fed010fcc729",
+    "e10f_manifest_path": "results/manifests/e10f-30829237582.json",
+    "e10f_manifest_sha256": "d328ede54f7c4af83e9b9e4ba6711ffd0dae61faf72b0e286da798d1c0998dd7",
+    "freeze_path": "experiments/e11a_successor_freeze.py",
+    "freeze_sha256": "4dc5b4af5015abf7b30a2cbf2aa4ff121d60d122351a1b88936cb56bb48a3706",
+    "ingest_path": "experiments/e11a_successor_ingest.py",
+    "ingest_sha256": "54cee4294d221e46b355c4d1f17ef2ef9a308adb5b594a5ec10120e94ee0149d",
+    "models_path": "experiments/e11a_models.json",
+    "models_sha256": "5cb8c990a9c79b28f5d8ecf06656e54305462561f0885b6be65228472e0a91b1",
+    "test_path": "tests/test_e11a_successor.py",
+    "test_sha256": "6fe6ce304f14a7d64436fc1d816daa7d88cc6f797b23661562ffe2df0fd09d8a"
+  },
+  "model_repository": {
+    "license": "Apache-2.0",
+    "provenance": {
+      "api_url": "https://huggingface.co/api/models/unsloth/Ministral-3-3B-Instruct-2512-GGUF/revision/7564922f37fa5bbb62b87f09a55c12f1f91d7a6a?blobs=true",
+      "retrieved_utc": "2026-08-03",
+      "source": "Hugging Face model API with blobs=true at the exact revision",
+      "verified_revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+    },
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+  },
+  "models": [
+    {
+      "candidate": "ministral3_3b_q3_k_s",
+      "path": "Ministral-3-3B-Instruct-2512-Q3_K_S.gguf",
+      "quantization": "Q3_K_S",
+      "role": "new stock ladder candidate",
+      "sha256": "35e350edab573bba67d5f5ffa07bad0edd41fec7fd0ba4f4fc8c05760bf54b8a",
+      "size_bytes": 1639150880
+    },
+    {
+      "candidate": "ministral3_3b_q3_k_m",
+      "path": "Ministral-3-3B-Instruct-2512-Q3_K_M.gguf",
+      "quantization": "Q3_K_M",
+      "role": "new stock ladder candidate",
+      "sha256": "91489d8d75b0a9e682e2f17ab9f25260ab935cddf6edc8f3510b8c691993c5d5",
+      "size_bytes": 1795552544
+    },
+    {
+      "candidate": "ministral3_3b_iq4_xs",
+      "path": "Ministral-3-3B-Instruct-2512-IQ4_XS.gguf",
+      "quantization": "IQ4_XS",
+      "role": "new stock ladder candidate",
+      "sha256": "d847cdafe9459948337183eb0eeca2ee3ce0c1aed45066580e01e5751dcf3476",
+      "size_bytes": 1959277856
+    },
+    {
+      "candidate": "ministral3_3b_iq4_nl",
+      "path": "Ministral-3-3B-Instruct-2512-IQ4_NL.gguf",
+      "quantization": "IQ4_NL",
+      "role": "new stock ladder candidate",
+      "sha256": "0479b05eb4890b51edf1213fb6d0d9466e93c685da491943d1a5aeb8013d49f8",
+      "size_bytes": 2051290400
+    },
+    {
+      "candidate": "ministral3_3b_q4_k_s",
+      "path": "Ministral-3-3B-Instruct-2512-Q4_K_S.gguf",
+      "quantization": "Q4_K_S",
+      "role": "new stock ladder candidate",
+      "sha256": "9973a0014ea4c7d4f2080cd468a89328ba760fbd3e2f872da2a92855d69bb50b",
+      "size_bytes": 2053256480
+    },
+    {
+      "candidate": "ministral3_3b_q5_k_m",
+      "path": "Ministral-3-3B-Instruct-2512-Q5_K_M.gguf",
+      "quantization": "Q5_K_M",
+      "role": "new stock ladder candidate",
+      "sha256": "8f208f4a8785aa1bdd8b506e36b036ac60c7f7a7fb144e3353781c74c58a33db",
+      "size_bytes": 2473653536
+    },
+    {
+      "candidate": "ministral3_3b_q6_k",
+      "path": "Ministral-3-3B-Instruct-2512-Q6_K.gguf",
+      "quantization": "Q6_K",
+      "role": "new stock ladder candidate",
+      "sha256": "ca22c676b97aad1d50952416f44ddd6d8130e24c11c474aed5e8865dd7e35297",
+      "size_bytes": 2821256480
+    },
+    {
+      "candidate": "ministral3_3b_q8_0",
+      "path": "Ministral-3-3B-Instruct-2512-Q8_0.gguf",
+      "quantization": "Q8_0",
+      "role": "new stock ladder candidate",
+      "sha256": "920163471715241a9d99367d507e2ad94d1ebc34d0d169d25e5d97a49ec72556",
+      "size_bytes": 3651679520
+    }
+  ],
+  "prerequisite": {
+    "aggregate_artifact": {
+      "digest": "sha256:d3fb6162bff4ca0a97540cc3092ff99253b880462f866e1c12d329980f88db1d",
+      "id": "8865220202",
+      "name": "e10f-aggregate-30829237582-1",
+      "size_bytes": 10144
+    },
+    "anchor": {
+      "candidate": "ministral3_3b_q4_k_m",
+      "quantization": "Q4_K_M",
+      "role": "primary",
+      "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "size_bytes": 2146497824
+    },
+    "contract_sha256": "8c68811a36bb94e47a5bba92c44fe41d898385c1d2215d63c9b2fed010fcc729",
+    "diagnostic_control": {
+      "candidate": "ministral3_3b_q4_0",
+      "quantization": "Q4_0",
+      "role": "control",
+      "sha256": "bd1eef40a7fdb1ba9728ec977bd4aab40fb76993d6ec37377fd6522703dc88a5",
+      "size_bytes": 2046375200
+    },
+    "experiment": "E10f",
+    "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+    "repository_commit": "bb7426936bd52011bbeffa260061521d4b5c45f6",
+    "required_status": "valid_safe_sampled_external_holdout",
+    "retained_manifest_sha256": "d328ede54f7c4af83e9b9e4ba6711ffd0dae61faf72b0e286da798d1c0998dd7",
+    "run_attempt": 1,
+    "run_id": "30829237582",
+    "workflow_summary_sha256": "c2fd1aef4aa9aa1e8669f0169997caffbfa3561f0da48d110ed9489e471efad6"
+  },
+  "runtime_prerequisites": {
+    "binary_reuse": {
+      "policy": "Download and independently re-ingest the exact retained E10d control artifact, then reuse its native Arm binary closure for both fresh E10f model processes. Do not rebuild or substitute another binary in this run.",
+      "runtime_closure_file_count": 8,
+      "server_sha256": "32d7c350efbf5210f24a5291e4187fd1dfa7fb67cb42eb766da29aa112c12ab1",
+      "server_size_bytes": 72488,
+      "source_artifact": "e10d-ministral3_3b_q4_0-30818303255-1",
+      "source_diff_sha256": "8ab4ea8e4a7412ec24f0fa4ebf49a23745c58cf66b8cfb2e99ac0ca53c69be12"
+    },
+    "e10d": {
+      "artifact_id": "8860154414",
+      "artifact_name": "e10d-ministral3_3b_q4_0-30818303255-1",
+      "control_manifest_sha256": "5c8ec99ef3a47a17906b677dd1b750313bce2e37263ad9fdd58956e9d0cdc9fd",
+      "original_contract_rewritten": false,
+      "pair_manifest_sha256": "59cc8fa743962108798438df89eb15e5f9fb474cc1afe581c0b574fe27ac5336",
+      "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+      "required_status": "invalid_external_holdout_pair_retained",
+      "run_attempt": 1,
+      "run_id": "30818303255"
+    },
+    "e10e": {
+      "artifact_id": "8861819016",
+      "artifact_name": "e10e-probability-preflight-30827797407-1",
+      "contract_sha256": "9cada2521c4f813c437bf7aa7c4a3d800a41a973dc9b9c781b5a05f15721c6cc",
+      "manifest_sha256": "3e689b52e59edb2eb6b523152ec54dfc0cf31a87200555aacc9bd608f7b7e167",
+      "required_status": "valid_probability_api_compatibility_preflight",
+      "run_attempt": 1,
+      "run_id": "30827797407",
+      "successor_dispatch_allowed": true
+    }
+  },
+  "safe_sampling": {
+    "logit_bias": 100.0,
+    "maximum_observed_prefailure_logprob_delta": 0.0,
+    "maximum_observed_repeat_logprob_delta": 0.0,
+    "requested_probability_distribution": "raw pre-sampling model softmax",
+    "sampled_output_used_for_score": false,
+    "selection_rule": "Choose the ASCII full-stop token already present in both failing continuations. Native E10d raw responses for this exact model encode token 1046 as one byte and a complete one-token probability record.",
+    "token_bytes": [
+      46
+    ],
+    "token_id": 1046,
+    "token_text": ".",
+    "validated_by_e10e_run": "30827797407"
+  },
+  "schema_version": 1,
+  "scope": "Run all eight non-anchor stock formats from the original E11a universe through the unchanged E10f native safe-sampled holdout, then combine them with the exact retained Q4_K_M anchor.",
+  "scoring": {
+    "harness_relationship": "Pinned lm-evaluation-harness v0.4.12 constructs tasks, chat-template strings, token boundaries, left truncation, gold labels, and choice-length normalization. The custom serial adapter replaces only the standard OpenAI echo/logprobs transport that failed E9b preflight.",
+    "mechanism": "For every frozen candidate token, request that target ID from the raw pre-sampling softmax while forcing sampled token 1046 with logit bias +100.0. Append the actual target to the next explicit prompt; sampled output is never used for score or prefix construction.",
+    "normalized_prediction_rule": "Argmax of sum log probability divided by the pinned harness character length of the choice, with first choice winning an exact tie.",
+    "prediction_rule": "Argmax of summed target-token log probabilities, with first choice winning an exact tie.",
+    "probe_parameters": {
+      "apply_chat_template": true,
+      "cache_prompt_policy": "false for the first token of every candidate; true only for later tokens of that candidate",
+      "fewshot": 0,
+      "max_length": 256,
+      "raw_response_retained_before_parsing": true,
+      "requests_per_token": 1,
+      "safe_sampled_token_id": 1046,
+      "safe_sampled_token_logit_bias": 100.0,
+      "safe_sampled_token_text": ".",
+      "sampled_output_used_for_score": false,
+      "score_distribution": "raw pre-sampling selected token log probability",
+      "seed": 424242
+    },
+    "raw_response_retention": "Retain every HTTP response before status, schema, probability, token, or content parsing.",
+    "request_timeout_seconds": 60.0
+  },
+  "service": {
+    "base_profile": "e7c_final",
+    "batch_size": 64,
+    "context_per_slot": 256,
+    "continuous_batching": true,
+    "flash_attention": "auto",
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "micro_batch_size": 64,
+    "openssl": false,
+    "profile": "e7c_final_plus_probability_ids",
+    "server_parallel_slots": 1,
+    "server_prompt_cache": true,
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_diff_sha256": "8ab4ea8e4a7412ec24f0fa4ebf49a23745c58cf66b8cfb2e99ac0ca53c69be12",
+    "source_tag": "b10216",
+    "threads": 4,
+    "threads_batch": 4,
+    "weight_repack": true
+  },
+  "state": "frozen after E10f independently validated and before any of the eight previously unobserved stock-candidate outcomes are measured",
+  "title": "Safe-sampled Arm stock-quant quality/size frontier",
+  "workload": {
+    "apply_chat_template": true,
+    "batch_size": 1,
+    "concurrent_requests": 1,
+    "expected_summary": {
+      "choices": 1000,
+      "samples": 300,
+      "serial_candidate_requests": 1000,
+      "token_score_requests": 14374,
+      "tokenizer_parity_mismatches": 0,
+      "unique_tokenized_texts": 1396
+    },
+    "fewshot": 0,
+    "fewshot_as_multiturn": false,
+    "max_length": 256,
+    "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+    "sample_selection": "The exact E9b salted SHA-256 selection map, chosen before any task outcome.",
+    "samples_per_task": 100,
+    "seed": 424242,
+    "task_shapes": {
+      "e9b_arc_easy": {
+        "choices": 400,
+        "maximum_candidate_tokens": 19,
+        "metrics": [
+          "acc",
+          "acc_norm"
+        ],
+        "minimum_candidate_tokens": 1,
+        "samples": 100,
+        "token_score_requests": 1835
+      },
+      "e9b_hellaswag": {
+        "choices": 400,
+        "maximum_candidate_tokens": 73,
+        "metrics": [
+          "acc",
+          "acc_norm"
+        ],
+        "minimum_candidate_tokens": 5,
+        "samples": 100,
+        "token_score_requests": 11405
+      },
+      "e9b_winogrande": {
+        "choices": 200,
+        "maximum_candidate_tokens": 13,
+        "metrics": [
+          "acc"
+        ],
+        "minimum_candidate_tokens": 1,
+        "samples": 100,
+        "token_score_requests": 1134
+      }
+    },
+    "tasks": [
+      "e9b_arc_easy",
+      "e9b_hellaswag",
+      "e9b_winogrande"
+    ],
+    "workload_reuse": "Reuse the byte-exact prepared.json from the retained E10d control artifact for both cells; do not redownload, regenerate, resample, or edit task data."
+  }
+}
