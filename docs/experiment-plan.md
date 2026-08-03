@@ -1451,6 +1451,24 @@ negative result is retained without tuning on unseen tasks. Exact inputs and
 boundaries are in
 [`e10a_contract.json`](../experiments/e10a_contract.json).
 
+### E10a outcome
+
+Native run `30793728347` completed the 12-cell matrix with zero request
+failures and a verified cache mechanism. Cache-on throughput was 3.0869x,
+2.3254x, and 2.3618x cache-off for one, two, and four prefixes respectively.
+Four of 96 pairs changed candidate top-1, all repeat-stable instances of the
+same one-prefix `logic-02` request shape.
+
+The predeclared cache-only margin gate failed: the maximum cached margin among
+drifted pairs was 0.0279410, but the minimum among stable pairs was lower at
+0.0122079. Pairwise Jensen-Shannon divergence separated the observed drift but
+requires an uncached shadow and cannot serve as the frozen cache-only signal.
+The retained status is `valid_cache_margin_not_separable`; no threshold is
+selected and the independent holdout remains unobserved. The result therefore
+stops the proposed margin-guard branch without weakening its quality gate. See
+the retained [`manifest`](../results/manifests/e10a-30793728347.json) and
+[`report`](../results/reports/e10a-cache-divergence.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server
