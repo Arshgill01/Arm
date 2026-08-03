@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E12a",
+  "title": "Application-conditioned Ministral importance matrix",
+  "state": "calibration sources, row selection, mixing, model, source, and execution policy frozen before E10d, E11a, E11b, or E11c model outcomes are observed",
+  "hypothesis": "An importance matrix conditioned on the application workload and disjoint training splits can improve the quality-per-byte frontier of later Q3/IQ4/Q4 and mixed-tensor quantizations without changing the serving runtime.",
+  "inputs": {
+    "application_tasks_path": "experiments/e3_tasks.json",
+    "application_tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "sample_generator_path": "experiments/e12a_samples.py",
+    "sample_generator_sha256": "6e6b69ff65fe5df9aa1708f2a815421b8b262ba07e0d135ef5a606f047bfa78d",
+    "sample_map_path": "experiments/e12a_sample_map.json",
+    "sample_map_sha256": "79b3152aa5b2b16efbbfa67b569b242221dcf4c089190e3a8a1ec9fb2316e92f",
+    "corpus_generator_path": "experiments/e12a_corpus.py",
+    "corpus_generator_sha256": "face934be9ef8f3eac0848adedff3663e0914ef69dfd795b6cadc312dcc721a4",
+    "task_utils_path": "experiments/e9b_tasks/e9b_utils.py",
+    "task_utils_sha256": "0abc32405675001f3a56d305d7ee29766f0c5af5e1d03268406e3d79cf83a826",
+    "requirements_path": "experiments/e10d_requirements.txt",
+    "requirements_sha256": "4a31160b42a8da4415822c0004d1a4adad15b5b4df396de5cd96e13efb8cd414",
+    "ingest_path": "experiments/e12a_ingest.py",
+    "ingest_sha256": "2f2b8925c0604ca9391a9e809bd299572d5c7ad67037f967d61b8a07c5c0497d",
+    "test_path": "tests/test_e12a.py",
+    "test_sha256": "53df9cda2540c5e5e8564031fd2bd709fb0e7eb430c07f34eb42483bba763b93"
+  },
+  "source": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216",
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "patches": [
+      {
+        "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      }
+    ],
+    "tools": ["llama-imatrix", "llama-quantize"]
+  },
+  "build": {
+    "runner": "ubuntu-24.04-arm",
+    "cmake_arguments": [
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DGGML_CPU_KLEIDIAI=ON",
+      "-DGGML_LTO=OFF",
+      "-DGGML_NATIVE=ON",
+      "-DLLAMA_BUILD_SERVER=OFF",
+      "-DLLAMA_BUILD_TESTS=OFF",
+      "-DLLAMA_CURL=OFF",
+      "-DLLAMA_OPENSSL=OFF"
+    ],
+    "targets": ["llama-imatrix", "llama-quantize"],
+    "forbidden_dynamic_dependency_basenames": ["libcrypto.so.3", "libssl.so.3"]
+  },
+  "model": {
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "path": "Ministral-3-3B-Instruct-2512-BF16.gguf",
+    "sha256": "413b0d1fa42c2656f6c61aab88171191fc2df2d07427d82b047c89ac977bc266",
+    "size_bytes": 6866220032,
+    "license": "Apache-2.0",
+    "provenance": "Exact LFS SHA-256 and size from the Hugging Face model API at the pinned revision"
+  },
+  "tokenizer": {
+    "repository": "mistralai/Ministral-3-3B-Instruct-2512",
+    "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+    "license": "Apache-2.0",
+    "transformers_version": "5.14.1",
+    "fix_mistral_regex": true,
+    "chat_template": "Three-message system/user/assistant transcript with enable_thinking=false and no generation prompt"
+  },
+  "calibration": {
+    "selection_uses_labels": false,
+    "selection_uses_model_outputs": false,
+    "rendering_uses_gold_answers": true,
+    "application_task_repetitions": 8,
+    "application_records": 240,
+    "samples_per_external_training_split": 160,
+    "external_records": 480,
+    "total_records": 720,
+    "record_order": "Salted SHA-256 rank over immutable source identifiers using pareto64-e12a-imatrix-record-order-v1",
+    "expected_corpus": {
+      "records": 720,
+      "source_counts": {
+        "application": 240,
+        "arc_easy_train": 160,
+        "hellaswag_train": 160,
+        "winogrande_train": 160
+      },
+      "rendered_token_count_sum": 69956,
+      "minimum_record_tokens": 41,
+      "maximum_record_tokens": 312,
+      "corpus_bytes": 309892,
+      "corpus_sha256": "8c4c6ed67bbdd4990dd7ce26df1400e7a8268b366b77b4f54448fd69d54ee2b5"
+    },
+    "datasets": [
+      {
+        "name": "arc_easy_train",
+        "repository": "allenai/ai2_arc",
+        "configuration": "ARC-Easy",
+        "revision": "210d026faf9955653af8916fad021475a3f00453",
+        "split": "train",
+        "split_size": 2251,
+        "dataset_fingerprint_with_datasets_5_0_1": "3f0efa3624a04562",
+        "license": "CC-BY-SA-4.0"
+      },
+      {
+        "name": "hellaswag_train",
+        "repository": "Rowan/hellaswag",
+        "configuration": null,
+        "revision": "218ec52e09a7e7462a5400043bb9a69a41d06b76",
+        "split": "train",
+        "split_size": 39905,
+        "dataset_fingerprint_with_datasets_5_0_1": "5c5bea5996a5827b",
+        "license": "MIT"
+      },
+      {
+        "name": "winogrande_train",
+        "repository": "allenai/winogrande",
+        "configuration": "winogrande_xl",
+        "revision": "01e74176c63542e6b0bcb004dcdea22d94fb67b5",
+        "split": "train",
+        "split_size": 40398,
+        "dataset_fingerprint_with_datasets_5_0_1": "d5752cdf34722002",
+        "license": "Apache-2.0"
+      }
+    ],
+    "holdout_exclusion": "Only dataset training splits and the already-consumed 30 application tasks are used. E10d/E11a evaluation splits and every E11c test row are excluded."
+  },
+  "imatrix": {
+    "argv_after_binary": [
+      "--model", "MODEL_PATH",
+      "--file", "CORPUS_PATH",
+      "--output-file", "IMATRIX_PATH",
+      "--output-format", "gguf",
+      "--ctx-size", "512",
+      "--batch-size", "512",
+      "--ubatch-size", "128",
+      "--threads", "4",
+      "--chunks", "32",
+      "--output-frequency", "8",
+      "--no-ppl",
+      "--parse-special"
+    ],
+    "processed_chunks": 32,
+    "tokens_per_chunk": 512,
+    "minimum_processed_tokens": 16384,
+    "process_output_tensor": false,
+    "perplexity_computed": false
+  },
+  "acceptance": {
+    "required_architecture": "aarch64",
+    "process_exit_status": 0,
+    "minimum_imatrix_entries": 1,
+    "required_chunk_count": 32,
+    "required_chunk_size": 512,
+    "require_gguf_metadata": true,
+    "require_statistics_capture": true,
+    "require_corpus_hash_match": true,
+    "require_model_hash_match": true,
+    "require_source_and_build_closure": true
+  },
+  "decision": {
+    "imatrix_generation_promotes_model": false,
+    "next_phase": "Use the single retained matrix to generate predefined stock-equivalent and mixed-tensor candidate recipes; compare quality before native service performance.",
+    "failure_rule": "Retain build failure, BF16 load failure, insufficient corpus tokens, incomplete chunks, missing activation entries, invalid GGUF metadata, non-deterministic corpus, and tool failure without changing data, chunks, source, or model."
+  },
+  "claim_boundary": "E12a can establish only a reproducible application-conditioned importance-matrix artifact on one native GitHub-hosted Arm64 runner. It is not a quantized model result, does not prove a quality or performance gain, and supports no energy, PMU, local-device, fleet, cost, pruning, other-runtime, or general hardware claim."
+}
