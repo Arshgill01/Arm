@@ -1,6 +1,6 @@
 # Final submission checklist
 
-Last technical review: 2026-08-01 UTC. The submission deadline is August 14,
+Last technical review: 2026-08-03 UTC. The submission deadline is August 14,
 2026 at 23:00 UTC.
 
 ## Completed in the repository
@@ -23,11 +23,15 @@ Last technical review: 2026-08-01 UTC. The submission deadline is August 14,
       accomplishments, learning, and future work are drafted.
 - [x] Interactive no-dependency demo is implemented and browser-tested.
 - [x] Video script is under three minutes (2m50s).
-- [x] Clean-checkout native Arm validation passes in public workflow run
-      [`30691572261`](https://github.com/Arshgill01/Arm/actions/runs/30691572261).
+- [x] The E9a–E9e checkpoint passes clean-checkout native Arm validation in
+      public workflow run
+      [`30775565670`](https://github.com/Arshgill01/Arm/actions/runs/30775565670):
+      163 tests and 49 immutable evidence hashes at commit `70ceae6`.
 
-The demo, favicon, and screenshots are first-party assets created for this
-repository. They use no third-party imagery, fonts, music, or footage.
+The demo, favicon, and four 1,440×900 screenshots are first-party assets created
+for this repository. They use no third-party imagery, fonts, music, or footage.
+The overview and final-service gallery images were re-rendered from the final
+E9a–E9e demo on August 3 with zero browser warnings.
 
 ## Entrant actions still required
 

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import struct
 import sys
 from html.parser import HTMLParser
 from importlib import import_module
@@ -190,12 +191,19 @@ REQUIRED_SUBMISSION_FILES = (
     "demo/app.js",
     "demo/favicon.svg",
     "output/playwright/pareto64-overview.png",
+    "output/playwright/pareto64-final-service.png",
     "output/playwright/pareto64-policy-lab.png",
     "output/playwright/pareto64-serving-boundary.png",
     "submission/devpost.md",
     "submission/evidence.md",
     "submission/demo-script.md",
     "submission/compliance.md",
+)
+GALLERY_FILES = (
+    "output/playwright/pareto64-overview.png",
+    "output/playwright/pareto64-final-service.png",
+    "output/playwright/pareto64-policy-lab.png",
+    "output/playwright/pareto64-serving-boundary.png",
 )
 
 
@@ -247,6 +255,23 @@ def verify_demo() -> int:
     if "<h1" not in index.read_text(encoding="utf-8"):
         raise ValueError("demo lacks a primary heading")
     return len(parser.assets)
+
+
+def verify_gallery() -> int:
+    for relative in GALLERY_FILES:
+        header = (ROOT / relative).read_bytes()[:24]
+        if (
+            len(header) != 24
+            or header[:16] != b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR"
+        ):
+            raise ValueError(f"gallery asset is not a valid PNG: {relative}")
+        width, height = struct.unpack(">II", header[16:24])
+        if (width, height) != (1440, 900):
+            raise ValueError(
+                f"gallery asset has unexpected dimensions: {relative} "
+                f"({width}x{height})"
+            )
+    return len(GALLERY_FILES)
 
 
 def main() -> int:
@@ -1557,11 +1582,13 @@ def main() -> int:
         raise ValueError("E9e feasibility stop changed or gained a measurement")
 
     local_assets = verify_demo()
+    gallery_assets = verify_gallery()
     print("Pareto64 submission verification passed")
     print(f"selected candidate: {plan['selected']['name']}")
     print(f"selected accuracy: {plan['selected']['metrics']['minimum_accuracy']:.4f}")
     print(f"verified evidence files: {len(EXPECTED_HASHES)}")
     print(f"verified demo links/assets: {local_assets}")
+    print(f"verified 1440x900 gallery assets: {gallery_assets}")
     return 0
 
 

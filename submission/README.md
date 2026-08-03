@@ -8,6 +8,11 @@ and media needed for the Arm Create: AI Optimization Challenge 2026 entry.
 - [`demo-script.md`](demo-script.md): public video script under three minutes.
 - [`compliance.md`](compliance.md): final technical and account checklist.
 
+The ready-to-upload 1,440×900 gallery assets are in
+[`../output/playwright/`](../output/playwright/): project overview, interactive
+policy, final E5b-versus-E7c service comparison, and cache-generalization
+boundary.
+
 The interactive static demo is in [`../demo/index.html`](../demo/index.html).
 From the repository root:
 
@@ -22,6 +27,11 @@ with:
 python3 scripts/verify_submission.py
 python3 -m unittest discover -s tests -v
 ```
+
+The final E9a–E9e public native Arm clean-checkout run is
+[`30775565670`](https://github.com/Arshgill01/Arm/actions/runs/30775565670),
+covering 163 tests, 49 immutable evidence hashes, planner replay, and the demo
+smoke test at commit `70ceae6`.
 
 The repository does not publish or configure a hosted site automatically.
 Before final submission, the entrant must put the static `demo/` directory at a

@@ -98,6 +98,12 @@ authoritative, timestamped record; this file groups the significant additions.
 
 ### Submission and developer experience
 
+- Reconciled the judge package with the final `70ceae6` native validation:
+  163 tests, 49 immutable evidence hashes, planner replay, and demo smoke passed
+  in public Arm64 run `30775565670`. Re-rendered the overview and added a
+  dedicated 1,440×900 E9a final-service gallery image; the browser reported no
+  warnings.
+
 - Extended the focused suite to 145 tests and the immutable verifier to 35
   hashes, including the corrected complete E7c contract and byte-identical
   native launch manifest.

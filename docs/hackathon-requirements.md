@@ -172,8 +172,10 @@ the rule defects in `open-questions.md`.
 - [x] GitHub detects the repository license as Apache-2.0 after push.
 - [x] All dependencies, models, datasets, and generated assets have provenance
       and compatible rights.
-- [x] Clean-checkout setup/run/validation succeeds on the intended Arm target
-      ([native run `30680270944`](https://github.com/Arshgill01/Arm/actions/runs/30680270944)).
+- [x] Clean-checkout setup/run/validation succeeds on the intended Arm target:
+      163 tests, 49 immutable evidence hashes, planner replay, and demo smoke at
+      final E9a–E9e native run
+      [`30775565670`](https://github.com/Arshgill01/Arm/actions/runs/30775565670).
 - [x] Repeated before/after results and raw evidence are published.
 - [x] Correctness or quality guardrails show optimization did not silently break
       the workload.

@@ -1757,3 +1757,24 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Mechanism, exact-model-comparability, and quality-workload gates failed. E9e
   is retained as `no_measured_experiment_launched`; no Arm runner, performance,
   energy, PMU, cost, or portability claim was used.
+
+## 2026-08-03 — final submission evidence reconciled
+
+- Audited the judge package after the E9e checkpoint. The evidence index,
+  compliance checklist, and requirements dossier still cited earlier public
+  validation runs even though final native Arm run `30775565670` had passed on
+  exact commit `70ceae6` with 163 tests and 49 hashes; all three now identify
+  that final proof.
+- Rendered the current demo at 1,440×900 in Chromium. The committed overview
+  still showed the older cache-throughput headline and four-core wording, so it
+  was replaced with the final 1.717×/Neoverse-N2 view.
+- Added a dedicated final-service screenshot showing the exact E5b and E7c
+  recipes, same-job throughput/latency/CPU/RSS comparison, and retained
+  readiness outlier. Browser console inspection reported zero warnings or
+  errors.
+- Rechecked the extended E9a–E9e evidence list at a 390×844 viewport. Document
+  width exactly matched the 390-pixel viewport, the evidence region stayed
+  within its client width, and the browser console remained clean.
+- Extended the submission verifier to require all four gallery images. Public
+  hosting, video upload, account/eligibility confirmations, and physical-device
+  E8a remain explicit entrant/device handoffs rather than inferred completions.
