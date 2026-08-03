@@ -1,0 +1,120 @@
+name: Arm E11a fail-closed stock quant aggregate recovery
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e11a_recovery_contract.json
+  CONTRACT_SHA256: ecf178679ea194a77d3bff0aea80c0530e1f52de2b5de88ddafc98af264f0fbf
+  ORIGINAL_CONTRACT_PATH: experiments/e11a_successor_contract.json
+  SOURCE_RUN_ID: "30847559089"
+  SOURCE_RUN_ATTEMPT: "1"
+  SOURCE_HEAD_SHA: f3321bde74570de141266b111af364e7ea3722af
+  ANCHOR_RUN_ID: "30829237582"
+  ANCHOR_ARTIFACT: e10f-aggregate-30829237582-1
+  EVIDENCE_ROOT: results/raw/e11a-successor-recovery
+
+jobs:
+  aggregate:
+    name: Account for seven valid cells and one resource-infeasible cell
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - name: Check out frozen recovery
+        uses: actions/checkout@v7
+
+      - name: Verify contract and source-run terminal identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = "aarch64"
+          mkdir -p "$EVIDENCE_ROOT/metadata" "$EVIDENCE_ROOT/combined"
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          while IFS=$'\t' read -r expected input_file; do
+            echo "$expected  $input_file" | sha256sum --check --strict
+          done < <(jq -r '.inputs as $inputs | $inputs | to_entries[] | select(.key | endswith("_path")) | [$inputs[(.key | sub("_path$"; "_sha256"))], .value] | @tsv' "$CONTRACT_PATH")
+          python3 -m unittest tests.test_e11a_recovery
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID" \
+            > "$EVIDENCE_ROOT/metadata/source-run.json"
+          jq -e \
+            --arg run_id "$SOURCE_RUN_ID" \
+            --argjson attempt "$SOURCE_RUN_ATTEMPT" \
+            --arg sha "$SOURCE_HEAD_SHA" \
+            '.id == ($run_id | tonumber) and .run_attempt == $attempt and .head_sha == $sha and .status == "completed" and .conclusion == "failure"' \
+            "$EVIDENCE_ROOT/metadata/source-run.json"
+          gh api --paginate \
+            "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100" \
+            > "$EVIDENCE_ROOT/metadata/source-artifacts.json"
+
+      - name: Download every exact source-run candidate artifact
+        uses: actions/download-artifact@v7
+        with:
+          pattern: e11a-successor-ministral3_3b_*-${{ env.SOURCE_RUN_ID }}-${{ env.SOURCE_RUN_ATTEMPT }}
+          path: ${{ env.EVIDENCE_ROOT }}/cells
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Download exact retained anchor workflow aggregate
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ env.ANCHOR_ARTIFACT }}
+          path: ${{ env.EVIDENCE_ROOT }}/anchor-workflow
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.ANCHOR_RUN_ID }}
+
+      - name: Independently aggregate the frozen accounting set
+        run: |
+          set -euo pipefail
+          echo "c2fd1aef4aa9aa1e8669f0169997caffbfa3561f0da48d110ed9489e471efad6  $EVIDENCE_ROOT/anchor-workflow/summary.json" \
+            | sha256sum --check --strict
+          mapfile -t summaries < <(find "$EVIDENCE_ROOT/cells" -name summary.json -type f | sort)
+          test "${#summaries[@]}" -eq 7
+          if find "$EVIDENCE_ROOT/cells" -path '*ministral3_3b_q8_0*' -name summary.json -type f | grep -q .; then
+            exit 1
+          fi
+          args=()
+          for summary in "${summaries[@]}"; do
+            args+=(--cell "$summary")
+          done
+          python3 experiments/e11a_recovery_ingest.py \
+            --contract "$CONTRACT_PATH" \
+            --original-contract "$ORIGINAL_CONTRACT_PATH" \
+            "${args[@]}" \
+            --anchor results/manifests/e10f-30829237582.json \
+            --q8-failure results/manifests/e11a-successor-q8-resource-failure-30847559089.json \
+            --artifact-metadata "$EVIDENCE_ROOT/metadata/source-artifacts.json" \
+            --output "$EVIDENCE_ROOT/combined/summary.json"
+          cp "$CONTRACT_PATH" "$EVIDENCE_ROOT/combined/contract.json"
+          cp "$ORIGINAL_CONTRACT_PATH" "$EVIDENCE_ROOT/combined/original-contract.json"
+          cp results/manifests/e10f-30829237582.json \
+            "$EVIDENCE_ROOT/combined/anchor-retained-manifest.json"
+          cp results/manifests/e11a-successor-q8-resource-failure-30847559089.json \
+            "$EVIDENCE_ROOT/combined/q8-resource-failure-manifest.json"
+          cp "$EVIDENCE_ROOT/anchor-workflow/summary.json" \
+            "$EVIDENCE_ROOT/combined/anchor-workflow-summary.json"
+          cp "$EVIDENCE_ROOT/metadata/source-run.json" \
+            "$EVIDENCE_ROOT/combined/source-run.json"
+          cp "$EVIDENCE_ROOT/metadata/source-artifacts.json" \
+            "$EVIDENCE_ROOT/combined/source-artifacts.json"
+          cp .github/workflows/stock-quant-frontier-recovery.yml \
+            "$EVIDENCE_ROOT/combined/workflow.yml"
+          sha256sum .github/workflows/stock-quant-frontier-recovery.yml \
+            > "$EVIDENCE_ROOT/combined/workflow-sha256.txt"
+          find "$EVIDENCE_ROOT/combined" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum \
+            > "$EVIDENCE_ROOT/combined/file-inventory-sha256.txt"
+
+      - name: Upload compact recovered stock frontier
+        uses: actions/upload-artifact@v7
+        with:
+          name: e11a-successor-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_ROOT }}/combined
+          retention-days: 90
+          if-no-files-found: error
