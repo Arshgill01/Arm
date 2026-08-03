@@ -5,6 +5,8 @@ Optimization Challenge 2026**.
 
 [![Native Arm submission validation](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml/badge.svg)](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml)
 
+**[Open the public Native Arm64 evidence report ↗](https://pareto64-arm-evidence.arshgill01.chatgpt.site)**
+
 The event asks entrants to create, migrate, or optimize an AI solution on Arm
 architecture in one of three published tracks: Physical AI, Cloud AI, or Mobile
 AI. The submission deadline is **August 14, 2026 at 4:00 PM PDT** (23:00 UTC;

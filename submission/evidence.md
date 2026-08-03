@@ -1,5 +1,8 @@
 # Judge evidence index
 
+Public HTML report:
+[`pareto64-arm-evidence.arshgill01.chatgpt.site`](https://pareto64-arm-evidence.arshgill01.chatgpt.site)
+
 All performance claims below come from native `aarch64` GitHub-hosted Neoverse
 N2 runners. Each manifest records its exact CPU topology; E0–E7c used four
 logical CPUs, while E9a's same-job final comparison used two. No absolute rate

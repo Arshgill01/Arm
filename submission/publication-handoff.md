@@ -43,3 +43,12 @@ reviewed. The following anonymous checks now pass:
 
 The Devpost source field still needs entrant review. Static demo hosting and
 public video upload remain separate entrant actions.
+
+## Public evidence report
+
+The evidence-ledger site is published at
+[`https://pareto64-arm-evidence.arshgill01.chatgpt.site`](https://pareto64-arm-evidence.arshgill01.chatgpt.site).
+Sites reports public access, and an unauthenticated HTTP request returned 200
+with the E9a final-service, E10f holdout, E13 cache-certificate, E14 selective-
+repack, and E16 packed-loader evidence. This is a public HTML report, not a
+Devpost submission or a published upstream patch.
