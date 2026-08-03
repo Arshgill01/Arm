@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E11c-plan",
+  "title": "Procedurally sealed stock-quant confirmation holdout",
+  "state": "tasks, dataset revision, samples, metrics, and adapter policy frozen before E10d, E11a, or E11b model outcomes are observed",
+  "purpose": "Provide a separately selected quality check for mechanically selected E11b service-frontier points without reusing the three E11a exploratory tasks or rewriting the original 30-task admission contract.",
+  "inputs": {
+    "service_frontier_plan_path": "experiments/e11b_plan.json",
+    "service_frontier_plan_sha256": "59043f3c5c667c123ce96472a36c5d326ed9831d3f346b1d8cb2e8afe870949e",
+    "sample_generator_path": "experiments/e11c_samples.py",
+    "sample_generator_sha256": "5ef7a70daaa4f6fbd7bf62041a65563f2b1c4a487d74253d4ecf6e5d95aa4ab5",
+    "sample_map_path": "experiments/e11c_sample_map.json",
+    "sample_map_sha256": "40b232cb4fd94d1f74bb34eb9c85e925c4e6de576252bd8240855adb7e7bb991",
+    "task_computer_security_path": "experiments/e11c_tasks/e11c_mmlu_computer_security.yaml",
+    "task_computer_security_sha256": "dfbafde8e8e07248601225650135c741f276a6049d9e44ef7621dd9b4a477f37",
+    "task_machine_learning_path": "experiments/e11c_tasks/e11c_mmlu_machine_learning.yaml",
+    "task_machine_learning_sha256": "1f8cf2de641b631d2365f33156aa31b108144ba4dee83f7a67c5584fc4091b07",
+    "task_business_ethics_path": "experiments/e11c_tasks/e11c_mmlu_business_ethics.yaml",
+    "task_business_ethics_sha256": "60ad03765f86351cb36422ebc1e57c8bc6aaf3a0d12242b5f162abc728c42406",
+    "requirements_path": "experiments/e10d_requirements.txt",
+    "requirements_sha256": "4a31160b42a8da4415822c0004d1a4adad15b5b4df396de5cd96e13efb8cd414"
+  },
+  "harness": {
+    "repository": "https://github.com/EleutherAI/lm-evaluation-harness.git",
+    "version": "0.4.12",
+    "commit": "6d642546f4688648fced259eb3302efd36ece5af",
+    "license": "MIT",
+    "adapter": "Reuse the validated E10d serial exact-token probability_ids mechanism, tokenizer parity preflight, cache-isolated first token, per-sample logs, and raw compressed response retention."
+  },
+  "tokenizer": {
+    "repository": "mistralai/Ministral-3-3B-Instruct-2512",
+    "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+    "license": "Apache-2.0",
+    "transformers_version": "5.14.1",
+    "fix_mistral_regex": true,
+    "parity_requirement": "The pinned tokenizer must match llama.cpp /tokenize on the existing synthetic probes and every prepared MMLU context plus continuation."
+  },
+  "dataset": {
+    "repository": "cais/mmlu",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "license": "MIT",
+    "license_source": "Hugging Face dataset-card metadata at the pinned revision",
+    "provenance_url": "https://huggingface.co/datasets/cais/mmlu",
+    "retrieved_utc": "2026-08-03",
+    "known_limitation": "MMLU is a public and widely used benchmark, so pretraining contamination cannot be excluded. Sealed here means that the task/sample contract is frozen and remains unevaluated until after exploratory service selection, not that the questions are secret."
+  },
+  "planned_holdout": {
+    "tasks": [
+      {
+        "task": "e11c_mmlu_computer_security",
+        "dataset_config": "computer_security",
+        "purpose": "systems and security reasoning",
+        "evaluation_split": "test",
+        "split_size": 100,
+        "dataset_fingerprint_with_datasets_5_0_1": "c00551a55138390b"
+      },
+      {
+        "task": "e11c_mmlu_machine_learning",
+        "dataset_config": "machine_learning",
+        "purpose": "technical data and model reasoning",
+        "evaluation_split": "test",
+        "split_size": 112,
+        "dataset_fingerprint_with_datasets_5_0_1": "43ddde1813be4e9f"
+      },
+      {
+        "task": "e11c_mmlu_business_ethics",
+        "dataset_config": "business_ethics",
+        "purpose": "professional judgment outside the exploratory science and commonsense tasks",
+        "evaluation_split": "test",
+        "split_size": 100,
+        "dataset_fingerprint_with_datasets_5_0_1": "73d48c7e397703f2"
+      }
+    ],
+    "task_order": [
+      "e11c_mmlu_computer_security",
+      "e11c_mmlu_machine_learning",
+      "e11c_mmlu_business_ethics"
+    ],
+    "samples_per_task": 80,
+    "total_samples": 240,
+    "choices_per_sample": 4,
+    "total_choices": 960,
+    "fewshot": 0,
+    "apply_chat_template": true,
+    "fewshot_as_multiturn": false,
+    "max_length": 256,
+    "batch_size": 1,
+    "concurrent_requests": 1,
+    "seed": 424242,
+    "sample_selection": "Salted SHA-256 ranking over public integer indices using pareto64-e11c-sealed-mmlu-v1; labels and model outputs are not inputs to selection.",
+    "metrics": {
+      "e11c_mmlu_computer_security": ["acc"],
+      "e11c_mmlu_machine_learning": ["acc"],
+      "e11c_mmlu_business_ethics": ["acc"]
+    }
+  },
+  "candidate_policy": {
+    "anchor": "ministral3_3b_q4_k_m",
+    "candidates": "Every valid non-dominated E11b service-frontier point, selected mechanically only after E11b aggregate validation.",
+    "empty_selection_rule": "If E11b has no valid non-anchor promotion candidate, retain a stop-before-measurement decision rather than evaluating other E11a points.",
+    "no_post_result_changes": true
+  },
+  "decision_policy": {
+    "minimum_accuracy_gate": null,
+    "weighted_score": false,
+    "promotion_rule": "A candidate may be promoted only if it remains non-dominated when all three sealed accuracy coordinates are added to its frozen E11b quality, size, and service coordinates, and it passes all E11b validity gates.",
+    "negative_result_rule": "Retain low, mixed, tied, or regressed accuracy, prediction disagreement, adapter failure, tokenizer mismatch, missing raw responses, and an empty candidate set without changing tasks, samples, metrics, adapter, or frontier policy.",
+    "original_admission_contract_rewrite_allowed": false
+  },
+  "claim_boundary": "E11c is a procedurally sealed, public-benchmark confirmation on three exact MMLU subjects. It is supplemental evidence, does not establish secret-holdout generalization, cannot exclude benchmark contamination, does not rewrite the original admission contract, and supports no energy, PMU, local-device, fleet, cost, mixed-quant, imatrix, pruning, other-runtime, or general hardware claim."
+}
