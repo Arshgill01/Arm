@@ -1,0 +1,162 @@
+name: Arm E15a bounded split scheduler
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e15a_contract.json
+  CONTRACT_SHA256: 985997102614bd7a3d9332a20b8f1c422ffb5353ba5a91e7e103952dd4f3cd13
+  E9A_RUN_ID: "30764802071"
+  E9A_ARTIFACT: e9a-final-service-30764802071-1
+
+jobs:
+  split_scheduler:
+    name: Exact E9a asymmetric prefill/decode boundary
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 120
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e15a-${{ github.run_id }}-${{ github.run_attempt }}
+      E9A_DIR: ${{ github.workspace }}/results/raw/e15a-e9a-prerequisite
+      MODEL_ROOT: /tmp/Pareto64-E15a/models
+
+    steps:
+      - name: Check out frozen split-scheduler experiment
+        uses: actions/checkout@v7
+
+      - name: Download exact retained E9a service artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ env.E9A_ARTIFACT }}
+          path: ${{ env.E9A_DIR }}
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.E9A_RUN_ID }}
+
+      - name: Verify frozen contract, native host, and exact runtime closure
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = "aarch64"
+          mkdir -p "$EVIDENCE_DIR" "$MODEL_ROOT"
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          while IFS=$'\t' read -r expected input_file; do
+            echo "$expected  $input_file" | sha256sum --check --strict
+          done < <(jq -r '.inputs as $inputs | $inputs | to_entries[] | select(.key | endswith("_path")) | [$inputs[(.key | sub("_path$"; "_sha256"))], .value] | @tsv' "$CONTRACT_PATH")
+          python3 -m unittest tests.test_e15a
+          echo "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d  $E9A_DIR/summary.json" \
+            | sha256sum --check --strict
+          cmp "$E9A_DIR/summary.json" results/manifests/e9a-30764802071.json
+          cp -R "$E9A_DIR/builds/e7c_final" "$EVIDENCE_DIR/runtime"
+          cp "$E9A_DIR/summary.json" "$EVIDENCE_DIR/e9a-workflow-summary.json"
+          echo "a441ab5943b5dea87ae713afff6573c62a874cf919fa1b0fa8908073ecabdf8b  $EVIDENCE_DIR/runtime/runtime-closure.json" \
+            | sha256sum --check --strict
+          runtime_bin="$EVIDENCE_DIR/runtime/runtime-files/bin"
+          chmod +x "$runtime_bin/llama-server"
+          ln -sfn libllama-common.so.0.0.10216 "$runtime_bin/libllama-common.so.0"
+          ln -sfn libmtmd.so.0.0.10216 "$runtime_bin/libmtmd.so.0"
+          ln -sfn libllama.so.0.0.10216 "$runtime_bin/libllama.so.0"
+          ln -sfn libggml.so.0.18.0 "$runtime_bin/libggml.so.0"
+          ln -sfn libggml-base.so.0.18.0 "$runtime_bin/libggml-base.so.0"
+          ln -sfn libggml-cpu.so.0.18.0 "$runtime_bin/libggml-cpu.so.0"
+          echo "e15e14bd5d4f86e09a79603862f52db841de758ecc21b2c476a2ba92cc8ee40e  $runtime_bin/llama-server" \
+            | sha256sum --check --strict
+          echo "LD_LIBRARY_PATH=$runtime_bin" >> "$GITHUB_ENV"
+          LD_LIBRARY_PATH="$runtime_bin" ldd "$runtime_bin/llama-server" \
+            | tee "$EVIDENCE_DIR/runtime-ldd.txt"
+          if grep -q 'not found' "$EVIDENCE_DIR/runtime-ldd.txt"; then exit 1; fi
+          if grep -Eq 'lib(crypto|ssl)\.so\.3' "$EVIDENCE_DIR/runtime-ldd.txt"; then exit 1; fi
+          LD_LIBRARY_PATH="$runtime_bin" "$runtime_bin/llama-server" --version \
+            2>&1 | tee "$EVIDENCE_DIR/server-version.txt"
+          grep -q 876a43211 "$EVIDENCE_DIR/server-version.txt"
+
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          cp results/manifests/e3f-30656151957.json "$EVIDENCE_DIR/selected-manifest.json"
+          cp experiments/e3f_models.json "$EVIDENCE_DIR/models-manifest.json"
+          cp experiments/e3_tasks.json "$EVIDENCE_DIR/tasks-manifest.json"
+          cp experiments/e9a_contract.json "$EVIDENCE_DIR/e9a-contract.json"
+          cp results/manifests/e9a-30764802071.json "$EVIDENCE_DIR/e9a-manifest.json"
+          cp results/reports/e9a-final-service-comparison.md "$EVIDENCE_DIR/e9a-report.md"
+          cp results/manifests/e5j-30677332825.json "$EVIDENCE_DIR/e5j-manifest.json"
+          cp results/reports/e5j-thread-efficiency-profile.md "$EVIDENCE_DIR/e5j-report.md"
+          cp experiments/e5b_inference_probe.py "$EVIDENCE_DIR/probe.py"
+          cp experiments/e15a_split_scheduler_cell.sh "$EVIDENCE_DIR/cell-runner.sh"
+          cp experiments/e15a_split_scheduler_freeze.py "$EVIDENCE_DIR/freeze.py"
+          cp experiments/e15a_split_scheduler_ingest.py "$EVIDENCE_DIR/ingest.py"
+          cp tests/test_e15a.py "$EVIDENCE_DIR/test.py"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          git rev-parse HEAD | tee "$EVIDENCE_DIR/repository-commit.txt"
+          jq -n \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --argjson run_attempt "$GITHUB_RUN_ATTEMPT" \
+            --arg sha "$GITHUB_SHA" \
+            --arg ref "$GITHUB_REF" \
+            --arg runner_os "$RUNNER_OS" \
+            --arg runner_arch "$RUNNER_ARCH" \
+            --arg e9a_run_id "$E9A_RUN_ID" \
+            --arg e9a_artifact "$E9A_ARTIFACT" \
+            '{run_id: $run_id, run_attempt: $run_attempt, sha: $sha, ref: $ref, runner_os: $runner_os, runner_arch: $runner_arch, e9a_run_id: $e9a_run_id, e9a_artifact: $e9a_artifact}' \
+            > "$EVIDENCE_DIR/github.json"
+
+      - name: Download and verify exact selected model
+        run: |
+          set -euo pipefail
+          repository="$(jq -r '.selected.repository' "$CONTRACT_PATH")"
+          revision="$(jq -r '.selected.revision' "$CONTRACT_PATH")"
+          entrypoint="$(jq -r '.selected.path' "$CONTRACT_PATH")"
+          model_sha="$(jq -r '.selected.model_sha256' "$CONTRACT_PATH")"
+          model_size="$(jq -r '.selected.model_size_bytes' "$CONTRACT_PATH")"
+          MODEL="$MODEL_ROOT/$entrypoint"
+          mkdir -p "$(dirname "$MODEL")"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$MODEL" \
+            "https://huggingface.co/$repository/resolve/$revision/$entrypoint?download=true"
+          test "$(stat --format='%s' "$MODEL")" = "$model_size"
+          echo "$model_sha  $MODEL" | sha256sum --check --strict
+          sha256sum "$MODEL" | tee "$EVIDENCE_DIR/model-sha256.txt"
+          stat --format='%s' "$MODEL" > "$EVIDENCE_DIR/model-size.txt"
+          echo "MODEL=$MODEL" >> "$GITHUB_ENV"
+          echo "SERVER=$EVIDENCE_DIR/runtime/runtime-files/bin/llama-server" >> "$GITHUB_ENV"
+
+      - name: Run balanced fresh-process split scheduler boundary
+        run: |
+          set -euo pipefail
+          index=0
+          while IFS=$'\t' read -r configuration repetition; do
+            index=$((index + 1))
+            printf -v cell_index '%02d' "$index"
+            threads_decode="$(jq -r --arg name "$configuration" '.execution.configurations[$name].threads_decode' "$CONTRACT_PATH")"
+            threads_batch="$(jq -r --arg name "$configuration" '.execution.configurations[$name].threads_batch' "$CONTRACT_PATH")"
+            experiments/e15a_split_scheduler_cell.sh \
+              "$cell_index" "$configuration" "$repetition" \
+              "$threads_decode" "$threads_batch"
+          done < <(jq -r '.execution.order[] | [.configuration, .repetition] | @tsv' "$CONTRACT_PATH")
+          test "$index" -eq 16
+
+      - name: Independently validate complete scheduler evidence
+        run: |
+          set -euo pipefail
+          python3 experiments/e15a_split_scheduler_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+          jq '{status, decision, performance: [.performance | to_entries[] | {configuration: .key, threads_decode: .value.threads_decode, threads_batch: .value.threads_batch, throughput: .value.requests_per_second, http_ms: .value.http_ms, encode_ms: .value.encode_ms, decode_ms: .value.decode_ms, cpu_seconds_per_request: .value.server_cpu_seconds_per_request, average_cores: .value.average_server_cores_used, quality: .value.quality}]}' "$EVIDENCE_DIR/summary.json"
+
+      - name: Upload complete split-scheduler evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e15a-split-scheduler-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error

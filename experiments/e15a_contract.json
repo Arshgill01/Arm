@@ -1,0 +1,327 @@
+{
+  "acceptance": {
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ],
+    "http_status": 200,
+    "maximum_candidate_cpu_seconds_per_request_ratio": 0.98,
+    "maximum_candidate_encode_latency_ratio": 1.02,
+    "maximum_candidate_median_http_latency_ratio": 1.02,
+    "maximum_candidate_p95_http_latency_ratio": 1.02,
+    "maximum_process_rss_kib": 8388608,
+    "maximum_ready_ms": 15000.0,
+    "maximum_throughput_coefficient_of_variation": 0.05,
+    "minimum_cached_tokens_per_request": 1,
+    "minimum_candidate_throughput_ratio": 0.98,
+    "reference_prediction_mismatches": 0,
+    "request_failures": 0,
+    "required_architecture": "aarch64",
+    "required_logical_cpus": 2,
+    "required_model_name": "Neoverse-N2",
+    "termination_reason": "stop",
+    "weighted_score_used": false
+  },
+  "claim_boundary": "E15a can establish only an exact end-product split-thread result on one two-core native GitHub Arm64 runner. It does not establish long-context, long-generation, placement, polling, priority, KleidiAI chunk, many-core, energy, PMU, local-device, fleet, cost, or other-runtime behavior.",
+  "execution": {
+    "baseline_configuration": "tied4_4",
+    "candidate_configurations": [
+      "split2_4",
+      "split1_4"
+    ],
+    "configurations": {
+      "prefill_control4_2": {
+        "batch_size": 64,
+        "client_concurrency": 1,
+        "context_per_slot": 256,
+        "flash_attention": "auto",
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16",
+        "micro_batch_size": 64,
+        "prompt_cache": true,
+        "request_cache_prompt": true,
+        "server_parallel_slots": 1,
+        "threads_batch": 2,
+        "threads_decode": 4,
+        "warmup_slot_ids": [
+          0,
+          0
+        ],
+        "weight_repack": true
+      },
+      "split1_4": {
+        "batch_size": 64,
+        "client_concurrency": 1,
+        "context_per_slot": 256,
+        "flash_attention": "auto",
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16",
+        "micro_batch_size": 64,
+        "prompt_cache": true,
+        "request_cache_prompt": true,
+        "server_parallel_slots": 1,
+        "threads_batch": 4,
+        "threads_decode": 1,
+        "warmup_slot_ids": [
+          0,
+          0
+        ],
+        "weight_repack": true
+      },
+      "split2_4": {
+        "batch_size": 64,
+        "client_concurrency": 1,
+        "context_per_slot": 256,
+        "flash_attention": "auto",
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16",
+        "micro_batch_size": 64,
+        "prompt_cache": true,
+        "request_cache_prompt": true,
+        "server_parallel_slots": 1,
+        "threads_batch": 4,
+        "threads_decode": 2,
+        "warmup_slot_ids": [
+          0,
+          0
+        ],
+        "weight_repack": true
+      },
+      "tied4_4": {
+        "batch_size": 64,
+        "client_concurrency": 1,
+        "context_per_slot": 256,
+        "flash_attention": "auto",
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16",
+        "micro_batch_size": 64,
+        "prompt_cache": true,
+        "request_cache_prompt": true,
+        "server_parallel_slots": 1,
+        "threads_batch": 4,
+        "threads_decode": 4,
+        "warmup_slot_ids": [
+          0,
+          0
+        ],
+        "weight_repack": true
+      }
+    },
+    "fresh_server_per_cell": true,
+    "negative_control_configuration": "prefill_control4_2",
+    "order": [
+      {
+        "configuration": "tied4_4",
+        "repetition": 1
+      },
+      {
+        "configuration": "split2_4",
+        "repetition": 1
+      },
+      {
+        "configuration": "prefill_control4_2",
+        "repetition": 1
+      },
+      {
+        "configuration": "split1_4",
+        "repetition": 1
+      },
+      {
+        "configuration": "split2_4",
+        "repetition": 2
+      },
+      {
+        "configuration": "split1_4",
+        "repetition": 2
+      },
+      {
+        "configuration": "tied4_4",
+        "repetition": 2
+      },
+      {
+        "configuration": "prefill_control4_2",
+        "repetition": 2
+      },
+      {
+        "configuration": "split1_4",
+        "repetition": 3
+      },
+      {
+        "configuration": "prefill_control4_2",
+        "repetition": 3
+      },
+      {
+        "configuration": "split2_4",
+        "repetition": 3
+      },
+      {
+        "configuration": "tied4_4",
+        "repetition": 3
+      },
+      {
+        "configuration": "prefill_control4_2",
+        "repetition": 4
+      },
+      {
+        "configuration": "tied4_4",
+        "repetition": 4
+      },
+      {
+        "configuration": "split1_4",
+        "repetition": 4
+      },
+      {
+        "configuration": "split2_4",
+        "repetition": 4
+      }
+    ],
+    "order_design": "four-sequence Williams balanced order",
+    "repetitions_per_configuration": 4,
+    "required_logical_cpus": 2,
+    "runner": "ubuntu-24.04-arm",
+    "same_job": true,
+    "total_fresh_processes": 16,
+    "total_measured_requests": 480
+  },
+  "experiment_id": "E15a",
+  "hypothesis": "Retaining four batch/prefill threads while reducing only decode threads to the physical two-core count can reduce measured CPU seconds per request by at least two percent without more than two percent throughput, median, or p95 regression on the exact prefill-dominated E9a end-product workload.",
+  "inputs": {
+    "cell_runner_path": "experiments/e15a_split_scheduler_cell.sh",
+    "cell_runner_sha256": "8b8c2938f4f0abaeabca0638ba9b32a9c75894807de5c5975260acfda24dada9",
+    "e5j_manifest_path": "results/manifests/e5j-30677332825.json",
+    "e5j_manifest_sha256": "747b6795d42be691c07cf5aac38237095477d06149e787cc313ec2b9558c4ff7",
+    "e5j_report_path": "results/reports/e5j-thread-efficiency-profile.md",
+    "e5j_report_sha256": "e5f2e15c77fb8d5e32823e88356600901d51d8a98f17e436eec626e541f1de43",
+    "e9a_contract_path": "experiments/e9a_contract.json",
+    "e9a_contract_sha256": "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928",
+    "e9a_manifest_path": "results/manifests/e9a-30764802071.json",
+    "e9a_manifest_sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d",
+    "e9a_report_path": "results/reports/e9a-final-service-comparison.md",
+    "e9a_report_sha256": "8003b4d8f6659dfa3ef1cbf01d6f46f69d239e81c8b69dbfa47160984b41c1fb",
+    "freeze_path": "experiments/e15a_split_scheduler_freeze.py",
+    "freeze_sha256": "1572900ea28f7f54e143170f918eaeb9f340fb3e4fb4f9b42bb29ec51f8d7474",
+    "ingest_path": "experiments/e15a_split_scheduler_ingest.py",
+    "ingest_sha256": "e0b1bde135d14c1ec2949ee02cf7f8cc37c51c87f59a38fb374f53f8fcd0e8c1",
+    "manifest_path": "results/manifests/e3f-30656151957.json",
+    "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "probe_path": "experiments/e5b_inference_probe.py",
+    "probe_sha256": "82ebd56316705df93b59aea9c05c31b59cdd0c4c9fd31ef16608dbc0e86702db",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "test_path": "tests/test_e15a.py",
+    "test_sha256": "e14b18ec9f183d2b1f33657d298dcbf78c74d25904111d15cbbc231d21206215"
+  },
+  "measurement_boundary": "Linux server-process CPU counters are sampled after two warmups and only around the 30 measured requests. Artifact download, model download, readiness, warmups, client CPU, metrics, and shutdown are excluded. CPU time is not energy or power.",
+  "negative_result_rule": "Retain quality drift, mechanism mismatch, scheduler noise, tail regression, CPU non-improvement, or a no-win result without changing configurations, order, repetitions, workload, or thresholds.",
+  "prerequisites": {
+    "e5j": {
+      "finding": "Tied 2/2 and 3/3 reduced CPU time by only 1.36% and 0.11% while losing 48.82% and 24.48% throughput.",
+      "required_status": "valid_selected_inference_no_thread_efficiency_win",
+      "retained_manifest_sha256": "747b6795d42be691c07cf5aac38237095477d06149e787cc313ec2b9558c4ff7",
+      "run_id": "30677332825"
+    },
+    "e9a": {
+      "artifact_digest": "sha256:3d360aed5fd02abf5421c3a23309f1abda56bf5f96c0e406a5c13897c15aae70",
+      "artifact_id": 8838874234,
+      "artifact_name": "e9a-final-service-30764802071-1",
+      "artifact_size_bytes": 18440490,
+      "required_status": "valid_final_service_win",
+      "retained_manifest_sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d",
+      "run_attempt": 1,
+      "run_id": "30764802071",
+      "workflow_summary_sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d"
+    }
+  },
+  "request": {
+    "chat_template_mode": "model_jinja_system_instruction",
+    "client_concurrency": 1,
+    "instruction_role": "system",
+    "max_output_tokens": 8,
+    "measured_tasks": 30,
+    "seed": 424242,
+    "temperature": 0.0,
+    "timeout_seconds": 30.0,
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ]
+  },
+  "runtime": {
+    "binary_reuse": "Reuse the exact E9a E7c artifact closure; do not rebuild or add a later endpoint, selective-repack, or sidecar patch.",
+    "build": {
+      "cmake_arguments": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DGGML_CPU_KLEIDIAI=ON",
+        "-DGGML_LTO=OFF",
+        "-DGGML_NATIVE=ON",
+        "-DLLAMA_BUILD_EXAMPLES=OFF",
+        "-DLLAMA_BUILD_SERVER=ON",
+        "-DLLAMA_BUILD_TESTS=OFF",
+        "-DLLAMA_CURL=OFF",
+        "-DLLAMA_OPENSSL=OFF"
+      ],
+      "forbidden_dynamic_dependency_basenames": [
+        "libcrypto.so.3",
+        "libssl.so.3"
+      ]
+    },
+    "runtime_closure_file_count": 8,
+    "runtime_closure_sha256": "a441ab5943b5dea87ae713afff6573c62a874cf919fa1b0fa8908073ecabdf8b",
+    "runtime_closure_total_size_bytes": 19857448,
+    "server_sha256": "e15e14bd5d4f86e09a79603862f52db841de758ecc21b2c476a2ba92cc8ee40e",
+    "server_size_bytes": 72488,
+    "source": {
+      "changed_files": [
+        "common/reasoning-budget.cpp",
+        "ggml/src/ggml-cpu/CMakeLists.txt",
+        "ggml/src/ggml-cpu/arch/arm/quants.c",
+        "tests/test-reasoning-budget.cpp"
+      ],
+      "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "patches": [
+        {
+          "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+          "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+        },
+        {
+          "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+          "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+        },
+        {
+          "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+          "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+        }
+      ],
+      "repository": "https://github.com/ggml-org/llama.cpp.git",
+      "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+      "tag": "b10216"
+    }
+  },
+  "schema_version": 1,
+  "scope": "Four causal scheduler points on the exact E9a E7c service: tied 4/4, decode 2 with prefill 4, decode 1 with prefill 4, and a prefill-reduced 4/2 negative control. No placement, polling, priority, chunk, model, cache, batch, context, or build knob changes.",
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "path": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+    "reference_accuracy": 0.7666666666666667,
+    "reference_correct": 23,
+    "reference_total": 30,
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+  },
+  "selection": {
+    "eligible": "Only split2_4 and split1_4 may promote, and only after every exact quality, cache, throughput, median, p95, encode, CPU, dispersion, readiness, RSS, runtime, and mechanism gate passes.",
+    "no_win_rule": "Retain tied4_4 when no split candidate passes every gate.",
+    "tie_breakers": [
+      "lowest median server CPU seconds per request",
+      "highest median throughput",
+      "more decode threads",
+      "configuration name"
+    ]
+  },
+  "state": "frozen before observing any independent thread-pool result; the four points are mechanism-selected from E9a's two-core topology and E5j's rejected tied-thread result, not from a broad knob sweep",
+  "title": "Bounded asymmetric prefill/decode scheduler boundary"
+}
