@@ -161,6 +161,13 @@ reading each original target's raw pre-sampling score. Both the maximum
 original-prefix delta and 71-score repeat delta are exactly zero. This validates
 only the compatibility mechanism and authorizes a separately frozen full
 successor; failed E10d remains failed.
+E13a then tests a fail-closed exact-fingerprint cache certificate on a fresh
+660-request temporal holdout. All controller outputs match uncached bytes,
+throughput rises 1.84765x, p95 latency falls to 0.90716x, and CPU
+seconds/request falls to 0.54068x. The contract is still rejected: six
+point-transition warmup fingerprints correctly route through unknown fallback,
+while the frozen decision inventory predicted zero. Every other gate passes,
+but the count gate remains unchanged and the policy is not promoted.
 
 ## Optimization map
 
@@ -191,6 +198,7 @@ preserved unless the row explicitly describes a rejected candidate.
 | Forked candidate-scoring request | Validated serial exact-token adapter | Score all candidate continuations in one server request | Predictions match, but every frozen numerical parity gate fails | Reject the scorer; preserve the native negative result |
 | Pinned external holdout | Exact serial scorer over 300 preselected samples per model | Evaluate Q4_K_M and Q4_0 on ARC Easy, HellaSwag, and WinoGrande | Both cells hit missing one-token probability entries; paired aggregate skipped | Reject the comparison; retain all partial/raw evidence and test compatibility separately |
 | Probability serialization compatibility | Exact two failed Q4_0 continuations | Force one-byte sampled token 1046 while reading each original target's raw score | Both continuations complete twice; original-prefix and repeat deltas are 0.0 | Permit only a separately frozen full successor; do not rehabilitate E10d |
+| Fail-closed cache certificate | All-uncached 165-request temporal trace | Certify 44 exact prompt fingerprints, deny four, and route unknowns uncached | Byte-exact outputs; 1.84765x throughput; 0.90716x p95; six safe unknown fallbacks differed from the frozen count | Reject E13a on the unchanged decision-count gate; retain the otherwise passing evidence |
 
 Rejected variants remain visible: two server slots, cached two-slot serving,
 q4_0 KV, batch 32, Flash Attention, lower thread counts, and LTO all missed at
@@ -268,12 +276,17 @@ repack flag that conflicts with the plan is refused.
 | [E10a](results/reports/e10a-cache-divergence.md) | Native calibration reproduced cache drift, but top-1 margins overlapped stable requests; no guard threshold or holdout was selected |
 | [E10b preflight](results/reports/e10b-preflight-failure.md) | Native source/build/readiness passed before a retained path-type harness failure prevented all measurements |
 | [E10b](results/reports/e10b-exact-token-probabilities.md) | Exact A/B/C/D log probabilities matched within 3.58e-7 with identical sampled output; median payload fell 99.9779% and HTTP latency fell 18.6% |
+| [E10c](results/reports/e10c-candidate-scorer-negative.md) | One-request candidate scoring matched predictions but failed every frozen numerical log-probability parity gate |
+| [E10d](results/reports/e10d-external-holdout-failure.md) | Both 300-sample model loops hit missing probability entries; the pair and all partial task metrics remain invalid |
+| [E10e](results/reports/e10e-probability-compatibility.md) | A safe sampled-token path completed both retained compatibility failures twice with zero requested-score delta |
+| [E13a](results/reports/e13a-cache-certificate.md) | Byte-exact fail-closed routing reached 1.84765x throughput, but six safe unknown warmup fallbacks violated the frozen decision-count expectation; the policy remains rejected |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
-The E5f through E5j, E6d through E6i, E7a through E7c, E9a/E9c, and E10a/E10b results are
-retained under their exact frozen contracts and independently re-ingested byte
-for byte. E9e separately retains its reproducible premeasurement stop record.
+The E5f through E5j, E6d through E6i, E7a through E7c, E9a/E9c, E10a through
+E10e, and E13a results are retained under their exact frozen contracts and
+independently re-ingested byte for byte. E9e separately retains its reproducible
+premeasurement stop record.
 
 ## Repository map
 

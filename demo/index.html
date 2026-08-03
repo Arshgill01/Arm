@@ -783,6 +783,11 @@
             <div><strong>Probability compatibility</strong><p>Both exact gaps reproduced, then 71 target scores completed twice with zero original-prefix or repeat score delta.</p></div>
             <span class="evidence-result select-text">Successor allowed</span>
           </li>
+          <li>
+            <span class="evidence-id">E13a</span>
+            <div><strong>Fail-closed cache certificate</strong><p>Outputs stayed byte-exact at 1.84765× throughput, but six safe unknown fallbacks violated the frozen decision count.</p></div>
+            <span class="evidence-result reject-text">Count gate failed</span>
+          </li>
         </ol>
 
         <div class="reproduce">
@@ -815,6 +820,9 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e10b-exact-token-probabilities.md">
           Exact-token response
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e13a-cache-certificate.md">
+          Cache certificate boundary
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5e-kv-context-profile.md">
           Memory profile

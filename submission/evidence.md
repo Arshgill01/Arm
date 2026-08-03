@@ -58,6 +58,7 @@ artifact.
 | Forked candidate scorer rejected on numerical parity | [E10c `30812791972`](https://github.com/Arshgill01/Arm/actions/runs/30812791972) | [`e10c` manifest](../results/manifests/e10c-30812791972.json) · [`report`](../results/reports/e10c-candidate-scorer-negative.md) | `1f906991…62e6b` |
 | External-holdout pair rejected on missing probability entries | [E10d `30818303255`](https://github.com/Arshgill01/Arm/actions/runs/30818303255) | [`e10d` manifest](../results/manifests/e10d-30818303255.json) · [`report`](../results/reports/e10d-external-holdout-failure.md) | `59cc8fa7…5336` |
 | Probability serialization compatibility preflight | [E10e `30827797407`](https://github.com/Arshgill01/Arm/actions/runs/30827797407) | [`e10e` manifest](../results/manifests/e10e-30827797407.json) · [`report`](../results/reports/e10e-probability-compatibility.md) | `3e689b52…7e167` |
+| Fail-closed cache certificate rejected on frozen count | [E13a `30830903248`](https://github.com/Arshgill01/Arm/actions/runs/30830903248) | [`e13a` manifest](../results/manifests/e13a-30830903248.json) · [`report`](../results/reports/e13a-cache-certificate.md) | `fdbd2b68…2f8a` |
 | Final judge-package clean-checkout validation | [`30798816900`](https://github.com/Arshgill01/Arm/actions/runs/30798816900) | 175 tests, 55 hashes through E10b, exact runtime/plan checks, four gallery assets, video-word ceiling, demo smoke test | passed on native `aarch64` at `03ae10d` |
 
 ## Final selected package
@@ -119,6 +120,11 @@ artifact.
   token. Original-prefix and full-repeat requested score deltas are both zero.
   It authorizes a separately frozen successor but does not validate the full
   holdout or rewrite failed E10d.
+- Cache-certificate boundary: E13a's fail-closed controller matches all
+  uncached output bytes, reaches 1.84765x throughput, and passes every quality
+  and performance gate. Six transition warmups are unknown to calibration and
+  safely fall back, contradicting the frozen zero-unknown decision count. The
+  count gate remains failed and the policy is not admitted.
 
 ## Recompute locally
 

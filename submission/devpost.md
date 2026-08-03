@@ -310,6 +310,15 @@ original target's raw pre-sampling probability. Original-prefix and repeat
 deltas are both exactly zero. This authorizes only a separately frozen full
 successor and leaves the failed E10d comparison unchanged.
 
+E13a returns to the cache-safety opportunity with a fail-closed exact-prompt
+certificate derived from every retained E9c pair. On a fresh 660-request
+temporal holdout, controller outputs match uncached bytes exactly, aggregate
+throughput rises 1.84765x, p95 latency falls to 0.90716x, and CPU
+seconds/request falls to 0.54068x. The result is still rejected: six transition
+warmups are absent from calibration and correctly fall back as unknown, while
+the frozen trace predicted zero unknown fallbacks. We preserve the count-gate
+failure rather than rewriting an otherwise attractive result.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto

@@ -1,3 +1,4 @@
+import hashlib
 import json
 import subprocess
 import sys
@@ -8,6 +9,7 @@ from pathlib import Path
 from experiments.e13a_freeze import build_contract, derive_certificates
 from experiments.e13a_ingest import count_output_mismatches, expected_trace
 from experiments.e13a_probe import cache_decision, token_fingerprint
+from experiments.e13a_retain import validate_inventory
 
 
 class E13aFreezeTests(unittest.TestCase):
@@ -79,7 +81,12 @@ class E13aIngestTests(unittest.TestCase):
 
     def test_scripts_support_direct_workflow_entrypoints(self) -> None:
         root = Path(__file__).resolve().parents[1]
-        for script in ("e13a_probe.py", "e13a_ingest.py", "e13a_freeze.py"):
+        for script in (
+            "e13a_probe.py",
+            "e13a_ingest.py",
+            "e13a_freeze.py",
+            "e13a_retain.py",
+        ):
             completed = subprocess.run(
                 [sys.executable, str(root / "experiments" / script), "--help"],
                 cwd=root,
@@ -108,6 +115,19 @@ class E13aIngestTests(unittest.TestCase):
                     check=True,
                 )
             self.assertEqual(first.read_bytes(), second.read_bytes())
+
+    def test_inventory_rejects_unlisted_file(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            evidence = Path(directory)
+            (evidence / "kept.txt").write_text("kept\n")
+            digest = hashlib.sha256(b"kept\n").hexdigest()
+            (evidence / "file-inventory-sha256.txt").write_text(
+                f"{digest}  /tmp/results/raw/e13a-cache-certificate-1-1/kept.txt\n"
+            )
+            self.assertEqual(validate_inventory(evidence)["file_count"], 1)
+            (evidence / "extra.txt").write_text("extra\n")
+            with self.assertRaises(ValueError):
+                validate_inventory(evidence)
 
 
 if __name__ == "__main__":

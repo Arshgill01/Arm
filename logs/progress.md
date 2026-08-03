@@ -1840,3 +1840,37 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   actions, and the explicitly deferred awake local Mac E8a run. No further
   meaningful in-scope action is available without one of those external-state
   changes.
+
+## 2026-08-03 — E13a cache-certificate rejection retained
+
+- Native run `30830903248` completed four fresh E7c processes and 660 requests
+  in A–B–B–A order. Baseline repeats, controller repeats, and every
+  controller-versus-uncached response were byte-identical with zero failures.
+- The fail-closed controller reached 1.84765x aggregate throughput, 0.90716x
+  p95 latency, and 0.54068x CPU seconds/request. Both policy throughput CVs
+  stayed below 0.054%; all quality, mechanism, performance, startup and RSS
+  gates passed.
+- The contract predicted 149 certified, 16 calibrated-fallback and zero
+  unknown requests per trace. Both controller repetitions observed 143, 16 and
+  six: transition warmup fingerprints absent from calibration correctly ran
+  uncached. The unchanged `frozen_decision_counts` gate therefore rejects E13a.
+- Independent local ingestion reproduced the 620,964-byte workflow summary at
+  SHA-256 `495e0c42…09db`. Artifact
+  `e13a-cache-certificate-30830903248-1` (ID `8863474213`, digest
+  `9ab64a27…8b5b`) and its file inventory were revalidated. The retained
+  manifest is `fdbd2b68…2f8a`; the rejected policy is not promoted.
+
+## 2026-08-03 — E14a selective-repack frontier dispatched
+
+- Source inspection confirmed b10216's generic tensor buffer override
+  reselects the CPU repack buffer, so it cannot express a selective tier.
+- Added a default-off local `GGML_CPU_REPACK_EXCLUDE` hook and froze four
+  architectural points: full repack, 104 raw attention projections, attention
+  plus 26 FFN-down tensors, and global no-repack.
+- The native contract fixes two repetitions in A–B–C–D–D–C–B–A order, eight
+  fresh processes, 240 measured requests, exact answer and tensor inventories,
+  buffer proof, and an 80%-throughput/40%-extra-RSS target. This is not a broad
+  regex or per-layer sweep and the patch remains local and unpublished.
+- Checkpoint `e9d9a15` was pushed after local compile, unit, format, shell,
+  actionlint and contract round-trip checks. Native run `30832494881` started
+  on the exact frozen commit.

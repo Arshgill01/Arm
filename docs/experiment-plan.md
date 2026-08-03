@@ -1552,6 +1552,19 @@ sequence, model, service, and native host; unseen prompts remain uncached. The
 complete pre-result boundary is in
 [`e13a_contract.json`](../experiments/e13a_contract.json).
 
+### E13a outcome
+
+Native run `30830903248` preserved every byte across baseline repetitions,
+controller repetitions, and controller-versus-uncached pairs. It reached
+1.84765x aggregate throughput, 0.90716x p95 latency, and 0.54068x CPU
+seconds/request with zero failures and stable repetitions. However, six point-
+transition warmup fingerprints were absent from calibration and correctly
+failed closed. The frozen contract expected zero unknown fallbacks, so
+`frozen_decision_counts` fails and E13a is not promoted. No threshold or gate is
+changed after observation. See the retained
+[`manifest`](../results/manifests/e13a-30830903248.json) and
+[`report`](../results/reports/e13a-cache-certificate.md).
+
 ## E14a frozen tensor-selective repack frontier
 
 E14a tests a distinct memory/throughput mechanism rather than another serving
