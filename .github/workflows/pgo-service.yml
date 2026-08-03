@@ -1,0 +1,363 @@
+name: Arm E18a workload-trained GCC PGO service
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e18a_contract.json
+  CONTRACT_SHA256: 649f95192ca2a9c063cde9ddafcc211693bd09e5150726f1c8f3223dea51e09c
+  CURRENT_SHA: 876a4321163249c43ca4e986818fab5ab081f282
+  CURRENT_TAG: b10216
+  SELECTED_CANDIDATE: ministral3_3b_q4_k_m
+
+jobs:
+  compare:
+    name: Compare exact Release control and workload-trained PGO
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 120
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e18a-${{ github.run_id }}-${{ github.run_attempt }}
+      SOURCE_DIR: /tmp/llama.cpp-E18a
+      CONTROL_BUILD: /tmp/llama.cpp-E18a-control-build
+      PGO_BUILD: /tmp/llama.cpp-E18a-pgo-build
+      PGO_DATA: /tmp/Pareto64-E18a-profile
+      MODEL_ROOT: /tmp/Pareto64-E18a/models
+
+    steps:
+      - name: Check out frozen PGO experiment
+        uses: actions/checkout@v7
+
+      - name: Select supported Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Verify native host and every frozen input
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          mkdir -p "$EVIDENCE_DIR/frozen-inputs" \
+            "$EVIDENCE_DIR/builds/release_control" \
+            "$EVIDENCE_DIR/builds/workload_pgo" \
+            "$EVIDENCE_DIR/training" "$MODEL_ROOT" "$PGO_DATA"
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          jq -r '
+            .inputs as $inputs
+            | $inputs
+            | to_entries[]
+            | select(.key | endswith("_path"))
+            | [$inputs[.key | sub("_path$"; "_sha256")], .value]
+            | @tsv
+          ' "$CONTRACT_PATH" | while IFS=$'\t' read -r expected input_file; do
+            echo "$expected  $input_file" | sha256sum --check --strict
+            mkdir -p "$EVIDENCE_DIR/frozen-inputs/$(dirname "$input_file")"
+            cp "$input_file" "$EVIDENCE_DIR/frozen-inputs/$input_file"
+          done
+          python3 -m unittest tests.test_e18a
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          {
+            gcc --version
+            g++ --version
+            cmake --version
+            ninja --version
+          } | tee "$EVIDENCE_DIR/compiler.txt"
+          free -b | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          git rev-parse HEAD | tee "$EVIDENCE_DIR/repository-commit.txt"
+
+      - name: Pin patched source and selected model
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/ggml-org/llama.cpp.git "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$CURRENT_SHA"
+          test "$(git -C "$SOURCE_DIR" rev-parse HEAD)" = "$CURRENT_SHA"
+          test "$(git -C "$SOURCE_DIR" describe --tags --exact-match)" = "$CURRENT_TAG"
+          test -z "$(git -C "$SOURCE_DIR" status --short)"
+          while IFS=$'\t' read -r _ patch_path patch_sha; do
+            echo "$patch_sha  $patch_path" | sha256sum --check --strict
+            git -C "$SOURCE_DIR" apply --check "$patch_path"
+            git -C "$SOURCE_DIR" apply "$patch_path"
+          done < <(jq -r '.runtime.patches[] | [.name, .path, .sha256] | @tsv' "$CONTRACT_PATH")
+          git -C "$SOURCE_DIR" diff --check
+          git -C "$SOURCE_DIR" diff --name-only HEAD | sort \
+            | tee "$EVIDENCE_DIR/patched-files.txt"
+          diff -u \
+            <(jq -r '.runtime.changed_files[]' "$CONTRACT_PATH") \
+            "$EVIDENCE_DIR/patched-files.txt"
+          git -C "$SOURCE_DIR" diff --binary --full-index HEAD -- \
+            > "$EVIDENCE_DIR/source-diff.patch"
+          echo "$(jq -r '.runtime.source_diff_sha256' "$CONTRACT_PATH")  $EVIDENCE_DIR/source-diff.patch" \
+            | sha256sum --check --strict
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          contract = json.loads(Path(os.environ["CONTRACT_PATH"]).read_text())
+          source = {
+              "schema_version": 1,
+              "repository": contract["runtime"]["repository"],
+              "tag": contract["runtime"]["tag"],
+              "commit": contract["runtime"]["commit"],
+              "patches_applied": [
+                  patch["name"] for patch in contract["runtime"]["patches"]
+              ],
+          }
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          (evidence / "source.json").write_text(
+              json.dumps(source, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          repository="$(jq -r '.selected.repository' "$CONTRACT_PATH")"
+          revision="$(jq -r '.selected.revision' "$CONTRACT_PATH")"
+          entrypoint="$(jq -r '.selected.path' "$CONTRACT_PATH")"
+          model_sha="$(jq -r '.selected.model_sha256' "$CONTRACT_PATH")"
+          model_size="$(jq -r '.selected.model_size_bytes' "$CONTRACT_PATH")"
+          MODEL="$MODEL_ROOT/$entrypoint"
+          mkdir -p "$(dirname "$MODEL")"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$MODEL" \
+            "https://huggingface.co/$repository/resolve/$revision/$entrypoint?download=true"
+          test "$(stat --format='%s' "$MODEL")" = "$model_size"
+          echo "$model_sha  $MODEL" | sha256sum --check --strict
+          sha256sum "$MODEL" | tee "$EVIDENCE_DIR/model-sha256.txt"
+          echo "MODEL=$MODEL" >> "$GITHUB_ENV"
+
+      - name: Build exact Release control
+        run: |
+          set -euo pipefail
+          output="$EVIDENCE_DIR/builds/release_control"
+          cmake -S "$SOURCE_DIR" -B "$CONTROL_BUILD" -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+            -DGGML_CPU_KLEIDIAI=ON \
+            -DGGML_LTO=OFF \
+            -DGGML_NATIVE=ON \
+            -DLLAMA_BUILD_EXAMPLES=OFF \
+            -DLLAMA_BUILD_SERVER=ON \
+            -DLLAMA_BUILD_TESTS=OFF \
+            -DLLAMA_CURL=OFF \
+            -DLLAMA_OPENSSL=OFF \
+            2>&1 | tee "$output/configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' "$output/configure.log"
+          grep -q 'ARM detected' "$output/configure.log"
+          cp "$CONTROL_BUILD/CMakeCache.txt" "$output/CMakeCache.txt"
+          /usr/bin/time --verbose --output "$output/build-time.log" \
+            cmake --build "$CONTROL_BUILD" --target llama-server \
+              --parallel "$(nproc)" \
+            2>&1 | tee "$output/build.log"
+          ninja -C "$CONTROL_BUILD" -t commands > "$output/build-commands.txt"
+          "$CONTROL_BUILD/bin/llama-server" --version 2>&1 \
+            | tee "$output/server-version.txt"
+          python3 experiments/e7a_runtime_closure.py \
+            --server "$CONTROL_BUILD/bin/llama-server" \
+            --build-root "$CONTROL_BUILD" \
+            --copy-dir "$output/runtime-files" \
+            --output "$output/runtime-closure.json"
+
+      - name: Generate exact workload profile
+        run: |
+          set -euo pipefail
+          output="$EVIDENCE_DIR/training"
+          generate_flags="$(jq -r '.training.profile_generate_flags' "$CONTRACT_PATH")"
+          cmake -S "$SOURCE_DIR" -B "$PGO_BUILD" -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+            -DCMAKE_C_FLAGS="$generate_flags" \
+            -DCMAKE_CXX_FLAGS="$generate_flags" \
+            -DCMAKE_EXE_LINKER_FLAGS="$generate_flags" \
+            -DCMAKE_SHARED_LINKER_FLAGS="$generate_flags" \
+            -DGGML_CPU_KLEIDIAI=ON \
+            -DGGML_LTO=OFF \
+            -DGGML_NATIVE=ON \
+            -DLLAMA_BUILD_EXAMPLES=OFF \
+            -DLLAMA_BUILD_SERVER=ON \
+            -DLLAMA_BUILD_TESTS=OFF \
+            -DLLAMA_CURL=OFF \
+            -DLLAMA_OPENSSL=OFF \
+            2>&1 | tee "$output/generate-configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' "$output/generate-configure.log"
+          grep -q 'ARM detected' "$output/generate-configure.log"
+          cp "$PGO_BUILD/CMakeCache.txt" "$output/generate-CMakeCache.txt"
+          /usr/bin/time --verbose --output "$output/generate-build-time.log" \
+            cmake --build "$PGO_BUILD" --target llama-server \
+              --parallel "$(nproc)" \
+            2>&1 | tee "$output/generate-build.log"
+          ninja -C "$PGO_BUILD" -t commands > "$output/generate-build-commands.txt"
+          "$PGO_BUILD/bin/llama-server" --version 2>&1 \
+            | tee "$output/server-version.txt"
+
+          SERVER="$PGO_BUILD/bin/llama-server" TRAINING_DIR="$output" python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          from experiments.e6f_ingest import expected_server_argv
+
+          contract = json.loads(Path(os.environ["CONTRACT_PATH"]).read_text())
+          argv = expected_server_argv(
+              os.environ["SERVER"],
+              os.environ["MODEL"],
+              candidate=contract["selected"]["candidate"],
+              service=contract["service"],
+          )
+          (Path(os.environ["TRAINING_DIR"]) / "server-argv.json").write_text(
+              json.dumps(argv, indent=2) + "\n"
+          )
+          PY
+          mapfile -t server_argv < <(jq -r '.[]' "$output/server-argv.json")
+          active_timer_pid=""
+          active_server_pid=""
+          cleanup() {
+            if [[ -n "$active_server_pid" ]] && kill -0 "$active_server_pid" 2>/dev/null; then
+              kill -INT "$active_server_pid" 2>/dev/null || true
+            fi
+            if [[ -n "$active_timer_pid" ]]; then
+              wait "$active_timer_pid" 2>/dev/null || true
+            fi
+          }
+          trap cleanup EXIT
+          /usr/bin/time --verbose --output "$output/server-time.log" \
+            "${server_argv[@]}" > "$output/server.stdout.log" \
+            2> "$output/server.stderr.log" &
+          active_timer_pid=$!
+          python3 experiments/e3d_http_quality.py wait \
+            --url http://127.0.0.1:18081 --timeout 45 \
+            --output "$output/readiness.json"
+          for _ in $(seq 1 50); do
+            active_server_pid="$(pgrep -P "$active_timer_pid" -x llama-server || true)"
+            if [[ -n "$active_server_pid" ]]; then break; fi
+            sleep 0.1
+          done
+          test -n "$active_server_pid"
+          python3 experiments/e5b_inference_probe.py \
+            --url http://127.0.0.1:18081 \
+            --tasks experiments/e3_tasks.json \
+            --reference-manifest results/manifests/e3f-30656151957.json \
+            --candidate "$SELECTED_CANDIDATE" \
+            --configuration pgo_training \
+            --repetition 1 \
+            --warmup-task arithmetic-02 \
+            --warmup-task logic-01 \
+            --warmup-slot 0 \
+            --warmup-slot 0 \
+            --concurrency 1 \
+            --max-output-tokens 8 \
+            --seed 424242 \
+            --timeout 30 \
+            --experiment-id E18a \
+            --server-pid "$active_server_pid" \
+            --cache-prompt \
+            --output "$output/probe.json"
+          kill -INT "$active_server_pid"
+          set +e
+          wait "$active_timer_pid"
+          server_status=$?
+          set -e
+          echo "$server_status" > "$output/server-shell-exit.txt"
+          [[ "$server_status" -eq 0 || "$server_status" -eq 130 ]]
+          active_server_pid=""
+          active_timer_pid=""
+          trap - EXIT
+          python3 experiments/e18a_profile_inventory.py \
+            --directory "$PGO_DATA" \
+            --output "$EVIDENCE_DIR/pgo-profile-inventory.json"
+          mkdir -p "$EVIDENCE_DIR/pgo-data"
+          cp -a "$PGO_DATA"/. "$EVIDENCE_DIR/pgo-data/"
+
+      - name: Build workload-trained PGO binary in the same directory
+        run: |
+          set -euo pipefail
+          output="$EVIDENCE_DIR/builds/workload_pgo"
+          use_flags="$(jq -r '.training.profile_use_flags' "$CONTRACT_PATH")"
+          cmake -S "$SOURCE_DIR" -B "$PGO_BUILD" -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+            -DCMAKE_C_FLAGS="$use_flags" \
+            -DCMAKE_CXX_FLAGS="$use_flags" \
+            -DCMAKE_EXE_LINKER_FLAGS="$use_flags" \
+            -DCMAKE_SHARED_LINKER_FLAGS="$use_flags" \
+            -DGGML_CPU_KLEIDIAI=ON \
+            -DGGML_LTO=OFF \
+            -DGGML_NATIVE=ON \
+            -DLLAMA_BUILD_EXAMPLES=OFF \
+            -DLLAMA_BUILD_SERVER=ON \
+            -DLLAMA_BUILD_TESTS=OFF \
+            -DLLAMA_CURL=OFF \
+            -DLLAMA_OPENSSL=OFF \
+            2>&1 | tee "$output/configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' "$output/configure.log"
+          grep -q 'ARM detected' "$output/configure.log"
+          cp "$PGO_BUILD/CMakeCache.txt" "$output/CMakeCache.txt"
+          /usr/bin/time --verbose --output "$output/build-time.log" \
+            cmake --build "$PGO_BUILD" --target llama-server \
+              --clean-first --parallel "$(nproc)" \
+            2>&1 | tee "$output/build.log"
+          ninja -C "$PGO_BUILD" -t commands > "$output/build-commands.txt"
+          "$PGO_BUILD/bin/llama-server" --version 2>&1 \
+            | tee "$output/server-version.txt"
+          python3 experiments/e7a_runtime_closure.py \
+            --server "$PGO_BUILD/bin/llama-server" \
+            --build-root "$PGO_BUILD" \
+            --copy-dir "$output/runtime-files" \
+            --output "$output/runtime-closure.json"
+
+      - name: Run all twelve frozen fresh-process service cells
+        run: |
+          set -euo pipefail
+          index=0
+          while IFS=$'\t' read -r profile repetition; do
+            index=$((index + 1))
+            printf -v cell_index '%02d' "$index"
+            bash experiments/e18a_cell.sh "$cell_index" "$profile" "$repetition"
+          done < <(jq -r '.execution.order[] | [.profile, .repetition] | @tsv' "$CONTRACT_PATH")
+          test "$index" -eq 12
+
+      - name: Independently validate complete PGO evidence
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          provenance = {
+              "schema_version": 1,
+              "experiment_id": "E18a",
+              "git_commit": os.environ["GITHUB_SHA"],
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "baseline_profile": "release_control",
+              "candidate_profile": "workload_pgo",
+          }
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          (evidence / "provenance.json").write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          python3 experiments/e18a_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          free -b | tee "$EVIDENCE_DIR/memory-after.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+          jq '{status, training: {profile_file_count: .training.profile_inventory.file_count, profile_bytes: .training.profile_inventory.total_size_bytes}, performance, hypothesis, validation}' \
+            "$EVIDENCE_DIR/summary.json"
+
+      - name: Upload complete E18a PGO evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e18a-workload-pgo-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error
