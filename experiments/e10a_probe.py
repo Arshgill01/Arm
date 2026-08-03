@@ -113,6 +113,7 @@ def request_candidate_scores(
     timeout: float,
 ) -> dict[str, Any]:
     started = time.perf_counter_ns()
+    response: dict[str, Any] | None = None
     try:
         status, response = post_json(
             origin,
@@ -202,6 +203,7 @@ def request_candidate_scores(
             "decode_ms": None,
             "http_ms": (time.perf_counter_ns() - started) / 1_000_000,
             "error": f"{type(error).__name__}: {error}",
+            "raw_response": response,
         }
 
 
@@ -340,7 +342,6 @@ def main() -> int:
         )
     elapsed = (time.perf_counter_ns() - started) / 1_000_000_000
     cpu_after = read_process_cpu(args.server_pid)
-    require_measured_cases(cases)
     process_cpu = summarize_process_cpu(
         cpu_before,
         cpu_after,
@@ -351,8 +352,11 @@ def main() -> int:
     failures = sum(
         case["http_status"] != 200 or case["error"] is not None for case in cases
     )
+    warmup_failures = sum(
+        case["http_status"] != 200 or case["error"] is not None for case in warmups
+    )
     mismatches = sum(not case["reference_match"] for case in cases)
-    output = {
+    output: dict[str, Any] = {
         "schema_version": 1,
         "experiment_id": "E10a",
         "parameters": {
@@ -370,25 +374,42 @@ def main() -> int:
         "warmups": warmups,
         "cases": cases,
         "process_cpu": process_cpu,
-        "result": {
+    }
+    if failures or warmup_failures:
+        output["result"] = {
             "elapsed_seconds": elapsed,
             "requests_per_second": len(cases) / elapsed,
             "failures": failures,
+            "warmup_failures": warmup_failures,
             "reference_prediction_mismatches": mismatches,
-            "http_ms": summarize([float(case["http_ms"]) for case in cases]),
-            "encode_ms": summarize([float(case["encode_ms"]) for case in cases]),
-            "decode_ms": summarize([float(case["decode_ms"]) for case in cases]),
-            "cached_tokens": summarize(
-                [float(case["cached_tokens"]) for case in cases]
+            "error_messages": sorted(
+                {
+                    case["error"]
+                    for case in [*warmups, *cases]
+                    if case.get("error") is not None
+                }
             ),
-            "evaluated_prompt_tokens": summarize(
-                [float(case["evaluated_prompt_tokens"]) for case in cases]
-            ),
-            "prompt_tokens": summarize(
-                [float(case["prompt_tokens"]) for case in cases]
-            ),
-            "top1_margin": summarize([float(case["top1_margin"]) for case in cases]),
-        },
+        }
+        args.output.write_text(
+            json.dumps(output, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+        return 1
+
+    require_measured_cases(cases)
+    output["result"] = {
+        "elapsed_seconds": elapsed,
+        "requests_per_second": len(cases) / elapsed,
+        "failures": failures,
+        "reference_prediction_mismatches": mismatches,
+        "http_ms": summarize([float(case["http_ms"]) for case in cases]),
+        "encode_ms": summarize([float(case["encode_ms"]) for case in cases]),
+        "decode_ms": summarize([float(case["decode_ms"]) for case in cases]),
+        "cached_tokens": summarize([float(case["cached_tokens"]) for case in cases]),
+        "evaluated_prompt_tokens": summarize(
+            [float(case["evaluated_prompt_tokens"]) for case in cases]
+        ),
+        "prompt_tokens": summarize([float(case["prompt_tokens"]) for case in cases]),
+        "top1_margin": summarize([float(case["top1_margin"]) for case in cases]),
     }
     args.output.write_text(
         json.dumps(output, indent=2, sort_keys=True) + "\n", encoding="utf-8"
