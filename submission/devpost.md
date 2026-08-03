@@ -338,6 +338,13 @@ four-point selective-repack frontier is valid, but neither selective candidate
 passes the predeclared combined throughput/RSS target. Full repack stays the
 fast tier, and the experimental exclusion hook is not promoted.
 
+E16a next tests whether persistent Arm-packed weights are even a sound source
+mechanism. Two fresh native processes serialize all 183 repacked Q4_K_M tensors
+at arena-relative offsets and produce the same complete 2,139,013,120-byte
+sidecar SHA-256 despite different absolute allocations. Both preserve 23/30
+with zero failures. This is a passing feasibility boundary, not a loader or
+performance result; those claims require the separately frozen E16b comparison.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto

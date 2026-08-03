@@ -120,7 +120,12 @@ class E16aSidecarTests(unittest.TestCase):
 
     def test_entrypoints_are_directly_runnable(self) -> None:
         root = Path(__file__).resolve().parents[1]
-        for script in ("e16a_sidecar.py", "e16a_freeze.py", "e16a_ingest.py"):
+        for script in (
+            "e16a_sidecar.py",
+            "e16a_freeze.py",
+            "e16a_ingest.py",
+            "e16a_retain.py",
+        ):
             completed = subprocess.run(
                 [sys.executable, str(root / "experiments" / script), "--help"],
                 cwd=root,
@@ -146,6 +151,26 @@ class E16aSidecarTests(unittest.TestCase):
             contract["mechanism"]["absolute_buffer_base_excluded_from_sidecar"]
         )
         self.assertIn("cannot claim a usable loader", contract["claim_boundary"])
+
+    def test_retained_native_result_authorizes_only_loader_successor(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        retained = json.loads(
+            (root / "results/manifests/e16a-30837796757.json").read_text()
+        )
+        self.assertEqual(retained["status"], "valid_loader_feasibility")
+        self.assertTrue(retained["decision"]["loader_experiment_authorized"])
+        self.assertTrue(retained["loader_successor_authorized"])
+        self.assertFalse(retained["decision"]["performance_claim_permitted"])
+        self.assertEqual(
+            retained["sidecar"]["sha256_per_repetition"][0],
+            retained["sidecar"]["sha256_per_repetition"][1],
+        )
+        self.assertEqual(retained["sidecar"]["tensor_count_per_repetition"], [183, 183])
+        self.assertFalse(
+            retained["artifact_validation"]["inventory"][
+                "generated_raw_tensor_or_sidecar_binaries_retained"
+            ]
+        )
 
 
 if __name__ == "__main__":

@@ -184,6 +184,11 @@ fail closed. E14b then repairs only E14a's log verbosity and validates the
 four-point selective-repack frontier. Both selective points miss the unchanged
 joint 80%-throughput/40%-extra-RSS product target, so full repack remains the
 selected service and the experimental hook is not promoted.
+E16a then verifies the persistent-prepack prerequisite instead of assuming it:
+two fresh native Arm processes independently produce the same complete
+2,139,013,120-byte, 183-tensor sidecar from different runtime addresses and
+preserve 23/30 exactly. The result authorizes a separately frozen fail-closed
+loader experiment; it makes no loader, startup, RSS, PSS, or performance claim.
 
 ## Optimization map
 
@@ -218,6 +223,7 @@ preserved unless the row explicitly describes a rejected candidate.
 | Fail-closed cache certificate | All-uncached 165-request temporal trace | Certify 44 exact prompt fingerprints, deny four, and route unknowns uncached | Byte-exact outputs; 1.84765x throughput; 0.90716x p95; six safe unknown fallbacks differed from the frozen count | Reject E13a on the unchanged decision-count gate; retain the otherwise passing evidence |
 | Calibration-known cache certificate | All-uncached reversed 165-request trace | Restrict transitions to fingerprints derived before E13b and fail closed otherwise | Byte-exact outputs; **1.85158x** throughput; 0.94427x p95; exact 146/19/0 decisions twice | Admit only the retained exact-fingerprint boundary; do not generalize semantically |
 | Selective weight repack | Full-repack and no-repack memory/throughput endpoints | Leave two predeclared tensor families in mapped storage | Valid four-point frontier; selective points retain 78.06%/62.56% throughput and save 22.14%/46.11% of extra RSS | Retain E14a as invalid and E14b as a valid no-promotion result; keep full repack |
+| Persistent packed-weight prerequisite | Runtime-only Arm-repacked Q4_K_M arena | Serialize all 183 packed tensors at arena-relative offsets with model/source/CPU binding | Two fresh processes produce the same 2,139,013,120-byte SHA-256 and preserve 23/30 | Admit only the representation feasibility; measure a fail-closed loader separately |
 
 Rejected variants remain visible: two server slots, cached two-slot serving,
 q4_0 KV, batch 32, Flash Attention, lower thread counts, and LTO all missed at
@@ -303,11 +309,12 @@ repack flag that conflicts with the plan is refused.
 | [E14a](results/reports/e14a-selective-repack-instrumentation-failure.md) | All eight native cells completed with exact quality, but missing verbosity-4 mechanism logs invalidate the frontier and forbid promotion |
 | [E13b](results/reports/e13b-cache-certificate-successor.md) | A separately frozen calibration-known trace passes every gate at 1.85158x throughput with byte-exact output and exact decision counts; admission remains fingerprint-bounded |
 | [E14b](results/reports/e14b-selective-repack-frontier.md) | The corrected four-point frontier is valid, but neither selective tier clears the unchanged joint target; full repack remains selected |
+| [E16a](results/reports/e16a-repack-sidecar-feasibility.md) | Two fresh native processes produce a byte-identical complete repack sidecar with exact quality; only the separately frozen loader successor is authorized |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
 The E5f through E5j, E6d through E6i, E7a through E7c, E9a/E9c, E10a through
-E10f, E13a/E13b, and E14a/E14b results are retained under their exact frozen
+E10f, E13a/E13b, E14a/E14b, and E16a results are retained under their exact frozen
 contracts and independently re-ingested byte for byte. E9e separately retains its reproducible
 premeasurement stop record.
 

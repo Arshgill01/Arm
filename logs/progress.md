@@ -1946,3 +1946,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   responses were rehashed. The retained manifest is `d328ede5…8dd7`.
 - E10f now satisfies its generated-quant prerequisite, but dispatch remains
   fail-closed until E12a completes and is independently retained as valid.
+
+## 2026-08-03 — E16a persistent-prepack feasibility retained
+
+- Native run `30837796757` passes every frozen mechanism, identity, quality,
+  determinism, artifact, and cleanup gate across two fresh processes.
+- Each process records 183 packed tensors and complete coverage of the
+  2,137,964,544-byte repack arena. Their 2,139,013,120-byte sidecars are
+  byte-identical at SHA-256 `95a34727…9951d` despite distinct runtime bases.
+- Both instrumented loads reproduce 23/30 with zero request failures or
+  prediction drift. Verification precedes deletion of 8,553,955,328 temporary
+  binary bytes; none are uploaded or committed.
+- Independent ingestion reproduces the 360,102-byte workflow summary byte for
+  byte and rehashes all 83 inventoried files. The retained manifest is
+  `cd3ed3ce…c686`.
+- E16a authorizes a separately frozen fail-closed read-only mmap loader
+  comparison. It does not claim that such a loader exists or improves startup,
+  RSS, PSS, sharing, throughput, or deployability.

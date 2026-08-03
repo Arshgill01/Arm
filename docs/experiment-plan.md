@@ -1743,6 +1743,23 @@ after complete hashes, verification, metadata, runtime addresses, quality, and
 cleanup counts are retained. Exact inputs and gates are in
 [`e16a_contract.json`](../experiments/e16a_contract.json).
 
+### E16a outcome
+
+Native run
+[`30837796757`](https://github.com/Arshgill01/Arm/actions/runs/30837796757)
+passes every frozen serialization, provenance, quality, and cleanup gate. Its
+two fresh processes each serialize 183 repacked tensors covering the complete
+2,137,964,544-byte arena. Both independently built 2,139,013,120-byte sidecars
+have SHA-256 `95a34727…9951d`, even though their absolute allocations begin at
+different addresses. Both processes reproduce 23/30 with zero request failures
+or prediction drift. The job verifies and then deletes 8,553,955,328 generated
+binary bytes; no raw tensor, model, or deployable sidecar is retained in the
+artifact. This validates the representation boundary and authorizes E16b, but
+does not claim a loader or any startup, memory, sharing, or performance result.
+See the retained
+[`manifest`](../results/manifests/e16a-30837796757.json) and
+[`report`](../results/reports/e16a-repack-sidecar-feasibility.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server
