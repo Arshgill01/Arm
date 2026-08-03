@@ -155,6 +155,12 @@ probability entry: one failed sample for Q4_K_M and two for Q4_0. The aggregate
 is invalid, partial task metrics are non-comparable, and the original E11a/E12b
 prerequisites remain blocked. Exact breakpoints and all 28,490 retained raw
 responses are preserved for a separately frozen compatibility preflight.
+E10e then reproduces both Q4_0 breakpoints on native Arm and completes their
+42- and 29-token continuations twice by forcing sampled token 1046 (`.`) while
+reading each original target's raw pre-sampling score. Both the maximum
+original-prefix delta and 71-score repeat delta are exactly zero. This validates
+only the compatibility mechanism and authorizes a separately frozen full
+successor; failed E10d remains failed.
 
 ## Optimization map
 
@@ -184,6 +190,7 @@ preserved unless the row explicitly describes a rejected candidate.
 | Exact-token probability response | Full 131,072-entry pre-sampling response | Select four known token IDs from the same softmax | Maximum log-probability delta 3.58e-7; identical sample; response 0.000221x and median HTTP latency 0.8144x | Promote only the response primitive for a separately frozen evaluator |
 | Forked candidate-scoring request | Validated serial exact-token adapter | Score all candidate continuations in one server request | Predictions match, but every frozen numerical parity gate fails | Reject the scorer; preserve the native negative result |
 | Pinned external holdout | Exact serial scorer over 300 preselected samples per model | Evaluate Q4_K_M and Q4_0 on ARC Easy, HellaSwag, and WinoGrande | Both cells hit missing one-token probability entries; paired aggregate skipped | Reject the comparison; retain all partial/raw evidence and test compatibility separately |
+| Probability serialization compatibility | Exact two failed Q4_0 continuations | Force one-byte sampled token 1046 while reading each original target's raw score | Both continuations complete twice; original-prefix and repeat deltas are 0.0 | Permit only a separately frozen full successor; do not rehabilitate E10d |
 
 Rejected variants remain visible: two server slots, cached two-slot serving,
 q4_0 KV, batch 32, Flash Attention, lower thread counts, and LTO all missed at

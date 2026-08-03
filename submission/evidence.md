@@ -57,6 +57,7 @@ artifact.
 | Exact-token probability primitive | [E10b `30797568757`](https://github.com/Arshgill01/Arm/actions/runs/30797568757) | [`e10b` manifest](../results/manifests/e10b-30797568757.json) · [`report`](../results/reports/e10b-exact-token-probabilities.md) | `4b1e73bb…5c83` |
 | Forked candidate scorer rejected on numerical parity | [E10c `30812791972`](https://github.com/Arshgill01/Arm/actions/runs/30812791972) | [`e10c` manifest](../results/manifests/e10c-30812791972.json) · [`report`](../results/reports/e10c-candidate-scorer-negative.md) | `1f906991…62e6b` |
 | External-holdout pair rejected on missing probability entries | [E10d `30818303255`](https://github.com/Arshgill01/Arm/actions/runs/30818303255) | [`e10d` manifest](../results/manifests/e10d-30818303255.json) · [`report`](../results/reports/e10d-external-holdout-failure.md) | `59cc8fa7…5336` |
+| Probability serialization compatibility preflight | [E10e `30827797407`](https://github.com/Arshgill01/Arm/actions/runs/30827797407) | [`e10e` manifest](../results/manifests/e10e-30827797407.json) · [`report`](../results/reports/e10e-probability-compatibility.md) | `3e689b52…7e167` |
 | Final judge-package clean-checkout validation | [`30798816900`](https://github.com/Arshgill01/Arm/actions/runs/30798816900) | 175 tests, 55 hashes through E10b, exact runtime/plan checks, four gallery assets, video-word ceiling, demo smoke test | passed on native `aarch64` at `03ae10d` |
 
 ## Final selected package
@@ -113,6 +114,11 @@ artifact.
   one-token probability entry. The zero-failure gate rejects both cells and
   their aggregate; partial metrics are non-comparable, and the exact E11a/E12b
   prerequisites remain unsatisfied.
+- Compatibility recovery boundary: E10e reproduces both exact Q4_0 missing
+  records, then completes both continuations twice with a one-byte sampled
+  token. Original-prefix and full-repeat requested score deltas are both zero.
+  It authorizes a separately frozen successor but does not validate the full
+  holdout or rewrite failed E10d.
 
 ## Recompute locally
 

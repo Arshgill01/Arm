@@ -1,0 +1,4644 @@
+{
+  "artifact_validation": {
+    "independent_summary_byte_identical": true,
+    "independent_summary_sha256": "44d07878e00520836ec9283d2b06724c402c832ff55c3424791262181abc4170",
+    "raw_inventory": {
+      "compressed_bytes": 270692,
+      "file_count": 185,
+      "inventory_sha256": "be98e588b528f585443a352083b61c63a93eb44365cd1fed5509841a0d3d1694",
+      "uncompressed_bytes": 556404
+    },
+    "workflow_summary_sha256": "44d07878e00520836ec9283d2b06724c402c832ff55c3424791262181abc4170"
+  },
+  "claim_boundary": "E10e is a two-case native Arm64 API-compatibility preflight for the exact failed Q4_0 E10d cell. Passing can authorize a separately frozen successor, but does not validate a full holdout, model quality, model comparison, quantization frontier, service performance, energy, PMU, cost, concurrency, cache policy, or another runtime.",
+  "comparison": {
+    "maximum_forced_safe_repeat_logprob_delta": 0.0,
+    "maximum_original_vs_forced_safe_prefailure_logprob_delta": 0.0
+  },
+  "contract_sha256": "9cada2521c4f813c437bf7aa7c4a3d800a41a973dc9b9c781b5a05f15721c6cc",
+  "decision": {
+    "forced_safe_sampling_completed_twice": true,
+    "full_holdout_validated": false,
+    "original_failure_reproduced": true,
+    "raw_selected_logprobs_preserved": true,
+    "successor_dispatch_allowed": true
+  },
+  "experiment_id": "E10e-preflight",
+  "github": {
+    "artifact_id": "8861819016",
+    "artifact_name": "e10e-probability-preflight-30827797407-1",
+    "artifact_size_bytes": 9542528,
+    "job_id": "91733815807",
+    "repository_commit": "e82c40b885d302f6aedf019c3519abf7de07c99d",
+    "run_attempt": 1,
+    "run_id": "30827797407",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30827797407"
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "runtime": {
+    "build_process": {
+      "elapsed": "3:35.80",
+      "exit_status": 0,
+      "maximum_rss_kib": 2714088,
+      "percent_cpu": "329%"
+    },
+    "cmake_cache_sha256": "15099d0dac6279f114f359e92f2ee33635942f5931ab96cc9c66d5c67d9bd4a5",
+    "configure_command": {
+      "cmake_arguments": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DGGML_CPU_KLEIDIAI=ON",
+        "-DGGML_LTO=OFF",
+        "-DGGML_NATIVE=ON",
+        "-DLLAMA_BUILD_EXAMPLES=OFF",
+        "-DLLAMA_BUILD_SERVER=ON",
+        "-DLLAMA_BUILD_TESTS=OFF",
+        "-DLLAMA_CURL=OFF",
+        "-DLLAMA_OPENSSL=OFF"
+      ]
+    },
+    "dynamic_dependency_basenames": [
+      "ld-linux-aarch64.so.1",
+      "libc.so.6",
+      "libgcc_s.so.1",
+      "libggml-base.so.0.18.0",
+      "libggml-cpu.so.0.18.0",
+      "libggml.so.0.18.0",
+      "libgomp.so.1.0.0",
+      "libllama-common.so.0.0.10216",
+      "libllama-server-impl.so",
+      "libllama.so.0.0.10216",
+      "libm.so.6",
+      "libmtmd.so.0.0.10216",
+      "libstdc++.so.6.0.33"
+    ],
+    "runtime_closure": {
+      "build_root": "/tmp/llama.cpp-E10e-build",
+      "file_count": 8,
+      "files": [
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-base.so.0.18.0",
+          "relative_path": "bin/libggml-base.so.0.18.0",
+          "sha256": "7a9ef5c4565310a09e348d4f9884484cada6454d2832340c1db4e4e2af608d7b",
+          "size_bytes": 873464
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-cpu.so.0.18.0",
+          "relative_path": "bin/libggml-cpu.so.0.18.0",
+          "sha256": "b8d5514761800c8457ec62e876b4d0e0d5e71ee2d8d76695fe647e79ce93314a",
+          "size_bytes": 1160432
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml.so.0.18.0",
+          "relative_path": "bin/libggml.so.0.18.0",
+          "sha256": "e0f4367859b22d90baa6ffc6e19a14e2c1cd7af7b69ec964f3812e9ede774fe4",
+          "size_bytes": 78176
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-common.so.0.0.10216",
+          "relative_path": "bin/libllama-common.so.0.0.10216",
+          "sha256": "fe7245e8edbf20c16720161531322b2b8fe141ec39fcbeeac9ddacd0989c0112",
+          "size_bytes": 5325720
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-server-impl.so",
+          "relative_path": "bin/libllama-server-impl.so",
+          "sha256": "4d9f465933d57d1711fe420240f414b357319f7307169daf54259a0cbdabdc16",
+          "size_bytes": 6884432
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama.so.0.0.10216",
+          "relative_path": "bin/libllama.so.0.0.10216",
+          "sha256": "3a3da78f07124f4cfd8bb4707d45818b16f62b7c384a27c2b4960f04433d37ff",
+          "size_bytes": 3937120
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libmtmd.so.0.0.10216",
+          "relative_path": "bin/libmtmd.so.0.0.10216",
+          "sha256": "c502e0e1498d1dead66cf860d3bf89c2bd78f55390336675cfa6ee065e9ca56b",
+          "size_bytes": 1461024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/llama-server",
+          "relative_path": "bin/llama-server",
+          "sha256": "dd93ac54d3c5a8fcfde7abfd4cc503314424c995b8b668608c4fced4029357ba",
+          "size_bytes": 72488
+        }
+      ],
+      "ldd_output": "\tlinux-vdso.so.1 (0x0000ff51acd0c000)\n\tlibllama-server-impl.so => /tmp/llama.cpp-E10e-build/bin/libllama-server-impl.so (0x0000ff51ac6b0000)\n\tlibstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ff51ac420000)\n\tlibgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ff51ac3e0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ff51ac220000)\n\t/lib/ld-linux-aarch64.so.1 (0x0000ff51accd0000)\n\tlibllama-common.so.0 => /tmp/llama.cpp-E10e-build/bin/libllama-common.so.0 (0x0000ff51abe00000)\n\tlibmtmd.so.0 => /tmp/llama.cpp-E10e-build/bin/libmtmd.so.0 (0x0000ff51abcb0000)\n\tlibllama.so.0 => /tmp/llama.cpp-E10e-build/bin/libllama.so.0 (0x0000ff51ab970000)\n\tlibggml.so.0 => /tmp/llama.cpp-E10e-build/bin/libggml.so.0 (0x0000ff51ab940000)\n\tlibggml-base.so.0 => /tmp/llama.cpp-E10e-build/bin/libggml-base.so.0 (0x0000ff51ab860000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ff51ab7b0000)\n\tlibggml-cpu.so.0 => /tmp/llama.cpp-E10e-build/bin/libggml-cpu.so.0 (0x0000ff51ab610000)\n\tlibgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000ff51ab590000)\n",
+      "runtime_dependencies": [
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10e-build/bin/libllama-server-impl.so",
+          "resolved_path": "/tmp/llama.cpp-E10e-build/bin/libllama-server-impl.so"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libstdc++.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgcc_s.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgcc_s.so.1"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libc.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libc.so.6"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/ld-linux-aarch64.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10e-build/bin/libllama-common.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10e-build/bin/libllama-common.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10e-build/bin/libmtmd.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10e-build/bin/libmtmd.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10e-build/bin/libllama.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10e-build/bin/libllama.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10e-build/bin/libggml.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10e-build/bin/libggml.so.0.18.0"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10e-build/bin/libggml-base.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10e-build/bin/libggml-base.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libm.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libm.so.6"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10e-build/bin/libggml-cpu.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10e-build/bin/libggml-cpu.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgomp.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0"
+        }
+      ],
+      "schema_version": 1,
+      "server_path": "/tmp/llama.cpp-E10e-build/bin/llama-server",
+      "server_relative_path": "bin/llama-server",
+      "system_dependencies_excluded": true,
+      "total_size_bytes": 19792856
+    },
+    "server_version": "version: 10216 (876a43211)\nbuilt with GNU 13.3.0 for Linux aarch64"
+  },
+  "schema_version": 1,
+  "status": "valid_probability_api_compatibility_preflight",
+  "variants": {
+    "forced_safe_1": {
+      "cases": {
+        "e9b_hellaswag|44|1": {
+          "attempts": [
+            {
+              "cache_n": 0,
+              "client_elapsed_ms": 3025.628668,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 3025.442551,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2915,
+                "gzip_bytes": 1426,
+                "gzip_sha256": "7868b06928eb8c11a3813e3fcf21410413621efdf2ddaf2bdd372623b9681182",
+                "path": "e9b_hellaswag-044-c01-t000.json.gz",
+                "sha256": "ccfab3596d3387a19f593b522bd234b0a0433026bc3056f23601c1f393bd9371"
+              },
+              "selected_logprob": -5.313545227050781,
+              "selected_token_id": 7651,
+              "status": "ok",
+              "target_token_id": 7651,
+              "token_index": 0
+            },
+            {
+              "cache_n": 214,
+              "client_elapsed_ms": 62.22559,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.003263,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2904,
+                "gzip_bytes": 1405,
+                "gzip_sha256": "2782afd4645d336b926c29a3f24b33ee05af24a5b9a6bcf2b1a016111d0b717e",
+                "path": "e9b_hellaswag-044-c01-t001.json.gz",
+                "sha256": "0777a6a5a9ba392ebd862f792080bc2f45a2036223909cc460500a87efaadd93"
+              },
+              "selected_logprob": -4.001252174377441,
+              "selected_token_id": 1636,
+              "status": "ok",
+              "target_token_id": 1636,
+              "token_index": 1
+            },
+            {
+              "cache_n": 215,
+              "client_elapsed_ms": 62.029889,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.856187,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2905,
+                "gzip_bytes": 1410,
+                "gzip_sha256": "b6087c10f9dbb2f849bbad9c82c742ffc0a77286bb90c1aaf9d60b8e771ad022",
+                "path": "e9b_hellaswag-044-c01-t002.json.gz",
+                "sha256": "ce43149be2cc9e3648d0d29769bb9c408d9b41e557624d533e74559835191888"
+              },
+              "selected_logprob": -1.1727772951126099,
+              "selected_token_id": 6185,
+              "status": "ok",
+              "target_token_id": 6185,
+              "token_index": 2
+            },
+            {
+              "cache_n": 216,
+              "client_elapsed_ms": 61.503392,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.334187,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2938,
+                "gzip_bytes": 1424,
+                "gzip_sha256": "0869c02fa172f80e501365c9ce8eb10dbb4b956976d8303de240a2c7438790cf",
+                "path": "e9b_hellaswag-044-c01-t003.json.gz",
+                "sha256": "6d19ba83c1b35bc805ec3c7ebf51e39345644f2afff2d3020122116f697d782a"
+              },
+              "selected_logprob": -9.623597145080566,
+              "selected_token_id": 11608,
+              "status": "ok",
+              "target_token_id": 11608,
+              "token_index": 3
+            },
+            {
+              "cache_n": 217,
+              "client_elapsed_ms": 62.326698,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.13454,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2907,
+                "gzip_bytes": 1409,
+                "gzip_sha256": "09011574a6710c06a2cef6b3a2b2cd4ce3e5a37d7d08059e55bd9cfb65b6bad6",
+                "path": "e9b_hellaswag-044-c01-t004.json.gz",
+                "sha256": "a206c98fb4452b5265275949849838029bae2de845386a52173103cb7a463f5d"
+              },
+              "selected_logprob": -2.829972743988037,
+              "selected_token_id": 1044,
+              "status": "ok",
+              "target_token_id": 1044,
+              "token_index": 4
+            },
+            {
+              "cache_n": 218,
+              "client_elapsed_ms": 61.781241,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.623083,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2916,
+                "gzip_bytes": 1418,
+                "gzip_sha256": "97b936b50ee4fa3cdc25e4671d8409e7d48043b33c5ff4b3bf856e5a3147fe8c",
+                "path": "e9b_hellaswag-044-c01-t005.json.gz",
+                "sha256": "4c86ae05eacefeded147b6453167601ebe60aa0fd8ae1196c4d435257a943d96"
+              },
+              "selected_logprob": -3.97318696975708,
+              "selected_token_id": 1494,
+              "status": "ok",
+              "target_token_id": 1494,
+              "token_index": 5
+            },
+            {
+              "cache_n": 219,
+              "client_elapsed_ms": 61.743112,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.570122,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2941,
+                "gzip_bytes": 1435,
+                "gzip_sha256": "5b59cefaf6a7bcb1c830f8b17e2c0ce028900b6a5191163f32129af97db216c9",
+                "path": "e9b_hellaswag-044-c01-t006.json.gz",
+                "sha256": "28165719fde38dbb02b88e37107ea3694d1eaf54218dc9a44e820db551616d8a"
+              },
+              "selected_logprob": -2.646578788757324,
+              "selected_token_id": 2715,
+              "status": "ok",
+              "target_token_id": 2715,
+              "token_index": 6
+            },
+            {
+              "cache_n": 220,
+              "client_elapsed_ms": 62.460366,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.270288,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2939,
+                "gzip_bytes": 1431,
+                "gzip_sha256": "1657bcc535fdc8d1d55220bc287495ee9e46792f70cf8335f54e5985e1a4490e",
+                "path": "e9b_hellaswag-044-c01-t007.json.gz",
+                "sha256": "85be7a32c42dd5a6c708eb0981dd6f8eb981768da6b7c01c5b6ffdf886d47adc"
+              },
+              "selected_logprob": -3.4933223724365234,
+              "selected_token_id": 5389,
+              "status": "ok",
+              "target_token_id": 5389,
+              "token_index": 7
+            },
+            {
+              "cache_n": 221,
+              "client_elapsed_ms": 61.747119,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.588411,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2940,
+                "gzip_bytes": 1434,
+                "gzip_sha256": "3f5fe03994dfd2db1bbd206b44bb2d9445a4172907f6d6f6b2f241dc20053197",
+                "path": "e9b_hellaswag-044-c01-t008.json.gz",
+                "sha256": "b9561b4bed452249c6a2f6f6911467486154ee1bbef9ee9e20fc1b06ca345578"
+              },
+              "selected_logprob": -1.8627064228057861,
+              "selected_token_id": 6444,
+              "status": "ok",
+              "target_token_id": 6444,
+              "token_index": 8
+            },
+            {
+              "cache_n": 222,
+              "client_elapsed_ms": 62.067626,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.902612,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2938,
+                "gzip_bytes": 1433,
+                "gzip_sha256": "b35191262340bb0a65d1c7e8570e1668f4779cb968fd33041e1fffc9f075983d",
+                "path": "e9b_hellaswag-044-c01-t009.json.gz",
+                "sha256": "541f60b2b74f776c8dc27c1626970c450ad2d04c6ee899da6b769d6aa477100e"
+              },
+              "selected_logprob": -0.34017935395240784,
+              "selected_token_id": 1321,
+              "status": "ok",
+              "target_token_id": 1321,
+              "token_index": 9
+            },
+            {
+              "cache_n": 223,
+              "client_elapsed_ms": 62.368979,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.165676,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2947,
+                "gzip_bytes": 1436,
+                "gzip_sha256": "5d0ff79fe3621ea68dde0fac0013070d3653fa9afa34f403a2bf6784348c5d72",
+                "path": "e9b_hellaswag-044-c01-t010.json.gz",
+                "sha256": "c6cc9b1b15bc40f0c89640dee8a9dbddd25de7b8eb09f85789480bfde8947e29"
+              },
+              "selected_logprob": -1.7199422121047974,
+              "selected_token_id": 5043,
+              "status": "ok",
+              "target_token_id": 5043,
+              "token_index": 10
+            },
+            {
+              "cache_n": 224,
+              "client_elapsed_ms": 61.891292,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.717855,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2946,
+                "gzip_bytes": 1435,
+                "gzip_sha256": "2828d253acdc597def320808a2d47d70161ed61c6134ec4283a306606e57f959",
+                "path": "e9b_hellaswag-044-c01-t011.json.gz",
+                "sha256": "e8f826c39d3fe54849c351f9f24fcf27e632e3d61662327476e27665644bd3c2"
+              },
+              "selected_logprob": -0.0034930247347801924,
+              "selected_token_id": 6174,
+              "status": "ok",
+              "target_token_id": 6174,
+              "token_index": 11
+            },
+            {
+              "cache_n": 225,
+              "client_elapsed_ms": 64.775206,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 64.587144,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2961,
+                "gzip_bytes": 1443,
+                "gzip_sha256": "e04a7ac6b04edf3e448012c722907e6f0afcc5464c7904baecc7c57a5402a79a",
+                "path": "e9b_hellaswag-044-c01-t012.json.gz",
+                "sha256": "adf9ba254976d2694c9c14504b62252ed7209fd3219cbde85489f80beee9e4b9"
+              },
+              "selected_logprob": -5.106612682342529,
+              "selected_token_id": 2425,
+              "status": "ok",
+              "target_token_id": 2425,
+              "token_index": 12
+            },
+            {
+              "cache_n": 226,
+              "client_elapsed_ms": 62.786968,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.617362,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2966,
+                "gzip_bytes": 1447,
+                "gzip_sha256": "3bc38019a92d16349ec771306e63449513dec631429080519c80859052e694dc",
+                "path": "e9b_hellaswag-044-c01-t013.json.gz",
+                "sha256": "3bbf92b8afdabf4ed605be46fcd781b26f6dd970f32983b9eca631d4fe080ac8"
+              },
+              "selected_logprob": -0.05663008987903595,
+              "selected_token_id": 2143,
+              "status": "ok",
+              "target_token_id": 2143,
+              "token_index": 13
+            },
+            {
+              "cache_n": 227,
+              "client_elapsed_ms": 62.446893,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.273032,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2988,
+                "gzip_bytes": 1459,
+                "gzip_sha256": "1273ad139817e6f5485b24420d36bf93ea335d75107ffab1db5a62c8e5a6df2d",
+                "path": "e9b_hellaswag-044-c01-t014.json.gz",
+                "sha256": "4571216ab51952f8ad98cc92ca017870781ca58c4e1355b4fea3c4dda2b0b454"
+              },
+              "selected_logprob": -0.46981433033943176,
+              "selected_token_id": 17296,
+              "status": "ok",
+              "target_token_id": 17296,
+              "token_index": 14
+            },
+            {
+              "cache_n": 228,
+              "client_elapsed_ms": 62.190053,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.012616,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2955,
+                "gzip_bytes": 1409,
+                "gzip_sha256": "873d9f34cfe20be9bce3fff6a458b675f2cb8b146f60dae558c0cfa23152ed64",
+                "path": "e9b_hellaswag-044-c01-t015.json.gz",
+                "sha256": "6367062b7874a53af40ff0525c7ebe3f60a185b8c56d9bee2a435b3ef6578ba6"
+              },
+              "selected_logprob": -0.637523889541626,
+              "selected_token_id": 1046,
+              "status": "ok",
+              "target_token_id": 1046,
+              "token_index": 15
+            },
+            {
+              "cache_n": 229,
+              "client_elapsed_ms": 62.184741,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.01156,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2972,
+                "gzip_bytes": 1454,
+                "gzip_sha256": "82647cbc86115de2eeac16f05f161080cabe64457f0ffb407d67119645e328a4",
+                "path": "e9b_hellaswag-044-c01-t016.json.gz",
+                "sha256": "2bbe1bf83c0c65c6f6ee90a5e38797ea928393e91b4900ccc7540db372171334"
+              },
+              "selected_logprob": -5.7741780281066895,
+              "selected_token_id": 6797,
+              "status": "ok",
+              "target_token_id": 6797,
+              "token_index": 16
+            },
+            {
+              "cache_n": 230,
+              "client_elapsed_ms": 62.228071,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.029872,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2966,
+                "gzip_bytes": 1447,
+                "gzip_sha256": "0cdf921e090649de4672839c61466f486cd566ef2e7659528bed48f9e0f2d540",
+                "path": "e9b_hellaswag-044-c01-t017.json.gz",
+                "sha256": "58891498228b1cc6c63b54ed7157ee964bdb5ff0d4bf436c2055a807597d9927"
+              },
+              "selected_logprob": -0.780302882194519,
+              "selected_token_id": 2405,
+              "status": "ok",
+              "target_token_id": 2405,
+              "token_index": 17
+            },
+            {
+              "cache_n": 231,
+              "client_elapsed_ms": 61.777688,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.611012,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2985,
+                "gzip_bytes": 1454,
+                "gzip_sha256": "b8b62d6811874b2e019e1ea4189b78d5fd09b2ad4f2a843c0cf168ce6fb01bf2",
+                "path": "e9b_hellaswag-044-c01-t018.json.gz",
+                "sha256": "7a3dce5d45bf3152e137b4bc55820cd7ffa532a6e1b959296394894eea053081"
+              },
+              "selected_logprob": -10.397420883178711,
+              "selected_token_id": 2479,
+              "status": "ok",
+              "target_token_id": 2479,
+              "token_index": 18
+            },
+            {
+              "cache_n": 232,
+              "client_elapsed_ms": 61.808962,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.611315,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2980,
+                "gzip_bytes": 1449,
+                "gzip_sha256": "a628543451ceb30cbe0a8fad59efce0e5ca2ae2f0d740997e76b069c3628d8f2",
+                "path": "e9b_hellaswag-044-c01-t019.json.gz",
+                "sha256": "6a8c1e080eb4841ef018b8a242afc13bfd13f4ae1bfe2a3565f52304aa3677f1"
+              },
+              "selected_logprob": -1.3182822465896606,
+              "selected_token_id": 1278,
+              "status": "ok",
+              "target_token_id": 1278,
+              "token_index": 19
+            },
+            {
+              "cache_n": 233,
+              "client_elapsed_ms": 62.206982,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.03636,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3003,
+                "gzip_bytes": 1471,
+                "gzip_sha256": "5e23fdb8f0a31daa838f56e4b44fedfdc406b63e45c427007cf41155c7eb6d94",
+                "path": "e9b_hellaswag-044-c01-t020.json.gz",
+                "sha256": "0205713c6110be54994b69f9bb651f9949384872ab7f10b2d6ca049e7476f0b2"
+              },
+              "selected_logprob": -6.357916831970215,
+              "selected_token_id": 5592,
+              "status": "ok",
+              "target_token_id": 5592,
+              "token_index": 20
+            },
+            {
+              "cache_n": 234,
+              "client_elapsed_ms": 62.059225,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.892004,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2980,
+                "gzip_bytes": 1455,
+                "gzip_sha256": "f1b92c97791ef19e86598152ba5b3b21d56c931f99334721474fb442aaca6cb3",
+                "path": "e9b_hellaswag-044-c01-t021.json.gz",
+                "sha256": "0ae1a6cd2d9887d4f2df5c171354c0a6755057e70e6956b86dbbd0e70e6f6892"
+              },
+              "selected_logprob": -1.1878820657730103,
+              "selected_token_id": 1063,
+              "status": "ok",
+              "target_token_id": 1063,
+              "token_index": 21
+            },
+            {
+              "cache_n": 235,
+              "client_elapsed_ms": 62.315434,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.145388,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3004,
+                "gzip_bytes": 1470,
+                "gzip_sha256": "cf1fef83baaf2a30f7f9d8b0fc6522c320a23bf0dcb84816e1fb5dee7ce16eff",
+                "path": "e9b_hellaswag-044-c01-t022.json.gz",
+                "sha256": "5112a77431dbe6daf43318b627959f1b5b8d0722852b09596b71a72985cc2528"
+              },
+              "selected_logprob": -7.484503746032715,
+              "selected_token_id": 70309,
+              "status": "ok",
+              "target_token_id": 70309,
+              "token_index": 22
+            },
+            {
+              "cache_n": 236,
+              "client_elapsed_ms": 62.832585,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.659636,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3008,
+                "gzip_bytes": 1476,
+                "gzip_sha256": "35ce5759dc91b25670625210123c955e09e9bdae1f5134afde18a0d63b7fea34",
+                "path": "e9b_hellaswag-044-c01-t023.json.gz",
+                "sha256": "26eff8894ac38791bceeffccf32d25dd8be7180de2010353b826da4c4c26cfa4"
+              },
+              "selected_logprob": -5.985972881317139,
+              "selected_token_id": 2314,
+              "status": "ok",
+              "target_token_id": 2314,
+              "token_index": 23
+            },
+            {
+              "cache_n": 237,
+              "client_elapsed_ms": 62.561609,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.391004,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2993,
+                "gzip_bytes": 1464,
+                "gzip_sha256": "22da3b12b37f70d71e05719b7f70d5348129779f3a2bd5dbc6e29fa650328f03",
+                "path": "e9b_hellaswag-044-c01-t024.json.gz",
+                "sha256": "f094ed3bdc90ff0c609cc688dea79eea015c1eb8ec3179397ef3d89c900fc06f"
+              },
+              "selected_logprob": -1.3820358514785767,
+              "selected_token_id": 1032,
+              "status": "ok",
+              "target_token_id": 1032,
+              "token_index": 24
+            },
+            {
+              "cache_n": 238,
+              "client_elapsed_ms": 61.940926,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.764768,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3001,
+                "gzip_bytes": 1473,
+                "gzip_sha256": "76ad09dfb8dc298469c8f742e56618dcf64e24ec54cde2034bced11044075b60",
+                "path": "e9b_hellaswag-044-c01-t025.json.gz",
+                "sha256": "e8e50d9a6a1b41f2ba25aa82bbab163b81cf00f1094b3c9b9e6039e921757d9a"
+              },
+              "selected_logprob": -3.1341137886047363,
+              "selected_token_id": 28504,
+              "status": "ok",
+              "target_token_id": 28504,
+              "token_index": 25
+            },
+            {
+              "cache_n": 239,
+              "client_elapsed_ms": 62.679109,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.476046,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3006,
+                "gzip_bytes": 1472,
+                "gzip_sha256": "eea5f294f7ee181c1dcbe1292eb0cbcadc20c5a4d7f695a06f9098b76b3aac78",
+                "path": "e9b_hellaswag-044-c01-t026.json.gz",
+                "sha256": "53b184c4633d9d287dbbe9cf24ab49124df2ce65debc6d82953db93b5871db0e"
+              },
+              "selected_logprob": -2.6118600368499756,
+              "selected_token_id": 1317,
+              "status": "ok",
+              "target_token_id": 1317,
+              "token_index": 26
+            },
+            {
+              "cache_n": 240,
+              "client_elapsed_ms": 62.715806,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.511615,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3002,
+                "gzip_bytes": 1468,
+                "gzip_sha256": "29a94d811f935f45954984fa76d67b5a66c4c53ca8743a31a9ee377d0f5033fb",
+                "path": "e9b_hellaswag-044-c01-t027.json.gz",
+                "sha256": "4d28d9f5953ec3be4ba3b8f3a44ce995996dcddc54ef1ce3f017f87256629161"
+              },
+              "selected_logprob": -0.026978004723787308,
+              "selected_token_id": 1032,
+              "status": "ok",
+              "target_token_id": 1032,
+              "token_index": 27
+            },
+            {
+              "cache_n": 241,
+              "client_elapsed_ms": 62.892083,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.714726,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3001,
+                "gzip_bytes": 1467,
+                "gzip_sha256": "bb6bd59b2c072f04ea38b68541215b17c0ebb6b5b29700b35ab27513409ca08a",
+                "path": "e9b_hellaswag-044-c01-t028.json.gz",
+                "sha256": "24857c9b631ac573a424c00d48b1f30d947748a5f9a5dc6a74a4cd6eee681144"
+              },
+              "selected_logprob": -0.8466528654098511,
+              "selected_token_id": 1194,
+              "status": "ok",
+              "target_token_id": 1194,
+              "token_index": 28
+            },
+            {
+              "cache_n": 242,
+              "client_elapsed_ms": 63.347105,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.141395,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3008,
+                "gzip_bytes": 1480,
+                "gzip_sha256": "a1511d5becfcd5e1aee653f3a61510dce2f19cc88b709a9ffeba64c29e9136a3",
+                "path": "e9b_hellaswag-044-c01-t029.json.gz",
+                "sha256": "1ebeeb7a857a4644f2f11fa0bc8bfe5fc41f030b249269a4bc01d67435ecbc43"
+              },
+              "selected_logprob": -0.00022825223277322948,
+              "selected_token_id": 1190,
+              "status": "ok",
+              "target_token_id": 1190,
+              "token_index": 29
+            },
+            {
+              "cache_n": 243,
+              "client_elapsed_ms": 62.706757,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.534672,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3012,
+                "gzip_bytes": 1479,
+                "gzip_sha256": "f0036bfff3c7fd72e9ed041902ad518eae350f1af9d290bb7e3c1a1cd97d762b",
+                "path": "e9b_hellaswag-044-c01-t030.json.gz",
+                "sha256": "85bfd4a6abddeb30d5a8803591357d28b4fa1b66680b4448c1312f50d4894313"
+              },
+              "selected_logprob": -1.7633368968963623,
+              "selected_token_id": 1307,
+              "status": "ok",
+              "target_token_id": 1307,
+              "token_index": 30
+            },
+            {
+              "cache_n": 244,
+              "client_elapsed_ms": 62.296273,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.121323,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3009,
+                "gzip_bytes": 1481,
+                "gzip_sha256": "1f1aa356738bfee1e2714412d18bd4c99fa2dab05a6aa0a15c84a4f67ae24e8a",
+                "path": "e9b_hellaswag-044-c01-t031.json.gz",
+                "sha256": "8cc738b9b3fddf7a24129a4de565ce81074b14e351dc07d157492d984fe0763d"
+              },
+              "selected_logprob": -5.228143215179443,
+              "selected_token_id": 1261,
+              "status": "ok",
+              "target_token_id": 1261,
+              "token_index": 31
+            },
+            {
+              "cache_n": 245,
+              "client_elapsed_ms": 62.616955,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.438557,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3026,
+                "gzip_bytes": 1487,
+                "gzip_sha256": "928b69d62e15462379062937912a26838d901c4c61a5f9e6e7d1d714be806c75",
+                "path": "e9b_hellaswag-044-c01-t032.json.gz",
+                "sha256": "251a9ac1def0bc5a38beccc46f354dbb587936451b5b5ed4443bf2230e3d367b"
+              },
+              "selected_logprob": -11.754478454589844,
+              "selected_token_id": 60401,
+              "status": "ok",
+              "target_token_id": 60401,
+              "token_index": 32
+            },
+            {
+              "cache_n": 246,
+              "client_elapsed_ms": 62.111323,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.921189,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3034,
+                "gzip_bytes": 1495,
+                "gzip_sha256": "77ce9d21559cfe224e1cca954e572cb5b480e4be0a4394546cea9bae858f9600",
+                "path": "e9b_hellaswag-044-c01-t033.json.gz",
+                "sha256": "1db1aa29e77c7bd3ee2b1fb7f5751f230e0e4ae92d4a350df9f89f573f467b43"
+              },
+              "selected_logprob": -0.4343046247959137,
+              "selected_token_id": 34158,
+              "status": "ok",
+              "target_token_id": 34158,
+              "token_index": 33
+            },
+            {
+              "cache_n": 247,
+              "client_elapsed_ms": 62.398252,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.201694,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3027,
+                "gzip_bytes": 1490,
+                "gzip_sha256": "ab5c7579cab9c99d4a972870d7958d87e8da9f081b2aeb80875861d228fcba6a",
+                "path": "e9b_hellaswag-044-c01-t034.json.gz",
+                "sha256": "7f155d9228819c732e824dc0d4b3230cd090fb95ba105390c61555ea5165193d"
+              },
+              "selected_logprob": -1.5888807773590088,
+              "selected_token_id": 1307,
+              "status": "ok",
+              "target_token_id": 1307,
+              "token_index": 34
+            },
+            {
+              "cache_n": 248,
+              "client_elapsed_ms": 61.949326,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.776793,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3041,
+                "gzip_bytes": 1492,
+                "gzip_sha256": "ac73d1e4f4e2d1bca50ac009b556ede7fcb12322c59a6710e2ee968893fe0bf4",
+                "path": "e9b_hellaswag-044-c01-t035.json.gz",
+                "sha256": "4a22b3110817fa596047f247677331444b4712a54de46e67c40ee8efe85ebfd5"
+              },
+              "selected_logprob": -0.547669529914856,
+              "selected_token_id": 10188,
+              "status": "ok",
+              "target_token_id": 10188,
+              "token_index": 35
+            },
+            {
+              "cache_n": 249,
+              "client_elapsed_ms": 72.358818,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 72.180308,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3036,
+                "gzip_bytes": 1493,
+                "gzip_sha256": "f721d5d287df024616b70cf057eb45bf9c9ae05410c50c5d279f5c87fce2f092",
+                "path": "e9b_hellaswag-044-c01-t036.json.gz",
+                "sha256": "b3a2726f991c8ccf5b0695e0403fbdd94915a9ab7ef157f695aef00ae2497c8e"
+              },
+              "selected_logprob": -4.5761799812316895,
+              "selected_token_id": 1317,
+              "status": "ok",
+              "target_token_id": 1317,
+              "token_index": 36
+            },
+            {
+              "cache_n": 250,
+              "client_elapsed_ms": 62.350019,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.163629,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3049,
+                "gzip_bytes": 1497,
+                "gzip_sha256": "aa4cac0e9a62c545c846ecde6cd9b931c46a1f53017aadc148b5ca9dc50c2ea7",
+                "path": "e9b_hellaswag-044-c01-t037.json.gz",
+                "sha256": "a467794821868226333cafafbbcac3435e45f6ef85d81d12da675fd419982efb"
+              },
+              "selected_logprob": -12.24840259552002,
+              "selected_token_id": 18948,
+              "status": "ok",
+              "target_token_id": 18948,
+              "token_index": 37
+            },
+            {
+              "cache_n": 251,
+              "client_elapsed_ms": 61.687614,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.508993,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3065,
+                "gzip_bytes": 1502,
+                "gzip_sha256": "e7b1a70bd27f868cab2becaeb4fad7d78953a4d63c4fafa273a05d9b84500b78",
+                "path": "e9b_hellaswag-044-c01-t038.json.gz",
+                "sha256": "4f2a13cbbcd07b4ba2634f060b655ad86e2a523ce5b599422da6d30e23f302aa"
+              },
+              "selected_logprob": -3.274512767791748,
+              "selected_token_id": 2396,
+              "status": "ok",
+              "target_token_id": 2396,
+              "token_index": 38
+            },
+            {
+              "cache_n": 252,
+              "client_elapsed_ms": 62.183325,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.003551,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3061,
+                "gzip_bytes": 1501,
+                "gzip_sha256": "06233f733ef54970a0917b91b7d083d00681fcc83d1210a40588336605bd98dc",
+                "path": "e9b_hellaswag-044-c01-t039.json.gz",
+                "sha256": "294721c9e5c98bf4198d315a078aac136b6fae647519db9c77bf49df80390728"
+              },
+              "selected_logprob": -0.7629455327987671,
+              "selected_token_id": 2143,
+              "status": "ok",
+              "target_token_id": 2143,
+              "token_index": 39
+            },
+            {
+              "cache_n": 253,
+              "client_elapsed_ms": 62.172725,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.972855,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3070,
+                "gzip_bytes": 1510,
+                "gzip_sha256": "1d7862e20c7eac864aea4593e89169d9f35c60e0ce037e15351d849c83d67235",
+                "path": "e9b_hellaswag-044-c01-t040.json.gz",
+                "sha256": "00869b7bf47c3156f6247573dc975bc1e2a27c4e82d6675fbf1f3aaca529bae8"
+              },
+              "selected_logprob": -6.734562397003174,
+              "selected_token_id": 34767,
+              "status": "ok",
+              "target_token_id": 34767,
+              "token_index": 40
+            },
+            {
+              "cache_n": 254,
+              "client_elapsed_ms": 62.191517,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.013592,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3052,
+                "gzip_bytes": 1469,
+                "gzip_sha256": "f7e5caa74bc143879f212035976d77c76063da6d5f26a28d876ade2372375ba1",
+                "path": "e9b_hellaswag-044-c01-t041.json.gz",
+                "sha256": "8389013f9c0536e0180af301c5b97e1969cc361c4d3af712aab58c7c40b12f79"
+              },
+              "selected_logprob": -1.7582331895828247,
+              "selected_token_id": 1046,
+              "status": "ok",
+              "target_token_id": 1046,
+              "token_index": 41
+            }
+          ],
+          "candidate_tokens": [
+            7651,
+            1636,
+            6185,
+            11608,
+            1044,
+            1494,
+            2715,
+            5389,
+            6444,
+            1321,
+            5043,
+            6174,
+            2425,
+            2143,
+            17296,
+            1046,
+            6797,
+            2405,
+            2479,
+            1278,
+            5592,
+            1063,
+            70309,
+            2314,
+            1032,
+            28504,
+            1317,
+            1032,
+            1194,
+            1190,
+            1307,
+            1261,
+            60401,
+            34158,
+            1307,
+            10188,
+            1317,
+            18948,
+            2396,
+            2143,
+            34767,
+            1046
+          ],
+          "choice_index": 1,
+          "completed": true,
+          "sample_ordinal": 44,
+          "source_index": 3681,
+          "task": "e9b_hellaswag"
+        },
+        "e9b_hellaswag|70|1": {
+          "attempts": [
+            {
+              "cache_n": 0,
+              "client_elapsed_ms": 3170.697471,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 3170.522009,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3005,
+                "gzip_bytes": 1475,
+                "gzip_sha256": "34bbccd4a87a386ff46b6de1af53da6b6106a07d9470af9b84c7784d72980bf9",
+                "path": "e9b_hellaswag-070-c01-t000.json.gz",
+                "sha256": "2cabd82885e121604b3faa80fed84e9437497a9ffcd0895cce62ba730baeb8f0"
+              },
+              "selected_logprob": -9.722926139831543,
+              "selected_token_id": 28380,
+              "status": "ok",
+              "target_token_id": 28380,
+              "token_index": 0
+            },
+            {
+              "cache_n": 227,
+              "client_elapsed_ms": 63.471733,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.296072,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2998,
+                "gzip_bytes": 1457,
+                "gzip_sha256": "36a83298b97bdef01eb4c5fed7f6485cb89f243382cde4981c0b036a586646e4",
+                "path": "e9b_hellaswag-070-c01-t001.json.gz",
+                "sha256": "8637e568d916a98dbc6c002714f08e11b5da4d3bce73cb802cd2e9bee083320c"
+              },
+              "selected_logprob": -8.520112991333008,
+              "selected_token_id": 2424,
+              "status": "ok",
+              "target_token_id": 2424,
+              "token_index": 1
+            },
+            {
+              "cache_n": 228,
+              "client_elapsed_ms": 73.759485,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 73.555927,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3009,
+                "gzip_bytes": 1466,
+                "gzip_sha256": "a320b2009fe94e086f3f08af963d02f62414bd3ba1c1f9ab7bac346284822c8b",
+                "path": "e9b_hellaswag-070-c01-t002.json.gz",
+                "sha256": "0ee8e9b636dc6ff3da20160d1988bc3e702988e73c8e12a8405ccd28d493bba1"
+              },
+              "selected_logprob": -7.679564476013184,
+              "selected_token_id": 8548,
+              "status": "ok",
+              "target_token_id": 8548,
+              "token_index": 2
+            },
+            {
+              "cache_n": 229,
+              "client_elapsed_ms": 62.528472,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.353002,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3011,
+                "gzip_bytes": 1465,
+                "gzip_sha256": "c30a2846a85be7988679926b2a31211829aa2ce26b8fdd6309e6d4851f2bae30",
+                "path": "e9b_hellaswag-070-c01-t003.json.gz",
+                "sha256": "343404a151366db10d10a870385e3de8d4fa2dedf3ef073044d86657da5e6a9b"
+              },
+              "selected_logprob": -5.3856611251831055,
+              "selected_token_id": 2744,
+              "status": "ok",
+              "target_token_id": 2744,
+              "token_index": 3
+            },
+            {
+              "cache_n": 230,
+              "client_elapsed_ms": 62.606122,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.429596,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3024,
+                "gzip_bytes": 1469,
+                "gzip_sha256": "ffa129c305730f31b43b5961ad380a9d9bde0e344b87551ec90e0af25a229c27",
+                "path": "e9b_hellaswag-070-c01-t004.json.gz",
+                "sha256": "25baf9e8072e3210005238df935e246c166d99bafecb8f3f629df12dcfb29c2a"
+              },
+              "selected_logprob": -0.24844412505626678,
+              "selected_token_id": 2147,
+              "status": "ok",
+              "target_token_id": 2147,
+              "token_index": 4
+            },
+            {
+              "cache_n": 231,
+              "client_elapsed_ms": 62.027953,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.819386,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3040,
+                "gzip_bytes": 1477,
+                "gzip_sha256": "c013ab9a98f8792c0a2e4dbc7dd1cf8be8642cdcd9fd06a93eba3f4fccf0cebc",
+                "path": "e9b_hellaswag-070-c01-t005.json.gz",
+                "sha256": "3434611633cda4c9fd3a8aab36851a732486a0b73e645be898a776304fac6ad5"
+              },
+              "selected_logprob": -11.112481117248535,
+              "selected_token_id": 32152,
+              "status": "ok",
+              "target_token_id": 32152,
+              "token_index": 5
+            },
+            {
+              "cache_n": 232,
+              "client_elapsed_ms": 61.60554,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.419006,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3024,
+                "gzip_bytes": 1470,
+                "gzip_sha256": "906e5febf8b4052122f661a6e4c82043811faef74724ebab2c91b86265cbc2f7",
+                "path": "e9b_hellaswag-070-c01-t006.json.gz",
+                "sha256": "3bfff790f9b0734aed87254910c5cbc875b2c78300c5b5c6b8dc0708ec6b4e46"
+              },
+              "selected_logprob": -2.248985528945923,
+              "selected_token_id": 1321,
+              "status": "ok",
+              "target_token_id": 1321,
+              "token_index": 6
+            },
+            {
+              "cache_n": 233,
+              "client_elapsed_ms": 61.660213,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.472583,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3035,
+                "gzip_bytes": 1473,
+                "gzip_sha256": "c1005d94ed28e0f9ddc88893c05723c490709c5ccb5b245f59ddcafff620b0b3",
+                "path": "e9b_hellaswag-070-c01-t007.json.gz",
+                "sha256": "79e2f8763b9b6afb578b530854f96038835a95f7ebe74b21071e31e7f2ac232c"
+              },
+              "selected_logprob": -6.1214985847473145,
+              "selected_token_id": 5807,
+              "status": "ok",
+              "target_token_id": 5807,
+              "token_index": 7
+            },
+            {
+              "cache_n": 234,
+              "client_elapsed_ms": 62.358411,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.188669,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3022,
+                "gzip_bytes": 1466,
+                "gzip_sha256": "45b41333911c698879ec6988f364d30bb60c53ebe8f23171ec39aed19ba6ee20",
+                "path": "e9b_hellaswag-070-c01-t008.json.gz",
+                "sha256": "f33dc337376a160f42d0ff85b1e341068020746987101c29b6ce68e52777cd9a"
+              },
+              "selected_logprob": -2.8337562084198,
+              "selected_token_id": 1261,
+              "status": "ok",
+              "target_token_id": 1261,
+              "token_index": 8
+            },
+            {
+              "cache_n": 235,
+              "client_elapsed_ms": 62.010392,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.812082,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3050,
+                "gzip_bytes": 1481,
+                "gzip_sha256": "4bdd33c12fca7fa3fdd0e2acb0244b4fde1135bfc922693aeb6f3f7ed889b345",
+                "path": "e9b_hellaswag-070-c01-t009.json.gz",
+                "sha256": "9251f742868ce24ee0929e1c034752c21ea5672f28db99ab98f45c992910a080"
+              },
+              "selected_logprob": -3.56335711479187,
+              "selected_token_id": 5135,
+              "status": "ok",
+              "target_token_id": 5135,
+              "token_index": 9
+            },
+            {
+              "cache_n": 236,
+              "client_elapsed_ms": 61.920733,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.752856,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3058,
+                "gzip_bytes": 1483,
+                "gzip_sha256": "1d10288f671a7609cf9c9ce08f6238bf12e2a672e4d000145d38061457e3ec5e",
+                "path": "e9b_hellaswag-070-c01-t010.json.gz",
+                "sha256": "a6f762ac2271a013961dd07e834e9a4bba2a27c61a515ceb112c5e91fe7188c7"
+              },
+              "selected_logprob": -7.392962455749512,
+              "selected_token_id": 19105,
+              "status": "ok",
+              "target_token_id": 19105,
+              "token_index": 10
+            },
+            {
+              "cache_n": 237,
+              "client_elapsed_ms": 61.957998,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.789129,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3063,
+                "gzip_bytes": 1490,
+                "gzip_sha256": "331f9105b2d5a1b5d6e1506c460780c1e61b811530969ae4f7897bebf7cecaa2",
+                "path": "e9b_hellaswag-070-c01-t011.json.gz",
+                "sha256": "4ba7bc874c3d9305ce9cbafff32c5ec4a2ac0b0cb65f967e082b2a8037922533"
+              },
+              "selected_logprob": -5.7532477378845215,
+              "selected_token_id": 22196,
+              "status": "ok",
+              "target_token_id": 22196,
+              "token_index": 11
+            },
+            {
+              "cache_n": 238,
+              "client_elapsed_ms": 61.967111,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.782697,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3044,
+                "gzip_bytes": 1445,
+                "gzip_sha256": "4ba736e2f46570568f043674f07b56596b6ca7fd1aa1315bccdd828aefdafe13",
+                "path": "e9b_hellaswag-070-c01-t012.json.gz",
+                "sha256": "664cdee8c668c828c80feaa0d85a506cbe823b490ed054aae82676aa65b17316"
+              },
+              "selected_logprob": -1.3640823364257812,
+              "selected_token_id": 1046,
+              "status": "ok",
+              "target_token_id": 1046,
+              "token_index": 12
+            },
+            {
+              "cache_n": 239,
+              "client_elapsed_ms": 61.678901,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.515409,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3064,
+                "gzip_bytes": 1488,
+                "gzip_sha256": "7f11588d4c19d682c4f2156ec584f88d6a23fc87efaf920ee40b07e9dc5e4647",
+                "path": "e9b_hellaswag-070-c01-t013.json.gz",
+                "sha256": "89932d06d16ce0f25702644d8f35c6765094e5f9cf85b03cf3755e10d96c022a"
+              },
+              "selected_logprob": -7.881509304046631,
+              "selected_token_id": 27043,
+              "status": "ok",
+              "target_token_id": 27043,
+              "token_index": 13
+            },
+            {
+              "cache_n": 240,
+              "client_elapsed_ms": 62.658764,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.487623,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3057,
+                "gzip_bytes": 1486,
+                "gzip_sha256": "8c75b9d107c2eacfc2c35ff83945d362197b00791c64a8955f78c21520c95280",
+                "path": "e9b_hellaswag-070-c01-t014.json.gz",
+                "sha256": "4d884558c29d731ae2e6207dd32fa95e57153e5b2b4417095a454aaee1015fef"
+              },
+              "selected_logprob": -1.690157175064087,
+              "selected_token_id": 2015,
+              "status": "ok",
+              "target_token_id": 2015,
+              "token_index": 14
+            },
+            {
+              "cache_n": 241,
+              "client_elapsed_ms": 62.521104,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.314337,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3073,
+                "gzip_bytes": 1494,
+                "gzip_sha256": "ebcd07c05dcfb39047faa94af2bf6cb43c36a3111b918d6c344f0ad624243894",
+                "path": "e9b_hellaswag-070-c01-t015.json.gz",
+                "sha256": "9c5f6ab1ecb6ba3ad486d484bed948454db701ce16bc2e1f71a9a18e3f027d40"
+              },
+              "selected_logprob": -0.10691119730472565,
+              "selected_token_id": 1454,
+              "status": "ok",
+              "target_token_id": 1454,
+              "token_index": 15
+            },
+            {
+              "cache_n": 242,
+              "client_elapsed_ms": 65.076455,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 64.900298,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3062,
+                "gzip_bytes": 1487,
+                "gzip_sha256": "09b5975451b082eb5f2b27294245ef7954d8e763513b2ffa0b3cfcd065b62596",
+                "path": "e9b_hellaswag-070-c01-t016.json.gz",
+                "sha256": "2ad605bb262d81f05059d88684d7d832e88d8ade35d6eddf14349ef5dbe5219f"
+              },
+              "selected_logprob": -0.6459335684776306,
+              "selected_token_id": 1261,
+              "status": "ok",
+              "target_token_id": 1261,
+              "token_index": 16
+            },
+            {
+              "cache_n": 243,
+              "client_elapsed_ms": 63.502367,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.29516,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3100,
+                "gzip_bytes": 1505,
+                "gzip_sha256": "b3fd3e79cd60b44f0eeeddfde1996455d10d1e574c57f7a667cbf5542a2947e3",
+                "path": "e9b_hellaswag-070-c01-t017.json.gz",
+                "sha256": "2667874b1e07711a39e7364f9da3bdec4451221249f1f25e63668d2114b44c6c"
+              },
+              "selected_logprob": -4.287479877471924,
+              "selected_token_id": 21027,
+              "status": "ok",
+              "target_token_id": 21027,
+              "token_index": 17
+            },
+            {
+              "cache_n": 244,
+              "client_elapsed_ms": 63.259263,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.053704,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3079,
+                "gzip_bytes": 1497,
+                "gzip_sha256": "c6f993b3a500ef4a9a526e70cecaf80fdfccb82c88d4870bc80f07ce8f9cd488",
+                "path": "e9b_hellaswag-070-c01-t018.json.gz",
+                "sha256": "36e235ba9c3ecb232f251af532eec55dcbf98421f5ed444ce9f368c8d683b1e9"
+              },
+              "selected_logprob": -3.7705161571502686,
+              "selected_token_id": 1878,
+              "status": "ok",
+              "target_token_id": 1878,
+              "token_index": 18
+            },
+            {
+              "cache_n": 245,
+              "client_elapsed_ms": 62.696549,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.525104,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3100,
+                "gzip_bytes": 1509,
+                "gzip_sha256": "aab45e37d0d236b8afb8828d0e847f79b82a7b84559e08c50052e6eda1c98822",
+                "path": "e9b_hellaswag-070-c01-t019.json.gz",
+                "sha256": "60107bd3cb351f16e43ab9b39247429b09f9a0f47c1e83d4899db2346799b5f1"
+              },
+              "selected_logprob": -4.893060684204102,
+              "selected_token_id": 5135,
+              "status": "ok",
+              "target_token_id": 5135,
+              "token_index": 19
+            },
+            {
+              "cache_n": 246,
+              "client_elapsed_ms": 63.5628,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.36921,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3119,
+                "gzip_bytes": 1516,
+                "gzip_sha256": "9df2e62b2c521f9a447085e51aad68807e1c0e5657adca0359b91b9386bddd6b",
+                "path": "e9b_hellaswag-070-c01-t020.json.gz",
+                "sha256": "afc1731c3a77785c4d8ba4f384c0a99e6e4d9617a109dd661af4ae9ea3c228e7"
+              },
+              "selected_logprob": -6.528392314910889,
+              "selected_token_id": 28374,
+              "status": "ok",
+              "target_token_id": 28374,
+              "token_index": 20
+            },
+            {
+              "cache_n": 247,
+              "client_elapsed_ms": 62.382219,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.210326,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3100,
+                "gzip_bytes": 1509,
+                "gzip_sha256": "141b179b4a7c7592decfd18ea08b51557282669b1efda8d7802c88d77bd7bfa7",
+                "path": "e9b_hellaswag-070-c01-t021.json.gz",
+                "sha256": "297c6dcc0eb81cf41901604c8bbbade5789a51d977cc3dd13bf7bcd9dc980e28"
+              },
+              "selected_logprob": -3.4672319889068604,
+              "selected_token_id": 1321,
+              "status": "ok",
+              "target_token_id": 1321,
+              "token_index": 21
+            },
+            {
+              "cache_n": 248,
+              "client_elapsed_ms": 62.54796,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.376387,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3122,
+                "gzip_bytes": 1516,
+                "gzip_sha256": "0090794752602b634d380a4994144327369c8880af689b1a6e2eef131e773dba",
+                "path": "e9b_hellaswag-070-c01-t022.json.gz",
+                "sha256": "6dbaf87525fddbd3f5e3bbf85749fabb7fbdbdf188980ccec24bed66c1e978c6"
+              },
+              "selected_logprob": -3.0120015144348145,
+              "selected_token_id": 7129,
+              "status": "ok",
+              "target_token_id": 7129,
+              "token_index": 22
+            },
+            {
+              "cache_n": 249,
+              "client_elapsed_ms": 61.934974,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.747536,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3110,
+                "gzip_bytes": 1507,
+                "gzip_sha256": "aab1afcede2daefafc4ef214c2a8f76db6528ae5dcd7f0abcad801e1cdee7d7f",
+                "path": "e9b_hellaswag-070-c01-t023.json.gz",
+                "sha256": "55ad7edecae660eddc95b92db02dc235b1d93c4b58f7229cb1b3cb78337b63d5"
+              },
+              "selected_logprob": -1.3952910900115967,
+              "selected_token_id": 1584,
+              "status": "ok",
+              "target_token_id": 1584,
+              "token_index": 23
+            },
+            {
+              "cache_n": 250,
+              "client_elapsed_ms": 62.136547,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.965215,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3113,
+                "gzip_bytes": 1510,
+                "gzip_sha256": "28ad50bca82e06e19862f083337edb7f567f32ef157e9caffbde40e28564d6b6",
+                "path": "e9b_hellaswag-070-c01-t024.json.gz",
+                "sha256": "beb40ef3ead95d252fb86bdfbcd3f6a2001d945e9a0cca38b735a75ae254715f"
+              },
+              "selected_logprob": -2.9540770053863525,
+              "selected_token_id": 1408,
+              "status": "ok",
+              "target_token_id": 1408,
+              "token_index": 24
+            },
+            {
+              "cache_n": 251,
+              "client_elapsed_ms": 62.142708,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.964022,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3119,
+                "gzip_bytes": 1512,
+                "gzip_sha256": "53306dad57e1c3bd22fb3da543ab3a3e40e8b764818536713b01e5ea8167ba8c",
+                "path": "e9b_hellaswag-070-c01-t025.json.gz",
+                "sha256": "a7b300fc8fbfe7453094f0fbc6737d3e4225f215ad0577426c6b9126127ea9c5"
+              },
+              "selected_logprob": -1.477767825126648,
+              "selected_token_id": 1278,
+              "status": "ok",
+              "target_token_id": 1278,
+              "token_index": 25
+            },
+            {
+              "cache_n": 252,
+              "client_elapsed_ms": 62.784464,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.612922,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3128,
+                "gzip_bytes": 1520,
+                "gzip_sha256": "65318ab885cac693f4194245748333e0eccbb29803c3acda7d8d47b0c3a128fc",
+                "path": "e9b_hellaswag-070-c01-t026.json.gz",
+                "sha256": "dc5a2bae51e4c24f6d9ddbb4ddefb92b9e2c15dfd0dacf2e2828d6ff75d1e0ac"
+              },
+              "selected_logprob": -1.395523190498352,
+              "selected_token_id": 2879,
+              "status": "ok",
+              "target_token_id": 2879,
+              "token_index": 26
+            },
+            {
+              "cache_n": 253,
+              "client_elapsed_ms": 62.379211,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.176309,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3126,
+                "gzip_bytes": 1518,
+                "gzip_sha256": "85d554c470974d9d9a1a19bfe3a1b11ad5831c90eccd4f61687f04898e5b5887",
+                "path": "e9b_hellaswag-070-c01-t027.json.gz",
+                "sha256": "c8dc9ff9f6658cb78d84935c4ecfd88b62d7beef1d9fd0e9fa710ff9cf6b4684"
+              },
+              "selected_logprob": -3.0684187412261963,
+              "selected_token_id": 3950,
+              "status": "ok",
+              "target_token_id": 3950,
+              "token_index": 27
+            },
+            {
+              "cache_n": 254,
+              "client_elapsed_ms": 62.453333,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.276153,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3117,
+                "gzip_bytes": 1482,
+                "gzip_sha256": "7aab1b2c540f2694b49889665e04c9aa6f76d09494c5c9f8271a86333c43fceb",
+                "path": "e9b_hellaswag-070-c01-t028.json.gz",
+                "sha256": "31e24c8bd8552714f2923421199e747ad13ef9012c7d70c81e1d2c8f6433fe80"
+              },
+              "selected_logprob": -1.3085339069366455,
+              "selected_token_id": 1046,
+              "status": "ok",
+              "target_token_id": 1046,
+              "token_index": 28
+            }
+          ],
+          "candidate_tokens": [
+            28380,
+            2424,
+            8548,
+            2744,
+            2147,
+            32152,
+            1321,
+            5807,
+            1261,
+            5135,
+            19105,
+            22196,
+            1046,
+            27043,
+            2015,
+            1454,
+            1261,
+            21027,
+            1878,
+            5135,
+            28374,
+            1321,
+            7129,
+            1584,
+            1408,
+            1278,
+            2879,
+            3950,
+            1046
+          ],
+          "choice_index": 1,
+          "completed": true,
+          "sample_ordinal": 70,
+          "source_index": 6417,
+          "task": "e9b_hellaswag"
+        }
+      },
+      "definition": {
+        "expected_outcome": "complete_all_selected_probabilities",
+        "forced_safe_logit_bias": 100.0,
+        "forced_safe_token_id": 1046
+      },
+      "readiness": {
+        "attempts": 19,
+        "ready_ms": 1823.256113,
+        "response": {
+          "status": "ok"
+        },
+        "schema_version": 1,
+        "status": "ok"
+      },
+      "server_process": {
+        "elapsed": "0:12.70",
+        "exit_status": 0,
+        "maximum_rss_kib": 4056284,
+        "percent_cpu": "343%"
+      }
+    },
+    "forced_safe_2": {
+      "cases": {
+        "e9b_hellaswag|44|1": {
+          "attempts": [
+            {
+              "cache_n": 0,
+              "client_elapsed_ms": 3026.076934,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 3025.890673,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2915,
+                "gzip_bytes": 1425,
+                "gzip_sha256": "2cacbc93553859194ab39e971e8e29cc350294ac16178b19a169aaeae2cabc8f",
+                "path": "e9b_hellaswag-044-c01-t000.json.gz",
+                "sha256": "02243e02a61e102737c4f5dc1b68deb194045bd0a2dafa6c96c1306894d6a053"
+              },
+              "selected_logprob": -5.313545227050781,
+              "selected_token_id": 7651,
+              "status": "ok",
+              "target_token_id": 7651,
+              "token_index": 0
+            },
+            {
+              "cache_n": 214,
+              "client_elapsed_ms": 63.285898,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.042115,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2905,
+                "gzip_bytes": 1406,
+                "gzip_sha256": "844eee57ec4ba8f0e091359e56db02294e8fcdbdd9dca243236616f7ae5e23eb",
+                "path": "e9b_hellaswag-044-c01-t001.json.gz",
+                "sha256": "a11e1073f23328f0eb4a4303a002e7a865a5c7d92db927069dc70f20de58348e"
+              },
+              "selected_logprob": -4.001252174377441,
+              "selected_token_id": 1636,
+              "status": "ok",
+              "target_token_id": 1636,
+              "token_index": 1
+            },
+            {
+              "cache_n": 215,
+              "client_elapsed_ms": 63.723736,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.543291,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2903,
+                "gzip_bytes": 1406,
+                "gzip_sha256": "63dc0120abc131422359ada3e69a46607b07a2982d715db8d1b15bf4461bb591",
+                "path": "e9b_hellaswag-044-c01-t002.json.gz",
+                "sha256": "113bed565f19beaae8c38887aebe6338d9edd71107bc8ca54ca71d30d25a678b"
+              },
+              "selected_logprob": -1.1727772951126099,
+              "selected_token_id": 6185,
+              "status": "ok",
+              "target_token_id": 6185,
+              "token_index": 2
+            },
+            {
+              "cache_n": 216,
+              "client_elapsed_ms": 63.855868,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.676582,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2938,
+                "gzip_bytes": 1426,
+                "gzip_sha256": "e9ceb1b85d5aac54c5ed2cf6c45f58d3f6460e2f0e8cd8cbcb02b0ddf74dd4f7",
+                "path": "e9b_hellaswag-044-c01-t003.json.gz",
+                "sha256": "2aa8dd3b4eb0daeca6d2d3e03d898a89b0760edc374e4def7a0279477051ed1c"
+              },
+              "selected_logprob": -9.623597145080566,
+              "selected_token_id": 11608,
+              "status": "ok",
+              "target_token_id": 11608,
+              "token_index": 3
+            },
+            {
+              "cache_n": 217,
+              "client_elapsed_ms": 63.213312,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.014153,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2906,
+                "gzip_bytes": 1406,
+                "gzip_sha256": "935f2bd0d5da26433029780c9f5731a688ddeef049fad2173bf2c6ec63af3d72",
+                "path": "e9b_hellaswag-044-c01-t004.json.gz",
+                "sha256": "ad7e6736d6624ce47f550d9fe11a6981a6f3f70defbdeead3f53255d18fc9087"
+              },
+              "selected_logprob": -2.829972743988037,
+              "selected_token_id": 1044,
+              "status": "ok",
+              "target_token_id": 1044,
+              "token_index": 4
+            },
+            {
+              "cache_n": 218,
+              "client_elapsed_ms": 63.45504,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.27917,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2917,
+                "gzip_bytes": 1420,
+                "gzip_sha256": "337a3be146096c00069c4068f9aa2f2f1d4fd1116945e2366177df77dadde4ce",
+                "path": "e9b_hellaswag-044-c01-t005.json.gz",
+                "sha256": "bac19ab43f808a12d75ee49e95f062f739c09a21799c2afaf25a97869a358a71"
+              },
+              "selected_logprob": -3.97318696975708,
+              "selected_token_id": 1494,
+              "status": "ok",
+              "target_token_id": 1494,
+              "token_index": 5
+            },
+            {
+              "cache_n": 219,
+              "client_elapsed_ms": 64.705102,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 64.496439,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2941,
+                "gzip_bytes": 1434,
+                "gzip_sha256": "c5ebe57e2ae328645a4612362c80e3880057f6f9019e26c6f459ebd2b7b4a938",
+                "path": "e9b_hellaswag-044-c01-t006.json.gz",
+                "sha256": "d8ebdf8c84ae085f36e987d4487eb8b024ee4356e81fe6f953514895fa8127a2"
+              },
+              "selected_logprob": -2.646578788757324,
+              "selected_token_id": 2715,
+              "status": "ok",
+              "target_token_id": 2715,
+              "token_index": 6
+            },
+            {
+              "cache_n": 220,
+              "client_elapsed_ms": 63.619485,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.395686,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2939,
+                "gzip_bytes": 1430,
+                "gzip_sha256": "98ac08eff1b8a341e9a3b276bd2bef13fbabf0fe4b22efeab31739503a2cea32",
+                "path": "e9b_hellaswag-044-c01-t007.json.gz",
+                "sha256": "9ca88f77bc869db376d39d48c14c996d1889f9e58944d2798568f235501e73c1"
+              },
+              "selected_logprob": -3.4933223724365234,
+              "selected_token_id": 5389,
+              "status": "ok",
+              "target_token_id": 5389,
+              "token_index": 7
+            },
+            {
+              "cache_n": 221,
+              "client_elapsed_ms": 63.440655,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.262497,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2943,
+                "gzip_bytes": 1434,
+                "gzip_sha256": "8e87f57e3492e469ef8c9d7f57c29591c7a92e0710a58c670d3214795deb33c6",
+                "path": "e9b_hellaswag-044-c01-t008.json.gz",
+                "sha256": "35df2043f0c505a1a6015da4691e230e8cdda2775249d6dc928b1079f9c8f323"
+              },
+              "selected_logprob": -1.8627064228057861,
+              "selected_token_id": 6444,
+              "status": "ok",
+              "target_token_id": 6444,
+              "token_index": 8
+            },
+            {
+              "cache_n": 222,
+              "client_elapsed_ms": 63.177935,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.006842,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2943,
+                "gzip_bytes": 1437,
+                "gzip_sha256": "1220fe4b9a4c7b3166afbf8f67c54167c7e08cb1649e18e775c865fe56b1d7b5",
+                "path": "e9b_hellaswag-044-c01-t009.json.gz",
+                "sha256": "1b6f135df99bb38737562312ab7ea9a7c83ec6f223a22ca85454cc40e046623e"
+              },
+              "selected_logprob": -0.34017935395240784,
+              "selected_token_id": 1321,
+              "status": "ok",
+              "target_token_id": 1321,
+              "token_index": 9
+            },
+            {
+              "cache_n": 223,
+              "client_elapsed_ms": 62.731169,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.555724,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2948,
+                "gzip_bytes": 1435,
+                "gzip_sha256": "3115b865c1045e8f45de983a600564b126c1d8446612bfa2d52944c110e6892c",
+                "path": "e9b_hellaswag-044-c01-t010.json.gz",
+                "sha256": "272bd495c04d9c2575014e832038cac0811d9e3cc1347c58dad3f45a0f3c2f47"
+              },
+              "selected_logprob": -1.7199422121047974,
+              "selected_token_id": 5043,
+              "status": "ok",
+              "target_token_id": 5043,
+              "token_index": 10
+            },
+            {
+              "cache_n": 224,
+              "client_elapsed_ms": 63.074436,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.898278,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2946,
+                "gzip_bytes": 1434,
+                "gzip_sha256": "c36c5e4ab8b3c6798f2fc516c1b0c52d6adf1c1a60f956b7a0534ae23f259cb7",
+                "path": "e9b_hellaswag-044-c01-t011.json.gz",
+                "sha256": "7508c2d0ecee6e142260c01e502a7faea519d44b62c9f057af2c33f3208e731e"
+              },
+              "selected_logprob": -0.0034930247347801924,
+              "selected_token_id": 6174,
+              "status": "ok",
+              "target_token_id": 6174,
+              "token_index": 11
+            },
+            {
+              "cache_n": 225,
+              "client_elapsed_ms": 62.483593,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.300403,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2962,
+                "gzip_bytes": 1443,
+                "gzip_sha256": "31cad0b5b59fd1a6acfe9d475060399950f49091c2f5f36b65bd32ac76a6eeb8",
+                "path": "e9b_hellaswag-044-c01-t012.json.gz",
+                "sha256": "bd2e6e0dc8e8e4870ba20d9db4fcc50e8df5f404186ed310517725b139db9b15"
+              },
+              "selected_logprob": -5.106612682342529,
+              "selected_token_id": 2425,
+              "status": "ok",
+              "target_token_id": 2425,
+              "token_index": 12
+            },
+            {
+              "cache_n": 226,
+              "client_elapsed_ms": 62.546651,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.369301,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2966,
+                "gzip_bytes": 1449,
+                "gzip_sha256": "f24bab77a38c3bd5d7e0a6f4f28a2f4951125fe14f11d8399a5ecbf7e60cbaaf",
+                "path": "e9b_hellaswag-044-c01-t013.json.gz",
+                "sha256": "80bbcbca3f7b630b26bf1dc3c2671bb0a625b142c86edc7f58da07c88e4dffe0"
+              },
+              "selected_logprob": -0.05663008987903595,
+              "selected_token_id": 2143,
+              "status": "ok",
+              "target_token_id": 2143,
+              "token_index": 13
+            },
+            {
+              "cache_n": 227,
+              "client_elapsed_ms": 64.782337,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 64.597691,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2988,
+                "gzip_bytes": 1460,
+                "gzip_sha256": "0107d5a128baaa2e604f5f66a7cbddc10bf341cef40daee877be8ef9de6d1568",
+                "path": "e9b_hellaswag-044-c01-t014.json.gz",
+                "sha256": "d1523072bb476da5fc706e0a2930a2b6b4fddf19949258bd29a53501975a8019"
+              },
+              "selected_logprob": -0.46981433033943176,
+              "selected_token_id": 17296,
+              "status": "ok",
+              "target_token_id": 17296,
+              "token_index": 14
+            },
+            {
+              "cache_n": 228,
+              "client_elapsed_ms": 63.885453,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.709319,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2956,
+                "gzip_bytes": 1411,
+                "gzip_sha256": "4dee26b3dbf2d779f75a971bf4abe12bc73313e15b8250cb17b80949ecb84408",
+                "path": "e9b_hellaswag-044-c01-t015.json.gz",
+                "sha256": "c7d5d69c11554fe2a60acfbc7f5c08fae7f84f8d8b55fb3abbfe7aa73a4978e1"
+              },
+              "selected_logprob": -0.637523889541626,
+              "selected_token_id": 1046,
+              "status": "ok",
+              "target_token_id": 1046,
+              "token_index": 15
+            },
+            {
+              "cache_n": 229,
+              "client_elapsed_ms": 63.803474,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.61562,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2971,
+                "gzip_bytes": 1450,
+                "gzip_sha256": "c7363a287bdfdce4d22e6241dc7929eae5de32ffd7ee2640d5493c458e4938c2",
+                "path": "e9b_hellaswag-044-c01-t016.json.gz",
+                "sha256": "d2b9a2168a8553a9d1b626325a4f76fa250bf6b557dfcef0be6a24e2749eac70"
+              },
+              "selected_logprob": -5.7741780281066895,
+              "selected_token_id": 6797,
+              "status": "ok",
+              "target_token_id": 6797,
+              "token_index": 16
+            },
+            {
+              "cache_n": 230,
+              "client_elapsed_ms": 63.663862,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.4712,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2966,
+                "gzip_bytes": 1445,
+                "gzip_sha256": "77043e0bfce874bdfe9a38207ca5e88a69c465c66742d93097134ea995093828",
+                "path": "e9b_hellaswag-044-c01-t017.json.gz",
+                "sha256": "196cd3fdffa5711917df98ddc9fa141196dc8b4005bc16e7d1dfaaea580566a2"
+              },
+              "selected_logprob": -0.780302882194519,
+              "selected_token_id": 2405,
+              "status": "ok",
+              "target_token_id": 2405,
+              "token_index": 17
+            },
+            {
+              "cache_n": 231,
+              "client_elapsed_ms": 62.970289,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.792307,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2985,
+                "gzip_bytes": 1459,
+                "gzip_sha256": "e4e551eeeeaf6234340a815719167200618011fa6c5eb4ea049cee5a37731b79",
+                "path": "e9b_hellaswag-044-c01-t018.json.gz",
+                "sha256": "c6d3305dd9313b2320ac6e48cb0ea7f0e691297aac512228e9c67420fa306ca4"
+              },
+              "selected_logprob": -10.397420883178711,
+              "selected_token_id": 2479,
+              "status": "ok",
+              "target_token_id": 2479,
+              "token_index": 18
+            },
+            {
+              "cache_n": 232,
+              "client_elapsed_ms": 63.833675,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.633197,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2984,
+                "gzip_bytes": 1458,
+                "gzip_sha256": "ab15c0eb33f20882096b87013d331fefe2fb0dc3bace976883efac59fa7499ae",
+                "path": "e9b_hellaswag-044-c01-t019.json.gz",
+                "sha256": "82a1cb05c484c83a75a107a5370bdd8984747f7157e9570a0a4d01bff57a732f"
+              },
+              "selected_logprob": -1.3182822465896606,
+              "selected_token_id": 1278,
+              "status": "ok",
+              "target_token_id": 1278,
+              "token_index": 19
+            },
+            {
+              "cache_n": 233,
+              "client_elapsed_ms": 63.695967,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.518209,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3003,
+                "gzip_bytes": 1468,
+                "gzip_sha256": "dce6212a6cf6883fde68bcaf738b4b8caaa2a1cc8fd2e0713eabb6f16e767a90",
+                "path": "e9b_hellaswag-044-c01-t020.json.gz",
+                "sha256": "5ba97faac39c2f9bb0279ca55ee5c63afab56a0a0655f369fa02cb6e7acaeb70"
+              },
+              "selected_logprob": -6.357916831970215,
+              "selected_token_id": 5592,
+              "status": "ok",
+              "target_token_id": 5592,
+              "token_index": 20
+            },
+            {
+              "cache_n": 234,
+              "client_elapsed_ms": 63.350756,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.169735,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2980,
+                "gzip_bytes": 1453,
+                "gzip_sha256": "0d3ed3145ca3a4ab14b8b9d8dcd72c6c9a38395b3944b4f478230bfa56433eb4",
+                "path": "e9b_hellaswag-044-c01-t021.json.gz",
+                "sha256": "4f816b6de1bde4e41b55ab2c3e346adeb9091516aaef17e67af63870848bbf29"
+              },
+              "selected_logprob": -1.1878820657730103,
+              "selected_token_id": 1063,
+              "status": "ok",
+              "target_token_id": 1063,
+              "token_index": 21
+            },
+            {
+              "cache_n": 235,
+              "client_elapsed_ms": 62.153167,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.980169,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3005,
+                "gzip_bytes": 1471,
+                "gzip_sha256": "7e3a5db62751fec2b453d31d6a5d036581c76b445bf6a3758b62f689a47d4836",
+                "path": "e9b_hellaswag-044-c01-t022.json.gz",
+                "sha256": "7ee4c01d95ab416b1406d665a4e34fe2d4bfa8803e472ba889caa33971c13ceb"
+              },
+              "selected_logprob": -7.484503746032715,
+              "selected_token_id": 70309,
+              "status": "ok",
+              "target_token_id": 70309,
+              "token_index": 22
+            },
+            {
+              "cache_n": 236,
+              "client_elapsed_ms": 62.17452,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.997066,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3009,
+                "gzip_bytes": 1477,
+                "gzip_sha256": "fb16f8e11196821368cc30aeb54cab343d9eb6f72ca6c01986a41e5d7a3a92ed",
+                "path": "e9b_hellaswag-044-c01-t023.json.gz",
+                "sha256": "9a624ac0d46357be325762cb2c3cf270635839858b5a218215f4a7379ba2bb43"
+              },
+              "selected_logprob": -5.985972881317139,
+              "selected_token_id": 2314,
+              "status": "ok",
+              "target_token_id": 2314,
+              "token_index": 23
+            },
+            {
+              "cache_n": 237,
+              "client_elapsed_ms": 62.802011,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.628638,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2992,
+                "gzip_bytes": 1463,
+                "gzip_sha256": "93fc05e8f7b3bf9e0de62fb36ad4cd05f7ded68556675ec2fdbc22f6530e2313",
+                "path": "e9b_hellaswag-044-c01-t024.json.gz",
+                "sha256": "b51f901190fcc7c226c68183f17fd9141b9a4bef1a1d210185bee334fedd3bdc"
+              },
+              "selected_logprob": -1.3820358514785767,
+              "selected_token_id": 1032,
+              "status": "ok",
+              "target_token_id": 1032,
+              "token_index": 24
+            },
+            {
+              "cache_n": 238,
+              "client_elapsed_ms": 62.603381,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.426512,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3003,
+                "gzip_bytes": 1473,
+                "gzip_sha256": "c3a1bb50884cbb8f6adbe5894338f0e3df8ed7b026f42b7319381adf9e5da1a7",
+                "path": "e9b_hellaswag-044-c01-t025.json.gz",
+                "sha256": "bb7309d6c5c5a73f9d72637789d080853c3a9bb8eb2e2170272ccef215b442da"
+              },
+              "selected_logprob": -3.1341137886047363,
+              "selected_token_id": 28504,
+              "status": "ok",
+              "target_token_id": 28504,
+              "token_index": 25
+            },
+            {
+              "cache_n": 239,
+              "client_elapsed_ms": 62.400767,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.213009,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3003,
+                "gzip_bytes": 1471,
+                "gzip_sha256": "b94c6649319362993c7d3196c6a22228d89daea32c13561f12265987834b32ed",
+                "path": "e9b_hellaswag-044-c01-t026.json.gz",
+                "sha256": "5006c1420fdb8975db4f30208ea9741c5cdb7f2171b9eab97a34de7089217088"
+              },
+              "selected_logprob": -2.6118600368499756,
+              "selected_token_id": 1317,
+              "status": "ok",
+              "target_token_id": 1317,
+              "token_index": 26
+            },
+            {
+              "cache_n": 240,
+              "client_elapsed_ms": 62.543019,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.357397,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3002,
+                "gzip_bytes": 1475,
+                "gzip_sha256": "fbe90b99a47fc7df3094b9830ca5d5ebae9a7632ee1a52e97f352d578fac4c3e",
+                "path": "e9b_hellaswag-044-c01-t027.json.gz",
+                "sha256": "c4fbd6389499c1f6bb8b5c66b69b1939cae287f4ec6fa1d9a131a392ac836eeb"
+              },
+              "selected_logprob": -0.026978004723787308,
+              "selected_token_id": 1032,
+              "status": "ok",
+              "target_token_id": 1032,
+              "token_index": 27
+            },
+            {
+              "cache_n": 241,
+              "client_elapsed_ms": 64.139365,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.957439,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3001,
+                "gzip_bytes": 1468,
+                "gzip_sha256": "f93b3c1298b2831fe679cf8b35dce54e5fa0d6c252d3f883ad5adcf5aba63780",
+                "path": "e9b_hellaswag-044-c01-t028.json.gz",
+                "sha256": "b084feeca12f693cbb5dc6f841674a198282d061720772e241a6a1b1c6325e47"
+              },
+              "selected_logprob": -0.8466528654098511,
+              "selected_token_id": 1194,
+              "status": "ok",
+              "target_token_id": 1194,
+              "token_index": 28
+            },
+            {
+              "cache_n": 242,
+              "client_elapsed_ms": 63.32894,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.12267,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3009,
+                "gzip_bytes": 1481,
+                "gzip_sha256": "9b06cad4a8447ab67bdc47ce5ec773df3914785806c55d11ee9a6c8acf58652c",
+                "path": "e9b_hellaswag-044-c01-t029.json.gz",
+                "sha256": "588c174741d3ee3df893ca4266fc1c75accac28d2c3d3000b045011e0512dad4"
+              },
+              "selected_logprob": -0.00022825223277322948,
+              "selected_token_id": 1190,
+              "status": "ok",
+              "target_token_id": 1190,
+              "token_index": 29
+            },
+            {
+              "cache_n": 243,
+              "client_elapsed_ms": 62.691424,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.512234,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3012,
+                "gzip_bytes": 1479,
+                "gzip_sha256": "9ae4afa01a29233c3367b4bc0df4cd6ca13d1e3ee8d4fe52f9109c12221b73a8",
+                "path": "e9b_hellaswag-044-c01-t030.json.gz",
+                "sha256": "f78ae3642097c7a99984378fcc2a9ff3cb28407049002d81e229af5d37fb05c1"
+              },
+              "selected_logprob": -1.7633368968963623,
+              "selected_token_id": 1307,
+              "status": "ok",
+              "target_token_id": 1307,
+              "token_index": 30
+            },
+            {
+              "cache_n": 244,
+              "client_elapsed_ms": 63.262418,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.083812,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3005,
+                "gzip_bytes": 1475,
+                "gzip_sha256": "83f57dcaba9ce2d3d31f804c1de3278cbccc956378fb8b09685afc0233b01769",
+                "path": "e9b_hellaswag-044-c01-t031.json.gz",
+                "sha256": "c60dc568ac44f2079ab7926ab27a792f9e22a16798ecde968e41a7ee1e13c957"
+              },
+              "selected_logprob": -5.228143215179443,
+              "selected_token_id": 1261,
+              "status": "ok",
+              "target_token_id": 1261,
+              "token_index": 31
+            },
+            {
+              "cache_n": 245,
+              "client_elapsed_ms": 62.568908,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.386358,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3028,
+                "gzip_bytes": 1490,
+                "gzip_sha256": "3bf8b3b10d8a7fe898dd649845bb05f95327c586b81996b3f5b66a9d663896bd",
+                "path": "e9b_hellaswag-044-c01-t032.json.gz",
+                "sha256": "6636d697b11f5d5ca28d9d09c23ef2f2f47953e5710b670fa44ba541c90dd459"
+              },
+              "selected_logprob": -11.754478454589844,
+              "selected_token_id": 60401,
+              "status": "ok",
+              "target_token_id": 60401,
+              "token_index": 32
+            },
+            {
+              "cache_n": 246,
+              "client_elapsed_ms": 63.106333,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.910422,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3033,
+                "gzip_bytes": 1495,
+                "gzip_sha256": "c070eec837d21ae017b7d719b67e9d0450592d4da96f70d7b30153f56817af96",
+                "path": "e9b_hellaswag-044-c01-t033.json.gz",
+                "sha256": "e0a5b0a304b1126ae01d75bc83dc868e1174d208e66994ef9dd3506401af5bed"
+              },
+              "selected_logprob": -0.4343046247959137,
+              "selected_token_id": 34158,
+              "status": "ok",
+              "target_token_id": 34158,
+              "token_index": 33
+            },
+            {
+              "cache_n": 247,
+              "client_elapsed_ms": 62.790035,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.610885,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3026,
+                "gzip_bytes": 1488,
+                "gzip_sha256": "4fa5b1cc4700c3dd4636d4b5819fe90e89ac8f068f76c7499047de1373c8b4b1",
+                "path": "e9b_hellaswag-044-c01-t034.json.gz",
+                "sha256": "a15a45f2fb30dd5c6d253a201bdab3887bcefed8b172a403ba2c48d385b09b88"
+              },
+              "selected_logprob": -1.5888807773590088,
+              "selected_token_id": 1307,
+              "status": "ok",
+              "target_token_id": 1307,
+              "token_index": 34
+            },
+            {
+              "cache_n": 248,
+              "client_elapsed_ms": 63.029211,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.841125,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3040,
+                "gzip_bytes": 1493,
+                "gzip_sha256": "01ade0e4c2097632c9e50f97be6c8814d09a6693a4d467371a41762322c0f73a",
+                "path": "e9b_hellaswag-044-c01-t035.json.gz",
+                "sha256": "2bb67895b63d1d65176feb72f6db46315519697adec70f7ccb3bea4d915bc2df"
+              },
+              "selected_logprob": -0.547669529914856,
+              "selected_token_id": 10188,
+              "status": "ok",
+              "target_token_id": 10188,
+              "token_index": 35
+            },
+            {
+              "cache_n": 249,
+              "client_elapsed_ms": 63.187223,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.005153,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3036,
+                "gzip_bytes": 1492,
+                "gzip_sha256": "24e945f67d3e8f7bb320cd2e9ca53d69f9dad6dc83fe8345c2a471aebed0dab8",
+                "path": "e9b_hellaswag-044-c01-t036.json.gz",
+                "sha256": "86a8d72cd7af9341a577b29fc47ac7858aa6999235dbefd949fdf94427d788c2"
+              },
+              "selected_logprob": -4.5761799812316895,
+              "selected_token_id": 1317,
+              "status": "ok",
+              "target_token_id": 1317,
+              "token_index": 36
+            },
+            {
+              "cache_n": 250,
+              "client_elapsed_ms": 63.2156,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.999697,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3048,
+                "gzip_bytes": 1495,
+                "gzip_sha256": "0bec131ef2ee582d8f37ead2e79071997ac0b9c05d05426e77de54072993d1eb",
+                "path": "e9b_hellaswag-044-c01-t037.json.gz",
+                "sha256": "49e3062b4578b5c85d18f3b8fd56a5bc12f6aa8b85b45181d778355c623482b2"
+              },
+              "selected_logprob": -12.24840259552002,
+              "selected_token_id": 18948,
+              "status": "ok",
+              "target_token_id": 18948,
+              "token_index": 37
+            },
+            {
+              "cache_n": 251,
+              "client_elapsed_ms": 66.060929,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 65.874707,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3066,
+                "gzip_bytes": 1504,
+                "gzip_sha256": "9daad1acd3d418bc6284f872ba13ba3ccc7ef71024962068f06b1942154d182d",
+                "path": "e9b_hellaswag-044-c01-t038.json.gz",
+                "sha256": "8aec036d05ab2bbc296c999fb8ef7c1a985fd7935dfee7b3a11b18fb2e4b6e7c"
+              },
+              "selected_logprob": -3.274512767791748,
+              "selected_token_id": 2396,
+              "status": "ok",
+              "target_token_id": 2396,
+              "token_index": 38
+            },
+            {
+              "cache_n": 252,
+              "client_elapsed_ms": 64.755832,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 64.567858,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3061,
+                "gzip_bytes": 1503,
+                "gzip_sha256": "49f21679283f2b79cfba7f2a78c1f21e8dacdd1d75f007bb9f9d89b8ee44a33f",
+                "path": "e9b_hellaswag-044-c01-t039.json.gz",
+                "sha256": "ab9ac3e92aaceb4b8129b820890346806d31d2fb90a41d8a6fdf0b910136212b"
+              },
+              "selected_logprob": -0.7629455327987671,
+              "selected_token_id": 2143,
+              "status": "ok",
+              "target_token_id": 2143,
+              "token_index": 39
+            },
+            {
+              "cache_n": 253,
+              "client_elapsed_ms": 62.437336,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.223849,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3071,
+                "gzip_bytes": 1510,
+                "gzip_sha256": "34f01790b77b2bb204b43f9ce99449bdcd4a2d242cf15ef57bb8fcca9b358004",
+                "path": "e9b_hellaswag-044-c01-t040.json.gz",
+                "sha256": "9b076e4b1dbb7407295bd667acfc99827b697b20d0cfb0af83ab9fecfb8e5901"
+              },
+              "selected_logprob": -6.734562397003174,
+              "selected_token_id": 34767,
+              "status": "ok",
+              "target_token_id": 34767,
+              "token_index": 40
+            },
+            {
+              "cache_n": 254,
+              "client_elapsed_ms": 62.450624,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.269371,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3052,
+                "gzip_bytes": 1469,
+                "gzip_sha256": "15fdc40e55edbbc984a9ed7f725330bcf4f5b96312af593427ede67bca24eacf",
+                "path": "e9b_hellaswag-044-c01-t041.json.gz",
+                "sha256": "6ae4640771aa7fbca3f57cd5e8557b8203f4952b44d8e403006f07137f682a19"
+              },
+              "selected_logprob": -1.7582331895828247,
+              "selected_token_id": 1046,
+              "status": "ok",
+              "target_token_id": 1046,
+              "token_index": 41
+            }
+          ],
+          "candidate_tokens": [
+            7651,
+            1636,
+            6185,
+            11608,
+            1044,
+            1494,
+            2715,
+            5389,
+            6444,
+            1321,
+            5043,
+            6174,
+            2425,
+            2143,
+            17296,
+            1046,
+            6797,
+            2405,
+            2479,
+            1278,
+            5592,
+            1063,
+            70309,
+            2314,
+            1032,
+            28504,
+            1317,
+            1032,
+            1194,
+            1190,
+            1307,
+            1261,
+            60401,
+            34158,
+            1307,
+            10188,
+            1317,
+            18948,
+            2396,
+            2143,
+            34767,
+            1046
+          ],
+          "choice_index": 1,
+          "completed": true,
+          "sample_ordinal": 44,
+          "source_index": 3681,
+          "task": "e9b_hellaswag"
+        },
+        "e9b_hellaswag|70|1": {
+          "attempts": [
+            {
+              "cache_n": 0,
+              "client_elapsed_ms": 3181.76912,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 3181.586082,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3005,
+                "gzip_bytes": 1474,
+                "gzip_sha256": "d52ec7d88c1fa3b05b57c9be065760bdd68fc871fd52067179d1545c1c845a2d",
+                "path": "e9b_hellaswag-070-c01-t000.json.gz",
+                "sha256": "fe6dc783412455d76bd79746d93b9237f990c29cf2c04b62ddaee5560e319b66"
+              },
+              "selected_logprob": -9.722926139831543,
+              "selected_token_id": 28380,
+              "status": "ok",
+              "target_token_id": 28380,
+              "token_index": 0
+            },
+            {
+              "cache_n": 227,
+              "client_elapsed_ms": 63.51382,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.328407,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2999,
+                "gzip_bytes": 1457,
+                "gzip_sha256": "d5116cd739bb8185d9cc09a1257d68450556e5e63ba0bc300d7c357b13674c7c",
+                "path": "e9b_hellaswag-070-c01-t001.json.gz",
+                "sha256": "a4f4adeeb4eab407f3de551d45592383546965baf1d4609bc4c4bfdfda728347"
+              },
+              "selected_logprob": -8.520112991333008,
+              "selected_token_id": 2424,
+              "status": "ok",
+              "target_token_id": 2424,
+              "token_index": 1
+            },
+            {
+              "cache_n": 228,
+              "client_elapsed_ms": 62.621993,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.444204,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3009,
+                "gzip_bytes": 1465,
+                "gzip_sha256": "4d6cc633abc8691abd82e4088192b74b01f86c831272dcf5f4c2f77710a122e3",
+                "path": "e9b_hellaswag-070-c01-t002.json.gz",
+                "sha256": "a6d2a87930f8aca4807485d5ff39b39632ebd77e5c9d62148259867c8eefaaeb"
+              },
+              "selected_logprob": -7.679564476013184,
+              "selected_token_id": 8548,
+              "status": "ok",
+              "target_token_id": 8548,
+              "token_index": 2
+            },
+            {
+              "cache_n": 229,
+              "client_elapsed_ms": 65.61071,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 65.448641,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3011,
+                "gzip_bytes": 1467,
+                "gzip_sha256": "cb88583633459cb33973a7e8fd66c5a0abfcb81849a1da635408417da69116fd",
+                "path": "e9b_hellaswag-070-c01-t003.json.gz",
+                "sha256": "526aef690dce2b2e17efae4b5d285ae3374c985401d832292b2e1dda2308b364"
+              },
+              "selected_logprob": -5.3856611251831055,
+              "selected_token_id": 2744,
+              "status": "ok",
+              "target_token_id": 2744,
+              "token_index": 3
+            },
+            {
+              "cache_n": 230,
+              "client_elapsed_ms": 64.371759,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 64.168897,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3023,
+                "gzip_bytes": 1468,
+                "gzip_sha256": "3fc93ea7bf36ed1094df72ef5015d5fd15d1a1ee48dd8153dec575a2d75e0da8",
+                "path": "e9b_hellaswag-070-c01-t004.json.gz",
+                "sha256": "9bc97790f06b55f643e7d489c3df23d9c4bb2bbde6ac4335614141aa94abd477"
+              },
+              "selected_logprob": -0.24844412505626678,
+              "selected_token_id": 2147,
+              "status": "ok",
+              "target_token_id": 2147,
+              "token_index": 4
+            },
+            {
+              "cache_n": 231,
+              "client_elapsed_ms": 63.594792,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.375105,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3040,
+                "gzip_bytes": 1477,
+                "gzip_sha256": "7d5cc832fa87a6d065fda57472efedf4f77464bb6817405cf3bfad0feedbc5f5",
+                "path": "e9b_hellaswag-070-c01-t005.json.gz",
+                "sha256": "9c2593db215c61c3242fc96ffe83bdc9bdeb4fd2a6e9c01359095e7bdaffa8c1"
+              },
+              "selected_logprob": -11.112481117248535,
+              "selected_token_id": 32152,
+              "status": "ok",
+              "target_token_id": 32152,
+              "token_index": 5
+            },
+            {
+              "cache_n": 232,
+              "client_elapsed_ms": 63.04479,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.861584,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3023,
+                "gzip_bytes": 1467,
+                "gzip_sha256": "dea290a2e8661322906baf0df82e2d47e9f24278844b1fba64987c00c90a984e",
+                "path": "e9b_hellaswag-070-c01-t006.json.gz",
+                "sha256": "af86ad6123000f4776bdc05bbe7ad2a3431241690f5ae3887d50215e71aeea88"
+              },
+              "selected_logprob": -2.248985528945923,
+              "selected_token_id": 1321,
+              "status": "ok",
+              "target_token_id": 1321,
+              "token_index": 6
+            },
+            {
+              "cache_n": 233,
+              "client_elapsed_ms": 62.90585,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.727948,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3036,
+                "gzip_bytes": 1473,
+                "gzip_sha256": "1d5394a14b4c18e984570da87071b9601c6512968df0c9c8948d0b846a16722a",
+                "path": "e9b_hellaswag-070-c01-t007.json.gz",
+                "sha256": "9ff0b97ef898c47f515378cacefd2e45300f21a1f1d4ef32a7f7bd06b50e5e81"
+              },
+              "selected_logprob": -6.1214985847473145,
+              "selected_token_id": 5807,
+              "status": "ok",
+              "target_token_id": 5807,
+              "token_index": 7
+            },
+            {
+              "cache_n": 234,
+              "client_elapsed_ms": 63.141297,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.955467,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3022,
+                "gzip_bytes": 1464,
+                "gzip_sha256": "7c1d25c59864b8563f19f369d376282e005e6d712541bf993732fb87d1b02764",
+                "path": "e9b_hellaswag-070-c01-t008.json.gz",
+                "sha256": "2f09cd02d9706b15bd7caae898e2931e65f0d63619e7cec6bd87cf3c49e33748"
+              },
+              "selected_logprob": -2.8337562084198,
+              "selected_token_id": 1261,
+              "status": "ok",
+              "target_token_id": 1261,
+              "token_index": 8
+            },
+            {
+              "cache_n": 235,
+              "client_elapsed_ms": 63.345288,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.121817,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3050,
+                "gzip_bytes": 1484,
+                "gzip_sha256": "911488b45ca01fc12a24cd3a769f3b0d77f7ea44d7261270d02fcee29715c0b1",
+                "path": "e9b_hellaswag-070-c01-t009.json.gz",
+                "sha256": "9ab224b1a7ee6572aad0ba6fff54f4b32144409d3f4faa1ed5ab8d23ce081019"
+              },
+              "selected_logprob": -3.56335711479187,
+              "selected_token_id": 5135,
+              "status": "ok",
+              "target_token_id": 5135,
+              "token_index": 9
+            },
+            {
+              "cache_n": 236,
+              "client_elapsed_ms": 62.91917,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.737437,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3055,
+                "gzip_bytes": 1484,
+                "gzip_sha256": "6812059e385e6fbc44bf9d16495886ee01bdce69ed9ff3ea84bb4113d7fc1b5e",
+                "path": "e9b_hellaswag-070-c01-t010.json.gz",
+                "sha256": "69eaf642e73dbe67a65e4c760a9d6183c7b19cf27d3b0d58d7b880419596db3c"
+              },
+              "selected_logprob": -7.392962455749512,
+              "selected_token_id": 19105,
+              "status": "ok",
+              "target_token_id": 19105,
+              "token_index": 10
+            },
+            {
+              "cache_n": 237,
+              "client_elapsed_ms": 63.246996,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.04075,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3066,
+                "gzip_bytes": 1489,
+                "gzip_sha256": "c2fb624541d1ee353f0788c3cebed034ee4561007fd8e25077271c6a092c904c",
+                "path": "e9b_hellaswag-070-c01-t011.json.gz",
+                "sha256": "b3296d62aaba5e82e7c3f4807d04598579de4419837009e2e016aaa1ef959345"
+              },
+              "selected_logprob": -5.7532477378845215,
+              "selected_token_id": 22196,
+              "status": "ok",
+              "target_token_id": 22196,
+              "token_index": 11
+            },
+            {
+              "cache_n": 238,
+              "client_elapsed_ms": 62.868592,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.690292,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3044,
+                "gzip_bytes": 1444,
+                "gzip_sha256": "5ddbb92c1f286509f301946ed5e423979f01b83dc69a8964fc0f5f439a3605f5",
+                "path": "e9b_hellaswag-070-c01-t012.json.gz",
+                "sha256": "cdcc3274ab19733934eb44de54179a91d93233dbb2daf2fba2673802f6dc393a"
+              },
+              "selected_logprob": -1.3640823364257812,
+              "selected_token_id": 1046,
+              "status": "ok",
+              "target_token_id": 1046,
+              "token_index": 12
+            },
+            {
+              "cache_n": 239,
+              "client_elapsed_ms": 63.374897,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.151633,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3064,
+                "gzip_bytes": 1487,
+                "gzip_sha256": "48a49b514ea61a689cdf9c7fb82bce915e88ae3970c51c734c4cd91d87e1d8ed",
+                "path": "e9b_hellaswag-070-c01-t013.json.gz",
+                "sha256": "13dd6a77db8f6d0fce49d6be2d6fe1bf95c55c866a01a09db3c5b80d8d2443c0"
+              },
+              "selected_logprob": -7.881509304046631,
+              "selected_token_id": 27043,
+              "status": "ok",
+              "target_token_id": 27043,
+              "token_index": 13
+            },
+            {
+              "cache_n": 240,
+              "client_elapsed_ms": 62.971836,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.790622,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3057,
+                "gzip_bytes": 1482,
+                "gzip_sha256": "bc319b419c8867c1154a8d03b3f92f5cf22de36c0969c4f580d29c87886ed413",
+                "path": "e9b_hellaswag-070-c01-t014.json.gz",
+                "sha256": "5ce06b28546c9c32024d1b44c6c9ba0b6d2502e2c73513b176d7b15ec4b6f19d"
+              },
+              "selected_logprob": -1.690157175064087,
+              "selected_token_id": 2015,
+              "status": "ok",
+              "target_token_id": 2015,
+              "token_index": 14
+            },
+            {
+              "cache_n": 241,
+              "client_elapsed_ms": 62.428411,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.239574,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3073,
+                "gzip_bytes": 1494,
+                "gzip_sha256": "7f9c2dba082f1f6f502e55f3765e7310eb573eb296ed2b28f9b6d82c8b84b6e4",
+                "path": "e9b_hellaswag-070-c01-t015.json.gz",
+                "sha256": "2488439937bd6e39747a2aad100aa6084ab43de719032ded1fda4c9f25aba104"
+              },
+              "selected_logprob": -0.10691119730472565,
+              "selected_token_id": 1454,
+              "status": "ok",
+              "target_token_id": 1454,
+              "token_index": 15
+            },
+            {
+              "cache_n": 242,
+              "client_elapsed_ms": 62.77527,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.59692,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3062,
+                "gzip_bytes": 1488,
+                "gzip_sha256": "c27de4d34501444e591101f62ceefb082bd85afbbb2b500c512037bc8c62490f",
+                "path": "e9b_hellaswag-070-c01-t016.json.gz",
+                "sha256": "7fab92666f6cd4e8fcb737e28f4350541167048b7249edc9885fb23b7496a32b"
+              },
+              "selected_logprob": -0.6459335684776306,
+              "selected_token_id": 1261,
+              "status": "ok",
+              "target_token_id": 1261,
+              "token_index": 16
+            },
+            {
+              "cache_n": 243,
+              "client_elapsed_ms": 63.268293,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.087399,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3100,
+                "gzip_bytes": 1504,
+                "gzip_sha256": "e7bafba1ff7d1b9f0eb59cd83ce35959447a9ac0f9a3785f662e8cbf0ba28202",
+                "path": "e9b_hellaswag-070-c01-t017.json.gz",
+                "sha256": "54b43819b2a769877074b80510aae07c1de9d141b2611d996952c9a92f05e234"
+              },
+              "selected_logprob": -4.287479877471924,
+              "selected_token_id": 21027,
+              "status": "ok",
+              "target_token_id": 21027,
+              "token_index": 17
+            },
+            {
+              "cache_n": 244,
+              "client_elapsed_ms": 62.502981,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.32132,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3077,
+                "gzip_bytes": 1495,
+                "gzip_sha256": "398c3fe9aa676a9f737aa307a6508548dc36fd9c5fee05040b55cb3c633fa303",
+                "path": "e9b_hellaswag-070-c01-t018.json.gz",
+                "sha256": "15f1d86bd46ec06e014410d39b691b937711c772d5c851515a782b8cb64fec98"
+              },
+              "selected_logprob": -3.7705161571502686,
+              "selected_token_id": 1878,
+              "status": "ok",
+              "target_token_id": 1878,
+              "token_index": 18
+            },
+            {
+              "cache_n": 245,
+              "client_elapsed_ms": 63.640577,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.459579,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3100,
+                "gzip_bytes": 1509,
+                "gzip_sha256": "13cb831c60bd559cd117e9fb202380dd1d02b83ee1ff75e58b1c2728f1d37208",
+                "path": "e9b_hellaswag-070-c01-t019.json.gz",
+                "sha256": "c6a1d8f4a874d2a9f0566d3e1982adce8cb7d79b0c4d5e4c474c6490e2d22881"
+              },
+              "selected_logprob": -4.893060684204102,
+              "selected_token_id": 5135,
+              "status": "ok",
+              "target_token_id": 5135,
+              "token_index": 19
+            },
+            {
+              "cache_n": 246,
+              "client_elapsed_ms": 63.757516,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.556086,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3120,
+                "gzip_bytes": 1518,
+                "gzip_sha256": "13a9e5b5597f8fb219eebaf35f6699970f44d3eb42338eeed2ad5ebb29538b3d",
+                "path": "e9b_hellaswag-070-c01-t020.json.gz",
+                "sha256": "08719856e4c3dd08a5025dffb30ca514c5a999188f70353a5b32b7fb1e171dc5"
+              },
+              "selected_logprob": -6.528392314910889,
+              "selected_token_id": 28374,
+              "status": "ok",
+              "target_token_id": 28374,
+              "token_index": 20
+            },
+            {
+              "cache_n": 247,
+              "client_elapsed_ms": 62.680851,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.504029,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3101,
+                "gzip_bytes": 1506,
+                "gzip_sha256": "614a2e69cc97dda0a2804bd56466891fd6c8f446d19b720080ae647591dbdf56",
+                "path": "e9b_hellaswag-070-c01-t021.json.gz",
+                "sha256": "2d7f301286aba584b7a65b1cb4b243671d306682107965e533c8e772b0e7203a"
+              },
+              "selected_logprob": -3.4672319889068604,
+              "selected_token_id": 1321,
+              "status": "ok",
+              "target_token_id": 1321,
+              "token_index": 21
+            },
+            {
+              "cache_n": 248,
+              "client_elapsed_ms": 62.804079,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.625745,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3122,
+                "gzip_bytes": 1516,
+                "gzip_sha256": "c8ea39b6bdafcd457b1ac9d5308b522f5074e5dee0c9974ba5a071cc3bdaf97f",
+                "path": "e9b_hellaswag-070-c01-t022.json.gz",
+                "sha256": "aee3e1c65bf3bc7c2501c8f22001e2e16bc713361607b28933c0f0c1ef389c1d"
+              },
+              "selected_logprob": -3.0120015144348145,
+              "selected_token_id": 7129,
+              "status": "ok",
+              "target_token_id": 7129,
+              "token_index": 22
+            },
+            {
+              "cache_n": 249,
+              "client_elapsed_ms": 62.985421,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.805727,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3110,
+                "gzip_bytes": 1510,
+                "gzip_sha256": "f73a2d75817cefc14770928f682fdd596b9ed2d0818ec63ca45455171d8bce5b",
+                "path": "e9b_hellaswag-070-c01-t023.json.gz",
+                "sha256": "150ec6d4609aa298c1439551e31e2ff5ddf11940beb3a9398901ea552d9fe765"
+              },
+              "selected_logprob": -1.3952910900115967,
+              "selected_token_id": 1584,
+              "status": "ok",
+              "target_token_id": 1584,
+              "token_index": 23
+            },
+            {
+              "cache_n": 250,
+              "client_elapsed_ms": 63.231468,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.047806,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3113,
+                "gzip_bytes": 1509,
+                "gzip_sha256": "c758c1f215e202927db4893ffe3f05633940dde2463cb10b10297646ae8efdc1",
+                "path": "e9b_hellaswag-070-c01-t024.json.gz",
+                "sha256": "311b0079ba56bb7c22712a69e72d980533c15d7853254479204f1cfd10cc768a"
+              },
+              "selected_logprob": -2.9540770053863525,
+              "selected_token_id": 1408,
+              "status": "ok",
+              "target_token_id": 1408,
+              "token_index": 24
+            },
+            {
+              "cache_n": 251,
+              "client_elapsed_ms": 62.895305,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.699332,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3119,
+                "gzip_bytes": 1510,
+                "gzip_sha256": "ac538fa5bb288432c7b2997861081c4fc5690a0de990f3282545807700f2a23d",
+                "path": "e9b_hellaswag-070-c01-t025.json.gz",
+                "sha256": "1309c85f216078bccb052c992f47071ac0149960292f1a4a9c0c9aef712d910a"
+              },
+              "selected_logprob": -1.477767825126648,
+              "selected_token_id": 1278,
+              "status": "ok",
+              "target_token_id": 1278,
+              "token_index": 25
+            },
+            {
+              "cache_n": 252,
+              "client_elapsed_ms": 62.808871,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.623161,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3128,
+                "gzip_bytes": 1519,
+                "gzip_sha256": "ad1c13762ddef92587d830ab06068a28429f27debed9b82ccfb0c38e29923a3a",
+                "path": "e9b_hellaswag-070-c01-t026.json.gz",
+                "sha256": "1a1a12831b0defecda4e14b237f8db47ee2a356e8be3f3a9f91318614bde38bc"
+              },
+              "selected_logprob": -1.395523190498352,
+              "selected_token_id": 2879,
+              "status": "ok",
+              "target_token_id": 2879,
+              "token_index": 26
+            },
+            {
+              "cache_n": 253,
+              "client_elapsed_ms": 63.221476,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 63.031054,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3128,
+                "gzip_bytes": 1520,
+                "gzip_sha256": "6695f4c715a67ac8757dfb919758bc321a9b42112657abec7aec62d934a7b3af",
+                "path": "e9b_hellaswag-070-c01-t027.json.gz",
+                "sha256": "84e1b36275cc8cb589c418365227a7f9d781c6fd6e0b84cc83484b3b94289d39"
+              },
+              "selected_logprob": -3.0684187412261963,
+              "selected_token_id": 3950,
+              "status": "ok",
+              "target_token_id": 3950,
+              "token_index": 27
+            },
+            {
+              "cache_n": 254,
+              "client_elapsed_ms": 62.602273,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.421835,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3118,
+                "gzip_bytes": 1483,
+                "gzip_sha256": "a65c4f4abfcdba54d6f13b2862d1066c0d983af587f03facbbd3bf860c89c3fc",
+                "path": "e9b_hellaswag-070-c01-t028.json.gz",
+                "sha256": "9dedb480cf6adea795bd39537bfd321528dbd06a66b4f5aa39983c988e6e4ed6"
+              },
+              "selected_logprob": -1.3085339069366455,
+              "selected_token_id": 1046,
+              "status": "ok",
+              "target_token_id": 1046,
+              "token_index": 28
+            }
+          ],
+          "candidate_tokens": [
+            28380,
+            2424,
+            8548,
+            2744,
+            2147,
+            32152,
+            1321,
+            5807,
+            1261,
+            5135,
+            19105,
+            22196,
+            1046,
+            27043,
+            2015,
+            1454,
+            1261,
+            21027,
+            1878,
+            5135,
+            28374,
+            1321,
+            7129,
+            1584,
+            1408,
+            1278,
+            2879,
+            3950,
+            1046
+          ],
+          "choice_index": 1,
+          "completed": true,
+          "sample_ordinal": 70,
+          "source_index": 6417,
+          "task": "e9b_hellaswag"
+        }
+      },
+      "definition": {
+        "expected_outcome": "complete_all_selected_probabilities",
+        "forced_safe_logit_bias": 100.0,
+        "forced_safe_token_id": 1046
+      },
+      "readiness": {
+        "attempts": 19,
+        "ready_ms": 1824.012806,
+        "response": {
+          "status": "ok"
+        },
+        "schema_version": 1,
+        "status": "ok"
+      },
+      "server_process": {
+        "elapsed": "0:12.75",
+        "exit_status": 0,
+        "maximum_rss_kib": 4056248,
+        "percent_cpu": "343%"
+      }
+    },
+    "original": {
+      "cases": {
+        "e9b_hellaswag|44|1": {
+          "attempts": [
+            {
+              "cache_n": 0,
+              "client_elapsed_ms": 3038.625848,
+              "generated_tokens": [
+                2892
+              ],
+              "http_ms": 3038.441114,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2894,
+                "gzip_bytes": 1418,
+                "gzip_sha256": "a0d17476f31ba6cea16f32d3f883ffe8c29c6b3e03ace2fe30b912e9a93cc19e",
+                "path": "e9b_hellaswag-044-c01-t000.json.gz",
+                "sha256": "b49c0da9e1f72c92055470f43997106ad6479124b31e70dca6d2905f8bb6d30c"
+              },
+              "selected_logprob": -5.313545227050781,
+              "selected_token_id": 7651,
+              "status": "ok",
+              "target_token_id": 7651,
+              "token_index": 0
+            },
+            {
+              "cache_n": 214,
+              "client_elapsed_ms": 62.455482,
+              "generated_tokens": [
+                33975
+              ],
+              "http_ms": 62.258988,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2933,
+                "gzip_bytes": 1419,
+                "gzip_sha256": "924e70f8ba98f113e6a9293988a492421e28ed1c7b7ead666867485899d5cc01",
+                "path": "e9b_hellaswag-044-c01-t001.json.gz",
+                "sha256": "153ab0071d173bba99def10ba885ae4809c896c19f6f36d50e67473416d441dd"
+              },
+              "selected_logprob": -4.001252174377441,
+              "selected_token_id": 1636,
+              "status": "ok",
+              "target_token_id": 1636,
+              "token_index": 1
+            },
+            {
+              "cache_n": 215,
+              "client_elapsed_ms": 62.295637,
+              "generated_tokens": [
+                6185
+              ],
+              "http_ms": 62.12732,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2889,
+                "gzip_bytes": 1374,
+                "gzip_sha256": "4784876ecdea2c14796732b573c26fb8641c7c9874670729717f1ea2d8cb2fd4",
+                "path": "e9b_hellaswag-044-c01-t002.json.gz",
+                "sha256": "6da74074b545c8b62492d9271d896385494cd0a5591a7efd4d57450b2b27a883"
+              },
+              "selected_logprob": -1.1727772951126099,
+              "selected_token_id": 6185,
+              "status": "ok",
+              "target_token_id": 6185,
+              "token_index": 2
+            },
+            {
+              "cache_n": 216,
+              "client_elapsed_ms": 61.931153,
+              "generated_tokens": [
+                33975
+              ],
+              "http_ms": 61.762765,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2968,
+                "gzip_bytes": 1435,
+                "gzip_sha256": "929d0458363142f979b6f7b08beeea792a0f03094ecd33caee1bdfb2d17a5e8d",
+                "path": "e9b_hellaswag-044-c01-t003.json.gz",
+                "sha256": "ed2ef8ba454b32f03ddaab31a3e604b9c9792d50a527b0318bc431741ec1c354"
+              },
+              "selected_logprob": -9.623597145080566,
+              "selected_token_id": 11608,
+              "status": "ok",
+              "target_token_id": 11608,
+              "token_index": 3
+            },
+            {
+              "cache_n": 217,
+              "client_elapsed_ms": 62.059846,
+              "generated_tokens": [
+                102394
+              ],
+              "http_ms": 61.89488,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2932,
+                "gzip_bytes": 1427,
+                "gzip_sha256": "4ef32de78473a7ba38339675f437572a9e0d5c60b14866dbcdfc3a84e89174c4",
+                "path": "e9b_hellaswag-044-c01-t004.json.gz",
+                "sha256": "83f98c0794c0b17bec134c1578094423908e47dbff5133a94d2fe53205095433"
+              },
+              "selected_logprob": -2.829972743988037,
+              "selected_token_id": 1044,
+              "status": "ok",
+              "target_token_id": 1044,
+              "token_index": 4
+            },
+            {
+              "cache_n": 218,
+              "client_elapsed_ms": 61.808374,
+              "generated_tokens": [
+                2143
+              ],
+              "http_ms": 61.641553,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2913,
+                "gzip_bytes": 1414,
+                "gzip_sha256": "a9aa0c7d3bfdee3f007248dc5d799b6814152288ee15c1bb3b4daa9da50067fd",
+                "path": "e9b_hellaswag-044-c01-t005.json.gz",
+                "sha256": "254f25bd26e7a6715fa5e5126f69132202f1a0365598842ac900dd4f8368b97d"
+              },
+              "selected_logprob": -3.97318696975708,
+              "selected_token_id": 1494,
+              "status": "ok",
+              "target_token_id": 1494,
+              "token_index": 5
+            },
+            {
+              "cache_n": 219,
+              "client_elapsed_ms": 62.042365,
+              "generated_tokens": [
+                1681
+              ],
+              "http_ms": 61.876672,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2920,
+                "gzip_bytes": 1425,
+                "gzip_sha256": "18e5acd149c96d01459de4ff2ea2cc3dcd042d50d0cd2914eefc0ee0d7b8ee7a",
+                "path": "e9b_hellaswag-044-c01-t006.json.gz",
+                "sha256": "18322fc4edc810d758b07ba4f203d102e7d4b5b5551c9004f163f4895140ec61"
+              },
+              "selected_logprob": -2.646578788757324,
+              "selected_token_id": 2715,
+              "status": "ok",
+              "target_token_id": 2715,
+              "token_index": 6
+            },
+            {
+              "cache_n": 220,
+              "client_elapsed_ms": 62.249524,
+              "generated_tokens": [
+                2985
+              ],
+              "http_ms": 62.073502,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2936,
+                "gzip_bytes": 1428,
+                "gzip_sha256": "ea11b56a0681bca47ab20d805c532c07b29cf61445a11804901ba50b63e8a828",
+                "path": "e9b_hellaswag-044-c01-t007.json.gz",
+                "sha256": "fabb835b5485d53398e2ab6e55c2d396938afe71aecd83c7ceeba304838a52a1"
+              },
+              "selected_logprob": -3.4933223724365234,
+              "selected_token_id": 5389,
+              "status": "ok",
+              "target_token_id": 5389,
+              "token_index": 7
+            },
+            {
+              "cache_n": 221,
+              "client_elapsed_ms": 61.790725,
+              "generated_tokens": [
+                5043
+              ],
+              "http_ms": 61.614456,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2933,
+                "gzip_bytes": 1425,
+                "gzip_sha256": "6106a2a6be8b5419a3fe04341efcf79b30b80ad1a6ad0df8585d96871a6e8bcb",
+                "path": "e9b_hellaswag-044-c01-t008.json.gz",
+                "sha256": "f576e82b234b34eedcac33f801df6e03bfe54157b11f139f7efd709d521dcfb9"
+              },
+              "selected_logprob": -1.8627064228057861,
+              "selected_token_id": 6444,
+              "status": "ok",
+              "target_token_id": 6444,
+              "token_index": 8
+            },
+            {
+              "cache_n": 222,
+              "client_elapsed_ms": 75.597229,
+              "generated_tokens": [
+                1321
+              ],
+              "http_ms": 75.432392,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2935,
+                "gzip_bytes": 1400,
+                "gzip_sha256": "0bcade415a6cc9dcb3542a25b25d7cd61e0a79450f7a3339c7dab18fa3d96228",
+                "path": "e9b_hellaswag-044-c01-t009.json.gz",
+                "sha256": "39fa3236146c4bb27b3fe6231cf85a77799b1e38df9020da0b04781e9a382a49"
+              },
+              "selected_logprob": -0.34017935395240784,
+              "selected_token_id": 1321,
+              "status": "ok",
+              "target_token_id": 1321,
+              "token_index": 9
+            },
+            {
+              "cache_n": 223,
+              "client_elapsed_ms": 65.930543,
+              "generated_tokens": [
+                5043
+              ],
+              "http_ms": 65.761129,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2939,
+                "gzip_bytes": 1399,
+                "gzip_sha256": "7049d4d72592d76a1594fcfba544c7908be7436ebf7fed8e0c2fc7806bf771f8",
+                "path": "e9b_hellaswag-044-c01-t010.json.gz",
+                "sha256": "fd38852108d17420d5a96e3a65cf15384c8ada30ba5474cb331cd93680e6d9d6"
+              },
+              "selected_logprob": -1.7199422121047974,
+              "selected_token_id": 5043,
+              "status": "ok",
+              "target_token_id": 5043,
+              "token_index": 10
+            },
+            {
+              "cache_n": 224,
+              "client_elapsed_ms": 62.26306,
+              "generated_tokens": [
+                6174
+              ],
+              "http_ms": 62.096094,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2929,
+                "gzip_bytes": 1398,
+                "gzip_sha256": "f26534229eba76f5b7d20dd1f03c5d64d8ff02dd4da961d0d27d3ad41762538c",
+                "path": "e9b_hellaswag-044-c01-t011.json.gz",
+                "sha256": "8e3d01cdc034650905d02f54cbba9318d0955379956863817cc4625bbce6b0b5"
+              },
+              "selected_logprob": -0.0034930247347801924,
+              "selected_token_id": 6174,
+              "status": "ok",
+              "target_token_id": 6174,
+              "token_index": 11
+            },
+            {
+              "cache_n": 225,
+              "client_elapsed_ms": 62.30931,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.125127,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2934,
+                "gzip_bytes": 1430,
+                "gzip_sha256": "b2876e93c9c7e988f37bc1e0b54ca71b80d90f25cc0d61e33878cd08a5274a16",
+                "path": "e9b_hellaswag-044-c01-t012.json.gz",
+                "sha256": "6aafa130e14bef0c719f4a84a9bcee4af80f7053d72d7826b633f481230f479b"
+              },
+              "selected_logprob": -5.106612682342529,
+              "selected_token_id": 2425,
+              "status": "ok",
+              "target_token_id": 2425,
+              "token_index": 12
+            },
+            {
+              "cache_n": 226,
+              "client_elapsed_ms": 62.628232,
+              "generated_tokens": [
+                2143
+              ],
+              "http_ms": 62.443314,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2964,
+                "gzip_bytes": 1411,
+                "gzip_sha256": "2a46824543d0aa5ccb89b9e036f99db591087441c56df25ca1f33484787aef08",
+                "path": "e9b_hellaswag-044-c01-t013.json.gz",
+                "sha256": "dcd4b02f585f39243515e49d91cf01b0c2ba4fabfa049d8d103780f54616170f"
+              },
+              "selected_logprob": -0.05663008987903595,
+              "selected_token_id": 2143,
+              "status": "ok",
+              "target_token_id": 2143,
+              "token_index": 13
+            },
+            {
+              "cache_n": 227,
+              "client_elapsed_ms": 62.279957,
+              "generated_tokens": [
+                17296
+              ],
+              "http_ms": 62.111335,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3006,
+                "gzip_bytes": 1424,
+                "gzip_sha256": "28cf4c48ff566a151aa1ef75e914a2a8b46b5528331c4fc62ffe1aa28298c017",
+                "path": "e9b_hellaswag-044-c01-t014.json.gz",
+                "sha256": "0269f0aa52da522e8b071119166180215cdcc81eb4b5eae875ca8f0198209586"
+              },
+              "selected_logprob": -0.46981433033943176,
+              "selected_token_id": 17296,
+              "status": "ok",
+              "target_token_id": 17296,
+              "token_index": 14
+            },
+            {
+              "cache_n": 228,
+              "client_elapsed_ms": 61.890833,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.721803,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2926,
+                "gzip_bytes": 1401,
+                "gzip_sha256": "a996e6eb5551116adecb5b0a250cf9252c8a30877dc3e56a3bccf2bb96d893f4",
+                "path": "e9b_hellaswag-044-c01-t015.json.gz",
+                "sha256": "7948a8e656d20865fdb977e652bebd5ea9fe0e1e760e4b6dc28922f94371ce88"
+              },
+              "selected_logprob": -0.637523889541626,
+              "selected_token_id": 1046,
+              "status": "ok",
+              "target_token_id": 1046,
+              "token_index": 15
+            },
+            {
+              "cache_n": 229,
+              "client_elapsed_ms": 62.5077,
+              "generated_tokens": [
+                9380
+              ],
+              "http_ms": 62.338511,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2967,
+                "gzip_bytes": 1449,
+                "gzip_sha256": "47dd33f770e69613a3f1d6b4b1b3793d0cdc044bd969380a5d633b2f26feb43c",
+                "path": "e9b_hellaswag-044-c01-t016.json.gz",
+                "sha256": "699c136da86d4119a02894b9cd8eeb517dbcd56604d00c24144f56eb70b91f09"
+              },
+              "selected_logprob": -5.7741780281066895,
+              "selected_token_id": 6797,
+              "status": "ok",
+              "target_token_id": 6797,
+              "token_index": 16
+            },
+            {
+              "cache_n": 230,
+              "client_elapsed_ms": 62.488219,
+              "generated_tokens": [
+                2698
+              ],
+              "http_ms": 62.295885,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2958,
+                "gzip_bytes": 1447,
+                "gzip_sha256": "45eff49e962acfd3e6fb2058fe9a7e300b6c5af179583c6970a6358be81bb850",
+                "path": "e9b_hellaswag-044-c01-t017.json.gz",
+                "sha256": "b568ecce81f96ae2f0ec3aa6c6ea240ce713c66bdc1e954df756873db70ba308"
+              },
+              "selected_logprob": -0.780302882194519,
+              "selected_token_id": 2405,
+              "status": "ok",
+              "target_token_id": 2405,
+              "token_index": 17
+            },
+            {
+              "cache_n": 231,
+              "client_elapsed_ms": 61.991043,
+              "generated_tokens": [
+                21123
+              ],
+              "http_ms": 61.800142,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2996,
+                "gzip_bytes": 1460,
+                "gzip_sha256": "a60bd47450f6ffdb60067e170ce7a7b95840d8ee659980598d501738f4ff2ac4",
+                "path": "e9b_hellaswag-044-c01-t018.json.gz",
+                "sha256": "9a3b37ee8cf55310440bdd0ce3331e43d5ca1e7472e1b44170ecd7bf82334273"
+              },
+              "selected_logprob": -10.397420883178711,
+              "selected_token_id": 2479,
+              "status": "ok",
+              "target_token_id": 2479,
+              "token_index": 18
+            },
+            {
+              "cache_n": 232,
+              "client_elapsed_ms": 61.816846,
+              "generated_tokens": [
+                1278
+              ],
+              "http_ms": 61.651729,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2976,
+                "gzip_bytes": 1417,
+                "gzip_sha256": "91d4769e6c2fa2e034ab3024fafd283d28b463495bcbe1dc2544ff380351010b",
+                "path": "e9b_hellaswag-044-c01-t019.json.gz",
+                "sha256": "9c01eaba1052999764c663ba0bb8e020fb924425a36c456bd7dfd5b440d69c74"
+              },
+              "selected_logprob": -1.3182822465896606,
+              "selected_token_id": 1278,
+              "status": "ok",
+              "target_token_id": 1278,
+              "token_index": 19
+            },
+            {
+              "cache_n": 233,
+              "client_elapsed_ms": 62.288205,
+              "generated_tokens": [
+                3039
+              ],
+              "http_ms": 62.1192,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2993,
+                "gzip_bytes": 1464,
+                "gzip_sha256": "022646bf19c4265b613b2bb9bbfc10c9f30b1e69c573f77817ebd20e6a966509",
+                "path": "e9b_hellaswag-044-c01-t020.json.gz",
+                "sha256": "c74d8dbd32f4fb87701547fd2963f94d30adf3664188f7d97b8f0153f71b8b17"
+              },
+              "selected_logprob": -6.357916831970215,
+              "selected_token_id": 5592,
+              "status": "ok",
+              "target_token_id": 5592,
+              "token_index": 20
+            },
+            {
+              "cache_n": 234,
+              "client_elapsed_ms": 62.065942,
+              "generated_tokens": [
+                1307
+              ],
+              "http_ms": 61.898864,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2966,
+                "gzip_bytes": 1452,
+                "gzip_sha256": "6472fd399070a219d8211206fab6f5adff69ce4d453f309767db996873ba527c",
+                "path": "e9b_hellaswag-044-c01-t021.json.gz",
+                "sha256": "31c86917a9732270cdff1ce047e1c5b3f64e4c3e055086451149871e71fad381"
+              },
+              "selected_logprob": -1.1878820657730103,
+              "selected_token_id": 1063,
+              "status": "ok",
+              "target_token_id": 1063,
+              "token_index": 21
+            },
+            {
+              "cache_n": 235,
+              "client_elapsed_ms": 62.139072,
+              "generated_tokens": [
+                3213
+              ],
+              "http_ms": 61.969139,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2994,
+                "gzip_bytes": 1465,
+                "gzip_sha256": "fb84dbfc06e48d6af97a2000bcee5e3cbad05e9f84344ffd3fb79542078fe225",
+                "path": "e9b_hellaswag-044-c01-t022.json.gz",
+                "sha256": "ac994fb6a94900cad51c8fe84fe96ab19c0ef90b9aa31401be6b71879fd92fc8"
+              },
+              "selected_logprob": -7.484503746032715,
+              "selected_token_id": 70309,
+              "status": "ok",
+              "target_token_id": 70309,
+              "token_index": 22
+            },
+            {
+              "cache_n": 236,
+              "client_elapsed_ms": 62.047822,
+              "generated_tokens": [
+                1494
+              ],
+              "http_ms": 61.882912,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2994,
+                "gzip_bytes": 1467,
+                "gzip_sha256": "de7a76468a2e6f7ef06f5de4917670afbf963bc973170c63a878ee17091fc2bc",
+                "path": "e9b_hellaswag-044-c01-t023.json.gz",
+                "sha256": "e62d18397b540763c1d9699abc6b59965f7036b630a4b980adce6a5fdf85782f"
+              },
+              "selected_logprob": -5.985972881317139,
+              "selected_token_id": 2314,
+              "status": "ok",
+              "target_token_id": 2314,
+              "token_index": 23
+            },
+            {
+              "cache_n": 237,
+              "client_elapsed_ms": 61.918777,
+              "generated_tokens": [
+                1420
+              ],
+              "http_ms": 61.753572,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2977,
+                "gzip_bytes": 1456,
+                "gzip_sha256": "ad234a47387bfe60d240e8221475f11ddc23e950db5ec90bd37d170b8791599a",
+                "path": "e9b_hellaswag-044-c01-t024.json.gz",
+                "sha256": "051617474434798a5efa5fca2ac02e6f56444dc31b41b5e2f27b4b84d0f9603c"
+              },
+              "selected_logprob": -1.3820358514785767,
+              "selected_token_id": 1032,
+              "status": "ok",
+              "target_token_id": 1032,
+              "token_index": 24
+            },
+            {
+              "cache_n": 238,
+              "client_elapsed_ms": 61.838415,
+              "generated_tokens": [
+                1049
+              ],
+              "http_ms": 61.668497,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2975,
+                "gzip_bytes": 1460,
+                "gzip_sha256": "961cf8a46168ec19d52b6e4d2218054f19dba5581f4dd0a756e651045e18ffe3",
+                "path": "e9b_hellaswag-044-c01-t025.json.gz",
+                "sha256": "570e6c0084e7fd237f9e8733358bb0c565f797860d9253d25354b221b911e3f3"
+              },
+              "selected_logprob": -3.1341137886047363,
+              "selected_token_id": 28504,
+              "status": "ok",
+              "target_token_id": 28504,
+              "token_index": 25
+            },
+            {
+              "cache_n": 239,
+              "client_elapsed_ms": 62.347119,
+              "generated_tokens": [
+                34158
+              ],
+              "http_ms": 62.172193,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3002,
+                "gzip_bytes": 1474,
+                "gzip_sha256": "5ec15c5d993d5f51a05d83de7ae28870bd7b84d51283a1f38cc4f4f5170fab76",
+                "path": "e9b_hellaswag-044-c01-t026.json.gz",
+                "sha256": "17bfc905cbba49aef4edc74d4f839542f1401456080596bd1496c113ffe27d92"
+              },
+              "selected_logprob": -2.6118600368499756,
+              "selected_token_id": 1317,
+              "status": "ok",
+              "target_token_id": 1317,
+              "token_index": 26
+            },
+            {
+              "cache_n": 240,
+              "client_elapsed_ms": 62.310165,
+              "generated_tokens": [
+                1032
+              ],
+              "http_ms": 62.14152,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2977,
+                "gzip_bytes": 1430,
+                "gzip_sha256": "8948b88619181658ae5fa16af1e972eba2e2c6ed50ec5e85b45b7f269394357a",
+                "path": "e9b_hellaswag-044-c01-t027.json.gz",
+                "sha256": "d1e9036eadf4f1badbe5eb7267ea7857fbc3e6bbcd79b8e8f6ca34571c6bc87f"
+              },
+              "selected_logprob": -0.026978004723787308,
+              "selected_token_id": 1032,
+              "status": "ok",
+              "target_token_id": 1032,
+              "token_index": 27
+            },
+            {
+              "cache_n": 241,
+              "client_elapsed_ms": 62.83619,
+              "generated_tokens": [
+                1194
+              ],
+              "http_ms": 62.65464,
+              "http_status": 200,
+              "probability_entry_count": null,
+              "raw_response": {
+                "bytes": 2790,
+                "gzip_bytes": 1370,
+                "gzip_sha256": "595f9a8448ea5a44e62ee46d5bc26b5b472bb88b5cac21e02554b40cfbf95b46",
+                "path": "e9b_hellaswag-044-c01-t028.json.gz",
+                "sha256": "b3962708471c21c9974bcdb29c67bfbb4db92cf1f257fd5738d0114e359f7e38"
+              },
+              "selected_logprob": null,
+              "selected_token_id": null,
+              "status": "missing_probability_entry",
+              "target_token_id": 1194,
+              "token_index": 28
+            }
+          ],
+          "candidate_tokens": [
+            7651,
+            1636,
+            6185,
+            11608,
+            1044,
+            1494,
+            2715,
+            5389,
+            6444,
+            1321,
+            5043,
+            6174,
+            2425,
+            2143,
+            17296,
+            1046,
+            6797,
+            2405,
+            2479,
+            1278,
+            5592,
+            1063,
+            70309,
+            2314,
+            1032,
+            28504,
+            1317,
+            1032,
+            1194,
+            1190,
+            1307,
+            1261,
+            60401,
+            34158,
+            1307,
+            10188,
+            1317,
+            18948,
+            2396,
+            2143,
+            34767,
+            1046
+          ],
+          "choice_index": 1,
+          "completed": false,
+          "sample_ordinal": 44,
+          "source_index": 3681,
+          "task": "e9b_hellaswag"
+        },
+        "e9b_hellaswag|70|1": {
+          "attempts": [
+            {
+              "cache_n": 0,
+              "client_elapsed_ms": 3166.643898,
+              "generated_tokens": [
+                4444
+              ],
+              "http_ms": 3166.469212,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2982,
+                "gzip_bytes": 1462,
+                "gzip_sha256": "93db677e705b988250edc530c19731e23f7d6b389c6c3129a0b692f1fdf834a7",
+                "path": "e9b_hellaswag-070-c01-t000.json.gz",
+                "sha256": "8e2474795661616926e4c65af5e86ea9ee2d2a617bbf22e0370e22762e1fc68f"
+              },
+              "selected_logprob": -9.722926139831543,
+              "selected_token_id": 28380,
+              "status": "ok",
+              "target_token_id": 28380,
+              "token_index": 0
+            },
+            {
+              "cache_n": 227,
+              "client_elapsed_ms": 62.584109,
+              "generated_tokens": [
+                1636
+              ],
+              "http_ms": 62.407735,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2992,
+                "gzip_bytes": 1455,
+                "gzip_sha256": "4886417b054662b3e557211b2cb811071e2bdf2bb1f481963dc5164cd96aa1bd",
+                "path": "e9b_hellaswag-070-c01-t001.json.gz",
+                "sha256": "40d5a842f98b2107ac8726d7f600682e6915e0c4903757ebb66e19ba3c94cecd"
+              },
+              "selected_logprob": -8.520112991333008,
+              "selected_token_id": 2424,
+              "status": "ok",
+              "target_token_id": 2424,
+              "token_index": 1
+            },
+            {
+              "cache_n": 228,
+              "client_elapsed_ms": 62.405247,
+              "generated_tokens": [
+                3508
+              ],
+              "http_ms": 62.212401,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3007,
+                "gzip_bytes": 1463,
+                "gzip_sha256": "9ae04bf2b78e3c2ca8c90928e2fd3fc68937766e7697bd91d8d5d34e5abf610f",
+                "path": "e9b_hellaswag-070-c01-t002.json.gz",
+                "sha256": "3b231a1eb0676d11f05728c4d038aa9649b6b9ee68da2e66c0642dcf0079cd78"
+              },
+              "selected_logprob": -7.679564476013184,
+              "selected_token_id": 8548,
+              "status": "ok",
+              "target_token_id": 8548,
+              "token_index": 2
+            },
+            {
+              "cache_n": 229,
+              "client_elapsed_ms": 62.251611,
+              "generated_tokens": [
+                2034
+              ],
+              "http_ms": 62.081317,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3011,
+                "gzip_bytes": 1462,
+                "gzip_sha256": "0c6f16eca2951d0ded257639454f7e1558aaa482e72dffb8317d5ef3e913f8d1",
+                "path": "e9b_hellaswag-070-c01-t003.json.gz",
+                "sha256": "7816784b808e4cc945a9e36eadc741988f12014c3d1eabd6976da486b53204ac"
+              },
+              "selected_logprob": -5.3856611251831055,
+              "selected_token_id": 2744,
+              "status": "ok",
+              "target_token_id": 2744,
+              "token_index": 3
+            },
+            {
+              "cache_n": 230,
+              "client_elapsed_ms": 61.634447,
+              "generated_tokens": [
+                2147
+              ],
+              "http_ms": 61.462722,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3028,
+                "gzip_bytes": 1434,
+                "gzip_sha256": "2ee498608ecdc8a3fb278374a8fb87d7cf49cfffc4077ffcf7d304e361279c14",
+                "path": "e9b_hellaswag-070-c01-t004.json.gz",
+                "sha256": "752d8058fff04a96a0c26f200d3082b5361478dbe0384c5ff72fd3fab345c308"
+              },
+              "selected_logprob": -0.24844412505626678,
+              "selected_token_id": 2147,
+              "status": "ok",
+              "target_token_id": 2147,
+              "token_index": 4
+            },
+            {
+              "cache_n": 231,
+              "client_elapsed_ms": 62.66308,
+              "generated_tokens": [
+                5823
+              ],
+              "http_ms": 62.471474,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3058,
+                "gzip_bytes": 1478,
+                "gzip_sha256": "fb83601a8c0edf31dc84d35c0bae4289fcd7c4a1f32ebef7d10f627da6b4e434",
+                "path": "e9b_hellaswag-070-c01-t005.json.gz",
+                "sha256": "c7e1a52e8844975f30bc21e0f653cc105c366224a30793e49f4f3231353ac783"
+              },
+              "selected_logprob": -11.112481117248535,
+              "selected_token_id": 32152,
+              "status": "ok",
+              "target_token_id": 32152,
+              "token_index": 5
+            },
+            {
+              "cache_n": 232,
+              "client_elapsed_ms": 62.427416,
+              "generated_tokens": [
+                1044
+              ],
+              "http_ms": 62.25229,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 2998,
+                "gzip_bytes": 1454,
+                "gzip_sha256": "9691d7b27b57fad34cda21c61344d6d483202d8ed9c241a82bb3704e2aa5a59f",
+                "path": "e9b_hellaswag-070-c01-t006.json.gz",
+                "sha256": "9896e5d7af28f851cdd58da29d01c9e2a80251ae6d14de442c2c079cdd48afa5"
+              },
+              "selected_logprob": -2.248985528945923,
+              "selected_token_id": 1321,
+              "status": "ok",
+              "target_token_id": 1321,
+              "token_index": 6
+            },
+            {
+              "cache_n": 233,
+              "client_elapsed_ms": 64.35378,
+              "generated_tokens": [
+                46193
+              ],
+              "http_ms": 64.153549,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3041,
+                "gzip_bytes": 1477,
+                "gzip_sha256": "a726a890b3b0e9c14df2a29acd21ae31d1cae19621cabd7fa98f49f5ec30a919",
+                "path": "e9b_hellaswag-070-c01-t007.json.gz",
+                "sha256": "bb0740615dfc158ea1514249f8fb9a51bdb6a2fea823efe14a05ab98f5183104"
+              },
+              "selected_logprob": -6.1214985847473145,
+              "selected_token_id": 5807,
+              "status": "ok",
+              "target_token_id": 5807,
+              "token_index": 7
+            },
+            {
+              "cache_n": 234,
+              "client_elapsed_ms": 62.891663,
+              "generated_tokens": [
+                2424
+              ],
+              "http_ms": 62.720089,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3019,
+                "gzip_bytes": 1463,
+                "gzip_sha256": "17b0dac892e2827b90a5ab77aaf00cb13f40094e30cace938f6073f2cac3554a",
+                "path": "e9b_hellaswag-070-c01-t008.json.gz",
+                "sha256": "082d9ff8ddabd10a4262e695c8ed08cf367db6e0935252310884545903f44c12"
+              },
+              "selected_logprob": -2.8337562084198,
+              "selected_token_id": 1261,
+              "status": "ok",
+              "target_token_id": 1261,
+              "token_index": 8
+            },
+            {
+              "cache_n": 235,
+              "client_elapsed_ms": 62.821668,
+              "generated_tokens": [
+                6231
+              ],
+              "http_ms": 62.598206,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3051,
+                "gzip_bytes": 1482,
+                "gzip_sha256": "3ccae0ed9fc7b548f7d079488293ed3c66f3cf1389fe5500ae5d85f03790d680",
+                "path": "e9b_hellaswag-070-c01-t009.json.gz",
+                "sha256": "1624f1dd242ac27d9d881e1c51b07b8c4b3dfc456355347966a8321ccbe1c30b"
+              },
+              "selected_logprob": -3.56335711479187,
+              "selected_token_id": 5135,
+              "status": "ok",
+              "target_token_id": 5135,
+              "token_index": 9
+            },
+            {
+              "cache_n": 236,
+              "client_elapsed_ms": 62.648399,
+              "generated_tokens": [
+                9917
+              ],
+              "http_ms": 62.476554,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3055,
+                "gzip_bytes": 1475,
+                "gzip_sha256": "ab842ea617a320052f5bfcae7e5bf752ab697177f18e690f36ac8420ed935d46",
+                "path": "e9b_hellaswag-070-c01-t010.json.gz",
+                "sha256": "8a48d8d4dbf5fbc12831ce14ae5685ac67f2096bebed91c755e9a24b89ec8ad4"
+              },
+              "selected_logprob": -7.392962455749512,
+              "selected_token_id": 19105,
+              "status": "ok",
+              "target_token_id": 19105,
+              "token_index": 10
+            },
+            {
+              "cache_n": 237,
+              "client_elapsed_ms": 63.148567,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 62.976721,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3039,
+                "gzip_bytes": 1481,
+                "gzip_sha256": "c75e9daf1e04fb831991d8ddc0f106a07fe6cc4f0cffde28cb894a0faeba3a5d",
+                "path": "e9b_hellaswag-070-c01-t011.json.gz",
+                "sha256": "832114a1f50b4db57ea7b8c4a8f2721e4938aba255808cb97112485bc822b459"
+              },
+              "selected_logprob": -5.7532477378845215,
+              "selected_token_id": 22196,
+              "status": "ok",
+              "target_token_id": 22196,
+              "token_index": 11
+            },
+            {
+              "cache_n": 238,
+              "client_elapsed_ms": 61.850358,
+              "generated_tokens": [
+                1046
+              ],
+              "http_ms": 61.690217,
+              "http_status": 200,
+              "probability_entry_count": 1,
+              "raw_response": {
+                "bytes": 3017,
+                "gzip_bytes": 1434,
+                "gzip_sha256": "aeaca78c468d60f8050c36b777a1f37c755c58b8b2dfd47af5171a718870b2d6",
+                "path": "e9b_hellaswag-070-c01-t012.json.gz",
+                "sha256": "978b4b26ab9ed5f6fe5e3df8b9edb07fb80be82623694fc282b31ef9e4f6d722"
+              },
+              "selected_logprob": -1.3640823364257812,
+              "selected_token_id": 1046,
+              "status": "ok",
+              "target_token_id": 1046,
+              "token_index": 12
+            },
+            {
+              "cache_n": 239,
+              "client_elapsed_ms": 64.572882,
+              "generated_tokens": [
+                119685
+              ],
+              "http_ms": 64.400566,
+              "http_status": 200,
+              "probability_entry_count": null,
+              "raw_response": {
+                "bytes": 2839,
+                "gzip_bytes": 1386,
+                "gzip_sha256": "5b8878ba6a1a1f0f81baed89188fe6fc519f682b97ed4b2e0f81a91644876304",
+                "path": "e9b_hellaswag-070-c01-t013.json.gz",
+                "sha256": "108fc77b4f509e8de9efaa589e988c2bef77c7463e277ce0f36e8ae3b286a5fe"
+              },
+              "selected_logprob": null,
+              "selected_token_id": null,
+              "status": "missing_probability_entry",
+              "target_token_id": 27043,
+              "token_index": 13
+            }
+          ],
+          "candidate_tokens": [
+            28380,
+            2424,
+            8548,
+            2744,
+            2147,
+            32152,
+            1321,
+            5807,
+            1261,
+            5135,
+            19105,
+            22196,
+            1046,
+            27043,
+            2015,
+            1454,
+            1261,
+            21027,
+            1878,
+            5135,
+            28374,
+            1321,
+            7129,
+            1584,
+            1408,
+            1278,
+            2879,
+            3950,
+            1046
+          ],
+          "choice_index": 1,
+          "completed": false,
+          "sample_ordinal": 70,
+          "source_index": 6417,
+          "task": "e9b_hellaswag"
+        }
+      },
+      "definition": {
+        "expected_outcome": "reproduce_original_missing_entry",
+        "forced_safe_logit_bias": null,
+        "forced_safe_token_id": null
+      },
+      "readiness": {
+        "attempts": 19,
+        "ready_ms": 1822.706494,
+        "response": {
+          "status": "ok"
+        },
+        "schema_version": 1,
+        "status": "ok"
+      },
+      "server_process": {
+        "elapsed": "0:10.95",
+        "exit_status": 0,
+        "maximum_rss_kib": 4054828,
+        "percent_cpu": "336%"
+      }
+    }
+  }
+}

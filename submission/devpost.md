@@ -303,6 +303,13 @@ and skips the aggregate. All 28,490 retained raw responses and the exact
 breakpoints remain published, but incomplete task metrics are not compared and
 the original stock/generated frontier prerequisites remain unsatisfied.
 
+E10e isolates that response boundary without consuming a new task result. The
+two exact Q4_0 breakpoints reproduce natively; two fresh repeats then complete
+all 71 target-token scores by sampling a one-byte full stop while reading each
+original target's raw pre-sampling probability. Original-prefix and repeat
+deltas are both exactly zero. This authorizes only a separately frozen full
+successor and leaves the failed E10d comparison unchanged.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
