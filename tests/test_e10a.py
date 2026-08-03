@@ -146,12 +146,17 @@ class E10aProbeTests(unittest.TestCase):
                 }
             ]
         }
+        distribution, raw_mass, discarded = extract_candidate_distribution(response)
         self.assertEqual(
             {"A": 0.5, "B": 0.2, "C": 0.2, "D": 0.1},
-            extract_candidate_distribution(response),
+            distribution,
         )
+        self.assertEqual(1.0, raw_mass)
+        self.assertEqual(0, discarded)
 
-    def test_extract_candidate_distribution_rejects_grammar_leak(self) -> None:
+    def test_extract_candidate_distribution_conditions_on_allowed_candidates(
+        self,
+    ) -> None:
         response = {
             "completion_probabilities": [
                 {
@@ -165,8 +170,11 @@ class E10aProbeTests(unittest.TestCase):
                 }
             ]
         }
-        with self.assertRaisesRegex(ValueError, "grammar leaked"):
-            extract_candidate_distribution(response)
+        distribution, raw_mass, discarded = extract_candidate_distribution(response)
+        self.assertEqual(0.9, raw_mass)
+        self.assertEqual(1, discarded)
+        self.assertAlmostEqual(4 / 9, distribution["A"])
+        self.assertAlmostEqual(2 / 9, distribution["B"])
 
     def test_request_uses_top_probability_not_emitted_sample(self) -> None:
         server = HTTPServer(("127.0.0.1", 0), ProbabilityHandler)
@@ -200,6 +208,7 @@ class E10aProbeTests(unittest.TestCase):
         self.assertEqual("A", case["prediction"])
         self.assertAlmostEqual(0.4, case["top1_margin"])
         self.assertTrue(case["reference_match"])
+        self.assertEqual(1.0, case["raw_candidate_probability_mass"])
 
     def test_probe_supports_direct_workflow_entrypoint(self) -> None:
         root = Path(__file__).resolve().parents[1]

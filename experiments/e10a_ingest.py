@@ -187,6 +187,8 @@ def validate_recipe(recipe: dict[str, Any], contract: dict[str, Any]) -> None:
 def validate_distribution(case: dict[str, Any]) -> None:
     probabilities = case.get("candidate_probabilities")
     ranking = case.get("candidate_ranking")
+    raw_mass = case.get("raw_candidate_probability_mass")
+    discarded = case.get("discarded_top_probability_entries")
     if (
         not isinstance(probabilities, dict)
         or set(probabilities) != set(LETTERS)
@@ -199,6 +201,11 @@ def validate_distribution(case: dict[str, Any]) -> None:
         or not math.isclose(sum(probabilities.values()), 1.0, abs_tol=1e-5)
         or not isinstance(ranking, list)
         or len(ranking) != len(LETTERS)
+        or not isinstance(raw_mass, (int, float))
+        or not math.isfinite(raw_mass)
+        or not 0 < raw_mass <= 1.00001
+        or type(discarded) is not int
+        or discarded < 0
     ):
         raise ValueError("E10a candidate distribution is invalid")
     expected = [

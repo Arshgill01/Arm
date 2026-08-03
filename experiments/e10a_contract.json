@@ -16,9 +16,9 @@
     "e9c_manifest_path": "results/manifests/e9c-30770403695.json",
     "e9c_manifest_sha256": "29b075b605e5d84d6de66b07fb4ab3c1562236c9aa4e7fd43d51e0ff7932eed4",
     "probe_path": "experiments/e10a_probe.py",
-    "probe_sha256": "18f6823f55148056bbee9776c9325c308e6e200aeb9d1cdf07cd2be11902e088",
+    "probe_sha256": "881f124177bfce6b8348d67a338485d91cd9ede0979872f39b858c74b2e60ab0",
     "ingest_path": "experiments/e10a_ingest.py",
-    "ingest_sha256": "d09e6805dd00066326957607ec65153d8321b77d34bd0f1c22315027e66cd4ba"
+    "ingest_sha256": "e8621f44bf0948189810743121614f47185d28bfd0ab2525ec8f5c8336750de3"
   },
   "selected": {
     "candidate": "ministral3_3b_q4_k_m",
@@ -76,14 +76,17 @@
     "n_probs": 32,
     "post_sampling_probs": true,
     "return_tokens": true,
-    "prediction_rule": "Choose the highest post-grammar probability; break an exact tie by alphabetical candidate order.",
+    "observed_b10216_response_boundary": "Pinned b10216 returns a top_probs list from the pre-grammar vocabulary distribution even when post_sampling_probs is true; failed native preflight run 30793244346 established this before any cache-on cell or separation result was observed.",
+    "conditional_normalization_rule": "From the returned top 32 entries, aggregate entries whose exact UTF-8 bytes are A, B, C, or D, require all four to be present with positive finite probability, then divide each by their summed raw probability mass. This preserves their logit ordering and equals conditioning the returned distribution on the exact grammar support.",
+    "raw_probability_retention": "Retain the summed raw A/B/C/D probability mass and the count of returned non-candidate top entries for every request.",
+    "prediction_rule": "Choose the highest conditional A/B/C/D probability; break an exact tie by alphabetical candidate order.",
     "probability_support": [
       "A",
       "B",
       "C",
       "D"
     ],
-    "reason_for_temperature_one": "The emitted sample is retained but is not the prediction. Temperature 1 preserves the candidate logit ordering and exposes the normalized post-grammar distribution; the deterministic prediction is its top-1 candidate."
+    "reason_for_temperature_one": "The emitted sample is retained but is not the prediction. Temperature 1 preserves candidate logit ordering; the deterministic prediction is the top-1 candidate after the frozen A/B/C/D conditional normalization."
   },
   "workload": {
     "calibration_source": "The exact eight task IDs and repeated order already observed by E9c; no unobserved task is consumed during calibration.",

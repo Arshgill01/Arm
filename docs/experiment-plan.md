@@ -1426,10 +1426,16 @@ reverse-balanced cache-off/cache-on repetitions and a fresh server for every
 cell: 12 processes, 192 measured requests, and 96 paired comparisons.
 
 Each request constrains output to exactly one A/B/C/D byte and asks pinned
-b10216's native `/completion` endpoint for the full normalized post-grammar
-candidate distribution. The emitted temperature-one sample is retained only
-as mechanism evidence. The deterministic prediction is the highest candidate
-probability, with alphabetical tie-breaking. Raw distributions, top-1 margin,
+b10216's native `/completion` endpoint for its top-32 probability list. A
+retained preflight established that b10216 returns the pre-grammar vocabulary
+distribution despite the `post_sampling_probs` label. The frozen representation
+therefore requires all four exact candidate bytes in that list, aggregates
+duplicate candidate tokens, and conditions their raw probabilities on the
+A/B/C/D support. This normalization preserves their logit ordering and is the
+grammar-restricted candidate distribution. The emitted temperature-one sample
+is retained only as mechanism evidence. The deterministic prediction is the
+highest conditional candidate probability, with alphabetical tie-breaking.
+Raw distributions, raw candidate mass, discarded top-entry count, top-1 margin,
 paired Jensen-Shannon divergence, maximum probability delta, top-2 overlap,
 prompt-token hash, timings, process CPU, RSS, readiness, source, build, binary,
 and dependency closure are all retained.

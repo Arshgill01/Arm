@@ -48,7 +48,7 @@ def extract_candidate_distribution(
     response: dict[str, Any],
     *,
     expected_candidates: tuple[str, ...] = LETTERS,
-) -> dict[str, float]:
+) -> tuple[dict[str, float], float, int]:
     completion = response.get("completion_probabilities")
     if not isinstance(completion, list) or len(completion) != 1:
         raise ValueError("completion response lacks one probability entry")
@@ -59,6 +59,7 @@ def extract_candidate_distribution(
 
     allowed = set(expected_candidates)
     distribution = {candidate: 0.0 for candidate in expected_candidates}
+    discarded_entries = 0
     for item in top:
         if not isinstance(item, dict):
             raise TypeError("candidate probability is not an object")
@@ -78,15 +79,23 @@ def extract_candidate_distribution(
             candidate = bytes(raw_bytes).decode("utf-8")
         except UnicodeDecodeError as error:
             raise ValueError("candidate bytes are not UTF-8") from error
-        if candidate not in allowed:
-            raise ValueError(f"grammar leaked non-candidate token {candidate!r}")
-        distribution[candidate] += float(probability)
+        if candidate in allowed:
+            distribution[candidate] += float(probability)
+        else:
+            discarded_entries += 1
 
     if any(probability <= 0 for probability in distribution.values()):
-        raise ValueError("candidate distribution does not cover A/B/C/D")
-    if not math.isclose(sum(distribution.values()), 1.0, abs_tol=1e-5):
-        raise ValueError("candidate probabilities do not sum to one")
-    return distribution
+        raise ValueError("returned top probabilities do not cover A/B/C/D")
+    candidate_mass = sum(distribution.values())
+    if not 0 < candidate_mass <= 1.00001:
+        raise ValueError("raw A/B/C/D probability mass is invalid")
+    normalized = {
+        candidate: probability / candidate_mass
+        for candidate, probability in distribution.items()
+    }
+    if not math.isclose(sum(normalized.values()), 1.0, abs_tol=1e-12):
+        raise ValueError("conditional candidate probabilities do not sum to one")
+    return normalized, candidate_mass, discarded_entries
 
 
 def ranked_candidates(distribution: dict[str, float]) -> list[dict[str, Any]]:
@@ -136,7 +145,9 @@ def request_candidate_scores(
         http_ms = (time.perf_counter_ns() - started) / 1_000_000
         if status != 200:
             raise ValueError(f"/completion returned HTTP {status}")
-        distribution = extract_candidate_distribution(response)
+        distribution, candidate_mass, discarded_entries = (
+            extract_candidate_distribution(response)
+        )
         ranking = ranked_candidates(distribution)
         timings = response.get("timings")
         timings = timings if isinstance(timings, dict) else {}
@@ -160,6 +171,8 @@ def request_candidate_scores(
             "prediction": prediction,
             "reference_match": prediction == reference,
             "candidate_probabilities": distribution,
+            "raw_candidate_probability_mass": candidate_mass,
+            "discarded_top_probability_entries": discarded_entries,
             "candidate_ranking": ranking,
             "top1_margin": ranking[0]["probability"] - ranking[1]["probability"],
             "stop_type": response.get("stop_type"),

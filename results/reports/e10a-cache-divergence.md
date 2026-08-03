@@ -24,3 +24,21 @@ and error messages before returning nonzero. The A/B/C/D grammar, task sequence,
 cardinalities, repetitions, cache states, probability semantics, separation
 gate, and claim boundary remain unchanged. Results will be appended here; the
 failed run remains part of the experiment history.
+
+Native retry
+[`30793244346`](https://github.com/Arshgill01/Arm/actions/runs/30793244346)
+retained the missing response detail from the same first cache-off cell. Pinned
+b10216 emitted an A/B/C/D grammar-constrained sample, but its `top_probs` list
+contained the pre-grammar vocabulary distribution even though the request and
+response both recorded `post_sampling_probs=true`. All four exact candidate
+tokens were present for every request; non-candidates such as `The`, `To`, and
+`**` explained the parser rejection. No cache-on cell or separation result was
+observed.
+
+Revision 3 freezes the API-compatible representation before retrying: require
+all four A/B/C/D entries in the returned top 32, aggregate exact-byte duplicate
+tokens, and renormalize only their raw probability mass. Conditioning the raw
+softmax on the grammar's complete support preserves candidate ordering and
+produces the intended four-choice distribution. Raw candidate mass and the
+discarded top-entry count are retained. No task, request order, cache state,
+repetition, signal direction, separation gate, or claim boundary changes.
