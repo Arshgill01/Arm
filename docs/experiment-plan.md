@@ -1552,6 +1552,38 @@ sequence, model, service, and native host; unseen prompts remain uncached. The
 complete pre-result boundary is in
 [`e13a_contract.json`](../experiments/e13a_contract.json).
 
+## E14a frozen tensor-selective repack frontier
+
+E14a tests a distinct memory/throughput mechanism rather than another serving
+knob sweep. Exact llama.cpp b10216 can disable weight repacking globally, but
+its generic tensor-buffer override reselects the CPU repack buffer and cannot
+leave selected weights in the mapped buffer. A local, default-off patch adds
+`GGML_CPU_REPACK_EXCLUDE`: semicolon-separated regular expressions are compiled
+once, matching tensor names decline only the optional repack buffer, and unset
+input preserves the upstream path. Empty or invalid patterns abort. The patch
+is retained for evidence and is not published upstream.
+
+The frozen native `ubuntu-24.04-arm` matrix uses the exact E7c OpenSSL-off
+b10216 build, Q4_K_M model, 30-task answers, cached one-slot service and direct
+server arguments. Four predeclared configurations compare full repack, 104 raw
+attention projection tensors, those projections plus 26 raw FFN-down tensors,
+and global no-repack. Two repetitions run as A–B–C–D–D–C–B–A with a fresh
+process for each cell: eight starts and 240 measured requests. The tensor
+families are architectural hypotheses frozen before observation, not a broad
+per-layer or regex sweep.
+
+Every cell must reproduce the selected answer map with zero failures and show
+the exact expected exclusion inventory and mapped/repack buffers. A selective
+point is eligible only if it retains at least 80% of full-repack median
+throughput, saves at least 40% of full repack's extra process RSS over the
+no-repack endpoint, keeps p95 latency within 1.25x, and has throughput CV no
+greater than 5%. Promotion also requires exact quality and stable throughput
+for all four points and at least three non-dominated memory/throughput points.
+CPU time excludes load, repacking, readiness, warmups and shutdown and is not
+energy. A dominated or noisy frontier is retained without changing groups,
+order or gates. Exact inputs and boundaries are in
+[`e14a_contract.json`](../experiments/e14a_contract.json).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

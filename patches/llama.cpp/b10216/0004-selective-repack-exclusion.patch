@@ -1,0 +1,64 @@
+diff --git a/ggml/src/ggml-cpu/repack.cpp b/ggml/src/ggml-cpu/repack.cpp
+index 9689ca3ced8fa4b00df712a624aade1c1797bce2..1171700eca65b2c448f8ae756fe2628644d13a1b 100644
+--- a/ggml/src/ggml-cpu/repack.cpp
++++ b/ggml/src/ggml-cpu/repack.cpp
+@@ -15,6 +15,10 @@
+ #include <cstring>
+ #include <cassert>
+ #include <cstdio>  // for GGML_ASSERT
++#include <cstdlib>
++#include <regex>
++#include <string>
++#include <vector>
+ 
+ #include "repack.h"
+ 
+@@ -4525,7 +4529,48 @@ template <typename BLOC_TYPE, int64_t INTER_SIZE, int64_t NB_COLS, ggml_type PAR
+ 
+ }  // namespace ggml::cpu::repack
+ 
++static bool ggml_repack_tensor_is_excluded(const struct ggml_tensor * cur) {
++    static const std::vector<std::regex> patterns = [] {
++        std::vector<std::regex> result;
++        const char * value = std::getenv("GGML_CPU_REPACK_EXCLUDE");
++        if (value == nullptr || value[0] == '\0') {
++            return result;
++        }
++
++        const std::string input(value);
++        size_t begin = 0;
++        while (begin <= input.size()) {
++            const size_t end = input.find(';', begin);
++            const std::string pattern = input.substr(begin, end - begin);
++            if (pattern.empty()) {
++                GGML_ABORT("GGML_CPU_REPACK_EXCLUDE contains an empty regular expression");
++            }
++            try {
++                result.emplace_back(pattern);
++            } catch (const std::regex_error & error) {
++                GGML_ABORT("invalid GGML_CPU_REPACK_EXCLUDE regular expression '%s': %s", pattern.c_str(), error.what());
++            }
++            if (end == std::string::npos) {
++                break;
++            }
++            begin = end + 1;
++        }
++        return result;
++    }();
++
++    for (const auto & pattern : patterns) {
++        if (std::regex_search(cur->name, pattern)) {
++            GGML_LOG_INFO("%s: excluded tensor %s\n", __func__, cur->name);
++            return true;
++        }
++    }
++    return false;
++}
++
+ static const ggml::cpu::tensor_traits * ggml_repack_get_optimal_repack_type(const struct ggml_tensor * cur) {
++    if (ggml_repack_tensor_is_excluded(cur)) {
++        return nullptr;
++    }
+     // instance for Q4
+     static const ggml::cpu::repack::tensor_traits<block_q4_0, 4, 4, GGML_TYPE_Q8_0> q4_0_4x4_q8_0;
+     static const ggml::cpu::repack::tensor_traits<block_q4_0, 8, 4, GGML_TYPE_Q8_0> q4_0_4x8_q8_0;
