@@ -335,6 +335,7 @@ def validate_cell(
         "repetition": repetition,
         "ready_ms": float(ready_ms),
         "probe": probe,
+        "raw_cases": probe_object["cases"],
         "process": process,
         "process_cpu": cpu,
         "smaps_rollup_kib": smaps,
@@ -350,7 +351,7 @@ def validate_cell(
 
 def summarize_configuration(cells: list[dict[str, Any]]) -> dict[str, Any]:
     probes = [cell["probe"] for cell in cells]
-    raw_cases = [case for probe in probes for case in probe["cases"]]
+    raw_cases = [case for cell in cells for case in cell["raw_cases"]]
     predictions = [cell["prediction_map"] for cell in cells]
     return {
         "quality": {
@@ -392,8 +393,9 @@ def summarize_configuration(cells: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def build_summary(evidence: Path, contract_path: Path, root: Path) -> dict[str, Any]:
-    contract = validate_inputs(evidence, contract_path, root)
+def build_summary_from_contract(
+    evidence: Path, contract: dict[str, Any], root: Path, contract_sha256: str
+) -> dict[str, Any]:
     platform = parse_lscpu((evidence / "lscpu.txt").read_text())
     source_build = validate_source_build(evidence, contract)
     identity = load_object(evidence / "sidecar-identity.json")
@@ -506,7 +508,7 @@ def build_summary(evidence: Path, contract_path: Path, root: Path) -> dict[str, 
     return {
         "schema_version": 1,
         "experiment_id": "E16b",
-        "contract_sha256": sha256_file(contract_path),
+        "contract_sha256": contract_sha256,
         "status": (
             "valid_sidecar_loader_promoted"
             if promoted
@@ -539,6 +541,13 @@ def build_summary(evidence: Path, contract_path: Path, root: Path) -> dict[str, 
             "post_result_gate_change_permitted": False,
         },
     }
+
+
+def build_summary(evidence: Path, contract_path: Path, root: Path) -> dict[str, Any]:
+    contract = validate_inputs(evidence, contract_path, root)
+    return build_summary_from_contract(
+        evidence, contract, root, sha256_file(contract_path)
+    )
 
 
 def main() -> int:

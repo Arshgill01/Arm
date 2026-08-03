@@ -1988,3 +1988,21 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   ≤0.80 readiness ratio after every exactness and mechanism gate passes. Page
   cache is not represented as cold, and no sharing, portability, or energy
   claim is permitted.
+
+## 2026-08-03 — E16b frozen ingester failure retained
+
+- Native run `30841531260` completes sidecar construction, deliberate
+  wrong-model rejection, all eight fresh ABBA/BAAB cells, 240 measured requests,
+  final verification and deletion of the generated sidecar.
+- The frozen ingester fails afterward with `KeyError: 'cases'`. Its compact
+  validated-probe return has no raw cases; the summarizer should have read the
+  already retained probe object. No runner summary or inventory is produced,
+  so E16b is invalid and no loader configuration is promoted.
+- A diagnostic-only replay verifies 23/30 in every cell, zero failures, all
+  loader mechanism records, 1.0051x throughput, 0.9956x CPU/request and 0.3682x
+  same-job readiness. RSS/PSS is essentially unchanged. These values remain
+  descriptive and do not rehabilitate the invalid run.
+- Artifact `e16b-repack-sidecar-loader-30841531260-1` (ID `8867253168`, digest
+  `1ffde82b…37e35`) contains 188 hashed regular files. A successor may repair
+  only the raw-case data flow and bound ingester hash before repeating the
+  unchanged native contract and gates.

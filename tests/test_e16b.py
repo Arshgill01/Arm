@@ -7,7 +7,11 @@ from collections import Counter
 from pathlib import Path
 
 from experiments.e16b_freeze import build_contract
-from experiments.e16b_ingest import parse_page_faults, parse_smaps_rollup
+from experiments.e16b_ingest import (
+    parse_page_faults,
+    parse_smaps_rollup,
+    summarize_configuration,
+)
 
 
 class E16bLoaderTests(unittest.TestCase):
@@ -96,6 +100,26 @@ class E16bLoaderTests(unittest.TestCase):
                 encoding="utf-8",
             )
             self.assertEqual(parse_page_faults(timing), {"major": 3, "minor": 99})
+
+    def test_configuration_summary_reads_cases_from_validated_cell(self) -> None:
+        cell = {
+            "probe": {
+                "correct": 23,
+                "failures": 0,
+                "reference_prediction_mismatches": 0,
+                "requests_per_second": 1.0,
+            },
+            "raw_cases": [{"http_ms": 1000, "encode_ms": 900, "decode_ms": 50}],
+            "prediction_map": {"task": "A"},
+            "process_cpu": {"seconds_per_request": 1.0},
+            "process": {"maximum_rss_kib": 1000},
+            "smaps_rollup_kib": {"Rss": 900, "Pss": 800},
+            "ready_ms": 100,
+            "page_faults": {"major": 0, "minor": 1},
+        }
+        summary = summarize_configuration([cell])
+        self.assertEqual(summary["http_ms"]["median"], 1000)
+        self.assertEqual(summary["quality"]["correct_per_repetition"], [23])
 
 
 if __name__ == "__main__":

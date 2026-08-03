@@ -310,11 +310,12 @@ repack flag that conflicts with the plan is refused.
 | [E13b](results/reports/e13b-cache-certificate-successor.md) | A separately frozen calibration-known trace passes every gate at 1.85158x throughput with byte-exact output and exact decision counts; admission remains fingerprint-bounded |
 | [E14b](results/reports/e14b-selective-repack-frontier.md) | The corrected four-point frontier is valid, but neither selective tier clears the unchanged joint target; full repack remains selected |
 | [E16a](results/reports/e16a-repack-sidecar-feasibility.md) | Two fresh native processes produce a byte-identical complete repack sidecar with exact quality; only the separately frozen loader successor is authorized |
+| [E16b first run](results/reports/e16b-repack-sidecar-loader-ingestion-failure.md) | All eight native loader cells complete with descriptive passing values, but a frozen post-measurement ingester error invalidates the run and forbids promotion |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
 The E5f through E5j, E6d through E6i, E7a through E7c, E9a/E9c, E10a through
-E10f, E13a/E13b, E14a/E14b, and E16a results are retained under their exact frozen
+E10f, E13a/E13b, E14a/E14b, and E16a/E16b results are retained under their exact frozen
 contracts and independently re-ingested byte for byte. E9e separately retains its reproducible
 premeasurement stop record.
 

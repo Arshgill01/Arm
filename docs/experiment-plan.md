@@ -1793,6 +1793,24 @@ multi-process physical sharing, cross-CPU portability, or energy. Exact frozen
 inputs and gates are in
 [`e16b_contract.json`](../experiments/e16b_contract.json).
 
+### E16b first-run outcome
+
+Native run `30841531260` completes sidecar construction, wrong-identity
+rejection, all eight fresh processes, 240 exact requests, final verification
+and cleanup. Its frozen ingester then raises `KeyError: 'cases'`: it asks the
+compact validated-probe summary for raw cases instead of reading the retained
+probe object. No runner summary or inventory is produced, so E16b is invalid
+and the loader is not promoted.
+
+A diagnostic-only replay finds 23/30 in every cell, zero failures, complete
+read-only loader proof, 1.0051x throughput, 0.9956x CPU/request and a 0.3682x
+same-job readiness ratio, but essentially unchanged RSS/PSS. These are
+descriptive failed-run values only. A separately frozen repair may change only
+the ingester's raw-case data flow and its bound hash; all experimental
+inputs, order and gates must remain unchanged. See the retained
+[`manifest`](../results/manifests/e16b-30841531260.json) and
+[`report`](../results/reports/e16b-repack-sidecar-loader-ingestion-failure.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server
