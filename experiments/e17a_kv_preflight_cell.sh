@@ -97,7 +97,7 @@ done
 test -n "$active_server_pid"
 echo "$active_server_pid" > "$cell_dir/server-pid.txt"
 
-python3 experiments/e5b_inference_probe.py \
+python3 experiments/e17a_subset_probe.py \
   --url http://127.0.0.1:18081 \
   --tasks experiments/e17a_tasks.json \
   --reference-manifest results/manifests/e3f-30656151957.json \

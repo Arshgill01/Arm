@@ -1,0 +1,187 @@
+{
+  "acceptance": {
+    "all_three_configurations_must_be_attempted": true,
+    "f16_control_must_launch_and_serve": true,
+    "failed_quantized_launch_is_valid_negative_evidence": true,
+    "quantized_allocation_must_be_below_f16": true,
+    "quantized_successor_requires_at_least_one_structurally_supported_quantized_configuration": true,
+    "required_architecture": "aarch64",
+    "successful_cell_requires_exact_allocation_log": true,
+    "successful_cell_requires_zero_request_failures": true
+  },
+  "claim_boundary": "E17a establishes only native API, launch, request, and allocation compatibility for three frozen 1K single-slot cache pairs. Its three-task answers and timings are diagnostic. It makes no long-context, serving-density, quality-robustness, performance, energy, PMU, local-device, fleet, or cost claim.",
+  "decision": {
+    "first_failure_rehabilitated": false,
+    "preflight_makes_performance_claim": false,
+    "preflight_promotes_service_configuration": false,
+    "second_failure_rehabilitated": false,
+    "second_successor_changes_scientific_contract": false,
+    "successor_changes_scientific_contract": false,
+    "successor_configuration_rule": "Include every frozen quantized candidate that launches, serves all preflight requests, and proves a smaller KV allocation; do not use preflight quality or performance to cherry-pick among supported candidates."
+  },
+  "execution": {
+    "batch_size": 1024,
+    "configurations": {
+      "f16_f16": {
+        "context_size": 1024,
+        "flash_attention": "on",
+        "kv_cache_type_k": "f16",
+        "kv_cache_type_v": "f16"
+      },
+      "q4_0_q4_0": {
+        "context_size": 1024,
+        "flash_attention": "on",
+        "kv_cache_type_k": "q4_0",
+        "kv_cache_type_v": "q4_0"
+      },
+      "q8_0_q8_0": {
+        "context_size": 1024,
+        "flash_attention": "on",
+        "kv_cache_type_k": "q8_0",
+        "kv_cache_type_v": "q8_0"
+      }
+    },
+    "fresh_process_per_configuration": true,
+    "max_output_tokens": 8,
+    "micro_batch_size": 512,
+    "order": [
+      "f16_f16",
+      "q8_0_q8_0",
+      "q4_0_q4_0"
+    ],
+    "parallel_slots": 1,
+    "quantized_candidates": [
+      "q8_0_q8_0",
+      "q4_0_q4_0"
+    ],
+    "request_cache_prompt": false,
+    "runner": "ubuntu-24.04-arm",
+    "seed": 424242,
+    "threads": 4
+  },
+  "experiment_id": "E17a",
+  "first_failure": {
+    "artifact_digest": "sha256:a3c09e979f6f49a1948d9d2979585db3425b024d7ff80a93c74b81d3efefd487",
+    "artifact_id": "8872171485",
+    "artifact_name": "e17a-kv-v-cache-preflight-30855155720-1",
+    "configuration_attempts_started": 0,
+    "manifest_sha256": "f1a9d291cbd11fa799ff0371b719062bd815fb3416421cc16b16a4f0f7194190",
+    "repair": [
+      "create the already-frozen cell evidence directory before invocation",
+      "invoke the exact hash-bound cell runner through bash"
+    ],
+    "repository_commit": "ed1216673fc190d4f9a8534031ea8adb312f0326",
+    "run_attempt": 1,
+    "run_id": "30855155720"
+  },
+  "hypothesis": "The exact E9a b10216 server can launch the selected Q4_K_M model with quantized K and V caches when flash attention is explicitly enabled.",
+  "inputs": {
+    "base_contract_path": "experiments/e17a_contract.json",
+    "base_contract_sha256": "a9f2739083cff0b86ee3e2c7869d8ced88e0eddbadf6699ef329b234a2151f53",
+    "cell_path": "experiments/e17a_kv_preflight_cell.sh",
+    "cell_sha256": "749b6935df5f8cc6914571b16ff4405850b8f530eb1eb666d03fe6989d150047",
+    "e9a_manifest_path": "results/manifests/e9a-30764802071.json",
+    "e9a_manifest_sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d",
+    "failure_manifest_path": "results/manifests/e17a-30855155720.json",
+    "failure_manifest_sha256": "f1a9d291cbd11fa799ff0371b719062bd815fb3416421cc16b16a4f0f7194190",
+    "failure_retainer_path": "experiments/e17a_permission_failure_retain.py",
+    "failure_retainer_sha256": "2827a240358f290d01891691f39d1de5f8957543196fd923c463afaabf87009b",
+    "first_successor_contract_path": "experiments/e17a_successor_contract.json",
+    "first_successor_contract_sha256": "3f25fe713c0a5983e36eac746c24367f96302f2ee54427021536426c840d7c5c",
+    "freeze_path": "experiments/e17a_kv_preflight_freeze.py",
+    "freeze_sha256": "cfab28a7ee732912988ac4e700bc000a8ebe2ffdb972619839d52f2995f43a11",
+    "ingest_path": "experiments/e17a_kv_preflight_ingest.py",
+    "ingest_sha256": "319835b826c4e770fc290a943d0574bc4c48fc2dd5a275f23b37a0a45939b3f0",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "probe_path": "experiments/e5b_inference_probe.py",
+    "probe_sha256": "82ebd56316705df93b59aea9c05c31b59cdd0c4c9fd31ef16608dbc0e86702db",
+    "second_failure_manifest_path": "results/manifests/e17a-30855793293.json",
+    "second_failure_manifest_sha256": "64f8fcf94506ddd76d5672b02e0a0e58656c2e754970023e9c46a86c50cb0737",
+    "second_failure_retainer_path": "experiments/e17a_probe_failure_retain.py",
+    "second_failure_retainer_sha256": "174df27f386d1b7c3b3b211a2171782d43579066f660377f921d4b188966c991",
+    "second_successor_freeze_path": "experiments/e17a_second_successor_freeze.py",
+    "second_successor_freeze_sha256": "c473d16ce7fb8a33331bc99c01600c90f18e2deacbfbe3ac073734013d703968",
+    "second_successor_ingest_path": "experiments/e17a_second_successor_ingest.py",
+    "second_successor_ingest_sha256": "9bb1ba94999d4104be7843820980d88061a3c13596113f3d6702e2e200ef6ef5",
+    "second_successor_test_path": "tests/test_e17a_second_successor.py",
+    "second_successor_test_sha256": "cef1e3c37ebf100ee25abd605f99b3e77b2d8c8af818460824037d47f01b9f8f",
+    "selected_manifest_path": "results/manifests/e3f-30656151957.json",
+    "selected_manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "source_tasks_path": "experiments/e3_tasks.json",
+    "source_tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "subset_probe_path": "experiments/e17a_subset_probe.py",
+    "subset_probe_sha256": "f8310281e5c2aa40529661b3107bb75e568b68483e8fbf75d32a72ea996e538a",
+    "successor_freeze_path": "experiments/e17a_successor_freeze.py",
+    "successor_freeze_sha256": "8753522f109c8d7020448892c940395b4802161ee3f33b86cc893711bf453390",
+    "successor_ingest_path": "experiments/e17a_successor_ingest.py",
+    "successor_ingest_sha256": "f1c4cb05ef32b6cf0eca8eaa0ead36405145ed5a5d6e0a717fd29662b3e553d3",
+    "successor_test_path": "tests/test_e17a_successor.py",
+    "successor_test_sha256": "c6ac6d929e189a6fcd9c4dc954e6ef2ad952bf383736a72a6fcc9f89d80791de",
+    "tasks_path": "experiments/e17a_tasks.json",
+    "tasks_sha256": "86c2919def198b2be80d286925c7f2cb20668a47012d65c2b4c3f6f0e718e044",
+    "test_path": "tests/test_e17a.py",
+    "test_sha256": "1efc1f93ad9dd967582b12d3dc053ea4bc0d47cd0f70e33b433b40b950f601db"
+  },
+  "quality_preflight": {
+    "expected_answers": {
+      "arithmetic-02": "C",
+      "logic-01": "C",
+      "systems-04": "B"
+    },
+    "quality_or_performance_result_may_select_successor": false,
+    "reference_predictions": {
+      "arithmetic-02": "C",
+      "logic-01": "C",
+      "systems-04": "B"
+    },
+    "task_ids": [
+      "arithmetic-02",
+      "logic-01",
+      "systems-04"
+    ],
+    "task_selection_reason": "one stable arithmetic control, one stable logic control, and the previously K-q4-sensitive systems-04 task"
+  },
+  "runtime": {
+    "artifact": {
+      "digest": "sha256:3d360aed5fd02abf5421c3a23309f1abda56bf5f96c0e406a5c13897c15aae70",
+      "id": "8838874234",
+      "name": "e9a-final-service-30764802071-1",
+      "run_id": "30764802071",
+      "size_bytes": 18440490,
+      "summary_sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d"
+    },
+    "configuration": "e7c_final",
+    "openssl": "off",
+    "server_sha256": "e15e14bd5d4f86e09a79603862f52db841de758ecc21b2c476a2ba92cc8ee40e",
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_tag": "b10216"
+  },
+  "schema_version": 1,
+  "second_failure": {
+    "artifact_digest": "sha256:b818da16524ce873ea61b90c4da23f34d3499965356f8b5cf9f97d19148e1f39",
+    "artifact_id": "8872425138",
+    "artifact_name": "e17a-kv-v-cache-preflight-30855793293-1",
+    "configuration_processes_ready": 3,
+    "manifest_sha256": "64f8fcf94506ddd76d5672b02e0a0e58656c2e754970023e9c46a86c50cb0737",
+    "measured_model_requests_completed": 0,
+    "repair": [
+      "load the unchanged stable 30-task reference prediction map",
+      "filter it to the three already-frozen E17a task IDs",
+      "call the unchanged E5b HTTP request engine with that exact subset"
+    ],
+    "repository_commit": "0945a8912790730d6a5d4b46a3f23592ab83ac30",
+    "run_attempt": 1,
+    "run_id": "30855793293"
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "path": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+  },
+  "state": "separately frozen after retaining the pre-request subset-reference failure, before any measured request or compatibility result",
+  "title": "Bounded quantized-V compatibility preflight"
+}

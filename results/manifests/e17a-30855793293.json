@@ -1,0 +1,88 @@
+{
+  "artifact_validation": {
+    "all_extracted_regular_files_hashed": true,
+    "file_count": 82,
+    "inventory_sha256": "b22bee692566d7f6bc5b2eda96c92e12762ebde6df7c85a96cc545d866da1268",
+    "total_regular_file_bytes": 33859512
+  },
+  "claim_boundary": "All three native servers reached readiness and logged descriptive KV allocations, but no measured model request ran. This is not accepted KV compatibility, answer, quality, performance, long-context, energy, PMU, device, fleet, or cost evidence.",
+  "configuration_processes_ready": 3,
+  "configuration_processes_started": 3,
+  "contract_sha256": "3f25fe713c0a5983e36eac746c24367f96302f2ee54427021536426c840d7c5c",
+  "decision": {
+    "compatibility_result_accepted": false,
+    "descriptive_launch_values_promoted": false,
+    "failed_runs_rehabilitated": false,
+    "long_context_successor_allowed": false,
+    "separately_frozen_subset_probe_repair_allowed": true
+  },
+  "descriptive_launch_evidence": {
+    "f16_f16": {
+      "flash_attention_enabled": true,
+      "kv_allocation_mib": 104.0,
+      "model_requests_completed": 0,
+      "readiness_ms": 2531.481133,
+      "recipe_sha256": "9391521ab31d712bb87ffab0aa2a6affa0717f00a0b84ad82b728a4337c8b32f",
+      "server_ready": true,
+      "server_stderr_sha256": "103bf64a0a6f4852fd48c4ee35cc772de71429c07efcc135d774d21b0e42a024"
+    },
+    "q4_0_q4_0": {
+      "flash_attention_enabled": true,
+      "kv_allocation_mib": 29.25,
+      "model_requests_completed": 0,
+      "readiness_ms": 2527.101629,
+      "recipe_sha256": "d441fe796b21a08e24a56537af24bf983bcec238a9be6281659ebf93a4e1d019",
+      "server_ready": true,
+      "server_stderr_sha256": "03572537c1c40c884c72b7018412c29a64594a82ffe5f5a1765963a375a1761f"
+    },
+    "q8_0_q8_0": {
+      "flash_attention_enabled": true,
+      "kv_allocation_mib": 55.25,
+      "model_requests_completed": 0,
+      "readiness_ms": 2531.622466,
+      "recipe_sha256": "6077049ac14d968f04aa6ca904cb234e7f72bb4c6b5fd874294014a0fd9ff26e",
+      "server_ready": true,
+      "server_stderr_sha256": "bc2299db55078fb6e479cddf36f895033e09b9bace0e6006e3024ea09433fd22"
+    }
+  },
+  "experiment_id": "E17a",
+  "experiment_result_valid": false,
+  "failure": {
+    "cause": "The reused E5b probe requires the task ID set to equal the full 30-task reference map, while E17a intentionally froze a three-task diagnostic subset.",
+    "exception": "ValueError: task IDs differ from the selected reference predictions",
+    "repair_boundary": "A separately frozen successor may add a subset-aware adapter that loads the same stable reference map and filters it to the three already-frozen task IDs before calling the unchanged request engine. Nothing else changes.",
+    "stage": "pre-request reference-map validation"
+  },
+  "github": {
+    "artifact_digest": "sha256:b818da16524ce873ea61b90c4da23f34d3499965356f8b5cf9f97d19148e1f39",
+    "artifact_id": "8872425138",
+    "artifact_name": "e17a-kv-v-cache-preflight-30855793293-1",
+    "artifact_size_bytes": 13870317,
+    "job_id": "91826376788",
+    "repository_commit": "0945a8912790730d6a5d4b46a3f23592ab83ac30",
+    "run_attempt": 1,
+    "run_id": "30855793293",
+    "run_log_sha256": "72c769f18853c5ba02c1c0597f1d828266c202ecc151c0e0e66626fff7dae0f4",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30855793293"
+  },
+  "measured_model_requests_completed": 0,
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "schema_version": 1,
+  "status": "invalid_premeasurement_subset_reference_probe_failure"
+}
