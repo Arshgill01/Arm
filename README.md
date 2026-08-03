@@ -146,6 +146,15 @@ On native Arm, A/B/C/D probabilities match the full 131,072-token response
 within 3.58e-7, sampled output stays identical, median payload falls from 12.57
 MB to 2.78 KB, and median HTTP latency falls 18.6%. This promotes only the
 response primitive for a separately frozen multi-token evaluator.
+E10c tests the tempting one-request forked scorer but rejects it: predictions
+match the serial adapter, yet all three frozen numerical log-probability parity
+gates fail. E10d therefore uses the validated serial primitive for the pinned
+300-sample external holdout. Both model cells complete their sample loops but
+fail the zero-request-failure gate when one-token responses omit a required
+probability entry: one failed sample for Q4_K_M and two for Q4_0. The aggregate
+is invalid, partial task metrics are non-comparable, and the original E11a/E12b
+prerequisites remain blocked. Exact breakpoints and all 28,490 retained raw
+responses are preserved for a separately frozen compatibility preflight.
 
 ## Optimization map
 
@@ -173,6 +182,8 @@ preserved unless the row explicitly describes a rejected candidate.
 | Speculative / cross-runtime feasibility | Exact E7c model, runtime, and 30-task workload | Preflight exact mechanism, model identity, workload fit, licenses, and storage | License/storage pass; exact-runtime draft loading, two-token completions, and non-portable backend artifacts fail required gates | Stop before measurement; add no performance or portability claim |
 | Cache-confidence guard | E9c-exposed 64-token cache drift | Calibrate cached top-1 margin before any threshold or holdout | Four drifted pairs reproduce, but margins overlap stable pairs; strict separation gap is −0.01573 | Reject a margin-only guard; select no threshold |
 | Exact-token probability response | Full 131,072-entry pre-sampling response | Select four known token IDs from the same softmax | Maximum log-probability delta 3.58e-7; identical sample; response 0.000221x and median HTTP latency 0.8144x | Promote only the response primitive for a separately frozen evaluator |
+| Forked candidate-scoring request | Validated serial exact-token adapter | Score all candidate continuations in one server request | Predictions match, but every frozen numerical parity gate fails | Reject the scorer; preserve the native negative result |
+| Pinned external holdout | Exact serial scorer over 300 preselected samples per model | Evaluate Q4_K_M and Q4_0 on ARC Easy, HellaSwag, and WinoGrande | Both cells hit missing one-token probability entries; paired aggregate skipped | Reject the comparison; retain all partial/raw evidence and test compatibility separately |
 
 Rejected variants remain visible: two server slots, cached two-slot serving,
 q4_0 KV, batch 32, Flash Attention, lower thread counts, and LTO all missed at

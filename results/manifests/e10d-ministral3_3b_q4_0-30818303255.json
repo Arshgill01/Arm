@@ -1,0 +1,362 @@
+{
+  "claim_boundary": "This manifest retains a failed frozen E10d cell. Partial metrics are descriptive only and cannot support a model comparison, frontier, promotion, performance, energy, or cost claim.",
+  "contract_sha256": "ee7672a610b3bc29628eccda4ee960efe5c1da4f577a7ef681097cf27b563c71",
+  "decision": {
+    "aggregate_valid": false,
+    "cell_valid": false,
+    "e11a_exact_prerequisite_satisfied": false,
+    "e12b_exact_prerequisite_satisfied": false,
+    "metrics_comparable": false,
+    "negative_result_retained": true
+  },
+  "experiment_id": "E10d",
+  "github": {
+    "artifact_id": "8860154414",
+    "artifact_name": "e10d-ministral3_3b_q4_0-30818303255-1",
+    "run_attempt": 1,
+    "run_id": "30818303255",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30818303255"
+  },
+  "model": {
+    "candidate": "ministral3_3b_q4_0",
+    "quantization": "Q4_0",
+    "role": "control",
+    "sha256": "bd1eef40a7fdb1ba9728ec977bd4aab40fb76993d6ec37377fd6522703dc88a5",
+    "size_bytes": 2046375200
+  },
+  "partial_evidence": {
+    "completed_choice_records": 994,
+    "completed_token_records": 14159,
+    "errors": [
+      {
+        "candidate_token_count": 42,
+        "completed_choices_before_error": 1,
+        "error": "ValueError: completion response lacks one probability entry",
+        "failed_choice_index": 1,
+        "failed_target_token_id": 1194,
+        "failed_token_index": 28,
+        "failure_response_received_but_not_retained": true,
+        "retained_partial_token_responses": 28,
+        "sample_ordinal": 44,
+        "source_index": 3681,
+        "task": "e9b_hellaswag"
+      },
+      {
+        "candidate_token_count": 29,
+        "completed_choices_before_error": 1,
+        "error": "ValueError: completion response lacks one probability entry",
+        "failed_choice_index": 1,
+        "failed_target_token_id": 27043,
+        "failed_token_index": 13,
+        "failure_response_received_but_not_retained": true,
+        "retained_partial_token_responses": 13,
+        "sample_ordinal": 70,
+        "source_index": 6417,
+        "task": "e9b_hellaswag"
+      }
+    ],
+    "probe_result": {
+      "candidate_requests": 992,
+      "elapsed_seconds": 4160.52547632,
+      "failures": 2,
+      "samples": 300,
+      "samples_per_second": 0.0721062764084673,
+      "token_score_requests": 14095
+    },
+    "raw_inventory": {
+      "compressed_bytes": 20826007,
+      "file_count": 14200,
+      "inventory_sha256": "28b1f3cbe6e8f6368f8ed6acc3d4e2166808db838a001d991ef37a3cc1d6ac08",
+      "uncompressed_bytes": 42919698
+    },
+    "received_response_count_including_unretained_failures": 14202,
+    "referenced_raw_responses": 14159,
+    "task_results": {
+      "e9b_arc_easy": {
+        "candidate_requests": 400,
+        "failures": 0,
+        "http_ms_per_candidate": {
+          "coefficient_of_variation": 0.04416248249758936,
+          "max": 4435.243565999999,
+          "mean": 3702.3974627025,
+          "median": 3659.1740090000003,
+          "min": 3528.909676,
+          "p95": 4043.758986,
+          "population_stddev": 163.5070631457184
+        },
+        "metrics": {
+          "acc": 0.72,
+          "acc_norm": 0.61
+        },
+        "response_bytes_per_candidate": {
+          "coefficient_of_variation": 0.7283348557177282,
+          "max": 57526.0,
+          "mean": 14110.2275,
+          "median": 9331.0,
+          "min": 3070.0,
+          "p95": 34049.0,
+          "population_stddev": 10276.970510356821
+        },
+        "sample_count": 100,
+        "token_score_requests": 1835,
+        "valid_samples": 100
+      },
+      "e9b_hellaswag": {
+        "candidate_requests": 392,
+        "failures": 2,
+        "http_ms_per_candidate": {
+          "coefficient_of_variation": 0.14893059715979035,
+          "max": 6783.706505000001,
+          "mean": 4851.093379298469,
+          "median": 4835.882095,
+          "min": 3722.595568,
+          "p95": 6116.2168820000015,
+          "population_stddev": 722.4762338568263
+        },
+        "metrics": {
+          "acc": 0.4897959183673469,
+          "acc_norm": 0.7040816326530612
+        },
+        "response_bytes_per_candidate": {
+          "coefficient_of_variation": 0.5165622175077844,
+          "max": 212562.0,
+          "mean": 85405.19642857143,
+          "median": 86457.0,
+          "min": 15220.0,
+          "p95": 160968.0,
+          "population_stddev": 44117.097653830766
+        },
+        "sample_count": 100,
+        "token_score_requests": 11126,
+        "valid_samples": 98
+      },
+      "e9b_winogrande": {
+        "candidate_requests": 200,
+        "failures": 0,
+        "http_ms_per_candidate": {
+          "coefficient_of_variation": 0.028881768356308558,
+          "max": 4159.008427,
+          "mean": 3756.985841945,
+          "median": 3727.2944204999994,
+          "min": 3535.654037,
+          "p95": 3927.119704999999,
+          "population_stddev": 108.50839480498637
+        },
+        "metrics": {
+          "acc": 0.6
+        },
+        "response_bytes_per_candidate": {
+          "coefficient_of_variation": 0.41628218667209804,
+          "max": 39529.0,
+          "mean": 17401.9,
+          "median": 15421.0,
+          "min": 3062.0,
+          "p95": 27789.0,
+          "population_stddev": 7244.100984249184
+        },
+        "sample_count": 100,
+        "token_score_requests": 1134,
+        "valid_samples": 100
+      }
+    },
+    "unattempted_frozen_token_requests": 172,
+    "unreferenced_partial_raw_responses": 41
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "preflight": {
+    "maximum_repeat_sum_logprob_delta": 0.0,
+    "maximum_repeat_token_logprob_delta": 0.0,
+    "status": "pass"
+  },
+  "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+  "runtime": {
+    "build_process": {
+      "elapsed": "3:25.00",
+      "exit_status": 0,
+      "maximum_rss_kib": 2847280,
+      "percent_cpu": "330%"
+    },
+    "cmake_cache_sha256": "03e22b4bbcf4b0877f1bb56f854d65a1b13960718b49d784a55b9d4e259099be",
+    "configure_command": {
+      "cmake_arguments": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DGGML_CPU_KLEIDIAI=ON",
+        "-DGGML_LTO=OFF",
+        "-DGGML_NATIVE=ON",
+        "-DLLAMA_BUILD_EXAMPLES=OFF",
+        "-DLLAMA_BUILD_SERVER=ON",
+        "-DLLAMA_BUILD_TESTS=OFF",
+        "-DLLAMA_CURL=OFF",
+        "-DLLAMA_OPENSSL=OFF"
+      ]
+    },
+    "dynamic_dependency_basenames": [
+      "ld-linux-aarch64.so.1",
+      "libc.so.6",
+      "libgcc_s.so.1",
+      "libggml-base.so.0.18.0",
+      "libggml-cpu.so.0.18.0",
+      "libggml.so.0.18.0",
+      "libgomp.so.1.0.0",
+      "libllama-common.so.0.0.10216",
+      "libllama-server-impl.so",
+      "libllama.so.0.0.10216",
+      "libm.so.6",
+      "libmtmd.so.0.0.10216",
+      "libstdc++.so.6.0.33"
+    ],
+    "runtime_closure": {
+      "build_root": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build",
+      "file_count": 8,
+      "files": [
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-base.so.0.18.0",
+          "relative_path": "bin/libggml-base.so.0.18.0",
+          "sha256": "30cfa878b19f63fac88356a1dbea89664bcd3511dd28ac7ceb521924ffc85b07",
+          "size_bytes": 873464
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-cpu.so.0.18.0",
+          "relative_path": "bin/libggml-cpu.so.0.18.0",
+          "sha256": "d1116d1b03a03ec0ed3a949ca8bcb69bf851928c0feace805b02f0b831a07c24",
+          "size_bytes": 1160360
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml.so.0.18.0",
+          "relative_path": "bin/libggml.so.0.18.0",
+          "sha256": "3adf45f0cffdc8159564b7e5a7769cceee5ab9999e324e3b60b58e9097fda81d",
+          "size_bytes": 78176
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-common.so.0.0.10216",
+          "relative_path": "bin/libllama-common.so.0.0.10216",
+          "sha256": "20b7eadc05c3dabbc5610e637920206c715644563ce0d40215e977062a18ca56",
+          "size_bytes": 5326232
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-server-impl.so",
+          "relative_path": "bin/libllama-server-impl.so",
+          "sha256": "c914d580bae32cf62b024a88599ab3cc237f8a318b84687a8aa2bc982b17a8f3",
+          "size_bytes": 6950456
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama.so.0.0.10216",
+          "relative_path": "bin/libllama.so.0.0.10216",
+          "sha256": "a6327009710519848e5049bd0c9a7eeb14000f82e39eb4bbfd6039573b85abc8",
+          "size_bytes": 3937000
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libmtmd.so.0.0.10216",
+          "relative_path": "bin/libmtmd.so.0.0.10216",
+          "sha256": "d7ed4bf973e5f38ecfdd7bedea413b9fb215bc247695e69b8d820eccaec5902c",
+          "size_bytes": 1460952
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/llama-server",
+          "relative_path": "bin/llama-server",
+          "sha256": "32d7c350efbf5210f24a5291e4187fd1dfa7fb67cb42eb766da29aa112c12ab1",
+          "size_bytes": 72488
+        }
+      ],
+      "ldd_output": "\tlinux-vdso.so.1 (0x0000ff937e67c000)\n\tlibllama-server-impl.so => /tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama-server-impl.so (0x0000ff937e010000)\n\tlibstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ff937dd80000)\n\tlibgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ff937dd40000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ff937db80000)\n\t/lib/ld-linux-aarch64.so.1 (0x0000ff937e630000)\n\tlibllama-common.so.0 => /tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama-common.so.0 (0x0000ff937d750000)\n\tlibmtmd.so.0 => /tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libmtmd.so.0 (0x0000ff937d600000)\n\tlibllama.so.0 => /tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama.so.0 (0x0000ff937d2c0000)\n\tlibggml.so.0 => /tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml.so.0 (0x0000ff937d290000)\n\tlibggml-base.so.0 => /tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml-base.so.0 (0x0000ff937d1b0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ff937d100000)\n\tlibggml-cpu.so.0 => /tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml-cpu.so.0 (0x0000ff937cf60000)\n\tlibgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000ff937cee0000)\n",
+      "runtime_dependencies": [
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama-server-impl.so",
+          "resolved_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama-server-impl.so"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libstdc++.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgcc_s.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgcc_s.so.1"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libc.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libc.so.6"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/ld-linux-aarch64.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama-common.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama-common.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libmtmd.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libmtmd.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libllama.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml.so.0.18.0"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml-base.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml-base.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libm.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libm.so.6"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml-cpu.so.0",
+          "resolved_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/libggml-cpu.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgomp.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0"
+        }
+      ],
+      "schema_version": 1,
+      "server_path": "/tmp/llama.cpp-E10d-ministral3_3b_q4_0-build/bin/llama-server",
+      "server_relative_path": "bin/llama-server",
+      "system_dependencies_excluded": true,
+      "total_size_bytes": 19859128
+    },
+    "server_version": "version: 10216 (876a43211)\nbuilt with GNU 13.3.0 for Linux aarch64"
+  },
+  "schema_version": 1,
+  "server_process": {
+    "elapsed": "1:10:05",
+    "exit_status": 0,
+    "maximum_rss_kib": 7054852,
+    "percent_cpu": "390%"
+  },
+  "status": "invalid_external_holdout_cell_retained",
+  "strict_ingest_error": "ValueError: E10d probe header or totals differ"
+}

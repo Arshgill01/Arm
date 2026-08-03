@@ -67,10 +67,12 @@ throughput. Then one same-job comparison ran the exact earliest and final
 recipes four times each. All 240 answers matched: final throughput was 1.717
 times, median latency fell 41.5%, and CPU work per request fell 41.9%. This is a
 compounded product result; isolated experiments provide attribution. The
-external holdout stopped before task results when the exact API lacked required
-logprobs. Alternating prefixes changed answers, strict sanitizer readiness
-failed on an inherited test, and speculative/cross-runtime gates failed before
-measurement. We publish those boundaries too.”
+external holdout later ran all 300 selected samples for both models, but one
+Q4_K_M and two Q4_0 samples lost a required one-token probability record. We
+rejected the incomplete comparison and retained all 28,490 raw responses.
+Alternating prefixes changed answers, strict sanitizer readiness failed on an
+inherited test, and speculative/cross-runtime gates failed before measurement.
+We publish those boundaries too.”
 
 ## 2:36–2:45 — Close
 

@@ -1,0 +1,211 @@
+{
+  "cells": [
+    {
+      "artifact": {
+        "artifact_id": "8861197969",
+        "artifact_name": "e10d-ministral3_3b_q4_k_m-30818303255-1",
+        "run_attempt": 1,
+        "run_id": "30818303255",
+        "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30818303255"
+      },
+      "candidate": "ministral3_3b_q4_k_m",
+      "completed_choice_records": 997,
+      "completed_token_records": 14262,
+      "errors": [
+        {
+          "candidate_token_count": 42,
+          "completed_choices_before_error": 1,
+          "error": "ValueError: completion response lacks one probability entry",
+          "failed_choice_index": 1,
+          "failed_target_token_id": 1194,
+          "failed_token_index": 28,
+          "failure_response_received_but_not_retained": true,
+          "retained_partial_token_responses": 28,
+          "sample_ordinal": 44,
+          "source_index": 3681,
+          "task": "e9b_hellaswag"
+        }
+      ],
+      "github_job_id": "91701485612",
+      "manifest_path": "results/manifests/e10d-ministral3_3b_q4_k_m-30818303255.json",
+      "manifest_sha256": "a5dce33dcafd0102cf4799e88b5700e7587671c45f0cba80d13c87a294656c4e",
+      "preflight": {
+        "maximum_repeat_sum_logprob_delta": 0.0,
+        "maximum_repeat_token_logprob_delta": 0.0,
+        "status": "pass"
+      },
+      "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+      "probe_result": {
+        "candidate_requests": 996,
+        "elapsed_seconds": 6025.164145434,
+        "failures": 1,
+        "samples": 300,
+        "samples_per_second": 0.049791174606810755,
+        "token_score_requests": 14232
+      },
+      "quantization": "Q4_K_M",
+      "raw_inventory": {
+        "compressed_bytes": 20984813,
+        "file_count": 14290,
+        "inventory_sha256": "df6f6119f283bf18a49cc4865d9f3f90a3db33f0103486ffcc619a2e2c0e4b7f",
+        "uncompressed_bytes": 43227332
+      },
+      "received_response_count_including_unretained_failures": 14291,
+      "referenced_raw_responses": 14262,
+      "role": "primary",
+      "server_process": {
+        "elapsed": "1:41:13",
+        "exit_status": 0,
+        "maximum_rss_kib": 7301968,
+        "percent_cpu": "392%"
+      },
+      "status": "invalid_external_holdout_cell_retained",
+      "strict_ingest_error": "ValueError: E10d probe header or totals differ",
+      "unattempted_frozen_token_requests": 83,
+      "unreferenced_partial_raw_responses": 28
+    },
+    {
+      "artifact": {
+        "artifact_id": "8860154414",
+        "artifact_name": "e10d-ministral3_3b_q4_0-30818303255-1",
+        "run_attempt": 1,
+        "run_id": "30818303255",
+        "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30818303255"
+      },
+      "candidate": "ministral3_3b_q4_0",
+      "completed_choice_records": 994,
+      "completed_token_records": 14159,
+      "errors": [
+        {
+          "candidate_token_count": 42,
+          "completed_choices_before_error": 1,
+          "error": "ValueError: completion response lacks one probability entry",
+          "failed_choice_index": 1,
+          "failed_target_token_id": 1194,
+          "failed_token_index": 28,
+          "failure_response_received_but_not_retained": true,
+          "retained_partial_token_responses": 28,
+          "sample_ordinal": 44,
+          "source_index": 3681,
+          "task": "e9b_hellaswag"
+        },
+        {
+          "candidate_token_count": 29,
+          "completed_choices_before_error": 1,
+          "error": "ValueError: completion response lacks one probability entry",
+          "failed_choice_index": 1,
+          "failed_target_token_id": 27043,
+          "failed_token_index": 13,
+          "failure_response_received_but_not_retained": true,
+          "retained_partial_token_responses": 13,
+          "sample_ordinal": 70,
+          "source_index": 6417,
+          "task": "e9b_hellaswag"
+        }
+      ],
+      "github_job_id": "91701485650",
+      "manifest_path": "results/manifests/e10d-ministral3_3b_q4_0-30818303255.json",
+      "manifest_sha256": "5c8ec99ef3a47a17906b677dd1b750313bce2e37263ad9fdd58956e9d0cdc9fd",
+      "preflight": {
+        "maximum_repeat_sum_logprob_delta": 0.0,
+        "maximum_repeat_token_logprob_delta": 0.0,
+        "status": "pass"
+      },
+      "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+      "probe_result": {
+        "candidate_requests": 992,
+        "elapsed_seconds": 4160.52547632,
+        "failures": 2,
+        "samples": 300,
+        "samples_per_second": 0.0721062764084673,
+        "token_score_requests": 14095
+      },
+      "quantization": "Q4_0",
+      "raw_inventory": {
+        "compressed_bytes": 20826007,
+        "file_count": 14200,
+        "inventory_sha256": "28b1f3cbe6e8f6368f8ed6acc3d4e2166808db838a001d991ef37a3cc1d6ac08",
+        "uncompressed_bytes": 42919698
+      },
+      "received_response_count_including_unretained_failures": 14202,
+      "referenced_raw_responses": 14159,
+      "role": "control",
+      "server_process": {
+        "elapsed": "1:10:05",
+        "exit_status": 0,
+        "maximum_rss_kib": 7054852,
+        "percent_cpu": "390%"
+      },
+      "status": "invalid_external_holdout_cell_retained",
+      "strict_ingest_error": "ValueError: E10d probe header or totals differ",
+      "unattempted_frozen_token_requests": 172,
+      "unreferenced_partial_raw_responses": 41
+    }
+  ],
+  "claim_boundary": "E10d failed its frozen zero-request-failure gate in both model cells, so no paired model, task-quality, frontier, promotion, performance, energy, PMU, cost, cache, concurrency, or runtime-comparison claim is valid. Partial outcomes are descriptive only.",
+  "contract_sha256": "ee7672a610b3bc29628eccda4ee960efe5c1da4f577a7ef681097cf27b563c71",
+  "decision": {
+    "bounded_compatibility_preflight_allowed": true,
+    "external_holdout_claim_accepted": false,
+    "negative_result_retained": true,
+    "original_contract_rewrite_allowed": false,
+    "original_e11a_dispatch_allowed": false,
+    "original_e12b_dispatch_allowed": false
+  },
+  "experiment_id": "E10d",
+  "failure_case_union": [
+    [
+      "e9b_hellaswag",
+      44,
+      3681,
+      1,
+      28,
+      1194
+    ],
+    [
+      "e9b_hellaswag",
+      70,
+      6417,
+      1,
+      13,
+      27043
+    ]
+  ],
+  "github": {
+    "aggregate_job_conclusion": "skipped",
+    "conclusion": "failure",
+    "run_attempt": 1,
+    "run_id": "30818303255",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30818303255"
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+  "schema_version": 1,
+  "status": "invalid_external_holdout_pair_retained",
+  "validation": {
+    "both_artifacts_independently_ingested": true,
+    "both_models_complete": false,
+    "native_arm64": true,
+    "paired_aggregate_valid": false,
+    "partial_metrics_comparable": false,
+    "per_sample_and_raw_logs_retained": true,
+    "same_frozen_workload": true,
+    "zero_request_failures": false
+  }
+}

@@ -293,6 +293,16 @@ candidate ranking and sampled output were identical, median response fell from
 eligible for a separately frozen multi-token evaluator; no external quality or
 complete-scorer claim is inherited.
 
+E10c then tests a faster one-request forked scorer and rejects it when all three
+frozen numerical parity gates fail despite matching predictions. E10d returns
+to the validated serial primitive for the full preselected 300-sample holdout.
+Both Q4_K_M and Q4_0 cells complete their sample loops on native Arm, but one
+Q4_K_M and two Q4_0 HellaSwag samples receive HTTP-200 responses without the
+required one-token probability entry. The zero-failure gate rejects both cells
+and skips the aggregate. All 28,490 retained raw responses and the exact
+breakpoints remain published, but incomplete task metrics are not compared and
+the original stock/generated frontier prerequisites remain unsatisfied.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -345,6 +355,9 @@ without changing measured inputs or post-observation thresholds.
   before consuming a holdout;
 - a native exact-token probability primitive that preserves scores and sampled
   output while cutting the four-ID response payload 99.9779%;
+- a pinned native external-holdout attempt that retains both failed model cells,
+  28,490 raw responses, and exact API breakpoints without presenting partial
+  task metrics as a valid model comparison;
 - context right-sizing that saves 183.36 MiB without KV quantization or drift;
 - prompt-batch right-sizing that cuts the compute buffer 75% and saves another
   14.48 MiB maximum RSS without answer drift;

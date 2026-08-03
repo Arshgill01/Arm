@@ -55,6 +55,8 @@ artifact.
 | Cache-margin guard rejected before holdout | [E10a `30793728347`](https://github.com/Arshgill01/Arm/actions/runs/30793728347) | [`e10a` manifest](../results/manifests/e10a-30793728347.json) · [`report`](../results/reports/e10a-cache-divergence.md) | `c511ec9e…7d53` |
 | Exact-token first-run harness failure | [E10b preflight `30797017450`](https://github.com/Arshgill01/Arm/actions/runs/30797017450) | [`failure` manifest](../results/manifests/e10b-preflight-30797017450.json) · [`report`](../results/reports/e10b-preflight-failure.md) | `f79b9aed…5089` |
 | Exact-token probability primitive | [E10b `30797568757`](https://github.com/Arshgill01/Arm/actions/runs/30797568757) | [`e10b` manifest](../results/manifests/e10b-30797568757.json) · [`report`](../results/reports/e10b-exact-token-probabilities.md) | `4b1e73bb…5c83` |
+| Forked candidate scorer rejected on numerical parity | [E10c `30812791972`](https://github.com/Arshgill01/Arm/actions/runs/30812791972) | [`e10c` manifest](../results/manifests/e10c-30812791972.json) · [`report`](../results/reports/e10c-candidate-scorer-negative.md) | `1f906991…62e6b` |
+| External-holdout pair rejected on missing probability entries | [E10d `30818303255`](https://github.com/Arshgill01/Arm/actions/runs/30818303255) | [`e10d` manifest](../results/manifests/e10d-30818303255.json) · [`report`](../results/reports/e10d-external-holdout-failure.md) | `59cc8fa7…5336` |
 | Final judge-package clean-checkout validation | [`30798816900`](https://github.com/Arshgill01/Arm/actions/runs/30798816900) | 175 tests, 55 hashes through E10b, exact runtime/plan checks, four gallery assets, video-word ceiling, demo smoke test | passed on native `aarch64` at `03ae10d` |
 
 ## Final selected package
@@ -105,6 +107,12 @@ artifact.
   response bytes fall 99.9779%, and median HTTP latency falls 18.6%. This
   promotes only a response primitive for a separately frozen multi-token
   evaluator, not a complete scorer or external quality claim.
+- External-quality boundary: E10c's one-request scorer fails every numerical
+  parity gate. E10d retains the serial path's full 300-sample loops, but one
+  Q4_K_M and two Q4_0 samples receive HTTP-200 responses without the required
+  one-token probability entry. The zero-failure gate rejects both cells and
+  their aggregate; partial metrics are non-comparable, and the exact E11a/E12b
+  prerequisites remain unsatisfied.
 
 ## Recompute locally
 
