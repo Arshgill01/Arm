@@ -64,6 +64,8 @@ artifact.
 | Calibration-known cache certificate admitted at exact-fingerprint boundary | [E13b `30833985784`](https://github.com/Arshgill01/Arm/actions/runs/30833985784) | [`e13b` manifest](../results/manifests/e13b-30833985784.json) · [`report`](../results/reports/e13b-cache-certificate-successor.md) | `570b8deb…02a19` |
 | Selective-repack frontier valid with no promoted selective tier | [E14b `30834588144`](https://github.com/Arshgill01/Arm/actions/runs/30834588144) | [`e14b` manifest](../results/manifests/e14b-30834588144.json) · [`report`](../results/reports/e14b-selective-repack-frontier.md) | `571e15d5…663c3b` |
 | Persistent Arm-repack sidecar feasibility | [E16a `30837796757`](https://github.com/Arshgill01/Arm/actions/runs/30837796757) | [`e16a` manifest](../results/manifests/e16a-30837796757.json) · [`report`](../results/reports/e16a-repack-sidecar-feasibility.md) | `cd3ed3ce…c686` |
+| Read-only sidecar loader first-run ingester failure | [E16b `30841531260`](https://github.com/Arshgill01/Arm/actions/runs/30841531260) | [`failure` manifest](../results/manifests/e16b-30841531260.json) · [`report`](../results/reports/e16b-repack-sidecar-loader-ingestion-failure.md) | `5ef05b79…de07` |
+| Fail-closed read-only Arm repack-sidecar loader | [E16b `30842925537`](https://github.com/Arshgill01/Arm/actions/runs/30842925537) | [`e16b` manifest](../results/manifests/e16b-30842925537.json) · [`report`](../results/reports/e16b-repack-sidecar-loader.md) | `fc5500c3…6ddc` |
 | Final judge-package clean-checkout validation | [`30798816900`](https://github.com/Arshgill01/Arm/actions/runs/30798816900) | 175 tests, 55 hashes through E10b, exact runtime/plan checks, four gallery assets, video-word ceiling, demo smoke test | passed on native `aarch64` at `03ae10d` |
 
 ## Final selected package
@@ -149,6 +151,12 @@ artifact.
   fresh processes while preserving 23/30 exactly. It authorizes a separate
   fail-closed loader comparison but does not itself claim startup, memory,
   sharing, throughput, or deployability benefits.
+- Persistent-prepack loader: E16b's first native run remains invalid on a
+  frozen post-measurement ingester error. The repaired successor repeats all
+  eight processes and passes every unchanged gate. It retains 1.0029x
+  throughput and exact quality while reducing same-job median readiness from
+  2,530.23 to 960.75 ms. RSS/PSS is unchanged; cold startup, multi-process
+  sharing, portability, energy, and construction economics remain unclaimed.
 
 ## Recompute locally
 

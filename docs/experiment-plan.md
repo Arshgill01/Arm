@@ -1811,6 +1811,24 @@ inputs, order and gates must remain unchanged. See the retained
 [`manifest`](../results/manifests/e16b-30841531260.json) and
 [`report`](../results/reports/e16b-repack-sidecar-loader-ingestion-failure.md).
 
+### E16b repaired-successor outcome
+
+Native run `30842925537` changes only the bound ingester data flow and repeats
+the complete experiment. All 240 requests reproduce 23/30 with zero failures
+or drift; every loader map is read-only/shared, all 183 tensor layouts validate,
+and the wrong-model preflight aborts before readiness. Independent ingestion is
+byte-identical to the workflow summary.
+
+The loader retains 1.0029x throughput, 0.9861x median latency, 0.9952x p95 and
+0.9987x CPU/request. Its 960.75 ms median readiness is 0.3797x normal repacking's
+2,530.23 ms, clearing the material-benefit gate. Maximum RSS and median PSS are
+both 0.9996x and do not support a memory-saving claim. E16b promotes only this
+identity-bound single-process loader under same-job observed page-cache state;
+cold startup, sharing, portability, energy and construction economics remain
+unmeasured. See the retained
+[`manifest`](../results/manifests/e16b-30842925537.json) and
+[`report`](../results/reports/e16b-repack-sidecar-loader.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

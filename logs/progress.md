@@ -2006,3 +2006,25 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `1ffde82b…37e35`) contains 188 hashed regular files. A successor may repair
   only the raw-case data flow and bound ingester hash before repeating the
   unchanged native contract and gates.
+
+## 2026-08-03 — E16b repaired successor promotes the exact loader boundary
+
+- Native run `30842925537` repeats construction, identity rejection, eight
+  fresh processes and 240 requests after changing only the ingester's raw-case
+  data flow and bound hash. Independent ingestion reproduces the workflow
+  summary byte for byte at `6503f1de…ae1d`.
+- All cells reproduce 23/30 with zero failures or drift. Each loader launch
+  rehashes the 2,139,013,120-byte sidecar, maps it `r--s`, validates all 183
+  tensors and skips runtime repacking; a wrong model hash aborts before
+  readiness.
+- Loader/normal ratios are 1.0029x throughput, 0.9861x median latency, 0.9952x
+  p95 and 0.9987x CPU/request. Median readiness falls from 2,530.23 to 960.75 ms
+  (0.3797x), satisfying the frozen material-benefit rule.
+- Maximum RSS and median PSS are both 0.9996x and support no memory-saving
+  claim. The promoted boundary is same-job observed-cache startup on the exact
+  identity-bound single-process Neoverse N2 service; cold storage, sharing,
+  portability, energy and construction economics remain unmeasured.
+- The generated sidecar is reverified and deleted. Artifact
+  `e16b-repack-sidecar-loader-30842925537-1` (ID `8867796505`, digest
+  `acffa293…dddfb`) retains 189 independently rehashed files but no model,
+  tensor dump or deployable sidecar.

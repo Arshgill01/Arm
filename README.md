@@ -311,6 +311,7 @@ repack flag that conflicts with the plan is refused.
 | [E14b](results/reports/e14b-selective-repack-frontier.md) | The corrected four-point frontier is valid, but neither selective tier clears the unchanged joint target; full repack remains selected |
 | [E16a](results/reports/e16a-repack-sidecar-feasibility.md) | Two fresh native processes produce a byte-identical complete repack sidecar with exact quality; only the separately frozen loader successor is authorized |
 | [E16b first run](results/reports/e16b-repack-sidecar-loader-ingestion-failure.md) | All eight native loader cells complete with descriptive passing values, but a frozen post-measurement ingester error invalidates the run and forbids promotion |
+| [E16b](results/reports/e16b-repack-sidecar-loader.md) | The repaired successor passes every frozen gate: exact quality and steady-state performance are retained while same-job median readiness falls 62.03%; RSS/PSS does not materially change |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
