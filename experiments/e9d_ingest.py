@@ -25,6 +25,7 @@ def read_status(path: Path) -> int:
 def validate_contract(contract: dict[str, Any]) -> None:
     if (
         contract.get("schema_version") != 1
+        or contract.get("contract_revision") != 2
         or contract.get("experiment_id") != "E9d"
         or len(contract.get("mail_series", {}).get("patches", [])) != 3
         or contract.get("acceptance", {}).get("all_required") is not True
@@ -71,7 +72,11 @@ def validate_inputs(
 
 def validate_series(evidence_dir: Path, contract: dict[str, Any]) -> dict[str, Any]:
     series_dir = evidence_dir / "series"
-    observed = load_object(series_dir / "commits.json")
+    observed = json.loads((series_dir / "commits.json").read_text(encoding="utf-8"))
+    if not isinstance(observed, list) or not all(
+        isinstance(entry, dict) for entry in observed
+    ):
+        raise ValueError("E9d applied commits must be a JSON array of objects")
     expected_patches = contract["mail_series"]["patches"]
     expected_subjects = [entry["subject"] for entry in expected_patches]
     if (
@@ -182,6 +187,99 @@ def sanitizer_lane(evidence_dir: Path, contract: dict[str, Any]) -> dict[str, An
         "address_sanitizer_clean": "ERROR: AddressSanitizer" not in combined,
         "undefined_sanitizer_clean": "runtime error:" not in combined,
         "leak_sanitizer_clean": "ERROR: LeakSanitizer" not in combined,
+        "function_type_diagnostic": (
+            "call to function ggml_vec_dot_f32 through pointer to incorrect "
+            "function type" in combined
+        ),
+    }
+
+
+def diagnostic_lane(path: Path, *, require_reasoning: bool) -> dict[str, Any]:
+    quantize_stdout = (path / "quantize.stdout.log").read_text(errors="replace")
+    quantize_stderr = (path / "quantize.stderr.log").read_text(errors="replace")
+    reasoning_stdout = ""
+    reasoning_stderr = ""
+    reasoning_status: int | None = None
+    if require_reasoning:
+        reasoning_stdout = (path / "reasoning.stdout.log").read_text(
+            errors="replace"
+        )
+        reasoning_stderr = (path / "reasoning.stderr.log").read_text(
+            errors="replace"
+        )
+        reasoning_status = read_status(path / "reasoning-exit.txt")
+    combined = "\n".join(
+        (quantize_stdout, quantize_stderr, reasoning_stdout, reasoning_stderr)
+    )
+    return {
+        "build_exit_status": read_status(path / "build-exit.txt"),
+        "quantize_exit_status": read_status(path / "quantize-exit.txt"),
+        "reasoning_exit_status": reasoning_status,
+        "reasoning_suite_passed": (
+            "OK (13 tests passed)" in reasoning_stdout
+            if require_reasoning
+            else None
+        ),
+        "address_sanitizer_clean": "ERROR: AddressSanitizer" not in combined,
+        "undefined_sanitizer_clean": "runtime error:" not in combined,
+        "leak_sanitizer_clean": "ERROR: LeakSanitizer" not in combined,
+        "function_type_diagnostic": (
+            "call to function ggml_vec_dot_f32 through pointer to incorrect "
+            "function type" in combined
+        ),
+    }
+
+
+def sanitizer_diagnostics(
+    evidence_dir: Path,
+    contract: dict[str, Any],
+    strict: dict[str, Any],
+    changed_files: list[str],
+) -> dict[str, Any]:
+    baseline = diagnostic_lane(
+        evidence_dir / "baseline-sanitizers", require_reasoning=False
+    )
+    supplemental = diagnostic_lane(
+        evidence_dir / "supplemental-sanitizers", require_reasoning=True
+    )
+    token = contract["diagnostic_controls"]["strict_pristine_base"][
+        "diagnostic_token"
+    ]
+    baseline_stderr = (
+        evidence_dir / "baseline-sanitizers" / "quantize.stderr.log"
+    ).read_text(errors="replace")
+    inherited = (
+        strict["quantize_exit_status"] != 0
+        and strict["undefined_sanitizer_clean"] is False
+        and strict["function_type_diagnostic"] is True
+        and baseline["quantize_exit_status"] != 0
+        and baseline["undefined_sanitizer_clean"] is False
+        and token in baseline_stderr
+        and "tests/test-quantize-fns.cpp" not in changed_files
+    )
+    supplemental_passed = (
+        supplemental["build_exit_status"] == 0
+        and supplemental["quantize_exit_status"] == 0
+        and supplemental["reasoning_exit_status"] == 0
+        and supplemental["reasoning_suite_passed"] is True
+        and supplemental["address_sanitizer_clean"]
+        and supplemental["undefined_sanitizer_clean"]
+        and supplemental["leak_sanitizer_clean"]
+    )
+    return {
+        "strict_pristine_base": baseline,
+        "supplemental_scoped_patch": {
+            **supplemental,
+            "excluded_ubsan_check": "function",
+            "passed": supplemental_passed,
+            "acceptance_gate": False,
+        },
+        "strict_failure_attribution": (
+            "inherited_pristine_b10216_test_function_type_ub"
+            if inherited
+            else "not_attributed_to_pristine_control"
+        ),
+        "strict_gate_unchanged": True,
     }
 
 
@@ -254,6 +352,9 @@ def build_manifest(
         for name in ("gcc", "clang")
     }
     sanitizers = sanitizer_lane(evidence_dir, contract)
+    diagnostics = sanitizer_diagnostics(
+        evidence_dir, contract, sanitizers, series["changed_files"]
+    )
     criteria = evaluate(series, compilers, sanitizers)
     status = (
         "valid_pr_ready_patch_series"
@@ -280,6 +381,7 @@ def build_manifest(
         "series": series,
         "compiler_lanes": compilers,
         "sanitizers": sanitizers,
+        "sanitizer_diagnostics": diagnostics,
         "validation": {
             **criteria,
             "all_acceptance_criteria_passed": all(criteria.values()),

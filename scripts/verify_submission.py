@@ -103,6 +103,9 @@ EXPECTED_HASHES = {
     "results/manifests/e9c-30770403695.json": (
         "29b075b605e5d84d6de66b07fb4ab3c1562236c9aa4e7fd43d51e0ff7932eed4"
     ),
+    "results/manifests/e9d-30772783697.json": (
+        "9814c115e177a6bf87856f2df28d10e4ebdf71d0d093c2132dc68295ecc25016"
+    ),
     "patches/llama.cpp/pr-ready/b10216/0000-cover-letter.patch": (
         "9760fe1bd38d9e897ea98e4afc1c638bf1642869c710f3fc0f0a32ea9bdbdf3d"
     ),
@@ -164,7 +167,7 @@ EXPECTED_HASHES = {
         "a72ec175091e2e8b98adc12a795e5242cee49377f2683ddb2eefcbf564341c76"
     ),
     "experiments/e9d_contract.json": (
-        "ed8226d2e81f95bbb3e3f5d99d1598619cb4cbfadfb6322a9daba2025433b8d1"
+        "0716dc065fc10b5eb2435b88ac83dcebd60fc16e549aa051b06482650a84b745"
     ),
     "results/plans/e3f-cloud-quality.json": (
         "657188c8ae583e88c8f3907e3a8d16650a16a7b56c0ddfd5b467821b071866de"
@@ -1423,9 +1426,13 @@ def main() -> int:
         raise ValueError("retained E9c output-regression boundary changed")
 
     patch_contract = load_object(ROOT / "experiments/e9d_contract.json")
+    patch_failure = load_object(
+        ROOT / "results/manifests/e9d-30772783697.json"
+    )
     patch_entries = patch_contract.get("mail_series", {}).get("patches", [])
     if (
         patch_contract.get("experiment_id") != "E9d"
+        or patch_contract.get("contract_revision") != 2
         or patch_contract.get("upstream", {}).get("commit")
         != "876a4321163249c43ca4e986818fab5ab081f282"
         or patch_contract.get("mail_series", {}).get("aggregate_diff_sha256")
@@ -1447,6 +1454,24 @@ def main() -> int:
         or patch_contract.get("claim_boundary", {}).get(
             "performance_claim_added"
         )
+        is not False
+        or patch_contract.get("claim_boundary", {}).get(
+            "strict_sanitizer_gate_unchanged"
+        )
+        is not True
+        or patch_failure.get("status") != "invalid_pr_ready_patch_series"
+        or patch_failure.get("provenance", {}).get("github_run_id")
+        != "30772783697"
+        or patch_failure.get("platform", {}).get("architecture") != "aarch64"
+        or patch_failure.get("validation", {}).get(
+            "all_acceptance_criteria_passed"
+        )
+        is not False
+        or patch_failure.get("validation", {}).get("sanitizer_quantize_passed")
+        is not False
+        or patch_failure.get("validation", {}).get("undefined_sanitizer_clean")
+        is not False
+        or patch_failure.get("validation", {}).get("upstream_pr_opened")
         is not False
     ):
         raise ValueError("E9d local patch-series contract changed after freeze")

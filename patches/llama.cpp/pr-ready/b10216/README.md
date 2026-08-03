@@ -25,3 +25,10 @@ The cover letter is not passed to `git am`.
 E9d freezes and runs the unpublished series through native GCC, native Clang,
 and a targeted Clang ASan+UBSan lane. Those results are evidence about this
 exact local series; they do not imply broader upstream CI or maintainer review.
+
+The first strict sanitizer run failed on an incompatible function-pointer call
+inside upstream `tests/test-quantize-fns.cpp`, a file this series does not
+modify. The strict failure is retained and the series is not claimed
+sanitizer-clean. E9d revision 2 adds a pristine-base attribution control and a
+non-gating scoped diagnostic; neither weakens or replaces the strict gate. See
+[`../../../../results/reports/e9d-pr-ready-patch-series.md`](../../../../results/reports/e9d-pr-ready-patch-series.md).

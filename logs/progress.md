@@ -1700,3 +1700,24 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   suites. All gates are required; no performance or full-matrix claim is made.
 - Contract SHA-256 is
   `ed8226d2e81f95bbb3e3f5d99d1598619cb4cbfadfb6322a9daba2025433b8d1`.
+
+## 2026-08-03 — E9d strict sanitizer failure retained
+
+- Native run `30772783697` applied the exact three-patch series and reproduced
+  aggregate diff `e11cdd41…a9893`. GCC 14 and Clang 18 both passed their native
+  quantizer/reasoning targets and forced feature-selection builds.
+- The strict Clang sanitizer build succeeded. Reasoning passed 13/13, ASan and
+  leak checks were clean, but UBSan stopped upstream
+  `tests/test-quantize-fns.cpp:115` on an incompatible function-pointer call.
+  The file is outside the patch series; the strict result remains invalid.
+- Artifact `e9d-pr-ready-patches-30772783697-1` (ID `8841260783`, 92,781
+  compressed bytes) is retained through 2026-10-31. The compact failure
+  manifest SHA-256 is `9814c115…5016`.
+- The run exposed three harness defects: CMake used `STRING` compiler-cache
+  entries, the ingester rejected its array-shaped commit log, and provenance
+  was emitted after the fallible sanitizer step. Revision 2 repairs those
+  evidence-path defects without changing the strict gate.
+- Revision 2 also freezes a pristine-base strict control and a non-gating
+  `-fno-sanitize=function` diagnostic. The latter cannot satisfy the unchanged
+  strict sanitizer acceptance criterion. Revised contract SHA-256 is
+  `0716dc06…b745`.

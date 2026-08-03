@@ -8,7 +8,7 @@ permissions:
 
 env:
   CONTRACT_PATH: experiments/e9d_contract.json
-  CONTRACT_SHA256: ed8226d2e81f95bbb3e3f5d99d1598619cb4cbfadfb6322a9daba2025433b8d1
+  CONTRACT_SHA256: 0716dc065fc10b5eb2435b88ac83dcebd60fc16e549aa051b06482650a84b745
   LLAMA_CPP_SHA: 876a4321163249c43ca4e986818fab5ab081f282
   LLAMA_CPP_TAG: b10216
 
@@ -43,7 +43,9 @@ jobs:
           mkdir -p "$EVIDENCE_DIR/mail" "$EVIDENCE_DIR/series" \
             "$EVIDENCE_DIR/toolchains/gcc" \
             "$EVIDENCE_DIR/toolchains/clang" \
-            "$EVIDENCE_DIR/sanitizers" "$BUILD_ROOT"
+            "$EVIDENCE_DIR/sanitizers" \
+            "$EVIDENCE_DIR/baseline-sanitizers" \
+            "$EVIDENCE_DIR/supplemental-sanitizers" "$BUILD_ROOT"
           uname -a | tee "$EVIDENCE_DIR/uname.txt"
           lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
           df -h | tee "$EVIDENCE_DIR/disk.txt"
@@ -69,6 +71,35 @@ jobs:
           } | tee "$EVIDENCE_DIR/toolchains/clang/compiler.txt"
           cp "$EVIDENCE_DIR/toolchains/clang/compiler.txt" \
             "$EVIDENCE_DIR/sanitizers/compiler.txt"
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          contract = Path(os.environ["CONTRACT_PATH"])
+          data = json.loads(contract.read_text())
+          mail_hashes = {}
+          for entry in [
+              data["mail_series"]["cover_letter"],
+              *data["mail_series"]["patches"],
+          ]:
+              path = Path(entry["path"])
+              mail_hashes[path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
+          provenance = {
+              "schema_version": 1,
+              "experiment_id": "E9d",
+              "github_run_id": os.environ["GITHUB_RUN_ID"],
+              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "git_commit": os.environ["GITHUB_SHA"],
+              "llama_cpp_commit": os.environ["LLAMA_CPP_SHA"],
+              "llama_cpp_tag": os.environ["LLAMA_CPP_TAG"],
+              "contract_sha256": hashlib.sha256(contract.read_bytes()).hexdigest(),
+              "mail_sha256": mail_hashes,
+          }
+          output = Path(os.environ["EVIDENCE_DIR"], "provenance.json")
+          output.write_text(json.dumps(provenance, indent=2, sort_keys=True) + "\n")
+          PY
 
       - name: Apply and prove the exact mail series
         run: |
@@ -229,6 +260,7 @@ jobs:
           run_lane clang /usr/bin/clang-18 /usr/bin/clang++-18
 
       - name: Run targeted Clang ASan and UBSan correctness
+        continue-on-error: true
         run: |
           set -euo pipefail
           sanitizer_build="$BUILD_ROOT/clang-sanitizers"
@@ -284,47 +316,122 @@ jobs:
             exit 1
           fi
 
-      - name: Independently ingest all compiler evidence
+      - name: Run pristine-base strict sanitizer control
+        if: always()
         run: |
           set -euo pipefail
-          python3 - <<'PY'
-          import hashlib
-          import json
-          import os
-          from pathlib import Path
+          control_source=/tmp/llama.cpp-E9d-pristine
+          control_build="$BUILD_ROOT/clang-sanitizers-pristine"
+          lane="$EVIDENCE_DIR/baseline-sanitizers"
+          git clone --filter=blob:none \
+            https://github.com/ggml-org/llama.cpp.git "$control_source"
+          git -C "$control_source" checkout --detach "$LLAMA_CPP_SHA"
+          cmake -S "$control_source" -B "$control_build" -G Ninja \
+            -DCMAKE_C_COMPILER=/usr/bin/clang-18 \
+            -DCMAKE_CXX_COMPILER=/usr/bin/clang++-18 \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DGGML_CPU_KLEIDIAI=OFF \
+            -DGGML_NATIVE=ON \
+            -DGGML_SANITIZE_ADDRESS=ON \
+            -DGGML_SANITIZE_UNDEFINED=ON \
+            -DLLAMA_SANITIZE_ADDRESS=ON \
+            -DLLAMA_SANITIZE_UNDEFINED=ON \
+            -DLLAMA_BUILD_EXAMPLES=OFF \
+            -DLLAMA_BUILD_SERVER=OFF \
+            -DLLAMA_BUILD_TESTS=ON \
+            -DLLAMA_CURL=OFF \
+            2>&1 | tee "$lane/configure.log"
+          set +e
+          cmake --build "$control_build" --target test-quantize-fns \
+            --parallel "$(nproc)" 2>&1 | tee "$lane/build.log"
+          build_status=${PIPESTATUS[0]}
+          set -e
+          echo "$build_status" > "$lane/build-exit.txt"
+          if test "$build_status" -eq 0; then
+            export ASAN_OPTIONS='detect_leaks=1:halt_on_error=1'
+            export UBSAN_OPTIONS='halt_on_error=1:print_stacktrace=1'
+            set +e
+            "$control_build/bin/test-quantize-fns" -v \
+              > "$lane/quantize.stdout.log" \
+              2> "$lane/quantize.stderr.log"
+            quantize_status=$?
+            set -e
+          else
+            quantize_status=125
+            : > "$lane/quantize.stdout.log"
+            : > "$lane/quantize.stderr.log"
+          fi
+          echo "$quantize_status" > "$lane/quantize-exit.txt"
 
-          contract = Path(os.environ["CONTRACT_PATH"])
-          data = json.loads(contract.read_text())
-          mail_hashes = {}
-          for entry in [
-              data["mail_series"]["cover_letter"],
-              *data["mail_series"]["patches"],
-          ]:
-              path = Path(entry["path"])
-              mail_hashes[path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
-          provenance = {
-              "schema_version": 1,
-              "experiment_id": "E9d",
-              "github_run_id": os.environ["GITHUB_RUN_ID"],
-              "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
-              "git_commit": os.environ["GITHUB_SHA"],
-              "llama_cpp_commit": os.environ["LLAMA_CPP_SHA"],
-              "llama_cpp_tag": os.environ["LLAMA_CPP_TAG"],
-              "contract_sha256": hashlib.sha256(contract.read_bytes()).hexdigest(),
-              "mail_sha256": mail_hashes,
-          }
-          output = Path(os.environ["EVIDENCE_DIR"], "provenance.json")
-          output.write_text(json.dumps(provenance, indent=2, sort_keys=True) + "\n")
-          PY
+      - name: Run supplemental scoped sanitizers
+        if: always()
+        run: |
+          set -euo pipefail
+          supplemental_build="$BUILD_ROOT/clang-sanitizers-scoped"
+          lane="$EVIDENCE_DIR/supplemental-sanitizers"
+          cmake -S "$SOURCE_DIR" -B "$supplemental_build" -G Ninja \
+            -DCMAKE_C_COMPILER=/usr/bin/clang-18 \
+            -DCMAKE_CXX_COMPILER=/usr/bin/clang++-18 \
+            -DCMAKE_C_FLAGS='-fsanitize=address,undefined -fno-sanitize=function' \
+            -DCMAKE_CXX_FLAGS='-fsanitize=address,undefined -fno-sanitize=function' \
+            -DCMAKE_EXE_LINKER_FLAGS='-fsanitize=address,undefined' \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DGGML_CPU_KLEIDIAI=OFF \
+            -DGGML_NATIVE=ON \
+            -DGGML_SANITIZE_ADDRESS=OFF \
+            -DGGML_SANITIZE_UNDEFINED=OFF \
+            -DLLAMA_SANITIZE_ADDRESS=OFF \
+            -DLLAMA_SANITIZE_UNDEFINED=OFF \
+            -DLLAMA_BUILD_EXAMPLES=OFF \
+            -DLLAMA_BUILD_SERVER=OFF \
+            -DLLAMA_BUILD_TESTS=ON \
+            -DLLAMA_CURL=OFF \
+            2>&1 | tee "$lane/configure.log"
+          set +e
+          cmake --build "$supplemental_build" \
+            --target test-quantize-fns test-reasoning-budget \
+            --parallel "$(nproc)" 2>&1 | tee "$lane/build.log"
+          build_status=${PIPESTATUS[0]}
+          set -e
+          echo "$build_status" > "$lane/build-exit.txt"
+          if test "$build_status" -eq 0; then
+            export ASAN_OPTIONS='detect_leaks=1:halt_on_error=1'
+            export UBSAN_OPTIONS='halt_on_error=1:print_stacktrace=1'
+            set +e
+            "$supplemental_build/bin/test-quantize-fns" -v \
+              > "$lane/quantize.stdout.log" \
+              2> "$lane/quantize.stderr.log"
+            quantize_status=$?
+            "$supplemental_build/bin/test-reasoning-budget" \
+              > "$lane/reasoning.stdout.log" \
+              2> "$lane/reasoning.stderr.log"
+            reasoning_status=$?
+            set -e
+          else
+            quantize_status=125
+            reasoning_status=125
+            : > "$lane/quantize.stdout.log"
+            : > "$lane/quantize.stderr.log"
+            : > "$lane/reasoning.stdout.log"
+            : > "$lane/reasoning.stderr.log"
+          fi
+          echo "$quantize_status" > "$lane/quantize-exit.txt"
+          echo "$reasoning_status" > "$lane/reasoning-exit.txt"
+
+      - name: Independently ingest all compiler evidence
+        if: always()
+        run: |
+          set -euo pipefail
           python3 experiments/e9d_ingest.py \
             --evidence-dir "$EVIDENCE_DIR" \
             --contract "$CONTRACT_PATH" \
             --root . \
             --output "$EVIDENCE_DIR/summary.json"
-          jq '{status, series, compiler_lanes, sanitizers, validation}' \
+          jq '{status, series, compiler_lanes, sanitizers,
+            sanitizer_diagnostics, validation}' \
             "$EVIDENCE_DIR/summary.json"
-          test "$(jq -r '.status' "$EVIDENCE_DIR/summary.json")" = \
-            valid_pr_ready_patch_series
 
       - name: Upload complete E9d evidence
         if: always()
@@ -334,3 +441,10 @@ jobs:
           path: ${{ env.EVIDENCE_DIR }}
           if-no-files-found: error
           retention-days: 90
+
+      - name: Enforce unchanged strict acceptance
+        if: always()
+        run: |
+          set -euo pipefail
+          jq -e '.validation.all_acceptance_criteria_passed == true' \
+            "$EVIDENCE_DIR/summary.json"

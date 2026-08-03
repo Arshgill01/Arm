@@ -1,5 +1,6 @@
 {
   "schema_version": 1,
+  "contract_revision": 2,
   "experiment_id": "E9d",
   "title": "Local PR-ready llama.cpp patch-series compiler and sanitizer validation",
   "scope": "Prepare the exact retained b10216 three-patch diff as an unpublished mail series and validate it with native GCC, native Clang, and targeted Clang ASan+UBSan correctness jobs.",
@@ -43,7 +44,7 @@
   },
   "ingester": {
     "path": "experiments/e9d_ingest.py",
-    "sha256": "036a6debf636bc8d9d57ac9c2c0c405f3be1635007fc461d16ebf84d36787a04"
+    "sha256": "4d6fbdbb83bd2655bf6ae17aede48c35a6c94f55f3e537db27dc3a091f618715"
   },
   "host": {
     "runner": "ubuntu-24.04-arm",
@@ -54,15 +55,15 @@
       "cc": "/usr/bin/gcc-14",
       "cxx": "/usr/bin/g++-14",
       "version_tokens": ["gcc-14", "g++-14"],
-      "c_cache_entry": "CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc-14",
-      "cxx_cache_entry": "CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++-14"
+      "c_cache_entry": "CMAKE_C_COMPILER:STRING=/usr/bin/gcc-14",
+      "cxx_cache_entry": "CMAKE_CXX_COMPILER:STRING=/usr/bin/g++-14"
     },
     "clang": {
       "cc": "/usr/bin/clang-18",
       "cxx": "/usr/bin/clang++-18",
       "version_tokens": ["clang version 18", "Target: aarch64"],
-      "c_cache_entry": "CMAKE_C_COMPILER:FILEPATH=/usr/bin/clang-18",
-      "cxx_cache_entry": "CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/clang++-18"
+      "c_cache_entry": "CMAKE_C_COMPILER:STRING=/usr/bin/clang-18",
+      "cxx_cache_entry": "CMAKE_CXX_COMPILER:STRING=/usr/bin/clang++-18"
     }
   },
   "native_targets": {
@@ -86,8 +87,8 @@
     "undefined": true,
     "leak_detection": true,
     "required_cache_entries": [
-      "CMAKE_C_COMPILER:FILEPATH=/usr/bin/clang-18",
-      "CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/clang++-18",
+      "CMAKE_C_COMPILER:STRING=/usr/bin/clang-18",
+      "CMAKE_CXX_COMPILER:STRING=/usr/bin/clang++-18",
       "LLAMA_SANITIZE_ADDRESS:BOOL=ON",
       "LLAMA_SANITIZE_UNDEFINED:BOOL=ON",
       "GGML_SANITIZE_ADDRESS:BOOL=ON",
@@ -97,6 +98,30 @@
     ],
     "build": ["test-quantize-fns", "test-reasoning-budget"],
     "execute": ["test-quantize-fns -v", "test-reasoning-budget"]
+  },
+  "diagnostic_controls": {
+    "strict_pristine_base": {
+      "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "compiler": "clang-18/clang++-18",
+      "sanitizers": ["address", "undefined"],
+      "leak_detection": true,
+      "build": "test-quantize-fns",
+      "execute": "test-quantize-fns -v",
+      "diagnostic_token": "call to function ggml_vec_dot_f32 through pointer to incorrect function type",
+      "acceptance_gate": false
+    },
+    "supplemental_scoped_patch": {
+      "source": "exact applied three-patch series",
+      "compiler": "clang-18/clang++-18",
+      "sanitizers": ["address", "undefined"],
+      "excluded_ubsan_check": "function",
+      "compiler_flag": "-fno-sanitize=function",
+      "leak_detection": true,
+      "build": ["test-quantize-fns", "test-reasoning-budget"],
+      "execute": ["test-quantize-fns -v", "test-reasoning-budget"],
+      "acceptance_gate": false,
+      "claim": "Supplemental evidence only; it does not replace or weaken the strict sanitizer gate."
+    }
   },
   "acceptance": {
     "all_required": true,
@@ -114,6 +139,17 @@
   "claim_boundary": {
     "scope": "Exact b10216 mail-series applicability and targeted native aarch64 GCC, Clang, ASan, and UBSan correctness only; not upstream review, merge readiness on later commits, a full platform/backend matrix, or new performance evidence.",
     "upstream_pr_opened": false,
-    "performance_claim_added": false
+    "performance_claim_added": false,
+    "strict_sanitizer_gate_unchanged": true
+  },
+  "revision_history": {
+    "prior_contract_sha256": "ed8226d2e81f95bbb3e3f5d99d1598619cb4cbfadfb6322a9daba2025433b8d1",
+    "prior_failed_run_id": "30772783697",
+    "repairs": [
+      "Accept CMake's observed STRING compiler cache type while preserving exact compiler paths.",
+      "Read the workflow's commits.json array rather than requiring an object.",
+      "Write provenance before fallible build steps and ingest evidence even after a strict failure.",
+      "Add a pristine-base control and non-gating scoped sanitizer diagnostic without changing the strict acceptance gate."
+    ]
   }
 }

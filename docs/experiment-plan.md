@@ -1354,6 +1354,23 @@ applicability claim, full backend/platform CI claim, or upstream publication.
 The immutable inputs and acceptance rules are in
 [`e9d_contract.json`](../experiments/e9d_contract.json).
 
+### E9d first result and diagnostic revision
+
+Native run `30772783697` passed exact mail-series application, aggregate-diff
+identity, both GCC/Clang native correctness lanes, and both feature-stress
+builds. The strict sanitizer build and 13-test reasoning suite passed, but
+UBSan stopped `test-quantize-fns` at upstream
+`tests/test-quantize-fns.cpp:115` for an incompatible function-pointer call.
+That test file is outside the patch series, but the strict gate remains failed
+and the retained status is `invalid_pr_ready_patch_series`.
+
+Revision 2 fixes only observed harness representation and retention defects:
+the actual CMake `STRING` cache type, array-shaped commit log, and early
+provenance capture. It keeps the strict sanitizer acceptance unchanged and
+predeclares a pristine-b10216 control plus a non-gating scoped diagnostic to
+attribute the failure. See the retained
+[`report`](../results/reports/e9d-pr-ready-patch-series.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server
