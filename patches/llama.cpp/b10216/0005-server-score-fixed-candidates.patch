@@ -1,0 +1,486 @@
+diff --git a/tools/server/README.md b/tools/server/README.md
+index 91fe117db2123816a2eb70e7731c9739ba6fa2c1..a24b75ab4ba1caecba47ac63fa1d5d8c22fde639 100644
+--- a/tools/server/README.md
++++ b/tools/server/README.md
+@@ -613,6 +613,26 @@ These words will not be included in the completion, so make sure to add them to
+ - `tokens_evaluated`: Number of tokens evaluated in total from the prompt
+ - `truncated`: Boolean indicating if the context size was exceeded during generation, i.e. the number of tokens provided in the prompt (`tokens_evaluated`) plus tokens generated (`tokens predicted`) exceeded the context size (`n_ctx`)
+ 
++### POST `/score`: Score fixed candidate continuations
++
++Scores two or more candidate continuations under the raw pre-sampling model distribution. The prompt is evaluated once and its sequence state is copied to one server slot per candidate. Each continuation is then forced token by token without sampling.
++
++The server must be started with at least as many `--parallel` slots as there are candidates. A candidate can be a string, which is tokenized without added special tokens, or an explicit array of token IDs. Candidates are limited to 128 tokens each and 512 tokens in total. Empty candidates, end-of-generation tokens, multimodal prompts, and continuations that do not fit the slot context are rejected.
++
++Example:
++
++```bash
++curl http://localhost:8080/score \
++    -H "Content-Type: application/json" \
++    -d '{
++        "prompt": "The capital of France is",
++        "candidates": [" Paris", " Lyon", " Berlin", " Madrid"],
++        "cache_prompt": false
++    }'
++```
++
++The response includes the exact forced content and token IDs, per-token log-probabilities, summed and mean log-probabilities, per-slot timings, and `selected_index`. Selection uses the highest summed log-probability and resolves exact ties in request order. `score_semantics` is `raw_pre_sampling_logprob`; sampler settings do not modify the scores.
++
+ 
+ ### POST `/tokenize`: Tokenize a given text
+ 
+diff --git a/tools/server/server-context.cpp b/tools/server/server-context.cpp
+index 3ea7cfc8f6bad8deb9fcae8cc6594077b92d49ad..2c7b16453a1cb7f02168d2b8355281ca76d87e71 100644
+--- a/tools/server/server-context.cpp
++++ b/tools/server/server-context.cpp
+@@ -18,9 +18,11 @@
+ #include "mtmd-helper.h"
+ 
+ #include <algorithm>
++#include <cmath>
+ #include <cstddef>
+ #include <cinttypes>
+ #include <exception>
++#include <limits>
+ #include <memory>
+ #include <filesystem>
+ #include <utility>
+@@ -239,6 +241,7 @@ struct server_slot {
+     llama_tokens generated_tokens;
+ 
+     std::vector<completion_token_output> generated_token_probs;
++    std::vector<double> score_logprobs;
+ 
+     bool has_next_token = true;
+     bool has_new_line   = false;
+@@ -352,6 +355,7 @@ struct server_slot {
+         }
+         generated_tokens.clear();
+         generated_token_probs.clear();
++        score_logprobs.clear();
+         json_schema = json();
+ 
+         // clear speculative decoding stats
+@@ -448,7 +452,7 @@ struct server_slot {
+     }
+ 
+     bool can_speculate() const {
+-        return !!spec;
++        return !!spec && (!task || task->score_tokens.empty());
+     }
+ 
+     void add_token(const completion_token_output & token) {
+@@ -1822,6 +1826,8 @@ private:
+ 
+             backend_sampling &= task.params.sampling.backend_sampling;
+ 
++            backend_sampling &= task.score_tokens.empty();
++
+             // TODO: speculative decoding requires multiple samples per batch - not supported yet
+             backend_sampling &= !(slot.can_speculate());
+ 
+@@ -2171,6 +2177,7 @@ private:
+         res->stopping_word         = slot.stopping_word;
+         res->stop                  = slot.stop;
+         res->post_sampling_probs   = slot.task->params.post_sampling_probs;
++        res->score_logprobs        = std::move(slot.score_logprobs);
+ 
+         res->verbose           = slot.task->params.verbose;
+         res->stream            = slot.task->params.stream;
+@@ -3749,6 +3756,8 @@ private:
+             return idx >= off && idx < off + n_batch_tokens;
+         };
+ 
++        std::vector<double> score_log_norms(n_batch_tokens, std::numeric_limits<double>::quiet_NaN());
++
+         // TODO @ngxson : it's tricky to make sub-batch compatible with common_sampler_sample_and_accept_n,
+         // so for now we will throw an error in this case: https://github.com/ggml-org/llama.cpp/issues/24840
+         iterate(slots, [&](server_slot & slot) {
+@@ -3812,15 +3821,41 @@ private:
+             // shifted according to the current sub-batch
+             const int tok_idx = slot.i_batch - off;
+ 
++            const bool score_forced = !slot.task->score_tokens.empty();
++
+             llama_token id;
+-            {
++            if (score_forced) {
++                GGML_ASSERT(slot.n_decoded < (int32_t) slot.task->score_tokens.size());
++                id = slot.task->score_tokens[slot.n_decoded];
++
++                const float * logits = llama_get_logits_ith(slot.ctx_tgt, tok_idx);
++                const int32_t n_vocab = llama_vocab_n_tokens(vocab);
++
++                double & log_norm = score_log_norms[tok_idx];
++                if (std::isnan(log_norm)) {
++                    double max_logit = -std::numeric_limits<double>::infinity();
++                    for (int32_t i = 0; i < n_vocab; ++i) {
++                        max_logit = std::max(max_logit, (double) logits[i]);
++                    }
++
++                    double sum_exp = 0.0;
++                    for (int32_t i = 0; i < n_vocab; ++i) {
++                        sum_exp += std::exp((double) logits[i] - max_logit);
++                    }
++                    log_norm = max_logit + std::log(sum_exp);
++                }
++
++                slot.score_logprobs.push_back((double) logits[id] - log_norm);
++            } else {
+                 scoped_timer timer(t_sampl, n_sampl);
+                 id = common_sampler_sample(slot.smpl.get(), slot.ctx_tgt, tok_idx);
+             }
+ 
+             slot.i_batch = -1;
+ 
+-            common_sampler_accept(slot.smpl.get(), id, true);
++            if (!score_forced) {
++                common_sampler_accept(slot.smpl.get(), id, true);
++            }
+ 
+             // here we have synchronized the llama_context (due to the sampling above), so we can do time measurement
+             const int64_t t_now = ggml_time_us();
+@@ -4736,6 +4771,188 @@ void server_routes::init_routes() {
+             TASK_RESPONSE_TYPE_NONE);
+     };
+ 
++    this->post_score = [this](const server_http_req & req) {
++        auto res = create_response();
++        auto & rd = res->rd;
++
++        res->set_req(&req);
++
++        const int64_t t_start = ggml_time_us();
++        std::vector<llama_tokens> candidates;
++
++        try {
++            const json data = json::parse(req.body);
++
++            if (!data.contains("prompt")) {
++                throw std::invalid_argument("\"prompt\" is required");
++            }
++            if (!data.contains("candidates") || !data.at("candidates").is_array()) {
++                throw std::invalid_argument("\"candidates\" must be an array");
++            }
++
++            const auto & candidates_json = data.at("candidates");
++            if (candidates_json.size() < 2) {
++                throw std::invalid_argument("\"candidates\" must contain at least two continuations");
++            }
++            if (candidates_json.size() > (size_t) params.n_parallel) {
++                throw std::invalid_argument(string_format(
++                    "\"candidates\" has %zu entries but the server has only %d parallel slots",
++                    candidates_json.size(), params.n_parallel));
++            }
++
++            auto prompts = tokenize_input_prompts(ctx_server.vocab, ctx_server.mctx, data.at("prompt"), true, true);
++            if (prompts.size() != 1) {
++                throw std::invalid_argument("\"prompt\" must contain exactly one prompt");
++            }
++            if (prompts[0].has_media()) {
++                throw std::invalid_argument("multimodal prompts are not supported by /score");
++            }
++
++            constexpr size_t MAX_CANDIDATE_TOKENS = 128;
++            constexpr size_t MAX_TOTAL_CANDIDATE_TOKENS = 512;
++            size_t n_candidate_tokens = 0;
++
++            candidates.reserve(candidates_json.size());
++            for (const auto & candidate : candidates_json) {
++                llama_tokens tokens;
++                if (candidate.is_string()) {
++                    tokens = common_tokenize(ctx_server.vocab, candidate.get<std::string>(), false, true);
++                } else if (json_is_array_of_numbers(candidate)) {
++                    tokens = candidate.get<llama_tokens>();
++                } else {
++                    throw std::invalid_argument("each candidate must be a string or an array of token ids");
++                }
++
++                if (tokens.empty()) {
++                    throw std::invalid_argument("candidate continuations must not be empty");
++                }
++                if (tokens.size() > MAX_CANDIDATE_TOKENS) {
++                    throw std::invalid_argument(string_format(
++                        "candidate continuations must not exceed %zu tokens", MAX_CANDIDATE_TOKENS));
++                }
++                if (prompts[0].size() + tokens.size() + 1 >= (size_t) meta->slot_n_ctx) {
++                    throw std::invalid_argument("prompt and candidate exceed the slot context size");
++                }
++                for (llama_token token : tokens) {
++                    if (token < 0 || token >= meta->model_vocab_n_tokens) {
++                        throw std::invalid_argument("candidate contains an invalid token id");
++                    }
++                    if (llama_vocab_is_eog(ctx_server.vocab, token)) {
++                        throw std::invalid_argument("candidate continuations must not contain end-of-generation tokens");
++                    }
++                }
++
++                n_candidate_tokens += tokens.size();
++                candidates.push_back(std::move(tokens));
++            }
++            if (n_candidate_tokens > MAX_TOTAL_CANDIDATE_TOKENS) {
++                throw std::invalid_argument(string_format(
++                    "candidate continuations must not exceed %zu tokens in total", MAX_TOTAL_CANDIDATE_TOKENS));
++            }
++
++            json task_data = {
++                {"cache_prompt", json_value(data, "cache_prompt", true)},
++                {"n_cmpl", candidates.size()},
++                {"n_predict", candidates[0].size()},
++                {"return_tokens", true},
++                {"stream", false},
++            };
++
++            server_task task(SERVER_TASK_TYPE_COMPLETION);
++            task.id     = rd.get_new_id();
++            task.tokens = std::move(prompts[0]);
++            task.params = server_schema::eval_llama_cmpl_schema(
++                ctx_server.vocab,
++                params,
++                meta->slot_n_ctx,
++                meta->logit_bias_eog,
++                task_data);
++            task.params.antiprompt.clear();
++            task.params.oaicompat_model = meta->model_name;
++            task.score_tokens = candidates[0];
++
++            for (size_t i = 1; i < candidates.size(); ++i) {
++                task.add_child(task.id, rd.get_new_id());
++                auto & child = task.child_tasks.back();
++                child.params.n_predict = candidates[i].size();
++                child.score_tokens = candidates[i];
++            }
++
++            std::vector<server_task> tasks;
++            tasks.push_back(std::move(task));
++            rd.post_tasks(std::move(tasks));
++        } catch (const std::exception & e) {
++            res->error(format_error_response(e.what(), ERROR_TYPE_INVALID_REQUEST));
++            return res;
++        }
++
++        auto all_results = rd.wait_for_all(req.should_stop);
++        if (all_results.is_terminated) {
++            return res;
++        }
++        if (all_results.error) {
++            res->error(all_results.error->to_json());
++            return res;
++        }
++
++        json scores = json::array();
++        size_t selected_index = 0;
++        double selected_score = -std::numeric_limits<double>::infinity();
++        int32_t prompt_tokens = 0;
++        int32_t prompt_tokens_cached = 0;
++
++        for (size_t i = 0; i < all_results.results.size(); ++i) {
++            auto * cmpl = dynamic_cast<server_task_result_cmpl_final *>(all_results.results[i].get());
++            GGML_ASSERT(cmpl != nullptr);
++
++            if (cmpl->score_logprobs.size() != candidates[i].size()) {
++                res->error(format_error_response("candidate scoring stopped before all tokens were evaluated", ERROR_TYPE_SERVER));
++                return res;
++            }
++
++            json token_logprobs = json::array();
++            double score = 0.0;
++            for (size_t j = 0; j < candidates[i].size(); ++j) {
++                score += cmpl->score_logprobs[j];
++                token_logprobs.push_back({
++                    {"id", candidates[i][j]},
++                    {"logprob", cmpl->score_logprobs[j]},
++                });
++            }
++
++            scores.push_back({
++                {"index", i},
++                {"content", cmpl->content},
++                {"tokens", candidates[i]},
++                {"token_logprobs", std::move(token_logprobs)},
++                {"sum_logprob", score},
++                {"mean_logprob", score / candidates[i].size()},
++                {"timings", cmpl->timings.to_json()},
++            });
++
++            if (score > selected_score) {
++                selected_index = i;
++                selected_score = score;
++            }
++
++            prompt_tokens = cmpl->n_prompt_tokens;
++            prompt_tokens_cached = std::max(prompt_tokens_cached, cmpl->n_prompt_tokens_cache);
++        }
++
++        res->ok({
++            {"object", "candidate_scores"},
++            {"model", meta->model_name},
++            {"score_semantics", "raw_pre_sampling_logprob"},
++            {"shared_prompt", true},
++            {"prompt_tokens", prompt_tokens},
++            {"prompt_tokens_cached", prompt_tokens_cached},
++            {"candidates", std::move(scores)},
++            {"selected_index", selected_index},
++            {"request_ms", (ggml_time_us() - t_start) / 1000.0},
++        });
++        return res;
++    };
++
+     this->post_completions_oai = [this](const server_http_req & req) {
+         auto res = create_response();
+         std::vector<raw_buffer> files; // dummy
+diff --git a/tools/server/server-context.h b/tools/server/server-context.h
+index f9ab1132b197f735c6c54b2e1e4c21897bc3267b..7bcdc00a7c351ab59b8c05847f4bbbcd36f7f6bf 100644
+--- a/tools/server/server-context.h
++++ b/tools/server/server-context.h
+@@ -136,6 +136,7 @@ struct server_routes {
+     server_http_context::handler_t post_infill;
+     server_http_context::handler_t post_completions;
+     server_http_context::handler_t post_completions_oai;
++    server_http_context::handler_t post_score;
+     server_http_context::handler_t post_chat_completions;
+     server_http_context::handler_t post_chat_completions_tok;
+     server_http_context::handler_t post_control;
+diff --git a/tools/server/server-task.h b/tools/server/server-task.h
+index 53a51146060660053dc654341c540a1208e929a6..3d5d08543d336aa7d6d1d263357227e474098a4b 100644
+--- a/tools/server/server-task.h
++++ b/tools/server/server-task.h
+@@ -158,6 +158,9 @@ struct server_task {
+     task_params   params;
+     server_tokens tokens;
+ 
++    // Force and score this exact continuation instead of sampling.
++    llama_tokens score_tokens;
++
+     // only used by CLI, this allow tokenizing CLI inputs on server side
+     // we need this because mtmd_context and vocab are not accessible outside of server_context
+     bool                    cli = false;
+@@ -363,6 +366,7 @@ struct server_task_result_cmpl_final : server_task_result {
+ 
+     bool post_sampling_probs;
+     std::vector<completion_token_output> probs_output;
++    std::vector<double> score_logprobs;
+     std::vector<std::string>  response_fields;
+ 
+     task_params generation_params;
+diff --git a/tools/server/server.cpp b/tools/server/server.cpp
+index a3b2a8b0fe1b802b24784eee1725b9d797771fe7..d8eb495cdf26ce526e6fd7ff083431b26eb4c9cf 100644
+--- a/tools/server/server.cpp
++++ b/tools/server/server.cpp
+@@ -199,6 +199,7 @@ int llama_server(common_params & params, int argc, char ** argv) {
+         routes.post_props                  = models_routes->proxy_post;
+         routes.post_completions            = models_routes->proxy_post;
+         routes.post_completions_oai        = models_routes->proxy_post;
++        routes.post_score                  = models_routes->proxy_post;
+         routes.post_chat_completions       = models_routes->proxy_post;
+         routes.post_control                = models_routes->proxy_post;
+         routes.post_responses_oai          = models_routes->proxy_post;
+@@ -240,6 +241,7 @@ int llama_server(common_params & params, int argc, char ** argv) {
+     ctx_http.post("/completion",               ex_wrapper(routes.post_completions)); // legacy
+     ctx_http.post("/completions",              ex_wrapper(routes.post_completions));
+     ctx_http.post("/v1/completions",           ex_wrapper(routes.post_completions_oai));
++    ctx_http.post("/score",                    ex_wrapper(routes.post_score));
+     ctx_http.post("/chat/completions",         ex_wrapper(routes.post_chat_completions));
+     ctx_http.post("/v1/chat/completions",      ex_wrapper(routes.post_chat_completions));
+     ctx_http.post("/v1/chat/completions/control", ex_wrapper(routes.post_control));
+diff --git a/tools/server/tests/unit/test_completion.py b/tools/server/tests/unit/test_completion.py
+index c72fb585bc32071735d3d3342d35aadafece51e8..6db15c937d10fbb0950831cfc814a5e49ee7310c 100644
+--- a/tools/server/tests/unit/test_completion.py
++++ b/tools/server/tests/unit/test_completion.py
+@@ -491,6 +491,96 @@ def test_probability_ids_match_top_logprobs():
+         assert item["logprob"] == pytest.approx(expected[item["id"]], abs=1e-6)
+ 
+ 
++def test_score_candidates_matches_exact_next_token_logprobs():
++    global server
++    server.n_slots = 4
++    server.start()
++
++    prompt = "I believe the meaning of life is"
++    baseline = server.make_request("POST", "/completion", data={
++        "prompt": prompt,
++        "n_probs": 4,
++        "temperature": 0.0,
++        "n_predict": 1,
++        "cache_prompt": False,
++    })
++    assert baseline.status_code == 200
++    top = baseline.body["completion_probabilities"][0]["top_logprobs"]
++    candidates = [[item["id"]] for item in top]
++
++    scored = server.make_request("POST", "/score", data={
++        "prompt": prompt,
++        "candidates": candidates,
++        "cache_prompt": False,
++    })
++    assert scored.status_code == 200
++    assert scored.body["object"] == "candidate_scores"
++    assert scored.body["score_semantics"] == "raw_pre_sampling_logprob"
++    assert scored.body["shared_prompt"] is True
++    assert scored.body["selected_index"] == 0
++    assert len(scored.body["candidates"]) == len(candidates)
++    for actual, expected in zip(scored.body["candidates"], top):
++        assert actual["tokens"] == [expected["id"]]
++        assert actual["sum_logprob"] == pytest.approx(expected["logprob"], abs=1e-6)
++        assert actual["token_logprobs"][0]["logprob"] == pytest.approx(expected["logprob"], abs=1e-6)
++
++
++def test_score_candidates_forces_complete_continuations():
++    global server
++    server.n_slots = 2
++    server.start()
++
++    candidates = [[1205, 278], [478, 259]]
++    scored = server.make_request("POST", "/score", data={
++        "prompt": "The answer is",
++        "candidates": candidates,
++        "cache_prompt": False,
++    })
++    assert scored.status_code == 200
++    tokenized = server.make_request("POST", "/tokenize", data={
++        "content": "The answer is",
++        "add_special": True,
++    })
++    assert tokenized.status_code == 200
++    for actual, expected in zip(scored.body["candidates"], candidates):
++        assert actual["tokens"] == expected
++        assert [item["id"] for item in actual["token_logprobs"]] == expected
++        assert len(actual["token_logprobs"]) == len(expected)
++        assert actual["sum_logprob"] == pytest.approx(
++            sum(item["logprob"] for item in actual["token_logprobs"]), abs=1e-12)
++
++        serial_score = 0.0
++        prefix = list(tokenized.body["tokens"])
++        for token in expected:
++            step = server.make_request("POST", "/completion", data={
++                "prompt": prefix,
++                "n_predict": 1,
++                "n_probs": 0,
++                "probability_ids": [token],
++                "temperature": 0.0,
++                "cache_prompt": False,
++            })
++            assert step.status_code == 200
++            selected = step.body["completion_probabilities"][0]["selected_logprobs"]
++            assert selected[0]["id"] == token
++            serial_score += selected[0]["logprob"]
++            prefix.append(token)
++        assert actual["sum_logprob"] == pytest.approx(serial_score, abs=2e-6)
++
++
++def test_score_candidates_rejects_more_candidates_than_slots():
++    global server
++    server.n_slots = 2
++    server.start()
++
++    scored = server.make_request("POST", "/score", data={
++        "prompt": "The answer is",
++        "candidates": [[1], [2], [3]],
++    })
++    assert scored.status_code == 400
++    assert "parallel slots" in scored.body["error"]["message"]
++
++
+ def test_n_probs_stream():
+     global server
+     server.start()
