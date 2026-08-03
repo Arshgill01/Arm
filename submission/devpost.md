@@ -310,6 +310,14 @@ original target's raw pre-sampling probability. Original-prefix and repeat
 deltas are both exactly zero. This authorizes only a separately frozen full
 successor and leaves the failed E10d comparison unchanged.
 
+E10f applies that mechanism to the complete, unchanged 300-sample holdout for
+both exact quantizations. All 28,748 token-score responses succeed and every
+sample log is retained. Q4_K_M scores 73%/49%/57% raw accuracy on ARC Easy,
+HellaSwag, and WinoGrande versus Q4_0's 72%/48%/60%; normalized ARC Easy and
+HellaSwag are 59%/72% versus 61%/71%. This is deliberately reported as mixed
+supplemental robustness evidence, not a new admission threshold or a post-hoc
+task selection. E10d remains failed.
+
 E13a returns to the cache-safety opportunity with a fail-closed exact-prompt
 certificate derived from every retained E9c pair. On a fresh 660-request
 temporal holdout, controller outputs match uncached bytes exactly, aggregate

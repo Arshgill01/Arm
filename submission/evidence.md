@@ -58,6 +58,7 @@ artifact.
 | Forked candidate scorer rejected on numerical parity | [E10c `30812791972`](https://github.com/Arshgill01/Arm/actions/runs/30812791972) | [`e10c` manifest](../results/manifests/e10c-30812791972.json) · [`report`](../results/reports/e10c-candidate-scorer-negative.md) | `1f906991…62e6b` |
 | External-holdout pair rejected on missing probability entries | [E10d `30818303255`](https://github.com/Arshgill01/Arm/actions/runs/30818303255) | [`e10d` manifest](../results/manifests/e10d-30818303255.json) · [`report`](../results/reports/e10d-external-holdout-failure.md) | `59cc8fa7…5336` |
 | Probability serialization compatibility preflight | [E10e `30827797407`](https://github.com/Arshgill01/Arm/actions/runs/30827797407) | [`e10e` manifest](../results/manifests/e10e-30827797407.json) · [`report`](../results/reports/e10e-probability-compatibility.md) | `3e689b52…7e167` |
+| Safe-sampled external holdout completed for both quantizations | [E10f `30829237582`](https://github.com/Arshgill01/Arm/actions/runs/30829237582) | [`e10f` manifest](../results/manifests/e10f-30829237582.json) · [`report`](../results/reports/e10f-safe-sampled-external-holdout.md) | `d328ede5…8dd7` |
 | Fail-closed cache certificate rejected on frozen count | [E13a `30830903248`](https://github.com/Arshgill01/Arm/actions/runs/30830903248) | [`e13a` manifest](../results/manifests/e13a-30830903248.json) · [`report`](../results/reports/e13a-cache-certificate.md) | `fdbd2b68…2f8a` |
 | Selective-repack frontier invalid on missing mechanism logs | [E14a `30832494881`](https://github.com/Arshgill01/Arm/actions/runs/30832494881) | [`e14a` manifest](../results/manifests/e14a-30832494881.json) · [`report`](../results/reports/e14a-selective-repack-instrumentation-failure.md) | `27a49eac…2a866d` |
 | Calibration-known cache certificate admitted at exact-fingerprint boundary | [E13b `30833985784`](https://github.com/Arshgill01/Arm/actions/runs/30833985784) | [`e13b` manifest](../results/manifests/e13b-30833985784.json) · [`report`](../results/reports/e13b-cache-certificate-successor.md) | `570b8deb…02a19` |
@@ -123,6 +124,12 @@ artifact.
   token. Original-prefix and full-repeat requested score deltas are both zero.
   It authorizes a separately frozen successor but does not validate the full
   holdout or rewrite failed E10d.
+- External-quality successor: E10f completes the exact pinned 300 samples for
+  both models with zero failures across 28,748 raw token-score responses.
+  Q4_K_M is +1 point on raw ARC Easy and HellaSwag but −3 on WinoGrande; its
+  normalized ARC Easy is −2 and HellaSwag +1. The mixed result is supplemental,
+  does not rewrite the original admission contract, and leaves the generated
+  quant frontier gated on E12a.
 - Cache-certificate boundary: E13a's fail-closed controller matches all
   uncached output bytes, reaches 1.84765x throughput, and passes every quality
   and performance gate. Six transition warmups are unknown to calibration and

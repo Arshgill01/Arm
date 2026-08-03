@@ -1521,6 +1521,43 @@ error; that run is retained separately, and the retry changed no experimental
 gate. See the retained [`manifest`](../results/manifests/e10b-30797568757.json)
 and [`report`](../results/reports/e10b-exact-token-probabilities.md).
 
+## E10f frozen safe-sampled external holdout successor
+
+E10d remains failed and its partial metrics remain non-comparable. E10e
+subsequently validated a one-byte safe sampled token that preserves the exact
+requested target score at both retained breakpoints. E10f is the separately
+frozen full successor: it keeps the exact E10d source, binary, dependency
+closure, prepared 300-sample workload, task licenses/provenance, Q4_K_M primary,
+Q4_0 control, serial candidate scoring, and raw-response retention. The only
+adapter change is the E10e mechanism: force token 1046 (`.`) while requesting
+each original continuation token's raw pre-sampling probability.
+
+Both model cells must complete all 300 preselected samples, 1,000 candidate
+continuations, and 14,374 target-token requests with zero failures. A synthetic
+repeat preflight must have zero token and summed-log-probability delta. Every
+raw response and per-sample prediction is retained. No minimum quality score is
+introduced: task metrics and paired agreement are supplemental coordinates for
+later quantization work, not a replacement for the original 30-task admission
+contract. Exact inputs and boundaries are in
+[`e10f_contract.json`](../experiments/e10f_contract.json).
+
+### E10f outcome
+
+Native run `30829237582` completes both cells and the paired aggregate. Each
+model retains all 14,374 raw responses with zero request failures and a passing
+zero-delta preflight. Q4_K_M versus Q4_0 scores 73% versus 72% raw and 59%
+versus 61% normalized on ARC Easy; 49% versus 48% raw and 72% versus 71%
+normalized on HellaSwag; and 57% versus 60% on WinoGrande. Raw and normalized
+paired agreement are 90.67% and 91.00%. The mixed result is retained honestly:
+neither quantization wins every metric.
+
+Independent ingestion reproduces both cell summaries and the aggregate byte
+for byte, and all 28,904 cell-inventoried files are rehashed. E10f satisfies
+its external-holdout prerequisite for generated quantization, but dispatch
+remains blocked until E12a independently produces a valid importance matrix.
+See the retained [`manifest`](../results/manifests/e10f-30829237582.json) and
+[`report`](../results/reports/e10f-safe-sampled-external-holdout.md).
+
 ## E13a frozen fail-closed cache certificate
 
 E13a takes the next distinct cache-safety mechanism after E10a rejected a

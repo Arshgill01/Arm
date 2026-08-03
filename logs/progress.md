@@ -1932,3 +1932,17 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   requests, complete tensor and sidecar byte identity, CPU-feature/SVE binding,
   at least 99% arena coverage, and explicit generated-binary cleanup. A passing
   result authorizes only a separately frozen mmap-loader experiment.
+
+## 2026-08-03 — E10f external holdout completed and retained
+
+- Native run `30829237582` completes the exact 300-sample ARC Easy, HellaSwag,
+  and WinoGrande subset for Q4_K_M and Q4_0 through the E10e safe-sampled
+  mechanism. Each cell performs 14,374 token-score requests with zero failures.
+- Q4_K_M raw scores are 73%, 49%, and 57%; Q4_0 scores are 72%, 48%, and 60%.
+  Normalized ARC Easy/HellaSwag are 59%/72% versus 61%/71%. Paired raw and
+  normalized agreement are 90.67% and 91.00%. The mixed result is preserved.
+- Independent ingestion reproduces both cell summaries and the aggregate byte
+  for byte. All 14,452 inventoried files per cell and 28,748 compressed raw
+  responses were rehashed. The retained manifest is `d328ede5…8dd7`.
+- E10f now satisfies its generated-quant prerequisite, but dispatch remains
+  fail-closed until E12a completes and is independently retained as valid.

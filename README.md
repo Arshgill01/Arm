@@ -161,6 +161,13 @@ reading each original target's raw pre-sampling score. Both the maximum
 original-prefix delta and 71-score repeat delta are exactly zero. This validates
 only the compatibility mechanism and authorizes a separately frozen full
 successor; failed E10d remains failed.
+E10f runs that separately frozen safe-sampled successor over the full 300-sample
+holdout for both quantizations. All 28,748 token-score responses succeed. On
+ARC Easy, HellaSwag, and WinoGrande, Q4_K_M records 73%/49%/57% raw accuracy
+versus Q4_0's 72%/48%/60%; normalized ARC Easy and HellaSwag are 59%/72% versus
+61%/71%. The mixed result is supplemental robustness evidence, not a rewritten
+admission gate. It satisfies only E10f's generated-quant prerequisite; E12a
+must still pass independently.
 E13a then tests a fail-closed exact-fingerprint cache certificate on a fresh
 660-request temporal holdout. All controller outputs match uncached bytes,
 throughput rises 1.84765x, p95 latency falls to 0.90716x, and CPU
@@ -207,6 +214,7 @@ preserved unless the row explicitly describes a rejected candidate.
 | Forked candidate-scoring request | Validated serial exact-token adapter | Score all candidate continuations in one server request | Predictions match, but every frozen numerical parity gate fails | Reject the scorer; preserve the native negative result |
 | Pinned external holdout | Exact serial scorer over 300 preselected samples per model | Evaluate Q4_K_M and Q4_0 on ARC Easy, HellaSwag, and WinoGrande | Both cells hit missing one-token probability entries; paired aggregate skipped | Reject the comparison; retain all partial/raw evidence and test compatibility separately |
 | Probability serialization compatibility | Exact two failed Q4_0 continuations | Force one-byte sampled token 1046 while reading each original target's raw score | Both continuations complete twice; original-prefix and repeat deltas are 0.0 | Permit only a separately frozen full successor; do not rehabilitate E10d |
+| Safe-sampled external holdout | Exact Q4_K_M and Q4_0 over the pinned 300-sample workload | Use E10e's one-byte safe sample while reading each target's pre-sampling score | Zero failures across 28,748 responses; Q4_K_M raw task scores 73%/49%/57% versus 72%/48%/60% | Admit as supplemental mixed robustness evidence; keep the original admission contract |
 | Fail-closed cache certificate | All-uncached 165-request temporal trace | Certify 44 exact prompt fingerprints, deny four, and route unknowns uncached | Byte-exact outputs; 1.84765x throughput; 0.90716x p95; six safe unknown fallbacks differed from the frozen count | Reject E13a on the unchanged decision-count gate; retain the otherwise passing evidence |
 | Calibration-known cache certificate | All-uncached reversed 165-request trace | Restrict transitions to fingerprints derived before E13b and fail closed otherwise | Byte-exact outputs; **1.85158x** throughput; 0.94427x p95; exact 146/19/0 decisions twice | Admit only the retained exact-fingerprint boundary; do not generalize semantically |
 | Selective weight repack | Full-repack and no-repack memory/throughput endpoints | Leave two predeclared tensor families in mapped storage | Valid four-point frontier; selective points retain 78.06%/62.56% throughput and save 22.14%/46.11% of extra RSS | Retain E14a as invalid and E14b as a valid no-promotion result; keep full repack |
@@ -290,6 +298,7 @@ repack flag that conflicts with the plan is refused.
 | [E10c](results/reports/e10c-candidate-scorer-negative.md) | One-request candidate scoring matched predictions but failed every frozen numerical log-probability parity gate |
 | [E10d](results/reports/e10d-external-holdout-failure.md) | Both 300-sample model loops hit missing probability entries; the pair and all partial task metrics remain invalid |
 | [E10e](results/reports/e10e-probability-compatibility.md) | A safe sampled-token path completed both retained compatibility failures twice with zero requested-score delta |
+| [E10f](results/reports/e10f-safe-sampled-external-holdout.md) | Both exact quantizations complete the pinned 300-sample native holdout with zero failures; the mixed per-task result is supplemental and non-cherry-picked |
 | [E13a](results/reports/e13a-cache-certificate.md) | Byte-exact fail-closed routing reached 1.84765x throughput, but six safe unknown warmup fallbacks violated the frozen decision-count expectation; the policy remains rejected |
 | [E14a](results/reports/e14a-selective-repack-instrumentation-failure.md) | All eight native cells completed with exact quality, but missing verbosity-4 mechanism logs invalidate the frontier and forbid promotion |
 | [E13b](results/reports/e13b-cache-certificate-successor.md) | A separately frozen calibration-known trace passes every gate at 1.85158x throughput with byte-exact output and exact decision counts; admission remains fingerprint-bounded |
@@ -298,7 +307,7 @@ repack flag that conflicts with the plan is refused.
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
 The E5f through E5j, E6d through E6i, E7a through E7c, E9a/E9c, E10a through
-E10e, E13a/E13b, and E14a/E14b results are retained under their exact frozen
+E10f, E13a/E13b, and E14a/E14b results are retained under their exact frozen
 contracts and independently re-ingested byte for byte. E9e separately retains its reproducible
 premeasurement stop record.
 
