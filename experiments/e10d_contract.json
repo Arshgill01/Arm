@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E10d",
+  "title": "Pinned external quality holdout through the validated serial exact-token primitive",
+  "state": "frozen before model outcomes",
+  "scope": "A supplemental native Arm64 evaluation of the selected Ministral 3 3B Q4_K_M model and the nearest Q4_0 control on the three E9b tasks and samples selected before results. It recreates lm-evaluation-harness v0.4.12 request construction and metrics, but uses the E10b exact-token probability primitive because the standard local-completions echo path and the E10c forked scorer failed their frozen native gates.",
+  "hypothesis": "The admitted Q4_K_M model preserves defensible external multiple-choice robustness on the independently pinned ARC Easy, HellaSwag, and WinoGrande subsets, and its per-task accuracy is not materially worse than the nearest Q4_0 control. No minimum score is required and every poor or mixed outcome is retained.",
+  "inputs": {
+    "e9a_contract_path": "experiments/e9a_contract.json",
+    "e9a_contract_sha256": "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928",
+    "e9b_plan_path": "experiments/e9b_preflight_plan.json",
+    "e9b_plan_sha256": "ff492b46e512220abd2ea3135bd807881f5ac4e1f9c5ee8b9b77de31229f9cd0",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "e10b_manifest_path": "results/manifests/e10b-30797568757.json",
+    "e10b_manifest_sha256": "4b1e73bb4db399ace625f814509268b2df75a90a025fa586dc2937823c4b5c83",
+    "e10c_negative_manifest_path": "results/manifests/e10c-30812791972.json",
+    "e10c_negative_manifest_sha256": "1f9069914e8b1b3490ad3116ce8cc4ddf37e900fc29916146cde07ccddf62e6b",
+    "sample_map_path": "experiments/e10d_sample_map.json",
+    "sample_map_sha256": "9c7a4f9313888cde1a4437b2ee776b14721fda4146ae4b7fe10dc74ec0d7fe7b",
+    "sample_generator_path": "experiments/e9b_samples.py",
+    "sample_generator_sha256": "fab766ab1e19441f38da5010ab54b1610f64a598cfbc030af0affe181147ee81",
+    "task_arc_easy_path": "experiments/e9b_tasks/e9b_arc_easy.yaml",
+    "task_arc_easy_sha256": "028b2dd1bc77c8423f8b7c64b2e7122c6906b153a5e1d8efdb55e22dc9e2c43a",
+    "task_hellaswag_path": "experiments/e9b_tasks/e9b_hellaswag.yaml",
+    "task_hellaswag_sha256": "3f58675493de6fcf9a4bcb1f2ed92d4eebe62555e7df856f48b5327e8a9c9224",
+    "task_winogrande_path": "experiments/e9b_tasks/e9b_winogrande.yaml",
+    "task_winogrande_sha256": "b9d14abd83d487f6bb1695c247095fe2e621a78d8f9b50be40923114a2736844",
+    "task_utils_path": "experiments/e9b_tasks/e9b_utils.py",
+    "task_utils_sha256": "0abc32405675001f3a56d305d7ee29766f0c5af5e1d03268406e3d79cf83a826",
+    "requirements_path": "experiments/e10d_requirements.txt",
+    "requirements_sha256": "4a31160b42a8da4415822c0004d1a4adad15b5b4df396de5cd96e13efb8cd414",
+    "primitive_patch_path": "patches/llama.cpp/b10216/0004-server-select-exact-token-probabilities.patch",
+    "primitive_patch_sha256": "e9372472e0f6f8c0d01142ff370c5cbdc895db217e0e5f5b664ef1c9359dc3ec",
+    "prepare_path": "experiments/e10d_prepare.py",
+    "prepare_sha256": "6f55f7689ec338a9b2364414efca6e798445c6bb068539f4c12cab785a857172",
+    "preflight_path": "experiments/e10d_preflight.py",
+    "preflight_sha256": "b468d46c03d17d41670b3e7a7b2747c32c7aacc5e3e053b6c493a025f66613b5",
+    "probe_path": "experiments/e10d_probe.py",
+    "probe_sha256": "8cc55e90ca52c62a08ad033f97939c29c79a811025fd660bad4e615b43e5e17f",
+    "ingest_path": "experiments/e10d_ingest.py",
+    "ingest_sha256": "d61520d2338ba1f792e694048d99e92df08e096939d5f02e12e49c3f15ac4ebd",
+    "test_path": "tests/test_e10d.py",
+    "test_sha256": "e1b17931fb9a1a4b85b603a05a9b01f6157dbf5f21311beddde144cf76635b26"
+  },
+  "external_holdout": {
+    "selected_before_results": true,
+    "harness": {
+      "repository": "https://github.com/EleutherAI/lm-evaluation-harness.git",
+      "version": "0.4.12",
+      "commit": "6d642546f4688648fced259eb3302efd36ece5af",
+      "license": "MIT",
+      "model_backend": "local-completions",
+      "known_server_difference": "v0.4.12 auto-detection requires /tokenizer_info, which llama.cpp b10216 does not expose; the preflight therefore supplies a pinned local tokenizer snapshot only after proving its token IDs equal llama.cpp /tokenize output."
+    },
+    "tokenizer": {
+      "repository": "mistralai/Ministral-3-3B-Instruct-2512",
+      "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+      "license": "Apache-2.0",
+      "transformers_version": "5.14.1",
+      "fix_mistral_regex": true,
+      "parity_requirement": "Every predefined UTF-8, punctuation, contraction, task-format, and answer-prefix probe must produce exactly the same token IDs through the pinned tokenizer and llama.cpp /tokenize."
+    },
+    "task_provenance": [
+      {
+        "task": "e9b_arc_easy",
+        "purpose": "grade-school science multiple-choice robustness",
+        "dataset_repository": "allenai/ai2_arc",
+        "dataset_revision": "210d026faf9955653af8916fad021475a3f00453",
+        "evaluation_split": "test",
+        "split_size": 2376,
+        "license": "CC-BY-SA-4.0",
+        "license_source": "Hugging Face dataset-card metadata at the pinned revision"
+      },
+      {
+        "task": "e9b_hellaswag",
+        "purpose": "adversarial commonsense continuation robustness",
+        "dataset_repository": "Rowan/hellaswag",
+        "dataset_revision": "218ec52e09a7e7462a5400043bb9a69a41d06b76",
+        "evaluation_split": "validation",
+        "split_size": 10042,
+        "license": "MIT",
+        "license_source": "Pinned dataset card linked to original repository commit a29ff8e9a04bba4bd6588223785ce105328adc57 LICENSE"
+      },
+      {
+        "task": "e9b_winogrande",
+        "purpose": "adversarial referential commonsense robustness",
+        "dataset_repository": "allenai/winogrande",
+        "dataset_revision": "01e74176c63542e6b0bcb004dcdea22d94fb67b5",
+        "evaluation_split": "validation",
+        "split_size": 1267,
+        "license": "Apache-2.0",
+        "license_source": "Original repository commit 727e837f77521ef38bcc56df3b275c8da43f45af LICENSE; the pinned Hugging Face card omits a license field"
+      }
+    ]
+  },
+  "models": [
+    {
+      "role": "primary",
+      "candidate": "ministral3_3b_q4_k_m",
+      "quantization": "Q4_K_M",
+      "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "size_bytes": 2146497824
+    },
+    {
+      "role": "control",
+      "candidate": "ministral3_3b_q4_0",
+      "quantization": "Q4_0",
+      "sha256": "bd1eef40a7fdb1ba9728ec977bd4aab40fb76993d6ec37377fd6522703dc88a5",
+      "size_bytes": 2046375200
+    }
+  ],
+  "service": {
+    "profile": "e7c_final_plus_probability_ids",
+    "base_profile": "e7c_final",
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_tag": "b10216",
+    "source_diff_sha256": "8ab4ea8e4a7412ec24f0fa4ebf49a23745c58cf66b8cfb2e99ac0ca53c69be12",
+    "threads": 4,
+    "threads_batch": 4,
+    "context_per_slot": 256,
+    "server_parallel_slots": 1,
+    "continuous_batching": true,
+    "server_prompt_cache": true,
+    "batch_size": 64,
+    "micro_batch_size": 64,
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "flash_attention": "auto",
+    "weight_repack": true,
+    "openssl": false
+  },
+  "workload": {
+    "tasks": [
+      "e9b_arc_easy",
+      "e9b_hellaswag",
+      "e9b_winogrande"
+    ],
+    "samples_per_task": 100,
+    "fewshot": 0,
+    "apply_chat_template": true,
+    "fewshot_as_multiturn": false,
+    "max_length": 256,
+    "batch_size": 1,
+    "concurrent_requests": 1,
+    "seed": 424242,
+    "sample_selection": "The exact E9b salted SHA-256 selection map, chosen before any task outcome.",
+    "task_shapes": {
+      "e9b_arc_easy": {
+        "metrics": ["acc", "acc_norm"],
+        "samples": 100,
+        "choices": 400,
+        "token_score_requests": 1835,
+        "minimum_candidate_tokens": 1,
+        "maximum_candidate_tokens": 19
+      },
+      "e9b_hellaswag": {
+        "metrics": ["acc", "acc_norm"],
+        "samples": 100,
+        "choices": 400,
+        "token_score_requests": 11405,
+        "minimum_candidate_tokens": 5,
+        "maximum_candidate_tokens": 73
+      },
+      "e9b_winogrande": {
+        "metrics": ["acc"],
+        "samples": 100,
+        "choices": 200,
+        "token_score_requests": 1134,
+        "minimum_candidate_tokens": 1,
+        "maximum_candidate_tokens": 13
+      }
+    },
+    "expected_summary": {
+      "samples": 300,
+      "choices": 1000,
+      "serial_candidate_requests": 1000,
+      "token_score_requests": 14374,
+      "unique_tokenized_texts": 1396,
+      "tokenizer_parity_mismatches": 0
+    }
+  },
+  "scoring": {
+    "mechanism": "For each choice, submit the full frozen prompt with cache_prompt=false for its first target token; for every later target token, submit the explicitly growing target prefix with cache_prompt=true. Each request asks the validated E10b probability_ids primitive for exactly the current target token's raw pre-sampling log probability. Candidate starts never reuse another candidate's cache.",
+    "harness_relationship": "Pinned lm-evaluation-harness v0.4.12 constructs tasks, chat-template strings, token boundaries, left truncation, gold labels, and choice-length normalization. The custom serial adapter replaces only the standard OpenAI echo/logprobs transport that failed E9b preflight.",
+    "prediction_rule": "Argmax of summed target-token log probabilities, with first choice winning an exact tie.",
+    "normalized_prediction_rule": "Argmax of sum log probability divided by the pinned harness character length of the choice, with first choice winning an exact tie.",
+    "sampled_output_used_for_score": false,
+    "raw_response_retention": "Every one of the 14,374 HTTP scoring responses per model is retained gzip-compressed with compressed and uncompressed SHA-256 and byte counts.",
+    "preflight_parameters": {
+      "seed": 424242,
+      "cache_prompt_policy": "false on the first token of each candidate; true on later tokens",
+      "probability_field": "selected_logprobs",
+      "post_sampling_probabilities": false,
+      "sampled_output_used_for_score": false
+    },
+    "probe_parameters": {
+      "cache_prompt_policy": "false for the first token of every candidate; true only for later tokens of that candidate",
+      "score_distribution": "raw pre-sampling selected token log probability",
+      "sampled_output_used_for_score": false,
+      "requests_per_token": 1,
+      "max_length": 256,
+      "fewshot": 0,
+      "apply_chat_template": true,
+      "seed": 424242
+    }
+  },
+  "execution": {
+    "runner": "ubuntu-24.04-arm",
+    "matrix_models_run_in_separate_native_jobs": true,
+    "fresh_server_per_model": true,
+    "synthetic_preflight_before_dataset_preparation": true,
+    "full_results_observed_only_after_contract_freeze": true,
+    "per_sample_logs": true,
+    "raw_http_responses": true
+  },
+  "acceptance": {
+    "required_architecture": "aarch64",
+    "maximum_preflight_repeat_delta": 0.000001,
+    "tokenizer_parity_mismatches": 0,
+    "request_failures": 0,
+    "minimum_accuracy_gate": null,
+    "maximum_ready_ms": 15000.0,
+    "maximum_process_rss_kib": 8388608,
+    "accepted_server_shell_exit_statuses": [0, 130]
+  },
+  "negative_result_rule": "Retain low accuracy, Q4_K_M regressions against Q4_0, task-specific disagreement, preparation failure, tokenizer mismatch, API failure, cache-policy mismatch, raw-response loss, dataset/provenance failure, build failure, or incomplete jobs without changing tasks, sample indices, models, metrics, scoring rule, or gates.",
+  "decision": {
+    "quality_gate_used": false,
+    "original_30_task_admission_contract_rewrite_allowed": false,
+    "poor_results_must_be_retained": true,
+    "promotion_claim": "Supplemental robustness evidence only; this experiment cannot replace the original 30-task admission contract."
+  },
+  "prior_blockers": {
+    "standard_harness_api": "E9b native run 30766707967 failed before external outcomes because llama.cpp b10216 rejects the echo=true local-completions request required for continuation log probabilities.",
+    "forked_candidate_scorer": "E10c native run 30812791972 failed all three frozen numerical-parity gates despite passing prediction and efficiency gates; it is not used here.",
+    "validated_path": "E10b native run 30797568757 passed 1e-6 exact-token log-probability parity and promoted probability_ids for a separately frozen multi-token evaluator."
+  },
+  "claim_boundary": "E10d is supplemental external multiple-choice robustness evidence for two exact Ministral 3 3B quantizations, three pinned task subsets, lm-evaluation-harness v0.4.12 request construction and metrics, the validated serial exact-token adapter, and the exact E7c one-slot native Arm64 service plus E10b response primitive. It is not a successful standard harness OpenAI-backend claim, does not rewrite the original 30-task admission contract, and makes no energy, PMU, local-device, fleet, concurrency, cost, causal, or other-runtime claim."
+}
