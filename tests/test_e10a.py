@@ -147,11 +147,10 @@ class E10aProbeTests(unittest.TestCase):
             ]
         }
         distribution, raw_mass, discarded = extract_candidate_distribution(response)
-        self.assertEqual(
-            {"A": 0.5, "B": 0.2, "C": 0.2, "D": 0.1},
-            distribution,
-        )
-        self.assertEqual(1.0, raw_mass)
+        self.assertEqual(set(distribution), {"A", "B", "C", "D"})
+        for candidate, expected in {"A": 0.5, "B": 0.2, "C": 0.2, "D": 0.1}.items():
+            self.assertAlmostEqual(distribution[candidate], expected)
+        self.assertAlmostEqual(1.0, raw_mass)
         self.assertEqual(0, discarded)
 
     def test_extract_candidate_distribution_conditions_on_allowed_candidates(
