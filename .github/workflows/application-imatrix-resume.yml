@@ -1,0 +1,253 @@
+name: Arm E12a exact importance-matrix continuation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e12a_resume_contract.json
+  CONTRACT_SHA256: f02c89dd08be2c30f254c157010c85b88e240811c2173f798f5c34b9ad6a052b
+  BASE_PLAN_PATH: experiments/e12a_imatrix_plan.json
+  PRIOR_RUN_ID: "30822632328"
+  PRIOR_ARTIFACT_NAME: e12a-imatrix-30822632328-1
+  PRIOR_ARTIFACT_ID: "8868581019"
+  PRIOR_DOWNLOAD: ${{ github.workspace }}/results/raw/e12a-resume-prior-download
+  EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e12a-resume-${{ github.run_id }}-${{ github.run_attempt }}
+  LLAMA_SOURCE: /tmp/llama.cpp-E12a-resume
+  LLAMA_BUILD: /tmp/llama.cpp-E12a-resume-build
+  E12A_VENV: /tmp/Pareto64-E12a-resume-venv
+  MODEL_ROOT: /tmp/Pareto64-E12a-resume/models
+  HF_HOME: /tmp/Pareto64-E12a-resume/huggingface
+
+jobs:
+  resume:
+    name: Resume exact native Arm application imatrix at chunk 24
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 180
+    steps:
+      - name: Check out frozen E12a continuation
+        uses: actions/checkout@v7
+
+      - name: Select pinned Python line
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Download exact retained 24-chunk checkpoint artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ env.PRIOR_ARTIFACT_NAME }}
+          path: ${{ env.PRIOR_DOWNLOAD }}
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.PRIOR_RUN_ID }}
+
+      - name: Verify and retain frozen continuation contract and environment
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR/build" "$EVIDENCE_DIR/patches" \
+            "$EVIDENCE_DIR/prior" "$MODEL_ROOT"
+          test "$(uname -m)" = "aarch64"
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          contract = json.loads(Path("experiments/e12a_resume_contract.json").read_text())
+          for key, path_value in contract["inputs"].items():
+              if key.endswith("_path"):
+                  observed = hashlib.sha256(Path(path_value).read_bytes()).hexdigest()
+                  expected = contract["inputs"][f"{key[:-5]}_sha256"]
+                  if observed != expected:
+                      raise ValueError(f"frozen continuation input differs: {path_value}")
+          PY
+          python3 -m unittest tests.test_e12a tests.test_e12a_failure tests.test_e12a_resume
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          cp "$BASE_PLAN_PATH" "$EVIDENCE_DIR/base-contract.json"
+          cp results/manifests/e12a-30822632328.json "$EVIDENCE_DIR/prerequisite-manifest.json"
+          cp experiments/e12a_resume_freeze.py "$EVIDENCE_DIR/resume-freeze.py"
+          cp experiments/e12a_resume_ingest.py "$EVIDENCE_DIR/resume-ingest.py"
+          cp tests/test_e12a_resume.py "$EVIDENCE_DIR/resume-test.py"
+          cp experiments/e3_tasks.json "$EVIDENCE_DIR/application-tasks.json"
+          cp experiments/e12a_samples.py "$EVIDENCE_DIR/sample-generator.py"
+          cp experiments/e12a_sample_map.json "$EVIDENCE_DIR/sample-map.json"
+          cp experiments/e12a_corpus.py "$EVIDENCE_DIR/corpus-generator.py"
+          cp experiments/e9b_tasks/e9b_utils.py "$EVIDENCE_DIR/task-utils.py"
+          cp experiments/e10d_requirements.txt "$EVIDENCE_DIR/requirements.txt"
+          cp "$PRIOR_DOWNLOAD/contract.json" "$EVIDENCE_DIR/prior/base-contract.json"
+          cp "$PRIOR_DOWNLOAD/imatrix.gguf" "$EVIDENCE_DIR/prior/imatrix.gguf"
+          cp "$PRIOR_DOWNLOAD/imatrix.log" "$EVIDENCE_DIR/prior/generation.log"
+          cp "$PRIOR_DOWNLOAD/imatrix-command.json" "$EVIDENCE_DIR/prior/command.json"
+          test "$(sha256sum "$EVIDENCE_DIR/prior/imatrix.gguf" | cut -d' ' -f1)" = \
+            b95f4dca6ab074764253e7c981971cfb9e9ad687aecb26c0b364642ac9e4b48f
+          test "$(stat --format='%s' "$EVIDENCE_DIR/prior/imatrix.gguf")" = 3009952
+          test "$(sha256sum "$EVIDENCE_DIR/prior/base-contract.json" | cut -d' ' -f1)" = \
+            549ea26150cae35fee1cdc841746a4eb1a6b066496c004186c9d0330d6a29959
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$PRIOR_ARTIFACT_ID" \
+            > "$EVIDENCE_DIR/prior/artifact.json"
+          test "$(jq -r '.name' "$EVIDENCE_DIR/prior/artifact.json")" = "$PRIOR_ARTIFACT_NAME"
+          test "$(jq -r '.digest' "$EVIDENCE_DIR/prior/artifact.json")" = \
+            sha256:120665a1ebc6e49f00f6f51136834a04e5b2ee3e8ffbe6c5c67f6d5480dec05d
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          git rev-parse HEAD | tee "$EVIDENCE_DIR/repository-commit.txt"
+          jq -n \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --argjson run_attempt "$GITHUB_RUN_ATTEMPT" \
+            --arg sha "$GITHUB_SHA" \
+            --arg ref "$GITHUB_REF" \
+            --arg runner_os "$RUNNER_OS" \
+            --arg runner_arch "$RUNNER_ARCH" \
+            '{run_id: $run_id, run_attempt: $run_attempt, sha: $sha, ref: $ref, runner_os: $runner_os, runner_arch: $runner_arch}' \
+            > "$EVIDENCE_DIR/github.json"
+
+      - name: Reproduce exact frozen corpus
+        run: |
+          set -euo pipefail
+          python3 -m venv "$E12A_VENV"
+          "$E12A_VENV/bin/python" -m pip install --disable-pip-version-check \
+            --requirement experiments/e10d_requirements.txt \
+            2>&1 | tee "$EVIDENCE_DIR/pip-requirements.log"
+          "$E12A_VENV/bin/python" -m pip freeze | sort > "$EVIDENCE_DIR/pip-freeze.txt"
+          python3 experiments/e12a_samples.py --output "$EVIDENCE_DIR/generated-sample-map.json"
+          cmp "$EVIDENCE_DIR/generated-sample-map.json" "$EVIDENCE_DIR/sample-map.json"
+          PYTHONPATH="$GITHUB_WORKSPACE" "$E12A_VENV/bin/python" experiments/e12a_corpus.py \
+            --plan "$BASE_PLAN_PATH" \
+            --tasks experiments/e3_tasks.json \
+            --output "$EVIDENCE_DIR/calibration.txt" \
+            --manifest "$EVIDENCE_DIR/corpus-manifest.json"
+          test "$(sha256sum "$EVIDENCE_DIR/calibration.txt" | cut -d' ' -f1)" = \
+            8c4c6ed67bbdd4990dd7ce26df1400e7a8268b366b77b4f54448fd69d54ee2b5
+
+      - name: Pin and build exact native tools
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none https://github.com/ggml-org/llama.cpp.git "$LLAMA_SOURCE"
+          git -C "$LLAMA_SOURCE" checkout --detach 876a4321163249c43ca4e986818fab5ab081f282
+          test "$(git -C "$LLAMA_SOURCE" rev-parse HEAD)" = 876a4321163249c43ca4e986818fab5ab081f282
+          test "$(git -C "$LLAMA_SOURCE" describe --tags --exact-match)" = b10216
+          for patch in \
+            patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch \
+            patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch \
+            patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch; do
+            cp "$patch" "$EVIDENCE_DIR/patches/$(basename "$patch")"
+            git -C "$LLAMA_SOURCE" apply --check "$GITHUB_WORKSPACE/$patch"
+            git -C "$LLAMA_SOURCE" apply "$GITHUB_WORKSPACE/$patch"
+          done
+          git -C "$LLAMA_SOURCE" diff --check
+          git -C "$LLAMA_SOURCE" diff --binary --full-index HEAD -- > "$EVIDENCE_DIR/source-diff.patch"
+          test "$(sha256sum "$EVIDENCE_DIR/source-diff.patch" | cut -d' ' -f1)" = \
+            e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893
+          jq '.source' "$BASE_PLAN_PATH" > "$EVIDENCE_DIR/source.json"
+          mapfile -t cmake_args < <(jq -r '.build.cmake_arguments[]' "$BASE_PLAN_PATH")
+          jq '{cmake_arguments: .build.cmake_arguments}' "$BASE_PLAN_PATH" \
+            > "$EVIDENCE_DIR/build/configure-command.json"
+          cmake -S "$LLAMA_SOURCE" -B "$LLAMA_BUILD" -G Ninja \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON "${cmake_args[@]}" \
+            2>&1 | tee "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'ARM detected' "$EVIDENCE_DIR/build/configure.log"
+          grep -q '^LLAMA_OPENSSL:BOOL=OFF$' "$LLAMA_BUILD/CMakeCache.txt"
+          cp "$LLAMA_BUILD/CMakeCache.txt" "$EVIDENCE_DIR/build/CMakeCache.txt"
+          /usr/bin/time --verbose --output "$EVIDENCE_DIR/build/build-time.log" \
+            cmake --build "$LLAMA_BUILD" --target llama-imatrix llama-quantize --parallel "$(nproc)" \
+            2>&1 | tee "$EVIDENCE_DIR/build/build.log"
+          ninja -C "$LLAMA_BUILD" -t commands > "$EVIDENCE_DIR/build/build-commands.txt"
+          "$LLAMA_BUILD/bin/llama-imatrix" --version 2>&1 | tee "$EVIDENCE_DIR/build/imatrix-version.txt"
+          sha256sum "$LLAMA_BUILD/bin/llama-quantize" | tee "$EVIDENCE_DIR/build/quantize-sha256.txt"
+          c++ --version > "$EVIDENCE_DIR/build/compiler-full.txt"
+          python3 experiments/e7a_runtime_closure.py \
+            --server "$LLAMA_BUILD/bin/llama-imatrix" \
+            --build-root "$LLAMA_BUILD" \
+            --copy-dir "$EVIDENCE_DIR/build/llama-imatrix-runtime-files" \
+            --output "$EVIDENCE_DIR/build/llama-imatrix-runtime-closure.json"
+          python3 experiments/e7a_runtime_closure.py \
+            --server "$LLAMA_BUILD/bin/llama-quantize" \
+            --build-root "$LLAMA_BUILD" \
+            --copy-dir "$EVIDENCE_DIR/build/llama-quantize-runtime-files" \
+            --output "$EVIDENCE_DIR/build/llama-quantize-runtime-closure.json"
+
+      - name: Download and verify exact BF16 source model
+        run: |
+          set -euo pipefail
+          repository="$(jq -r '.model.repository' "$CONTRACT_PATH")"
+          revision="$(jq -r '.model.revision' "$CONTRACT_PATH")"
+          entrypoint="$(jq -r '.model.path' "$CONTRACT_PATH")"
+          model="$MODEL_ROOT/$entrypoint"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$model" \
+            "https://huggingface.co/$repository/resolve/$revision/$entrypoint?download=true"
+          test "$(stat --format='%s' "$model")" = 6866220032
+          echo "413b0d1fa42c2656f6c61aab88171191fc2df2d07427d82b047c89ac977bc266  $model" \
+            | sha256sum --check --strict
+          sha256sum "$model" | tee "$EVIDENCE_DIR/model-sha256.txt"
+          echo "$model" > "$EVIDENCE_DIR/model-path.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after-model.txt"
+
+      - name: Resume chunks 24 through 31 and inspect complete matrix
+        run: |
+          set -euo pipefail
+          PYTHONPATH="$LLAMA_SOURCE/gguf-py" python3 -m gguf.scripts.gguf_dump \
+            "$EVIDENCE_DIR/prior/imatrix.gguf" --json --json-array \
+            > "$EVIDENCE_DIR/prior-imatrix-metadata.json"
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          contract = json.loads(Path(os.environ["CONTRACT_PATH"]).read_text())
+          evidence = Path(os.environ["EVIDENCE_DIR"])
+          replacements = {
+              "MODEL_PATH": (evidence / "model-path.txt").read_text().strip(),
+              "CORPUS_PATH": str(evidence / "calibration.txt"),
+              "CHECKPOINT_PATH": str(evidence / "prior/imatrix.gguf"),
+              "IMATRIX_PATH": str(evidence / "imatrix.gguf"),
+          }
+          argv = [str(Path(os.environ["LLAMA_BUILD"]) / "bin/llama-imatrix")]
+          argv.extend(replacements.get(value, value) for value in contract["resume"]["argv_after_binary"])
+          (evidence / "imatrix-command.json").write_text(
+              json.dumps({"argv": argv}, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+          mapfile -t imatrix_argv < <(jq -r '.argv[]' "$EVIDENCE_DIR/imatrix-command.json")
+          /usr/bin/time --verbose --output "$EVIDENCE_DIR/imatrix-time.log" \
+            "${imatrix_argv[@]}" 2>&1 | tee "$EVIDENCE_DIR/imatrix.log"
+          sha256sum "$EVIDENCE_DIR/imatrix.gguf" | tee "$EVIDENCE_DIR/imatrix-sha256.txt"
+          "$LLAMA_BUILD/bin/llama-imatrix" \
+            --in-file "$EVIDENCE_DIR/imatrix.gguf" \
+            --show-statistics --ctx-size 512 --threads 4 \
+            2>&1 | tee "$EVIDENCE_DIR/imatrix-statistics.log"
+          PYTHONPATH="$LLAMA_SOURCE/gguf-py" python3 -m gguf.scripts.gguf_dump \
+            "$EVIDENCE_DIR/imatrix.gguf" --json --json-array \
+            > "$EVIDENCE_DIR/imatrix-metadata.json"
+
+      - name: Independently validate and inventory resumed evidence
+        run: |
+          set -euo pipefail
+          python3 experiments/e12a_resume_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-after.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+
+      - name: Upload complete resumed importance-matrix evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: e12a-resume-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error

@@ -1,0 +1,234 @@
+{
+  "acceptance": {
+    "minimum_imatrix_entries": 1,
+    "process_exit_status": 0,
+    "require_checkpoint_hash_match": true,
+    "require_checkpoint_load_log": true,
+    "require_chunk_skip_log": true,
+    "require_corpus_hash_match": true,
+    "require_fresh_source_build_model": true,
+    "require_gguf_metadata": true,
+    "require_model_hash_match": true,
+    "require_source_and_build_closure": true,
+    "require_statistics_capture": true,
+    "required_architecture": "aarch64",
+    "required_checkpoint_chunks": 24,
+    "required_chunk_count": 32,
+    "required_chunk_size": 512,
+    "required_final_chunks": 32,
+    "required_imatrix_entries": 182,
+    "required_new_chunks": 8
+  },
+  "build": {
+    "cmake_arguments": [
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DGGML_CPU_KLEIDIAI=ON",
+      "-DGGML_LTO=OFF",
+      "-DGGML_NATIVE=ON",
+      "-DLLAMA_BUILD_SERVER=OFF",
+      "-DLLAMA_BUILD_TESTS=OFF",
+      "-DLLAMA_CURL=OFF",
+      "-DLLAMA_OPENSSL=OFF"
+    ],
+    "forbidden_dynamic_dependency_basenames": [
+      "libcrypto.so.3",
+      "libssl.so.3"
+    ],
+    "runner": "ubuntu-24.04-arm",
+    "targets": [
+      "llama-imatrix",
+      "llama-quantize"
+    ]
+  },
+  "calibration": {
+    "application_records": 240,
+    "application_task_repetitions": 8,
+    "datasets": [
+      {
+        "configuration": "ARC-Easy",
+        "dataset_fingerprint_with_datasets_5_0_1": "3f0efa3624a04562",
+        "license": "CC-BY-SA-4.0",
+        "name": "arc_easy_train",
+        "repository": "allenai/ai2_arc",
+        "revision": "210d026faf9955653af8916fad021475a3f00453",
+        "split": "train",
+        "split_size": 2251
+      },
+      {
+        "configuration": null,
+        "dataset_fingerprint_with_datasets_5_0_1": "5c5bea5996a5827b",
+        "license": "MIT",
+        "name": "hellaswag_train",
+        "repository": "Rowan/hellaswag",
+        "revision": "218ec52e09a7e7462a5400043bb9a69a41d06b76",
+        "split": "train",
+        "split_size": 39905
+      },
+      {
+        "configuration": "winogrande_xl",
+        "dataset_fingerprint_with_datasets_5_0_1": "d5752cdf34722002",
+        "license": "Apache-2.0",
+        "name": "winogrande_train",
+        "repository": "allenai/winogrande",
+        "revision": "01e74176c63542e6b0bcb004dcdea22d94fb67b5",
+        "split": "train",
+        "split_size": 40398
+      }
+    ],
+    "expected_corpus": {
+      "corpus_bytes": 309892,
+      "corpus_sha256": "8c4c6ed67bbdd4990dd7ce26df1400e7a8268b366b77b4f54448fd69d54ee2b5",
+      "maximum_record_tokens": 312,
+      "minimum_record_tokens": 41,
+      "records": 720,
+      "rendered_token_count_sum": 69956,
+      "source_counts": {
+        "application": 240,
+        "arc_easy_train": 160,
+        "hellaswag_train": 160,
+        "winogrande_train": 160
+      }
+    },
+    "external_records": 480,
+    "holdout_exclusion": "Only dataset training splits and the already-consumed 30 application tasks are used. E10d/E11a evaluation splits and every E11c test row are excluded.",
+    "record_order": "Salted SHA-256 rank over immutable source identifiers using pareto64-e12a-imatrix-record-order-v1",
+    "rendering_uses_gold_answers": true,
+    "samples_per_external_training_split": 160,
+    "selection_uses_labels": false,
+    "selection_uses_model_outputs": false,
+    "total_records": 720
+  },
+  "claim_boundary": "A passing E12a resume establishes only one complete application-conditioned importance-matrix artifact assembled by exact ordered continuation on native GitHub-hosted Arm64. It is not a quantized model, quality, service, energy, PMU, local-device, fleet, cost, pruning, or other-runtime result.",
+  "decision": {
+    "failure_rule": "Retain checkpoint download/identity failure, source/build/model/corpus drift, load failure, a chunk count other than 32, entry-name drift, invalid metadata, incomplete statistics, or tool failure without changing the checkpoint, chunk range, data, model, source, or gates.",
+    "original_timeout_rehabilitated": false,
+    "resume_success_authorizes_generated_quant_successor": true,
+    "resume_success_promotes_model": false
+  },
+  "experiment_id": "E12a-resume",
+  "hypothesis": "Loading the exact 24-chunk periodic GGUF checkpoint and processing the remaining eight corpus chunks in order completes the originally frozen 32-chunk application-conditioned importance matrix without repeating or changing calibration work.",
+  "inputs": {
+    "base_plan_path": "experiments/e12a_imatrix_plan.json",
+    "base_plan_sha256": "549ea26150cae35fee1cdc841746a4eb1a6b066496c004186c9d0330d6a29959",
+    "failure_manifest_path": "results/manifests/e12a-30822632328.json",
+    "failure_manifest_sha256": "d1fa4b74d7ccc3434c34c61741532a5f76143c2b752299296ca5012f14c3c994",
+    "freeze_path": "experiments/e12a_resume_freeze.py",
+    "freeze_sha256": "5fa455ac5be8c35014e80d0ca0a6a471e7f67e5f51ba2b97160ded6787ce05e2",
+    "ingest_path": "experiments/e12a_resume_ingest.py",
+    "ingest_sha256": "536105d343dfce02d46f8bd3a92c0e2a916d9acf7dcdc76ad5f62694372c77d4",
+    "test_path": "tests/test_e12a_resume.py",
+    "test_sha256": "4bfeb13ed9ef961abd372606bea75ea94020b3ff9a6a27fd69b581dbdadb19f5"
+  },
+  "model": {
+    "license": "Apache-2.0",
+    "path": "Ministral-3-3B-Instruct-2512-BF16.gguf",
+    "provenance": "Exact LFS SHA-256 and size from the Hugging Face model API at the pinned revision",
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "sha256": "413b0d1fa42c2656f6c61aab88171191fc2df2d07427d82b047c89ac977bc266",
+    "size_bytes": 6866220032
+  },
+  "prerequisite": {
+    "artifact_digest": "sha256:120665a1ebc6e49f00f6f51136834a04e5b2ee3e8ffbe6c5c67f6d5480dec05d",
+    "artifact_id": "8868581019",
+    "artifact_name": "e12a-imatrix-30822632328-1",
+    "base_contract_sha256": "549ea26150cae35fee1cdc841746a4eb1a6b066496c004186c9d0330d6a29959",
+    "checkpoint": {
+      "activation_statistics_observed_before_resume_freeze": false,
+      "completed_fraction": 0.75,
+      "metadata": {
+        "chunk_count": 24,
+        "chunk_size": 512,
+        "datasets": [
+          "/home/runner/work/Arm/Arm/results/raw/e12a-30822632328-1/calibration.txt"
+        ],
+        "entries": 182,
+        "general_type": "imatrix",
+        "gguf_tensors": 364
+      },
+      "next_chunk": 24,
+      "path": "imatrix.gguf",
+      "remaining_chunks": 8,
+      "sha256": "b95f4dca6ab074764253e7c981971cfb9e9ad687aecb26c0b364642ac9e4b48f",
+      "size_bytes": 3009952
+    },
+    "experiment": "E12a",
+    "failure_manifest_sha256": "d1fa4b74d7ccc3434c34c61741532a5f76143c2b752299296ca5012f14c3c994",
+    "job_id": "91716127342",
+    "repository_commit": "204636445ee3e6ba712ea5fce001312c0bd9c044",
+    "run_attempt": 1,
+    "run_id": "30822632328"
+  },
+  "resume": {
+    "argv_after_binary": [
+      "--model",
+      "MODEL_PATH",
+      "--file",
+      "CORPUS_PATH",
+      "--in-file",
+      "CHECKPOINT_PATH",
+      "--output-file",
+      "IMATRIX_PATH",
+      "--output-format",
+      "gguf",
+      "--ctx-size",
+      "512",
+      "--batch-size",
+      "512",
+      "--ubatch-size",
+      "128",
+      "--threads",
+      "4",
+      "--chunk",
+      "24",
+      "--chunks",
+      "8",
+      "--output-frequency",
+      "8",
+      "--no-ppl",
+      "--parse-special"
+    ],
+    "checkpoint_entry_names_must_match_final": true,
+    "dataset_metadata_policy": "The final GGUF must list the prerequisite artifact corpus path followed by the current-run path to byte-identical corpus content.",
+    "final_chunks": 32,
+    "from_chunk": 24,
+    "job_timeout_minutes": 180,
+    "new_chunks": 8,
+    "tokens_per_chunk": 512
+  },
+  "schema_version": 1,
+  "source": {
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "patches": [
+      {
+        "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      }
+    ],
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "tag": "b10216",
+    "tools": [
+      "llama-imatrix",
+      "llama-quantize"
+    ]
+  },
+  "state": "frozen after retaining the native 300-minute timeout and inspecting only its periodic checkpoint identity/metadata, before observing any completed-matrix statistics or generated-quant result",
+  "title": "Exact E12a checkpoint continuation",
+  "tokenizer": {
+    "chat_template": "Three-message system/user/assistant transcript with enable_thinking=false and no generation prompt",
+    "fix_mistral_regex": true,
+    "license": "Apache-2.0",
+    "repository": "mistralai/Ministral-3-3B-Instruct-2512",
+    "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+    "transformers_version": "5.14.1"
+  }
+}
