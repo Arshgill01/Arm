@@ -44,6 +44,7 @@ SUCCESSOR_ARTIFACT_INPUTS = {
     "base_plan": "base-plan.json",
     "models": "models.json",
     "e10f_contract": "e10f-contract.json",
+    "first_run_failure": "first-run-failure.json",
     "cell_runner": "cell-runner.sh",
     "freeze": "successor-freeze.py",
     "ingest": "successor-ingest.py",
@@ -66,11 +67,10 @@ def validate_inputs(evidence: Path, contract_path: Path, root: Path) -> dict[str
     e10f_contract = load_object(root / contract["inputs"]["e10f_contract_path"])
     for key, artifact_name in E10F_ARTIFACT_INPUTS.items():
         expected = e10f_contract["inputs"][f"{key}_sha256"]
-        if (
-            sha256_file(root / e10f_contract["inputs"][f"{key}_path"]) != expected
-            or sha256_file(evidence / artifact_name) != expected
-        ):
+        if sha256_file(evidence / artifact_name) != expected:
             raise ValueError(f"E11a-successor E10f adapter input differs for {key}")
+    if sha256_file(evidence / "e10f-historical-test.py") != e10f_contract["inputs"]["test_sha256"]:
+        raise ValueError("E11a-successor historical E10f test blob differs")
     return contract
 
 

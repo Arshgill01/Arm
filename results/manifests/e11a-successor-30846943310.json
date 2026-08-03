@@ -1,0 +1,48 @@
+{
+  "claim_boundary": "All eight cells stopped before model download or inference, so this run contains no stock-quant quality, size, performance, memory, or promotion result.",
+  "contract_sha256": "277ee27e62dec502c51fb1b5dbb3bb068b27880b8d36401db8ad1a54494448ce",
+  "decision": {
+    "negative_setup_result_retained": true,
+    "quality_or_model_claim_permitted": false,
+    "separately_frozen_provenance_repair_allowed": true,
+    "stock_quant_frontier_accepted": false
+  },
+  "experiment_id": "E11a-successor",
+  "experiment_result_valid": false,
+  "failure": {
+    "aggregate_conclusion": "skipped",
+    "artifact_count": 0,
+    "cause": "The successor rehashed every E10f source input in the current checkout. tests/test_e10f.py legitimately gained retained-result tests after E10f completed, so its current hash cannot equal E10f's historical frozen hash.",
+    "current_test_sha256": "6924889404fef67a707c6c3f2461abaae5de05cedac63e3e267ad4821dd4b421",
+    "expected_historical_test_sha256": "78ac5c157ed7d1ac506f2a29d271a4032045bf4b4dd49652f2e49e4bf1a66acf",
+    "failed_cells": 8,
+    "historical_test_sha256_at_e10f_commit": "78ac5c157ed7d1ac506f2a29d271a4032045bf4b4dd49652f2e49e4bf1a66acf",
+    "model_downloads_started": 0,
+    "model_measurements_started": 0,
+    "repair_boundary": "A successor may validate E10f's retained artifact copies, exact historical commit blob and retained manifest instead of requiring unrelated later test additions to preserve a historical working-tree hash. Candidate models, scorer, workload, safe token, metrics and frontier policy may not change.",
+    "stage": "shared prerequisite validation"
+  },
+  "github": {
+    "aggregate_job_id": "91797584994",
+    "artifacts_api_sha256": "244563f989470892c537c9a4622920af0d228ee4528f7d00c64a06d6cd95856c",
+    "conclusion": "failure",
+    "evaluate_job_ids": [
+      "91797466283",
+      "91797466311",
+      "91797466330",
+      "91797466400",
+      "91797466420",
+      "91797466435",
+      "91797466489",
+      "91797466544"
+    ],
+    "repository_commit": "27bda205ae63d15aba793d4fbef5f3b50c81c221",
+    "run_attempt": 1,
+    "run_id": "30846943310",
+    "run_log_sha256": "efde1b8096e330dcfff9fdadb4f74ac6a9e70d63f92db55323ab39d923cce692",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30846943310"
+  },
+  "model_results_observed": false,
+  "schema_version": 1,
+  "status": "invalid_premeasurement_provenance_check_failure"
+}

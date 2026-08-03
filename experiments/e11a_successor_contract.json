@@ -19,6 +19,7 @@
   },
   "claim_boundary": "E11a-successor can establish only an exploratory external quality/size frontier across nine exact stock Ministral quantizations using E10f's validated safe-sampled scorer on native Arm64. It does not establish end-product service performance, promote a model, rewrite prior contracts, or support energy, PMU, local-device, fleet, cost, mixed-quant, imatrix, pruning, causal-kernel, or other-runtime claims.",
   "decision": {
+    "first_run_rehabilitated": false,
     "matched_native_service_required": true,
     "negative_result_rule": "Retain model download/hash failure, unsupported quant type, load failure, tokenizer mismatch, scoring failure, low or mixed quality, regression against Q4_K_M or Q4_0, repack absence, performance regression, memory regression, or readiness regression without changing candidates, tasks, samples, metrics, or dominance rules.",
     "original_30_task_admission_contract_rewrite_allowed": false,
@@ -90,6 +91,13 @@
       "transformers_version": "5.14.1"
     }
   },
+  "first_run_failure": {
+    "manifest_sha256": "c4f40aeb11d66e3fa90638b8eaef61007a66679765f29ae530327302ca6a372f",
+    "model_results_observed": false,
+    "repair": "Validate the frozen E10f artifact copies and the historical test blob at the E10f commit instead of requiring later retained-result tests to preserve the historical working-tree hash.",
+    "repository_commit": "27bda205ae63d15aba793d4fbef5f3b50c81c221",
+    "run_id": "30846943310"
+  },
   "frontier": {
     "candidate_outcomes_observed_before_freeze": false,
     "coordinates": [
@@ -123,10 +131,12 @@
     "e10f_contract_sha256": "8c68811a36bb94e47a5bba92c44fe41d898385c1d2215d63c9b2fed010fcc729",
     "e10f_manifest_path": "results/manifests/e10f-30829237582.json",
     "e10f_manifest_sha256": "d328ede54f7c4af83e9b9e4ba6711ffd0dae61faf72b0e286da798d1c0998dd7",
+    "first_run_failure_path": "results/manifests/e11a-successor-30846943310.json",
+    "first_run_failure_sha256": "c4f40aeb11d66e3fa90638b8eaef61007a66679765f29ae530327302ca6a372f",
     "freeze_path": "experiments/e11a_successor_freeze.py",
-    "freeze_sha256": "4dc5b4af5015abf7b30a2cbf2aa4ff121d60d122351a1b88936cb56bb48a3706",
+    "freeze_sha256": "88f986c1e8f43c3535340065310f59c734bfa6ecd6e7ce6ee8d18275329753d7",
     "ingest_path": "experiments/e11a_successor_ingest.py",
-    "ingest_sha256": "54cee4294d221e46b355c4d1f17ef2ef9a308adb5b594a5ec10120e94ee0149d",
+    "ingest_sha256": "b1211ba779cd7a160b1145b27fea09858258d156043f1efdc1ea1ee85ddbd5b0",
     "models_path": "experiments/e11a_models.json",
     "models_sha256": "5cb8c990a9c79b28f5d8ecf06656e54305462561f0885b6be65228472e0a91b1",
     "test_path": "tests/test_e11a_successor.py",
@@ -329,7 +339,7 @@
     "threads_batch": 4,
     "weight_repack": true
   },
-  "state": "frozen after E10f independently validated and before any of the eight previously unobserved stock-candidate outcomes are measured",
+  "state": "separately frozen after retaining the first run's historical-input provenance-check failure, before any of the eight previously unobserved stock-candidate outcomes are measured",
   "title": "Safe-sampled Arm stock-quant quality/size frontier",
   "workload": {
     "apply_chat_template": true,

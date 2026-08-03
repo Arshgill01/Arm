@@ -36,6 +36,7 @@ SUCCESSOR_ARTIFACT_INPUTS = {
     "freeze": "resume-freeze.py",
     "ingest": "resume-ingest.py",
     "test": "resume-test.py",
+    "first_resume_failure": "first-resume-failure.json",
 }
 
 

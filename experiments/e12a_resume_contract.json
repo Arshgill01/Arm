@@ -101,21 +101,31 @@
   "claim_boundary": "A passing E12a resume establishes only one complete application-conditioned importance-matrix artifact assembled by exact ordered continuation on native GitHub-hosted Arm64. It is not a quantized model, quality, service, energy, PMU, local-device, fleet, cost, pruning, or other-runtime result.",
   "decision": {
     "failure_rule": "Retain checkpoint download/identity failure, source/build/model/corpus drift, load failure, a chunk count other than 32, entry-name drift, invalid metadata, incomplete statistics, or tool failure without changing the checkpoint, chunk range, data, model, source, or gates.",
+    "first_resume_rehabilitated": false,
     "original_timeout_rehabilitated": false,
     "resume_success_authorizes_generated_quant_successor": true,
     "resume_success_promotes_model": false
   },
   "experiment_id": "E12a-resume",
+  "first_resume_failure": {
+    "manifest_sha256": "071ce1293572ab5728235d464159328d3c6d5fe290a01fcf63d1e6f477fe5a5e",
+    "matrix_compute_started": false,
+    "repair": "Invoke both gguf-py metadata dumps with the already pinned corpus virtual-environment interpreter that contains NumPy.",
+    "repository_commit": "7687fc081879a81501cf6e74bd61adb201b7f5f4",
+    "run_id": "30846528784"
+  },
   "hypothesis": "Loading the exact 24-chunk periodic GGUF checkpoint and processing the remaining eight corpus chunks in order completes the originally frozen 32-chunk application-conditioned importance matrix without repeating or changing calibration work.",
   "inputs": {
     "base_plan_path": "experiments/e12a_imatrix_plan.json",
     "base_plan_sha256": "549ea26150cae35fee1cdc841746a4eb1a6b066496c004186c9d0330d6a29959",
     "failure_manifest_path": "results/manifests/e12a-30822632328.json",
     "failure_manifest_sha256": "d1fa4b74d7ccc3434c34c61741532a5f76143c2b752299296ca5012f14c3c994",
+    "first_resume_failure_path": "results/manifests/e12a-resume-30846528784.json",
+    "first_resume_failure_sha256": "071ce1293572ab5728235d464159328d3c6d5fe290a01fcf63d1e6f477fe5a5e",
     "freeze_path": "experiments/e12a_resume_freeze.py",
-    "freeze_sha256": "5fa455ac5be8c35014e80d0ca0a6a471e7f67e5f51ba2b97160ded6787ce05e2",
+    "freeze_sha256": "edb9b8e2af99751deb8e93d61c4e4953e2d20278dafb63cfce6b205fe86712d2",
     "ingest_path": "experiments/e12a_resume_ingest.py",
-    "ingest_sha256": "536105d343dfce02d46f8bd3a92c0e2a916d9acf7dcdc76ad5f62694372c77d4",
+    "ingest_sha256": "ea44ed72c65ed6830ddc4ac9e7a15444ad0b5bccda014b9eebb627b583ab66aa",
     "test_path": "tests/test_e12a_resume.py",
     "test_sha256": "4bfeb13ed9ef961abd372606bea75ea94020b3ff9a6a27fd69b581dbdadb19f5"
   },
@@ -193,6 +203,7 @@
     "final_chunks": 32,
     "from_chunk": 24,
     "job_timeout_minutes": 180,
+    "metadata_dump_python": "pinned_corpus_virtual_environment",
     "new_chunks": 8,
     "tokens_per_chunk": 512
   },
@@ -221,7 +232,7 @@
       "llama-quantize"
     ]
   },
-  "state": "frozen after retaining the native 300-minute timeout and inspecting only its periodic checkpoint identity/metadata, before observing any completed-matrix statistics or generated-quant result",
+  "state": "separately frozen after retaining both the native timeout and the first resume's precompute Python-environment failure, before observing any completed-matrix statistics or generated-quant result",
   "title": "Exact E12a checkpoint continuation",
   "tokenizer": {
     "chat_template": "Three-message system/user/assistant transcript with enable_thinking=false and no generation prompt",

@@ -19,6 +19,7 @@ except ModuleNotFoundError as error:
 INPUT_PATHS = {
     "base_plan": Path("experiments/e12a_imatrix_plan.json"),
     "failure_manifest": Path("results/manifests/e12a-30822632328.json"),
+    "first_resume_failure": Path("results/manifests/e12a-resume-30846528784.json"),
     "freeze": Path("experiments/e12a_resume_freeze.py"),
     "ingest": Path("experiments/e12a_resume_ingest.py"),
     "test": Path("tests/test_e12a_resume.py"),
@@ -28,6 +29,7 @@ INPUT_PATHS = {
 def build_contract(root: Path) -> dict[str, Any]:
     plan = load_object(root / INPUT_PATHS["base_plan"])
     failure = load_object(root / INPUT_PATHS["failure_manifest"])
+    first_resume = load_object(root / INPUT_PATHS["first_resume_failure"])
     checkpoint = failure.get("resume_checkpoint")
     if (
         plan.get("experiment_id") != "E12a"
@@ -38,6 +40,9 @@ def build_contract(root: Path) -> dict[str, Any]:
         or checkpoint.get("metadata", {}).get("chunk_count") != 24
         or checkpoint.get("remaining_chunks") != 8
         or checkpoint.get("metadata", {}).get("entries") != 182
+        or first_resume.get("status") != "invalid_premeasurement_python_environment_failure"
+        or first_resume.get("matrix_compute_started") is not False
+        or first_resume.get("decision", {}).get("separately_frozen_interpreter_repair_allowed") is not True
     ):
         raise ValueError("E12a resume prerequisite differs")
 
@@ -50,8 +55,8 @@ def build_contract(root: Path) -> dict[str, Any]:
         "experiment_id": "E12a-resume",
         "title": "Exact E12a checkpoint continuation",
         "state": (
-            "frozen after retaining the native 300-minute timeout and inspecting "
-            "only its periodic checkpoint identity/metadata, before observing any "
+            "separately frozen after retaining both the native timeout and the first "
+            "resume's precompute Python-environment failure, before observing any "
             "completed-matrix statistics or generated-quant result"
         ),
         "hypothesis": (
@@ -73,6 +78,16 @@ def build_contract(root: Path) -> dict[str, Any]:
             "failure_manifest_sha256": sha256_file(root / INPUT_PATHS["failure_manifest"]),
             "base_contract_sha256": failure["contract_sha256"],
             "checkpoint": checkpoint,
+        },
+        "first_resume_failure": {
+            "run_id": first_resume["github"]["run_id"],
+            "repository_commit": first_resume["github"]["repository_commit"],
+            "manifest_sha256": sha256_file(root / INPUT_PATHS["first_resume_failure"]),
+            "matrix_compute_started": False,
+            "repair": (
+                "Invoke both gguf-py metadata dumps with the already pinned corpus "
+                "virtual-environment interpreter that contains NumPy."
+            ),
         },
         "source": plan["source"],
         "build": plan["build"],
@@ -106,6 +121,7 @@ def build_contract(root: Path) -> dict[str, Any]:
             ),
             "checkpoint_entry_names_must_match_final": True,
             "job_timeout_minutes": 180,
+            "metadata_dump_python": "pinned_corpus_virtual_environment",
         },
         "acceptance": {
             **plan["acceptance"],
@@ -122,6 +138,7 @@ def build_contract(root: Path) -> dict[str, Any]:
             "resume_success_promotes_model": False,
             "resume_success_authorizes_generated_quant_successor": True,
             "original_timeout_rehabilitated": False,
+            "first_resume_rehabilitated": False,
             "failure_rule": (
                 "Retain checkpoint download/identity failure, source/build/model/corpus "
                 "drift, load failure, a chunk count other than 32, entry-name drift, "

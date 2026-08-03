@@ -21,6 +21,7 @@ INPUT_PATHS = {
     "models": Path("experiments/e11a_models.json"),
     "e10f_contract": Path("experiments/e10f_contract.json"),
     "e10f_manifest": Path("results/manifests/e10f-30829237582.json"),
+    "first_run_failure": Path("results/manifests/e11a-successor-30846943310.json"),
     "cell_runner": Path("experiments/e10f_cell.sh"),
     "freeze": Path("experiments/e11a_successor_freeze.py"),
     "ingest": Path("experiments/e11a_successor_ingest.py"),
@@ -33,6 +34,7 @@ def build_contract(root: Path) -> dict[str, Any]:
     universe = load_object(root / INPUT_PATHS["models"])
     e10f_contract = load_object(root / INPUT_PATHS["e10f_contract"])
     e10f = load_object(root / INPUT_PATHS["e10f_manifest"])
+    first_run = load_object(root / INPUT_PATHS["first_run_failure"])
     validation = e10f.get("validation", {})
     if (
         base.get("experiment_id") != "E11a"
@@ -40,6 +42,9 @@ def build_contract(root: Path) -> dict[str, Any]:
         or e10f.get("status") != "valid_safe_sampled_external_holdout"
         or e10f.get("contract_sha256") != sha256_file(root / INPUT_PATHS["e10f_contract"])
         or e10f.get("decision", {}).get("e10f_generated_quant_prerequisite_satisfied") is not True
+        or first_run.get("status") != "invalid_premeasurement_provenance_check_failure"
+        or first_run.get("model_results_observed") is not False
+        or first_run.get("decision", {}).get("separately_frozen_provenance_repair_allowed") is not True
         or not all(
             validation.get(key) is True
             for key in (
@@ -77,8 +82,9 @@ def build_contract(root: Path) -> dict[str, Any]:
         "experiment_id": "E11a-successor",
         "title": "Safe-sampled Arm stock-quant quality/size frontier",
         "state": (
-            "frozen after E10f independently validated and before any of the eight "
-            "previously unobserved stock-candidate outcomes are measured"
+            "separately frozen after retaining the first run's historical-input "
+            "provenance-check failure, before any of the eight previously unobserved "
+            "stock-candidate outcomes are measured"
         ),
         "scope": (
             "Run all eight non-anchor stock formats from the original E11a universe "
@@ -100,6 +106,17 @@ def build_contract(root: Path) -> dict[str, Any]:
             "required_status": e10f["status"],
             "anchor": anchor,
             "diagnostic_control": control,
+        },
+        "first_run_failure": {
+            "run_id": first_run["github"]["run_id"],
+            "repository_commit": first_run["github"]["repository_commit"],
+            "manifest_sha256": sha256_file(root / INPUT_PATHS["first_run_failure"]),
+            "model_results_observed": False,
+            "repair": (
+                "Validate the frozen E10f artifact copies and the historical test blob "
+                "at the E10f commit instead of requiring later retained-result tests "
+                "to preserve the historical working-tree hash."
+            ),
         },
         "model_repository": {
             "repository": universe["repository"],
@@ -146,6 +163,7 @@ def build_contract(root: Path) -> dict[str, Any]:
             "sealed_confirmation_required": True,
             "original_30_task_admission_contract_rewrite_allowed": False,
             "original_e10d_rewrite_allowed": False,
+            "first_run_rehabilitated": False,
             "negative_result_rule": base["negative_result_rule"],
         },
         "claim_boundary": (

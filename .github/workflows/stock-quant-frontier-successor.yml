@@ -9,7 +9,7 @@ permissions:
 
 env:
   CONTRACT_PATH: experiments/e11a_successor_contract.json
-  CONTRACT_SHA256: 277ee27e62dec502c51fb1b5dbb3bb068b27880b8d36401db8ad1a54494448ce
+  CONTRACT_SHA256: 0f373d8c503f74239adf283a240289d015c0a4623cb2413aab3497bb43843853
   E10F_CONTRACT_PATH: experiments/e10f_contract.json
   ADAPTER_CONTRACT_PATH: experiments/e10d_contract.json
   RUNTIME_RUN_ID: "30818303255"
@@ -57,13 +57,11 @@ jobs:
         run: |
           set -euo pipefail
           test "$(uname -m)" = "aarch64"
+          mkdir -p "$EVIDENCE_DIR" "$MODEL_ROOT"
           echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
           while IFS=$'\t' read -r expected input_file; do
             echo "$expected  $input_file" | sha256sum --check --strict
           done < <(jq -r '.inputs as $inputs | $inputs | to_entries[] | select(.key | endswith("_path")) | [$inputs[(.key | sub("_path$"; "_sha256"))], .value] | @tsv' "$CONTRACT_PATH")
-          while IFS=$'\t' read -r expected input_file; do
-            echo "$expected  $input_file" | sha256sum --check --strict
-          done < <(jq -r '.inputs as $inputs | $inputs | to_entries[] | select(.key | endswith("_path")) | [$inputs[(.key | sub("_path$"; "_sha256"))], .value] | @tsv' "$E10F_CONTRACT_PATH")
           python3 -m unittest tests.test_e10d_failure tests.test_e10f tests.test_e11a tests.test_e11a_successor
           python3 experiments/e10d_failure_ingest.py \
             --evidence-dir "$RUNTIME_DIR" \
@@ -80,7 +78,11 @@ jobs:
           echo "$(jq -r '.prerequisite.prepared_sha256' "$CONTRACT_PATH")  $RUNTIME_DIR/prepared.json" \
             | sha256sum --check --strict
 
-          mkdir -p "$EVIDENCE_DIR" "$MODEL_ROOT"
+          git fetch --no-tags origin bb7426936bd52011bbeffa260061521d4b5c45f6 --depth=1
+          git show bb7426936bd52011bbeffa260061521d4b5c45f6:tests/test_e10f.py \
+            > "$EVIDENCE_DIR/e10f-historical-test.py"
+          echo "$(jq -r '.inputs.test_sha256' "$E10F_CONTRACT_PATH")  $EVIDENCE_DIR/e10f-historical-test.py" \
+            | sha256sum --check --strict
           cp -R "$RUNTIME_DIR/build" "$EVIDENCE_DIR/build"
           cp -R "$RUNTIME_DIR/patches" "$EVIDENCE_DIR/patches"
           cp -R "$RUNTIME_DIR/tasks" "$EVIDENCE_DIR/tasks"
@@ -95,6 +97,8 @@ jobs:
           cp experiments/e11a_plan.json "$EVIDENCE_DIR/base-plan.json"
           cp experiments/e11a_models.json "$EVIDENCE_DIR/models.json"
           cp "$E10F_CONTRACT_PATH" "$EVIDENCE_DIR/e10f-contract.json"
+          cp results/manifests/e11a-successor-30846943310.json \
+            "$EVIDENCE_DIR/first-run-failure.json"
           cp "$ADAPTER_CONTRACT_PATH" "$EVIDENCE_DIR/e10d-contract.json"
           cp experiments/e10f_cell.sh "$EVIDENCE_DIR/cell-runner.sh"
           cp experiments/e11a_successor_freeze.py "$EVIDENCE_DIR/successor-freeze.py"

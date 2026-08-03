@@ -9,7 +9,7 @@ permissions:
 
 env:
   CONTRACT_PATH: experiments/e12a_resume_contract.json
-  CONTRACT_SHA256: f02c89dd08be2c30f254c157010c85b88e240811c2173f798f5c34b9ad6a052b
+  CONTRACT_SHA256: a46af4ddc89680006133dd2666e4d0097d277b1db06ac2db06685fb7426d6941
   BASE_PLAN_PATH: experiments/e12a_imatrix_plan.json
   PRIOR_RUN_ID: "30822632328"
   PRIOR_ARTIFACT_NAME: e12a-imatrix-30822632328-1
@@ -71,6 +71,8 @@ jobs:
           cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
           cp "$BASE_PLAN_PATH" "$EVIDENCE_DIR/base-contract.json"
           cp results/manifests/e12a-30822632328.json "$EVIDENCE_DIR/prerequisite-manifest.json"
+          cp results/manifests/e12a-resume-30846528784.json \
+            "$EVIDENCE_DIR/first-resume-failure.json"
           cp experiments/e12a_resume_freeze.py "$EVIDENCE_DIR/resume-freeze.py"
           cp experiments/e12a_resume_ingest.py "$EVIDENCE_DIR/resume-ingest.py"
           cp tests/test_e12a_resume.py "$EVIDENCE_DIR/resume-test.py"
@@ -196,7 +198,7 @@ jobs:
       - name: Resume chunks 24 through 31 and inspect complete matrix
         run: |
           set -euo pipefail
-          PYTHONPATH="$LLAMA_SOURCE/gguf-py" python3 -m gguf.scripts.gguf_dump \
+          PYTHONPATH="$LLAMA_SOURCE/gguf-py" "$E12A_VENV/bin/python" -m gguf.scripts.gguf_dump \
             "$EVIDENCE_DIR/prior/imatrix.gguf" --json --json-array \
             > "$EVIDENCE_DIR/prior-imatrix-metadata.json"
           python3 - <<'PY'
@@ -226,7 +228,7 @@ jobs:
             --in-file "$EVIDENCE_DIR/imatrix.gguf" \
             --show-statistics --ctx-size 512 --threads 4 \
             2>&1 | tee "$EVIDENCE_DIR/imatrix-statistics.log"
-          PYTHONPATH="$LLAMA_SOURCE/gguf-py" python3 -m gguf.scripts.gguf_dump \
+          PYTHONPATH="$LLAMA_SOURCE/gguf-py" "$E12A_VENV/bin/python" -m gguf.scripts.gguf_dump \
             "$EVIDENCE_DIR/imatrix.gguf" --json --json-array \
             > "$EVIDENCE_DIR/imatrix-metadata.json"
 

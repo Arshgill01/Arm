@@ -1,0 +1,82 @@
+{
+  "artifact_validation": {
+    "all_extracted_regular_files_hashed": true,
+    "file_count": 62,
+    "inventory_sha256": "b78b2279f1230defa38f22033a744859b08be7ab01583b9751cddccfd0bb44a5",
+    "total_regular_file_bytes": 27161501
+  },
+  "checkpoint": {
+    "activation_statistics_observed_before_resume_freeze": false,
+    "completed_fraction": 0.75,
+    "metadata": {
+      "chunk_count": 24,
+      "chunk_size": 512,
+      "datasets": [
+        "/home/runner/work/Arm/Arm/results/raw/e12a-30822632328-1/calibration.txt"
+      ],
+      "entries": 182,
+      "general_type": "imatrix",
+      "gguf_tensors": 364
+    },
+    "next_chunk": 24,
+    "path": "imatrix.gguf",
+    "remaining_chunks": 8,
+    "sha256": "b95f4dca6ab074764253e7c981971cfb9e9ad687aecb26c0b364642ac9e4b48f",
+    "size_bytes": 3009952
+  },
+  "claim_boundary": "The resume stopped before its first matrix operation. It contains no completed-matrix statistics, generated quantization, quality, service, energy, PMU, device, cost, or performance result.",
+  "contract_sha256": "f02c89dd08be2c30f254c157010c85b88e240811c2173f798f5c34b9ad6a052b",
+  "decision": {
+    "complete_imatrix_accepted": false,
+    "first_resume_rehabilitated": false,
+    "generated_quant_dispatch_allowed": false,
+    "separately_frozen_interpreter_repair_allowed": true
+  },
+  "experiment_id": "E12a-resume",
+  "experiment_result_valid": false,
+  "failure": {
+    "cause": "The workflow invoked gguf-py's metadata dumper with the bare setup-python interpreter. NumPy was installed only in the already-created pinned corpus venv.",
+    "exception": "ModuleNotFoundError: No module named 'numpy'",
+    "repair_boundary": "A separately frozen successor may invoke both GGUF metadata dumps with the pinned corpus venv interpreter. Checkpoint, model, corpus, source, chunk range, command, statistics and every acceptance gate must remain unchanged.",
+    "stage": "prerequisite GGUF metadata dump"
+  },
+  "github": {
+    "artifact_digest": "sha256:c055436c6d86bfccb3d535227d47df58bad126bfe17189720fe1d25fd68f5090",
+    "artifact_id": "8869079859",
+    "artifact_name": "e12a-resume-30846528784-1",
+    "artifact_size_bytes": 10308498,
+    "job_id": "91796070177",
+    "repository_commit": "7687fc081879a81501cf6e74bd61adb201b7f5f4",
+    "run_attempt": 1,
+    "run_id": "30846528784",
+    "run_log_sha256": "d57529e3139c2d9da66bccef5a968251b9d254f0bda2c42fe48d94e93acac4e1",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30846528784"
+  },
+  "matrix_compute_started": false,
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "schema_version": 1,
+  "status": "invalid_premeasurement_python_environment_failure",
+  "validated_before_failure": {
+    "exact_bf16_model_downloaded": true,
+    "exact_checkpoint_downloaded": true,
+    "exact_contract_and_inputs": true,
+    "exact_corpus_reproduced": true,
+    "exact_native_tools_built": true
+  }
+}
