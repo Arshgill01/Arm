@@ -59,6 +59,7 @@ artifact.
 | External-holdout pair rejected on missing probability entries | [E10d `30818303255`](https://github.com/Arshgill01/Arm/actions/runs/30818303255) | [`e10d` manifest](../results/manifests/e10d-30818303255.json) · [`report`](../results/reports/e10d-external-holdout-failure.md) | `59cc8fa7…5336` |
 | Probability serialization compatibility preflight | [E10e `30827797407`](https://github.com/Arshgill01/Arm/actions/runs/30827797407) | [`e10e` manifest](../results/manifests/e10e-30827797407.json) · [`report`](../results/reports/e10e-probability-compatibility.md) | `3e689b52…7e167` |
 | Fail-closed cache certificate rejected on frozen count | [E13a `30830903248`](https://github.com/Arshgill01/Arm/actions/runs/30830903248) | [`e13a` manifest](../results/manifests/e13a-30830903248.json) · [`report`](../results/reports/e13a-cache-certificate.md) | `fdbd2b68…2f8a` |
+| Selective-repack frontier invalid on missing mechanism logs | [E14a `30832494881`](https://github.com/Arshgill01/Arm/actions/runs/30832494881) | [`e14a` manifest](../results/manifests/e14a-30832494881.json) · [`report`](../results/reports/e14a-selective-repack-instrumentation-failure.md) | `27a49eac…2a866d` |
 | Final judge-package clean-checkout validation | [`30798816900`](https://github.com/Arshgill01/Arm/actions/runs/30798816900) | 175 tests, 55 hashes through E10b, exact runtime/plan checks, four gallery assets, video-word ceiling, demo smoke test | passed on native `aarch64` at `03ae10d` |
 
 ## Final selected package

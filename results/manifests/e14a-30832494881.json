@@ -1,0 +1,514 @@
+{
+  "artifact_validation": {
+    "all_extracted_regular_files_hashed": true,
+    "file_count": 151,
+    "inventory_sha256": "b757abb19a9a70e1696419a044f9bb6ec2dbd7710c78e90430e7c2a9e8241b9e",
+    "total_regular_file_bytes": 21098986
+  },
+  "claim_boundary": "The eight measurements are retained only as descriptive failed-run evidence. They cannot select or promote a repack configuration because the frozen mechanism proof was not captured.",
+  "completed_cells": 8,
+  "completed_measured_requests": 240,
+  "contract_sha256": "01007a09a93760bb87afc3239d629024fce7289840db93f85aa3fade49351424",
+  "experiment_id": "E14a",
+  "experiment_result_valid": false,
+  "github": {
+    "artifact_digest": "sha256:bc0f051b76668b430bb020c5a80d67dd718715feabb23be406b30da72e3b4a55",
+    "artifact_id": "8863831383",
+    "artifact_name": "e14a-selective-repack-30832494881-1",
+    "artifact_size_bytes": 9310837,
+    "job_id": "91749631226",
+    "repository_commit": "e9d9a1567e9125fc544227deea01e0be2185d534",
+    "run_attempt": 1,
+    "run_id": "30832494881",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30832494881"
+  },
+  "instrumentation_failure": {
+    "cells": {
+      "01-full_repack-r1": {
+        "excluded_tensor_lines_observed": 0,
+        "mapped_buffer_line_present": false,
+        "parser_error": "mechanism log lacks the mapped model buffer",
+        "repack_buffer_line_present": false
+      },
+      "02-attention_raw-r1": {
+        "excluded_tensor_lines_observed": 0,
+        "mapped_buffer_line_present": false,
+        "parser_error": "mechanism log lacks the mapped model buffer",
+        "repack_buffer_line_present": false
+      },
+      "03-attention_down_raw-r1": {
+        "excluded_tensor_lines_observed": 0,
+        "mapped_buffer_line_present": false,
+        "parser_error": "mechanism log lacks the mapped model buffer",
+        "repack_buffer_line_present": false
+      },
+      "04-no_repack-r1": {
+        "excluded_tensor_lines_observed": 0,
+        "mapped_buffer_line_present": false,
+        "parser_error": "mechanism log lacks the mapped model buffer",
+        "repack_buffer_line_present": false
+      },
+      "05-no_repack-r2": {
+        "excluded_tensor_lines_observed": 0,
+        "mapped_buffer_line_present": false,
+        "parser_error": "mechanism log lacks the mapped model buffer",
+        "repack_buffer_line_present": false
+      },
+      "06-attention_down_raw-r2": {
+        "excluded_tensor_lines_observed": 0,
+        "mapped_buffer_line_present": false,
+        "parser_error": "mechanism log lacks the mapped model buffer",
+        "repack_buffer_line_present": false
+      },
+      "07-attention_raw-r2": {
+        "excluded_tensor_lines_observed": 0,
+        "mapped_buffer_line_present": false,
+        "parser_error": "mechanism log lacks the mapped model buffer",
+        "repack_buffer_line_present": false
+      },
+      "08-full_repack-r2": {
+        "excluded_tensor_lines_observed": 0,
+        "mapped_buffer_line_present": false,
+        "parser_error": "mechanism log lacks the mapped model buffer",
+        "repack_buffer_line_present": false
+      }
+    },
+    "default_runtime_log_verbosity": 3,
+    "failed_ingester_requirement": "CPU_Mapped model buffer size",
+    "observed_recipe_log_verbosity": null,
+    "repair_boundary": "A successor may add --log-verbosity 4 to every cell while keeping all configurations, order, repetitions, requests, and acceptance thresholds byte-for-byte identical. E14a remains invalid.",
+    "required_log_verbosity": 4
+  },
+  "observed_performance_descriptive_only": {
+    "attention_down_raw": {
+      "exclusion_regex": "^blk\\.[0-9]+\\.(attn_q|attn_k|attn_v|attn_output|ffn_down)\\.weight$",
+      "http_ms": {
+        "coefficient_of_variation": 0.29599195240310805,
+        "max": 2896.635615,
+        "mean": 1715.71089205,
+        "median": 1804.922558,
+        "min": 136.326425,
+        "p95": 2681.538683,
+        "population_stddev": 507.83661669715764
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 1.2588131223257374e-05,
+        "max": 3495400.0,
+        "mean": 3495356.0,
+        "median": 3495356.0,
+        "min": 3495312.0,
+        "p95": 3495400.0,
+        "population_stddev": 44.0
+      },
+      "quality": {
+        "correct_per_repetition": [
+          23,
+          23
+        ],
+        "exact_selected_predictions": true,
+        "reference_prediction_mismatches_per_repetition": [
+          0,
+          0
+        ]
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.028046757909075036,
+        "max": 1823.38314,
+        "mean": 1773.638335,
+        "median": 1773.638335,
+        "min": 1723.89353,
+        "p95": 1823.38314,
+        "population_stddev": 49.74480499999993
+      },
+      "requests_per_second": {
+        "coefficient_of_variation": 0.00036664196299638653,
+        "max": 0.5830082684188426,
+        "mean": 0.5827945914658039,
+        "median": 0.5827945914658039,
+        "min": 0.5825809145127652,
+        "p95": 0.5830082684188426,
+        "population_stddev": 0.0002136769530386995
+      },
+      "server_cpu_seconds_per_request": {
+        "coefficient_of_variation": 0.00017134604557812708,
+        "max": 6.8100000000000005,
+        "mean": 6.808833333333333,
+        "median": 6.808833333333333,
+        "min": 6.807666666666666,
+        "p95": 6.8100000000000005,
+        "population_stddev": 0.0011666666666672043
+      },
+      "weight_repack": true
+    },
+    "attention_raw": {
+      "exclusion_regex": "^blk\\.[0-9]+\\.(attn_q|attn_k|attn_v|attn_output)\\.weight$",
+      "http_ms": {
+        "coefficient_of_variation": 0.30273383127688264,
+        "max": 2491.093114,
+        "mean": 1375.5993771833334,
+        "median": 1415.6708305000002,
+        "min": 138.552805,
+        "p95": 2230.909844,
+        "population_stddev": 416.4404697568041
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 2.504787902074816e-06,
+        "max": 3992364.0,
+        "mean": 3992354.0,
+        "median": 3992354.0,
+        "min": 3992344.0,
+        "p95": 3992364.0,
+        "population_stddev": 10.0
+      },
+      "quality": {
+        "correct_per_repetition": [
+          23,
+          23
+        ],
+        "exact_selected_predictions": true,
+        "reference_prediction_mismatches_per_repetition": [
+          0,
+          0
+        ]
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.02472368831436754,
+        "max": 2229.041953,
+        "mean": 2175.2614665,
+        "median": 2175.2614665,
+        "min": 2121.48098,
+        "p95": 2229.041953,
+        "population_stddev": 53.78048650000005
+      },
+      "requests_per_second": {
+        "coefficient_of_variation": 0.0005388923570262289,
+        "max": 0.727263649805864,
+        "mean": 0.7268719440706675,
+        "median": 0.7268719440706675,
+        "min": 0.726480238335471,
+        "p95": 0.727263649805864,
+        "population_stddev": 0.0003917057351964792
+      },
+      "server_cpu_seconds_per_request": {
+        "coefficient_of_variation": 0.0007635686142756353,
+        "max": 5.461,
+        "mean": 5.456833333333334,
+        "median": 5.456833333333334,
+        "min": 5.452666666666667,
+        "p95": 5.461,
+        "population_stddev": 0.00416666666666643
+      },
+      "weight_repack": true
+    },
+    "full_repack": {
+      "exclusion_regex": null,
+      "http_ms": {
+        "coefficient_of_variation": 0.3287731368139679,
+        "max": 2120.597864,
+        "mean": 1078.55744865,
+        "median": 1051.5291735,
+        "min": 134.404962,
+        "p95": 1860.686416,
+        "population_stddev": 354.6007156267306
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 1.9317117436843133e-05,
+        "max": 4452096.0,
+        "mean": 4452010.0,
+        "median": 4452010.0,
+        "min": 4451924.0,
+        "p95": 4452096.0,
+        "population_stddev": 86.0
+      },
+      "quality": {
+        "correct_per_repetition": [
+          23,
+          23
+        ],
+        "exact_selected_predictions": true,
+        "reference_prediction_mismatches_per_repetition": [
+          0,
+          0
+        ]
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.000893996734902516,
+        "max": 2529.698283,
+        "mean": 2527.4387610000003,
+        "median": 2527.4387610000003,
+        "min": 2525.179239,
+        "p95": 2529.698283,
+        "population_stddev": 2.259522000000061
+      },
+      "requests_per_second": {
+        "coefficient_of_variation": 0.000654246948638398,
+        "max": 0.9276299469228418,
+        "mean": 0.9270234446628549,
+        "median": 0.9270234446628549,
+        "min": 0.926416942402868,
+        "p95": 0.9276299469228418,
+        "population_stddev": 0.0006065022599869296
+      },
+      "server_cpu_seconds_per_request": {
+        "coefficient_of_variation": 0.0005466187724504578,
+        "max": 4.271,
+        "mean": 4.268666666666666,
+        "median": 4.268666666666666,
+        "min": 4.266333333333333,
+        "p95": 4.271,
+        "population_stddev": 0.0023333333333335204
+      },
+      "weight_repack": true
+    },
+    "no_repack": {
+      "exclusion_regex": null,
+      "http_ms": {
+        "coefficient_of_variation": 0.2955266500588178,
+        "max": 3474.72942,
+        "mean": 2223.5852445,
+        "median": 2426.3908595000003,
+        "min": 148.987148,
+        "p95": 3311.574521,
+        "population_stddev": 657.1286984273023
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 1.00858643249531e-05,
+        "max": 2379592.0,
+        "mean": 2379568.0,
+        "median": 2379568.0,
+        "min": 2379544.0,
+        "p95": 2379592.0,
+        "population_stddev": 24.0
+      },
+      "quality": {
+        "correct_per_repetition": [
+          23,
+          23
+        ],
+        "exact_selected_predictions": true,
+        "reference_prediction_mismatches_per_repetition": [
+          0,
+          0
+        ]
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.00105893250647463,
+        "max": 914.601721,
+        "mean": 913.6342440000001,
+        "median": 913.6342440000001,
+        "min": 912.666767,
+        "p95": 914.601721,
+        "population_stddev": 0.9674769999999739
+      },
+      "requests_per_second": {
+        "coefficient_of_variation": 4.085685811278853e-05,
+        "max": 0.44970964796086027,
+        "mean": 0.4496912749882435,
+        "median": 0.4496912749882435,
+        "min": 0.44967290201562676,
+        "p95": 0.44970964796086027,
+        "population_stddev": 1.8372972616753636e-05
+      },
+      "server_cpu_seconds_per_request": {
+        "coefficient_of_variation": 0.00020741802274061027,
+        "max": 8.840666666666667,
+        "mean": 8.838833333333334,
+        "median": 8.838833333333334,
+        "min": 8.837,
+        "p95": 8.840666666666667,
+        "population_stddev": 0.0018333333333337976
+      },
+      "weight_repack": false
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "promotion_decision_permitted": false,
+  "schema_version": 1,
+  "source_build": {
+    "configure_command": {
+      "cmake_arguments": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DGGML_CPU_KLEIDIAI=ON",
+        "-DGGML_LTO=OFF",
+        "-DGGML_NATIVE=ON",
+        "-DLLAMA_BUILD_EXAMPLES=OFF",
+        "-DLLAMA_BUILD_SERVER=ON",
+        "-DLLAMA_BUILD_TESTS=OFF",
+        "-DLLAMA_CURL=OFF",
+        "-DLLAMA_OPENSSL=OFF"
+      ]
+    },
+    "dynamic_dependency_basenames": [
+      "ld-linux-aarch64.so.1",
+      "libc.so.6",
+      "libgcc_s.so.1",
+      "libggml-base.so.0.18.0",
+      "libggml-cpu.so.0.18.0",
+      "libggml.so.0.18.0",
+      "libgomp.so.1.0.0",
+      "libllama-common.so.0.0.10216",
+      "libllama-server-impl.so",
+      "libllama.so.0.0.10216",
+      "libm.so.6",
+      "libmtmd.so.0.0.10216",
+      "libstdc++.so.6.0.33"
+    ],
+    "runtime_closure": {
+      "build_root": "/tmp/llama.cpp-E14a-build",
+      "file_count": 8,
+      "files": [
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-base.so.0.18.0",
+          "relative_path": "bin/libggml-base.so.0.18.0",
+          "sha256": "06c9e722533373a198ba025f4cff3abaab884bca6bdbcab2248379f921bd886e",
+          "size_bytes": 873464
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-cpu.so.0.18.0",
+          "relative_path": "bin/libggml-cpu.so.0.18.0",
+          "sha256": "19539f7104979ebf1e7ba67587cc94c83a2b09da9975a11f08b47e43e5748690",
+          "size_bytes": 1326360
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml.so.0.18.0",
+          "relative_path": "bin/libggml.so.0.18.0",
+          "sha256": "3fe3e49fee3daeb8da016d9aa70dd0c53cd51ddc3c4b3a8850c9a31497b137fa",
+          "size_bytes": 78176
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-common.so.0.0.10216",
+          "relative_path": "bin/libllama-common.so.0.0.10216",
+          "sha256": "008f1d7636eb5f4a3304773952e117115487f8141f5bd46a024e0ddcc872817a",
+          "size_bytes": 5325720
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-server-impl.so",
+          "relative_path": "bin/libllama-server-impl.so",
+          "sha256": "ffa654b551e431115e41660d8299d7d941d3054133898f4a1692f896995ac01f",
+          "size_bytes": 6949024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama.so.0.0.10216",
+          "relative_path": "bin/libllama.so.0.0.10216",
+          "sha256": "f8c5e9c9debf490e67f2f52078272a997b7d43e96de9de057306f64cada7c1dd",
+          "size_bytes": 3937120
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libmtmd.so.0.0.10216",
+          "relative_path": "bin/libmtmd.so.0.0.10216",
+          "sha256": "23929809f7f39b91714f6a0565f10725a240226d2ca4315211dfc7eb1c1c9ab8",
+          "size_bytes": 1461024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/llama-server",
+          "relative_path": "bin/llama-server",
+          "sha256": "c68c5fef5fd0d06767256d7ec42a1dd82a6ccfe644510aca0d3b2b517c040086",
+          "size_bytes": 72488
+        }
+      ],
+      "ldd_output": "\tlinux-vdso.so.1 (0x0000ff420f22c000)\n\tlibllama-server-impl.so => /tmp/llama.cpp-E14a-build/bin/libllama-server-impl.so (0x0000ff420ebd0000)\n\tlibstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ff420e940000)\n\tlibgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ff420e900000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ff420e740000)\n\t/lib/ld-linux-aarch64.so.1 (0x0000ff420f1f0000)\n\tlibllama-common.so.0 => /tmp/llama.cpp-E14a-build/bin/libllama-common.so.0 (0x0000ff420e320000)\n\tlibmtmd.so.0 => /tmp/llama.cpp-E14a-build/bin/libmtmd.so.0 (0x0000ff420e1d0000)\n\tlibllama.so.0 => /tmp/llama.cpp-E14a-build/bin/libllama.so.0 (0x0000ff420de90000)\n\tlibggml.so.0 => /tmp/llama.cpp-E14a-build/bin/libggml.so.0 (0x0000ff420de60000)\n\tlibggml-base.so.0 => /tmp/llama.cpp-E14a-build/bin/libggml-base.so.0 (0x0000ff420dd80000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ff420dcd0000)\n\tlibggml-cpu.so.0 => /tmp/llama.cpp-E14a-build/bin/libggml-cpu.so.0 (0x0000ff420db10000)\n\tlibgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000ff420da90000)\n",
+      "runtime_dependencies": [
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E14a-build/bin/libllama-server-impl.so",
+          "resolved_path": "/tmp/llama.cpp-E14a-build/bin/libllama-server-impl.so"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libstdc++.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgcc_s.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgcc_s.so.1"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libc.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libc.so.6"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/ld-linux-aarch64.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E14a-build/bin/libllama-common.so.0",
+          "resolved_path": "/tmp/llama.cpp-E14a-build/bin/libllama-common.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E14a-build/bin/libmtmd.so.0",
+          "resolved_path": "/tmp/llama.cpp-E14a-build/bin/libmtmd.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E14a-build/bin/libllama.so.0",
+          "resolved_path": "/tmp/llama.cpp-E14a-build/bin/libllama.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E14a-build/bin/libggml.so.0",
+          "resolved_path": "/tmp/llama.cpp-E14a-build/bin/libggml.so.0.18.0"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E14a-build/bin/libggml-base.so.0",
+          "resolved_path": "/tmp/llama.cpp-E14a-build/bin/libggml-base.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libm.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libm.so.6"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E14a-build/bin/libggml-cpu.so.0",
+          "resolved_path": "/tmp/llama.cpp-E14a-build/bin/libggml-cpu.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgomp.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0"
+        }
+      ],
+      "schema_version": 1,
+      "server_path": "/tmp/llama.cpp-E14a-build/bin/llama-server",
+      "server_relative_path": "bin/llama-server",
+      "system_dependencies_excluded": true,
+      "total_size_bytes": 20023376
+    },
+    "server_version": "version: 10216 (876a43211)\nbuilt with GNU 13.3.0 for Linux aarch64",
+    "source": {
+      "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "patches_applied": [
+        "0001-kleidiai-use-validated-arm-features.patch",
+        "0002-arm-q8-vector-narrowing-stores.patch",
+        "0003-reasoning-budget-forced-token-guard.patch",
+        "0004-selective-repack-exclusion.patch"
+      ],
+      "repository": "https://github.com/ggml-org/llama.cpp.git",
+      "schema_version": 1,
+      "tag": "b10216"
+    }
+  },
+  "status": "invalid_incomplete_mechanism_instrumentation"
+}

@@ -1874,3 +1874,20 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Checkpoint `e9d9a15` was pushed after local compile, unit, format, shell,
   actionlint and contract round-trip checks. Native run `30832494881` started
   on the exact frozen commit.
+
+## 2026-08-03 — E14a instrumentation failure retained
+
+- Native run `30832494881` completed all eight reverse-balanced processes and
+  240 requests. All cells reproduced 23/30 with zero request or reference-map
+  failures.
+- The frozen ingester rejected the first cell because the direct recipes used
+  default log verbosity 3 while mapped/repack-buffer and exclusion proof needs
+  verbosity 4. All eight logs lack the required mechanism records. E14a is
+  invalid and no frontier point is promoted.
+- Descriptively, full repack reached 0.92702 req/s at 4,452,096 KiB RSS;
+  attention-raw reached 0.72687 at 3,992,364 KiB; attention-plus-FFN-down reached
+  0.58279 at 3,495,400 KiB; and no-repack reached 0.44969 at 2,379,592 KiB.
+- Artifact `e14a-selective-repack-30832494881-1` (ID `8863831383`, digest
+  `bc0f051b…b4a55`) was independently validated into a compact failure
+  manifest. A separately frozen successor may add only uniform verbosity 4;
+  configurations, order, repetitions, requests, and gates remain unchanged.

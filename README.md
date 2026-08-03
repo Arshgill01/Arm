@@ -199,6 +199,7 @@ preserved unless the row explicitly describes a rejected candidate.
 | Pinned external holdout | Exact serial scorer over 300 preselected samples per model | Evaluate Q4_K_M and Q4_0 on ARC Easy, HellaSwag, and WinoGrande | Both cells hit missing one-token probability entries; paired aggregate skipped | Reject the comparison; retain all partial/raw evidence and test compatibility separately |
 | Probability serialization compatibility | Exact two failed Q4_0 continuations | Force one-byte sampled token 1046 while reading each original target's raw score | Both continuations complete twice; original-prefix and repeat deltas are 0.0 | Permit only a separately frozen full successor; do not rehabilitate E10d |
 | Fail-closed cache certificate | All-uncached 165-request temporal trace | Certify 44 exact prompt fingerprints, deny four, and route unknowns uncached | Byte-exact outputs; 1.84765x throughput; 0.90716x p95; six safe unknown fallbacks differed from the frozen count | Reject E13a on the unchanged decision-count gate; retain the otherwise passing evidence |
+| Selective weight repack | Full-repack and no-repack memory/throughput endpoints | Leave two predeclared tensor families in mapped storage | Eight cells and 240 exact requests completed, but verbosity 3 omitted frozen buffer/tensor proof | Retain E14a as invalid; repeat only as a separately frozen verbosity-corrected successor |
 
 Rejected variants remain visible: two server slots, cached two-slot serving,
 q4_0 KV, batch 32, Flash Attention, lower thread counts, and LTO all missed at
@@ -280,11 +281,12 @@ repack flag that conflicts with the plan is refused.
 | [E10d](results/reports/e10d-external-holdout-failure.md) | Both 300-sample model loops hit missing probability entries; the pair and all partial task metrics remain invalid |
 | [E10e](results/reports/e10e-probability-compatibility.md) | A safe sampled-token path completed both retained compatibility failures twice with zero requested-score delta |
 | [E13a](results/reports/e13a-cache-certificate.md) | Byte-exact fail-closed routing reached 1.84765x throughput, but six safe unknown warmup fallbacks violated the frozen decision-count expectation; the policy remains rejected |
+| [E14a](results/reports/e14a-selective-repack-instrumentation-failure.md) | All eight native cells completed with exact quality, but missing verbosity-4 mechanism logs invalidate the frontier and forbid promotion |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
 The E5f through E5j, E6d through E6i, E7a through E7c, E9a/E9c, E10a through
-E10e, and E13a results are retained under their exact frozen contracts and
+E10e, E13a, and failed E14a results are retained under their exact frozen contracts and
 independently re-ingested byte for byte. E9e separately retains its reproducible
 premeasurement stop record.
 

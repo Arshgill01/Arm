@@ -76,7 +76,11 @@ class E14aIngestTests(unittest.TestCase):
 
     def test_entrypoints_are_directly_runnable(self) -> None:
         root = Path(__file__).resolve().parents[1]
-        for script in ("e14a_freeze.py", "e14a_ingest.py"):
+        for script in (
+            "e14a_freeze.py",
+            "e14a_ingest.py",
+            "e14a_failure_retain.py",
+        ):
             completed = subprocess.run(
                 [sys.executable, str(root / "experiments" / script), "--help"],
                 cwd=root,

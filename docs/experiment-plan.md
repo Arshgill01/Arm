@@ -1618,6 +1618,23 @@ energy. A dominated or noisy frontier is retained without changing groups,
 order or gates. Exact inputs and boundaries are in
 [`e14a_contract.json`](../experiments/e14a_contract.json).
 
+### E14a outcome
+
+Native run `30832494881` completed all eight fresh processes and 240 measured
+requests with the exact 23/30 answer map and zero request failures. It is not a
+valid frontier result. The direct recipes omitted `--log-verbosity 4`, so the
+server's default verbosity 3 retained none of the contract-required mapped,
+repack, or excluded-tensor mechanism lines. Independent ingestion stopped on
+the first missing mapped-buffer record. The observed performance is preserved
+only descriptively and no configuration is promoted.
+
+The exact instrumentation failure is retained in the
+[`manifest`](../results/manifests/e14a-30832494881.json) and
+[`report`](../results/reports/e14a-selective-repack-instrumentation-failure.md).
+A separately frozen successor may add verbosity 4 uniformly while changing no
+configuration, request, ordering, repetition, or acceptance gate. E14a remains
+invalid regardless of that successor.
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server
