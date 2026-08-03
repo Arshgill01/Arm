@@ -1,0 +1,315 @@
+{
+  "acceptance": {
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ],
+    "all_raw_responses_retained_once": true,
+    "all_sampled_text_must_equal": ".",
+    "all_sampled_tokens_must_equal": 1046,
+    "maximum_preflight_repeat_delta": 1e-06,
+    "maximum_process_rss_kib": 8388608,
+    "maximum_ready_ms": 15000.0,
+    "minimum_accuracy_gate": null,
+    "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+    "request_failures": 0,
+    "required_architecture": "aarch64",
+    "server_binary_sha256": "32d7c350efbf5210f24a5291e4187fd1dfa7fb67cb42eb766da29aa112c12ab1",
+    "tokenizer_parity_mismatches": 0
+  },
+  "claim_boundary": "E10f can provide supplemental external multiple-choice robustness for two exact Ministral quantizations on the three pinned E9b task subsets through the E10e-validated safe-sampled serial adapter and exact reused E10d binary/workload artifacts. It does not rewrite failed E10d or the original 30-task admission contract and makes no service-performance, energy, PMU, local-device, fleet, cost, concurrency, cache-policy, other-runtime, or causal claim.",
+  "decision": {
+    "frontier_authorization_rule": "A separately frozen successor stock or generated frontier may use E10f only if both cells and the aggregate validate with zero failures and all raw responses retained exactly once.",
+    "original_30_task_admission_contract_rewrite_allowed": false,
+    "original_e10d_rewrite_allowed": false,
+    "poor_results_must_be_retained": true,
+    "promotion_claim": "Supplemental robustness evidence only; E10f cannot replace the original 30-task admission contract or change E10d's failed status.",
+    "quality_gate_used": false
+  },
+  "execution": {
+    "aggregate_requires_both_cells": true,
+    "exact_prepared_workload_reused": true,
+    "exact_prerequisite_binary_closure_reused": true,
+    "fresh_server_per_model": true,
+    "matrix_models_run_in_separate_native_jobs": true,
+    "per_sample_logs": true,
+    "raw_http_responses": true,
+    "runner": "ubuntu-24.04-arm"
+  },
+  "experiment_id": "E10f",
+  "external_holdout": {
+    "harness": {
+      "commit": "6d642546f4688648fced259eb3302efd36ece5af",
+      "known_server_difference": "v0.4.12 auto-detection requires /tokenizer_info, which llama.cpp b10216 does not expose; the preflight therefore supplies a pinned local tokenizer snapshot only after proving its token IDs equal llama.cpp /tokenize output.",
+      "license": "MIT",
+      "model_backend": "local-completions",
+      "repository": "https://github.com/EleutherAI/lm-evaluation-harness.git",
+      "version": "0.4.12"
+    },
+    "selected_before_results": true,
+    "task_provenance": [
+      {
+        "dataset_repository": "allenai/ai2_arc",
+        "dataset_revision": "210d026faf9955653af8916fad021475a3f00453",
+        "evaluation_split": "test",
+        "license": "CC-BY-SA-4.0",
+        "license_source": "Hugging Face dataset-card metadata at the pinned revision",
+        "purpose": "grade-school science multiple-choice robustness",
+        "split_size": 2376,
+        "task": "e9b_arc_easy"
+      },
+      {
+        "dataset_repository": "Rowan/hellaswag",
+        "dataset_revision": "218ec52e09a7e7462a5400043bb9a69a41d06b76",
+        "evaluation_split": "validation",
+        "license": "MIT",
+        "license_source": "Pinned dataset card linked to original repository commit a29ff8e9a04bba4bd6588223785ce105328adc57 LICENSE",
+        "purpose": "adversarial commonsense continuation robustness",
+        "split_size": 10042,
+        "task": "e9b_hellaswag"
+      },
+      {
+        "dataset_repository": "allenai/winogrande",
+        "dataset_revision": "01e74176c63542e6b0bcb004dcdea22d94fb67b5",
+        "evaluation_split": "validation",
+        "license": "Apache-2.0",
+        "license_source": "Original repository commit 727e837f77521ef38bcc56df3b275c8da43f45af LICENSE; the pinned Hugging Face card omits a license field",
+        "purpose": "adversarial referential commonsense robustness",
+        "split_size": 1267,
+        "task": "e9b_winogrande"
+      }
+    ],
+    "tokenizer": {
+      "fix_mistral_regex": true,
+      "license": "Apache-2.0",
+      "parity_requirement": "Every predefined UTF-8, punctuation, contraction, task-format, and answer-prefix probe must produce exactly the same token IDs through the pinned tokenizer and llama.cpp /tokenize.",
+      "repository": "mistralai/Ministral-3-3B-Instruct-2512",
+      "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+      "transformers_version": "5.14.1"
+    }
+  },
+  "hypothesis": "With the E10e-validated one-byte sampled token separating response serialization from target scoring, both exact E10d model cells will complete all 14,374 requested target probabilities and provide a valid supplemental external robustness comparison.",
+  "inputs": {
+    "adapter_contract_path": "experiments/e10d_contract.json",
+    "adapter_contract_sha256": "ee7672a610b3bc29628eccda4ee960efe5c1da4f577a7ef681097cf27b563c71",
+    "cell_runner_path": "experiments/e10f_cell.sh",
+    "cell_runner_sha256": "4ac007f6b3705d9bf118c7ba0a681eef95137f70272af3941fefc45284f09337",
+    "e10b_manifest_path": "results/manifests/e10b-30797568757.json",
+    "e10b_manifest_sha256": "4b1e73bb4db399ace625f814509268b2df75a90a025fa586dc2937823c4b5c83",
+    "e10c_negative_manifest_path": "results/manifests/e10c-30812791972.json",
+    "e10c_negative_manifest_sha256": "1f9069914e8b1b3490ad3116ce8cc4ddf37e900fc29916146cde07ccddf62e6b",
+    "e10d_control_manifest_path": "results/manifests/e10d-ministral3_3b_q4_0-30818303255.json",
+    "e10d_control_manifest_sha256": "5c8ec99ef3a47a17906b677dd1b750313bce2e37263ad9fdd58956e9d0cdc9fd",
+    "e10d_pair_manifest_path": "results/manifests/e10d-30818303255.json",
+    "e10d_pair_manifest_sha256": "59cc8fa743962108798438df89eb15e5f9fb474cc1afe581c0b574fe27ac5336",
+    "e10e_manifest_path": "results/manifests/e10e-30827797407.json",
+    "e10e_manifest_sha256": "3e689b52e59edb2eb6b523152ec54dfc0cf31a87200555aacc9bd608f7b7e167",
+    "e10e_plan_path": "experiments/e10e_probability_plan.json",
+    "e10e_plan_sha256": "9cada2521c4f813c437bf7aa7c4a3d800a41a973dc9b9c781b5a05f15721c6cc",
+    "e9a_contract_path": "experiments/e9a_contract.json",
+    "e9a_contract_sha256": "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928",
+    "e9b_plan_path": "experiments/e9b_preflight_plan.json",
+    "e9b_plan_sha256": "ff492b46e512220abd2ea3135bd807881f5ac4e1f9c5ee8b9b77de31229f9cd0",
+    "failure_ingest_path": "experiments/e10d_failure_ingest.py",
+    "failure_ingest_sha256": "40a1a6f79086915d812e18815ad068b399da39d97a2f1e4117d39c51695b3198",
+    "failure_test_path": "tests/test_e10d_failure.py",
+    "failure_test_sha256": "765ee7be322659dd8b1a15f8396319305366ebb89253ef09751b1051b1cd2e64",
+    "freeze_path": "experiments/e10f_freeze.py",
+    "freeze_sha256": "9e6bd7407055e0d6e1f54f729a41261eb6dbd6e3e2a8f20f6d3dc86068bb541f",
+    "ingest_path": "experiments/e10f_ingest.py",
+    "ingest_sha256": "41341ce99d5b167f2730d4a18fa23dde35607524cb5d39a54e9c89e915459d2e",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "preflight_path": "experiments/e10d_preflight.py",
+    "preflight_sha256": "b468d46c03d17d41670b3e7a7b2747c32c7aacc5e3e053b6c493a025f66613b5",
+    "prepare_path": "experiments/e10d_prepare.py",
+    "prepare_sha256": "6f55f7689ec338a9b2364414efca6e798445c6bb068539f4c12cab785a857172",
+    "primitive_patch_path": "patches/llama.cpp/b10216/0004-server-select-exact-token-probabilities.patch",
+    "primitive_patch_sha256": "e9372472e0f6f8c0d01142ff370c5cbdc895db217e0e5f5b664ef1c9359dc3ec",
+    "probe_path": "experiments/e10f_probe.py",
+    "probe_sha256": "63a2c5d2374f31226ba14c4c1a54766e929aee591138abe950077a6471bdb83c",
+    "requirements_path": "experiments/e10d_requirements.txt",
+    "requirements_sha256": "4a31160b42a8da4415822c0004d1a4adad15b5b4df396de5cd96e13efb8cd414",
+    "sample_generator_path": "experiments/e9b_samples.py",
+    "sample_generator_sha256": "fab766ab1e19441f38da5010ab54b1610f64a598cfbc030af0affe181147ee81",
+    "sample_map_path": "experiments/e10d_sample_map.json",
+    "sample_map_sha256": "9c7a4f9313888cde1a4437b2ee776b14721fda4146ae4b7fe10dc74ec0d7fe7b",
+    "task_arc_easy_path": "experiments/e9b_tasks/e9b_arc_easy.yaml",
+    "task_arc_easy_sha256": "028b2dd1bc77c8423f8b7c64b2e7122c6906b153a5e1d8efdb55e22dc9e2c43a",
+    "task_hellaswag_path": "experiments/e9b_tasks/e9b_hellaswag.yaml",
+    "task_hellaswag_sha256": "3f58675493de6fcf9a4bcb1f2ed92d4eebe62555e7df856f48b5327e8a9c9224",
+    "task_utils_path": "experiments/e9b_tasks/e9b_utils.py",
+    "task_utils_sha256": "0abc32405675001f3a56d305d7ee29766f0c5af5e1d03268406e3d79cf83a826",
+    "task_winogrande_path": "experiments/e9b_tasks/e9b_winogrande.yaml",
+    "task_winogrande_sha256": "b9d14abd83d487f6bb1695c247095fe2e621a78d8f9b50be40923114a2736844",
+    "test_path": "tests/test_e10f.py",
+    "test_sha256": "78ac5c157ed7d1ac506f2a29d271a4032045bf4b4dd49652f2e49e4bf1a66acf"
+  },
+  "models": [
+    {
+      "candidate": "ministral3_3b_q4_k_m",
+      "quantization": "Q4_K_M",
+      "role": "primary",
+      "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "size_bytes": 2146497824
+    },
+    {
+      "candidate": "ministral3_3b_q4_0",
+      "quantization": "Q4_0",
+      "role": "control",
+      "sha256": "bd1eef40a7fdb1ba9728ec977bd4aab40fb76993d6ec37377fd6522703dc88a5",
+      "size_bytes": 2046375200
+    }
+  ],
+  "negative_result_rule": "Retain low accuracy, Q4_K_M regressions, task-specific disagreement, any missing probability, safe-token mismatch, score/schema failure, raw-response loss, binary/workload drift, process failure, or incomplete cell without changing tasks, samples, models, metrics, safe token, bias, scoring rule, or gates.",
+  "prerequisites": {
+    "binary_reuse": {
+      "policy": "Download and independently re-ingest the exact retained E10d control artifact, then reuse its native Arm binary closure for both fresh E10f model processes. Do not rebuild or substitute another binary in this run.",
+      "runtime_closure_file_count": 8,
+      "server_sha256": "32d7c350efbf5210f24a5291e4187fd1dfa7fb67cb42eb766da29aa112c12ab1",
+      "server_size_bytes": 72488,
+      "source_artifact": "e10d-ministral3_3b_q4_0-30818303255-1",
+      "source_diff_sha256": "8ab4ea8e4a7412ec24f0fa4ebf49a23745c58cf66b8cfb2e99ac0ca53c69be12"
+    },
+    "e10d": {
+      "artifact_id": "8860154414",
+      "artifact_name": "e10d-ministral3_3b_q4_0-30818303255-1",
+      "control_manifest_sha256": "5c8ec99ef3a47a17906b677dd1b750313bce2e37263ad9fdd58956e9d0cdc9fd",
+      "original_contract_rewritten": false,
+      "pair_manifest_sha256": "59cc8fa743962108798438df89eb15e5f9fb474cc1afe581c0b574fe27ac5336",
+      "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+      "required_status": "invalid_external_holdout_pair_retained",
+      "run_attempt": 1,
+      "run_id": "30818303255"
+    },
+    "e10e": {
+      "artifact_id": "8861819016",
+      "artifact_name": "e10e-probability-preflight-30827797407-1",
+      "contract_sha256": "9cada2521c4f813c437bf7aa7c4a3d800a41a973dc9b9c781b5a05f15721c6cc",
+      "manifest_sha256": "3e689b52e59edb2eb6b523152ec54dfc0cf31a87200555aacc9bd608f7b7e167",
+      "required_status": "valid_probability_api_compatibility_preflight",
+      "run_attempt": 1,
+      "run_id": "30827797407",
+      "successor_dispatch_allowed": true
+    }
+  },
+  "safe_sampling": {
+    "logit_bias": 100.0,
+    "maximum_observed_prefailure_logprob_delta": 0.0,
+    "maximum_observed_repeat_logprob_delta": 0.0,
+    "requested_probability_distribution": "raw pre-sampling model softmax",
+    "sampled_output_used_for_score": false,
+    "selection_rule": "Choose the ASCII full-stop token already present in both failing continuations. Native E10d raw responses for this exact model encode token 1046 as one byte and a complete one-token probability record.",
+    "token_bytes": [
+      46
+    ],
+    "token_id": 1046,
+    "token_text": ".",
+    "validated_by_e10e_run": "30827797407"
+  },
+  "schema_version": 1,
+  "scoring": {
+    "harness_relationship": "Pinned lm-evaluation-harness v0.4.12 constructs tasks, chat-template strings, token boundaries, left truncation, gold labels, and choice-length normalization. The custom serial adapter replaces only the standard OpenAI echo/logprobs transport that failed E9b preflight.",
+    "mechanism": "For every frozen candidate token, request that target ID from the raw pre-sampling softmax while forcing sampled token 1046 with logit bias +100.0. Append the actual target to the next explicit prompt; sampled output is never used for score or prefix construction.",
+    "normalized_prediction_rule": "Argmax of sum log probability divided by the pinned harness character length of the choice, with first choice winning an exact tie.",
+    "prediction_rule": "Argmax of summed target-token log probabilities, with first choice winning an exact tie.",
+    "probe_parameters": {
+      "apply_chat_template": true,
+      "cache_prompt_policy": "false for the first token of every candidate; true only for later tokens of that candidate",
+      "fewshot": 0,
+      "max_length": 256,
+      "raw_response_retained_before_parsing": true,
+      "requests_per_token": 1,
+      "safe_sampled_token_id": 1046,
+      "safe_sampled_token_logit_bias": 100.0,
+      "safe_sampled_token_text": ".",
+      "sampled_output_used_for_score": false,
+      "score_distribution": "raw pre-sampling selected token log probability",
+      "seed": 424242
+    },
+    "raw_response_retention": "Retain every HTTP response before status, schema, probability, token, or content parsing.",
+    "request_timeout_seconds": 60.0
+  },
+  "service": {
+    "base_profile": "e7c_final",
+    "batch_size": 64,
+    "context_per_slot": 256,
+    "continuous_batching": true,
+    "flash_attention": "auto",
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "micro_batch_size": 64,
+    "openssl": false,
+    "profile": "e7c_final_plus_probability_ids",
+    "server_parallel_slots": 1,
+    "server_prompt_cache": true,
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_diff_sha256": "8ab4ea8e4a7412ec24f0fa4ebf49a23745c58cf66b8cfb2e99ac0ca53c69be12",
+    "source_tag": "b10216",
+    "threads": 4,
+    "threads_batch": 4,
+    "weight_repack": true
+  },
+  "state": "frozen after E10e independently validates and before any E10f model outcome is observed",
+  "title": "Safe-sampled successor to the failed pinned external holdout",
+  "workload": {
+    "apply_chat_template": true,
+    "batch_size": 1,
+    "concurrent_requests": 1,
+    "expected_summary": {
+      "choices": 1000,
+      "samples": 300,
+      "serial_candidate_requests": 1000,
+      "token_score_requests": 14374,
+      "tokenizer_parity_mismatches": 0,
+      "unique_tokenized_texts": 1396
+    },
+    "fewshot": 0,
+    "fewshot_as_multiturn": false,
+    "max_length": 256,
+    "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+    "sample_selection": "The exact E9b salted SHA-256 selection map, chosen before any task outcome.",
+    "samples_per_task": 100,
+    "seed": 424242,
+    "task_shapes": {
+      "e9b_arc_easy": {
+        "choices": 400,
+        "maximum_candidate_tokens": 19,
+        "metrics": [
+          "acc",
+          "acc_norm"
+        ],
+        "minimum_candidate_tokens": 1,
+        "samples": 100,
+        "token_score_requests": 1835
+      },
+      "e9b_hellaswag": {
+        "choices": 400,
+        "maximum_candidate_tokens": 73,
+        "metrics": [
+          "acc",
+          "acc_norm"
+        ],
+        "minimum_candidate_tokens": 5,
+        "samples": 100,
+        "token_score_requests": 11405
+      },
+      "e9b_winogrande": {
+        "choices": 200,
+        "maximum_candidate_tokens": 13,
+        "metrics": [
+          "acc"
+        ],
+        "minimum_candidate_tokens": 1,
+        "samples": 100,
+        "token_score_requests": 1134
+      }
+    },
+    "tasks": [
+      "e9b_arc_easy",
+      "e9b_hellaswag",
+      "e9b_winogrande"
+    ],
+    "workload_reuse": "Reuse the byte-exact prepared.json from the retained E10d control artifact for both cells; do not redownload, regenerate, resample, or edit task data."
+  }
+}

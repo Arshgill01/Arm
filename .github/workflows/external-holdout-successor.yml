@@ -1,0 +1,210 @@
+name: Arm E10f safe-sampled external quality holdout
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  PLAN_PATH: experiments/e10f_contract.json
+  PLAN_SHA256: 8c68811a36bb94e47a5bba92c44fe41d898385c1d2215d63c9b2fed010fcc729
+  ADAPTER_CONTRACT_PATH: experiments/e10d_contract.json
+  PREREQUISITE_RUN_ID: "30818303255"
+  PREREQUISITE_ARTIFACT: e10d-ministral3_3b_q4_0-30818303255-1
+
+jobs:
+  evaluate:
+    name: ${{ matrix.candidate }} native safe-sampled holdout
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        candidate:
+          - ministral3_3b_q4_k_m
+          - ministral3_3b_q4_0
+    env:
+      CANDIDATE: ${{ matrix.candidate }}
+      PREREQUISITE_DIR: ${{ github.workspace }}/results/raw/e10f-prerequisite
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e10f-${{ matrix.candidate }}-${{ github.run_id }}-${{ github.run_attempt }}
+      MODEL_ROOT: /tmp/Pareto64-E10f-${{ matrix.candidate }}/models
+
+    steps:
+      - name: Check out frozen E10f experiment
+        uses: actions/checkout@v7
+
+      - name: Download exact retained E10d control artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ env.PREREQUISITE_ARTIFACT }}
+          path: ${{ env.PREREQUISITE_DIR }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: Arshgill01/Arm
+          run-id: ${{ env.PREREQUISITE_RUN_ID }}
+
+      - name: Revalidate prerequisite and prepare immutable evidence
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = "aarch64"
+          echo "$PLAN_SHA256  $PLAN_PATH" | sha256sum --check --strict
+          while IFS=$'\t' read -r expected input_path; do
+            echo "$expected  $input_path" | sha256sum --check --strict
+          done < <(jq -r '.inputs as $inputs | $inputs | to_entries[] | select(.key | endswith("_path")) | [$inputs[(.key | sub("_path$"; "_sha256"))], .value] | @tsv' "$PLAN_PATH")
+          python3 -m unittest tests.test_e10d_failure tests.test_e10f
+          python3 experiments/e10d_failure_ingest.py \
+            --evidence-dir "$PREREQUISITE_DIR" \
+            --contract "$ADAPTER_CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --model ministral3_3b_q4_0 \
+            --run-id "$PREREQUISITE_RUN_ID" \
+            --run-attempt 1 \
+            --artifact-name "$PREREQUISITE_ARTIFACT" \
+            --artifact-id 8860154414 \
+            --output /tmp/e10f-prerequisite-summary.json
+          cmp /tmp/e10f-prerequisite-summary.json \
+            results/manifests/e10d-ministral3_3b_q4_0-30818303255.json
+          echo "$(jq -r '.workload.prepared_sha256' "$PLAN_PATH")  $PREREQUISITE_DIR/prepared.json" \
+            | sha256sum --check --strict
+
+          mkdir -p "$EVIDENCE_DIR" "$MODEL_ROOT"
+          cp -R "$PREREQUISITE_DIR/build" "$EVIDENCE_DIR/build"
+          cp -R "$PREREQUISITE_DIR/patches" "$EVIDENCE_DIR/patches"
+          cp -R "$PREREQUISITE_DIR/tasks" "$EVIDENCE_DIR/tasks"
+          for file in \
+            e9a-contract.json e9b-plan.json models-manifest.json \
+            e10b-manifest.json e10c-negative-manifest.json sample-map.json \
+            e9b-samples.py requirements.txt generated-sample-map.json \
+            source-diff.patch source.json patched-files.txt prepared.json; do
+            cp "$PREREQUISITE_DIR/$file" "$EVIDENCE_DIR/$file"
+          done
+          cp "$PLAN_PATH" "$EVIDENCE_DIR/contract.json"
+          cp "$ADAPTER_CONTRACT_PATH" "$EVIDENCE_DIR/e10d-contract.json"
+          cp results/manifests/e10d-30818303255.json \
+            "$EVIDENCE_DIR/e10d-pair-manifest.json"
+          cp results/manifests/e10d-ministral3_3b_q4_0-30818303255.json \
+            "$EVIDENCE_DIR/e10d-control-manifest.json"
+          cp experiments/e10e_probability_plan.json "$EVIDENCE_DIR/e10e-plan.json"
+          cp results/manifests/e10e-30827797407.json "$EVIDENCE_DIR/e10e-manifest.json"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          git rev-parse HEAD | tee "$EVIDENCE_DIR/repository-commit.txt"
+          jq -n \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --argjson run_attempt "$GITHUB_RUN_ATTEMPT" \
+            --arg sha "$GITHUB_SHA" \
+            --arg ref "$GITHUB_REF" \
+            --arg runner_os "$RUNNER_OS" \
+            --arg runner_arch "$RUNNER_ARCH" \
+            --arg prerequisite_run_id "$PREREQUISITE_RUN_ID" \
+            --arg prerequisite_artifact "$PREREQUISITE_ARTIFACT" \
+            '{run_id: $run_id, run_attempt: $run_attempt, sha: $sha, ref: $ref, runner_os: $runner_os, runner_arch: $runner_arch, prerequisite_run_id: $prerequisite_run_id, prerequisite_artifact: $prerequisite_artifact}' \
+            > "$EVIDENCE_DIR/github.json"
+
+          runtime_dir="$EVIDENCE_DIR/build/runtime-files/bin"
+          chmod +x "$runtime_dir/llama-server"
+          ln -sfn libllama-common.so.0.0.10216 "$runtime_dir/libllama-common.so.0"
+          ln -sfn libmtmd.so.0.0.10216 "$runtime_dir/libmtmd.so.0"
+          ln -sfn libllama.so.0.0.10216 "$runtime_dir/libllama.so.0"
+          ln -sfn libggml.so.0.18.0 "$runtime_dir/libggml.so.0"
+          ln -sfn libggml-base.so.0.18.0 "$runtime_dir/libggml-base.so.0"
+          ln -sfn libggml-cpu.so.0.18.0 "$runtime_dir/libggml-cpu.so.0"
+          echo "$(jq -r '.acceptance.server_binary_sha256' "$PLAN_PATH")  $runtime_dir/llama-server" \
+            | sha256sum --check --strict
+          LD_LIBRARY_PATH="$runtime_dir" ldd "$runtime_dir/llama-server" \
+            | tee "$EVIDENCE_DIR/reused-runtime-ldd.txt"
+          ! grep -q 'not found' "$EVIDENCE_DIR/reused-runtime-ldd.txt"
+
+      - name: Download and verify exact frozen model
+        run: |
+          set -euo pipefail
+          repository="$(jq -r --arg candidate "$CANDIDATE" '.variants[$candidate].repository' experiments/e3f_models.json)"
+          revision="$(jq -r --arg candidate "$CANDIDATE" '.variants[$candidate].revision' experiments/e3f_models.json)"
+          entrypoint="$(jq -r --arg candidate "$CANDIDATE" '.variants[$candidate].entrypoint' experiments/e3f_models.json)"
+          model_sha="$(jq -r --arg candidate "$CANDIDATE" '.models[] | select(.candidate == $candidate) | .sha256' "$PLAN_PATH")"
+          model_size="$(jq -r --arg candidate "$CANDIDATE" '.models[] | select(.candidate == $candidate) | .size_bytes' "$PLAN_PATH")"
+          model="$MODEL_ROOT/$entrypoint"
+          mkdir -p "$(dirname "$model")"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$model" \
+            "https://huggingface.co/$repository/resolve/$revision/$entrypoint?download=true"
+          test "$(stat --format='%s' "$model")" = "$model_size"
+          echo "$model_sha  $model" | sha256sum --check --strict
+          sha256sum "$model" | tee "$EVIDENCE_DIR/model-sha256.txt"
+
+      - name: Score exact prepared workload through safe-sampled adapter
+        run: |
+          set -euo pipefail
+          entrypoint="$(jq -r --arg candidate "$CANDIDATE" '.variants[$candidate].entrypoint' experiments/e3f_models.json)"
+          experiments/e10f_cell.sh \
+            "$PLAN_PATH" \
+            "$ADAPTER_CONTRACT_PATH" \
+            "$EVIDENCE_DIR" \
+            "$EVIDENCE_DIR/build/runtime-files/bin/llama-server" \
+            "$MODEL_ROOT/$entrypoint"
+
+      - name: Independently validate cell and inventory evidence
+        run: |
+          set -euo pipefail
+          python3 experiments/e10f_ingest.py cell \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --plan "$PLAN_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --model "$CANDIDATE" \
+            --output "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+
+      - name: Upload complete model cell
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e10f-${{ matrix.candidate }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error
+
+  aggregate:
+    name: Aggregate safe-sampled Q4_K_M versus Q4_0 holdout
+    needs: evaluate
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 20
+    steps:
+      - name: Check out frozen E10f experiment
+        uses: actions/checkout@v7
+
+      - name: Download primary cell
+        uses: actions/download-artifact@v7
+        with:
+          name: e10f-ministral3_3b_q4_k_m-${{ github.run_id }}-${{ github.run_attempt }}
+          path: results/raw/e10f-aggregate/primary
+
+      - name: Download control cell
+        uses: actions/download-artifact@v7
+        with:
+          name: e10f-ministral3_3b_q4_0-${{ github.run_id }}-${{ github.run_attempt }}
+          path: results/raw/e10f-aggregate/control
+
+      - name: Validate paired aggregate
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = "aarch64"
+          echo "$PLAN_SHA256  $PLAN_PATH" | sha256sum --check --strict
+          python3 experiments/e10f_ingest.py aggregate \
+            --plan "$PLAN_PATH" \
+            --primary results/raw/e10f-aggregate/primary/summary.json \
+            --control results/raw/e10f-aggregate/control/summary.json \
+            --output results/raw/e10f-aggregate/summary.json
+
+      - name: Upload paired aggregate
+        uses: actions/upload-artifact@v7
+        with:
+          name: e10f-aggregate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: results/raw/e10f-aggregate/summary.json
+          retention-days: 90
+          if-no-files-found: error
