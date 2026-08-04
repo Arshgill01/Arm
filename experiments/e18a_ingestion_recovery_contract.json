@@ -1,0 +1,130 @@
+{
+  "acceptance": {
+    "all_source_artifact_files_match_retained_inventory": true,
+    "live_source_run_job_and_artifact_identity_match": true,
+    "no_measurement_or_build_step": true,
+    "recovered_hypothesis_exact": {
+      "gates": {
+        "cpu_seconds_per_request": false,
+        "maximum_rss": true,
+        "median_http_latency": false,
+        "p95_http_latency": true,
+        "quality": true,
+        "ready_time": true,
+        "runtime_closure": false,
+        "throughput": false,
+        "throughput_dispersion": true
+      },
+      "passed": false,
+      "ratios": {
+        "cpu_seconds_per_request": 1.0075407159793215,
+        "maximum_rss": 0.9999469893547437,
+        "median_http_latency": 1.0082171204019101,
+        "p95_http_latency": 0.9971784516379923,
+        "ready_time": 0.9426479070069502,
+        "runtime_closure": 1.0688501871301208,
+        "throughput": 0.9924348486820853
+      },
+      "selected_profile": "release_control",
+      "weighted_score_used": false
+    },
+    "recovered_status_exact": "valid_workload_pgo_no_win",
+    "recovered_summary_sha256_exact": "cc12c4a910c42b0e9477e4655cec2d49ca0c1c16fe8fdb4299bc4184fd8d48c3"
+  },
+  "claim_boundary": "This recovery can validate only the deterministic interpretation of the exact completed native measurements in source run 30861416953. It adds no measurement and makes no generic PGO, other-model, long-context, fleet, energy, PMU, local-device, or cost claim.",
+  "decision": {
+    "accept_recovered_result_only_if_every_gate_passes": true,
+    "additional_measurement_allowed": false,
+    "failed_workflow_rehabilitated": false,
+    "gate_change_allowed": false,
+    "pgo_promotion_expected": false
+  },
+  "execution": {
+    "allowed_operations": [
+      "download exact source artifact",
+      "verify every extracted regular file",
+      "query source run job and artifact metadata",
+      "run corrected deterministic ingester",
+      "write compact recovery evidence"
+    ],
+    "forbidden_operations": [
+      "clone or build llama.cpp",
+      "download a model",
+      "generate or consume a new PGO profile",
+      "launch llama-server",
+      "rerun any service cell",
+      "change source model service order repetitions or gates"
+    ],
+    "python_version": "3.10.20",
+    "required_architecture": "aarch64",
+    "runner": "ubuntu-24.04-arm"
+  },
+  "expected_result": {
+    "hypothesis": {
+      "gates": {
+        "cpu_seconds_per_request": false,
+        "maximum_rss": true,
+        "median_http_latency": false,
+        "p95_http_latency": true,
+        "quality": true,
+        "ready_time": true,
+        "runtime_closure": false,
+        "throughput": false,
+        "throughput_dispersion": true
+      },
+      "passed": false,
+      "ratios": {
+        "cpu_seconds_per_request": 1.0075407159793215,
+        "maximum_rss": 0.9999469893547437,
+        "median_http_latency": 1.0082171204019101,
+        "p95_http_latency": 0.9971784516379923,
+        "ready_time": 0.9426479070069502,
+        "runtime_closure": 1.0688501871301208,
+        "throughput": 0.9924348486820853
+      },
+      "selected_profile": "release_control",
+      "weighted_score_used": false
+    },
+    "hypothesis_passed": false,
+    "selected_profile": "release_control",
+    "status": "valid_workload_pgo_no_win",
+    "summary_sha256": "cc12c4a910c42b0e9477e4655cec2d49ca0c1c16fe8fdb4299bc4184fd8d48c3"
+  },
+  "experiment_id": "E18a-ingestion-recovery",
+  "inputs": {
+    "base_ingest_path": "experiments/e18a_ingest.py",
+    "base_ingest_sha256": "bfefd282c92187a33f18993f4fd53fbf5b86ba3389885eff3d52e33202da91b6",
+    "failure_manifest_path": "results/manifests/e18a-successor-ingestion-failure-30861416953.json",
+    "failure_manifest_sha256": "0d6f326c8537584a949e76904ac74877d451c3d99b8192160285e2407f2bcaa4",
+    "failure_retain_path": "experiments/e18a_ingestion_failure_retain.py",
+    "failure_retain_sha256": "ed8ad591307ec60d2e9b89c34f1c86d6178f84fe9ffb12db58fe798b9ead92e8",
+    "fixed_ingest_path": "experiments/e18a_successor_ingest.py",
+    "fixed_ingest_sha256": "1604b7f65cedf166f81e4304c0a8d35889fd1e26bd1e3f771cb7234e64c6cf30",
+    "freeze_path": "experiments/e18a_ingestion_recovery_freeze.py",
+    "freeze_sha256": "865a35e89ba05c9c986707f6713503cabfc9f7a124b67bc8aee0bebc1eccaca2",
+    "recovery_path": "experiments/e18a_ingestion_recovery.py",
+    "recovery_sha256": "33e0b32e8c8465c3b7553bc95a6fef301cb23ac79a877d6612ed6194292ecdea",
+    "recovery_test_path": "tests/test_e18a_ingestion_recovery.py",
+    "recovery_test_sha256": "70fec705d08ae8471daeaaf69c09f2861109926d3e005b874ba4b00321fd0bda",
+    "source_contract_path": "experiments/e18a_successor_contract.json",
+    "source_contract_sha256": "0069ca34c075c068beea1102e26a80725afc9cb9db56677e4af09fa125cbdc36",
+    "successor_test_path": "tests/test_e18a_successor.py",
+    "successor_test_sha256": "35f5f43a58ca8a082c33ac95f7f868c74af704e82343c1637e471c1227700e9d"
+  },
+  "negative_result_rule": "Retain any source-file, GitHub identity, Python, deterministic summary, status, hypothesis, or selected-profile mismatch and stop without rebuilding, remeasuring, or changing the expected result.",
+  "schema_version": 1,
+  "source": {
+    "artifact_digest": "sha256:eaa2f669b7a208e6b9ac0a4b16fd5b79411f8314baee0aa98f719c99d27110fd",
+    "artifact_id": "8875533121",
+    "artifact_name": "e18a-workload-pgo-30861416953-1",
+    "artifact_size_bytes": 19906844,
+    "failure_status": "invalid_post_measurement_ingestion_failure_with_complete_replay",
+    "job_id": "91844009646",
+    "repository_commit": "12d19a04cf9c8e1e7ceb53d5b61de43746527977",
+    "run_attempt": 1,
+    "run_id": "30861416953",
+    "source_workflow_remains_invalid": true
+  },
+  "state": "frozen after the validator-only workflow failure and a local Python 3.10 deterministic replay exposed the unchanged no-win, before the native recovery replays or retains that result",
+  "title": "Inspection-only recovery of complete workload-PGO evidence"
+}

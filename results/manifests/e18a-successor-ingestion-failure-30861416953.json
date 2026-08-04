@@ -1,0 +1,2612 @@
+{
+  "artifact_validation": {
+    "all_extracted_regular_files_hashed": true,
+    "file_count": 501,
+    "files": [
+      {
+        "path": "builds/release_control/CMakeCache.txt",
+        "sha256": "ba6e12eb9241bb5d8c9e965ae700b42539b7d7a39a4a789acd4c88b4817008b0",
+        "size_bytes": 34249
+      },
+      {
+        "path": "builds/release_control/build-commands.txt",
+        "sha256": "850208acf284fc48ef2763c1c36ea57301048cfc699031ede44fce2a09e7b433",
+        "size_bytes": 315708
+      },
+      {
+        "path": "builds/release_control/build-time.log",
+        "sha256": "51515388465cc61769bb7aebc2e7180c341a1474d1035624b74ac9cf849653f1",
+        "size_bytes": 831
+      },
+      {
+        "path": "builds/release_control/build.log",
+        "sha256": "2247263371526ea52128872237fece530cfe742d521321900363f7196bbb6093",
+        "size_bytes": 57522
+      },
+      {
+        "path": "builds/release_control/configure.log",
+        "sha256": "03e7928f31e1b4b4aca35c49b996523adb5e0685820301745a0771282306d5f4",
+        "size_bytes": 3081
+      },
+      {
+        "path": "builds/release_control/runtime-closure.json",
+        "sha256": "c92c245f30e995827fac4806cffd8147158abd6e48ae0124832b6fb231e48937",
+        "size_bytes": 5913
+      },
+      {
+        "path": "builds/release_control/runtime-files/bin/libggml-base.so.0.18.0",
+        "sha256": "731e2546044afdc57a0985bd58d1f7f03dd6f79be5090bbdd8f24e3ae556f746",
+        "size_bytes": 873464
+      },
+      {
+        "path": "builds/release_control/runtime-files/bin/libggml-cpu.so.0.18.0",
+        "sha256": "b4ab659c2284af39ebdce1edc6c2e7254ab36b586db970eedb5ffc183ea6e63a",
+        "size_bytes": 1160432
+      },
+      {
+        "path": "builds/release_control/runtime-files/bin/libggml.so.0.18.0",
+        "sha256": "a4ece1165239206aecbb7e7c8160e223f37990b1db5c8b94397d38dfc4ad9707",
+        "size_bytes": 78176
+      },
+      {
+        "path": "builds/release_control/runtime-files/bin/libllama-common.so.0.0.10216",
+        "sha256": "6b6fb2fcbe24e91c5031817f3137dbdd7ae033c1fad073c564dc2676c1972256",
+        "size_bytes": 5326232
+      },
+      {
+        "path": "builds/release_control/runtime-files/bin/libllama-server-impl.so",
+        "sha256": "24c0739e9ad0463e42260bceb2b78becd3713e97a4475783cdd81803c9ec0ecf",
+        "size_bytes": 6949024
+      },
+      {
+        "path": "builds/release_control/runtime-files/bin/libllama.so.0.0.10216",
+        "sha256": "e56a4c04aaa9353b0afb55e803c11a218f7d6aeb209123db182636b3b1e12b24",
+        "size_bytes": 3937000
+      },
+      {
+        "path": "builds/release_control/runtime-files/bin/libmtmd.so.0.0.10216",
+        "sha256": "e53ede48f60c8487889ad9bf449502b3e6c185c88dfb046fe06851fc1e48cc88",
+        "size_bytes": 1461024
+      },
+      {
+        "path": "builds/release_control/runtime-files/bin/llama-server",
+        "sha256": "b829c304c0152ee8bfe1d8bb3c1e414f854a64fdaedfc09c370240b6738d7dc2",
+        "size_bytes": 72488
+      },
+      {
+        "path": "builds/release_control/server-version.txt",
+        "sha256": "fafd6a479981514195a5e29773105bcb87d9c149cb5d659aa0956617c52028a6",
+        "size_bytes": 67
+      },
+      {
+        "path": "builds/workload_pgo/CMakeCache.txt",
+        "sha256": "5569d413a4d37979cc68aa2ad464f25557c81dc704686af69ce13223b715456d",
+        "size_bytes": 34569
+      },
+      {
+        "path": "builds/workload_pgo/build-commands.txt",
+        "sha256": "0a7d128ef77298d6e77d49a740c5801cbaf05c01cea9ecb06b5f988cca0cfae9",
+        "size_bytes": 350693
+      },
+      {
+        "path": "builds/workload_pgo/build-time.log",
+        "sha256": "6e282937304986d30dda1e0d7b890b8974b3473b3642ebac95dcb53af6020e24",
+        "size_bytes": 829
+      },
+      {
+        "path": "builds/workload_pgo/build.log",
+        "sha256": "67ceb7257ef9dfe8ae63f4037a948e36f6d7a19bcb8b824374d38f35321114f6",
+        "size_bytes": 29792
+      },
+      {
+        "path": "builds/workload_pgo/configure.log",
+        "sha256": "28a6705b7c9c156c47546c21ea5eeea6e725c3819fd2829fdf0cda8ccb273ac4",
+        "size_bytes": 867
+      },
+      {
+        "path": "builds/workload_pgo/runtime-closure.json",
+        "sha256": "3e39d543020da1b0a1b16c9e3a74c06817aaf9aaa772a747ef3500b4cf82adc2",
+        "size_bytes": 5821
+      },
+      {
+        "path": "builds/workload_pgo/runtime-files/bin/libggml-base.so.0.18.0",
+        "sha256": "64817726a4c9296777d6dfda3071c44df62d9ba06e36d22c0a7655d793e3f4a1",
+        "size_bytes": 940912
+      },
+      {
+        "path": "builds/workload_pgo/runtime-files/bin/libggml-cpu.so.0.18.0",
+        "sha256": "af3cea45453bc3330e443f59a6136678a3d38e7ebd5a66a1d4aa764a3f3dd7c7",
+        "size_bytes": 1291608
+      },
+      {
+        "path": "builds/workload_pgo/runtime-files/bin/libggml.so.0.18.0",
+        "sha256": "8c20fd16586f9285254ab9a411aea52902e9b7179099abec252a2656f32fa3c5",
+        "size_bytes": 78256
+      },
+      {
+        "path": "builds/workload_pgo/runtime-files/bin/libllama-common.so.0.0.10216",
+        "sha256": "75524c9d9b2446e951c1e3f4ec65f08184d185e8b76cfdbc4eb521ee62496693",
+        "size_bytes": 5696376
+      },
+      {
+        "path": "builds/workload_pgo/runtime-files/bin/libllama-server-impl.so",
+        "sha256": "a80ee9b455893f0d3377257cb6cb10b4af68cac47d8a4b061eaca2aa580b4a14",
+        "size_bytes": 7191240
+      },
+      {
+        "path": "builds/workload_pgo/runtime-files/bin/libllama.so.0.0.10216",
+        "sha256": "f66faa7e3676c102f0b477c52aa387fad73cca5f8ac281272edae0adf71003e2",
+        "size_bytes": 4229176
+      },
+      {
+        "path": "builds/workload_pgo/runtime-files/bin/libmtmd.so.0.0.10216",
+        "sha256": "3215cd6600a5e164fef138e9a17f5dd33cdbf3a457ecfd8955c102e92d5205d9",
+        "size_bytes": 1725008
+      },
+      {
+        "path": "builds/workload_pgo/runtime-files/bin/llama-server",
+        "sha256": "738ef72750ce011a5c4205a76f981bf2b82956e68f93d4b40898dd8731742046",
+        "size_bytes": 72480
+      },
+      {
+        "path": "builds/workload_pgo/server-version.txt",
+        "sha256": "fafd6a479981514195a5e29773105bcb87d9c149cb5d659aa0956617c52028a6",
+        "size_bytes": 67
+      },
+      {
+        "path": "cells/01-release_control-r1/metrics.txt",
+        "sha256": "a4c716fb14c0c4546b918f932a4fef1118f8836b330965715f47303b724f39ff",
+        "size_bytes": 1649
+      },
+      {
+        "path": "cells/01-release_control-r1/probe.json",
+        "sha256": "20c8aab4c1ce9d355c3a38c221df3b53d054e9a8269a5146f7a8dfff03a0d272",
+        "size_bytes": 18763
+      },
+      {
+        "path": "cells/01-release_control-r1/readiness.json",
+        "sha256": "09a9d32eba6ce051891d9d8e536224ca31a7dc0b0d320c476022773710f91940",
+        "size_bytes": 129
+      },
+      {
+        "path": "cells/01-release_control-r1/recipe.json",
+        "sha256": "f156f9b43d71ae0c033bfca83e6ff998efd9e63f5fa36e7d9c75d7f560daea5e",
+        "size_bytes": 2897
+      },
+      {
+        "path": "cells/01-release_control-r1/server-pid.txt",
+        "sha256": "cfdbfa102daf847c1c25d4735e68f8ceb9590b68cbd6889c43f50277326133a6",
+        "size_bytes": 5
+      },
+      {
+        "path": "cells/01-release_control-r1/server-shell-exit.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "size_bytes": 2
+      },
+      {
+        "path": "cells/01-release_control-r1/server-time.log",
+        "sha256": "07c63b9d3d8217612853ba63109256fae93caa11657f3a51f0189fc6aba82f9d",
+        "size_bytes": 1171
+      },
+      {
+        "path": "cells/01-release_control-r1/server.stderr.log",
+        "sha256": "f4ca2428951cfa54ca512e0627d75fcb74790cf85b358b7a81c42e5e8aa511ef",
+        "size_bytes": 27019
+      },
+      {
+        "path": "cells/01-release_control-r1/server.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "cells/01-release_control-r1/slots.json",
+        "sha256": "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653",
+        "size_bytes": 1222
+      },
+      {
+        "path": "cells/02-workload_pgo-r1/metrics.txt",
+        "sha256": "67b57118fb0ffc979ab32bbf5c8a29aa2fab451aa21c96e0c57af86bf03d699c",
+        "size_bytes": 1649
+      },
+      {
+        "path": "cells/02-workload_pgo-r1/probe.json",
+        "sha256": "be3f767a2a8c4a44fbad189da1f3d95d517c2ec375aceb26e910c895313a4076",
+        "size_bytes": 18748
+      },
+      {
+        "path": "cells/02-workload_pgo-r1/readiness.json",
+        "sha256": "22f67bf3c5952d2cbdc57258b34ef3c2341b2bb3c15a2bef43c923b60ea7fbfb",
+        "size_bytes": 129
+      },
+      {
+        "path": "cells/02-workload_pgo-r1/recipe.json",
+        "sha256": "4bb44b5e81ec70e7eaf88afa16571cddc8c1612b290fd0acd7e3c84192e2d015",
+        "size_bytes": 2982
+      },
+      {
+        "path": "cells/02-workload_pgo-r1/server-pid.txt",
+        "sha256": "a3c2f237b0b4a55fbde1146b05b467eafef8b922243cc9833baedb1e3ad4c604",
+        "size_bytes": 5
+      },
+      {
+        "path": "cells/02-workload_pgo-r1/server-shell-exit.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "size_bytes": 2
+      },
+      {
+        "path": "cells/02-workload_pgo-r1/server-time.log",
+        "sha256": "4d8fed2d02b2c0750f151bfc429ac8bc2d2b6c58dc4b95b6bfbcb58970680aaf",
+        "size_bytes": 1167
+      },
+      {
+        "path": "cells/02-workload_pgo-r1/server.stderr.log",
+        "sha256": "bc35017c9116a98f26b5d91e3d0aa1eddf7361cf8fcc01cc92b7bb9dd47b64b0",
+        "size_bytes": 27019
+      },
+      {
+        "path": "cells/02-workload_pgo-r1/server.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "cells/02-workload_pgo-r1/slots.json",
+        "sha256": "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653",
+        "size_bytes": 1222
+      },
+      {
+        "path": "cells/03-workload_pgo-r2/metrics.txt",
+        "sha256": "65d76f92e4921302aa2036769204cf84bac1fea29aad3b3e6776ea8bfe57097e",
+        "size_bytes": 1649
+      },
+      {
+        "path": "cells/03-workload_pgo-r2/probe.json",
+        "sha256": "4b6a8187eb4f030341d0a2dde005b0697b2fcbf81ff9f5bf528ffa5ecb65412e",
+        "size_bytes": 18746
+      },
+      {
+        "path": "cells/03-workload_pgo-r2/readiness.json",
+        "sha256": "8cd61e078cb36dcad62c044401c0bfda19d25a97d7638db3f0bdaaf68473dbc8",
+        "size_bytes": 129
+      },
+      {
+        "path": "cells/03-workload_pgo-r2/recipe.json",
+        "sha256": "4bb44b5e81ec70e7eaf88afa16571cddc8c1612b290fd0acd7e3c84192e2d015",
+        "size_bytes": 2982
+      },
+      {
+        "path": "cells/03-workload_pgo-r2/server-pid.txt",
+        "sha256": "8ea6ed72aef015a6ffb423e050e2af2c76131714cefb6c5fef78d7ecfa6c296f",
+        "size_bytes": 5
+      },
+      {
+        "path": "cells/03-workload_pgo-r2/server-shell-exit.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "size_bytes": 2
+      },
+      {
+        "path": "cells/03-workload_pgo-r2/server-time.log",
+        "sha256": "69f36e35c875ffd6b75ebf4590b386d271b91a8ca443ab67756530c58e097aa0",
+        "size_bytes": 1167
+      },
+      {
+        "path": "cells/03-workload_pgo-r2/server.stderr.log",
+        "sha256": "d29d7b00849ec8798b7fd94275bb22c9e566d3b8b17f8a9f63f4fcee85bf8034",
+        "size_bytes": 27019
+      },
+      {
+        "path": "cells/03-workload_pgo-r2/server.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "cells/03-workload_pgo-r2/slots.json",
+        "sha256": "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653",
+        "size_bytes": 1222
+      },
+      {
+        "path": "cells/04-release_control-r2/metrics.txt",
+        "sha256": "dd297e375ee27811e2bfd385ccd126865a5d6fbe71f015d8beb263d682acf031",
+        "size_bytes": 1648
+      },
+      {
+        "path": "cells/04-release_control-r2/probe.json",
+        "sha256": "2cfd7c65dba208438ab589a85b422644cd9689e34712e2ec4645f7c105c6c4ad",
+        "size_bytes": 18753
+      },
+      {
+        "path": "cells/04-release_control-r2/readiness.json",
+        "sha256": "a2ac948e66d92db571a14643d4574eaf144102a86919fe0ea6ca088ddc0d6968",
+        "size_bytes": 129
+      },
+      {
+        "path": "cells/04-release_control-r2/recipe.json",
+        "sha256": "f156f9b43d71ae0c033bfca83e6ff998efd9e63f5fa36e7d9c75d7f560daea5e",
+        "size_bytes": 2897
+      },
+      {
+        "path": "cells/04-release_control-r2/server-pid.txt",
+        "sha256": "11f6b33e982f43da3044f93206aaa551b124b039741215236dc38bdc2d0aada5",
+        "size_bytes": 5
+      },
+      {
+        "path": "cells/04-release_control-r2/server-shell-exit.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "size_bytes": 2
+      },
+      {
+        "path": "cells/04-release_control-r2/server-time.log",
+        "sha256": "f0829dd15e3e02e0e8c92a51e7f78ba5d99b7e7ddc6f65c6c4e76ddef22f7aa1",
+        "size_bytes": 1171
+      },
+      {
+        "path": "cells/04-release_control-r2/server.stderr.log",
+        "sha256": "ece109e8f098519d782ccb49331c1d43b3912818f81ce0748a9a2b4a1576cc32",
+        "size_bytes": 27019
+      },
+      {
+        "path": "cells/04-release_control-r2/server.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "cells/04-release_control-r2/slots.json",
+        "sha256": "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653",
+        "size_bytes": 1222
+      },
+      {
+        "path": "cells/05-release_control-r3/metrics.txt",
+        "sha256": "6e5cfbf4c7032d439b4a92774bd7d35d48fdbf6a544d8db59ff4ca3f8deb0949",
+        "size_bytes": 1648
+      },
+      {
+        "path": "cells/05-release_control-r3/probe.json",
+        "sha256": "70d2db58a7a5598339a5419d3ad24d1417d1f63aa49fd7e5e347c4f1ab23e5f4",
+        "size_bytes": 18751
+      },
+      {
+        "path": "cells/05-release_control-r3/readiness.json",
+        "sha256": "d60e813fc071f452ce4630f0b3be9c6b9ac81acb4971ad2e977288127986cde4",
+        "size_bytes": 129
+      },
+      {
+        "path": "cells/05-release_control-r3/recipe.json",
+        "sha256": "f156f9b43d71ae0c033bfca83e6ff998efd9e63f5fa36e7d9c75d7f560daea5e",
+        "size_bytes": 2897
+      },
+      {
+        "path": "cells/05-release_control-r3/server-pid.txt",
+        "sha256": "520b4452fa8705afc6356d4266d532352099a9ba2876e4515f3f74431552312a",
+        "size_bytes": 5
+      },
+      {
+        "path": "cells/05-release_control-r3/server-shell-exit.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "size_bytes": 2
+      },
+      {
+        "path": "cells/05-release_control-r3/server-time.log",
+        "sha256": "09653230d47dcb0a0e3bca63c028015f1fab2268341a80933f7e31a470ceefc7",
+        "size_bytes": 1171
+      },
+      {
+        "path": "cells/05-release_control-r3/server.stderr.log",
+        "sha256": "14b5e1b43841c44b0cdffa8e5769a6d4a202791e03904166c30f7084f31fda2b",
+        "size_bytes": 27019
+      },
+      {
+        "path": "cells/05-release_control-r3/server.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "cells/05-release_control-r3/slots.json",
+        "sha256": "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653",
+        "size_bytes": 1222
+      },
+      {
+        "path": "cells/06-workload_pgo-r3/metrics.txt",
+        "sha256": "846e6db46a2cc4976e145d47ca973458449ed271320fd7433f91b2f2eed25401",
+        "size_bytes": 1649
+      },
+      {
+        "path": "cells/06-workload_pgo-r3/probe.json",
+        "sha256": "6567b2571f516f3422f5e6ae45830f9a37a54d466e4341b316634e9637985f83",
+        "size_bytes": 18743
+      },
+      {
+        "path": "cells/06-workload_pgo-r3/readiness.json",
+        "sha256": "21382fd561aed0d0e1752907a850e1759c0f7fb19d1f51d55b382a2642bbe224",
+        "size_bytes": 129
+      },
+      {
+        "path": "cells/06-workload_pgo-r3/recipe.json",
+        "sha256": "4bb44b5e81ec70e7eaf88afa16571cddc8c1612b290fd0acd7e3c84192e2d015",
+        "size_bytes": 2982
+      },
+      {
+        "path": "cells/06-workload_pgo-r3/server-pid.txt",
+        "sha256": "b88f901a07c1057918dcc71e58c6da739f26074d50e9208bf40ed22a8a063d61",
+        "size_bytes": 5
+      },
+      {
+        "path": "cells/06-workload_pgo-r3/server-shell-exit.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "size_bytes": 2
+      },
+      {
+        "path": "cells/06-workload_pgo-r3/server-time.log",
+        "sha256": "b56d05196de0a19cd833b9dfe50f937414d6e0e5258f72593d9a59de4274dc30",
+        "size_bytes": 1167
+      },
+      {
+        "path": "cells/06-workload_pgo-r3/server.stderr.log",
+        "sha256": "05aaea7fc08b8405ce45e93558c5954b2001485ece4baf97325e2a70c800659a",
+        "size_bytes": 27019
+      },
+      {
+        "path": "cells/06-workload_pgo-r3/server.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "cells/06-workload_pgo-r3/slots.json",
+        "sha256": "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653",
+        "size_bytes": 1222
+      },
+      {
+        "path": "cells/07-workload_pgo-r4/metrics.txt",
+        "sha256": "f11016ac95ec764ab3bc34f5581b7dae547cc4312f074965c447201f84c1ef1a",
+        "size_bytes": 1647
+      },
+      {
+        "path": "cells/07-workload_pgo-r4/probe.json",
+        "sha256": "2a8db0a9b112a8431bf10ace993e384ab2188d4fc66611221889ad677b325544",
+        "size_bytes": 18776
+      },
+      {
+        "path": "cells/07-workload_pgo-r4/readiness.json",
+        "sha256": "7fb6c53cc69450c045ee24857aa5e2f3e1dc8101cc01ee512c0247e3f965b318",
+        "size_bytes": 129
+      },
+      {
+        "path": "cells/07-workload_pgo-r4/recipe.json",
+        "sha256": "4bb44b5e81ec70e7eaf88afa16571cddc8c1612b290fd0acd7e3c84192e2d015",
+        "size_bytes": 2982
+      },
+      {
+        "path": "cells/07-workload_pgo-r4/server-pid.txt",
+        "sha256": "bdd2d81b556faf77c657b2cf40d05cc62fe926d93d4d47fb6b5f2a56879139f8",
+        "size_bytes": 5
+      },
+      {
+        "path": "cells/07-workload_pgo-r4/server-shell-exit.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "size_bytes": 2
+      },
+      {
+        "path": "cells/07-workload_pgo-r4/server-time.log",
+        "sha256": "8bd262214412e52278f451d6727cf79234f3d1d0d4bc0ed39eb82d181737a565",
+        "size_bytes": 1167
+      },
+      {
+        "path": "cells/07-workload_pgo-r4/server.stderr.log",
+        "sha256": "3c26deae66c0e367940ed8ca27546fb11428110e33dbc1a36e5ddbd6ab3181ac",
+        "size_bytes": 27019
+      },
+      {
+        "path": "cells/07-workload_pgo-r4/server.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "cells/07-workload_pgo-r4/slots.json",
+        "sha256": "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653",
+        "size_bytes": 1222
+      },
+      {
+        "path": "cells/08-release_control-r4/metrics.txt",
+        "sha256": "85c793d3e96e82611374d010f28e10e330189f790fa9dcb85b1c91c0c82f76c3",
+        "size_bytes": 1648
+      },
+      {
+        "path": "cells/08-release_control-r4/probe.json",
+        "sha256": "8d9aa1d98ae4cd2946019f3ae2c4fe3827dfdfd6688c4cf4450041152f363ae2",
+        "size_bytes": 18759
+      },
+      {
+        "path": "cells/08-release_control-r4/readiness.json",
+        "sha256": "26732dc53845fb9a4195daa95ea22acd835db492a7d73351c1ff1dfd8c84882e",
+        "size_bytes": 129
+      },
+      {
+        "path": "cells/08-release_control-r4/recipe.json",
+        "sha256": "f156f9b43d71ae0c033bfca83e6ff998efd9e63f5fa36e7d9c75d7f560daea5e",
+        "size_bytes": 2897
+      },
+      {
+        "path": "cells/08-release_control-r4/server-pid.txt",
+        "sha256": "8588dc28d1ef1e3c071bbfb98f66f83fd7e53ffa5418a57989147dc0be7c1906",
+        "size_bytes": 5
+      },
+      {
+        "path": "cells/08-release_control-r4/server-shell-exit.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "size_bytes": 2
+      },
+      {
+        "path": "cells/08-release_control-r4/server-time.log",
+        "sha256": "aeeb22be1056354a3d5324342d2a2cf894f7f42d5c0d3c78fb00817cd2a6a5e0",
+        "size_bytes": 1171
+      },
+      {
+        "path": "cells/08-release_control-r4/server.stderr.log",
+        "sha256": "c72c7cb021fa647d318b459aa158ac8526f98e8d87e4076c38fb126aabc24d82",
+        "size_bytes": 27019
+      },
+      {
+        "path": "cells/08-release_control-r4/server.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "cells/08-release_control-r4/slots.json",
+        "sha256": "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653",
+        "size_bytes": 1222
+      },
+      {
+        "path": "cells/09-release_control-r5/metrics.txt",
+        "sha256": "c4065cea56b87ac710aa0987730f5a505d8377ca46e6869dc72b32fcb9211f39",
+        "size_bytes": 1648
+      },
+      {
+        "path": "cells/09-release_control-r5/probe.json",
+        "sha256": "111689c475da29f2bd21409da487d2da6075f506566e46ac9e0110b671142888",
+        "size_bytes": 18758
+      },
+      {
+        "path": "cells/09-release_control-r5/readiness.json",
+        "sha256": "054bf99eb875ae40eaa5490de6ae54db8f439404df778ba5947b772580d879fe",
+        "size_bytes": 129
+      },
+      {
+        "path": "cells/09-release_control-r5/recipe.json",
+        "sha256": "f156f9b43d71ae0c033bfca83e6ff998efd9e63f5fa36e7d9c75d7f560daea5e",
+        "size_bytes": 2897
+      },
+      {
+        "path": "cells/09-release_control-r5/server-pid.txt",
+        "sha256": "a711569136a0f5f36c7331ebbc992e4b50609ccf7d161b165f52038cebf7e79f",
+        "size_bytes": 5
+      },
+      {
+        "path": "cells/09-release_control-r5/server-shell-exit.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "size_bytes": 2
+      },
+      {
+        "path": "cells/09-release_control-r5/server-time.log",
+        "sha256": "f6242ffb061a90e9554911b5c6dd53061c8fe24c9dfa3d71a17cbe74be0282b3",
+        "size_bytes": 1171
+      },
+      {
+        "path": "cells/09-release_control-r5/server.stderr.log",
+        "sha256": "8441f59d21931c7d37265c543703736b282d23a11f9e1bcdded371c92fc1acf7",
+        "size_bytes": 27019
+      },
+      {
+        "path": "cells/09-release_control-r5/server.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "cells/09-release_control-r5/slots.json",
+        "sha256": "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653",
+        "size_bytes": 1222
+      },
+      {
+        "path": "cells/10-workload_pgo-r5/metrics.txt",
+        "sha256": "bd48bd90651975e25ed5d67f6abab2053becf2739f918a06a2cb3adf4187397f",
+        "size_bytes": 1646
+      },
+      {
+        "path": "cells/10-workload_pgo-r5/probe.json",
+        "sha256": "96f7483071bbcf81cf80ac10bd3b7814f2503756a51d551b19a0ccae1732a324",
+        "size_bytes": 18755
+      },
+      {
+        "path": "cells/10-workload_pgo-r5/readiness.json",
+        "sha256": "400574cd5542d267014acdbb0be37d1d8f7ad45fa4eea5035b7e8b6fea947ddf",
+        "size_bytes": 129
+      },
+      {
+        "path": "cells/10-workload_pgo-r5/recipe.json",
+        "sha256": "4bb44b5e81ec70e7eaf88afa16571cddc8c1612b290fd0acd7e3c84192e2d015",
+        "size_bytes": 2982
+      },
+      {
+        "path": "cells/10-workload_pgo-r5/server-pid.txt",
+        "sha256": "910b1ede4bfdd323c6a2d9dd490ae8503dbc6c67e2c909fc51e51adab845420a",
+        "size_bytes": 5
+      },
+      {
+        "path": "cells/10-workload_pgo-r5/server-shell-exit.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "size_bytes": 2
+      },
+      {
+        "path": "cells/10-workload_pgo-r5/server-time.log",
+        "sha256": "32ebbf120796aaf65b9c78a003c9c3445e9fefb8e937478caff47cea21484830",
+        "size_bytes": 1167
+      },
+      {
+        "path": "cells/10-workload_pgo-r5/server.stderr.log",
+        "sha256": "856bb24bcd44c7b476a89a72bbe223ca888ff3aca108560d04439fc0e055ba5d",
+        "size_bytes": 27019
+      },
+      {
+        "path": "cells/10-workload_pgo-r5/server.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "cells/10-workload_pgo-r5/slots.json",
+        "sha256": "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653",
+        "size_bytes": 1222
+      },
+      {
+        "path": "cells/11-workload_pgo-r6/metrics.txt",
+        "sha256": "3ddd6571bf4a94918e80fb0e842c6259e93fb4ff3b6cf0e50d932fe97f891be5",
+        "size_bytes": 1649
+      },
+      {
+        "path": "cells/11-workload_pgo-r6/probe.json",
+        "sha256": "263de35621bb46bb9bc3b83c4fca1ff2b204f7403060af2196c2633cbf3f412d",
+        "size_bytes": 18744
+      },
+      {
+        "path": "cells/11-workload_pgo-r6/readiness.json",
+        "sha256": "74fb4871761308e54776adece958ea0dda60ac462a78e419efb5c3af9470f087",
+        "size_bytes": 129
+      },
+      {
+        "path": "cells/11-workload_pgo-r6/recipe.json",
+        "sha256": "4bb44b5e81ec70e7eaf88afa16571cddc8c1612b290fd0acd7e3c84192e2d015",
+        "size_bytes": 2982
+      },
+      {
+        "path": "cells/11-workload_pgo-r6/server-pid.txt",
+        "sha256": "b7f404d8f6422e49a871dbc6866ec20dba89008f386667697487988dbb5b17e6",
+        "size_bytes": 5
+      },
+      {
+        "path": "cells/11-workload_pgo-r6/server-shell-exit.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "size_bytes": 2
+      },
+      {
+        "path": "cells/11-workload_pgo-r6/server-time.log",
+        "sha256": "a52551c6569d1a078a5a5b1928e4b7f230869501eb7b7b8f7e245dc77cb50169",
+        "size_bytes": 1167
+      },
+      {
+        "path": "cells/11-workload_pgo-r6/server.stderr.log",
+        "sha256": "fea03ecca8987ff6e44276fef36e37d5d0feeadc88cc3d441391b7d3c5fe8c32",
+        "size_bytes": 27019
+      },
+      {
+        "path": "cells/11-workload_pgo-r6/server.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "cells/11-workload_pgo-r6/slots.json",
+        "sha256": "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653",
+        "size_bytes": 1222
+      },
+      {
+        "path": "cells/12-release_control-r6/metrics.txt",
+        "sha256": "a53467b72d252cd6cb0dbc7aa812d8568538833a6fe2f19d3e857327162d9a19",
+        "size_bytes": 1649
+      },
+      {
+        "path": "cells/12-release_control-r6/probe.json",
+        "sha256": "6d48c194aa8335e7c76ae8f88ee113988ce3c7027a4a8d088bc00f5e4f6e9198",
+        "size_bytes": 18760
+      },
+      {
+        "path": "cells/12-release_control-r6/readiness.json",
+        "sha256": "e9409ffe9f03c08daf282ae248c5edc958be4cd52b33e6c6517abb64d1e95dad",
+        "size_bytes": 129
+      },
+      {
+        "path": "cells/12-release_control-r6/recipe.json",
+        "sha256": "f156f9b43d71ae0c033bfca83e6ff998efd9e63f5fa36e7d9c75d7f560daea5e",
+        "size_bytes": 2897
+      },
+      {
+        "path": "cells/12-release_control-r6/server-pid.txt",
+        "sha256": "2dc50f023617f917371df5dc27c3145da0fe38e3a4e3e05be565d0f416595ab8",
+        "size_bytes": 5
+      },
+      {
+        "path": "cells/12-release_control-r6/server-shell-exit.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "size_bytes": 2
+      },
+      {
+        "path": "cells/12-release_control-r6/server-time.log",
+        "sha256": "abc5a61c1239f569831b2d805a24a2466befb1fb1768ea187795ac843c52273f",
+        "size_bytes": 1171
+      },
+      {
+        "path": "cells/12-release_control-r6/server.stderr.log",
+        "sha256": "8406eb66d87b9ecdaf9e2059deae587c803680993202d2a8861b62d59fee172b",
+        "size_bytes": 27019
+      },
+      {
+        "path": "cells/12-release_control-r6/server.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "cells/12-release_control-r6/slots.json",
+        "sha256": "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653",
+        "size_bytes": 1222
+      },
+      {
+        "path": "compiler.txt",
+        "sha256": "53fa074480ef985e455735619d727fced49823ba23f36cdacd970330fc2357d0",
+        "size_bytes": 590
+      },
+      {
+        "path": "contract.json",
+        "sha256": "0069ca34c075c068beea1102e26a80725afc9cb9db56677e4af09fa125cbdc36",
+        "size_bytes": 12124
+      },
+      {
+        "path": "disk-before.txt",
+        "sha256": "0e7d1384c5226c73e37e3e74cb6ad8d32d95d352b988caaddc67ffee72e45c7a",
+        "size_bytes": 436
+      },
+      {
+        "path": "frozen-inputs/experiments/e18a_cell.sh",
+        "sha256": "360ce0ed576175f22953debc1bb6f9aabb744a854712ab47098ac0085988a860",
+        "size_bytes": 3557
+      },
+      {
+        "path": "frozen-inputs/experiments/e18a_freeze.py",
+        "sha256": "b21dc5f926f47a2d19ac3611f5a7e45af5f4080c33fea936186917371619e179",
+        "size_bytes": 9491
+      },
+      {
+        "path": "frozen-inputs/experiments/e18a_ingest.py",
+        "sha256": "bfefd282c92187a33f18993f4fd53fbf5b86ba3389885eff3d52e33202da91b6",
+        "size_bytes": 15347
+      },
+      {
+        "path": "frozen-inputs/experiments/e18a_profile_inventory.py",
+        "sha256": "94af7da6b59e9afb215be92157ac268930c8f6d9b30cb9936022cac9c7466cdc",
+        "size_bytes": 1745
+      },
+      {
+        "path": "frozen-inputs/experiments/e18a_successor_freeze.py",
+        "sha256": "1327cec9039f786de3906b80697e203614f3481cf6ec09b496eeba898fa6b398",
+        "size_bytes": 3838
+      },
+      {
+        "path": "frozen-inputs/experiments/e18a_successor_ingest.py",
+        "sha256": "b59e98720a0cf8f0feeaf5aceb19fcf250b338bd89e1849d64fa21f55a8bf77f",
+        "size_bytes": 3074
+      },
+      {
+        "path": "frozen-inputs/experiments/e3_tasks.json",
+        "sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+        "size_bytes": 8510
+      },
+      {
+        "path": "frozen-inputs/experiments/e3f_models.json",
+        "sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+        "size_bytes": 2154
+      },
+      {
+        "path": "frozen-inputs/experiments/e5b_inference_probe.py",
+        "sha256": "82ebd56316705df93b59aea9c05c31b59cdd0c4c9fd31ef16608dbc0e86702db",
+        "size_bytes": 17974
+      },
+      {
+        "path": "frozen-inputs/experiments/e7a_contract.json",
+        "sha256": "2d57010a168a777cc5de2ed2a7d6e0f11900d14a30d44ded6db34ecd85b1aa12",
+        "size_bytes": 6475
+      },
+      {
+        "path": "frozen-inputs/experiments/e7a_runtime_closure.py",
+        "sha256": "3e347f3e33a166e8df93952e1cb92798bab71abff467ca42959c6bcc0833510d",
+        "size_bytes": 5113
+      },
+      {
+        "path": "frozen-inputs/patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+        "size_bytes": 1332
+      },
+      {
+        "path": "frozen-inputs/patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783",
+        "size_bytes": 2535
+      },
+      {
+        "path": "frozen-inputs/patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f",
+        "size_bytes": 3058
+      },
+      {
+        "path": "frozen-inputs/results/manifests/e18a-training-timeout-30858852227.json",
+        "sha256": "e5878adf29c8ba865f8563b1a30651b2d2a0d38417d49cb2477fe00657e32ed5",
+        "size_bytes": 114821
+      },
+      {
+        "path": "frozen-inputs/results/manifests/e3f-30656151957.json",
+        "sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+        "size_bytes": 102388
+      },
+      {
+        "path": "frozen-inputs/results/manifests/e7c-30696606993.json",
+        "sha256": "f4e73971b0c6f2db25be52e365cf611848ec1bb1d738648bb43bdf4c2e1857cf",
+        "size_bytes": 6994
+      },
+      {
+        "path": "frozen-inputs/results/manifests/e9a-30764802071.json",
+        "sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d",
+        "size_bytes": 202030
+      },
+      {
+        "path": "frozen-inputs/tests/test_e18a.py",
+        "sha256": "234df6779806fb172574f95e7c79ba9f7a1c2e3c0eaf6ba2fca69146b642e312",
+        "size_bytes": 4693
+      },
+      {
+        "path": "frozen-inputs/tests/test_e18a_successor.py",
+        "sha256": "321fa792b73d7db6dd67971654a258bf8891914093eedc263a4bf213f66a10f9",
+        "size_bytes": 2032
+      },
+      {
+        "path": "lscpu.txt",
+        "sha256": "e5f7302f9882c8b4eca9892fce7bab78f37c49da0f8babcb23d2c2db5ed004bc",
+        "size_bytes": 2355
+      },
+      {
+        "path": "memory-before.txt",
+        "sha256": "b8280666d82a15e3a5290708cd9c7cad001b186221bd82975433cdbf9e6f2694",
+        "size_bytes": 207
+      },
+      {
+        "path": "model-sha256.txt",
+        "sha256": "8fc8018fd8a499a3226feee7b8183d0374d84abcf7b699c8c96b045ed20b5986",
+        "size_bytes": 133
+      },
+      {
+        "path": "patched-files.txt",
+        "sha256": "08bfe9d43a3a2e038affb291815c92278ea93566700dbdea3c7fc0819173a702",
+        "size_bytes": 129
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#CMakeFiles#CMakeScratch#TryCompile-FjNyzA#CMakeFiles#cmTC_94db0.dir#src.cxx.gcda",
+        "sha256": "8618f4400b68e29d6de0f10900f4875b5e2c91fba5c36b40303be41307beefff",
+        "size_bytes": 88
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#CMakeFiles#CMakeScratch#TryCompile-TD3fW3#CMakeFiles#cmTC_8be84.dir#src.cxx.gcda",
+        "sha256": "bc0ecd92758b1ae8d57048fcaf15ce21458b8cfeba8e9cbde5b6be41392319f7",
+        "size_bytes": 88
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#CMakeFiles#CMakeScratch#TryCompile-hnwRwK#CMakeFiles#cmTC_edd03.dir#src.cxx.gcda",
+        "sha256": "c18cc87bfde18df56b8b5cb7ad02a911b297e07e5dc3b93fef93e9ba47e0f14e",
+        "size_bytes": 88
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common-base.dir#build-info.cpp.gcda",
+        "sha256": "7f5dc15050f2658a9769c3a263bca8708e775828e7f5ef8fc9e625df80e7e857",
+        "size_bytes": 1528
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#arg.cpp.gcda",
+        "sha256": "08bffc62b9094eedbf4236672792e68d197a89671b121da3df272320ed5d1da0",
+        "size_bytes": 235704
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#chat-auto-parser-generator.cpp.gcda",
+        "sha256": "d4b19eb1b4823d3fda85cc3dfc7032d244590aa2449e8c2f928644ec91c62909",
+        "size_bytes": 40252
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#chat-auto-parser-helpers.cpp.gcda",
+        "sha256": "e957ca989bc85a5b210952e2fa8dad1530dfe6a357beb2a78b3ac98e6f5fbcff",
+        "size_bytes": 9604
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#chat-diff-analyzer.cpp.gcda",
+        "sha256": "f170b0d0be7f396718edc8dd758b601d2261f8a6a92b11ff6d3b5b981073ed29",
+        "size_bytes": 89644
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#chat-peg-parser.cpp.gcda",
+        "sha256": "a11e632aefaf491052b7f02a1f8d9addf152a4db4f11283bdc5a91ccaad5c2ac",
+        "size_bytes": 57624
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#chat.cpp.gcda",
+        "sha256": "311b53bad8956a3927b72590a44169a6a576e45d6dc24f9593fd7a2f1e68a9f7",
+        "size_bytes": 169932
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#common.cpp.gcda",
+        "sha256": "3ba0b5fa7f16cb09c4d4254bfd55cb5f90926af06ed544d951960414f75eeee2",
+        "size_bytes": 68592
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#console.cpp.gcda",
+        "sha256": "d951c08941be72d04ad0ec1c438a6a254b561e57efd96a74c6512cdd68f60f63",
+        "size_bytes": 6488
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#debug.cpp.gcda",
+        "sha256": "2ea9ce9156498b5628d4a3d5f95052a5be48f87601b00fce10de7c5f42cb5632",
+        "size_bytes": 33836
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#download.cpp.gcda",
+        "sha256": "e1b37b35d42d9b2ea3a9f92496aa5a0dc3eeed264cde9e12b225ef96e98bab8e",
+        "size_bytes": 86460
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#fit.cpp.gcda",
+        "sha256": "d76185bfb774d5ec7c2292aae6bbdba1a6e529598f8445a254a07573f4631767",
+        "size_bytes": 18792
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#hf-cache.cpp.gcda",
+        "sha256": "4097c1f4d15126137c146fd03f5d08d3c65bbb9846ac36e76e1e6bcd4db30bc9",
+        "size_bytes": 46464
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#imatrix-loader.cpp.gcda",
+        "sha256": "a430ff3a2de4cde8502ce31dfae2f6e660a5598fd199a96e384c344c480a0e58",
+        "size_bytes": 4648
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#jinja#caps.cpp.gcda",
+        "sha256": "fce61e28e791b372166af8302e637a73e491fefa759e661e72bbaf3ff095c1ea",
+        "size_bytes": 65460
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#jinja#lexer.cpp.gcda",
+        "sha256": "011414fcac82474f4cea959fa825bea9b8df63f4e7d4598b2bcf2b7536600fdd",
+        "size_bytes": 8184
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#jinja#parser.cpp.gcda",
+        "sha256": "255173a833bc4087c5f69d740e6584292818228f97f808a0269dd8dbdb33e099",
+        "size_bytes": 52400
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#jinja#runtime.cpp.gcda",
+        "sha256": "db82193ffa9fe54d4c7e34af9a3b785f5b13c8bea7f4d4e1643839de01655b17",
+        "size_bytes": 88440
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#jinja#string.cpp.gcda",
+        "sha256": "fcc7c171476e29e0c093e885f4e6c20a8994c8600ea5b1146b12d13536165eca",
+        "size_bytes": 5320
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#jinja#value.cpp.gcda",
+        "sha256": "8e3efc99ff2d50dacc1f36467db31f2ca1cd83914cc95dd5a9533b121453d451",
+        "size_bytes": 89180
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#json-schema-to-grammar.cpp.gcda",
+        "sha256": "7cb72da84e16e0f9987758f4204b176546c567387800ac65768803f3626ecaad",
+        "size_bytes": 94204
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#llguidance.cpp.gcda",
+        "sha256": "3bbae88cb4dc4bb2d12a66c34110594e79569bd0bae5bcf7f3c78b3ad2fee515",
+        "size_bytes": 72
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#log.cpp.gcda",
+        "sha256": "62338c3231b04125e5b045ef9104e76ca4a9cd7a71cbba7fe2df60976f852bca",
+        "size_bytes": 8208
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#ngram-cache.cpp.gcda",
+        "sha256": "a1a3b20aa4b8f326525e56b1fcc58d7fe9c59b7c07d480ee5d2cea1164bde921",
+        "size_bytes": 7464
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#ngram-map.cpp.gcda",
+        "sha256": "370de4235d7a5b23ad2e12318fa061b883052efb909e934de0cb1cb02f68943f",
+        "size_bytes": 2200
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#ngram-mod.cpp.gcda",
+        "sha256": "409428a231b173eecff58c5f95698ff4c15945160861ddc0f42b461fef170e71",
+        "size_bytes": 1284
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#peg-parser.cpp.gcda",
+        "sha256": "8903a2786c9c3572d4e793bf7818daccc96eaccc862dbc2ea3f4cafa3514a7c9",
+        "size_bytes": 159232
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#preset.cpp.gcda",
+        "sha256": "a8035e38c590de151083b91318a30f62062e718798c9bed4822752e9116430cc",
+        "size_bytes": 57104
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#reasoning-budget.cpp.gcda",
+        "sha256": "6ea2724c113d66e310690c63263b8249ba7102a5ec578ac2044cd2182b48c12f",
+        "size_bytes": 4808
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#sampling.cpp.gcda",
+        "sha256": "93ed5c4c8b29540ee3d212fb015c4c9a3f44a1b75a0b8a68f59b598bdfc18a77",
+        "size_bytes": 20108
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#speculative.cpp.gcda",
+        "sha256": "07021169f024f27b4bcd06164672a791bc19f01b00557bcfaf3797ea66fac197",
+        "size_bytes": 47140
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#subproc.cpp.gcda",
+        "sha256": "8de9cab1372ea45dbb2ef9df86161cb2c408125cd842f9aa0b372faae2c29335",
+        "size_bytes": 2004
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#trie.cpp.gcda",
+        "sha256": "3ca2a9ed8ef588a22532e0cc8d92ffeb04db558bab68e7eee95dfb1e1819bfe8",
+        "size_bytes": 4480
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#common#CMakeFiles#llama-common.dir#unicode.cpp.gcda",
+        "sha256": "e894573966d58046f7adc6599820472dd6cf2ad2328efc5eafe2eb07d5b5d1b9",
+        "size_bytes": 496
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-base.dir#ggml-alloc.c.gcda",
+        "sha256": "3d2ffdf26c2ab539e65f4756a432f16e05e21752ac8151f5a71d496ce45e4c23",
+        "size_bytes": 6076
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-base.dir#ggml-backend-meta.cpp.gcda",
+        "sha256": "d695ecd6647c0d2c54dc971cbf3678b9805b3a577831c7254f59c719555b8f9c",
+        "size_bytes": 26924
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-base.dir#ggml-backend.cpp.gcda",
+        "sha256": "17691ccbf9bbb0f4d7d5921fffa81e43e6893fc499cbca99a72bf7c21a6f28ef",
+        "size_bytes": 20172
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-base.dir#ggml-opt.cpp.gcda",
+        "sha256": "e1ce954d2765bfe84f68d8307dec497abe297b276687e7357425696e847e6815",
+        "size_bytes": 8624
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-base.dir#ggml-quants.c.gcda",
+        "sha256": "bc0909e5a89d52170d540c1b0b369249b37e6769ba16fe77b972e9a7f4cb19e1",
+        "size_bytes": 7556
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-base.dir#ggml-threading.cpp.gcda",
+        "sha256": "1a3bda83bfc53afc9d6aebdd7aacb061e8988e1c4acf8421203c788c382808ba",
+        "size_bytes": 224
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-base.dir#ggml.c.gcda",
+        "sha256": "f41af0ba4584011a77b150fe254c4aa18c7593c985994c7ef66e49536df66166",
+        "size_bytes": 36108
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-base.dir#ggml.cpp.gcda",
+        "sha256": "3457821386d6a511d6806b2acd54301633bd6f29db62a694ec088275635fe146",
+        "size_bytes": 264
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-base.dir#gguf.cpp.gcda",
+        "sha256": "385b5045281277995390909596c1dae21cf9e66bbf624dd8fc8aa051c6b37638",
+        "size_bytes": 47708
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#matmul_clamp_f32_qai8dxp_qsi8cxp#kai_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod.c.gcda",
+        "sha256": "9ae21eaef68857e6ad2f4843c85b91bc83d441cd84a655752a5f813bde65ed2b",
+        "size_bytes": 432
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#matmul_clamp_f32_qai8dxp_qsi8cxp#kai_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod.c.gcda",
+        "sha256": "74e4244d97f44f01eeaad4e9a7799753a4dd7024f62b58235a24e750d7961cdb",
+        "size_bytes": 432
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#matmul_clamp_f32_qai8dxp_qsi8cxp#kai_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod.c.gcda",
+        "sha256": "b391d08d60a856111da5cb999c9e72ccb9acd4a15afe11fd47c5ca5b3e88b139",
+        "size_bytes": 432
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#matmul_clamp_f32_qai8dxp_qsi8cxp#kai_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm.c.gcda",
+        "sha256": "fa7fc562e2c220b9e634f19918033d45117e6a3deba893eb27e243b11d1d1924",
+        "size_bytes": 432
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#matmul_clamp_f32_qsi8d32p_qsi4c32p#kai_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod.c.gcda",
+        "sha256": "cf8ba81bc8d98b6e4eb553c3555edc1ad06b9d7034d036c2ec8b5b96fc77f6f0",
+        "size_bytes": 616
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#matmul_clamp_f32_qsi8d32p_qsi4c32p#kai_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod.c.gcda",
+        "sha256": "370cc4d42e8e42e3dc9ff979256f39d33c13124ef251526968460824ab658090",
+        "size_bytes": 432
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#matmul_clamp_f32_qsi8d32p_qsi4c32p#kai_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod.c.gcda",
+        "sha256": "320367dcca238a949995cd892be558769381d95c7d4a56e1f192d29fe73534c5",
+        "size_bytes": 616
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#matmul_clamp_f32_qsi8d32p_qsi4c32p#kai_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod.c.gcda",
+        "sha256": "a91b76666c78d84bd6ba435c646c9570758719ddf2ebae106762342374a3019d",
+        "size_bytes": 616
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#matmul_clamp_f32_qsi8d32p_qsi4c32p#kai_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm.c.gcda",
+        "sha256": "2ffa5132835cff90b0f1a0c34fcbbd7863792d83dde3cc39a649b16fd60409c9",
+        "size_bytes": 432
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#matmul_clamp_f32_qsi8d32p_qsi4c32p#kai_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm.c.gcda",
+        "sha256": "ab5703b8ab4aa2cd0b8389fbf0b80be39e9ba461136448dadc1f3c914cfbfb6b",
+        "size_bytes": 616
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#pack#kai_lhs_quant_pack_qai8dxp_f32.c.gcda",
+        "sha256": "4a46ec01b26c5416bf6a8a6ae23365c95720a831812a61954ba5a0773380d6c7",
+        "size_bytes": 464
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#pack#kai_lhs_quant_pack_qsi8d32p4x8sb_f32_neon.c.gcda",
+        "sha256": "1dea566a2ed2bc7a41c017fe6e03f0ff91a73f45b2d420aa6022095b769d2b0c",
+        "size_bytes": 336
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#pack#kai_lhs_quant_pack_qsi8d32p_f32.c.gcda",
+        "sha256": "bb9ee6a6ca4af9a2aa0283715b89541d54720c9f3698764a85a13d25db58acb7",
+        "size_bytes": 480
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#pack#kai_lhs_quant_pack_qsi8d32p_f32_neon.c.gcda",
+        "sha256": "ad254ec277a46d91fc2bebb7865d0d9ebc1fcf63bc28bbb451bd36091005d138",
+        "size_bytes": 464
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#pack#kai_rhs_pack_nxk_qsi4c32ps1s0scalef16_qsu4c32s16s0_neon.c.gcda",
+        "sha256": "85fffd5b4d8f087cb8070af1e902065cd8189a538ca987a914315dd58741dee9",
+        "size_bytes": 572
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#pack#kai_rhs_pack_nxk_qsi4c32pscalef16_qsu4c32s16s0.c.gcda",
+        "sha256": "a851acea0db6e964b05451caaa31f738f2f5c9dd4dd710b1f37d2b9bc93c0162",
+        "size_bytes": 400
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#__#__#_deps#kleidiai_download-src#kai#ukernels#matmul#pack#kai_rhs_pack_nxk_qsi8cxp_qsi8cx_neon.c.gcda",
+        "sha256": "e2f216b7f4fba95c0a0a945ef05cdb8a50800825f8c1177fddace70a36ec007c",
+        "size_bytes": 524
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#ggml-cpu#arch#arm#quants.c.gcda",
+        "sha256": "9d5ec2aca62f90e61504d4d2fbefd867b29c56bb19ebbf7da9cda6c89333e807",
+        "size_bytes": 1104
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#ggml-cpu#arch#arm#repack.cpp.gcda",
+        "sha256": "118c08d2d04aab05542408ff2928c1ebca76b13d16b9b77f114521d87a4f9f39",
+        "size_bytes": 2092
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#ggml-cpu#binary-ops.cpp.gcda",
+        "sha256": "6120d1624a970dd407560fae74713ef4cbf19ac3d4002195031afb122e0c52f5",
+        "size_bytes": 10036
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#ggml-cpu#ggml-cpu.c.gcda",
+        "sha256": "d9f8b10f6beba2a90eb8bf43986eb7abe7f3c199c6a6bb098e4536b67a4e12c3",
+        "size_bytes": 12012
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#ggml-cpu#ggml-cpu.cpp.gcda",
+        "sha256": "2835bfd75e0ec894221638f68dc0cb3db0ba5d962d5db881fa8c872f652ff069",
+        "size_bytes": 6104
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#ggml-cpu#kleidiai#kernels.cpp.gcda",
+        "sha256": "f93a0607ab28ae2fde372f9b5d8d3ec9867f537ca71bc185f6851986422b986c",
+        "size_bytes": 3696
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#ggml-cpu#kleidiai#kleidiai.cpp.gcda",
+        "sha256": "46c96d8898a71497ac078a1a09f489f01af79cc3e027c0ddcafa1ed5d65d597a",
+        "size_bytes": 9232
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#ggml-cpu#llamafile#sgemm.cpp.gcda",
+        "sha256": "ba45b2a84f8b64cb3d1d2042c1db2c18130fdc4db3cb713dfd670114c4dd8b69",
+        "size_bytes": 11128
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#ggml-cpu#ops.cpp.gcda",
+        "sha256": "32013f63b67df8b73fdcc404ab97fd43cc3de1cd392e1073876c37b092b3f8b0",
+        "size_bytes": 38980
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#ggml-cpu#quants.c.gcda",
+        "sha256": "010c738de8dca6d1f9052cbf57a7110fb7b9e751a0738f22b07f0547a6084734",
+        "size_bytes": 1692
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#ggml-cpu#repack.cpp.gcda",
+        "sha256": "296cff04d42550cbaa52db1cade8ab33e4b529700927b15ff1e0dfc154bf98b4",
+        "size_bytes": 24516
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#ggml-cpu#traits.cpp.gcda",
+        "sha256": "7d2b52208f18cb16862a7e8ddb2e1217d5b22afe7a9cd0d723cdf5a904b49b24",
+        "size_bytes": 684
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#ggml-cpu#unary-ops.cpp.gcda",
+        "sha256": "59e12e75ce27c6e7aef94555771b416fe8b9f0ab80f2f7e4d51ccb4eaafcb4b6",
+        "size_bytes": 16616
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml-cpu.dir#ggml-cpu#vec.cpp.gcda",
+        "sha256": "9906752963530b2f3a34a1372bfd2633a8c1ca3d9a8fb2773011fb0572f18b57",
+        "size_bytes": 536
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml.dir#ggml-backend-dl.cpp.gcda",
+        "sha256": "9249b9319b6cc9ae967158940c29e7bcb5f7dd442bae1c65167717090a2beeec",
+        "size_bytes": 472
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#ggml#src#CMakeFiles#ggml.dir#ggml-backend-reg.cpp.gcda",
+        "sha256": "6d04143cdd1721c477fb36a8f746f14aecfc71e6b6302fc47f38c86b298c406c",
+        "size_bytes": 8220
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-adapter.cpp.gcda",
+        "sha256": "d4be6f2e0b754eb6a8a62ff16c92e1da41d53a8c07704b3a95c5f13e5a361d29",
+        "size_bytes": 16676
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-arch.cpp.gcda",
+        "sha256": "ac934ef8d441011409835268c28caa3659419489e8ec6fe7fc5fde8e0d70685e",
+        "size_bytes": 6568
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-batch.cpp.gcda",
+        "sha256": "991786cef1da2a5077c3f7902cdf593a66f100ce07bc3d774c0d66cd49a16a3a",
+        "size_bytes": 20780
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-chat.cpp.gcda",
+        "sha256": "7c1950ae0262e7284f203caf86cb8e6c2c33ad8b2cce0be2afc2e6d193f571fe",
+        "size_bytes": 4280
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-context.cpp.gcda",
+        "sha256": "17c5d1d3a5ee3861cffb699329b49b239dab981759d7e703b3da849d58d681d2",
+        "size_bytes": 68540
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-cparams.cpp.gcda",
+        "sha256": "ccd53eed0a08e23163be313b5fad3bbc8a54d90f9b163f9f029ace0603d68547",
+        "size_bytes": 72
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-grammar.cpp.gcda",
+        "sha256": "05c1d03afe26e6109ea9cdba6268a21a855f0fb466fd21c89a5a1ed0c3b1957b",
+        "size_bytes": 49264
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-graph.cpp.gcda",
+        "sha256": "75e1b63c00a33b7b4c91804073b1daea456f5287f6b3e96c60e61063ea52d7ba",
+        "size_bytes": 40980
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-hparams.cpp.gcda",
+        "sha256": "b6f67a4e4f3fb69ad1e13542f65708755f1a7b4a9491a5e17273ba7411de3e69",
+        "size_bytes": 2604
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-impl.cpp.gcda",
+        "sha256": "5ac696af0979c9085d17b16779a326412c055d83dfdca74168a7217d24e0be26",
+        "size_bytes": 5908
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-io.cpp.gcda",
+        "sha256": "f5659d2986bf11c42c44f83bf0c08c83fb984db7e39e8f69e3efe8e72cbc8c86",
+        "size_bytes": 660
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-kv-cache-dsa.cpp.gcda",
+        "sha256": "6d2fa5aa9dfc0d32f4d82b212d5376228318491ea43146ff1ff4b1cccf20d326",
+        "size_bytes": 8288
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-kv-cache-dsv4.cpp.gcda",
+        "sha256": "247a79cd628897558f10657cca4edb61498385b4182fc0ed6a5cc5d6d6f9ae6d",
+        "size_bytes": 38480
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-kv-cache-iswa.cpp.gcda",
+        "sha256": "f38e4e9f7eb968fd930b8d910dc3d3591cb19b018445fbe08b91fd26b04d844e",
+        "size_bytes": 8796
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-kv-cache.cpp.gcda",
+        "sha256": "c692252f73645677d31fafaede6f3d8f2f09795090e726a76c23f57bc1523430",
+        "size_bytes": 67332
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-memory-hybrid-iswa.cpp.gcda",
+        "sha256": "0928ebcd7f141bf3cb145cae0b2bf64a49af19920b3248631977a3be4d138b32",
+        "size_bytes": 9268
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-memory-hybrid.cpp.gcda",
+        "sha256": "bd9dfd2cac79b80c8fb539aebcc76e155b03b54773adae73ad2c31f35a8189df",
+        "size_bytes": 9100
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-memory-recurrent.cpp.gcda",
+        "sha256": "46b54b66dead1f48bca8445ad2f04807dbd35a76d4ecc307e2c53ae29bfc4ce0",
+        "size_bytes": 13132
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-memory.cpp.gcda",
+        "sha256": "9897480c6dc29ec0d1d3a787c68afe0361b2cdc9440621cf1bb33e480102e753",
+        "size_bytes": 108
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-mmap.cpp.gcda",
+        "sha256": "5f97df53ce760e6379ec8e1f40bb3c8240aa3cf3fd5556bb1c02e427765b2c19",
+        "size_bytes": 7412
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-model-loader.cpp.gcda",
+        "sha256": "8f56bd9ff903e2e610ecc0c5a5e010c80fb75d557e837cf4c1cb804182af9fe7",
+        "size_bytes": 89280
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-model-saver.cpp.gcda",
+        "sha256": "03e76bb4954398b4d382b92095497781bfa9ffd8efbf343017cb487b4639f44e",
+        "size_bytes": 3472
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-model.cpp.gcda",
+        "sha256": "3e9f7942b47c711d1088e2065e04a3c34ca914ae7e2efc7be0985f5a9cc04f3f",
+        "size_bytes": 102664
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-quant.cpp.gcda",
+        "sha256": "20f433b54b6c594ad0ef44b3871d831f25c838009f177b47e2a524efb66f9ff6",
+        "size_bytes": 56700
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-sampler.cpp.gcda",
+        "sha256": "684a79a729d02fcec36feccbbc99bc48e11148d322001912ce91c55c488a6269",
+        "size_bytes": 77136
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama-vocab.cpp.gcda",
+        "sha256": "3b07b276a533e0e568be881bd649e916cac18dadfdca97dc200f96f6fd181145",
+        "size_bytes": 73912
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#llama.cpp.gcda",
+        "sha256": "cd354175e279625607b17613ba096bfdfa2d84170717ea3adb403ec6085cb719",
+        "size_bytes": 11608
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#afmoe.cpp.gcda",
+        "sha256": "051792c5c1df7bccda1a7c329a753191870d9c4d5f75d315e53400e99a3e6921",
+        "size_bytes": 832
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#apertus.cpp.gcda",
+        "sha256": "fa5533f3811aee7914b4c9c3b9b2db393aa8a64f078976c83cc5215f3dc44dbf",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#arcee.cpp.gcda",
+        "sha256": "a94e9a147bbafc755afe41a986c921de1e04eed56d83df09415423fd1356a893",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#arctic.cpp.gcda",
+        "sha256": "5a1acdf17c865862005c5c88931d540024cde6635d6edea07c579fbfc5a5afba",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#arwkv7.cpp.gcda",
+        "sha256": "081e572faa27eb1114cf4eb19b68f65b1f5d94c6390538d0c97656f2e0c8c2d8",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#baichuan.cpp.gcda",
+        "sha256": "ef0f853989e0739992a4df615581c6a0670b9c1d87474398f3a9b0fc8b2074a0",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#bailingmoe.cpp.gcda",
+        "sha256": "4455b898ce97bcd3c705aae334ded49b8b032d5751dce9de880bdeedccc824da",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#bailingmoe2.cpp.gcda",
+        "sha256": "56f72d4c977a55deba6e26df4de46a510337287ef60c9c2864bd1001de7ed302",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#bert.cpp.gcda",
+        "sha256": "c98c4de52464d7325bd4ebd6e00f8a8d0d666a72641adec04d50b8c4b40671fe",
+        "size_bytes": 1376
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#bitnet.cpp.gcda",
+        "sha256": "21403214d663af9dd55023dfb8d06726534bc60d066348fd86c636c90f2d13bb",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#bloom.cpp.gcda",
+        "sha256": "961c25a678ec0cc450ed9b4748b1c256b3759c1a8c500249d4bf7aadb81036f9",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#chameleon.cpp.gcda",
+        "sha256": "9e223696e79188ab9c0b9c2c486411782be6061bc230db4a270daaf1147458c0",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#chatglm.cpp.gcda",
+        "sha256": "6cd05de405af002129472edadf9c15c850b39c8cb6d32eadcae2cdd4b9757b77",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#codeshell.cpp.gcda",
+        "sha256": "2cbfd3abd06da371e105a76064814a150540ab05e56afbe656b1fab636f5cddd",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#cogvlm.cpp.gcda",
+        "sha256": "7f3381c4acec82c62dfa57dd1ea454809462fa2a30aac8bdc754997f952a85aa",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#cohere2.cpp.gcda",
+        "sha256": "2419c6afd692ec86275c47576d10ad1e06c387b8ca6ed282e2b3bcf2edd6ee05",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#cohere2moe.cpp.gcda",
+        "sha256": "17cf4a25e64f161428c0f606aa9f0c0ff8b30529fe3c0d9333093523ef33bb45",
+        "size_bytes": 2956
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#command-r.cpp.gcda",
+        "sha256": "0bd723bf172d0160f49a7204aedb49b76c04def59b7eec112e10b58d6cf469ad",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#dbrx.cpp.gcda",
+        "sha256": "cb0627f2636aca27d5f84717986fa229b7269f4d054c51952d9083ed66547bac",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#deci.cpp.gcda",
+        "sha256": "26457332f43dca53c69c2e1d721259719a36699b88e8903f7bae1899f8769f6b",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#deepseek.cpp.gcda",
+        "sha256": "6d9801541223a92cdf82eaae9a97414ec147351470190b44b34234dab2f70416",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#deepseek2.cpp.gcda",
+        "sha256": "ee24b767e608728d5cb2962f8d039a706baf6441720bde5570052c7b20e0cf87",
+        "size_bytes": 624
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#deepseek2ocr.cpp.gcda",
+        "sha256": "49581939e32131fc02648b3b624c72d5f59c946575be18e5b776923602eeb9f0",
+        "size_bytes": 252
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#deepseek32.cpp.gcda",
+        "sha256": "3481b685a812db08756f34fee30e510c039df0a2978fb4c89dfc397f576a7f28",
+        "size_bytes": 688
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#deepseek4.cpp.gcda",
+        "sha256": "ce536ebbe7fab89a780017633772d4f13840bd4bf3b14441b6e6aed447eeb2fd",
+        "size_bytes": 1648
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#delta-net-base.cpp.gcda",
+        "sha256": "212be4fef592a4d72401fb9a6930bfda10efff5e7abbf60a5f2493462201fa40",
+        "size_bytes": 1012
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#dflash.cpp.gcda",
+        "sha256": "0605f2b1a959eee2bc347bd1f7eafa5265e2cf28444f2594939205da383c8f7c",
+        "size_bytes": 4256
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#dots1.cpp.gcda",
+        "sha256": "29f57e77274781f93ab861ec11c0a388bc7fb23f48a41e03b3499f33e9662b05",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#dream.cpp.gcda",
+        "sha256": "51cf1bdddeab19fae415e9880b502d97a8d3985fb373f53914110371c0e0d013",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#eagle3.cpp.gcda",
+        "sha256": "cc59c15ac4eb43f9b851cbd91fcff51fdaa5f2b31138cbd09f6f50466e83b81b",
+        "size_bytes": 1716
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#ernie4-5-moe.cpp.gcda",
+        "sha256": "a2e81304a0b2aeffa858190e40269cbb088bbd513fc25f3f07b02d72aecb5704",
+        "size_bytes": 712
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#ernie4-5.cpp.gcda",
+        "sha256": "dd82916c96a9948a94cba6a964c329eb6e365070ea7faf9ed10c35ff452c741a",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#eurobert.cpp.gcda",
+        "sha256": "ddbebeb4a2a7fd192f75e0d6802ac5875df8bd33127816b16282d041edb4bb2f",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#exaone-moe.cpp.gcda",
+        "sha256": "c1471b5f6a2ecb4841c802b215b2ab0339204eef0da336cdfb27b8079f337a54",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#exaone.cpp.gcda",
+        "sha256": "c2d5d2698db3f9819de9b8c830cc13e55699614a63794531d5636ef5a0da42ec",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#exaone4.cpp.gcda",
+        "sha256": "82409d703665085f3a7d67666cc40d20c7f82372a04da3de85b293236f84188b",
+        "size_bytes": 648
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#falcon-h1.cpp.gcda",
+        "sha256": "3208539e642ca942ebaf9a1d042a8b4fbff9337c7004930c8a7097ed0a8a9303",
+        "size_bytes": 624
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#falcon.cpp.gcda",
+        "sha256": "00f41b3d751542b75d1e1b490aff029d22aa394a2cdf383ada02780106a816da",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#gemma-embedding.cpp.gcda",
+        "sha256": "7bb0989f43b197d9bbd99073194d9e8570bbb5d8e868483417d6cd04ca8d9483",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#gemma.cpp.gcda",
+        "sha256": "f4db82d6efc1cab21550965d16a2556ee878b2c3fc888bde11e68f20de4611b3",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#gemma2.cpp.gcda",
+        "sha256": "68989d72ba1c92bc5d50940553e4b74c3fbb92cf5b09499203766a32d8b327f5",
+        "size_bytes": 624
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#gemma3.cpp.gcda",
+        "sha256": "13fecf35ea53ce6d946d1c7f017ae473ff9471b4d0fbb712396131c7c07a568d",
+        "size_bytes": 800
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#gemma3n.cpp.gcda",
+        "sha256": "9a874734298ffdf6e5e16be2545f32f2f6c5c39df2ac0a3f1d7b22b1dbde8369",
+        "size_bytes": 1728
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#gemma4-assistant.cpp.gcda",
+        "sha256": "b3c0841a53120d1903a8bf7b8ce95ea67bcd96ce9e896f43c891fee316ebf65d",
+        "size_bytes": 1316
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#gemma4.cpp.gcda",
+        "sha256": "20d74dee04c2543eb0cd1e0925089fbdefae0a8dc39911656c56044eeaf469ee",
+        "size_bytes": 1464
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#glm-dsa.cpp.gcda",
+        "sha256": "66cc868116fdcf5f4bb1d6dbe7eadb189b7882304bc3e554f17e76b1a3804518",
+        "size_bytes": 2900
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#glm4-moe.cpp.gcda",
+        "sha256": "f6f52e153c37e75a3f94bb2098db594a403c3ab8b5f50d68d90523bffa69c99f",
+        "size_bytes": 848
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#glm4.cpp.gcda",
+        "sha256": "9df95a3f23638988e5318a7ed0257c5f73d99b1619db463fd4b0957e030d09e6",
+        "size_bytes": 832
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#gpt2.cpp.gcda",
+        "sha256": "4474d735a64e162c7b12eb34664caffca91788ba07db442b528b0f9ae24722e2",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#gptneox.cpp.gcda",
+        "sha256": "2e2449ef95487932110c1b2802b66a10287db2f58c8416b480e711538f8b2e4d",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#granite-hybrid.cpp.gcda",
+        "sha256": "bcd5ed8ffd73aeee310ceefade6b7c0938a6ba5bb6bafc7e2228bd1f3030e02a",
+        "size_bytes": 712
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#granite-moe.cpp.gcda",
+        "sha256": "39de02cb8eb9ee1bd3dd62827305cc908aaa831af424a4d1f4186b23a17544ba",
+        "size_bytes": 252
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#granite.cpp.gcda",
+        "sha256": "cca97801bb0edd4e043ccd5186d63e17be570707bd3ead815dfc1c7137b6240b",
+        "size_bytes": 2884
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#grok.cpp.gcda",
+        "sha256": "9b208b38834c4fe3cbf3decfa7de73df3e391a4bec14596a76ee173ca1f3cef8",
+        "size_bytes": 1072
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#grovemoe.cpp.gcda",
+        "sha256": "0a2c7b993eb1c167a4d2f9a58f42786602e40976b5b2143fa4dfd0c5ce7393d3",
+        "size_bytes": 656
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#hunyuan-dense.cpp.gcda",
+        "sha256": "fbac487601f617e705333521e2df0e82b759222de62bc840bb57211bf34c0ad6",
+        "size_bytes": 180
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#hunyuan-moe.cpp.gcda",
+        "sha256": "1fcbe4f390728af0c3dbe625d3079992758bc8a7613633a41f90aacddb86e19d",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#hunyuan-vl.cpp.gcda",
+        "sha256": "b1413beff4395244d5f8db46328d5feecf23649e17e73e976e249e87887b915e",
+        "size_bytes": 832
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#hy-v3.cpp.gcda",
+        "sha256": "f2d8494de36a1f0b60962ef08889cdf4c9ccea14704f8c946e0a3e82ac8cd41c",
+        "size_bytes": 2904
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#internlm2.cpp.gcda",
+        "sha256": "2d64ffa835627aad8cecc33119918ee9a726b55d3c0d28f80cc6033db3463526",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#jais.cpp.gcda",
+        "sha256": "30d05055d9065e2e32796f5f897350d366cdf408fec92c91ed984f004fbdeb36",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#jais2.cpp.gcda",
+        "sha256": "e613ad3d584ac6283a9dff4eb42630e85f9d72e97f14fa274f468a312647b3af",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#jamba.cpp.gcda",
+        "sha256": "a3d7aabd244eb63034a022e92d18523bdf01f15bebd07eb159285a1c0f363506",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#jina-bert-v2.cpp.gcda",
+        "sha256": "90b03da8398a543cfb1ede17c78c49f52fcd5d102f1e39e98809294264e8a736",
+        "size_bytes": 324
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#jina-bert-v3.cpp.gcda",
+        "sha256": "c0ffd8fb75f00c79ccefacb34e1ab49498744b6a0d57edbe067e7f0baf5c5750",
+        "size_bytes": 828
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#kimi-linear.cpp.gcda",
+        "sha256": "e0e779b6abd18e2361b3ab72a4f8796148939f59a503c4d6c475021da4a899b0",
+        "size_bytes": 820
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#laguna.cpp.gcda",
+        "sha256": "3029ce391ee752ada8a38f683aaa7cd3778fae02a49b82fccb7aeb6da220175f",
+        "size_bytes": 576
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#lfm2.cpp.gcda",
+        "sha256": "c23a6f2325b1f2291ed9d4e6f5231818ba591572091ea4714db626040378eaae",
+        "size_bytes": 1304
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#lfm2moe.cpp.gcda",
+        "sha256": "0f568d3769c94a7fa1b65cba612c23b39da376ee9cc3fc580409ff36d437af04",
+        "size_bytes": 288
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#llada-moe.cpp.gcda",
+        "sha256": "e3586a4659db193554f916f3149daaf4ee3c31f9ddc0db155c59c2265893662a",
+        "size_bytes": 624
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#llada.cpp.gcda",
+        "sha256": "a4f3228629bddc69a1b3462d176d3c5d66d7959dd673ca5f51b8cb774ca31988",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#llama-embed.cpp.gcda",
+        "sha256": "451820c278f9603bb63c40015fc71160f5125922a6c4574081e40c2decfb8a07",
+        "size_bytes": 180
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#llama.cpp.gcda",
+        "sha256": "e8372b808905bb2b099e4e348b26f2caf936e832c47b9bb09804ae47f4fdbb7f",
+        "size_bytes": 612
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#llama4.cpp.gcda",
+        "sha256": "2eacdce1229a4ab5d05ef6cf8a772febeb4fd8897aa51acb1d05dc88bcd65f2d",
+        "size_bytes": 1696
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#maincoder.cpp.gcda",
+        "sha256": "315bf25a49655fbe37e3fef0dd00ce53e5365709b946d96ff98606109ed00ec3",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#mamba-base.cpp.gcda",
+        "sha256": "14de98570cfb5d004937b1f71cccaa3ea199cd777a37de4565c5a2abca496376",
+        "size_bytes": 1576
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#mamba.cpp.gcda",
+        "sha256": "a2d5b876d8880bff9f076f11c4170165964d40439dc15dfd7ca4db3339541b72",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#mamba2.cpp.gcda",
+        "sha256": "9750a7cf7939a6e66ca174e20108d4a96f522603a55e744bdcac94a751c6515e",
+        "size_bytes": 316
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#mellum.cpp.gcda",
+        "sha256": "3558db03902d96dc9e63091828eae0b28ae5d9bc3c54fe2b395398f7eb9ffe33",
+        "size_bytes": 800
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#mimo2.cpp.gcda",
+        "sha256": "252c661264ecc94d7e010932414df93e05c38e3fb1a176924da0fbcf70cec7a0",
+        "size_bytes": 2820
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#minicpm.cpp.gcda",
+        "sha256": "fa021acaf0a328bed8556e9e394deceebd9634b6db25d8b1aaa992e0c4be6ec2",
+        "size_bytes": 252
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#minicpm3.cpp.gcda",
+        "sha256": "76ef522db8c5d5ce68ab1ea640610e5204780d4818ce04b46c24ec3df1408936",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#minimax-m2.cpp.gcda",
+        "sha256": "6e3a76074f79265a08c25612d97760ed87c73f6dbe53864b5d0c66aa099fdc10",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#minimax-m3.cpp.gcda",
+        "sha256": "0eb803c16ea4f4e77ae6aa34b6baf218ea02d0c6bd707900359f9bcd6f3cef93",
+        "size_bytes": 2484
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#mistral3.cpp.gcda",
+        "sha256": "f5bb1b2d1fc1754bcc48ee45f58cbde87c08658fa2d34d85ee8b2ca63ebab499",
+        "size_bytes": 2112
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#mistral4.cpp.gcda",
+        "sha256": "1af91345dd7577ff88badb25d858478e01c19e70003d272cb1b281cfd4b9ac8b",
+        "size_bytes": 180
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#modern-bert.cpp.gcda",
+        "sha256": "d0aad22e63a3fe21e62dc0e51abd1f5b2bb124c8658a6d5a00febe18fc1b5d6f",
+        "size_bytes": 576
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#mpt.cpp.gcda",
+        "sha256": "292af5f1e3ce32614195926606b6e627397f875585c3fe243cbaea04ebc7f3fc",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#nanbeige.cpp.gcda",
+        "sha256": "fd284c122015bc89f41d333981d51d686d97c10345704336372726803cf346c0",
+        "size_bytes": 624
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#nemotron-h-moe.cpp.gcda",
+        "sha256": "f5a58194c506c5ae93371157ec3135df003207b8621b747e83aff4292c14931c",
+        "size_bytes": 180
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#nemotron-h.cpp.gcda",
+        "sha256": "1a9ec19eeed1f33b182487e3b5b9a083217f3a5ace6ec6a585fd43d2ee23f76a",
+        "size_bytes": 728
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#nemotron.cpp.gcda",
+        "sha256": "a5fd7b9d72f160ff1affd0b29b232c66696236cf0276ba86ab048ae6b9b5f4c1",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#neo-bert.cpp.gcda",
+        "sha256": "7535f8a01db29260de3c12a7622d514a6bf328e7a1fb47b618830080b4f94ed3",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#nomic-bert-moe.cpp.gcda",
+        "sha256": "b6b63b0ddc637fca8af5c6bff5acbbee248bfe565b68b500423d3f0d8d7a59bd",
+        "size_bytes": 828
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#nomic-bert.cpp.gcda",
+        "sha256": "d36be726f5178dc654af823a65590a458fa909731d6e3c3f451335b160e461b2",
+        "size_bytes": 828
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#olmo.cpp.gcda",
+        "sha256": "f4806c4150e6d191adcbab2e5fb95fa125a3c9fa2d2feb70bbea359f85464107",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#olmo2.cpp.gcda",
+        "sha256": "fd2f8ba96e64a9229ffa0f0c17e62c31d772e766c24f5996c40201e98395c4b3",
+        "size_bytes": 800
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#olmoe.cpp.gcda",
+        "sha256": "8cc5bc6401764975f8cde2f75b9d1fda885da564f1b564ee6398dc85cd18b316",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#openai-moe.cpp.gcda",
+        "sha256": "4a35a637fd939dbeef1a85f045f9033048e187aed125abe5c714dd4cfaeb3631",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#openelm.cpp.gcda",
+        "sha256": "d09ef22c17c2476a0444a606ebbd5eb1a5f3f27bc0bb705e8ffb098c570dfd8c",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#orion.cpp.gcda",
+        "sha256": "86fd6cfd4b3f1da44d21ccd8468aa05be6888effabd820745c9e206d88793a2f",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#paddleocr.cpp.gcda",
+        "sha256": "aef702e40ac1906dcef84ad0d70386de3e3bb94b93f17a64a8ef8d1b901016ab",
+        "size_bytes": 712
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#pangu-embed.cpp.gcda",
+        "sha256": "fdd3625a37ef125b8db1fe65403687f4899ff82bdace5eaa95530f6022eff5f7",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#phi2.cpp.gcda",
+        "sha256": "190ad331cd0a1d33225b1e770fd96eeea02019fd49f064fb1ee7bba5fe660c89",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#phi3.cpp.gcda",
+        "sha256": "e63c6c53a7ca8eefdec66e79f7539a66ddea1af49c3d725db5a1d8d5e9c96f4c",
+        "size_bytes": 648
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#phimoe.cpp.gcda",
+        "sha256": "7f6e02b376e3b35eee7f1330e66284ecd7fce459049bf80871a22ae332718ff9",
+        "size_bytes": 360
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#plamo.cpp.gcda",
+        "sha256": "86ea8884c4c6ec051dadad6f4dce48d884c7ca21f83701b591919180d3289205",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#plamo2.cpp.gcda",
+        "sha256": "82d92556f3424cb308f6fdd664970f4811b812ea70f6c631f5df3fcefe3459b9",
+        "size_bytes": 1412
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#plamo3.cpp.gcda",
+        "sha256": "bae569e3d68abeafc183331faddca587d1c2413d1e11dbf7763cd7f3572352f1",
+        "size_bytes": 648
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#plm.cpp.gcda",
+        "sha256": "6a6ea070a796c8999cb1f53ba0c4f6e9ce89717130bae3066e03e96ec781aef2",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#qwen.cpp.gcda",
+        "sha256": "7148a1522425166b1e65ba527d38e760721bcb2e81a8df3c99cd7748f4e5a8ce",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#qwen2.cpp.gcda",
+        "sha256": "882116cd568f569120576812988e4e92d7854f47cd04d9e772185b3e0ee3f073",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#qwen2moe.cpp.gcda",
+        "sha256": "3fb45a897e884723cc5eaf9cc6c1a019fb7a00bbb555c3d9bed0bd29e79a4c7f",
+        "size_bytes": 624
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#qwen2vl.cpp.gcda",
+        "sha256": "f830ce1f84110b5184212eb5bf9ba3f6d355f850977d54d765700a91bda47fc4",
+        "size_bytes": 832
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#qwen3.cpp.gcda",
+        "sha256": "ed4911a3bb76b10911638dae278c9d877600c1197a776bb9ee2be7ee1f79580d",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#qwen35.cpp.gcda",
+        "sha256": "6b1ba7c386d33dc019939fccb41f9e39de24b0a7b305291bc2b700dd6f6848ab",
+        "size_bytes": 3656
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#qwen35moe.cpp.gcda",
+        "sha256": "053ce73acb13f62944e1cc6b7534a650e940f7d6e51eb60654fefa3bdaf0b734",
+        "size_bytes": 3688
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#qwen3moe.cpp.gcda",
+        "sha256": "cb49333cfe351f9a4221357f2cf02195c2be4f731aac5f04fc3939948980851d",
+        "size_bytes": 624
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#qwen3next.cpp.gcda",
+        "sha256": "f04b747c209c57c705c3a509a0cb93beec0a4ea0aa11ed341824f1f6c48b7d2a",
+        "size_bytes": 2260
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#qwen3vl.cpp.gcda",
+        "sha256": "30f4808019a6739050d44177845d304b507d736212aa42b7865f972e2d630cd4",
+        "size_bytes": 832
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#qwen3vlmoe.cpp.gcda",
+        "sha256": "53448f06e60f6a31519303e52b59d9a72ef210dca1f4a1422f6d3d1e48ce839b",
+        "size_bytes": 848
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#refact.cpp.gcda",
+        "sha256": "e1f4842691008ce0c68d8a5bf42526b473666882b8a95907d119fbb8b8d24323",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#rnd1.cpp.gcda",
+        "sha256": "d41b833430760cafd811539844a453ea578055a2fc6bc03ae3224d3a980cc956",
+        "size_bytes": 624
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#rwkv6-base.cpp.gcda",
+        "sha256": "2675b4c59aa3a83eb076f1cdfe38806af4e28e74d1ac31c818820e3cae5d3568",
+        "size_bytes": 896
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#rwkv6.cpp.gcda",
+        "sha256": "2809336feb012d9503f088ff8a3d920bfa38392ee72b381c1f847836f9b15308",
+        "size_bytes": 848
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#rwkv6qwen2.cpp.gcda",
+        "sha256": "62872e4783cfff36e7dae0e50843fff9a204804b6d69dfee53c2fa22aed350d6",
+        "size_bytes": 640
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#rwkv7-base.cpp.gcda",
+        "sha256": "40b93684f5921d86d2f7a922a40fbcc694364bbabdf052bd3d27a7f73e27430b",
+        "size_bytes": 688
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#rwkv7.cpp.gcda",
+        "sha256": "38c3b98ae0b5b7a9f444ffc3dd0c3a77cfb520c65aafe0ca7d61a977e403308c",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#seed-oss.cpp.gcda",
+        "sha256": "f29d2f82a143b0bc49c7629f300c06d3f7acbf602f631c46fb3984e18786408a",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#smallthinker.cpp.gcda",
+        "sha256": "9a85a88d426d3ab6880184cfd6c90d24bba8791dd97f9147455036edce21a0ac",
+        "size_bytes": 1088
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#smollm3.cpp.gcda",
+        "sha256": "d3af02249dea80677be06b171ba57a5e1ebff8762eaeb1a2c101d828879a82cc",
+        "size_bytes": 832
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#stablelm.cpp.gcda",
+        "sha256": "c05c3c7af613ca5d883bd597d003b30a1eb8a3061634ab1e15ff584d47e55461",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#starcoder.cpp.gcda",
+        "sha256": "fea135b30e93166ea64a3190962320377f6b2cb4a88c167e12f4092d8a915e63",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#starcoder2.cpp.gcda",
+        "sha256": "b5808b4b039b7a96368bfc97ca2ca3831a8407aa551396fcf197ba2ad69a86a0",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#step35.cpp.gcda",
+        "sha256": "4a18b34f5c9d9a99400db1532b84360731cbd82b184dfd9fc53a5064295c4f43",
+        "size_bytes": 2956
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#t5.cpp.gcda",
+        "sha256": "595bb36fb95b46463b65bc25ab2809a33dc58b00617e6ef31ebef1ba4fd461c4",
+        "size_bytes": 864
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#t5encoder.cpp.gcda",
+        "sha256": "f0c6394c7e13b251ae6d2db85e7959d91fd8dc8b5dddf7069680d94f668679ba",
+        "size_bytes": 252
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#talkie.cpp.gcda",
+        "sha256": "4dc86f6d938f811513a945e0966e4c957ce62a6a1ecf2a66ff88a6e308760579",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#wavtokenizer-dec.cpp.gcda",
+        "sha256": "3bb7e4ddebc79054caefcf6dce070a549496dd3c54d7943e4f07b2331350eb85",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#models#xverse.cpp.gcda",
+        "sha256": "d3b9b617cd7854f49cf46fbe6d9ddc7fc5665e3783834c8d4d17fc3cf9429688",
+        "size_bytes": 504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#unicode-data.cpp.gcda",
+        "sha256": "5152fb8f507319648487b558864a79b183190c3e376bfc520bde335c870edc6a",
+        "size_bytes": 3236
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#src#CMakeFiles#llama.dir#unicode.cpp.gcda",
+        "sha256": "1e040306653d147ca6e40713f031fbf91b35baeb8aa166ee7402ba2b47db0ad8",
+        "size_bytes": 97768
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#clip.cpp.gcda",
+        "sha256": "9c8912be7383e2cc8d2d53d8a583a92f539a9b0ccfb89f5c7e7e2ca01d163db5",
+        "size_bytes": 42256
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#cogvlm.cpp.gcda",
+        "sha256": "a7b5b852432937362ed38b7aae618257d6c6a567d2f522a50b991a7f2ba1528b",
+        "size_bytes": 2748
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#conformer.cpp.gcda",
+        "sha256": "ac47072cb0a4b0f21aff50ec9adb4d895c11f2f848281fb0522935a30b610002",
+        "size_bytes": 2796
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#deepseekocr.cpp.gcda",
+        "sha256": "7285944c234242f6f39df64726c907e64d27e2a50a832191ead757c207a5f431",
+        "size_bytes": 4008
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#deepseekocr2.cpp.gcda",
+        "sha256": "1a854202fe08fccc99446f79458d49a3f7e1f3c93a57424c7cecd40b5f1d1be3",
+        "size_bytes": 3208
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#dotsocr.cpp.gcda",
+        "sha256": "6f4a50c5d39773a86dd0448009edeb913767fe21adb439ce60d73336a01676e7",
+        "size_bytes": 3344
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#exaone4_5.cpp.gcda",
+        "sha256": "ff1270162724fd45cb2aaeac5d860ec8efa5dd829877b0c87afcf28df684846e",
+        "size_bytes": 2748
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#gemma4a.cpp.gcda",
+        "sha256": "ac656b3e2e82d3517e1f8ec8b876d0480c0ad9d88e0e670c78cabbe703ded352",
+        "size_bytes": 3084
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#gemma4ua.cpp.gcda",
+        "sha256": "312679d6fd2ae3b275fe42d1efffb059293e300616984783adbed0bfc8a149f4",
+        "size_bytes": 2684
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#gemma4uv.cpp.gcda",
+        "sha256": "7561f3651937a2f8fe5bfbf8f893042b988906c7c74815e910ed6910a8b0e5a8",
+        "size_bytes": 2684
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#gemma4v.cpp.gcda",
+        "sha256": "ad6a5b4dd4ede79ab242348360b6235b62b4681649577209c1113f477bd6a1ad",
+        "size_bytes": 3596
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#glm4v.cpp.gcda",
+        "sha256": "07e9a766aff4e7db8c5240307ff01bab954786c547800b9f4736e7b645399772",
+        "size_bytes": 3424
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#granite-speech.cpp.gcda",
+        "sha256": "abbc04b3657db326bc5c78d09d115c1f9127533f90562d7937e57a08dfc59718",
+        "size_bytes": 3632
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#granite4-vision.cpp.gcda",
+        "sha256": "99ed3f7e64d4ed123019ded4847e66f769aeeabed496bf4e382920d3293b4b50",
+        "size_bytes": 4288
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#hunyuanvl.cpp.gcda",
+        "sha256": "a2f7c394997b38ec695da4d9c30c6be6f34d6b596eb6c39d11c4d3825291f46a",
+        "size_bytes": 3036
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#internvl.cpp.gcda",
+        "sha256": "99fcd50fabceca22ad6671a9e415f911b0afb8a9be758865f311c8605fe5f170",
+        "size_bytes": 3020
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#kimik25.cpp.gcda",
+        "sha256": "bd4f1796e1a9bbfb34bd0255670a3c6e60c7e7035ed69bc4a3e5c153ff831f31",
+        "size_bytes": 3444
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#kimivl.cpp.gcda",
+        "sha256": "d2a141e8abef096c01af23cabe3a476412c46ec97751700123ab60955ea5615f",
+        "size_bytes": 3376
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#llama4.cpp.gcda",
+        "sha256": "399465c63f02eee6fb5757e175f89d64700f1a36d409bdcd0c9542070babdef7",
+        "size_bytes": 3488
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#llava.cpp.gcda",
+        "sha256": "a5aeac4783b274c176e03e58e9892fc715de52eb4618ff540a9e1e72dae8b6df",
+        "size_bytes": 3648
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#mimo-audio.cpp.gcda",
+        "sha256": "696ca17fafce89f860a21b84cdacff1fd0f52e99dc9c828273cb479912560fa9",
+        "size_bytes": 4000
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#mimovl.cpp.gcda",
+        "sha256": "01431a8ca3a07a40952fa8b3d064690bdfc00a769a088ae1476641825bcca2de",
+        "size_bytes": 2900
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#minicpmv.cpp.gcda",
+        "sha256": "e5795f7c8fa40c27807bfc306fe6814c2ff89c3a11583b277a930b093900c3d9",
+        "size_bytes": 3484
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#minimax-m3.cpp.gcda",
+        "sha256": "6e365f02a75e1bdd50f4bb3619955fc2fa516a3a00009816622f19ed26eaec5d",
+        "size_bytes": 3476
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#mobilenetv5.cpp.gcda",
+        "sha256": "90b5d9fa76ebd806f5cc20d782ad3c8233d0b8a01f5dfec522297668661cb668",
+        "size_bytes": 3612
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#nemotron-v2-vl.cpp.gcda",
+        "sha256": "ee854c2486ad026250c17c523e4df3b766487d265f589aa537e5f450651c152e",
+        "size_bytes": 2988
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#paddleocr.cpp.gcda",
+        "sha256": "8156126f64f95aeaeaa8071216e66ab4e5195e6f5d48a8eb164468f03919a783",
+        "size_bytes": 3344
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#parakeet.cpp.gcda",
+        "sha256": "223bd059fde2461052c8b78a5ca3ab791610a5495b512c260899cafdf725f278",
+        "size_bytes": 2844
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#pixtral.cpp.gcda",
+        "sha256": "6359adb5d3e9131abfb7e25035233d0d9ad66244232f3dc5e7b3af732a82c3bc",
+        "size_bytes": 3392
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#qwen2vl.cpp.gcda",
+        "sha256": "07d51a85487570c7457c1e35efb0d94c2ffee99f5ee2342593740f8fbc2a79a4",
+        "size_bytes": 2832
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#qwen3a.cpp.gcda",
+        "sha256": "9a437b753090f00cbfdf28f660d58c1d9ab3724e398ffb8476e4bc50790c5e78",
+        "size_bytes": 3072
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#qwen3vl.cpp.gcda",
+        "sha256": "601aa24598e72a5a6859ba9a903db20700abed2f51407a38a78d494e01acde47",
+        "size_bytes": 2700
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#siglip.cpp.gcda",
+        "sha256": "4eb7c014591499f1e476845ada85560188bc6872c0c6acb7e36fe70149c19858",
+        "size_bytes": 3004
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#step3vl.cpp.gcda",
+        "sha256": "8d2cbee10250cdab5ce85b63a797b71a4939ed5c7c3872c250c1a5cda9eac73c",
+        "size_bytes": 3412
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#whisper-enc.cpp.gcda",
+        "sha256": "d10bccf5c20a3997c271308f7645981be6c2cf87f2b94e8615ce2926852e8e3f",
+        "size_bytes": 3036
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#yasa2.cpp.gcda",
+        "sha256": "a720e8721ff9ceebf04003abe666d0f166a8a7c09cf3472fd6c4e418264510e8",
+        "size_bytes": 2764
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#models#youtuvl.cpp.gcda",
+        "sha256": "dc60a838e823e44a9b1fb3ea0ea1ad99cb24e166a937be0d90876f98f81da0d0",
+        "size_bytes": 3368
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#mtmd-audio.cpp.gcda",
+        "sha256": "d2a30e8e576322026b51ac3bd5f4247f6c008de5827810e4891803369d1fffff",
+        "size_bytes": 11836
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#mtmd-helper.cpp.gcda",
+        "sha256": "b7b8956abb33e3dab9be746de33fe6af499767d1aaa32b772530fc6ba9224b10",
+        "size_bytes": 70168
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#mtmd-image.cpp.gcda",
+        "sha256": "0aa52a04688282b0c21f38c0678a7df6e5358096753e0328693fdc2803eb48d5",
+        "size_bytes": 15092
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#mtmd#CMakeFiles#mtmd.dir#mtmd.cpp.gcda",
+        "sha256": "fe9e08e5996a8c2f86e65f94ad0b548a2e3e27684d595eeeaec196005fe83543",
+        "size_bytes": 33112
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#server#CMakeFiles#llama-server-impl.dir#server-http.cpp.gcda",
+        "sha256": "facf28ab2d0e148a4242a31d2a4b9134fde176e0fbe7a90198761fb7ab5b9595",
+        "size_bytes": 112200
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#server#CMakeFiles#llama-server-impl.dir#server-models.cpp.gcda",
+        "sha256": "0ff603554fd5ae294c6c50886aa114ef8f2024079df48fb408af3b2908b767e8",
+        "size_bytes": 136960
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#server#CMakeFiles#llama-server-impl.dir#server.cpp.gcda",
+        "sha256": "971e938061011d062278015f9761bb107dfd36451307dbb4a2ad2af3f38e5ae0",
+        "size_bytes": 104728
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#server#CMakeFiles#llama-server.dir#main.cpp.gcda",
+        "sha256": "04e4c8f77e20d49e656415ec416c5fe9d6849d9c4a4bc2c69a8be1f286d76f42",
+        "size_bytes": 96
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#server#CMakeFiles#server-context.dir#server-chat.cpp.gcda",
+        "sha256": "0102dd336cbe8eb83a6e8683e4a3ede9d319a6076afd1a3116fe2e4912aefa1a",
+        "size_bytes": 48208
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#server#CMakeFiles#server-context.dir#server-common.cpp.gcda",
+        "sha256": "cfad23c58479f67ae352e98a02111e2cdcb432e60de72989d62d1983c6e13ea8",
+        "size_bytes": 93504
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#server#CMakeFiles#server-context.dir#server-context.cpp.gcda",
+        "sha256": "08cc748b15ce95d4c2f6a32b87bb6db4bc84a801c801b69e46ac3e3d9ab68158",
+        "size_bytes": 200508
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#server#CMakeFiles#server-context.dir#server-mcp.cpp.gcda",
+        "sha256": "bbbcefe158cb867ba6293f5bb21d055902523d5d6fb2d3517db0d1e01a51bc77",
+        "size_bytes": 75812
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#server#CMakeFiles#server-context.dir#server-queue.cpp.gcda",
+        "sha256": "a73b1fb2895eec8e4e28b2c9b2f1185881f25265b612e023ed523eaa3e14d9f5",
+        "size_bytes": 66064
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#server#CMakeFiles#server-context.dir#server-schema.cpp.gcda",
+        "sha256": "32cda4852fec217f2aa7a33dc7d80b4bb7eaf29cc1f5d592bd6a387c39c58d69",
+        "size_bytes": 85280
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#server#CMakeFiles#server-context.dir#server-stream.cpp.gcda",
+        "sha256": "2ecda4f9ca409c74337fa1152587760a83365c45130f97f737ed1ee4b1243d4a",
+        "size_bytes": 63728
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#server#CMakeFiles#server-context.dir#server-task.cpp.gcda",
+        "sha256": "f68c6d1ed51adf1b0b87a66d2008a31793533c578b62ac9a00df29f470127ae5",
+        "size_bytes": 92056
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#server#CMakeFiles#server-context.dir#server-tools.cpp.gcda",
+        "sha256": "17f3e72a1a3ff843353b079dc6505d8a98104b86b0a7bba0b801087c7a760bdd",
+        "size_bytes": 127548
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#ui#CMakeFiles#llama-ui-embed.dir#embed.cpp.gcda",
+        "sha256": "80751deefb797186174903717434bc2e5a26d2d5754013b3fce64eaf26999e2f",
+        "size_bytes": 14836
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#tools#ui#CMakeFiles#llama-ui.dir#ui.cpp.gcda",
+        "sha256": "9affcfb7c9e2b06ec3650e7d4045f959adbb18994cc3e7e77ef3484312fe619c",
+        "size_bytes": 6684
+      },
+      {
+        "path": "pgo-data/#tmp#llama.cpp-E18a-pgo-build#vendor#cpp-httplib#CMakeFiles#cpp-httplib.dir#httplib.cpp.gcda",
+        "sha256": "8f714158ae3d108bebeaf78abc22f8a643f189ee1fdc8e547d631699ec3d58b2",
+        "size_bytes": 244840
+      },
+      {
+        "path": "pgo-profile-inventory.json",
+        "sha256": "7db1e1dce62e4cc48084974d710db09172d9bdc5041be3af43ee2219f7328dcb",
+        "size_bytes": 69645
+      },
+      {
+        "path": "provenance.json",
+        "sha256": "cad75aae2884d8d044ae7721a9e156df164d1850ad2cdc8ea7b1fc1e78771ec4",
+        "size_bytes": 256
+      },
+      {
+        "path": "repository-commit.txt",
+        "sha256": "f5f83967aae0b1e2c1b4108a8f8190b78fccefc0e763476e7c80b3656c2daf05",
+        "size_bytes": 41
+      },
+      {
+        "path": "source-diff.patch",
+        "sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+        "size_bytes": 7121
+      },
+      {
+        "path": "source.json",
+        "sha256": "75864c8b78143356503ee5d7657d19c62d74f6233cfa876e52fe03de866f4a71",
+        "size_bytes": 279
+      },
+      {
+        "path": "training/generate-CMakeCache.txt",
+        "sha256": "966e6e7873fa1ab6d04d31ff52d4dcd2c9ce559450ec4f4ed0711674f8001e8b",
+        "size_bytes": 34397
+      },
+      {
+        "path": "training/generate-build-commands.txt",
+        "sha256": "d7edc96bd5d91dfc49c4fe4a62412f8c0c2073d0295930335f46b9158b717ac3",
+        "size_bytes": 332762
+      },
+      {
+        "path": "training/generate-build-time.log",
+        "sha256": "9cd74f70fbb9823438b80ec53c6ef12dca922a53efdcb56a24fdf9ab7e17c22f",
+        "size_bytes": 821
+      },
+      {
+        "path": "training/generate-build.log",
+        "sha256": "9d422e90e082c4e7314fff27327c22a61fcdae7168569f9bce271afc6bf585d4",
+        "size_bytes": 57278
+      },
+      {
+        "path": "training/generate-configure.log",
+        "sha256": "dfb031c03cf12ec1aeffdcacece69c0161629f8feaf0f1b2a6d375a00dcb022e",
+        "size_bytes": 3077
+      },
+      {
+        "path": "training/probe.json",
+        "sha256": "f5f6ba4fe80386313ca55283a335bd25e2143fdd7827a2947e17bea619d795c9",
+        "size_bytes": 18945
+      },
+      {
+        "path": "training/readiness.json",
+        "sha256": "04654ddecf14694822dd6869fed924230ee1b063166439ebf311a4c942e73f61",
+        "size_bytes": 129
+      },
+      {
+        "path": "training/server-argv.json",
+        "sha256": "7af4a52c11d025693a6d28decdb4349da951251f38e93d23ae1dab2cf55aba41",
+        "size_bytes": 636
+      },
+      {
+        "path": "training/server-shell-exit.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "size_bytes": 2
+      },
+      {
+        "path": "training/server-time.log",
+        "sha256": "b1a77e18f2e4d13443d7264d42e899c9e0bb3806a422ea6f65f20378885ee775",
+        "size_bytes": 1174
+      },
+      {
+        "path": "training/server-version.txt",
+        "sha256": "fafd6a479981514195a5e29773105bcb87d9c149cb5d659aa0956617c52028a6",
+        "size_bytes": 67
+      },
+      {
+        "path": "training/server.stderr.log",
+        "sha256": "6d541482fd14b18f741639061ec9b90378bac6ea6ed25e7cc0c1c5fc10872653",
+        "size_bytes": 27749
+      },
+      {
+        "path": "training/server.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "uname.txt",
+        "sha256": "2b2d2155a3ee4b0765bc71c1658528f1dc5fc194f033a9dc1680ed43ee7269e0",
+        "size_bytes": 124
+      }
+    ],
+    "total_regular_file_bytes": 48316208
+  },
+  "claim_boundary": "This failed workflow makes no PGO performance claim. A separately frozen inspection-only recovery may download the exact artifact, verify every extracted file, and run only the corrected deterministic ingester. It may not rebuild, redownload the model, rerun training or service cells, change gates, or rehabilitate the failed workflow itself.",
+  "contract_sha256": "0069ca34c075c068beea1102e26a80725afc9cb9db56677e4af09fa125cbdc36",
+  "corrected_replay_preview": {
+    "hypothesis": {
+      "gates": {
+        "cpu_seconds_per_request": false,
+        "maximum_rss": true,
+        "median_http_latency": false,
+        "p95_http_latency": true,
+        "quality": true,
+        "ready_time": true,
+        "runtime_closure": false,
+        "throughput": false,
+        "throughput_dispersion": true
+      },
+      "passed": false,
+      "ratios": {
+        "cpu_seconds_per_request": 1.0075407159793215,
+        "maximum_rss": 0.9999469893547437,
+        "median_http_latency": 1.0082171204019101,
+        "p95_http_latency": 0.9971784516379923,
+        "ready_time": 0.9426479070069502,
+        "runtime_closure": 1.0688501871301208,
+        "throughput": 0.9924348486820853
+      },
+      "selected_profile": "release_control",
+      "weighted_score_used": false
+    },
+    "performance_repetitions_per_profile": 6,
+    "preview_is_product_evidence": false,
+    "python_line": "3.10",
+    "quality_preserved": true,
+    "status": "valid_workload_pgo_no_win",
+    "summary_sha256": "cc12c4a910c42b0e9477e4655cec2d49ca0c1c16fe8fdb4299bc4184fd8d48c3"
+  },
+  "decision": {
+    "failed_workflow_rehabilitated": false,
+    "inspection_only_native_recovery_allowed": true,
+    "measured_cells_may_be_rerun_in_recovery": false,
+    "pgo_result_accepted_from_failed_workflow": false,
+    "source_build_model_or_gates_may_change_in_recovery": false
+  },
+  "experiment_id": "E18a",
+  "experiment_result_valid": false,
+  "failure": {
+    "additional_replay_bug": "After correcting the recursion, deterministic replay exposed a second output-only bug: the successor assigned into a missing decision object. The recovery fixes both validator/output defects.",
+    "raw_measurements_complete": true,
+    "reason": "The successor ingester temporarily replaced the base training validator and then called that replaced symbol from its adapter, recursing into the successor-only timeout guard.",
+    "scientific_measurement_failure": false,
+    "stage": "independent post-measurement ingestion",
+    "type": "recursive_successor_training_adapter",
+    "workflow_inventory_written": false,
+    "workflow_summary_written": false
+  },
+  "github": {
+    "artifact_digest": "sha256:eaa2f669b7a208e6b9ac0a4b16fd5b79411f8314baee0aa98f719c99d27110fd",
+    "artifact_expires_at": "2026-11-01T23:11:47Z",
+    "artifact_id": "8875533121",
+    "artifact_name": "e18a-workload-pgo-30861416953-1",
+    "artifact_size_bytes": 19906844,
+    "job_id": 91844009646,
+    "job_log_sha256": "e7394b640ed944b25640374a2438e7d56dc402a0b55ccff9f91a9265893f85dd",
+    "repository_commit": "12d19a04cf9c8e1e7ceb53d5b61de43746527977",
+    "run_attempt": 1,
+    "run_id": 30861416953,
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30861416953"
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "promotion_decision_permitted": false,
+  "schema_version": 1,
+  "status": "invalid_post_measurement_ingestion_failure_with_complete_replay",
+  "validated_before_failure": {
+    "all_twelve_measured_cells_completed": true,
+    "complete_instrumented_training_pass": true,
+    "exact_contract": true,
+    "frozen_inputs_verified": 20,
+    "native_arm64": true,
+    "pgo_use_binary_built": true,
+    "profile_file_count": 305,
+    "profile_total_size_bytes": 4671004,
+    "release_control_built": true
+  }
+}

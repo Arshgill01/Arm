@@ -19,6 +19,9 @@ except ModuleNotFoundError as error:
     from e5b_ingest import load_object, sha256_file
 
 
+_BASE_VALIDATE_TRAINING = base.validate_training
+
+
 def validate_training(
     evidence: Path,
     contract: dict[str, Any],
@@ -34,7 +37,7 @@ def validate_training(
     ):
         raise ValueError("E18a successor timeout boundary differs")
     adjusted["request"]["timeout_seconds"] = timeout
-    result = base.validate_training(evidence, adjusted, tasks, references)
+    result = _BASE_VALIDATE_TRAINING(evidence, adjusted, tasks, references)
     result["request_timeout_seconds"] = timeout
     result["timeout_scope"] = "instrumented training only"
     return result
@@ -63,7 +66,10 @@ def build_manifest(evidence: Path, contract_path: Path, root: Path) -> dict[str,
         base.validate_training = original
     result["campaign_variant"] = contract["campaign_variant"]
     result["predecessor_failure"] = contract["predecessor_failure"]
-    result["decision"]["failed_predecessor_rehabilitated"] = False
+    result["decision"] = {
+        **contract["decision"],
+        "failed_predecessor_rehabilitated": False,
+    }
     return result
 
 

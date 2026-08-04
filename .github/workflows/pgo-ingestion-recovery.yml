@@ -1,0 +1,102 @@
+name: Arm E18a deterministic ingestion recovery
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e18a_ingestion_recovery_contract.json
+  CONTRACT_SHA256: 73f0cfb82be2ff0f336e112351511d5663c8f2540323306e0d447b44fb563c14
+  SOURCE_RUN_ID: "30861416953"
+  SOURCE_JOB_ID: "91844009646"
+  SOURCE_ARTIFACT: e18a-workload-pgo-30861416953-1
+  SOURCE_EVIDENCE: ${{ github.workspace }}/results/raw/e18a-ingestion-recovery-source
+  RECOVERY_EVIDENCE: ${{ github.workspace }}/results/raw/e18a-ingestion-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+
+jobs:
+  recover:
+    name: Recover complete PGO result without rerunning measurements
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - name: Check out frozen inspection-only recovery
+        uses: actions/checkout@v7
+
+      - name: Select exact replay Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10.20"
+
+      - name: Verify recovery contract and native host
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          test "$(python3 --version)" = "Python 3.10.20"
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          while IFS=$'\t' read -r expected input_file; do
+            echo "$expected  $input_file" | sha256sum --check --strict
+          done < <(jq -r '.inputs as $inputs | $inputs | to_entries[] | select(.key | endswith("_path")) | [$inputs[(.key | sub("_path$"; "_sha256"))], .value] | @tsv' "$CONTRACT_PATH")
+          python3 -m unittest \
+            tests.test_e18a_successor \
+            tests.test_e18a_ingestion_recovery
+          mkdir -p "$SOURCE_EVIDENCE" "$RECOVERY_EVIDENCE/metadata"
+          uname -a > "$RECOVERY_EVIDENCE/uname.txt"
+          lscpu > "$RECOVERY_EVIDENCE/lscpu.txt"
+          python3 --version > "$RECOVERY_EVIDENCE/python-version.txt"
+
+      - name: Download exact completed source artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ env.SOURCE_ARTIFACT }}
+          path: ${{ env.SOURCE_EVIDENCE }}
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Query exact live source identities
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID" \
+            > "$RECOVERY_EVIDENCE/metadata/source-run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/jobs/$SOURCE_JOB_ID" \
+            > "$RECOVERY_EVIDENCE/metadata/source-job.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100" \
+            > "$RECOVERY_EVIDENCE/metadata/source-artifacts.json"
+
+      - name: Replay only the corrected deterministic ingester
+        run: |
+          set -euo pipefail
+          python3 experiments/e18a_ingestion_recovery.py \
+            --evidence-dir "$SOURCE_EVIDENCE" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --source-run-metadata "$RECOVERY_EVIDENCE/metadata/source-run.json" \
+            --source-job-metadata "$RECOVERY_EVIDENCE/metadata/source-job.json" \
+            --source-artifact-metadata "$RECOVERY_EVIDENCE/metadata/source-artifacts.json" \
+            --recovery-run-id "$GITHUB_RUN_ID" \
+            --recovery-run-attempt "$GITHUB_RUN_ATTEMPT" \
+            --recovery-head-sha "$GITHUB_SHA" \
+            --output-dir "$RECOVERY_EVIDENCE"
+          cp "$CONTRACT_PATH" "$RECOVERY_EVIDENCE/contract.json"
+          cp results/manifests/e18a-successor-ingestion-failure-30861416953.json \
+            "$RECOVERY_EVIDENCE/source-failure-manifest.json"
+          cp experiments/e18a_successor_ingest.py \
+            "$RECOVERY_EVIDENCE/corrected-ingester.py"
+          find "$RECOVERY_EVIDENCE" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum \
+            > "$RECOVERY_EVIDENCE/file-inventory-sha256.txt"
+          jq '{status, source_artifact_validation, recovered_result: {status: .recovered_result.status, hypothesis: .recovered_result.hypothesis}, validation, decision}' \
+            "$RECOVERY_EVIDENCE/summary.json"
+
+      - name: Upload compact deterministic recovery
+        uses: actions/upload-artifact@v7
+        with:
+          name: e18a-ingestion-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.RECOVERY_EVIDENCE }}
+          retention-days: 90
+          if-no-files-found: error
