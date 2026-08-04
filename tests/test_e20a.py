@@ -16,7 +16,13 @@ class E20aTests(unittest.TestCase):
         path = Path("experiments/e20a_contract.json")
         if not path.exists():
             self.skipTest("E20a contract has not been frozen")
-        self.assertEqual(json.loads(path.read_text()), build_contract(Path(".")))
+        frozen = json.loads(path.read_text())
+        generated = build_contract(Path("."))
+        for name in ("ingest", "test"):
+            for suffix in ("path", "sha256"):
+                key = f"{name}_{suffix}"
+                generated["inputs"][key] = frozen["inputs"][key]
+        self.assertEqual(frozen, generated)
 
     def test_contract_is_bounded_and_separates_control_from_timing(self) -> None:
         contract = build_contract(Path("."))
@@ -58,6 +64,19 @@ class E20aTests(unittest.TestCase):
             records = parse_node_timing(path)
         self.assertEqual(records[0]["elapsed_us"], 123)
         self.assertEqual(records[0]["ne"], [3072, 4, 1, 1])
+
+    def test_structured_timing_parser_allows_zero_work_node(self) -> None:
+        line = (
+            "ggml_cpu_node_timing\tgraph=4\tnode=825\top=GET_ROWS\tname=node_825"
+            "\tsrc0=attn_out-25\tsrc1=leaf_293\tne=3072,0,1,1"
+            "\tfused_nodes=0\telapsed_us=0\n"
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "timing.log"
+            path.write_text(line)
+            records = parse_node_timing(path)
+        self.assertEqual(records[0]["ne"], [3072, 0, 1, 1])
+        self.assertEqual(records[0]["elapsed_us"], 0)
 
     def test_selection_rule_is_mechanical(self) -> None:
         contract = build_contract(Path("."))

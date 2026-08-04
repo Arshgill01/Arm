@@ -1,0 +1,564 @@
+{
+  "artifact_validation": {
+    "all_extracted_regular_files_hashed": true,
+    "file_count": 90,
+    "files": [
+      {
+        "path": "bench/pp4096_control/command.json",
+        "sha256": "07784ca518270a4431e44e1e19bb8995c51dba9e2b1edb3cd6c4004f86b937ca",
+        "size_bytes": 999
+      },
+      {
+        "path": "bench/pp4096_control/process-time.log",
+        "sha256": "aa872ea0048dfefb38747fdad0fcb7a52f9121a97cd7c87fdcb9724089f76062",
+        "size_bytes": 1026
+      },
+      {
+        "path": "bench/pp4096_control/result.jsonl",
+        "sha256": "c68d7d82eff94453f06edd4ca37b17b975e480d496438c7f91d5204b060d05a3",
+        "size_bytes": 1011
+      },
+      {
+        "path": "bench/pp4096_control/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "bench/pp4096_timed/command.json",
+        "sha256": "635dd9d84bcc1df16067220d582323a29ffe6f044cc2e2868056e435bffe1825",
+        "size_bytes": 996
+      },
+      {
+        "path": "bench/pp4096_timed/process-time.log",
+        "sha256": "2aeee041926a1ca83003be93545420667034fdb8c5967c40d9fc5295dbb04935",
+        "size_bytes": 1027
+      },
+      {
+        "path": "bench/pp4096_timed/result.jsonl",
+        "sha256": "6d8cf3b73a064d4ee997ced340f9bd1df2a5129fd8991050318ccba9b5bc4648",
+        "size_bytes": 958
+      },
+      {
+        "path": "bench/pp4096_timed/stderr.log",
+        "sha256": "c1006b2974a0665d64ce9121d3a39aa9abb1e78c9c7a615276f49eae2b6d102c",
+        "size_bytes": 557098
+      },
+      {
+        "path": "bench/pp512_control/command.json",
+        "sha256": "c38b645f9c4d8c61ed0e9aeb902e4edfffd4110f24ca9eb72087ec1daa821561",
+        "size_bytes": 994
+      },
+      {
+        "path": "bench/pp512_control/process-time.log",
+        "sha256": "b8caa52d986cb3fdbf96dcd6e489c9653e74d37e72d4582a149a609b9b360398",
+        "size_bytes": 1022
+      },
+      {
+        "path": "bench/pp512_control/result.jsonl",
+        "sha256": "dd4feb3e79eb51533cb4b5106245327e00c255fa40310d822f3acda25160bd02",
+        "size_bytes": 1006
+      },
+      {
+        "path": "bench/pp512_control/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "bench/pp512_timed/command.json",
+        "sha256": "0f4288d8621c18db7fd1522d46d64c32ee7274470eb708c30d018bb2f96e0f05",
+        "size_bytes": 991
+      },
+      {
+        "path": "bench/pp512_timed/process-time.log",
+        "sha256": "ecb16eac187321adc3a6391dff7b961cf14bb0960adec94593251528049dfc18",
+        "size_bytes": 1020
+      },
+      {
+        "path": "bench/pp512_timed/result.jsonl",
+        "sha256": "bec1ca57070321727068945726fc93a7a4eefbec985bb0afb800b4132e636c9f",
+        "size_bytes": 955
+      },
+      {
+        "path": "bench/pp512_timed/stderr.log",
+        "sha256": "e1889284dae4998612b08cb8c7725dd5234dc3ca1e22ca23fd570be803265c58",
+        "size_bytes": 69579
+      },
+      {
+        "path": "bench/tg128_control/command.json",
+        "sha256": "6f4b29499ebfc78d5ebd15b4986b834fb4eb783a7555e9e65c7773b95ba11c17",
+        "size_bytes": 994
+      },
+      {
+        "path": "bench/tg128_control/process-time.log",
+        "sha256": "7385e75110709aee1a9df461997e8f39a53a0c5b29e18902b7f0aa666950c897",
+        "size_bytes": 1020
+      },
+      {
+        "path": "bench/tg128_control/result.jsonl",
+        "sha256": "4f9074b6f3608efc12a01ef27cd822080ca2de77206f185b9850f9edaffc2b9b",
+        "size_bytes": 1001
+      },
+      {
+        "path": "bench/tg128_control/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "bench/tg128_timed/command.json",
+        "sha256": "6349a3c1ff0aa26b49ce74a1ee7f65a560a520bba7f286001c51d68760a0f935",
+        "size_bytes": 991
+      },
+      {
+        "path": "bench/tg128_timed/process-time.log",
+        "sha256": "a5ca74c2a504096da4fa99f0cfc32b1a9d707bce938c239838dfe01feb153881",
+        "size_bytes": 1023
+      },
+      {
+        "path": "bench/tg128_timed/result.jsonl",
+        "sha256": "e3aaf83aba3aa443a6466c5c487045959945195c34be5a8479b3b1ddf0c8cdd8",
+        "size_bytes": 953
+      },
+      {
+        "path": "bench/tg128_timed/stderr.log",
+        "sha256": "7318065040647a4f48bc0be8acfac224a35c4791d16a9d53fd4a983ead68e825",
+        "size_bytes": 8676681
+      },
+      {
+        "path": "build/CMakeCache.txt",
+        "sha256": "bfdc8ebf0ff299fc12391c1920dad501aed5e7cee951b1abfd45fab8dca42d59",
+        "size_bytes": 34184
+      },
+      {
+        "path": "build/bench-help.txt",
+        "sha256": "0e0a5905419568f7914511527bfac8971e633bb9a6a99cb97077d24ee562da59",
+        "size_bytes": 4334
+      },
+      {
+        "path": "build/bench-runtime-closure.json",
+        "sha256": "e56092d806ecfe86737cb287fd1b50e23dd8b35e6d0df3af192b2c0d648c1827",
+        "size_bytes": 5247
+      },
+      {
+        "path": "build/bench-runtime-files/bin/libggml-base.so.0.18.0",
+        "sha256": "95b754819e1da1f03994878741cabd7b76a78afeaa746368f8af3b1dbaa67b31",
+        "size_bytes": 873464
+      },
+      {
+        "path": "build/bench-runtime-files/bin/libggml-cpu.so.0.18.0",
+        "sha256": "ca63cc5f6a2b90cc8b04f9d1506248388f94c30d1c81154dd5fbb79203d29b32",
+        "size_bytes": 1160424
+      },
+      {
+        "path": "build/bench-runtime-files/bin/libggml.so.0.18.0",
+        "sha256": "21f32aa47133311e24a7cc808e336020e911018ee124814db520dd84a21d137c",
+        "size_bytes": 78176
+      },
+      {
+        "path": "build/bench-runtime-files/bin/libllama-bench-impl.so",
+        "sha256": "d657d5ea76fa09fa6133bce611cbabfd0c066a77a87c9a3421a1b87b83016530",
+        "size_bytes": 476352
+      },
+      {
+        "path": "build/bench-runtime-files/bin/libllama-common.so.0.0.10216",
+        "sha256": "f5bf002e986142e244ad79c0ae8c49dd1667d038729e3d5b77b3624136d13e82",
+        "size_bytes": 5325720
+      },
+      {
+        "path": "build/bench-runtime-files/bin/libllama.so.0.0.10216",
+        "sha256": "5b812e8198e58be585096c842a537d9dc043777d5c7bbd2c0b6387406126b195",
+        "size_bytes": 3937120
+      },
+      {
+        "path": "build/bench-runtime-files/bin/llama-bench",
+        "sha256": "12aa371bb2e4bfd39330ea13a44ccdfa63e423e4d147cb86d5d997ff49e4a309",
+        "size_bytes": 72480
+      },
+      {
+        "path": "build/build-commands.txt",
+        "sha256": "153235b362249ce95c3ea272c2e3e6060b3c75fce9493770df608e0f569bdbeb",
+        "size_bytes": 339966
+      },
+      {
+        "path": "build/build-time.log",
+        "sha256": "ecdea9912a4cfadde29a11d68f054647295898f8d2732e033e3ee609b881559f",
+        "size_bytes": 835
+      },
+      {
+        "path": "build/build.log",
+        "sha256": "2b6c1e5500d36098d3623bd03adad50bec890bad7865c0932b5c2088e580ccdc",
+        "size_bytes": 57331
+      },
+      {
+        "path": "build/configure.log",
+        "sha256": "c760293fa27bade9ffdf70db88c5afd5fd60b6e2001481837169e6043fd1590e",
+        "size_bytes": 3073
+      },
+      {
+        "path": "build/server-runtime-closure.json",
+        "sha256": "dfb28f42d1ee130c573674bf2845366dba041fc25dcac3d1d2cd9e03163e7aa3",
+        "size_bytes": 5785
+      },
+      {
+        "path": "build/server-runtime-files/bin/libggml-base.so.0.18.0",
+        "sha256": "95b754819e1da1f03994878741cabd7b76a78afeaa746368f8af3b1dbaa67b31",
+        "size_bytes": 873464
+      },
+      {
+        "path": "build/server-runtime-files/bin/libggml-cpu.so.0.18.0",
+        "sha256": "ca63cc5f6a2b90cc8b04f9d1506248388f94c30d1c81154dd5fbb79203d29b32",
+        "size_bytes": 1160424
+      },
+      {
+        "path": "build/server-runtime-files/bin/libggml.so.0.18.0",
+        "sha256": "21f32aa47133311e24a7cc808e336020e911018ee124814db520dd84a21d137c",
+        "size_bytes": 78176
+      },
+      {
+        "path": "build/server-runtime-files/bin/libllama-common.so.0.0.10216",
+        "sha256": "f5bf002e986142e244ad79c0ae8c49dd1667d038729e3d5b77b3624136d13e82",
+        "size_bytes": 5325720
+      },
+      {
+        "path": "build/server-runtime-files/bin/libllama-server-impl.so",
+        "sha256": "22c511d2043c66c3097f92aad04b54563e434c135436ae56ca81f50151520ac2",
+        "size_bytes": 6949024
+      },
+      {
+        "path": "build/server-runtime-files/bin/libllama.so.0.0.10216",
+        "sha256": "5b812e8198e58be585096c842a537d9dc043777d5c7bbd2c0b6387406126b195",
+        "size_bytes": 3937120
+      },
+      {
+        "path": "build/server-runtime-files/bin/libmtmd.so.0.0.10216",
+        "sha256": "e18d8a656bb065171aab00eb36a667a0f1a95a34292e7c8081f1317512acac30",
+        "size_bytes": 1461024
+      },
+      {
+        "path": "build/server-runtime-files/bin/llama-server",
+        "sha256": "edbf9782551748476421341fbd7bb3aace8f9ebf074b05e65492842d49b545ca",
+        "size_bytes": 72488
+      },
+      {
+        "path": "build/server-version.txt",
+        "sha256": "fafd6a479981514195a5e29773105bcb87d9c149cb5d659aa0956617c52028a6",
+        "size_bytes": 67
+      },
+      {
+        "path": "build/timing-environment-symbol.txt",
+        "sha256": "c73361b7057edf49d62f9228987975be2a7c31099393ca12820f3f6f87604c83",
+        "size_bytes": 21
+      },
+      {
+        "path": "compiler.txt",
+        "sha256": "53fa074480ef985e455735619d727fced49823ba23f36cdacd970330fc2357d0",
+        "size_bytes": 590
+      },
+      {
+        "path": "contract.json",
+        "sha256": "93b78071c89edee24969dd3e4d66ae2eb63de2b782b5be0a6a3b25ffec002ed2",
+        "size_bytes": 12807
+      },
+      {
+        "path": "disk-before.txt",
+        "sha256": "0e7d1384c5226c73e37e3e74cb6ad8d32d95d352b988caaddc67ffee72e45c7a",
+        "size_bytes": 436
+      },
+      {
+        "path": "frozen-inputs/experiments/e18a_successor_contract.json",
+        "sha256": "0069ca34c075c068beea1102e26a80725afc9cb9db56677e4af09fa125cbdc36",
+        "size_bytes": 12124
+      },
+      {
+        "path": "frozen-inputs/experiments/e20a_bench_cell.sh",
+        "sha256": "57ba576cc635ac6eeaa1f76bf79fe7da1965f00a985419a6120abfbdc01cec4e",
+        "size_bytes": 1430
+      },
+      {
+        "path": "frozen-inputs/experiments/e20a_freeze.py",
+        "sha256": "9e27af570b1630366383613398bae8791b238c5cb5eab7d5f0ede8e837e35824",
+        "size_bytes": 8839
+      },
+      {
+        "path": "frozen-inputs/experiments/e20a_ingest.py",
+        "sha256": "2a3afe753c4963ea364952a70ee8e9470eb93a880fe817de7ae2de8f195a3bac",
+        "size_bytes": 18509
+      },
+      {
+        "path": "frozen-inputs/experiments/e20a_quality.sh",
+        "sha256": "0cf174e39c3e8dea31fe8dab5fc7062d6d03b360e9ff81d7372dbe538dc65b2f",
+        "size_bytes": 3051
+      },
+      {
+        "path": "frozen-inputs/experiments/e3_tasks.json",
+        "sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+        "size_bytes": 8510
+      },
+      {
+        "path": "frozen-inputs/experiments/e5b_inference_probe.py",
+        "sha256": "82ebd56316705df93b59aea9c05c31b59cdd0c4c9fd31ef16608dbc0e86702db",
+        "size_bytes": 17974
+      },
+      {
+        "path": "frozen-inputs/experiments/e9a_contract.json",
+        "sha256": "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928",
+        "size_bytes": 8565
+      },
+      {
+        "path": "frozen-inputs/patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+        "size_bytes": 1332
+      },
+      {
+        "path": "frozen-inputs/patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783",
+        "size_bytes": 2535
+      },
+      {
+        "path": "frozen-inputs/patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f",
+        "size_bytes": 3058
+      },
+      {
+        "path": "frozen-inputs/patches/llama.cpp/b10216/0008-cpu-node-timing.patch",
+        "sha256": "2810e893b781137fa41444641c451aa9020843055addae97936499c6e8b4df31",
+        "size_bytes": 2873
+      },
+      {
+        "path": "frozen-inputs/results/manifests/e3f-30656151957.json",
+        "sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+        "size_bytes": 102388
+      },
+      {
+        "path": "frozen-inputs/results/manifests/e9a-30764802071.json",
+        "sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d",
+        "size_bytes": 202030
+      },
+      {
+        "path": "frozen-inputs/tests/test_e20a.py",
+        "sha256": "33a10b682a777096eea88fed3844f8eb7b78c80773b2fed6b5db733ce39143ab",
+        "size_bytes": 2907
+      },
+      {
+        "path": "lscpu.txt",
+        "sha256": "e5f7302f9882c8b4eca9892fce7bab78f37c49da0f8babcb23d2c2db5ed004bc",
+        "size_bytes": 2355
+      },
+      {
+        "path": "memory-before.txt",
+        "sha256": "162a72ae126fd08a239ac713b8dba37df560cd8da2bbbd55f164d4af017f40ba",
+        "size_bytes": 207
+      },
+      {
+        "path": "model-sha256.txt",
+        "sha256": "04671377b6cf7c5e5cab121c65a0febb62b3f8e3c82b5c280e527b9e96982c04",
+        "size_bytes": 133
+      },
+      {
+        "path": "model-size.txt",
+        "sha256": "6c797838323df9ce84e43897f9301a70fc60f8281e1e36f4e51fef10a2af3061",
+        "size_bytes": 11
+      },
+      {
+        "path": "patched-files.txt",
+        "sha256": "8195886604568a51a8dc9e9b70e3f8cc15ede3778c36f99126c9e750298b9538",
+        "size_bytes": 158
+      },
+      {
+        "path": "patches/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f",
+        "size_bytes": 3058
+      },
+      {
+        "path": "patches/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+        "size_bytes": 1332
+      },
+      {
+        "path": "patches/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783",
+        "size_bytes": 2535
+      },
+      {
+        "path": "patches/0008-cpu-node-timing.patch",
+        "sha256": "2810e893b781137fa41444641c451aa9020843055addae97936499c6e8b4df31",
+        "size_bytes": 2873
+      },
+      {
+        "path": "provenance.json",
+        "sha256": "e280f8e9836f5a51a20432d04b6c9fe1ca5fc2f76de4930985168e3b792bff1d",
+        "size_bytes": 176
+      },
+      {
+        "path": "quality/metrics.txt",
+        "sha256": "cc711b79d37ba836d971ff2c8973a38dd27e65f6b4aaf54aba29a5c3b9341a0f",
+        "size_bytes": 1649
+      },
+      {
+        "path": "quality/probe.json",
+        "sha256": "89af1f2bc4506408b4b551d1a4d600c033705a992b38c6f5ee7e68a752f33c21",
+        "size_bytes": 18761
+      },
+      {
+        "path": "quality/readiness.json",
+        "sha256": "1d234709215ac50239f44364adb5986bd9e4d0652cd1e0b9e49561c368d8786a",
+        "size_bytes": 129
+      },
+      {
+        "path": "quality/recipe.json",
+        "sha256": "8677d73bddccb6534d5b9557d211f0839636d7a8ccad63d979809662cde6d84e",
+        "size_bytes": 1588
+      },
+      {
+        "path": "quality/server-pid.txt",
+        "sha256": "4de56b004373675e21844b8573ffd6ec5b1975095d7cbc5323be41ebf574ff9f",
+        "size_bytes": 5
+      },
+      {
+        "path": "quality/server-shell-exit.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "size_bytes": 2
+      },
+      {
+        "path": "quality/server-time.log",
+        "sha256": "1f2419029a88188218498566a28484564f952d1c0eab75533c9b88fe8eea4785",
+        "size_bytes": 1192
+      },
+      {
+        "path": "quality/server.stderr.log",
+        "sha256": "c8f6bc2a8033cf07a76d40c813ee884871b26b2671f6a56236e0691d10dbd528",
+        "size_bytes": 4802964
+      },
+      {
+        "path": "quality/server.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "quality/slots.json",
+        "sha256": "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653",
+        "size_bytes": 1222
+      },
+      {
+        "path": "source-diff.patch",
+        "sha256": "b462dd287ae0cad5ad49d4b444c635293634ad0879a9f1b4cc5dc6a066a9d7ca",
+        "size_bytes": 10056
+      },
+      {
+        "path": "source.json",
+        "sha256": "b846f0b17e79c4251b43c0e736a48404176b5e2b72469a96c6e072ee31e2e33b",
+        "size_bytes": 1339
+      },
+      {
+        "path": "uname.txt",
+        "sha256": "2b2d2155a3ee4b0765bc71c1658528f1dc5fc194f033a9dc1680ed43ee7269e0",
+        "size_bytes": 124
+      }
+    ],
+    "total_regular_file_bytes": 46815191
+  },
+  "claim_boundary": "This failed workflow makes no fusion-target or performance claim. A separately frozen inspection-only recovery may verify the exact artifact and run only the corrected selector. Timed traces remain diagnostic and cannot support service speed, PMU, cache-counter, energy, fleet, cost, or optimization-win claims.",
+  "contract_sha256": "93b78071c89edee24969dd3e4d66ae2eb63de2b782b5be0a6a3b25ffec002ed2",
+  "corrected_replay_preview": {
+    "preview_is_fusion_authorization": false,
+    "python_line": "3.12",
+    "quality": {
+      "correct": 23,
+      "failures": 0,
+      "reference_prediction_mismatches": 0,
+      "total": 30
+    },
+    "selection": {
+      "automatic_source_optimization_allowed": false,
+      "families": {
+        "attention_qkv": {
+          "eligible": false,
+          "geometric_mean_share": 0.06788626192236345,
+          "shared_activation_layers": {
+            "pp4096": 26,
+            "pp512": 26
+          },
+          "shares": {
+            "pp4096": 0.04000219006118951,
+            "pp512": 0.11520730616854365
+          }
+        },
+        "ffn_gate_up": {
+          "eligible": true,
+          "geometric_mean_share": 0.18465992111025345,
+          "shared_activation_layers": {
+            "pp4096": 26,
+            "pp512": 26
+          },
+          "shares": {
+            "pp4096": 0.10848844266541771,
+            "pp512": 0.314312618253803
+          }
+        }
+      },
+      "focused_fusion_successor_allowed": true,
+      "selected_family": "ffn_gate_up"
+    },
+    "status": "valid_cpu_node_profile_fusion_candidate",
+    "summary_sha256": "24d3ca5b8b5014ec2d0095f0a6fc44ac5db93ef3fea081481d362b4b6a36c823"
+  },
+  "decision": {
+    "failed_workflow_rehabilitated": false,
+    "fusion_implementation_allowed_before_recovery": false,
+    "inspection_only_native_recovery_allowed": true,
+    "source_or_measurement_rerun_allowed": false,
+    "timed_traces_are_performance_claims": false
+  },
+  "experiment_id": "E20a",
+  "experiment_result_valid": false,
+  "failure": {
+    "additional_replay_bug": "After correcting that metadata assumption, deterministic replay encountered a valid zero-work GET_ROWS node with one zero extent. The recovery parser accepts non-negative extents while retaining the frozen positive-record threshold.",
+    "raw_profile_complete": true,
+    "reason": "The validator compared llama-bench's reported tensor-data model size with the larger complete GGUF file size already verified by SHA-256 and stat.",
+    "scientific_measurement_failure": false,
+    "stage": "independent post-profile ingestion",
+    "type": "llama_bench_model_size_semantics_mismatch",
+    "workflow_inventory_written": false,
+    "workflow_summary_written": false
+  },
+  "fusion_successor_permitted": false,
+  "github": {
+    "artifact_digest": "sha256:8b7da293603cb229e0d0aa1164c19d1d3521ab0f6353ae56f2a6a90524a53247",
+    "artifact_expires_at": "2026-11-01T23:48:28Z",
+    "artifact_id": "8875743768",
+    "artifact_name": "e20a-cpu-node-timing-30863505489-1",
+    "artifact_size_bytes": 14680227,
+    "job_id": 91850309924,
+    "job_log_sha256": "24b25bbfbba3917a79201fc772c78f5745a488a83784002a440be95a58eee69a",
+    "repository_commit": "ba0c43172f583ebbb488888873442d39364d1749",
+    "run_attempt": 1,
+    "run_id": 30863505489,
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30863505489"
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "schema_version": 1,
+  "status": "invalid_post_profile_ingestion_failure_with_complete_replay",
+  "validated_before_failure": {
+    "all_six_benchmark_cases_completed": true,
+    "exact_contract": true,
+    "exact_quality_pass_completed": true,
+    "frozen_inputs_verified": 15,
+    "instrumented_runtime_built": true,
+    "native_arm64": true
+  }
+}

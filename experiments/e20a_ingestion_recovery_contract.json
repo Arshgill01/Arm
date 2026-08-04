@@ -1,0 +1,147 @@
+{
+  "acceptance": {
+    "all_source_artifact_files_match_retained_inventory": true,
+    "live_source_run_job_and_artifact_identity_match": true,
+    "no_measurement_or_build_step": true,
+    "recovered_quality_exact": {
+      "correct": 23,
+      "failures": 0,
+      "reference_prediction_mismatches": 0,
+      "total": 30
+    },
+    "recovered_selection_exact": {
+      "automatic_source_optimization_allowed": false,
+      "families": {
+        "attention_qkv": {
+          "eligible": false,
+          "geometric_mean_share": 0.06788626192236345,
+          "shared_activation_layers": {
+            "pp4096": 26,
+            "pp512": 26
+          },
+          "shares": {
+            "pp4096": 0.04000219006118951,
+            "pp512": 0.11520730616854365
+          }
+        },
+        "ffn_gate_up": {
+          "eligible": true,
+          "geometric_mean_share": 0.18465992111025345,
+          "shared_activation_layers": {
+            "pp4096": 26,
+            "pp512": 26
+          },
+          "shares": {
+            "pp4096": 0.10848844266541771,
+            "pp512": 0.314312618253803
+          }
+        }
+      },
+      "focused_fusion_successor_allowed": true,
+      "selected_family": "ffn_gate_up"
+    },
+    "recovered_status_exact": "valid_cpu_node_profile_fusion_candidate",
+    "recovered_summary_sha256_exact": "24d3ca5b8b5014ec2d0095f0a6fc44ac5db93ef3fea081481d362b4b6a36c823"
+  },
+  "claim_boundary": "This recovery can validate only the deterministic target selection from the exact completed E20a software-timing artifact. Timed traces include instrumentation overhead and cannot support service-speed, PMU, cache, energy, fleet, cost, or optimization-win claims. Any FFN gate/up source work requires a separate frozen implementation and end-to-end service gate.",
+  "decision": {
+    "automatic_source_optimization_allowed": false,
+    "failed_workflow_rehabilitated": false,
+    "fusion_implementation_allowed_before_recovery": false,
+    "separate_focused_source_contract_required_after_recovery": true
+  },
+  "execution": {
+    "allowed_operations": [
+      "download exact source artifact",
+      "verify every extracted regular file",
+      "query exact source GitHub identities",
+      "run corrected deterministic selector",
+      "write compact recovery evidence"
+    ],
+    "forbidden_operations": [
+      "clone or build llama.cpp",
+      "download a model",
+      "launch llama-bench or llama-server",
+      "repeat any benchmark or quality request",
+      "change family threshold selection modes or quality gate"
+    ],
+    "python_version": "3.12.13",
+    "required_architecture": "aarch64",
+    "runner": "ubuntu-24.04-arm"
+  },
+  "expected_result": {
+    "quality": {
+      "correct": 23,
+      "failures": 0,
+      "reference_prediction_mismatches": 0,
+      "total": 30
+    },
+    "selection": {
+      "automatic_source_optimization_allowed": false,
+      "families": {
+        "attention_qkv": {
+          "eligible": false,
+          "geometric_mean_share": 0.06788626192236345,
+          "shared_activation_layers": {
+            "pp4096": 26,
+            "pp512": 26
+          },
+          "shares": {
+            "pp4096": 0.04000219006118951,
+            "pp512": 0.11520730616854365
+          }
+        },
+        "ffn_gate_up": {
+          "eligible": true,
+          "geometric_mean_share": 0.18465992111025345,
+          "shared_activation_layers": {
+            "pp4096": 26,
+            "pp512": 26
+          },
+          "shares": {
+            "pp4096": 0.10848844266541771,
+            "pp512": 0.314312618253803
+          }
+        }
+      },
+      "focused_fusion_successor_allowed": true,
+      "selected_family": "ffn_gate_up"
+    },
+    "status": "valid_cpu_node_profile_fusion_candidate",
+    "summary_sha256": "24d3ca5b8b5014ec2d0095f0a6fc44ac5db93ef3fea081481d362b4b6a36c823"
+  },
+  "experiment_id": "E20a-ingestion-recovery",
+  "inputs": {
+    "failure_manifest_path": "results/manifests/e20a-ingestion-failure-30863505489.json",
+    "failure_manifest_sha256": "5e7eb31d92b0fb71a41841d0937dc5058161a205a895e43e5aa334721653213f",
+    "failure_retain_path": "experiments/e20a_ingestion_failure_retain.py",
+    "failure_retain_sha256": "5a283e455f26597b61ca954d8cd160f91da776a241f218cbc0a9f0ef328003ed",
+    "fixed_ingest_path": "experiments/e20a_ingest.py",
+    "fixed_ingest_sha256": "5d6055f38d5041cc89e77c678774efa57539a155231fe37ce839375712f12d53",
+    "freeze_path": "experiments/e20a_ingestion_recovery_freeze.py",
+    "freeze_sha256": "bf91a8a05c35a14830b9f0bbf98cc32c875be636c09d148d392516c422b78990",
+    "recovery_path": "experiments/e20a_ingestion_recovery.py",
+    "recovery_sha256": "d428b43a5f4e20f7e0dcb6188e426d26d645aac42261ffa0b2a028d2bf6ceb70",
+    "recovery_test_path": "tests/test_e20a_ingestion_recovery.py",
+    "recovery_test_sha256": "2e2c2ea01f75fea2331e73b9fd0ba9c4eac64298a36825903342d1e6c0e504c9",
+    "source_contract_path": "experiments/e20a_contract.json",
+    "source_contract_sha256": "93b78071c89edee24969dd3e4d66ae2eb63de2b782b5be0a6a3b25ffec002ed2",
+    "source_test_path": "tests/test_e20a.py",
+    "source_test_sha256": "1eac924b46c4fdd8a3e8d7446e58810f5dc2f1ffeabdbc5be33712fb7a41fcdc"
+  },
+  "negative_result_rule": "Retain any artifact, identity, interpreter, summary, quality, family, share, shared-layer, or threshold mismatch and stop without remeasurement.",
+  "schema_version": 1,
+  "source": {
+    "artifact_digest": "sha256:8b7da293603cb229e0d0aa1164c19d1d3521ab0f6353ae56f2a6a90524a53247",
+    "artifact_id": "8875743768",
+    "artifact_name": "e20a-cpu-node-timing-30863505489-1",
+    "artifact_size_bytes": 14680227,
+    "job_id": "91850309924",
+    "repository_commit": "ba0c43172f583ebbb488888873442d39364d1749",
+    "run_attempt": 1,
+    "run_id": "30863505489",
+    "source_workflow_remains_invalid": true
+  },
+  "state": "frozen after the validator-only failure and local Python 3.12 replay exposed the deterministic FFN gate/up selection, before native recovery",
+  "title": "Inspection-only recovery of complete graph-node profile"
+}
