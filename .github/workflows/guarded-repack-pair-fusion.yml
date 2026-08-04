@@ -1,0 +1,222 @@
+name: Arm E20c guarded repacked FFN pair activation reuse
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e20c_contract.json
+  CONTRACT_SHA256: 8980b445fbf8ab4588e7dadc2e191531895615a81426c0939dd0929324be4ef0
+
+jobs:
+  compare:
+    name: Compare guarded repack pair reuse on native Arm64
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 180
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e20c-${{ github.run_id }}-${{ github.run_attempt }}
+      SOURCE_DIR: /tmp/llama.cpp-E20c
+      BUILD_DIR: /tmp/llama.cpp-E20c-build
+      MODEL_ROOT: /tmp/Pareto64-E20c/models
+
+    steps:
+      - name: Check out frozen pair-reuse experiment
+        uses: actions/checkout@v7
+
+      - name: Verify native host and every frozen input
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          mkdir -p "$EVIDENCE_DIR/frozen-inputs" "$EVIDENCE_DIR/build" \
+            "$EVIDENCE_DIR/patches" "$EVIDENCE_DIR/preflight" "$MODEL_ROOT"
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          while IFS=$'\t' read -r expected input_file; do
+            echo "$expected  $input_file" | sha256sum --check --strict
+            mkdir -p "$EVIDENCE_DIR/frozen-inputs/$(dirname "$input_file")"
+            cp "$input_file" "$EVIDENCE_DIR/frozen-inputs/$input_file"
+          done < <(jq -r '.inputs as $inputs | $inputs | to_entries[] | select(.key | endswith("_path")) | [$inputs[(.key | sub("_path$"; "_sha256"))], .value] | @tsv' "$CONTRACT_PATH")
+          python3 -m unittest tests.test_e20c
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          free -b | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          {
+            gcc --version
+            g++ --version
+            cmake --version
+            ninja --version
+          } | tee "$EVIDENCE_DIR/compiler.txt"
+
+      - name: Build one exact instrumentable OpenSSL-off runtime
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            "$(jq -r '.runtime.repository' "$CONTRACT_PATH")" "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$(jq -r '.runtime.commit' "$CONTRACT_PATH")"
+          test "$(git -C "$SOURCE_DIR" describe --tags --exact-match)" = \
+            "$(jq -r '.runtime.tag' "$CONTRACT_PATH")"
+          while IFS=$'\t' read -r patch_path patch_sha; do
+            echo "$patch_sha  $patch_path" | sha256sum --check --strict
+            cp "$patch_path" "$EVIDENCE_DIR/patches/$(basename "$patch_path")"
+            git -C "$SOURCE_DIR" apply --check "$GITHUB_WORKSPACE/$patch_path"
+            git -C "$SOURCE_DIR" apply "$GITHUB_WORKSPACE/$patch_path"
+          done < <(jq -r '.runtime.patches[] | [.path, .sha256] | @tsv' "$CONTRACT_PATH")
+          git -C "$SOURCE_DIR" diff --check
+          git -C "$SOURCE_DIR" diff --name-only HEAD | sort \
+            | tee "$EVIDENCE_DIR/patched-files.txt"
+          git -C "$SOURCE_DIR" diff --binary --full-index HEAD -- \
+            > "$EVIDENCE_DIR/source-diff.patch"
+          echo "$(jq -r '.runtime.source_diff_sha256' "$CONTRACT_PATH")  $EVIDENCE_DIR/source-diff.patch" \
+            | sha256sum --check --strict
+          jq '{commit: .runtime.commit, tag: .runtime.tag, patches_applied: [.runtime.patches[].name]}' \
+            "$CONTRACT_PATH" > "$EVIDENCE_DIR/source.json"
+          mapfile -t cmake_args < <(jq -r '.build.cmake_arguments[]' "$CONTRACT_PATH")
+          cmake -S "$SOURCE_DIR" -B "$BUILD_DIR" -G Ninja \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON "${cmake_args[@]}" \
+            2>&1 | tee "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' \
+            "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'ARM detected' "$EVIDENCE_DIR/build/configure.log"
+          cp "$BUILD_DIR/CMakeCache.txt" "$EVIDENCE_DIR/build/CMakeCache.txt"
+          /usr/bin/time --verbose --output "$EVIDENCE_DIR/build/build-time.log" \
+            cmake --build "$BUILD_DIR" --target llama-server llama-bench \
+              --parallel "$(nproc)" \
+            2>&1 | tee "$EVIDENCE_DIR/build/build.log"
+          ninja -C "$BUILD_DIR" -t commands > "$EVIDENCE_DIR/build/build-commands.txt"
+          "$BUILD_DIR/bin/llama-server" --version 2>&1 \
+            | tee "$EVIDENCE_DIR/build/server-version.txt"
+          "$BUILD_DIR/bin/llama-bench" --help > "$EVIDENCE_DIR/build/bench-help.txt"
+          cpu_library="$(find "$BUILD_DIR/bin" -maxdepth 1 -type f -name 'libggml-cpu.so*' -print -quit)"
+          test -n "$cpu_library"
+          strings "$cpu_library" \
+            | grep -E '^GGML_CPU_(NODE_TIMING|REPACK_MUL_MAT_PAIR_FUSION)$' \
+            | sort -u > "$EVIDENCE_DIR/build/environment-symbols.txt"
+          test "$(wc -l < "$EVIDENCE_DIR/build/environment-symbols.txt")" -eq 2
+          python3 experiments/e7a_runtime_closure.py \
+            --server "$BUILD_DIR/bin/llama-server" \
+            --build-root "$BUILD_DIR" \
+            --copy-dir "$EVIDENCE_DIR/build/runtime-files" \
+            --output "$EVIDENCE_DIR/build/runtime-closure.json"
+
+      - name: Download exact selected model
+        run: |
+          set -euo pipefail
+          repository="$(jq -r '.selected.repository' "$CONTRACT_PATH")"
+          revision="$(jq -r '.selected.revision' "$CONTRACT_PATH")"
+          entrypoint="$(jq -r '.selected.path' "$CONTRACT_PATH")"
+          model_sha="$(jq -r '.selected.model_sha256' "$CONTRACT_PATH")"
+          model_size="$(jq -r '.selected.model_size_bytes' "$CONTRACT_PATH")"
+          MODEL="$MODEL_ROOT/$entrypoint"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$MODEL" \
+            "https://huggingface.co/$repository/resolve/$revision/$entrypoint?download=true"
+          test "$(stat --format='%s' "$MODEL")" = "$model_size"
+          echo "$model_sha  $MODEL" | sha256sum --check --strict
+          sha256sum "$MODEL" | tee "$EVIDENCE_DIR/model-sha256.txt"
+          stat --format='%s' "$MODEL" > "$EVIDENCE_DIR/model-size.txt"
+          echo "MODEL=$MODEL" >> "$GITHUB_ENV"
+          echo "SERVER=$BUILD_DIR/bin/llama-server" >> "$GITHUB_ENV"
+
+      - name: Prove the exact conversion-reuse mechanism
+        run: |
+          set -euo pipefail
+          mapfile -t bench_argv < <(
+            jq -r '.mechanism_preflight.benchmark_argv[]' "$CONTRACT_PATH" \
+              | sed "s|^BENCH_PATH$|$BUILD_DIR/bin/llama-bench|; s|^MODEL_PATH$|$MODEL|"
+          )
+          for profile in reuse_off reuse_on; do
+            directory="$EVIDENCE_DIR/preflight/$profile"
+            mkdir -p "$directory"
+            if [[ "$profile" = reuse_off ]]; then pair_fusion=0; else pair_fusion=1; fi
+            PROFILE="$profile" PAIR_FUSION="$pair_fusion" DIRECTORY="$directory" \
+              BENCH="$BUILD_DIR/bin/llama-bench" MODEL_PATH="$MODEL" python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          contract = json.loads(Path(os.environ["CONTRACT_PATH"]).read_text())
+          replacements = {
+              "BENCH_PATH": os.environ["BENCH"],
+              "MODEL_PATH": os.environ["MODEL_PATH"],
+          }
+          command = {
+              "argv": [
+                  replacements.get(value, value)
+                  for value in contract["mechanism_preflight"]["benchmark_argv"]
+              ],
+              "environment": {
+                  "GGML_CPU_NODE_TIMING": "1",
+                  "GGML_CPU_REPACK_MUL_MAT_PAIR_FUSION": os.environ["PAIR_FUSION"],
+              },
+              "profile": os.environ["PROFILE"],
+          }
+          (Path(os.environ["DIRECTORY"]) / "command.json").write_text(
+              json.dumps(command, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+            /usr/bin/time --verbose --output "$directory/process-time.log" \
+              env "GGML_CPU_REPACK_MUL_MAT_PAIR_FUSION=$pair_fusion" \
+                GGML_CPU_NODE_TIMING=1 "${bench_argv[@]}" \
+              > "$directory/result.jsonl" 2> "$directory/stderr.log"
+          done
+
+      - name: Prove guard safety on the exact service workload
+        run: |
+          set -euo pipefail
+          bash experiments/e20c_cell.sh safety reuse_on 7
+          probe="$EVIDENCE_DIR/cells/safety-reuse_on-r7/probe.json"
+          required_correct="$(jq -r '.safety_preflight.required_correct' "$CONTRACT_PATH")"
+          required_total="$(jq -r '.safety_preflight.required_total' "$CONTRACT_PATH")"
+          jq -e \
+            --argjson required_correct "$required_correct" \
+            --argjson required_total "$required_total" \
+            '.result.correct == $required_correct and
+             .result.total == $required_total and
+             .result.failures == 0 and
+             .result.reference_prediction_mismatches == 0' \
+            "$probe"
+
+      - name: Run twelve frozen service cells
+        run: |
+          set -euo pipefail
+          index=0
+          while IFS=$'\t' read -r profile repetition; do
+            index=$((index + 1))
+            printf -v cell_index '%02d' "$index"
+            bash experiments/e20c_cell.sh "$cell_index" "$profile" "$repetition"
+          done < <(jq -r '.execution.order[] | [.profile, .repetition] | @tsv' "$CONTRACT_PATH")
+
+      - name: Independently validate and retain the result
+        run: |
+          set -euo pipefail
+          jq -n \
+            --arg git_commit "$GITHUB_SHA" \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg run_attempt "$GITHUB_RUN_ATTEMPT" \
+            '{schema_version: 1, experiment_id: "E20c", git_commit: $git_commit, github_run_id: $run_id, github_run_attempt: $run_attempt, baseline_profile: "reuse_off", candidate_profile: "reuse_on"}' \
+            > "$EVIDENCE_DIR/provenance.json"
+          python3 experiments/e20c_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum \
+            > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          free -b | tee "$EVIDENCE_DIR/memory-after.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+          jq '{status, selection, mechanism_preflight, safety_preflight, hypothesis, validation}' \
+            "$EVIDENCE_DIR/summary.json"
+
+      - name: Upload complete pair-reuse evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e20c-repack-pair-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error

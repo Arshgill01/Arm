@@ -1,0 +1,60 @@
+diff --git a/ggml/src/ggml-cpu/ggml-cpu.c b/ggml/src/ggml-cpu/ggml-cpu.c
+index 174812142fc8f249ca20c0b444a37121bc223dcd..89423440b6e801f685607ee281f3b7571e3da946 100644
+--- a/ggml/src/ggml-cpu/ggml-cpu.c
++++ b/ggml/src/ggml-cpu/ggml-cpu.c
+@@ -3025,6 +3025,30 @@ static bool ggml_cpu_disable_fusion = false;  // initialized once in ggml_cpu_in
+ static bool ggml_cpu_node_timing    = false;  // initialized once in ggml_cpu_init(), read-only afterwards
+ static bool ggml_cpu_repack_mul_mat_pair_fusion = false;
+ 
++static bool ggml_cpu_repack_ffn_pair_is_compatible(
++        const struct ggml_tensor * gate,
++        const struct ggml_tensor * up) {
++    static const char gate_suffix[] = ".ffn_gate.weight";
++    static const char up_suffix[]   = ".ffn_up.weight";
++    const size_t gate_name_length   = strlen(gate->src[0]->name);
++    const size_t up_name_length     = strlen(up->src[0]->name);
++    const size_t gate_suffix_length = sizeof(gate_suffix) - 1;
++    const size_t up_suffix_length   = sizeof(up_suffix) - 1;
++    if (gate_name_length <= gate_suffix_length || up_name_length <= up_suffix_length) {
++        return false;
++    }
++    const size_t gate_prefix_length = gate_name_length - gate_suffix_length;
++    const size_t up_prefix_length   = up_name_length - up_suffix_length;
++    return gate_prefix_length == up_prefix_length &&
++           memcmp(gate->src[0]->name, up->src[0]->name, gate_prefix_length) == 0 &&
++           strcmp(gate->src[0]->name + gate_prefix_length, gate_suffix) == 0 &&
++           strcmp(up->src[0]->name + up_prefix_length, up_suffix) == 0 &&
++           gate->nb[0] == sizeof(float) &&
++           gate->nb[0] <= gate->nb[1] && gate->nb[1] <= gate->nb[2] && gate->nb[2] <= gate->nb[3] &&
++           up->nb[0] == sizeof(float) &&
++           up->nb[0] <= up->nb[1] && up->nb[1] <= up->nb[2] && up->nb[2] <= up->nb[3];
++}
++
+ static int ggml_cpu_try_fuse_ops(
+         const struct ggml_cgraph * cgraph,
+         const int node_n,
+@@ -3045,6 +3069,7 @@ static int ggml_cpu_try_fuse_ops(
+         if (node->src[1] == next->src[1] &&
+             node->src[0]->type == next->src[0]->type &&
+             ggml_are_same_shape(node, next) &&
++            ggml_cpu_repack_ffn_pair_is_compatible(node, next) &&
+             ggml_can_fuse_subgraph(
+                 cgraph, node_n, 2, pair_ops, pair_outputs, 2) &&
+             ggml_cpu_extra_compute_forward_pair(params, node, next)) {
+diff --git a/ggml/src/ggml-cpu/repack.cpp b/ggml/src/ggml-cpu/repack.cpp
+index e18414dbd3f2d840bbcf8634f7882388f29c0035..3da2bdebac4390edfa1940ec7cfc6ec8253c40f0 100644
+--- a/ggml/src/ggml-cpu/repack.cpp
++++ b/ggml/src/ggml-cpu/repack.cpp
+@@ -4212,7 +4212,11 @@ template <typename BLOC_TYPE, int64_t INTER_SIZE, int64_t NB_COLS, ggml_type PAR
+             !ggml_are_same_shape(op0, op1) ||
+             op0->src[1]->type != GGML_TYPE_F32 ||
+             op0->type != GGML_TYPE_F32 ||
+-            op1->type != GGML_TYPE_F32) {
++            op1->type != GGML_TYPE_F32 ||
++            op0->nb[0] != sizeof(float) ||
++            op0->nb[0] > op0->nb[1] || op0->nb[1] > op0->nb[2] || op0->nb[2] > op0->nb[3] ||
++            op1->nb[0] != sizeof(float) ||
++            op1->nb[0] > op1->nb[1] || op1->nb[1] > op1->nb[2] || op1->nb[2] > op1->nb[3]) {
+             return false;
+         }
+ 
