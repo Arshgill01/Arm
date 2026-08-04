@@ -1,0 +1,105 @@
+{
+  "acceptance": {
+    "all_cell_gates_unchanged_from_original_contract": true,
+    "all_eight_new_candidates_accounted_for": true,
+    "all_source_artifacts_exact_run_attempt_and_commit": true,
+    "all_source_artifacts_unexpired_with_sha256_digest": true,
+    "exactly_six_valid_source_cell_summaries": true,
+    "exactly_two_complete_scoring_resource_failures": true,
+    "resource_failure_request_failures": 0,
+    "resource_failures_deployable_frontier_eligible": false
+  },
+  "anchor_candidate": "ministral3_3b_q4_k_m",
+  "attempted_candidates": [
+    "ministral3_3b_q3_k_s",
+    "ministral3_3b_q3_k_m",
+    "ministral3_3b_iq4_xs",
+    "ministral3_3b_iq4_nl",
+    "ministral3_3b_q4_k_s",
+    "ministral3_3b_q5_k_m",
+    "ministral3_3b_q6_k",
+    "ministral3_3b_q8_0"
+  ],
+  "claim_boundary": "This recovery can establish an exploratory quality-size frontier only for six valid stock candidates and the retained Q4_K_M anchor. Q6_K and Q8_0 remain scored but nondeployable. It cannot promote a model or support service-performance, energy, PMU, device, fleet, cost, generated-quant, pruning, causal-kernel, or runtime claims.",
+  "decision": {
+    "advance_every_deployable_non_dominated_point_to_matched_service": true,
+    "promote_model_from_quality_only": false,
+    "raise_original_rss_gate": false,
+    "rerun_resource_failure_scoring": false,
+    "sealed_confirmation_required_before_promotion": true,
+    "silently_drop_resource_failures": false
+  },
+  "deployable_candidate_order": [
+    "ministral3_3b_q3_k_s",
+    "ministral3_3b_q3_k_m",
+    "ministral3_3b_iq4_xs",
+    "ministral3_3b_iq4_nl",
+    "ministral3_3b_q4_k_s",
+    "ministral3_3b_q4_k_m",
+    "ministral3_3b_q5_k_m"
+  ],
+  "diagnostic_candidate": "ministral3_3b_q4_0",
+  "experiment_id": "E11a-successor-actual-recovery",
+  "frontier": {
+    "candidate_outcomes_observed_before_freeze": false,
+    "coordinates": [
+      "e9b_arc_easy.acc_norm",
+      "e9b_hellaswag.acc_norm",
+      "e9b_winogrande.acc",
+      "model_size_bytes"
+    ],
+    "dominance": "A candidate dominates another only when it is no worse on all three quality coordinates and model bytes, and strictly better on at least one.",
+    "resource_infeasible_policy": "Report Q6_K and Q8_0 quality coordinates and original RSS failures separately; never include them in deployable Pareto computation.",
+    "scope": "Six valid new cells plus the retained Q4_K_M anchor",
+    "shortlist": "Advance every non-dominated quality-size point to matched native service measurement; do not impose a post-hoc cap.",
+    "weighted_score": false
+  },
+  "inputs": {
+    "anchor_manifest_path": "results/manifests/e10f-30829237582.json",
+    "anchor_manifest_sha256": "d328ede54f7c4af83e9b9e4ba6711ffd0dae61faf72b0e286da798d1c0998dd7",
+    "freeze_path": "experiments/e11a_actual_recovery_freeze.py",
+    "freeze_sha256": "1dddfed9f4e44753ea706298adcf820d19e105193b85c26e9ffbf538dfefc6ab",
+    "ingest_path": "experiments/e11a_actual_recovery_ingest.py",
+    "ingest_sha256": "bd19d949f68cd451e4d848dbcef37e90ac28cc064d03ab6e75c320db56e1d8e5",
+    "original_contract_path": "experiments/e11a_successor_contract.json",
+    "original_contract_sha256": "0f373d8c503f74239adf283a240289d015c0a4623cb2413aab3497bb43843853",
+    "q6_failure_manifest_path": "results/manifests/e11a-successor-q6-resource-failure-30847559089.json",
+    "q6_failure_manifest_sha256": "4756c623161abc4c89c41ef2bbf2f7335c98ff0f6e505bbabd70793b25a39e4b",
+    "q8_failure_manifest_path": "results/manifests/e11a-successor-q8-resource-failure-30847559089.json",
+    "q8_failure_manifest_sha256": "1be92ad4a73608a70c46e4f88ee34729a5e5c8c882de11a6505b8bdf6b0a0f59",
+    "source_run_path": "results/manifests/e11a-source-run-30847559089.json",
+    "source_run_sha256": "4e42177e751dfae954bc9f996253a4e3ba46ad50c227ee3b0f3bdff82ce1f62e",
+    "test_path": "tests/test_e11a_actual_recovery.py",
+    "test_sha256": "326c9366b2d4c2eb5360bc080b9e27252ee61930e16d3cacec11861386e71838"
+  },
+  "negative_result_rule": "If any terminal cell or artifact is absent, invalid, or has a status other than the exact six successes and two retained resource failures, fail closed without changing the source contract or RSS gate.",
+  "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+  "resource_failure_inputs": {
+    "ministral3_3b_q6_k": "q6_failure_manifest",
+    "ministral3_3b_q8_0": "q8_failure_manifest"
+  },
+  "resource_infeasible_candidate_order": [
+    "ministral3_3b_q6_k",
+    "ministral3_3b_q8_0"
+  ],
+  "schema_version": 1,
+  "source_run": {
+    "conclusion": "failure",
+    "repository_commit": "f3321bde74570de141266b111af364e7ea3722af",
+    "run_attempt": 1,
+    "run_id": "30847559089",
+    "runner": "ubuntu-24.04-arm",
+    "terminal_metadata_sha256": "4e42177e751dfae954bc9f996253a4e3ba46ad50c227ee3b0f3bdff82ce1f62e",
+    "workflow": "Arm E11a safe-sampled stock quant frontier"
+  },
+  "state": "frozen after all eight source jobs reached terminal state and Q6_K and Q8_0 were independently retained as complete-scoring RSS failures",
+  "title": "Terminal stock-quant accounting with Q6 and Q8 resource failures",
+  "valid_candidate_order": [
+    "ministral3_3b_q3_k_s",
+    "ministral3_3b_q3_k_m",
+    "ministral3_3b_iq4_xs",
+    "ministral3_3b_iq4_nl",
+    "ministral3_3b_q4_k_s",
+    "ministral3_3b_q5_k_m"
+  ]
+}

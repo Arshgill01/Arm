@@ -1,0 +1,81 @@
+{
+  "conclusion": "failure",
+  "databaseId": 30847559089,
+  "headSha": "f3321bde74570de141266b111af364e7ea3722af",
+  "jobs": [
+    {
+      "completedAt": "2026-08-03T23:45:49Z",
+      "conclusion": "success",
+      "databaseId": 91799485501,
+      "name": "ministral3_3b_q3_k_m native safe-sampled stock holdout",
+      "startedAt": "2026-08-03T19:51:08Z",
+      "status": "completed"
+    },
+    {
+      "completedAt": "2026-08-03T21:56:10Z",
+      "conclusion": "success",
+      "databaseId": 91799485512,
+      "name": "ministral3_3b_q5_k_m native safe-sampled stock holdout",
+      "startedAt": "2026-08-03T19:51:08Z",
+      "status": "completed"
+    },
+    {
+      "completedAt": "2026-08-04T01:10:39Z",
+      "conclusion": "success",
+      "databaseId": 91799485517,
+      "name": "ministral3_3b_q3_k_s native safe-sampled stock holdout",
+      "startedAt": "2026-08-03T19:51:11Z",
+      "status": "completed"
+    },
+    {
+      "completedAt": "2026-08-03T20:39:12Z",
+      "conclusion": "failure",
+      "databaseId": 91799485529,
+      "name": "ministral3_3b_q8_0 native safe-sampled stock holdout",
+      "startedAt": "2026-08-03T19:51:11Z",
+      "status": "completed"
+    },
+    {
+      "completedAt": "2026-08-03T22:42:56Z",
+      "conclusion": "success",
+      "databaseId": 91799485552,
+      "name": "ministral3_3b_iq4_xs native safe-sampled stock holdout",
+      "startedAt": "2026-08-03T19:51:11Z",
+      "status": "completed"
+    },
+    {
+      "completedAt": "2026-08-03T22:02:10Z",
+      "conclusion": "failure",
+      "databaseId": 91799485556,
+      "name": "ministral3_3b_q6_k native safe-sampled stock holdout",
+      "startedAt": "2026-08-03T19:51:09Z",
+      "status": "completed"
+    },
+    {
+      "completedAt": "2026-08-03T21:34:02Z",
+      "conclusion": "success",
+      "databaseId": 91799485605,
+      "name": "ministral3_3b_iq4_nl native safe-sampled stock holdout",
+      "startedAt": "2026-08-03T19:51:08Z",
+      "status": "completed"
+    },
+    {
+      "completedAt": "2026-08-03T21:29:25Z",
+      "conclusion": "success",
+      "databaseId": 91799485647,
+      "name": "ministral3_3b_q4_k_s native safe-sampled stock holdout",
+      "startedAt": "2026-08-03T19:51:09Z",
+      "status": "completed"
+    },
+    {
+      "completedAt": "2026-08-04T01:10:39Z",
+      "conclusion": "skipped",
+      "databaseId": 91863690886,
+      "name": "Aggregate complete safe-sampled stock quality-size frontier",
+      "startedAt": "2026-08-04T01:10:40Z",
+      "status": "completed"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/Arshgill01/Arm/actions/runs/30847559089"
+}
