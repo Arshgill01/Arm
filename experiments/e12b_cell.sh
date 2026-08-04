@@ -218,7 +218,7 @@ model_sha="$(sha256sum "$model" | cut -d' ' -f1)"
 model_size="$(stat --format='%s' "$model")"
 sha256sum "$model" | tee "$EVIDENCE_DIR/model-sha256.txt"
 printf '%s\n' "$model_size" > "$EVIDENCE_DIR/model-size.txt"
-PYTHONPATH="$LLAMA_SOURCE/gguf-py" python3 -m gguf.scripts.gguf_dump \
+PYTHONPATH="$LLAMA_SOURCE/gguf-py" "$E12B_VENV/bin/python" -m gguf.scripts.gguf_dump \
   "$model" --json --json-array > "$EVIDENCE_DIR/model-metadata.json"
 rm -- "$bf16"
 df -h | tee "$EVIDENCE_DIR/disk-after-quantize.txt"

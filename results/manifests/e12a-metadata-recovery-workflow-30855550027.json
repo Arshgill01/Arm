@@ -1,0 +1,106 @@
+{
+  "claim_boundary": "A pass accepts the exact previously computed application-conditioned matrix without repeating computation or statistics. It is not a new calibration run and provides no generated quantization, quality, service, energy, PMU, local-device, fleet, or cost result.",
+  "contract_sha256": "15d5866c387781d7a83f7e10f5828c48d9e2db97f14ddcef6fd34e379e0eef59",
+  "decision": {
+    "failed_runs_rehabilitated": false,
+    "failure_rule": "Retain any artifact, inventory, source, dependency, matrix, statistics, metadata, dataset-order, chunk-count, entry-set, or post-dump hash failure.",
+    "metadata_success_authorizes_generated_quant_successor": true
+  },
+  "experiment_id": "E12a-metadata-recovery",
+  "github": {
+    "ref": "refs/heads/main",
+    "run_attempt": 1,
+    "run_id": "30855550027",
+    "runner_arch": "ARM64",
+    "runner_os": "Linux",
+    "sha": "e1abafe2779f4366140ca31372be484b7178b7af"
+  },
+  "imatrix": {
+    "metadata": {
+      "chunk_count": 32,
+      "chunk_size": 512,
+      "datasets": [
+        "/home/runner/work/Arm/Arm/results/raw/e12a-30822632328-1/calibration.txt",
+        "/home/runner/work/Arm/Arm/results/raw/e12a-resume-30847557186-1/calibration.txt"
+      ],
+      "entries": 182,
+      "entry_names_match_checkpoint": true,
+      "general_type": "imatrix",
+      "gguf_tensors": 364
+    },
+    "sha256": "2338867f1b51341e02d0f63ca4d7281731a94b0738d80413476581ae991a1548",
+    "size_bytes": 3010048
+  },
+  "metadata_parser": {
+    "command": [
+      "/tmp/Pareto64-E12a-metadata-venv/bin/python",
+      "-m",
+      "gguf.scripts.gguf_dump",
+      "/home/runner/work/Arm/Arm/results/raw/e12a-metadata-recovery-30855550027-1/source-artifact/completed/imatrix.gguf",
+      "--json",
+      "--json-array"
+    ],
+    "dependencies": [
+      "numpy==2.2.6",
+      "pyyaml==6.0.3"
+    ],
+    "source": {
+      "clean": true,
+      "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "repository": "https://github.com/ggml-org/llama.cpp.git",
+      "tag": "b10216"
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "schema_version": 1,
+  "source_artifact": {
+    "artifact_digest": "sha256:8575c0714a93dcf808a9017d18319431835d38fddaa281527b4fc9e343da92b2",
+    "artifact_id": "8872135870",
+    "artifact_name": "e12a-inspection-recovery-30854613238-1",
+    "artifact_validation": {
+      "all_extracted_regular_files_hashed": true,
+      "file_count": 111,
+      "inventory_sha256": "5bcb388cf897effc9775b91f357a12db4f79dca57801d51394f3cfeaf3715fa7",
+      "total_regular_file_bytes": 42411274
+    },
+    "run_id": "30854613238"
+  },
+  "statistics": {
+    "repeated": false,
+    "sha256": "64aa1fa92b333347fb22106fe484230ad6e01baf3b4978c32c358f2cbd39bc66",
+    "tensor_count": 182
+  },
+  "status": "valid_application_conditioned_imatrix_metadata_recovery",
+  "validation": {
+    "complete_chunk_count": true,
+    "entry_names_match_checkpoint": true,
+    "exact_retained_statistics": true,
+    "exact_source_artifact_inventory": true,
+    "failed_runs_rehabilitated": false,
+    "generated_quant_dispatch_allowed": true,
+    "gguf_metadata_valid": true,
+    "matrix_bytes_unchanged": true,
+    "matrix_recomputed": false,
+    "model_downloaded": false,
+    "native_arm64": true,
+    "native_tool_rebuilt": false,
+    "ordered_dataset_metadata": true,
+    "statistics_repeated": false
+  }
+}

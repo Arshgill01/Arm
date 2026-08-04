@@ -1,0 +1,157 @@
+name: Arm E12b generated-quant quality frontier
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e12b_contract.json
+  CONTRACT_SHA256: 4136d4a40448af71e8293f4921eb03c119108e995f3e87aa83ae151a6ac79afe
+  E12A_RUN_ID: "30855550027"
+  E12A_ARTIFACT: e12a-metadata-recovery-30855550027-1
+  LLAMA_COMMIT: 876a4321163249c43ca4e986818fab5ab081f282
+  HARNESS_COMMIT: 6d642546f4688648fced259eb3302efd36ece5af
+
+jobs:
+  evaluate:
+    name: ${{ matrix.candidate }} native generated-quant holdout
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        candidate:
+          - e12b_q3_k_m_control
+          - e12b_q3_k_m_imatrix
+          - e12b_iq4_xs_control
+          - e12b_iq4_xs_imatrix
+          - e12b_q4_k_s_control
+          - e12b_q4_k_s_imatrix
+          - e12b_q3_k_m_output_embed_q6
+          - e12b_iq4_xs_v_down_q5
+          - e12b_q4_k_s_edge_layers_q6
+    env:
+      CANDIDATE: ${{ matrix.candidate }}
+      E12A_DOWNLOAD_DIR: ${{ github.workspace }}/results/raw/e12b-e12a-${{ matrix.candidate }}
+      E12A_ARTIFACT_DIR: ${{ github.workspace }}/results/raw/e12b-e12a-${{ matrix.candidate }}/staged
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e12b-${{ matrix.candidate }}-${{ github.run_id }}-${{ github.run_attempt }}
+      E12B_CONTRACT_PATH: experiments/e12b_contract.json
+      E12B_CONTRACT_SHA256: 4136d4a40448af71e8293f4921eb03c119108e995f3e87aa83ae151a6ac79afe
+      E12B_VENV: /tmp/Pareto64-E12b-${{ matrix.candidate }}-venv
+      LLAMA_SOURCE: /tmp/llama.cpp-E12b-${{ matrix.candidate }}
+      LLAMA_BUILD: /tmp/llama.cpp-E12b-${{ matrix.candidate }}-build
+      HARNESS_SOURCE: /tmp/lm-eval-E12b-${{ matrix.candidate }}
+      MODEL_ROOT: /tmp/Pareto64-E12b-${{ matrix.candidate }}/models
+
+    steps:
+      - name: Check out frozen generated-quant frontier
+        uses: actions/checkout@v7
+
+      - name: Select pinned Python line
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Download exact complete application imatrix
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ env.E12A_ARTIFACT }}
+          path: ${{ env.E12A_DOWNLOAD_DIR }}
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.E12A_RUN_ID }}
+
+      - name: Stage exact immutable E12a inputs
+        run: |
+          set -euo pipefail
+          mkdir -p "$E12A_ARTIFACT_DIR"
+          cp "$E12A_DOWNLOAD_DIR/summary.json" "$E12A_ARTIFACT_DIR/summary.json"
+          cp "$E12A_DOWNLOAD_DIR/source-artifact/completed/imatrix.gguf" \
+            "$E12A_ARTIFACT_DIR/imatrix.gguf"
+          echo "acd97619bacbb37667079feec2f622ba67eda4240e11426ed2540eb0738b109d  $E12A_ARTIFACT_DIR/summary.json" \
+            | sha256sum --check --strict
+          echo "2338867f1b51341e02d0f63ca4d7281731a94b0738d80413476581ae991a1548  $E12A_ARTIFACT_DIR/imatrix.gguf" \
+            | sha256sum --check --strict
+
+      - name: Quantize and score exact frozen candidate
+        run: |
+          set -euo pipefail
+          python3 experiments/e12b_actual_cell.py --root "$GITHUB_WORKSPACE"
+
+      - name: Upload complete generated-quant cell
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e12b-actual-${{ matrix.candidate }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error
+
+  aggregate:
+    name: Aggregate complete generated and stock quality-size frontier
+    needs: evaluate
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    env:
+      AGGREGATE_ROOT: results/raw/e12b-actual-aggregate
+    steps:
+      - name: Check out frozen generated-quant frontier
+        uses: actions/checkout@v7
+
+      - name: Download all nine current-run generated cells
+        uses: actions/download-artifact@v7
+        with:
+          pattern: e12b-actual-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.AGGREGATE_ROOT }}/cells
+
+      - name: Download exact retained E11a recovery artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          stock_run="$(jq -r '.prerequisites.e11a.run_id' "$CONTRACT_PATH")"
+          stock_artifact="$(jq -r '.prerequisites.e11a.artifact' "$CONTRACT_PATH")"
+          mkdir -p "$AGGREGATE_ROOT/stock-artifact"
+          gh run download "$stock_run" \
+            --name "$stock_artifact" \
+            --dir "$AGGREGATE_ROOT/stock-artifact"
+
+      - name: Independently validate the complete frontier
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          mapfile -t summaries < <(find "$AGGREGATE_ROOT/cells" -name summary.json -type f | sort)
+          test "${#summaries[@]}" -eq 9
+          stock_path="$(jq -r '.inputs.e11a_recovery_summary_path' "$CONTRACT_PATH")"
+          stock_sha="$(jq -r '.prerequisites.e11a.summary_sha256' "$CONTRACT_PATH")"
+          echo "$stock_sha  $stock_path" | sha256sum --check --strict
+          cmp "$stock_path" "$AGGREGATE_ROOT/stock-artifact/summary.json"
+          args=()
+          for summary in "${summaries[@]}"; do
+            args+=(--cell "$summary")
+          done
+          mkdir -p "$AGGREGATE_ROOT/combined"
+          python3 experiments/e12b_actual_ingest.py aggregate \
+            --contract "$CONTRACT_PATH" \
+            "${args[@]}" \
+            --stock "$stock_path" \
+            --output "$AGGREGATE_ROOT/combined/summary.json"
+          cp "$CONTRACT_PATH" "$AGGREGATE_ROOT/combined/contract.json"
+          cp "$stock_path" "$AGGREGATE_ROOT/combined/stock-frontier.json"
+          find "$AGGREGATE_ROOT/combined" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum \
+            > "$AGGREGATE_ROOT/combined/file-inventory-sha256.txt"
+          jq '{status, matched_imatrix_deltas, quality_size_frontier, validation, decision}' \
+            "$AGGREGATE_ROOT/combined/summary.json"
+
+      - name: Upload complete generated-quant frontier
+        uses: actions/upload-artifact@v7
+        with:
+          name: e12b-actual-aggregate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.AGGREGATE_ROOT }}/combined
+          retention-days: 90
+          if-no-files-found: error

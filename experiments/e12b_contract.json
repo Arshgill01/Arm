@@ -1,0 +1,469 @@
+{
+  "acceptance": {
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ],
+    "all_raw_responses_retained_once": true,
+    "all_sampled_text_must_equal": ".",
+    "all_sampled_tokens_must_equal": 1046,
+    "forbidden_imatrix_metadata_on_controls": true,
+    "maximum_preflight_repeat_delta": 1e-06,
+    "maximum_process_rss_kib": 8388608,
+    "maximum_ready_ms": 15000.0,
+    "minimum_accuracy_gate": null,
+    "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+    "quantize_exit_status": 0,
+    "raw_responses_per_model": 14374,
+    "request_failures": 0,
+    "required_architecture": "aarch64",
+    "required_imatrix_metadata_on_imatrix_candidates": true,
+    "required_tensor_override_log_on_mixed_candidates": true,
+    "server_binary_sha256": "32d7c350efbf5210f24a5291e4187fd1dfa7fb67cb42eb766da29aa112c12ab1",
+    "tokenizer_parity_mismatches": 0
+  },
+  "campaign_variant": "actual-recovered-prerequisites",
+  "candidates": [
+    {
+      "argv_after_binary": [
+        "BF16_PATH",
+        "OUTPUT_PATH",
+        "q3_k_m",
+        "4"
+      ],
+      "base_quantization": "Q3_K_M",
+      "candidate": "e12b_q3_k_m_control",
+      "role": "matched no-imatrix control",
+      "uses_imatrix": false
+    },
+    {
+      "argv_after_binary": [
+        "--imatrix",
+        "IMATRIX_PATH",
+        "BF16_PATH",
+        "OUTPUT_PATH",
+        "q3_k_m",
+        "4"
+      ],
+      "base_quantization": "Q3_K_M",
+      "candidate": "e12b_q3_k_m_imatrix",
+      "role": "stock-equivalent imatrix candidate",
+      "uses_imatrix": true
+    },
+    {
+      "argv_after_binary": [
+        "BF16_PATH",
+        "OUTPUT_PATH",
+        "iq4_xs",
+        "4"
+      ],
+      "base_quantization": "IQ4_XS",
+      "candidate": "e12b_iq4_xs_control",
+      "role": "matched no-imatrix control",
+      "uses_imatrix": false
+    },
+    {
+      "argv_after_binary": [
+        "--imatrix",
+        "IMATRIX_PATH",
+        "BF16_PATH",
+        "OUTPUT_PATH",
+        "iq4_xs",
+        "4"
+      ],
+      "base_quantization": "IQ4_XS",
+      "candidate": "e12b_iq4_xs_imatrix",
+      "role": "stock-equivalent imatrix candidate",
+      "uses_imatrix": true
+    },
+    {
+      "argv_after_binary": [
+        "BF16_PATH",
+        "OUTPUT_PATH",
+        "q4_k_s",
+        "4"
+      ],
+      "base_quantization": "Q4_K_S",
+      "candidate": "e12b_q4_k_s_control",
+      "role": "matched no-imatrix control",
+      "uses_imatrix": false
+    },
+    {
+      "argv_after_binary": [
+        "--imatrix",
+        "IMATRIX_PATH",
+        "BF16_PATH",
+        "OUTPUT_PATH",
+        "q4_k_s",
+        "4"
+      ],
+      "base_quantization": "Q4_K_S",
+      "candidate": "e12b_q4_k_s_imatrix",
+      "role": "stock-equivalent imatrix candidate",
+      "uses_imatrix": true
+    },
+    {
+      "argv_after_binary": [
+        "--imatrix",
+        "IMATRIX_PATH",
+        "--output-tensor-type",
+        "q6_k",
+        "--token-embedding-type",
+        "q6_k",
+        "BF16_PATH",
+        "OUTPUT_PATH",
+        "q3_k_m",
+        "4"
+      ],
+      "base_quantization": "Q3_K_M",
+      "candidate": "e12b_q3_k_m_output_embed_q6",
+      "override_validation": {
+        "exact_tensor_types": {
+          "token_embd.weight": "Q6_K"
+        },
+        "minimum_manual_override_lines": 0,
+        "structural_note": "The exact tied-embedding BF16 source has token_embd.weight and no output.weight tensor. The frozen output flag is retained, but only the token embedding can change this file.",
+        "tensor_type_patterns": []
+      },
+      "role": "predefined mixed-tensor candidate",
+      "uses_imatrix": true
+    },
+    {
+      "argv_after_binary": [
+        "--imatrix",
+        "IMATRIX_PATH",
+        "--tensor-type",
+        "attn_v=q5_k",
+        "--tensor-type",
+        "ffn_down=q5_k",
+        "BF16_PATH",
+        "OUTPUT_PATH",
+        "iq4_xs",
+        "4"
+      ],
+      "base_quantization": "IQ4_XS",
+      "candidate": "e12b_iq4_xs_v_down_q5",
+      "override_validation": {
+        "exact_tensor_types": {},
+        "minimum_manual_override_lines": 52,
+        "tensor_type_patterns": [
+          {
+            "expected_tensors": 26,
+            "pattern": "^blk\\.\\d+\\.attn_v\\.weight$",
+            "type": "Q5_K"
+          },
+          {
+            "expected_tensors": 26,
+            "pattern": "^blk\\.\\d+\\.ffn_down\\.weight$",
+            "type": "Q5_K"
+          }
+        ]
+      },
+      "role": "predefined mixed-tensor candidate",
+      "uses_imatrix": true
+    },
+    {
+      "argv_after_binary": [
+        "--imatrix",
+        "IMATRIX_PATH",
+        "--tensor-type",
+        "blk\\.(0|1|24|25)\\.=q6_k",
+        "BF16_PATH",
+        "OUTPUT_PATH",
+        "q4_k_s",
+        "4"
+      ],
+      "base_quantization": "Q4_K_S",
+      "candidate": "e12b_q4_k_s_edge_layers_q6",
+      "override_validation": {
+        "exact_tensor_types": {},
+        "minimum_manual_override_lines": 28,
+        "tensor_type_patterns": [
+          {
+            "expected_tensors": 28,
+            "pattern": "^blk\\.(0|1|24|25)\\.(attn_q|attn_k|attn_v|attn_output|ffn_gate|ffn_up|ffn_down)\\.weight$",
+            "type": "Q6_K"
+          }
+        ]
+      },
+      "role": "predefined mixed-tensor candidate",
+      "uses_imatrix": true
+    }
+  ],
+  "claim_boundary": "E12b can establish only an exploratory quality-size frontier and matched imatrix deltas for nine exact b10216-generated recipes using E10f's scorer on native Arm64. It cannot promote a model before matched native service evidence and sealed confirmation, and supports no energy, PMU, local-device, fleet, cost, pruning, causal-kernel, or other-runtime claim.",
+  "decision": {
+    "e11c_sealed_confirmation_required": true,
+    "failed_prerequisite_runs_rehabilitated": false,
+    "matched_native_service_required": true,
+    "negative_result_rule": "Retain quantizer rejection, missing imatrix metadata, unmatched tensor regex, output hash or size failure, load failure, tokenizer mismatch, scoring failure, low or mixed quality, larger files, matched-control regression, stock regression, dominated points, and incomplete cells without changing recipes, data, tasks, samples, adapter, or dominance.",
+    "original_30_task_admission_contract_rewrite_allowed": false,
+    "quality_result_can_promote_product": false
+  },
+  "execution": {
+    "aggregate_timeout_minutes": 30,
+    "all_nine_candidates_required": true,
+    "cell_timeout_minutes": 360,
+    "exact_safe_sampled_workload": true,
+    "fresh_build_and_process_per_model": true,
+    "resolved_cell_runner_sha256": "22ad4f064e336e7d510a85bb84a7faea09a6b228ccb6191ae79998d7c7c62526",
+    "runner": "ubuntu-24.04-arm",
+    "same_bf16_source_and_quantizer": true
+  },
+  "experiment_id": "E12b",
+  "frontier": {
+    "comparisons": [
+      "Every imatrix stock-equivalent against its matched same-tool no-imatrix control",
+      "Every generated point against the exact E11a stock ladder after E11a independently validates",
+      "Every mixed candidate against all generated and stock points"
+    ],
+    "dominance": "A point dominates only when no worse on every frozen coordinate and strictly better on at least one.",
+    "maximize": [
+      "e9b_arc_easy.acc_norm",
+      "e9b_hellaswag.acc_norm",
+      "e9b_winogrande.acc"
+    ],
+    "minimize": [
+      "model_size_bytes"
+    ],
+    "shortlist": "Advance every valid non-dominated point to matched native service measurement; do not impose a post-result count cap.",
+    "weighted_score": false
+  },
+  "hypothesis": "At least one imatrix-conditioned or predefined mixed-tensor recipe is non-dominated against its same-tool no-imatrix control and the stock E11a ladder on external quality and model bytes.",
+  "inputs": {
+    "actual_freeze_path": "experiments/e12b_actual_freeze.py",
+    "actual_freeze_sha256": "52e0175df874167669c2190f285040f5aa8648792ceafbb55ada8d8b7cd292d9",
+    "actual_ingest_path": "experiments/e12b_actual_ingest.py",
+    "actual_ingest_sha256": "977b7c1ddc0298773f64f51ca7d0f152db66ed3cdf4c91f5add22611ef2a4192",
+    "actual_test_path": "tests/test_e12b_actual.py",
+    "actual_test_sha256": "4353257c20166bebcc8951d522734e7e6b9829085d3ac9c570c4ec9b84e353fc",
+    "actual_wrapper_path": "experiments/e12b_actual_cell.py",
+    "actual_wrapper_sha256": "041d5aa1dafe6741911f6aaeacdd29d70efdf0500ae1ff5efc11b0306ab50bd3",
+    "adapter_contract_path": "experiments/e10d_contract.json",
+    "adapter_contract_sha256": "ee7672a610b3bc29628eccda4ee960efe5c1da4f577a7ef681097cf27b563c71",
+    "base_freeze_path": "experiments/e12b_freeze.py",
+    "base_freeze_sha256": "e17a52db1218ca2434fa866bf884881eb596c3f5d05a16851bfc81cd7ad10d4e",
+    "base_ingest_path": "experiments/e12b_ingest.py",
+    "base_ingest_sha256": "16d71178fd36d309068c6835d75862590949ce7a0df430595cf0452beb1a2b81",
+    "base_test_path": "tests/test_e12b.py",
+    "base_test_sha256": "1f3a8639c1533d64de2d11d386c3019897eaa64717e2525d105328c701e0f224",
+    "cell_runner_path": "experiments/e12b_cell.sh",
+    "cell_runner_sha256": "e44030712bb70b3ee016b309eeb79e2122c9eef6242aa17984cd4812c3258b65",
+    "e11a_recovery_contract_path": "experiments/e11a_actual_recovery_contract.json",
+    "e11a_recovery_contract_sha256": "cd3e168666b1056bb241fb54a316573160655c9ea42c698edd4c82b74a427919",
+    "e11a_recovery_summary_path": "results/manifests/e11a-actual-recovery-30868725586.json",
+    "e11a_recovery_summary_sha256": "12b499720b4f59a3789ec80719da622af2580a57dac3aad2c43a5e2a78ac7e9b",
+    "e11a_successor_contract_path": "experiments/e11a_successor_contract.json",
+    "e11a_successor_contract_sha256": "0f373d8c503f74239adf283a240289d015c0a4623cb2413aab3497bb43843853",
+    "e12a_metadata_contract_path": "experiments/e12a_metadata_recovery_contract.json",
+    "e12a_metadata_contract_sha256": "15d5866c387781d7a83f7e10f5828c48d9e2db97f14ddcef6fd34e379e0eef59",
+    "e12a_metadata_manifest_path": "results/manifests/e12a-metadata-recovery-30855550027.json",
+    "e12a_metadata_manifest_sha256": "12cb3e00e30856d09a703e35b498cf34c221885eca1105d7eb8b79bd9035476d",
+    "e12a_resume_contract_path": "experiments/e12a_resume_contract.json",
+    "e12a_resume_contract_sha256": "a46af4ddc89680006133dd2666e4d0097d277b1db06ac2db06685fb7426d6941",
+    "e12a_workflow_summary_path": "results/manifests/e12a-metadata-recovery-workflow-30855550027.json",
+    "e12a_workflow_summary_sha256": "acd97619bacbb37667079feec2f622ba67eda4240e11426ed2540eb0738b109d",
+    "plan_path": "experiments/e12b_plan.json",
+    "plan_sha256": "81a6abe5e485f6555c42217e6f0e4c89a99081c074170f39654f5742752338a0",
+    "safe_contract_path": "experiments/e10f_contract.json",
+    "safe_contract_sha256": "8c68811a36bb94e47a5bba92c44fe41d898385c1d2215d63c9b2fed010fcc729",
+    "safe_ingest_path": "experiments/e10f_ingest.py",
+    "safe_ingest_sha256": "41341ce99d5b167f2730d4a18fa23dde35607524cb5d39a54e9c89e915459d2e",
+    "safe_manifest_path": "results/manifests/e10f-30829237582.json",
+    "safe_manifest_sha256": "d328ede54f7c4af83e9b9e4ba6711ffd0dae61faf72b0e286da798d1c0998dd7",
+    "safe_probe_path": "experiments/e10f_probe.py",
+    "safe_probe_sha256": "63a2c5d2374f31226ba14c4c1a54766e929aee591138abe950077a6471bdb83c",
+    "successor_freeze_path": "experiments/e12b_successor_freeze.py",
+    "successor_freeze_sha256": "e86d21dc3e1927c6e59aa1b545f4874c8430aceec5dbfa9c958469627cb3af5d",
+    "successor_ingest_path": "experiments/e12b_successor_ingest.py",
+    "successor_ingest_sha256": "f2a3ecf36298cf16946776ae29d420be318ffb72b424f2f406de466e6b4897de",
+    "successor_test_path": "tests/test_e12b_successor.py",
+    "successor_test_sha256": "bceaa1bb0ef0c1fa1f573480713b92bf9806195838ab95f15e5183162a75c2e4",
+    "successor_wrapper_path": "experiments/e12b_successor_cell.py",
+    "successor_wrapper_sha256": "7c644fc1c67034ace621455e857cb70e60809962c99b550b30fa6298d08e8aee"
+  },
+  "matched_pairs": [
+    [
+      "e12b_q3_k_m_control",
+      "e12b_q3_k_m_imatrix"
+    ],
+    [
+      "e12b_iq4_xs_control",
+      "e12b_iq4_xs_imatrix"
+    ],
+    [
+      "e12b_q4_k_s_control",
+      "e12b_q4_k_s_imatrix"
+    ]
+  ],
+  "negative_result_rule": "Retain quantizer rejection, missing imatrix metadata, unmatched tensor regex, output hash or size failure, load failure, tokenizer mismatch, scoring failure, low or mixed quality, larger files, matched-control regression, stock regression, dominated points, and incomplete cells without changing recipes, data, tasks, samples, adapter, or dominance.",
+  "prerequisites": {
+    "e10f": {
+      "artifact": "e10f-aggregate-30829237582-1",
+      "contract_sha256": "8c68811a36bb94e47a5bba92c44fe41d898385c1d2215d63c9b2fed010fcc729",
+      "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+      "required_status": "valid_safe_sampled_external_holdout",
+      "run_attempt": 1,
+      "run_id": "30829237582",
+      "summary_sha256": "d328ede54f7c4af83e9b9e4ba6711ffd0dae61faf72b0e286da798d1c0998dd7"
+    },
+    "e11a": {
+      "artifact": "e11a-actual-recovery-30868725586-1",
+      "contract_sha256": "cd3e168666b1056bb241fb54a316573160655c9ea42c698edd4c82b74a427919",
+      "deployable_models": 7,
+      "required_status": "valid_stock_quant_ladder_with_two_resource_infeasible_points",
+      "resource_infeasible_models": 2,
+      "run_attempt": 1,
+      "run_id": "30868725586",
+      "summary_sha256": "12b499720b4f59a3789ec80719da622af2580a57dac3aad2c43a5e2a78ac7e9b"
+    },
+    "e12a": {
+      "artifact": "e12a-metadata-recovery-30855550027-1",
+      "artifact_digest": "sha256:876755a44b4345df3de742aea44692edd2d5946c449c8cd11f3e42161c288c22",
+      "artifact_id": "8872307191",
+      "contract_sha256": "15d5866c387781d7a83f7e10f5828c48d9e2db97f14ddcef6fd34e379e0eef59",
+      "imatrix_artifact_relative_path": "source-artifact/completed/imatrix.gguf",
+      "imatrix_chunks": 32,
+      "imatrix_entries": 182,
+      "imatrix_sha256": "2338867f1b51341e02d0f63ca4d7281731a94b0738d80413476581ae991a1548",
+      "imatrix_size_bytes": 3010048,
+      "required_status": "valid_application_conditioned_imatrix_metadata_recovery",
+      "run_attempt": 1,
+      "run_id": "30855550027",
+      "summary_sha256": "acd97619bacbb37667079feec2f622ba67eda4240e11426ed2540eb0738b109d"
+    },
+    "failure_rule": "Do not dispatch if any exact referenced artifact, matrix, source summary, or retained manifest is absent or fails validation."
+  },
+  "quality": {
+    "adapter": "Exact validated E10f serial safe-sampled probability scorer; the forced token is never used for score or prefix construction.",
+    "coordinates": [
+      "e9b_arc_easy.acc_norm",
+      "e9b_hellaswag.acc_norm",
+      "e9b_winogrande.acc"
+    ],
+    "minimum_accuracy_gate": null,
+    "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+    "same_prepared_workload_required": true,
+    "samples_per_task": 100,
+    "tasks": [
+      "e9b_arc_easy",
+      "e9b_hellaswag",
+      "e9b_winogrande"
+    ],
+    "token_score_requests_per_model": 14374
+  },
+  "quantizer": {
+    "dry_run": false,
+    "requantization_allowed": false,
+    "same_binary_for_every_candidate": true,
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "tag": "b10216",
+    "threads": 4
+  },
+  "safe_sampling": {
+    "logit_bias": 100.0,
+    "maximum_observed_prefailure_logprob_delta": 0.0,
+    "maximum_observed_repeat_logprob_delta": 0.0,
+    "requested_probability_distribution": "raw pre-sampling model softmax",
+    "sampled_output_used_for_score": false,
+    "selection_rule": "Choose the ASCII full-stop token already present in both failing continuations. Native E10d raw responses for this exact model encode token 1046 as one byte and a complete one-token probability record.",
+    "token_bytes": [
+      46
+    ],
+    "token_id": 1046,
+    "token_text": ".",
+    "validated_by_e10e_run": "30827797407"
+  },
+  "schema_version": 1,
+  "scoring": {
+    "harness_relationship": "Pinned lm-evaluation-harness v0.4.12 constructs tasks, chat-template strings, token boundaries, left truncation, gold labels, and choice-length normalization. The custom serial adapter replaces only the standard OpenAI echo/logprobs transport that failed E9b preflight.",
+    "mechanism": "For every frozen candidate token, request that target ID from the raw pre-sampling softmax while forcing sampled token 1046 with logit bias +100.0. Append the actual target to the next explicit prompt; sampled output is never used for score or prefix construction.",
+    "normalized_prediction_rule": "Argmax of sum log probability divided by the pinned harness character length of the choice, with first choice winning an exact tie.",
+    "prediction_rule": "Argmax of summed target-token log probabilities, with first choice winning an exact tie.",
+    "probe_parameters": {
+      "apply_chat_template": true,
+      "cache_prompt_policy": "false for the first token of every candidate; true only for later tokens of that candidate",
+      "fewshot": 0,
+      "max_length": 256,
+      "raw_response_retained_before_parsing": true,
+      "requests_per_token": 1,
+      "safe_sampled_token_id": 1046,
+      "safe_sampled_token_logit_bias": 100.0,
+      "safe_sampled_token_text": ".",
+      "sampled_output_used_for_score": false,
+      "score_distribution": "raw pre-sampling selected token log probability",
+      "seed": 424242
+    },
+    "raw_response_retention": "Retain every HTTP response before status, schema, probability, token, or content parsing.",
+    "request_timeout_seconds": 60.0
+  },
+  "source_model": {
+    "license": "Apache-2.0",
+    "path": "Ministral-3-3B-Instruct-2512-BF16.gguf",
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "sha256": "413b0d1fa42c2656f6c61aab88171191fc2df2d07427d82b047c89ac977bc266",
+    "size_bytes": 6866220032
+  },
+  "state": "frozen after independent validation of the exact E10f scorer, complete E12a matrix recovery, and terminal E11a stock accounting, before any generated-model outcome was observed",
+  "title": "Application-imatrix generated-quant frontier",
+  "workload": {
+    "apply_chat_template": true,
+    "batch_size": 1,
+    "concurrent_requests": 1,
+    "expected_summary": {
+      "choices": 1000,
+      "samples": 300,
+      "serial_candidate_requests": 1000,
+      "token_score_requests": 14374,
+      "tokenizer_parity_mismatches": 0,
+      "unique_tokenized_texts": 1396
+    },
+    "fewshot": 0,
+    "fewshot_as_multiturn": false,
+    "max_length": 256,
+    "prepared_sha256": "0cfde913aeb36570e3ac527201035f16cd9b029f73902d4b92d5bd2889820d5e",
+    "sample_selection": "The exact E9b salted SHA-256 selection map, chosen before any task outcome.",
+    "samples_per_task": 100,
+    "seed": 424242,
+    "task_shapes": {
+      "e9b_arc_easy": {
+        "choices": 400,
+        "maximum_candidate_tokens": 19,
+        "metrics": [
+          "acc",
+          "acc_norm"
+        ],
+        "minimum_candidate_tokens": 1,
+        "samples": 100,
+        "token_score_requests": 1835
+      },
+      "e9b_hellaswag": {
+        "choices": 400,
+        "maximum_candidate_tokens": 73,
+        "metrics": [
+          "acc",
+          "acc_norm"
+        ],
+        "minimum_candidate_tokens": 5,
+        "samples": 100,
+        "token_score_requests": 11405
+      },
+      "e9b_winogrande": {
+        "choices": 200,
+        "maximum_candidate_tokens": 13,
+        "metrics": [
+          "acc"
+        ],
+        "minimum_candidate_tokens": 1,
+        "samples": 100,
+        "token_score_requests": 1134
+      }
+    },
+    "tasks": [
+      "e9b_arc_easy",
+      "e9b_hellaswag",
+      "e9b_winogrande"
+    ],
+    "workload_reuse": "Reuse the byte-exact prepared.json from the retained E10d control artifact for both cells; do not redownload, regenerate, resample, or edit task data."
+  }
+}
