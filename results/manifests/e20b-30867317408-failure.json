@@ -1,0 +1,426 @@
+{
+  "artifact_validation": {
+    "entries": {
+      "build/CMakeCache.txt": "17f6aaaab7b2c46a19bd9dd1dce74c5f182dcc16fc918eb37219138a875fb5fa",
+      "build/bench-help.txt": "31c1c2083c866e10730f6356177ba43a096a412fbb4e741e61584481fd70e55c",
+      "build/build-commands.txt": "04227a0ecffb056840764ff0fae89b84336005263eea5e51f964fd07983d29bd",
+      "build/build-time.log": "1ab201c34cdf0a18a600f168166e8bf4a212c2e37c651f935ca9aadf3d2953f7",
+      "build/build.log": "b1b090d819503537f8e07478d98fa2d70abbe27cc0b06c5e4998f149b61435d8",
+      "build/configure.log": "23022c6334471c2fc3064f9c2c48824e30f6cca8e62d0cd38564eee2d9267c02",
+      "build/environment-symbols.txt": "fa2fb9de3971ce810ec7908f84ea11b562f4a36b93038d550121c0daecf507ad",
+      "build/runtime-closure.json": "f29aa6875a803335450dda3ea987fbc6fca50bf1cba45883c57dcec2c8fd0aae",
+      "build/runtime-files/bin/libggml-base.so.0.18.0": "8033084366a1e0efdc65bcac7beb07a4a70076031c68a240254d438a370fda7c",
+      "build/runtime-files/bin/libggml-cpu.so.0.18.0": "6623754073804633015e8c4ea0ff509113ee26628e89da2329d33dff890792d7",
+      "build/runtime-files/bin/libggml.so.0.18.0": "25d1cc8e2c8c0bf3700feece246b8b20cabfb78604eaa58a019d48e9b5bde7fe",
+      "build/runtime-files/bin/libllama-common.so.0.0.10216": "3bf2acbf61379a682dc0a2b7504a4b1b4b7d03bdcc4cd740c6ca2c147c192449",
+      "build/runtime-files/bin/libllama-server-impl.so": "5fb1de5105096fcd7b55f9958e269d366b2d733846f3e697b73a2e914a2b4c01",
+      "build/runtime-files/bin/libllama.so.0.0.10216": "08cb6b89f1f0b0e11c60d8aa10d81e2e7054c78cf9f89db8d2d048f05efdc0a7",
+      "build/runtime-files/bin/libmtmd.so.0.0.10216": "99dcb4471e590abcb619cded36856d0ec78ba861cdca92e8faafaaf0360b5ec9",
+      "build/runtime-files/bin/llama-server": "2cbcc77f76e25662ceaf697f488ac7017673189084df2b90db6771d0a1bdf75b",
+      "build/server-version.txt": "fafd6a479981514195a5e29773105bcb87d9c149cb5d659aa0956617c52028a6",
+      "cells/01-reuse_off-r1/metrics.txt": "8dee27b7c9ba54feb8dfc22c01cf7e9d022a59f565f4641fc7e99b661669af5e",
+      "cells/01-reuse_off-r1/probe.json": "a881910f29a87840a9bfa33d3d8883ad543ea9a07077662ddb63a80f2582afc1",
+      "cells/01-reuse_off-r1/readiness.json": "218d9a479a28ad876befdff54d8b9d1e9e5fa4334f6f7ee0b7a55982ea21646b",
+      "cells/01-reuse_off-r1/recipe.json": "81fbd8d08119e2ddb109968b848c18de5ee407092eba8ccbbed0d2c1dba47742",
+      "cells/01-reuse_off-r1/server-pid.txt": "8c2ef2a870f40c6bec246fb61b160ce91d475cfc8a26c8625af6e725b789c4ec",
+      "cells/01-reuse_off-r1/server-shell-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "cells/01-reuse_off-r1/server-time.log": "245308cb9398c84f2b0255b26cd42770b34180e91e418f6a4106fe3d5437c12b",
+      "cells/01-reuse_off-r1/server.stderr.log": "8dff5bab4f5a61bed545f258c93dfadd530c4f93b69cbeb3cc37e46a5da323b9",
+      "cells/01-reuse_off-r1/server.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cells/01-reuse_off-r1/slots.json": "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653",
+      "cells/02-reuse_on-r1/readiness.json": "4d47f558e9e298155e562210012804052c277c63ffc39a07b639156cc54e0431",
+      "cells/02-reuse_on-r1/recipe.json": "b8f4df25be1d800138a12fd70a058b735ba27b3d0db217f0fe4fe779e7284949",
+      "cells/02-reuse_on-r1/server-pid.txt": "cbd93418ff7fcdc06c2e07e3f1e03bf28a3484f94f0f40b7c767596b9c7072e9",
+      "cells/02-reuse_on-r1/server-time.log": "bdc3761077ea4905a235d651d923cd702a4a90a24e53944e85fb36f488ebd1a0",
+      "cells/02-reuse_on-r1/server.stderr.log": "73e1d79ebc90120c4773caa0be7c3c27f9e17e7553f85821652a19bf36da5057",
+      "cells/02-reuse_on-r1/server.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compiler.txt": "53fa074480ef985e455735619d727fced49823ba23f36cdacd970330fc2357d0",
+      "contract.json": "cf4872ca1a8145b14eff079daeddcd1d7cd57e2650d365e972a959102e62d8a3",
+      "disk-before.txt": "0e7d1384c5226c73e37e3e74cb6ad8d32d95d352b988caaddc67ffee72e45c7a",
+      "frozen-inputs/experiments/e18a_successor_contract.json": "0069ca34c075c068beea1102e26a80725afc9cb9db56677e4af09fa125cbdc36",
+      "frozen-inputs/experiments/e20b_cell.sh": "cb860f86d1c5df756989e02c1df153fded4ce987da3960cf0931fae085867db4",
+      "frozen-inputs/experiments/e20b_freeze.py": "a48dce14636c1e242c3a034f1992ece7926b79390fc3a54dd030f4bc48dacf94",
+      "frozen-inputs/experiments/e20b_ingest.py": "fbc22407bcdd67ea41815bfc9008f87e9deaa75919e5fddc7f43e51a92f0f63c",
+      "frozen-inputs/experiments/e3_tasks.json": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+      "frozen-inputs/experiments/e3f_models.json": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+      "frozen-inputs/experiments/e5b_inference_probe.py": "82ebd56316705df93b59aea9c05c31b59cdd0c4c9fd31ef16608dbc0e86702db",
+      "frozen-inputs/experiments/e7a_runtime_closure.py": "3e347f3e33a166e8df93952e1cb92798bab71abff467ca42959c6bcc0833510d",
+      "frozen-inputs/patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+      "frozen-inputs/patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783",
+      "frozen-inputs/patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f",
+      "frozen-inputs/patches/llama.cpp/b10216/0008-cpu-node-timing.patch": "2810e893b781137fa41444641c451aa9020843055addae97936499c6e8b4df31",
+      "frozen-inputs/patches/llama.cpp/b10216/0009-reuse-repack-pair-activation.patch": "4094d9c35d705c4b92da7d8ad793dbd980acabbc070695edd5e7276bf1959dc0",
+      "frozen-inputs/results/manifests/e16a-30837796757.json": "cd3ed3ceb1fe5e6b02284e43b8bcf1e6c6cfdfb7178fe41a07a401935234c686",
+      "frozen-inputs/results/manifests/e20a-30865578508.json": "f59ca2cc8398a408f79b30268393c8386391e1165a8e4da749fac61e0230618f",
+      "frozen-inputs/results/manifests/e3f-30656151957.json": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+      "frozen-inputs/results/manifests/e9a-30764802071.json": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d",
+      "frozen-inputs/tests/test_e20b.py": "3da8376a471090125512be656f264d371154ce35e7911a242e8d2ca914a53813",
+      "lscpu.txt": "e5f7302f9882c8b4eca9892fce7bab78f37c49da0f8babcb23d2c2db5ed004bc",
+      "memory-before.txt": "28ab74b2e65446c8ccfd5e3ae2b3c4983b7fc5cd1fd56fd7463d86f9ae8cc9c5",
+      "model-sha256.txt": "c6f6828ddcb584ff49b9687dca3f84689d05541cb4b753029bb7cca5647e2c90",
+      "model-size.txt": "6c797838323df9ce84e43897f9301a70fc60f8281e1e36f4e51fef10a2af3061",
+      "patched-files.txt": "4114853f092ac6c7b7b35902971b572192e1568073189bab598e8ba009da63ab",
+      "patches/0001-kleidiai-use-validated-arm-features.patch": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f",
+      "patches/0002-arm-q8-vector-narrowing-stores.patch": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+      "patches/0003-reasoning-budget-forced-token-guard.patch": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783",
+      "patches/0008-cpu-node-timing.patch": "2810e893b781137fa41444641c451aa9020843055addae97936499c6e8b4df31",
+      "patches/0009-reuse-repack-pair-activation.patch": "4094d9c35d705c4b92da7d8ad793dbd980acabbc070695edd5e7276bf1959dc0",
+      "preflight/reuse_off/command.json": "1dc439cb6575fc409bd0cd75edcd6c1dcff8fc2d2dfe6d155bb21abfc7ef0a84",
+      "preflight/reuse_off/process-time.log": "b6f72cdaa4c91f920bc96754fb7a6d0a4a6bbbbd5ebc1f32f66f64123a1f5d92",
+      "preflight/reuse_off/result.jsonl": "a49c2c24a63893226a3b9dba82a3e3ef19af14cde8a752caa5e1ca472fb08d30",
+      "preflight/reuse_off/stderr.log": "f0543cf1ece8e0bb2166bc676791b98a810605b73aa6b6e127d061223667961c",
+      "preflight/reuse_on/command.json": "f5d1e45eddbe7d56842ac01e981d75206850fc66cbf286de52c4c8a059e6f346",
+      "preflight/reuse_on/process-time.log": "ab0a969c6ce383525c743cb7a637cab340b52f66523eb7871d79f82d1055de14",
+      "preflight/reuse_on/result.jsonl": "fd7d9e5eb36d82aaee977910d2c121cd5c738d02a9535e807acf5bce49604e76",
+      "preflight/reuse_on/stderr.log": "83882f08d745a76e9cf4c1389e40d009189c9937e3fb5c80138be2bf737450b5",
+      "python-version.txt": "5b3e43dc38ca01e3f5a7854ba50d4330864b0c1e0f646650b2c78cf072acc366",
+      "source-diff.patch": "21fddaf1ad421312c67ac4f80b3a88c47ab7829e38aa172f86e7cf7607dc88dd",
+      "source.json": "7db5fbf1e5544e34f75a55d85a0325cfda05b1b631828a3a855dd3689c2bd422",
+      "uname.txt": "2b2d2155a3ee4b0765bc71c1658528f1dc5fc194f033a9dc1680ed43ee7269e0"
+    },
+    "file_count": 76,
+    "inventory_sha256": "63d9ee14c8a2aa5d45239177b8a40c94af2b5754e23868c33275b9824c21bfda",
+    "total_uncompressed_bytes": 21364608
+  },
+  "build": {
+    "build_process": {
+      "elapsed": "3:38.18",
+      "elapsed_seconds": 218.18,
+      "exit_status": 0,
+      "maximum_rss_kib": 2901804,
+      "percent_cpu": "332%"
+    },
+    "runtime_closure": {
+      "build_root": "/tmp/llama.cpp-E20b-build",
+      "file_count": 8,
+      "files": [
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-base.so.0.18.0",
+          "relative_path": "bin/libggml-base.so.0.18.0",
+          "sha256": "8033084366a1e0efdc65bcac7beb07a4a70076031c68a240254d438a370fda7c",
+          "size_bytes": 873464
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-cpu.so.0.18.0",
+          "relative_path": "bin/libggml-cpu.so.0.18.0",
+          "sha256": "6623754073804633015e8c4ea0ff509113ee26628e89da2329d33dff890792d7",
+          "size_bytes": 1166128
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml.so.0.18.0",
+          "relative_path": "bin/libggml.so.0.18.0",
+          "sha256": "25d1cc8e2c8c0bf3700feece246b8b20cabfb78604eaa58a019d48e9b5bde7fe",
+          "size_bytes": 78176
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-common.so.0.0.10216",
+          "relative_path": "bin/libllama-common.so.0.0.10216",
+          "sha256": "3bf2acbf61379a682dc0a2b7504a4b1b4b7d03bdcc4cd740c6ca2c147c192449",
+          "size_bytes": 5325720
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-server-impl.so",
+          "relative_path": "bin/libllama-server-impl.so",
+          "sha256": "5fb1de5105096fcd7b55f9958e269d366b2d733846f3e697b73a2e914a2b4c01",
+          "size_bytes": 6949024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama.so.0.0.10216",
+          "relative_path": "bin/libllama.so.0.0.10216",
+          "sha256": "08cb6b89f1f0b0e11c60d8aa10d81e2e7054c78cf9f89db8d2d048f05efdc0a7",
+          "size_bytes": 3937120
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libmtmd.so.0.0.10216",
+          "relative_path": "bin/libmtmd.so.0.0.10216",
+          "sha256": "99dcb4471e590abcb619cded36856d0ec78ba861cdca92e8faafaaf0360b5ec9",
+          "size_bytes": 1461024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/llama-server",
+          "relative_path": "bin/llama-server",
+          "sha256": "2cbcc77f76e25662ceaf697f488ac7017673189084df2b90db6771d0a1bdf75b",
+          "size_bytes": 72488
+        }
+      ],
+      "ldd_output": "\tlinux-vdso.so.1 (0x0000ffc4f553c000)\n\tlibllama-server-impl.so => /tmp/llama.cpp-E20b-build/bin/libllama-server-impl.so (0x0000ffc4f4ee0000)\n\tlibstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ffc4f4c50000)\n\tlibgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ffc4f4c10000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ffc4f4a50000)\n\t/lib/ld-linux-aarch64.so.1 (0x0000ffc4f5500000)\n\tlibllama-common.so.0 => /tmp/llama.cpp-E20b-build/bin/libllama-common.so.0 (0x0000ffc4f4630000)\n\tlibmtmd.so.0 => /tmp/llama.cpp-E20b-build/bin/libmtmd.so.0 (0x0000ffc4f44e0000)\n\tlibllama.so.0 => /tmp/llama.cpp-E20b-build/bin/libllama.so.0 (0x0000ffc4f41a0000)\n\tlibggml.so.0 => /tmp/llama.cpp-E20b-build/bin/libggml.so.0 (0x0000ffc4f4170000)\n\tlibggml-base.so.0 => /tmp/llama.cpp-E20b-build/bin/libggml-base.so.0 (0x0000ffc4f4090000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ffc4f3fe0000)\n\tlibggml-cpu.so.0 => /tmp/llama.cpp-E20b-build/bin/libggml-cpu.so.0 (0x0000ffc4f3e40000)\n\tlibgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000ffc4f3dc0000)\n",
+      "runtime_dependencies": [
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E20b-build/bin/libllama-server-impl.so",
+          "resolved_path": "/tmp/llama.cpp-E20b-build/bin/libllama-server-impl.so"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libstdc++.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgcc_s.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgcc_s.so.1"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libc.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libc.so.6"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/ld-linux-aarch64.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E20b-build/bin/libllama-common.so.0",
+          "resolved_path": "/tmp/llama.cpp-E20b-build/bin/libllama-common.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E20b-build/bin/libmtmd.so.0",
+          "resolved_path": "/tmp/llama.cpp-E20b-build/bin/libmtmd.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E20b-build/bin/libllama.so.0",
+          "resolved_path": "/tmp/llama.cpp-E20b-build/bin/libllama.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E20b-build/bin/libggml.so.0",
+          "resolved_path": "/tmp/llama.cpp-E20b-build/bin/libggml.so.0.18.0"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E20b-build/bin/libggml-base.so.0",
+          "resolved_path": "/tmp/llama.cpp-E20b-build/bin/libggml-base.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libm.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libm.so.6"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E20b-build/bin/libggml-cpu.so.0",
+          "resolved_path": "/tmp/llama.cpp-E20b-build/bin/libggml-cpu.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgomp.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0"
+        }
+      ],
+      "schema_version": 1,
+      "server_path": "/tmp/llama.cpp-E20b-build/bin/llama-server",
+      "server_relative_path": "bin/llama-server",
+      "system_dependencies_excluded": true,
+      "total_size_bytes": 19863144
+    },
+    "server_version": "version: 10216 (876a43211)\nbuilt with GNU 13.3.0 for Linux aarch64"
+  },
+  "candidate_failure": {
+    "assertion": "/ggml/src/ggml-cpu/repack.cpp:4295: GGML_ASSERT(nb1 <= nb2) failed",
+    "backtrace_contains_pair_path": true,
+    "failure_class": "candidate_process_sigabrt_noncontiguous_output_assertion",
+    "probe_written": false,
+    "process": {
+      "elapsed": "0:31.84",
+      "exit_status": 0,
+      "maximum_rss_kib": 4347808,
+      "percent_cpu": "190%"
+    },
+    "profile": "reuse_on",
+    "readiness_ms": 2537.799791,
+    "recipe_sha256": "b8f4df25be1d800138a12fd70a058b735ba27b3d0db217f0fe4fe779e7284949",
+    "repetition": 1,
+    "served": false,
+    "server_stderr_sha256": "73e1d79ebc90120c4773caa0be7c3c27f9e17e7553f85821652a19bf36da5057",
+    "signal": 6
+  },
+  "claim_boundary": "E20b establishes only that the patched native Arm64 binary produced the exact frozen 52-to-26 FFN mechanism count on pp512, then aborted during its first candidate service cell on a non-contiguous-output stride assertion. It establishes no candidate quality, speed, CPU, latency, memory, energy, PMU, fleet, or cost result.",
+  "completed_control": {
+    "probe": {
+      "accuracy": 0.7666666666666667,
+      "cached_tokens": {
+        "coefficient_of_variation": 0.5090210830396161,
+        "max": 92.0,
+        "mean": 29.766666666666666,
+        "median": 25.0,
+        "min": 25.0,
+        "p95": 80.0,
+        "population_stddev": 15.151860905145906
+      },
+      "correct": 23,
+      "decode_ms": {
+        "coefficient_of_variation": 0.0075643157074402135,
+        "max": 66.218,
+        "mean": 64.3682,
+        "median": 64.341,
+        "min": 63.542,
+        "p95": 64.843,
+        "population_stddev": 0.4869013863196532
+      },
+      "elapsed_seconds": 32.435197398,
+      "encode_ms": {
+        "coefficient_of_variation": 0.35129689181283585,
+        "max": 2053.707,
+        "mean": 1011.7421333333333,
+        "median": 986.587,
+        "min": 63.951,
+        "p95": 1795.913,
+        "population_stddev": 355.42186675608775
+      },
+      "evaluated_prompt_tokens": {
+        "coefficient_of_variation": 0.3300763243464773,
+        "max": 100.0,
+        "mean": 51.233333333333334,
+        "median": 51.0,
+        "min": 1.0,
+        "p95": 85.0,
+        "population_stddev": 16.91091035068452
+      },
+      "failures": 0,
+      "http_ms": {
+        "coefficient_of_variation": 0.32879787045507186,
+        "max": 2121.205286,
+        "mean": 1081.0046122333333,
+        "median": 1056.2889805,
+        "min": 133.66409,
+        "p95": 1866.220558,
+        "population_stddev": 355.4320144544307
+      },
+      "reference_prediction_mismatches": 0,
+      "requests_per_second": 0.9249211476002869,
+      "total": 30
+    },
+    "process": {
+      "elapsed": "0:37.64",
+      "exit_status": 0,
+      "maximum_rss_kib": 4449268,
+      "percent_cpu": "373%"
+    },
+    "profile": "reuse_off",
+    "ready_ms": 2540.193649,
+    "repetition": 1,
+    "server_process_cpu": {
+      "average_cores_used": 3.9515714495976253,
+      "clock_ticks_per_second": 100,
+      "pid": 4545,
+      "seconds_per_request": 4.272333333333333,
+      "system_seconds": 0.17,
+      "system_ticks": 17,
+      "total_seconds": 128.17,
+      "total_ticks": 12817,
+      "user_seconds": 128.0,
+      "user_ticks": 12800
+    },
+    "server_shell_exit_status": 0,
+    "slots_observed": 1
+  },
+  "contract_sha256": "cf4872ca1a8145b14eff079daeddcd1d7cd57e2650d365e972a959102e62d8a3",
+  "decision": {
+    "automatic_product_promotion_allowed": false,
+    "failed_contract_rehabilitated": false,
+    "optimization_promoted": false,
+    "original_patch_safe_for_service": false,
+    "separately_frozen_stricter_predicate_successor_allowed": true,
+    "successor_must_reprove_mechanism_before_service_measurement": true
+  },
+  "experiment_id": "E20b",
+  "failure_summary": {
+    "candidate_crash_cells": 1,
+    "candidate_expected_fused_ffn_pairs": 26,
+    "completed_service_cells": 1,
+    "control_expected_separate_ffn_nodes": 52,
+    "frozen_hypothesis_evaluable": false,
+    "mechanism_preflight_valid": true,
+    "unattempted_service_cells": 10,
+    "valid_performance_comparison_available": false,
+    "valid_quality_comparison_available": false
+  },
+  "github": {
+    "artifact_digest": "sha256:ca94b2f2c8ee831ceb68ba62c99b2c8cfe5d135dbc46c7526d5a0106c5f95c57",
+    "artifact_expires_at": "2026-11-02T00:59:28Z",
+    "artifact_id": "8876719286",
+    "artifact_name": "e20b-repack-pair-30867317408-1",
+    "artifact_size_bytes": 9263262,
+    "job_id": "91861899142",
+    "repository_commit": "d18e3e211ac259196bc2d2be5beabd496cf39c91",
+    "run_attempt": 1,
+    "run_id": "30867317408",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30867317408"
+  },
+  "mechanism_preflight": {
+    "reuse_off": {
+      "ffn_record_count": 52,
+      "fused_ffn_pair_count": 0,
+      "process": {
+        "elapsed": "0:15.12",
+        "exit_status": 0,
+        "maximum_rss_kib": 4360940,
+        "percent_cpu": "354%"
+      },
+      "result_sha256": "a49c2c24a63893226a3b9dba82a3e3ef19af14cde8a752caa5e1ca472fb08d30",
+      "stderr_sha256": "f0543cf1ece8e0bb2166bc676791b98a810605b73aa6b6e127d061223667961c",
+      "timing_record_count": 473
+    },
+    "reuse_on": {
+      "ffn_record_count": 26,
+      "fused_ffn_pair_count": 26,
+      "process": {
+        "elapsed": "0:15.11",
+        "exit_status": 0,
+        "maximum_rss_kib": 4360944,
+        "percent_cpu": "354%"
+      },
+      "result_sha256": "fd7d9e5eb36d82aaee977910d2c121cd5c738d02a9535e807acf5bce49604e76",
+      "stderr_sha256": "83882f08d745a76e9cf4c1389e40d009189c9937e3fb5c80138be2bf737450b5",
+      "timing_record_count": 447
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\ng++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\ncmake version 3.31.6\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n1.13.2",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "schema_version": 1,
+  "source": {
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "patches_applied": [
+      "feature_patch",
+      "q8_patch",
+      "reasoning_patch",
+      "timing_patch",
+      "pair_reuse_patch"
+    ],
+    "tag": "b10216"
+  },
+  "status": "invalid_repack_pair_candidate_assertion_after_valid_mechanism_preflight",
+  "validation": {
+    "all_frozen_inputs_match": true,
+    "candidate_sigabrt_verified": true,
+    "control_exact_quality_verified": true,
+    "exact_model_verified": true,
+    "exact_source_and_patch_series_verified": true,
+    "mechanism_counts_verified": true,
+    "native_arm64": true,
+    "negative_result_preserved_without_gate_change": true,
+    "no_partial_quality_or_speed_claim": true,
+    "single_binary_for_control_and_candidate": true
+  }
+}
