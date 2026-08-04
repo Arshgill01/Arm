@@ -1,0 +1,1251 @@
+{
+  "artifact_validation": {
+    "inventory": {
+      "all_workflow_inventoried_files_verified": true,
+      "file_count": 11,
+      "inventory_sha256": "484a5602b48149c9cc504e6984c4394959c6c6ba4349216e27b7262508a67497",
+      "total_inventoried_bytes": 139253
+    },
+    "recovered_summary_sha256": "24d3ca5b8b5014ec2d0095f0a6fc44ac5db93ef3fea081481d362b4b6a36c823",
+    "workflow_summary_sha256": "b77d3cae4d3dded296b8986ee7a255c75560a2a897716ac75a94f9d5323b84f1"
+  },
+  "claim_boundary": "This recovery can validate only the deterministic target selection from the exact completed E20a software-timing artifact. Timed traces include instrumentation overhead and cannot support service-speed, PMU, cache, energy, fleet, cost, or optimization-win claims. Any FFN gate/up source work requires a separate frozen implementation and end-to-end service gate.",
+  "contract_sha256": "6bcb4aab1e8558d2a6cd304a71ac7b7278bc98e935afeb4d95c031e885b1b667",
+  "decision": {
+    "automatic_source_optimization_allowed": false,
+    "failed_workflow_remains_invalid": true,
+    "focused_fusion_feasibility_successor_allowed": true,
+    "selected_family": "ffn_gate_up",
+    "separate_end_to_end_service_gate_required": true,
+    "separate_source_contract_required": true
+  },
+  "experiment_id": "E20a-ingestion-recovery",
+  "github": {
+    "artifact_digest": "sha256:5307636546fefb9506afce3b1aac3dd80e9448d77c4094768773d455f80e4fc3",
+    "artifact_expires_at": "2026-11-02T00:26:29Z",
+    "artifact_id": "8875955378",
+    "artifact_name": "e20a-ingestion-recovery-30865578508-1",
+    "artifact_size_bytes": 32699,
+    "job_id": "91856577500",
+    "repository_commit": "8eefae88a07729a67b42ced2c698c7f37d8780aa",
+    "run_attempt": 1,
+    "run_id": "30865578508",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30865578508"
+  },
+  "recovered_result": {
+    "benchmark_descriptors": [
+      {
+        "avg_ns": 12929621460,
+        "avg_tokens_per_second": 39.599191,
+        "mode": "pp512",
+        "name": "pp512_control",
+        "node_timing": false,
+        "positive_timing_record_count": 0,
+        "process": {
+          "elapsed": "0:40.93",
+          "exit_status": 0,
+          "maximum_rss_kib": 4360904,
+          "percent_cpu": "381%"
+        },
+        "repetitions": 3,
+        "reported_model_size_bytes": 2138615808,
+        "result_sha256": "dd4feb3e79eb51533cb4b5106245327e00c255fa40310d822f3acda25160bd02",
+        "samples_tokens_per_second": [
+          39.4757,
+          39.6453,
+          39.6766
+        ],
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timing_record_count": 0
+      },
+      {
+        "avg_ns": 12988546994,
+        "avg_tokens_per_second": 39.419344,
+        "mode": "pp512",
+        "name": "pp512_timed",
+        "node_timing": true,
+        "positive_timing_record_count": 473,
+        "process": {
+          "elapsed": "0:15.10",
+          "exit_status": 0,
+          "maximum_rss_kib": 4360784,
+          "percent_cpu": "353%"
+        },
+        "repetitions": 1,
+        "reported_model_size_bytes": 2138615808,
+        "result_sha256": "bec1ca57070321727068945726fc93a7a4eefbec985bb0afb800b4132e636c9f",
+        "samples_tokens_per_second": [
+          39.4193
+        ],
+        "stderr_sha256": "e1889284dae4998612b08cb8c7725dd5234dc3ca1e22ca23fd570be803265c58",
+        "timing_record_count": 473
+      },
+      {
+        "avg_ns": 296936730556,
+        "avg_tokens_per_second": 13.794187,
+        "mode": "pp4096",
+        "name": "pp4096_control",
+        "node_timing": false,
+        "positive_timing_record_count": 0,
+        "process": {
+          "elapsed": "14:53.01",
+          "exit_status": 0,
+          "maximum_rss_kib": 4737228,
+          "percent_cpu": "397%"
+        },
+        "repetitions": 3,
+        "reported_model_size_bytes": 2138615808,
+        "result_sha256": "c68d7d82eff94453f06edd4ca37b17b975e480d496438c7f91d5204b060d05a3",
+        "samples_tokens_per_second": [
+          13.8006,
+          13.7949,
+          13.787
+        ],
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timing_record_count": 0
+      },
+      {
+        "avg_ns": 297124484628,
+        "avg_tokens_per_second": 13.785468,
+        "mode": "pp4096",
+        "name": "pp4096_timed",
+        "node_timing": true,
+        "positive_timing_record_count": 3762,
+        "process": {
+          "elapsed": "4:59.33",
+          "exit_status": 0,
+          "maximum_rss_kib": 4737356,
+          "percent_cpu": "396%"
+        },
+        "repetitions": 1,
+        "reported_model_size_bytes": 2138615808,
+        "result_sha256": "6d8cf3b73a064d4ee997ced340f9bd1df2a5129fd8991050318ccba9b5bc4648",
+        "samples_tokens_per_second": [
+          13.7855
+        ],
+        "stderr_sha256": "c1006b2974a0665d64ce9121d3a39aa9abb1e78c9c7a615276f49eae2b6d102c",
+        "timing_record_count": 3784
+      },
+      {
+        "avg_ns": 8152363355,
+        "avg_tokens_per_second": 15.700973,
+        "mode": "tg128",
+        "name": "tg128_control",
+        "node_timing": false,
+        "positive_timing_record_count": 0,
+        "process": {
+          "elapsed": "0:26.56",
+          "exit_status": 0,
+          "maximum_rss_kib": 4259012,
+          "percent_cpu": "372%"
+        },
+        "repetitions": 3,
+        "reported_model_size_bytes": 2138615808,
+        "result_sha256": "4f9074b6f3608efc12a01ef27cd822080ca2de77206f185b9850f9edaffc2b9b",
+        "samples_tokens_per_second": [
+          15.6965,
+          15.6938,
+          15.7126
+        ],
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timing_record_count": 0
+      },
+      {
+        "avg_ns": 8311873179,
+        "avg_tokens_per_second": 15.399657,
+        "mode": "tg128",
+        "name": "tg128_timed",
+        "node_timing": true,
+        "positive_timing_record_count": 60543,
+        "process": {
+          "elapsed": "0:10.41",
+          "exit_status": 0,
+          "maximum_rss_kib": 4259024,
+          "percent_cpu": "336%"
+        },
+        "repetitions": 1,
+        "reported_model_size_bytes": 2138615808,
+        "result_sha256": "e3aaf83aba3aa443a6466c5c487045959945195c34be5a8479b3b1ddf0c8cdd8",
+        "samples_tokens_per_second": [
+          15.3997
+        ],
+        "stderr_sha256": "7318065040647a4f48bc0be8acfac224a35c4791d16a9d53fd4a983ead68e825",
+        "timing_record_count": 60544
+      }
+    ],
+    "claim_boundary": "E20a is software wall-clock instrumentation on one native four-vCPU GitHub Arm64 host. Timed runs include logging overhead and cannot support service-speed, PMU, cache-counter, energy, fleet, cost, or optimization-win claims. It can only select or reject one fusion family for a separately frozen source implementation and end-to-end service experiment.",
+    "contract_sha256": "93b78071c89edee24969dd3e4d66ae2eb63de2b782b5be0a6a3b25ffec002ed2",
+    "decision": {
+      "automatic_source_optimization_allowed": false,
+      "families": {
+        "attention_qkv": {
+          "eligible": false,
+          "geometric_mean_share": 0.06788626192236345,
+          "shared_activation_layers": {
+            "pp4096": 26,
+            "pp512": 26
+          },
+          "shares": {
+            "pp4096": 0.04000219006118951,
+            "pp512": 0.11520730616854365
+          }
+        },
+        "ffn_gate_up": {
+          "eligible": true,
+          "geometric_mean_share": 0.18465992111025345,
+          "shared_activation_layers": {
+            "pp4096": 26,
+            "pp512": 26
+          },
+          "shares": {
+            "pp4096": 0.10848844266541771,
+            "pp512": 0.314312618253803
+          }
+        }
+      },
+      "focused_fusion_successor_allowed": true,
+      "selected_family": "ffn_gate_up",
+      "separate_end_to_end_service_gate_required": true,
+      "separate_source_implementation_contract_required": true
+    },
+    "experiment_id": "E20a",
+    "model": {
+      "candidate": "ministral3_3b_q4_k_m",
+      "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "model_size_bytes": 2146497824,
+      "path": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "reference_accuracy": 0.7666666666666667,
+      "reference_correct": 23,
+      "reference_total": 30,
+      "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+      "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+    },
+    "platform": {
+      "architecture": "aarch64",
+      "logical_cpus": 4,
+      "model_name": "Neoverse-N2",
+      "relevant_features": [
+        "asimd",
+        "asimddp",
+        "bf16",
+        "i8mm",
+        "sve",
+        "sve2",
+        "svebf16",
+        "svei8mm"
+      ],
+      "sockets": 1,
+      "threads_per_core": 1
+    },
+    "quality": {
+      "positive_timing_record_count": 33085,
+      "probe": {
+        "accuracy": 0.7666666666666667,
+        "cached_tokens": {
+          "coefficient_of_variation": 0.5090210830396161,
+          "max": 92.0,
+          "mean": 29.766666666666666,
+          "median": 25.0,
+          "min": 25.0,
+          "p95": 80.0,
+          "population_stddev": 15.151860905145906
+        },
+        "correct": 23,
+        "decode_ms": {
+          "coefficient_of_variation": 0.05368207533211687,
+          "max": 84.942,
+          "mean": 66.37219999999999,
+          "median": 65.7185,
+          "min": 64.04,
+          "p95": 68.497,
+          "population_stddev": 3.562997440358327
+        },
+        "elapsed_seconds": 32.365626565,
+        "encode_ms": {
+          "coefficient_of_variation": 0.3517342123913738,
+          "max": 2047.681,
+          "mean": 1007.5837666666666,
+          "median": 985.5765,
+          "min": 65.778,
+          "p95": 1797.479,
+          "population_stddev": 354.4016825868338
+        },
+        "evaluated_prompt_tokens": {
+          "coefficient_of_variation": 0.3300763243464773,
+          "max": 100.0,
+          "mean": 51.233333333333334,
+          "median": 51.0,
+          "min": 1.0,
+          "p95": 85.0,
+          "population_stddev": 16.91091035068452
+        },
+        "failures": 0,
+        "http_ms": {
+          "coefficient_of_variation": 0.3285176017575726,
+          "max": 2117.047965,
+          "mean": 1078.6984015666667,
+          "median": 1055.502414,
+          "min": 135.479672,
+          "p95": 1869.027331,
+          "population_stddev": 354.37141190240834
+        },
+        "reference_prediction_mismatches": 0,
+        "requests_per_second": 0.9269092918609468,
+        "total": 30
+      },
+      "probe_sha256": "89af1f2bc4506408b4b551d1a4d600c033705a992b38c6f5ee7e68a752f33c21",
+      "process": {
+        "elapsed": "0:37.44",
+        "exit_status": 0,
+        "maximum_rss_kib": 4451676,
+        "percent_cpu": "375%"
+      },
+      "readiness_ms": 2429.079613,
+      "stderr_sha256": "c8f6bc2a8033cf07a76d40c813ee884871b26b2671f6a56236e0691d10dbd528",
+      "timing_record_count": 33110
+    },
+    "runtime_closures": {
+      "bench": {
+        "build_root": "/tmp/llama.cpp-E20a-build",
+        "file_count": 7,
+        "files": [
+          {
+            "artifact_relative_path": "bench-runtime-files/bin/libggml-base.so.0.18.0",
+            "relative_path": "bin/libggml-base.so.0.18.0",
+            "sha256": "95b754819e1da1f03994878741cabd7b76a78afeaa746368f8af3b1dbaa67b31",
+            "size_bytes": 873464
+          },
+          {
+            "artifact_relative_path": "bench-runtime-files/bin/libggml-cpu.so.0.18.0",
+            "relative_path": "bin/libggml-cpu.so.0.18.0",
+            "sha256": "ca63cc5f6a2b90cc8b04f9d1506248388f94c30d1c81154dd5fbb79203d29b32",
+            "size_bytes": 1160424
+          },
+          {
+            "artifact_relative_path": "bench-runtime-files/bin/libggml.so.0.18.0",
+            "relative_path": "bin/libggml.so.0.18.0",
+            "sha256": "21f32aa47133311e24a7cc808e336020e911018ee124814db520dd84a21d137c",
+            "size_bytes": 78176
+          },
+          {
+            "artifact_relative_path": "bench-runtime-files/bin/libllama-bench-impl.so",
+            "relative_path": "bin/libllama-bench-impl.so",
+            "sha256": "d657d5ea76fa09fa6133bce611cbabfd0c066a77a87c9a3421a1b87b83016530",
+            "size_bytes": 476352
+          },
+          {
+            "artifact_relative_path": "bench-runtime-files/bin/libllama-common.so.0.0.10216",
+            "relative_path": "bin/libllama-common.so.0.0.10216",
+            "sha256": "f5bf002e986142e244ad79c0ae8c49dd1667d038729e3d5b77b3624136d13e82",
+            "size_bytes": 5325720
+          },
+          {
+            "artifact_relative_path": "bench-runtime-files/bin/libllama.so.0.0.10216",
+            "relative_path": "bin/libllama.so.0.0.10216",
+            "sha256": "5b812e8198e58be585096c842a537d9dc043777d5c7bbd2c0b6387406126b195",
+            "size_bytes": 3937120
+          },
+          {
+            "artifact_relative_path": "bench-runtime-files/bin/llama-bench",
+            "relative_path": "bin/llama-bench",
+            "sha256": "12aa371bb2e4bfd39330ea13a44ccdfa63e423e4d147cb86d5d997ff49e4a309",
+            "size_bytes": 72480
+          }
+        ],
+        "ldd_output": "\tlinux-vdso.so.1 (0x0000ff4357a36000)\n\tlibllama-bench-impl.so => /tmp/llama.cpp-E20a-build/bin/libllama-bench-impl.so (0x0000ff4357940000)\n\tlibstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ff43576b0000)\n\tlibgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ff4357670000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ff43574b0000)\n\t/lib/ld-linux-aarch64.so.1 (0x0000ff43579f0000)\n\tlibllama-common.so.0 => /tmp/llama.cpp-E20a-build/bin/libllama-common.so.0 (0x0000ff4357090000)\n\tlibllama.so.0 => /tmp/llama.cpp-E20a-build/bin/libllama.so.0 (0x0000ff4356d50000)\n\tlibggml.so.0 => /tmp/llama.cpp-E20a-build/bin/libggml.so.0 (0x0000ff4356d20000)\n\tlibggml-base.so.0 => /tmp/llama.cpp-E20a-build/bin/libggml-base.so.0 (0x0000ff4356c40000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ff4356b90000)\n\tlibggml-cpu.so.0 => /tmp/llama.cpp-E20a-build/bin/libggml-cpu.so.0 (0x0000ff43569f0000)\n\tlibgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000ff4356970000)\n",
+        "runtime_dependencies": [
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E20a-build/bin/libllama-bench-impl.so",
+            "resolved_path": "/tmp/llama.cpp-E20a-build/bin/libllama-bench-impl.so"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libstdc++.so.6",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libgcc_s.so.1",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libgcc_s.so.1"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libc.so.6",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libc.so.6"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/ld-linux-aarch64.so.1",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E20a-build/bin/libllama-common.so.0",
+            "resolved_path": "/tmp/llama.cpp-E20a-build/bin/libllama-common.so.0.0.10216"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E20a-build/bin/libllama.so.0",
+            "resolved_path": "/tmp/llama.cpp-E20a-build/bin/libllama.so.0.0.10216"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E20a-build/bin/libggml.so.0",
+            "resolved_path": "/tmp/llama.cpp-E20a-build/bin/libggml.so.0.18.0"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E20a-build/bin/libggml-base.so.0",
+            "resolved_path": "/tmp/llama.cpp-E20a-build/bin/libggml-base.so.0.18.0"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libm.so.6",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libm.so.6"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E20a-build/bin/libggml-cpu.so.0",
+            "resolved_path": "/tmp/llama.cpp-E20a-build/bin/libggml-cpu.so.0.18.0"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libgomp.so.1",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0"
+          }
+        ],
+        "schema_version": 1,
+        "server_path": "/tmp/llama.cpp-E20a-build/bin/llama-bench",
+        "server_relative_path": "bin/llama-bench",
+        "system_dependencies_excluded": true,
+        "total_size_bytes": 11923736
+      },
+      "server": {
+        "build_root": "/tmp/llama.cpp-E20a-build",
+        "file_count": 8,
+        "files": [
+          {
+            "artifact_relative_path": "server-runtime-files/bin/libggml-base.so.0.18.0",
+            "relative_path": "bin/libggml-base.so.0.18.0",
+            "sha256": "95b754819e1da1f03994878741cabd7b76a78afeaa746368f8af3b1dbaa67b31",
+            "size_bytes": 873464
+          },
+          {
+            "artifact_relative_path": "server-runtime-files/bin/libggml-cpu.so.0.18.0",
+            "relative_path": "bin/libggml-cpu.so.0.18.0",
+            "sha256": "ca63cc5f6a2b90cc8b04f9d1506248388f94c30d1c81154dd5fbb79203d29b32",
+            "size_bytes": 1160424
+          },
+          {
+            "artifact_relative_path": "server-runtime-files/bin/libggml.so.0.18.0",
+            "relative_path": "bin/libggml.so.0.18.0",
+            "sha256": "21f32aa47133311e24a7cc808e336020e911018ee124814db520dd84a21d137c",
+            "size_bytes": 78176
+          },
+          {
+            "artifact_relative_path": "server-runtime-files/bin/libllama-common.so.0.0.10216",
+            "relative_path": "bin/libllama-common.so.0.0.10216",
+            "sha256": "f5bf002e986142e244ad79c0ae8c49dd1667d038729e3d5b77b3624136d13e82",
+            "size_bytes": 5325720
+          },
+          {
+            "artifact_relative_path": "server-runtime-files/bin/libllama-server-impl.so",
+            "relative_path": "bin/libllama-server-impl.so",
+            "sha256": "22c511d2043c66c3097f92aad04b54563e434c135436ae56ca81f50151520ac2",
+            "size_bytes": 6949024
+          },
+          {
+            "artifact_relative_path": "server-runtime-files/bin/libllama.so.0.0.10216",
+            "relative_path": "bin/libllama.so.0.0.10216",
+            "sha256": "5b812e8198e58be585096c842a537d9dc043777d5c7bbd2c0b6387406126b195",
+            "size_bytes": 3937120
+          },
+          {
+            "artifact_relative_path": "server-runtime-files/bin/libmtmd.so.0.0.10216",
+            "relative_path": "bin/libmtmd.so.0.0.10216",
+            "sha256": "e18d8a656bb065171aab00eb36a667a0f1a95a34292e7c8081f1317512acac30",
+            "size_bytes": 1461024
+          },
+          {
+            "artifact_relative_path": "server-runtime-files/bin/llama-server",
+            "relative_path": "bin/llama-server",
+            "sha256": "edbf9782551748476421341fbd7bb3aace8f9ebf074b05e65492842d49b545ca",
+            "size_bytes": 72488
+          }
+        ],
+        "ldd_output": "\tlinux-vdso.so.1 (0x0000ff308079f000)\n\tlibllama-server-impl.so => /tmp/llama.cpp-E20a-build/bin/libllama-server-impl.so (0x0000ff3080130000)\n\tlibstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ff307fea0000)\n\tlibgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ff307fe60000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ff307fca0000)\n\t/lib/ld-linux-aarch64.so.1 (0x0000ff3080750000)\n\tlibllama-common.so.0 => /tmp/llama.cpp-E20a-build/bin/libllama-common.so.0 (0x0000ff307f880000)\n\tlibmtmd.so.0 => /tmp/llama.cpp-E20a-build/bin/libmtmd.so.0 (0x0000ff307f730000)\n\tlibllama.so.0 => /tmp/llama.cpp-E20a-build/bin/libllama.so.0 (0x0000ff307f3f0000)\n\tlibggml.so.0 => /tmp/llama.cpp-E20a-build/bin/libggml.so.0 (0x0000ff307f3c0000)\n\tlibggml-base.so.0 => /tmp/llama.cpp-E20a-build/bin/libggml-base.so.0 (0x0000ff307f2e0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ff307f230000)\n\tlibggml-cpu.so.0 => /tmp/llama.cpp-E20a-build/bin/libggml-cpu.so.0 (0x0000ff307f090000)\n\tlibgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000ff307f010000)\n",
+        "runtime_dependencies": [
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E20a-build/bin/libllama-server-impl.so",
+            "resolved_path": "/tmp/llama.cpp-E20a-build/bin/libllama-server-impl.so"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libstdc++.so.6",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libgcc_s.so.1",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libgcc_s.so.1"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libc.so.6",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libc.so.6"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/ld-linux-aarch64.so.1",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E20a-build/bin/libllama-common.so.0",
+            "resolved_path": "/tmp/llama.cpp-E20a-build/bin/libllama-common.so.0.0.10216"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E20a-build/bin/libmtmd.so.0",
+            "resolved_path": "/tmp/llama.cpp-E20a-build/bin/libmtmd.so.0.0.10216"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E20a-build/bin/libllama.so.0",
+            "resolved_path": "/tmp/llama.cpp-E20a-build/bin/libllama.so.0.0.10216"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E20a-build/bin/libggml.so.0",
+            "resolved_path": "/tmp/llama.cpp-E20a-build/bin/libggml.so.0.18.0"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E20a-build/bin/libggml-base.so.0",
+            "resolved_path": "/tmp/llama.cpp-E20a-build/bin/libggml-base.so.0.18.0"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libm.so.6",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libm.so.6"
+          },
+          {
+            "build_local": true,
+            "ldd_path": "/tmp/llama.cpp-E20a-build/bin/libggml-cpu.so.0",
+            "resolved_path": "/tmp/llama.cpp-E20a-build/bin/libggml-cpu.so.0.18.0"
+          },
+          {
+            "build_local": false,
+            "ldd_path": "/lib/aarch64-linux-gnu/libgomp.so.1",
+            "resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0"
+          }
+        ],
+        "schema_version": 1,
+        "server_path": "/tmp/llama.cpp-E20a-build/bin/llama-server",
+        "server_relative_path": "bin/llama-server",
+        "system_dependencies_excluded": true,
+        "total_size_bytes": 19857440
+      }
+    },
+    "schema_version": 1,
+    "selection": {
+      "automatic_source_optimization_allowed": false,
+      "families": {
+        "attention_qkv": {
+          "eligible": false,
+          "geometric_mean_share": 0.06788626192236345,
+          "shared_activation_layers": {
+            "pp4096": 26,
+            "pp512": 26
+          },
+          "shares": {
+            "pp4096": 0.04000219006118951,
+            "pp512": 0.11520730616854365
+          }
+        },
+        "ffn_gate_up": {
+          "eligible": true,
+          "geometric_mean_share": 0.18465992111025345,
+          "shared_activation_layers": {
+            "pp4096": 26,
+            "pp512": 26
+          },
+          "shares": {
+            "pp4096": 0.10848844266541771,
+            "pp512": 0.314312618253803
+          }
+        }
+      },
+      "focused_fusion_successor_allowed": true,
+      "selected_family": "ffn_gate_up"
+    },
+    "software_timing": {
+      "pp4096": {
+        "family_elapsed_us": {
+          "attention_qkv": 11882693,
+          "ffn_gate_up": 32226607
+        },
+        "family_share": {
+          "attention_qkv": 0.04000219006118951,
+          "ffn_gate_up": 0.10848844266541771
+        },
+        "graph_count": 1,
+        "op_elapsed_us": {
+          "ADD": 58007,
+          "FLASH_ATTN_EXT": 225344075,
+          "GET_ROWS": 3924,
+          "GLU": 386419,
+          "MUL": 422672,
+          "MUL_MAT": 70563603,
+          "RMS_NORM": 130671,
+          "ROPE": 99612,
+          "SET_ROWS": 42078
+        },
+        "positive_record_count": 3762,
+        "record_count": 3784,
+        "shared_activation_layers": {
+          "attention_qkv": 26,
+          "ffn_gate_up": 26
+        },
+        "top_ops": [
+          [
+            "FLASH_ATTN_EXT",
+            225344075
+          ],
+          [
+            "MUL_MAT",
+            70563603
+          ],
+          [
+            "MUL",
+            422672
+          ],
+          [
+            "GLU",
+            386419
+          ],
+          [
+            "RMS_NORM",
+            130671
+          ],
+          [
+            "ROPE",
+            99612
+          ],
+          [
+            "ADD",
+            58007
+          ],
+          [
+            "SET_ROWS",
+            42078
+          ],
+          [
+            "GET_ROWS",
+            3924
+          ]
+        ],
+        "top_sources": [
+          [
+            "Qcur_attn_temp_scaled-6 (view) (permuted)",
+            8684589
+          ],
+          [
+            "Qcur_attn_temp_scaled-20 (view) (permuted)",
+            8683866
+          ],
+          [
+            "Qcur_attn_temp_scaled-17 (view) (permuted)",
+            8683231
+          ],
+          [
+            "Qcur_attn_temp_scaled-18 (view) (permuted)",
+            8680712
+          ],
+          [
+            "Qcur_attn_temp_scaled-12 (view) (permuted)",
+            8679726
+          ],
+          [
+            "Qcur_attn_temp_scaled-10 (view) (permuted)",
+            8679513
+          ],
+          [
+            "Qcur_attn_temp_scaled-11 (view) (permuted)",
+            8676800
+          ],
+          [
+            "Qcur_attn_temp_scaled-3 (view) (permuted)",
+            8676311
+          ],
+          [
+            "Qcur_attn_temp_scaled-0 (view) (permuted)",
+            8669402
+          ],
+          [
+            "Qcur_attn_temp_scaled-7 (view) (permuted)",
+            8666188
+          ],
+          [
+            "Qcur_attn_temp_scaled-24 (view) (permuted)",
+            8663842
+          ],
+          [
+            "Qcur_attn_temp_scaled-14 (view) (permuted)",
+            8663785
+          ],
+          [
+            "Qcur_attn_temp_scaled-8 (view) (permuted)",
+            8663325
+          ],
+          [
+            "Qcur_attn_temp_scaled-16 (view) (permuted)",
+            8663311
+          ],
+          [
+            "Qcur_attn_temp_scaled-5 (view) (permuted)",
+            8661592
+          ],
+          [
+            "Qcur_attn_temp_scaled-25 (view) (permuted)",
+            8661513
+          ],
+          [
+            "Qcur_attn_temp_scaled-9 (view) (permuted)",
+            8660504
+          ],
+          [
+            "Qcur_attn_temp_scaled-13 (view) (permuted)",
+            8660368
+          ],
+          [
+            "Qcur_attn_temp_scaled-23 (view) (permuted)",
+            8659957
+          ],
+          [
+            "Qcur_attn_temp_scaled-1 (view) (permuted)",
+            8659336
+          ],
+          [
+            "Qcur_attn_temp_scaled-21 (view) (permuted)",
+            8659092
+          ],
+          [
+            "Qcur_attn_temp_scaled-2 (view) (permuted)",
+            8659025
+          ],
+          [
+            "Qcur_attn_temp_scaled-15 (view) (permuted)",
+            8658587
+          ],
+          [
+            "Qcur_attn_temp_scaled-19 (view) (permuted)",
+            8657887
+          ],
+          [
+            "Qcur_attn_temp_scaled-22 (view) (permuted)",
+            8656821
+          ],
+          [
+            "Qcur_attn_temp_scaled-4 (view) (permuted)",
+            8654792
+          ],
+          [
+            "blk.14.ffn_down.weight",
+            847642
+          ],
+          [
+            "blk.17.ffn_down.weight",
+            847282
+          ],
+          [
+            "blk.5.ffn_down.weight",
+            847023
+          ],
+          [
+            "blk.0.ffn_down.weight",
+            846678
+          ]
+        ],
+        "total_elapsed_us": 297051061
+      },
+      "pp512": {
+        "family_elapsed_us": {
+          "attention_qkv": 1495333,
+          "ffn_gate_up": 4079620
+        },
+        "family_share": {
+          "attention_qkv": 0.11520730616854365,
+          "ffn_gate_up": 0.314312618253803
+        },
+        "graph_count": 1,
+        "op_elapsed_us": {
+          "ADD": 7396,
+          "FLASH_ATTN_EXT": 3935040,
+          "GET_ROWS": 820,
+          "GLU": 49187,
+          "MUL": 52316,
+          "MUL_MAT": 8898510,
+          "RMS_NORM": 19087,
+          "ROPE": 12027,
+          "SET_ROWS": 5115
+        },
+        "positive_record_count": 473,
+        "record_count": 473,
+        "shared_activation_layers": {
+          "attention_qkv": 26,
+          "ffn_gate_up": 26
+        },
+        "top_ops": [
+          [
+            "MUL_MAT",
+            8898510
+          ],
+          [
+            "FLASH_ATTN_EXT",
+            3935040
+          ],
+          [
+            "MUL",
+            52316
+          ],
+          [
+            "GLU",
+            49187
+          ],
+          [
+            "RMS_NORM",
+            19087
+          ],
+          [
+            "ROPE",
+            12027
+          ],
+          [
+            "ADD",
+            7396
+          ],
+          [
+            "SET_ROWS",
+            5115
+          ],
+          [
+            "GET_ROWS",
+            820
+          ]
+        ],
+        "top_sources": [
+          [
+            "Qcur_attn_temp_scaled-0 (view) (permuted)",
+            160771
+          ],
+          [
+            "Qcur_attn_temp_scaled-24 (view) (permuted)",
+            152526
+          ],
+          [
+            "Qcur_attn_temp_scaled-10 (view) (permuted)",
+            151800
+          ],
+          [
+            "Qcur_attn_temp_scaled-18 (view) (permuted)",
+            151121
+          ],
+          [
+            "Qcur_attn_temp_scaled-19 (view) (permuted)",
+            151022
+          ],
+          [
+            "Qcur_attn_temp_scaled-21 (view) (permuted)",
+            151004
+          ],
+          [
+            "Qcur_attn_temp_scaled-20 (view) (permuted)",
+            150987
+          ],
+          [
+            "Qcur_attn_temp_scaled-25 (view) (permuted)",
+            150986
+          ],
+          [
+            "Qcur_attn_temp_scaled-16 (view) (permuted)",
+            150963
+          ],
+          [
+            "Qcur_attn_temp_scaled-12 (view) (permuted)",
+            150930
+          ],
+          [
+            "Qcur_attn_temp_scaled-5 (view) (permuted)",
+            150914
+          ],
+          [
+            "Qcur_attn_temp_scaled-14 (view) (permuted)",
+            150903
+          ],
+          [
+            "Qcur_attn_temp_scaled-9 (view) (permuted)",
+            150900
+          ],
+          [
+            "Qcur_attn_temp_scaled-22 (view) (permuted)",
+            150891
+          ],
+          [
+            "Qcur_attn_temp_scaled-8 (view) (permuted)",
+            150812
+          ],
+          [
+            "Qcur_attn_temp_scaled-2 (view) (permuted)",
+            150808
+          ],
+          [
+            "Qcur_attn_temp_scaled-1 (view) (permuted)",
+            150805
+          ],
+          [
+            "Qcur_attn_temp_scaled-4 (view) (permuted)",
+            150803
+          ],
+          [
+            "Qcur_attn_temp_scaled-23 (view) (permuted)",
+            150798
+          ],
+          [
+            "Qcur_attn_temp_scaled-11 (view) (permuted)",
+            150790
+          ],
+          [
+            "Qcur_attn_temp_scaled-17 (view) (permuted)",
+            150778
+          ],
+          [
+            "Qcur_attn_temp_scaled-7 (view) (permuted)",
+            150774
+          ],
+          [
+            "Qcur_attn_temp_scaled-13 (view) (permuted)",
+            150767
+          ],
+          [
+            "Qcur_attn_temp_scaled-6 (view) (permuted)",
+            150766
+          ],
+          [
+            "Qcur_attn_temp_scaled-15 (view) (permuted)",
+            150714
+          ],
+          [
+            "Qcur_attn_temp_scaled-3 (view) (permuted)",
+            150707
+          ],
+          [
+            "blk.0.ffn_gate.weight",
+            112501
+          ],
+          [
+            "blk.23.ffn_down.weight",
+            108018
+          ],
+          [
+            "blk.8.ffn_down.weight",
+            105764
+          ],
+          [
+            "blk.20.ffn_down.weight",
+            105735
+          ]
+        ],
+        "total_elapsed_us": 12979498
+      },
+      "tg128": {
+        "family_elapsed_us": {
+          "attention_qkv": 1038049,
+          "ffn_gate_up": 2497378
+        },
+        "family_share": {
+          "attention_qkv": 0.12775420070566712,
+          "ffn_gate_up": 0.30735594393898313
+        },
+        "graph_count": 1,
+        "op_elapsed_us": {
+          "ADD": 15722,
+          "FLASH_ATTN_EXT": 124249,
+          "GET_ROWS": 1037,
+          "GLU": 54462,
+          "MUL": 16045,
+          "MUL_MAT": 7856499,
+          "RMS_NORM": 30571,
+          "ROPE": 15019,
+          "SET_ROWS": 11757
+        },
+        "positive_record_count": 60543,
+        "record_count": 60544,
+        "shared_activation_layers": {
+          "attention_qkv": 26,
+          "ffn_gate_up": 26
+        },
+        "top_ops": [
+          [
+            "MUL_MAT",
+            7856499
+          ],
+          [
+            "FLASH_ATTN_EXT",
+            124249
+          ],
+          [
+            "GLU",
+            54462
+          ],
+          [
+            "RMS_NORM",
+            30571
+          ],
+          [
+            "MUL",
+            16045
+          ],
+          [
+            "ADD",
+            15722
+          ],
+          [
+            "ROPE",
+            15019
+          ],
+          [
+            "SET_ROWS",
+            11757
+          ],
+          [
+            "GET_ROWS",
+            1037
+          ]
+        ],
+        "top_sources": [
+          [
+            "token_embd.weight",
+            1601773
+          ],
+          [
+            "blk.0.ffn_down.weight",
+            117022
+          ],
+          [
+            "blk.20.ffn_down.weight",
+            116697
+          ],
+          [
+            "blk.5.ffn_down.weight",
+            116583
+          ],
+          [
+            "blk.2.ffn_down.weight",
+            116569
+          ],
+          [
+            "blk.1.ffn_down.weight",
+            116528
+          ],
+          [
+            "blk.24.ffn_down.weight",
+            116447
+          ],
+          [
+            "blk.22.ffn_down.weight",
+            116038
+          ],
+          [
+            "blk.8.ffn_down.weight",
+            115947
+          ],
+          [
+            "blk.25.ffn_down.weight",
+            115873
+          ],
+          [
+            "blk.23.ffn_down.weight",
+            115851
+          ],
+          [
+            "blk.11.ffn_down.weight",
+            115819
+          ],
+          [
+            "blk.14.ffn_down.weight",
+            115395
+          ],
+          [
+            "blk.17.ffn_down.weight",
+            115379
+          ],
+          [
+            "blk.0.ffn_gate.weight",
+            50168
+          ],
+          [
+            "blk.3.ffn_down.weight",
+            49682
+          ],
+          [
+            "blk.0.ffn_up.weight",
+            49601
+          ],
+          [
+            "blk.1.ffn_up.weight",
+            49552
+          ],
+          [
+            "blk.1.ffn_gate.weight",
+            49393
+          ],
+          [
+            "blk.6.ffn_down.weight",
+            49176
+          ],
+          [
+            "blk.9.ffn_down.weight",
+            49082
+          ],
+          [
+            "blk.2.ffn_gate.weight",
+            48888
+          ],
+          [
+            "blk.7.ffn_down.weight",
+            48866
+          ],
+          [
+            "blk.10.ffn_down.weight",
+            48839
+          ],
+          [
+            "blk.13.ffn_down.weight",
+            48731
+          ],
+          [
+            "blk.4.ffn_up.weight",
+            48723
+          ],
+          [
+            "blk.4.ffn_down.weight",
+            48709
+          ],
+          [
+            "blk.21.ffn_down.weight",
+            48669
+          ],
+          [
+            "blk.18.ffn_down.weight",
+            48650
+          ],
+          [
+            "blk.15.ffn_down.weight",
+            48644
+          ]
+        ],
+        "total_elapsed_us": 8125361
+      }
+    },
+    "source": {
+      "changed_files": [
+        "common/reasoning-budget.cpp",
+        "ggml/src/ggml-cpu/CMakeLists.txt",
+        "ggml/src/ggml-cpu/arch/arm/quants.c",
+        "ggml/src/ggml-cpu/ggml-cpu.c",
+        "tests/test-reasoning-budget.cpp"
+      ],
+      "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "patches": [
+        {
+          "name": "feature_patch",
+          "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+          "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+        },
+        {
+          "name": "q8_patch",
+          "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+          "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+        },
+        {
+          "name": "reasoning_patch",
+          "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+          "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+        },
+        {
+          "name": "timing_patch",
+          "path": "patches/llama.cpp/b10216/0008-cpu-node-timing.patch",
+          "sha256": "2810e893b781137fa41444641c451aa9020843055addae97936499c6e8b4df31"
+        }
+      ],
+      "repository": "https://github.com/ggml-org/llama.cpp.git",
+      "source_diff_sha256": "b462dd287ae0cad5ad49d4b444c635293634ad0879a9f1b4cc5dc6a066a9d7ca",
+      "tag": "b10216",
+      "timing_environment": "GGML_CPU_NODE_TIMING=1"
+    },
+    "status": "valid_cpu_node_profile_fusion_candidate",
+    "validation": {
+      "all_six_benchmark_cases_complete": true,
+      "exact_selected_service_quality": true,
+      "exact_source_and_patch_series": true,
+      "hosted_pmu_claim_made": false,
+      "native_arm64": true,
+      "openssl_absent": true,
+      "software_wall_clock_only": true,
+      "timed_results_used_for_performance_claim": false,
+      "timer_disabled_controls_have_no_records": true,
+      "timer_enabled_cases_have_structured_records": true,
+      "zero_request_failures": true
+    }
+  },
+  "recovered_summary_sha256": "24d3ca5b8b5014ec2d0095f0a6fc44ac5db93ef3fea081481d362b4b6a36c823",
+  "recovery_github": {
+    "artifact_name": "e20a-ingestion-recovery-30865578508-1",
+    "repository_commit": "8eefae88a07729a67b42ced2c698c7f37d8780aa",
+    "run_attempt": 1,
+    "run_id": "30865578508"
+  },
+  "schema_version": 1,
+  "source_artifact_live_metadata": {
+    "digest": "sha256:8b7da293603cb229e0d0aa1164c19d1d3521ab0f6353ae56f2a6a90524a53247",
+    "expires_at": "2026-11-01T23:48:28Z",
+    "id": "8875743768",
+    "name": "e20a-cpu-node-timing-30863505489-1",
+    "size_bytes": 14680227
+  },
+  "source_artifact_validation": {
+    "all_extracted_regular_files_verified": true,
+    "file_count": 90,
+    "total_regular_file_bytes": 46815191
+  },
+  "source_failure_manifest_sha256": "5e7eb31d92b0fb71a41841d0937dc5058161a205a895e43e5aa334721653213f",
+  "source_github": {
+    "artifact_digest": "sha256:8b7da293603cb229e0d0aa1164c19d1d3521ab0f6353ae56f2a6a90524a53247",
+    "artifact_expires_at": "2026-11-01T23:48:28Z",
+    "artifact_id": "8875743768",
+    "artifact_name": "e20a-cpu-node-timing-30863505489-1",
+    "artifact_size_bytes": 14680227,
+    "job_id": 91850309924,
+    "job_log_sha256": "24b25bbfbba3917a79201fc772c78f5745a488a83784002a440be95a58eee69a",
+    "repository_commit": "ba0c43172f583ebbb488888873442d39364d1749",
+    "run_attempt": 1,
+    "run_id": 30863505489,
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30863505489"
+  },
+  "status": "valid_cpu_node_profile_fusion_candidate_recovered_without_remeasurement",
+  "validation": {
+    "all_source_artifact_files_verified": true,
+    "benchmark_or_quality_measurement_repeated": false,
+    "corrected_ingester_only": true,
+    "failed_workflow_rehabilitated": false,
+    "model_download_repeated": false,
+    "native_arm64_recovery_host_required": true,
+    "python_version": "3.12.13",
+    "selection_rule_or_threshold_changed": false,
+    "source_build_repeated": false,
+    "timed_results_used_for_performance_claim": false
+  }
+}
