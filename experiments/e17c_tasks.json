@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E17c",
+  "license": "Apache-2.0",
+  "provenance": "Deterministically generated project-authored synthetic retrieval holdout; task identities, seeds, answers, and needle positions were inherited unchanged from frozen E17b before E17c model results, while only the predeclared prompt-token interval changes.",
+  "system_instruction": "You are given a long ledger of independent records. Find the one record with the requested retrieval key. Ignore all distractors. Respond with exactly one uppercase letter: A, B, C, or D.",
+  "target_prompt_tokens": {
+    "minimum": 4500,
+    "maximum": 5000
+  },
+  "tasks": [
+    {
+      "id": "retrieval-08-a",
+      "seed": 170801,
+      "needle_fraction": 0.08,
+      "retrieval_key": "PARETO-ALDER-170801",
+      "answer": "A",
+      "options": ["KITE-314", "MOSS-826", "RUNE-507", "VOLT-193"]
+    },
+    {
+      "id": "retrieval-20-b",
+      "seed": 172002,
+      "needle_fraction": 0.20,
+      "retrieval_key": "PARETO-BIRCH-172002",
+      "answer": "B",
+      "options": ["GLEN-482", "HAWK-719", "JADE-305", "LIME-864"]
+    },
+    {
+      "id": "retrieval-35-c",
+      "seed": 173503,
+      "needle_fraction": 0.35,
+      "retrieval_key": "PARETO-CEDAR-173503",
+      "answer": "C",
+      "options": ["NOVA-248", "PINE-631", "QUAY-975", "SAGE-406"]
+    },
+    {
+      "id": "retrieval-50-d",
+      "seed": 175004,
+      "needle_fraction": 0.50,
+      "retrieval_key": "PARETO-DOGWOOD-175004",
+      "answer": "D",
+      "options": ["TIDE-527", "UMBER-140", "VALE-893", "WREN-362"]
+    },
+    {
+      "id": "retrieval-65-a",
+      "seed": 176505,
+      "needle_fraction": 0.65,
+      "retrieval_key": "PARETO-ELM-176505",
+      "answer": "A",
+      "options": ["YARD-684", "ZINC-219", "AMBER-753", "BROOK-491"]
+    },
+    {
+      "id": "retrieval-80-b",
+      "seed": 178006,
+      "needle_fraction": 0.80,
+      "retrieval_key": "PARETO-FIR-178006",
+      "answer": "B",
+      "options": ["CORAL-835", "DUSK-276", "EMBER-914", "FLINT-503"]
+    },
+    {
+      "id": "retrieval-90-c",
+      "seed": 179007,
+      "needle_fraction": 0.90,
+      "retrieval_key": "PARETO-GINKGO-179007",
+      "answer": "C",
+      "options": ["GROVE-127", "HARBOR-658", "IVORY-342", "JUNIPER-980"]
+    },
+    {
+      "id": "retrieval-96-d",
+      "seed": 179608,
+      "needle_fraction": 0.96,
+      "retrieval_key": "PARETO-HAZEL-179608",
+      "answer": "D",
+      "options": ["KNOLL-461", "LOTUS-708", "MAPLE-235", "NORTH-879"]
+    }
+  ]
+}
