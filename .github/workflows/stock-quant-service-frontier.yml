@@ -1,0 +1,178 @@
+name: Arm E11b matched stock quant service frontier
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e11b_contract.json
+  CONTRACT_SHA256: de03dd073cefd7bb148e66513f1284a208fd3010b0743b6912365258324398b2
+  CURRENT_SHA: 876a4321163249c43ca4e986818fab5ab081f282
+  CURRENT_TAG: b10216
+
+jobs:
+  compare:
+    name: Compare every mechanically selected stock quant in one native job
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 240
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e11b-${{ github.run_id }}-${{ github.run_attempt }}
+      SOURCE_DIR: /tmp/llama.cpp-E11b
+      BUILD_DIR: /tmp/llama.cpp-E11b-build
+      MODEL_ROOT: /tmp/Pareto64-E11b/models
+
+    steps:
+      - name: Check out frozen service frontier
+        uses: actions/checkout@v7
+
+      - name: Select supported Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Verify native host and every frozen input
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          mkdir -p "$EVIDENCE_DIR/frozen-inputs" "$EVIDENCE_DIR/build" \
+            "$EVIDENCE_DIR/patches" "$MODEL_ROOT"
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          jq -r '
+            .inputs as $inputs
+            | $inputs
+            | to_entries[]
+            | select(.key | endswith("_path"))
+            | [$inputs[.key | sub("_path$"; "_sha256")], .value]
+            | @tsv
+          ' "$CONTRACT_PATH" | while IFS=$'\t' read -r expected input_file; do
+            echo "$expected  $input_file" | sha256sum --check --strict
+            mkdir -p "$EVIDENCE_DIR/frozen-inputs/$(dirname "$input_file")"
+            cp "$input_file" "$EVIDENCE_DIR/frozen-inputs/$input_file"
+          done
+          python3 -m unittest tests.test_e11b tests.test_e11b_freeze
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          {
+            gcc --version
+            g++ --version
+            cmake --version
+            ninja --version
+          } | tee "$EVIDENCE_DIR/compiler.txt"
+          free -b | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          jq -n \
+            --arg runner_os "$RUNNER_OS" \
+            --arg runner_arch "$RUNNER_ARCH" \
+            --arg runner_name "$RUNNER_NAME" \
+            --arg image_os "${ImageOS:-unknown}" \
+            --arg image_version "${ImageVersion:-unknown}" \
+            '{runner_os: $runner_os, runner_arch: $runner_arch, runner_name: $runner_name, image_os: $image_os, image_version: $image_version}' \
+            > "$EVIDENCE_DIR/environment.json"
+
+      - name: Pin and build exact E7c service
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/ggml-org/llama.cpp.git "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$CURRENT_SHA"
+          test "$(git -C "$SOURCE_DIR" rev-parse HEAD)" = "$CURRENT_SHA"
+          test "$(git -C "$SOURCE_DIR" describe --tags --exact-match)" = "$CURRENT_TAG"
+          while IFS=$'\t' read -r patch_path patch_sha; do
+            echo "$patch_sha  $patch_path" | sha256sum --check --strict
+            cp "$patch_path" "$EVIDENCE_DIR/patches/$(basename "$patch_path")"
+            git -C "$SOURCE_DIR" apply --check "$GITHUB_WORKSPACE/$patch_path"
+            git -C "$SOURCE_DIR" apply "$GITHUB_WORKSPACE/$patch_path"
+          done < <(jq -r '.runtime.source.patches[] | [.path, .sha256] | @tsv' "$CONTRACT_PATH")
+          git -C "$SOURCE_DIR" diff --check
+          git -C "$SOURCE_DIR" diff --name-only HEAD | sort \
+            | tee "$EVIDENCE_DIR/patched-files.txt"
+          git -C "$SOURCE_DIR" diff --binary --full-index HEAD -- \
+            > "$EVIDENCE_DIR/source-diff.patch"
+          echo "$(jq -r '.runtime.source.source_diff_sha256' "$CONTRACT_PATH")  $EVIDENCE_DIR/source-diff.patch" \
+            | sha256sum --check --strict
+          jq '.runtime.source' "$CONTRACT_PATH" > "$EVIDENCE_DIR/source.json"
+          jq '{cmake_arguments: .runtime.build.cmake_arguments}' "$CONTRACT_PATH" \
+            > "$EVIDENCE_DIR/build/configure-command.json"
+          mapfile -t cmake_args < <(jq -r '.runtime.build.cmake_arguments[]' "$CONTRACT_PATH")
+          cmake -S "$SOURCE_DIR" -B "$BUILD_DIR" -G Ninja \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON "${cmake_args[@]}" \
+            2>&1 | tee "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'Using KleidiAI optimized kernels if applicable' \
+            "$EVIDENCE_DIR/build/configure.log"
+          grep -q 'ARM detected' "$EVIDENCE_DIR/build/configure.log"
+          cp "$BUILD_DIR/CMakeCache.txt" "$EVIDENCE_DIR/build/CMakeCache.txt"
+          /usr/bin/time --verbose --output "$EVIDENCE_DIR/build/build-time.log" \
+            cmake --build "$BUILD_DIR" --target llama-server --parallel "$(nproc)" \
+            2>&1 | tee "$EVIDENCE_DIR/build/build.log"
+          ninja -C "$BUILD_DIR" -t commands > "$EVIDENCE_DIR/build/build-commands.txt"
+          "$BUILD_DIR/bin/llama-server" --version 2>&1 \
+            | tee "$EVIDENCE_DIR/build/server-version.txt"
+          python3 experiments/e7a_runtime_closure.py \
+            --server "$BUILD_DIR/bin/llama-server" \
+            --build-root "$BUILD_DIR" \
+            --copy-dir "$EVIDENCE_DIR/build/runtime-files" \
+            --output "$EVIDENCE_DIR/build/runtime-closure.json"
+
+      - name: Download every exact shortlisted model
+        run: |
+          set -euo pipefail
+          while IFS=$'\t' read -r candidate repository revision entrypoint expected_sha expected_size; do
+            target="$MODEL_ROOT/$candidate/$entrypoint"
+            mkdir -p "$(dirname "$target")"
+            curl --fail --location --retry 5 --retry-all-errors \
+              --output "$target" \
+              "https://huggingface.co/$repository/resolve/$revision/$entrypoint?download=true"
+            test "$(stat --format='%s' "$target")" = "$expected_size"
+            echo "$expected_sha  $target" | sha256sum --check --strict
+          done < <(jq -r '.models | to_entries[] | [.key, .value.repository, .value.revision, .value.path, .value.sha256, .value.size_bytes] | @tsv' "$CONTRACT_PATH")
+          find "$MODEL_ROOT" -type f -name '*.gguf' -print0 | sort -z | xargs -0 sha256sum \
+            > "$EVIDENCE_DIR/model-sha256.txt"
+
+      - name: Run every frozen same-job pair
+        env:
+          SERVER: ${{ env.BUILD_DIR }}/bin/llama-server
+        run: |
+          set -euo pipefail
+          while IFS= read -r pair_candidate; do
+            index=0
+            while IFS=$'\t' read -r role repetition; do
+              index=$((index + 1))
+              printf -v cell_index '%02d' "$index"
+              bash experiments/e11b_cell.sh \
+                "$pair_candidate" "$cell_index" "$role" "$repetition"
+            done < <(jq -r '.execution.pair_order[] | [.role, .repetition] | @tsv' "$CONTRACT_PATH")
+            test "$index" -eq 8
+          done < <(jq -r '.candidate_order[]' "$CONTRACT_PATH")
+
+      - name: Independently validate complete service frontier
+        run: |
+          set -euo pipefail
+          jq -n \
+            --arg git_commit "$GITHUB_SHA" \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg run_attempt "$GITHUB_RUN_ATTEMPT" \
+            '{schema_version: 1, experiment_id: "E11b", git_commit: $git_commit, github_run_id: $run_id, github_run_attempt: $run_attempt}' \
+            > "$EVIDENCE_DIR/provenance.json"
+          python3 experiments/e11b_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          free -b | tee "$EVIDENCE_DIR/memory-after.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+          jq '{status, service_frontier, sealed_confirmation_candidates, decision}' \
+            "$EVIDENCE_DIR/summary.json"
+
+      - name: Upload complete E11b evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e11b-stock-service-frontier-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error

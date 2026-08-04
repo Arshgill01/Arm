@@ -1,0 +1,369 @@
+{
+  "acceptance": {
+    "accepted_server_shell_exit_statuses": [
+      0,
+      130
+    ],
+    "forbidden_dynamic_dependency_basenames": [
+      "libcrypto.so.3",
+      "libssl.so.3"
+    ],
+    "http_status": 200,
+    "maximum_process_rss_kib": 15728640,
+    "maximum_ready_ms": 15000.0,
+    "maximum_throughput_coefficient_of_variation": 0.05,
+    "minimum_cached_tokens_per_request": 1,
+    "predictions_stable_across_repetitions": true,
+    "request_failures": 0,
+    "required_architecture": "aarch64",
+    "termination_reason": "stop"
+  },
+  "anchor": "ministral3_3b_q4_k_m",
+  "candidate_order": [
+    "ministral3_3b_q3_k_s",
+    "ministral3_3b_q3_k_m",
+    "ministral3_3b_iq4_xs",
+    "ministral3_3b_iq4_nl",
+    "ministral3_3b_q5_k_m"
+  ],
+  "claim_boundary": "E11b can establish a matched native Arm service frontier only for the exact stock candidates mechanically selected by E11a. It cannot promote a replacement before sealed confirmation, attribute the entire result to quantization or one kernel, rewrite the original admission contract, or support energy, PMU, local-device, fleet, cost, mixed-quant, imatrix, pruning, other-runtime, or general hardware claims.",
+  "decision": {
+    "mechanical_shortlist_only": true,
+    "no_post_result_candidate_cap": true,
+    "sealed_e11c_confirmation_required": true,
+    "service_result_can_promote_product": false
+  },
+  "execution": {
+    "fresh_process_per_cell": true,
+    "pair_order": [
+      {
+        "repetition": 1,
+        "role": "anchor"
+      },
+      {
+        "repetition": 1,
+        "role": "candidate"
+      },
+      {
+        "repetition": 2,
+        "role": "candidate"
+      },
+      {
+        "repetition": 2,
+        "role": "anchor"
+      },
+      {
+        "repetition": 3,
+        "role": "candidate"
+      },
+      {
+        "repetition": 3,
+        "role": "anchor"
+      },
+      {
+        "repetition": 4,
+        "role": "anchor"
+      },
+      {
+        "repetition": 4,
+        "role": "candidate"
+      }
+    ],
+    "repetitions_per_model": 4,
+    "runner": "ubuntu-24.04-arm",
+    "same_job_for_all_pairs": true,
+    "total_fresh_processes": 40,
+    "total_pairs": 5
+  },
+  "experiment_id": "E11b",
+  "frontier_policy": {
+    "coordinates": {
+      "maximize": [
+        "e9b_arc_easy.acc_norm",
+        "e9b_hellaswag.acc_norm",
+        "e9b_winogrande.acc",
+        "median requests per second"
+      ],
+      "minimize": [
+        "model size bytes",
+        "median HTTP latency",
+        "p95 HTTP latency",
+        "median server CPU seconds per request",
+        "maximum RSS",
+        "median readiness"
+      ]
+    },
+    "dominance": "A valid point dominates another only when it is no worse on every frozen coordinate and strictly better on at least one.",
+    "noise_rule": "Report ratios and dispersion without inventing an improvement gate after observation. A promotion candidate must be non-dominated and pass every validity gate.",
+    "weighted_score": false
+  },
+  "inputs": {
+    "cell_path": "experiments/e11b_cell.sh",
+    "cell_sha256": "23ccc358e05f82788d4bca9b8ba27dcec79d96a93ff856232f612fdc9d4b32fe",
+    "e11a_recovery_contract_path": "experiments/e11a_actual_recovery_contract.json",
+    "e11a_recovery_contract_sha256": "cd3e168666b1056bb241fb54a316573160655c9ea42c698edd4c82b74a427919",
+    "e11a_recovery_summary_path": "results/manifests/e11a-actual-recovery-30868725586.json",
+    "e11a_recovery_summary_sha256": "12b499720b4f59a3789ec80719da622af2580a57dac3aad2c43a5e2a78ac7e9b",
+    "e9a_contract_path": "experiments/e9a_contract.json",
+    "e9a_contract_sha256": "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928",
+    "e9a_ingest_path": "experiments/e9a_ingest.py",
+    "e9a_ingest_sha256": "46047aa8f99ea84779cd38f95d1c82ab00816f2313506a319adf4b3418624659",
+    "freeze_path": "experiments/e11b_freeze.py",
+    "freeze_sha256": "0d71634a8efeba9a2510bc82ca3184808688afa3527c77ee251d636bbdd5f1e5",
+    "freeze_test_path": "tests/test_e11b_freeze.py",
+    "freeze_test_sha256": "8ef588a516aaabef4641e15c6ff08d958f420fce13392d496ec4c87c36b048b4",
+    "ingest_path": "experiments/e11b_ingest.py",
+    "ingest_sha256": "b8e9312b86310983ae4a4c6d024725c0e8bf22321ac47901a54e055b3bb9afcc",
+    "models_path": "experiments/e3f_models.json",
+    "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+    "plan_path": "experiments/e11b_plan.json",
+    "plan_sha256": "02beb50195c644ee452c3c368606b4f6adc0a303c0ed611c277d0922758fd88c",
+    "probe_path": "experiments/e11b_probe.py",
+    "probe_sha256": "fea890df302606ef137ec3f7e075f8973b66eb484026bf99c047c49e55610d69",
+    "reference_manifest_path": "results/manifests/e3f-30656151957.json",
+    "reference_manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+    "stock_contract_path": "experiments/e11a_successor_contract.json",
+    "stock_contract_sha256": "0f373d8c503f74239adf283a240289d015c0a4623cb2413aab3497bb43843853",
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "test_path": "tests/test_e11b.py",
+    "test_sha256": "3b2117c7adfa645600d6746b8ca13526b15573d20e9f92d377f87c8a4ea4f0cf"
+  },
+  "models": {
+    "ministral3_3b_iq4_nl": {
+      "candidate": "ministral3_3b_iq4_nl",
+      "license": "Apache-2.0",
+      "path": "Ministral-3-3B-Instruct-2512-IQ4_NL.gguf",
+      "provenance": {
+        "api_url": "https://huggingface.co/api/models/unsloth/Ministral-3-3B-Instruct-2512-GGUF/revision/7564922f37fa5bbb62b87f09a55c12f1f91d7a6a?blobs=true",
+        "retrieved_utc": "2026-08-03",
+        "source": "Hugging Face model API with blobs=true at the exact revision",
+        "verified_revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+      },
+      "quality_coordinates": {
+        "e9b_arc_easy.acc_norm": 0.56,
+        "e9b_hellaswag.acc_norm": 0.72,
+        "e9b_winogrande.acc": 0.6
+      },
+      "quantization": "IQ4_NL",
+      "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+      "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+      "role": "new stock ladder candidate",
+      "sha256": "0479b05eb4890b51edf1213fb6d0d9466e93c685da491943d1a5aeb8013d49f8",
+      "size_bytes": 2051290400
+    },
+    "ministral3_3b_iq4_xs": {
+      "candidate": "ministral3_3b_iq4_xs",
+      "license": "Apache-2.0",
+      "path": "Ministral-3-3B-Instruct-2512-IQ4_XS.gguf",
+      "provenance": {
+        "api_url": "https://huggingface.co/api/models/unsloth/Ministral-3-3B-Instruct-2512-GGUF/revision/7564922f37fa5bbb62b87f09a55c12f1f91d7a6a?blobs=true",
+        "retrieved_utc": "2026-08-03",
+        "source": "Hugging Face model API with blobs=true at the exact revision",
+        "verified_revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+      },
+      "quality_coordinates": {
+        "e9b_arc_easy.acc_norm": 0.58,
+        "e9b_hellaswag.acc_norm": 0.73,
+        "e9b_winogrande.acc": 0.59
+      },
+      "quantization": "IQ4_XS",
+      "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+      "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+      "role": "new stock ladder candidate",
+      "sha256": "d847cdafe9459948337183eb0eeca2ee3ce0c1aed45066580e01e5751dcf3476",
+      "size_bytes": 1959277856
+    },
+    "ministral3_3b_q3_k_m": {
+      "candidate": "ministral3_3b_q3_k_m",
+      "license": "Apache-2.0",
+      "path": "Ministral-3-3B-Instruct-2512-Q3_K_M.gguf",
+      "provenance": {
+        "api_url": "https://huggingface.co/api/models/unsloth/Ministral-3-3B-Instruct-2512-GGUF/revision/7564922f37fa5bbb62b87f09a55c12f1f91d7a6a?blobs=true",
+        "retrieved_utc": "2026-08-03",
+        "source": "Hugging Face model API with blobs=true at the exact revision",
+        "verified_revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+      },
+      "quality_coordinates": {
+        "e9b_arc_easy.acc_norm": 0.57,
+        "e9b_hellaswag.acc_norm": 0.69,
+        "e9b_winogrande.acc": 0.62
+      },
+      "quantization": "Q3_K_M",
+      "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+      "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+      "role": "new stock ladder candidate",
+      "sha256": "91489d8d75b0a9e682e2f17ab9f25260ab935cddf6edc8f3510b8c691993c5d5",
+      "size_bytes": 1795552544
+    },
+    "ministral3_3b_q3_k_s": {
+      "candidate": "ministral3_3b_q3_k_s",
+      "license": "Apache-2.0",
+      "path": "Ministral-3-3B-Instruct-2512-Q3_K_S.gguf",
+      "provenance": {
+        "api_url": "https://huggingface.co/api/models/unsloth/Ministral-3-3B-Instruct-2512-GGUF/revision/7564922f37fa5bbb62b87f09a55c12f1f91d7a6a?blobs=true",
+        "retrieved_utc": "2026-08-03",
+        "source": "Hugging Face model API with blobs=true at the exact revision",
+        "verified_revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+      },
+      "quality_coordinates": {
+        "e9b_arc_easy.acc_norm": 0.52,
+        "e9b_hellaswag.acc_norm": 0.68,
+        "e9b_winogrande.acc": 0.59
+      },
+      "quantization": "Q3_K_S",
+      "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+      "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+      "role": "new stock ladder candidate",
+      "sha256": "35e350edab573bba67d5f5ffa07bad0edd41fec7fd0ba4f4fc8c05760bf54b8a",
+      "size_bytes": 1639150880
+    },
+    "ministral3_3b_q4_k_m": {
+      "candidate": "ministral3_3b_q4_k_m",
+      "path": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "quality_coordinates": {
+        "e9b_arc_easy.acc_norm": 0.59,
+        "e9b_hellaswag.acc_norm": 0.72,
+        "e9b_winogrande.acc": 0.57
+      },
+      "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+      "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+      "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "size_bytes": 2146497824
+    },
+    "ministral3_3b_q5_k_m": {
+      "candidate": "ministral3_3b_q5_k_m",
+      "license": "Apache-2.0",
+      "path": "Ministral-3-3B-Instruct-2512-Q5_K_M.gguf",
+      "provenance": {
+        "api_url": "https://huggingface.co/api/models/unsloth/Ministral-3-3B-Instruct-2512-GGUF/revision/7564922f37fa5bbb62b87f09a55c12f1f91d7a6a?blobs=true",
+        "retrieved_utc": "2026-08-03",
+        "source": "Hugging Face model API with blobs=true at the exact revision",
+        "verified_revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+      },
+      "quality_coordinates": {
+        "e9b_arc_easy.acc_norm": 0.58,
+        "e9b_hellaswag.acc_norm": 0.74,
+        "e9b_winogrande.acc": 0.6
+      },
+      "quantization": "Q5_K_M",
+      "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+      "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+      "role": "new stock ladder candidate",
+      "sha256": "8f208f4a8785aa1bdd8b506e36b036ac60c7f7a7fb144e3353781c74c58a33db",
+      "size_bytes": 2473653536
+    }
+  },
+  "negative_result_rule": "Retain and report unsupported load or repack paths, process failure, output instability, quality regression, service regression, high dispersion, memory regression, readiness regression, dominated points, and an empty shortlist without changing the prerequisite, order, repetitions, workload, coordinates, or gates.",
+  "prerequisite": {
+    "artifact": "e11a-actual-recovery-30868725586-1",
+    "contract_sha256": "cd3e168666b1056bb241fb54a316573160655c9ea42c698edd4c82b74a427919",
+    "quality_size_frontier": [
+      "ministral3_3b_q3_k_s",
+      "ministral3_3b_q3_k_m",
+      "ministral3_3b_iq4_xs",
+      "ministral3_3b_iq4_nl",
+      "ministral3_3b_q4_k_m",
+      "ministral3_3b_q5_k_m"
+    ],
+    "required_status": "valid_stock_quant_ladder_with_two_resource_infeasible_points",
+    "resource_infeasible_candidates": [
+      "ministral3_3b_q6_k",
+      "ministral3_3b_q8_0"
+    ],
+    "run_attempt": 1,
+    "run_id": "30868725586",
+    "summary_sha256": "12b499720b4f59a3789ec80719da622af2580a57dac3aad2c43a5e2a78ac7e9b"
+  },
+  "quality_policy": {
+    "minimum_new_accuracy_gate": null,
+    "original_30_task_admission_contract_rewritten": false,
+    "rule": "Report the exact 30-task accuracy and anchor agreement, but use the already frozen E11a external metrics as the exploratory quality coordinates. Do not reinterpret the 30-task set as a new admission gate and do not discard a stable negative result."
+  },
+  "request": {
+    "chat_template_mode": "model_jinja_system_instruction",
+    "client_concurrency": 1,
+    "instruction_role": "system",
+    "max_output_tokens": 8,
+    "measured_tasks": 30,
+    "seed": 424242,
+    "temperature": 0.0,
+    "timeout_seconds": 30.0,
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ]
+  },
+  "runtime": {
+    "build": {
+      "cmake_arguments": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DGGML_CPU_KLEIDIAI=ON",
+        "-DGGML_LTO=OFF",
+        "-DGGML_NATIVE=ON",
+        "-DLLAMA_BUILD_EXAMPLES=OFF",
+        "-DLLAMA_BUILD_SERVER=ON",
+        "-DLLAMA_BUILD_TESTS=OFF",
+        "-DLLAMA_CURL=OFF",
+        "-DLLAMA_OPENSSL=OFF"
+      ],
+      "forbidden_dynamic_dependency_basenames": [
+        "libcrypto.so.3",
+        "libssl.so.3"
+      ]
+    },
+    "profile_name": "e7c_final",
+    "service": {
+      "batch_size": 64,
+      "context_per_slot": 256,
+      "flash_attention": "auto",
+      "kv_cache_type_k": "f16",
+      "kv_cache_type_v": "f16",
+      "micro_batch_size": 64,
+      "prompt_cache": true,
+      "request_cache_prompt": true,
+      "server_parallel_slots": 1,
+      "threads": 4,
+      "warmup_slot_ids": [
+        0,
+        0
+      ],
+      "weight_repack": true
+    },
+    "source": {
+      "changed_files": [
+        "common/reasoning-budget.cpp",
+        "ggml/src/ggml-cpu/CMakeLists.txt",
+        "ggml/src/ggml-cpu/arch/arm/quants.c",
+        "tests/test-reasoning-budget.cpp"
+      ],
+      "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "patches": [
+        {
+          "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+          "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+        },
+        {
+          "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+          "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+        },
+        {
+          "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+          "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+        }
+      ],
+      "repository": "https://github.com/ggml-org/llama.cpp.git",
+      "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+      "tag": "b10216"
+    }
+  },
+  "schema_version": 1,
+  "sealed_confirmation": {
+    "candidate_rule": "Run only valid non-dominated E11b points plus the Q4_K_M anchor; preserve poor results.",
+    "freeze_before_e11b_service_outcomes": true,
+    "required_before_promotion": true,
+    "selection": "Use a new pinned, licensed task/sample holdout not used to construct the exploratory E11a frontier. Bind its task versions, sample indices, metrics, adapter, and hashes before any E11b service result is read."
+  },
+  "state": "frozen from the mechanically selected terminal E11a deployable quality-size frontier before any shortlisted service result was observed",
+  "title": "Matched native Arm stock-quant service frontier"
+}
