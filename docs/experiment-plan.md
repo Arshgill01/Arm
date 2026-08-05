@@ -2063,3 +2063,21 @@ three shadow/oracle pairs, certify two recurring transitions, deny the
 non-reusing start transition, then serve three certified cached requests. All
 timings are diagnostic. Only a complete exact preflight may authorize a
 separately frozen reverse-balanced performance experiment.
+
+### E21a native preflight outcome
+
+Run `30979498751` passed all 14 frozen gates and independent ingestion reproduced
+the workflow summary byte for byte. Both policies produced the same six exact
+responses, retained the same 3/6 expected-label score and reference answers,
+and had zero failures. The online controller served no unknown cached attempt,
+certified two reusable transitions, denied the non-reusing start transition,
+and used three certified cached routes.
+
+Timings remain diagnostic: throughput was 1.19946x and CPU/served request was
+0.84620x, while synchronous first-use calibration regressed p95 latency to
+1.92343x. The result authorizes a separately frozen full matrix but no native
+performance claim. That matrix must preserve the first-use tail, report a
+separate certified steady-state tail, and establish an explicit break-even
+boundary. See the retained
+[`manifest`](../results/manifests/e21a-preflight-30979498751.json) and
+[`report`](../results/reports/e21a-online-certificate-preflight.md).

@@ -2151,3 +2151,22 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `await_native_preflight`.
 - Frozen exactly one native all-uncached and one native online-policy process.
   Preflight timings are diagnostic and cannot support a performance claim.
+
+## 2026-08-05 — E21a native preflight passes and full matrix is authorized
+
+- Native run `30979498751` completed on a four-vCPU Neoverse N2 runner with the
+  exact E7c OpenSSL-off b10216 Q4_K_M service. Independent ingestion reproduces
+  the workflow summary byte for byte at `5b3ce1e5…55587f`.
+- All 14 frozen gates pass: both policies preserve the exact six responses and
+  reference predictions with zero failures, every prompt is unseen to E13b,
+  no unknown cached attempt is served, and the expected 3 unknown/3 certified
+  routes plus 2 certified/1 denied transition registry are observed.
+- The preflight's diagnostic-only ratios are 1.19946x throughput, 0.63513x
+  median latency and 0.84620x CPU/request, but p95 regresses to 1.92343x because
+  synchronous first-use calibration runs a shadow and an oracle.
+- The negative tail is retained without weakening a gate. This result permits
+  only a separately frozen full lifecycle/steady-state experiment with an
+  explicit break-even boundary; it permits no performance claim by itself.
+- Artifact `e21a-online-certificate-preflight-30979498751-1` (ID `8919581630`,
+  digest `24ee6f5e…cb741`) retains 60 independently hashed runner files plus
+  verified aliases and the post-inventory disk record.

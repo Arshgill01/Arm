@@ -29,6 +29,9 @@ build_terminal_model_decision = import_module(
 
 
 EXPECTED_HASHES = {
+    "results/manifests/e21a-preflight-30979498751.json": (
+        "d39f94fe1e56d8a3fa0b3a3f15b062109c8135d684e9179101d034a16f65b978"
+    ),
     "experiments/evidence_readiness_policy.json": (
         "4802e2a4f9fd3bdf83d612804405f878ad43d0d26285fa52699877da91ad8c40"
     ),
