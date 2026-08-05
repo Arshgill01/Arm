@@ -1,0 +1,94 @@
+name: Arm E16e lifecycle retention repair
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e16e_lifecycle_contract.json
+  CONTRACT_SHA256: f7034e7c56d5ef45e7c24f60af06bbeb781932f69c8d02746d970247e807a22e
+  SOURCE_RUN_ID: "30988414887"
+  SOURCE_ARTIFACT: e16d-product-sidecar-lifecycle-30988414887-1
+
+jobs:
+  retain:
+    name: Revalidate the exact failed E16d artifact without changing gates
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 10
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e16e-${{ github.run_id }}-${{ github.run_attempt }}
+      SOURCE_DIR: ${{ github.workspace }}/results/raw/e16e-${{ github.run_id }}-${{ github.run_attempt }}/source
+
+    steps:
+      - name: Check out frozen E16e retention repair
+        uses: actions/checkout@v7
+
+      - name: Verify the single permitted reader repair and frozen inputs
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          jq -r '.inputs[] | [.sha256, .path] | @tsv' "$CONTRACT_PATH" \
+            | while IFS=$'\t' read -r expected input_path; do
+                echo "$expected  $input_path" | sha256sum --check --strict
+              done
+          python3 -m unittest tests.test_e16e_lifecycle tests.test_e16d_lifecycle
+          mkdir -p "$EVIDENCE_DIR"
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          jq -n \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --argjson run_attempt "$GITHUB_RUN_ATTEMPT" \
+            --arg sha "$GITHUB_SHA" \
+            --arg ref "$GITHUB_REF" \
+            --arg runner_os "$RUNNER_OS" \
+            --arg runner_arch "$RUNNER_ARCH" \
+            --arg source_run_id "$SOURCE_RUN_ID" \
+            --arg source_artifact "$SOURCE_ARTIFACT" \
+            '{run_id: $run_id, run_attempt: $run_attempt, sha: $sha, ref: $ref, runner_os: $runner_os, runner_arch: $runner_arch, source_run_id: $source_run_id, source_artifact: $source_artifact}' \
+            > "$EVIDENCE_DIR/github.json"
+
+      - name: Download the exact always-uploaded E16d failure artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ env.SOURCE_ARTIFACT }}
+          path: ${{ env.SOURCE_DIR }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: Arshgill01/Arm
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Independently replay every unchanged E16d lifecycle gate twice
+        run: |
+          set -euo pipefail
+          python3 experiments/e16e_lifecycle_retain.py \
+            --evidence-dir "$SOURCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary-a.json" \
+            --inventory-output "$EVIDENCE_DIR/source-file-inventory-sha256.txt"
+          python3 experiments/e16e_lifecycle_retain.py \
+            --evidence-dir "$SOURCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary-b.json"
+          cmp "$EVIDENCE_DIR/summary-a.json" "$EVIDENCE_DIR/summary-b.json"
+          cp "$EVIDENCE_DIR/summary-a.json" "$EVIDENCE_DIR/summary.json"
+          test "$(jq '[.gates[]] | all' "$EVIDENCE_DIR/summary.json")" = true
+          test "$(jq -r '.status' "$EVIDENCE_DIR/summary.json")" = \
+            valid_product_sidecar_lifecycle_retained_after_reader_repair
+          test "$(jq -r '.validation_repair.acceptance_gates_changed' "$EVIDENCE_DIR/summary.json")" = false
+          test "$(jq -r '.validation_repair.native_measurements_added' "$EVIDENCE_DIR/summary.json")" = 0
+          jq '{status, source_experiment, validation_repair, construction, storage, boundaries, quality, gates, decision}' \
+            "$EVIDENCE_DIR/summary.json"
+
+      - name: Upload complete E16e repair and exact E16d source evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e16e-lifecycle-retention-repair-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error
+          compression-level: 6

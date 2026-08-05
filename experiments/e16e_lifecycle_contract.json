@@ -1,0 +1,87 @@
+{
+  "acceptance": {
+    "all_gates_required": true,
+    "exact_worker_quality": "23/30 each",
+    "reference_prediction_mismatches": 0,
+    "request_failures": 0,
+    "source_extracted_bytes": 33762667,
+    "source_extracted_files": 61,
+    "strict_utf8_decode_failures": 2,
+    "unchanged_e16d_gates": 14,
+    "worker_answer_mismatches": 0
+  },
+  "claim_boundary": "A valid E16e result establishes that the exact native E16d artifact completed the clean-checkout prepack, full verification, corruption rejection, two-worker read-only shared launch, exact 23/30 quality on both workers, controlled stop, and receipt-bound cleanup. E16d's failed workflow conclusion remains retained. E16e changes no lifecycle gate, adds no native measurement, and makes no new throughput, cold-start, per-process RSS, energy, PMU, Mac, fleet, or cost claim.",
+  "execution": {
+    "download_exact_failed_artifact": true,
+    "full_source_file_inventory_required": true,
+    "model_download": false,
+    "performance_matrix": false,
+    "runner": "ubuntu-24.04-arm",
+    "sidecar_construction": false
+  },
+  "experiment_id": "E16e",
+  "inputs": {
+    "e16c_contract": {
+      "path": "experiments/e16c_contract.json",
+      "sha256": "118bed9c2887bfaef877dbac5ffdd74890f2b3abab6c651c8c579c3891d26df0"
+    },
+    "e16c_manifest": {
+      "path": "results/manifests/e16c-30851609576.json",
+      "sha256": "a469358f7f1b6698961d7481c795893595c88e85e235fa705c650042bcc025da"
+    },
+    "e16d_contract": {
+      "path": "experiments/e16d_lifecycle_contract.json",
+      "sha256": "055c656a14583d76e64ea773367e67979d36bcb026c072241892a4bd30d7fd2e"
+    },
+    "e16d_ingest": {
+      "path": "experiments/e16d_lifecycle_ingest.py",
+      "sha256": "d1eb3b6cfebf9f64e628239401d44d4d7a5021eb4ca6a0ed75d542ab70cad035"
+    },
+    "e16d_synthetic": {
+      "path": "results/manifests/e16d-lifecycle-synthetic-replay.json",
+      "sha256": "f1414a5ea78c7c83d25866bb04451d18aa1337ba06cf968e8a26cfec92e5d5e5"
+    },
+    "freeze": {
+      "path": "experiments/e16e_lifecycle_freeze.py",
+      "sha256": "a7108753aabeee496fe6768d469b574e5d4616cc2102bbfe515b7343a1d1432a"
+    },
+    "retain": {
+      "path": "experiments/e16e_lifecycle_retain.py",
+      "sha256": "1e0a07422be2a30410698fd66583f71396aafd4055e4452e3f43f612c07ceee7"
+    },
+    "tests": {
+      "path": "tests/test_e16e_lifecycle.py",
+      "sha256": "acc645b3339ff661d504806679920347158c79cff78ef8da671ea4273cd69176"
+    }
+  },
+  "negative_result_rule": "E16d remains a failed workflow. E16e may promote the product lifecycle only if the exact failed artifact passes every unchanged E16d gate under the single byte-safe reader repair.",
+  "predecessor": {
+    "artifact_digest": "sha256:9324b4dabdccd47fdb2094ec309de9f9ef79f6f5c688aab7a1166f25d9b8d51d",
+    "artifact_expires_at": "2026-11-03T08:17:31Z",
+    "artifact_id": "8923128444",
+    "artifact_name": "e16d-product-sidecar-lifecycle-30988414887-1",
+    "artifact_size_bytes": 13968867,
+    "contract_path": "experiments/e16d_lifecycle_contract.json",
+    "contract_sha256": "055c656a14583d76e64ea773367e67979d36bcb026c072241892a4bd30d7fd2e",
+    "experiment_id": "E16d",
+    "extracted_bytes": 33762667,
+    "extracted_files": 61,
+    "failure_class": "non_utf8_diagnostic_reader_failure",
+    "failure_location": "e16d_lifecycle_ingest.py:mechanism_log",
+    "head_sha": "9baf8b53b8ac704a509ff9abb68805ebbf6b34dd",
+    "job_id": "92248513907",
+    "run_id": "30988414887",
+    "workflow_conclusion": "failure"
+  },
+  "repair": {
+    "acceptance_gate_changes_permitted": false,
+    "artifact_mutation_permitted": false,
+    "native_measurements_added": 0,
+    "permitted_change": "Search the two frozen ASCII mechanism markers in raw retained bytes rather than decoding unrelated llama.cpp diagnostics.",
+    "product_rerun_required": false,
+    "repaired_replay_count": 2
+  },
+  "schema_version": 1,
+  "state": "frozen_after_e16d_reader_failure_before_repaired_retention",
+  "title": "Byte-safe retention repair for the completed E16d lifecycle"
+}
