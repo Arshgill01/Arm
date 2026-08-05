@@ -76,7 +76,7 @@ artifact.
 | Adaptive online cache certificate | [E21b `30985501097`](https://github.com/Arshgill01/Arm/actions/runs/30985501097) | [`e21b` manifest](../results/manifests/e21b-30985501097.json) · [`report`](../results/reports/e21b-online-cache-certificate.md) | `df0b6907…f805` |
 | Clean-checkout sidecar lifecycle reader failure | [E16d `30988414887`](https://github.com/Arshgill01/Arm/actions/runs/30988414887) | Exact always-uploaded failure artifact retained; bounded repair is E16e | `sha256:9324b4da…b8d51d` artifact |
 | Clean-checkout sidecar lifecycle retained after byte-reader repair | [E16e `30989161576`](https://github.com/Arshgill01/Arm/actions/runs/30989161576) | [`e16e` manifest](../results/manifests/e16e-30989161576.json) · [`report`](../results/reports/e16e-persistent-sidecar-product-lifecycle.md) | `ca44f051…c6299` |
-| Final judge-package clean-checkout validation | [`30798816900`](https://github.com/Arshgill01/Arm/actions/runs/30798816900) | 175 tests, 55 hashes through E10b, exact runtime/plan checks, four gallery assets, video-word ceiling, demo smoke test | passed on native `aarch64` at `03ae10d` |
+| Final judge-package clean-checkout validation | [`30991082053`](https://github.com/Arshgill01/Arm/actions/runs/30991082053) | 468 tests (20 expected artifact/environment skips), 71 hashes through E16e/E21b, exact plan replay, four gallery assets, 327/390-word ceiling, E21/E16 demo smoke | passed on native `aarch64` at `f12b4a1` |
 
 ## Final selected package
 

@@ -33,10 +33,11 @@ python3 -m unittest discover -s tests -v
 ```
 
 The latest native Arm judge-package clean-checkout run is
-[`30798816900`](https://github.com/Arshgill01/Arm/actions/runs/30798816900),
-covering 175 tests, 55 immutable evidence hashes, planner replay, and the demo
-smoke test at commit `03ae10d`. It also validates all four gallery assets and
-the enforced video-script word ceiling.
+[`30991082053`](https://github.com/Arshgill01/Arm/actions/runs/30991082053),
+covering 468 tests (20 expected artifact/environment skips), 71 immutable
+evidence hashes through E16e and E21b, exact planner replay, and the dependency-
+free demo smoke test at commit `f12b4a1`. It also validates all four gallery
+assets and the enforced 327/390-word video-script ceiling.
 
 The GitHub repository and the
 [HTML evidence report](https://pareto64-arm-evidence.arshgill01.chatgpt.site)

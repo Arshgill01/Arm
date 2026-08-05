@@ -24,9 +24,10 @@ Last technical review: 2026-08-05 UTC. The submission deadline is August 14,
 - [x] Video script is under three minutes (2m45s; 327 spoken words).
 - [x] The final judge package passes clean-checkout native Arm validation in
       GitHub Actions workflow run
-      [`30798816900`](https://github.com/Arshgill01/Arm/actions/runs/30798816900):
-      175 tests, 55 immutable evidence hashes, four gallery assets, and the
-      video-word ceiling at commit `03ae10d`.
+      [`30991082053`](https://github.com/Arshgill01/Arm/actions/runs/30991082053):
+      468 tests with 20 expected artifact/environment skips, 71 immutable
+      evidence hashes, exact planner replay, four gallery assets, the E21/E16
+      demo smoke checks, and the 327/390-word ceiling at commit `f12b4a1`.
 
 The demo, favicon, and four 1,440×900 screenshots are first-party assets created
 for this repository. They use no third-party imagery, fonts, music, or footage.
