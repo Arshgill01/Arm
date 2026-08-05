@@ -2034,3 +2034,32 @@ type is promoted, E17b remains invalid, and the current long-context K/V lane is
 parked without a rerun. See the retained
 [`manifest`](../results/manifests/e17c-30867998030-failure.json) and
 [`report`](../results/reports/e17c-timing-schema-failure.md).
+
+## E21a unseen-transition online cache certificate
+
+E13b and E19a prove a large exact-output cache benefit, but only for 48
+fingerprints known before launch. E21a tests a more deployable fail-closed
+boundary: an identity-bound transition registry that can learn previously
+unseen exact prompt transitions without ever serving an unverified cached
+answer.
+
+For an unknown transition, the controller runs the cached attempt as a shadow,
+then runs and serves an uncached oracle. It certifies the transition only when
+the output signature is byte-exact and at least eight cached tokens were
+observed. Mismatch, failure, absent reuse, registry corruption or identity drift
+denies the transition. The transition key binds the exact model, binary, source
+diff, service recipe, previous served prompt/response and current prompt.
+
+The mechanism/unit suite and byte-stable synthetic replay pass with zero
+unknown cached attempts served. The expensive-experiment gate estimates a
+46%-affected runtime share from retained causal cache evidence, a theoretical
+85.19% system-throughput ceiling, a 10% minimum product result, and a bounded
+45-minute/4-GiB preflight budget. It returns `await_native_preflight`.
+
+The frozen native preflight therefore contains exactly one all-uncached and one
+online-policy fresh process on `ubuntu-24.04-arm`. Six served requests exercise
+two prompt fingerprints absent from E13b; the online cell is required to issue
+three shadow/oracle pairs, certify two recurring transitions, deny the
+non-reusing start transition, then serve three certified cached requests. All
+timings are diagnostic. Only a complete exact preflight may authorize a
+separately frozen reverse-balanced performance experiment.

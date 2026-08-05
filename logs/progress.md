@@ -2132,3 +2132,22 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   None is regenerated or promoted; the 11-point map remains retained.
 - Closed the broad model sweep with no additional candidate or native model job
   authorized. The original 30-task contract remains unchanged.
+
+## 2026-08-05 — E21a online certificate mechanism and preflight frozen
+
+- Added an identity-bound transition certificate for previously unseen prompt
+  fingerprints. Unknown cached attempts are shadow-only; the uncached oracle is
+  always served until exact output and minimum cache reuse certify the complete
+  previous-prompt/response to current-prompt transition.
+- Corrupt or foreign registries fail closed. Mismatch, failure and absent reuse
+  create explicit denials; certified-call failure requires an uncached fallback
+  and revokes the transition.
+- Five mechanism tests and a byte-stable six-request synthetic trace pass with
+  two certified transitions, one denied start transition, three later cached
+  routes and zero unknown cached responses served.
+- The reusable readiness gate records a 46% affected share, 85.19% theoretical
+  throughput ceiling, 10% minimum product result, deployability/novelty value,
+  45-minute runtime budget and 4-GiB storage budget. It correctly stops at
+  `await_native_preflight`.
+- Frozen exactly one native all-uncached and one native online-policy process.
+  Preflight timings are diagnostic and cannot support a performance claim.
