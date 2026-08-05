@@ -1,0 +1,1949 @@
+{
+  "build": {
+    "build_process": {
+      "elapsed": "3:21.86",
+      "elapsed_seconds": 201.86,
+      "exit_status": 0,
+      "maximum_rss_kib": 2842144,
+      "percent_cpu": "333%"
+    },
+    "runtime_closure": {
+      "build_root": "/tmp/llama.cpp-E20c-build",
+      "file_count": 8,
+      "files": [
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-base.so.0.18.0",
+          "relative_path": "bin/libggml-base.so.0.18.0",
+          "sha256": "d797d8116bb65d1062539cf41f2c052e514b08512c8df2901694085af0bc1494",
+          "size_bytes": 873464
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-cpu.so.0.18.0",
+          "relative_path": "bin/libggml-cpu.so.0.18.0",
+          "sha256": "d3dc383a097245792feebe350182860e8c0f8f56f62e17e8f5c25fa222266ac1",
+          "size_bytes": 1166264
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml.so.0.18.0",
+          "relative_path": "bin/libggml.so.0.18.0",
+          "sha256": "e687a35be51f09a5d2d1f8eb913727678de1c3fcd5e93ec56e03f9c795b41f9d",
+          "size_bytes": 78176
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-common.so.0.0.10216",
+          "relative_path": "bin/libllama-common.so.0.0.10216",
+          "sha256": "a63d2dfaac8fbe32e17d93a672f38047516fd14627535639035841685f6f0adb",
+          "size_bytes": 5325720
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-server-impl.so",
+          "relative_path": "bin/libllama-server-impl.so",
+          "sha256": "2274c0da88ae50bcaac46d2275abb1ca459da1a6aeb3117220d4c9368d380d1d",
+          "size_bytes": 6949024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama.so.0.0.10216",
+          "relative_path": "bin/libllama.so.0.0.10216",
+          "sha256": "4637559f675206cf76100d46cff646eaddcc0120c05a694e154bd5afc3a889ec",
+          "size_bytes": 3937120
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libmtmd.so.0.0.10216",
+          "relative_path": "bin/libmtmd.so.0.0.10216",
+          "sha256": "85a5a202e0e0e495edbc76c8569de41a5eba068661074490e4a434f2c4f2b935",
+          "size_bytes": 1461024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/llama-server",
+          "relative_path": "bin/llama-server",
+          "sha256": "e86ffb629b7df049b9e5109ea6af976c6e858122e222d4cb1ff6e4c3251cecc9",
+          "size_bytes": 72488
+        }
+      ],
+      "ldd_output": "\tlinux-vdso.so.1 (0x0000ff3ffd59c000)\n\tlibllama-server-impl.so => /tmp/llama.cpp-E20c-build/bin/libllama-server-impl.so (0x0000ff3ffcf40000)\n\tlibstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ff3ffccb0000)\n\tlibgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ff3ffcc70000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ff3ffcab0000)\n\t/lib/ld-linux-aarch64.so.1 (0x0000ff3ffd560000)\n\tlibllama-common.so.0 => /tmp/llama.cpp-E20c-build/bin/libllama-common.so.0 (0x0000ff3ffc690000)\n\tlibmtmd.so.0 => /tmp/llama.cpp-E20c-build/bin/libmtmd.so.0 (0x0000ff3ffc540000)\n\tlibllama.so.0 => /tmp/llama.cpp-E20c-build/bin/libllama.so.0 (0x0000ff3ffc200000)\n\tlibggml.so.0 => /tmp/llama.cpp-E20c-build/bin/libggml.so.0 (0x0000ff3ffc1d0000)\n\tlibggml-base.so.0 => /tmp/llama.cpp-E20c-build/bin/libggml-base.so.0 (0x0000ff3ffc0f0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ff3ffc040000)\n\tlibggml-cpu.so.0 => /tmp/llama.cpp-E20c-build/bin/libggml-cpu.so.0 (0x0000ff3ffbea0000)\n\tlibgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000ff3ffbe20000)\n",
+      "runtime_dependencies": [
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E20c-build/bin/libllama-server-impl.so",
+          "resolved_path": "/tmp/llama.cpp-E20c-build/bin/libllama-server-impl.so"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libstdc++.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgcc_s.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgcc_s.so.1"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libc.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libc.so.6"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/ld-linux-aarch64.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E20c-build/bin/libllama-common.so.0",
+          "resolved_path": "/tmp/llama.cpp-E20c-build/bin/libllama-common.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E20c-build/bin/libmtmd.so.0",
+          "resolved_path": "/tmp/llama.cpp-E20c-build/bin/libmtmd.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E20c-build/bin/libllama.so.0",
+          "resolved_path": "/tmp/llama.cpp-E20c-build/bin/libllama.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E20c-build/bin/libggml.so.0",
+          "resolved_path": "/tmp/llama.cpp-E20c-build/bin/libggml.so.0.18.0"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E20c-build/bin/libggml-base.so.0",
+          "resolved_path": "/tmp/llama.cpp-E20c-build/bin/libggml-base.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libm.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libm.so.6"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E20c-build/bin/libggml-cpu.so.0",
+          "resolved_path": "/tmp/llama.cpp-E20c-build/bin/libggml-cpu.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgomp.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0"
+        }
+      ],
+      "schema_version": 1,
+      "server_path": "/tmp/llama.cpp-E20c-build/bin/llama-server",
+      "server_relative_path": "bin/llama-server",
+      "system_dependencies_excluded": true,
+      "total_size_bytes": 19863280
+    },
+    "server_version": "version: 10216 (876a43211)\nbuilt with GNU 13.3.0 for Linux aarch64"
+  },
+  "campaign_decision": {
+    "e20b_failed_contract_rehabilitated": false,
+    "ffn_pair_fusion_lane_closed": true,
+    "guarded_safety_success": true,
+    "optimization_promoted": false,
+    "performance_win": false,
+    "selected_profile": "reuse_off"
+  },
+  "contract": {
+    "acceptance": {
+      "accepted_server_shell_exit_statuses": [
+        0,
+        130
+      ],
+      "footprint_branch_maximum_runtime_closure_ratio": 0.95,
+      "footprint_branch_minimum_throughput_ratio": 0.98,
+      "http_status": 200,
+      "maximum_build_seconds_ratio": 2.0,
+      "maximum_candidate_rss_increase_kib": 65536,
+      "maximum_candidate_rss_ratio": 1.02,
+      "maximum_candidate_throughput_cv": 0.02,
+      "maximum_cpu_seconds_per_request_ratio": 0.99,
+      "maximum_median_http_latency_ratio": 0.99,
+      "maximum_p95_http_latency_ratio": 1.02,
+      "maximum_process_rss_kib": 8388608,
+      "maximum_ready_time_ratio": 1.1,
+      "maximum_runtime_closure_ratio": 1.0,
+      "minimum_candidate_cached_tokens_per_request": 1,
+      "minimum_throughput_ratio": 1.02,
+      "performance_branch_maximum_runtime_closure_ratio": 1.05,
+      "performance_branch_minimum_throughput_ratio": 1.03,
+      "reference_prediction_mismatches": 0,
+      "request_failures": 0,
+      "termination_reason": "stop"
+    },
+    "build": {
+      "cmake_arguments": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DGGML_CPU_KLEIDIAI=ON",
+        "-DGGML_LTO=OFF",
+        "-DGGML_NATIVE=ON",
+        "-DLLAMA_BUILD_EXAMPLES=OFF",
+        "-DLLAMA_BUILD_SERVER=ON",
+        "-DLLAMA_BUILD_TESTS=OFF",
+        "-DLLAMA_CURL=OFF",
+        "-DLLAMA_OPENSSL=OFF"
+      ],
+      "directory": "/tmp/llama.cpp-E20c-build",
+      "profiles": {
+        "reuse_off": {
+          "environment": {
+            "GGML_CPU_NODE_TIMING": "0",
+            "GGML_CPU_REPACK_MUL_MAT_PAIR_FUSION": "0"
+          },
+          "pair_fusion": false
+        },
+        "reuse_on": {
+          "environment": {
+            "GGML_CPU_NODE_TIMING": "0",
+            "GGML_CPU_REPACK_MUL_MAT_PAIR_FUSION": "1"
+          },
+          "pair_fusion": true
+        }
+      },
+      "required_cmake_cache_entries": [
+        "CMAKE_BUILD_TYPE:STRING=Release",
+        "CMAKE_GENERATOR:INTERNAL=Ninja",
+        "GGML_CPU_KLEIDIAI:BOOL=ON",
+        "GGML_LTO:BOOL=OFF",
+        "GGML_NATIVE:BOOL=ON",
+        "LLAMA_BUILD_EXAMPLES:BOOL=OFF",
+        "LLAMA_BUILD_SERVER:BOOL=ON",
+        "LLAMA_BUILD_TESTS:BOOL=OFF",
+        "LLAMA_CURL:UNINITIALIZED=OFF",
+        "LLAMA_OPENSSL:BOOL=OFF"
+      ],
+      "runtime_closure_hashed": true,
+      "single_binary_for_both_profiles": true
+    },
+    "claim_boundary": "E20c can establish only the effect of conditionally reusing one repack-backend Q8_K activation conversion across exact-name, compatible-output Q4_K FFN gate/up projections for the exact patched b10216 OpenSSL-off Q4_K_M service and 30-task workload on one four-vCPU GitHub Arm64 runner. Mechanism and safety-preflight timings are diagnostic only. No other-model, other-backend, long-context, PMU, cache-counter, energy, local-device, fleet, or cost claim is allowed.",
+    "decision": {
+      "automatic_product_promotion_allowed": false,
+      "candidate_must_pass_every_gate": true,
+      "e20b_failed_contract_rehabilitated": false,
+      "guarded_successor_must_pass_full_service_safety_preflight": true,
+      "guarded_successor_must_reprove_full_mechanism": true,
+      "pair_fusion_default_remains_off": true,
+      "quality_evaluated_before_performance_promotion": true,
+      "separate_clean_integration_required_after_win": true,
+      "weighted_score_used": false
+    },
+    "execution": {
+      "baseline_profile": "reuse_off",
+      "candidate_profile": "reuse_on",
+      "fresh_server_per_cell": true,
+      "order": [
+        {
+          "profile": "reuse_off",
+          "repetition": 1
+        },
+        {
+          "profile": "reuse_on",
+          "repetition": 1
+        },
+        {
+          "profile": "reuse_on",
+          "repetition": 2
+        },
+        {
+          "profile": "reuse_off",
+          "repetition": 2
+        },
+        {
+          "profile": "reuse_off",
+          "repetition": 3
+        },
+        {
+          "profile": "reuse_on",
+          "repetition": 3
+        },
+        {
+          "profile": "reuse_on",
+          "repetition": 4
+        },
+        {
+          "profile": "reuse_off",
+          "repetition": 4
+        },
+        {
+          "profile": "reuse_off",
+          "repetition": 5
+        },
+        {
+          "profile": "reuse_on",
+          "repetition": 5
+        },
+        {
+          "profile": "reuse_on",
+          "repetition": 6
+        },
+        {
+          "profile": "reuse_off",
+          "repetition": 6
+        }
+      ],
+      "repetitions_per_profile": 6,
+      "reverse_balanced_blocks": 3,
+      "runner": "ubuntu-24.04-arm",
+      "safety_preflight_excluded_from_performance_summary": true
+    },
+    "experiment_id": "E20c",
+    "hypothesis": "Conditionally reusing the exact Q8_K activation conversion across each exact-name Q4_K FFN gate/up pair with compatible output strides improves median end-to-end service throughput by at least 2% and reduces median latency and CPU seconds/request by at least 1%, without answer, p95, readiness, RSS, failure, or closure regression.",
+    "inputs": {
+      "base_contract_path": "experiments/e20b_contract.json",
+      "base_contract_sha256": "cf4872ca1a8145b14eff079daeddcd1d7cd57e2650d365e972a959102e62d8a3",
+      "cell_path": "experiments/e20c_cell.sh",
+      "cell_sha256": "35ed1766ec00f7444c9e8b7c167b75d974b430ae1e4e67ce06afa9c9ffd3c7c5",
+      "e16a_manifest_path": "results/manifests/e16a-30837796757.json",
+      "e16a_manifest_sha256": "cd3ed3ceb1fe5e6b02284e43b8bcf1e6c6cfdfb7178fe41a07a401935234c686",
+      "e20a_manifest_path": "results/manifests/e20a-30865578508.json",
+      "e20a_manifest_sha256": "f59ca2cc8398a408f79b30268393c8386391e1165a8e4da749fac61e0230618f",
+      "e20b_failure_path": "results/manifests/e20b-30867317408-failure.json",
+      "e20b_failure_sha256": "799e69e59e917d84f20b866d090784273d9430be9c8d39f123d3043faafd8386",
+      "e9a_manifest_path": "results/manifests/e9a-30764802071.json",
+      "e9a_manifest_sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d",
+      "freeze_path": "experiments/e20c_freeze.py",
+      "freeze_sha256": "f4b4d7bd1fe64a67ffa5cbe731090d4edeb75cd4299024ddf185454d48d4d628",
+      "ingest_path": "experiments/e20c_ingest.py",
+      "ingest_sha256": "ee29bed2e716a346208de2e163aa17714b936d96a9db21d5ac0d6d8025d2e727",
+      "manifest_path": "results/manifests/e3f-30656151957.json",
+      "manifest_sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c",
+      "models_path": "experiments/e3f_models.json",
+      "models_sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d",
+      "patch_features_path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+      "patch_features_sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f",
+      "patch_guard_path": "patches/llama.cpp/b10216/0010-guard-repack-ffn-pair-shapes.patch",
+      "patch_guard_sha256": "24c4efac34b3b340b6f3e037081541c3273d96034737e774042aaa4b5e2cbe0c",
+      "patch_pair_path": "patches/llama.cpp/b10216/0009-reuse-repack-pair-activation.patch",
+      "patch_pair_sha256": "4094d9c35d705c4b92da7d8ad793dbd980acabbc070695edd5e7276bf1959dc0",
+      "patch_q8_path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+      "patch_q8_sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+      "patch_reasoning_path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+      "patch_reasoning_sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783",
+      "patch_timing_path": "patches/llama.cpp/b10216/0008-cpu-node-timing.patch",
+      "patch_timing_sha256": "2810e893b781137fa41444641c451aa9020843055addae97936499c6e8b4df31",
+      "probe_path": "experiments/e5b_inference_probe.py",
+      "probe_sha256": "82ebd56316705df93b59aea9c05c31b59cdd0c4c9fd31ef16608dbc0e86702db",
+      "runtime_closure_path": "experiments/e7a_runtime_closure.py",
+      "runtime_closure_sha256": "3e347f3e33a166e8df93952e1cb92798bab71abff467ca42959c6bcc0833510d",
+      "tasks_path": "experiments/e3_tasks.json",
+      "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+      "test_path": "tests/test_e20c.py",
+      "test_sha256": "9a13cbb46e8e67c97a533f9a839432908584a5104037968025a6354d87f29ed9"
+    },
+    "mechanism_preflight": {
+      "benchmark_argv": [
+        "BENCH_PATH",
+        "--model",
+        "MODEL_PATH",
+        "--threads",
+        "4",
+        "--n-gpu-layers",
+        "0",
+        "--flash-attn",
+        "on",
+        "--batch-size",
+        "1024",
+        "--ubatch-size",
+        "512",
+        "--no-warmup",
+        "--output",
+        "jsonl",
+        "--repetitions",
+        "1",
+        "--n-prompt",
+        "512",
+        "--n-gen",
+        "0"
+      ],
+      "candidate_expected_fused_ffn_pairs": 26,
+      "control_expected_separate_ffn_nodes": 52,
+      "diagnostic_timing_not_performance_evidence": true,
+      "environment": "GGML_CPU_REPACK_MUL_MAT_PAIR_FUSION",
+      "fresh_process_per_profile": true,
+      "node_timing_environment": "GGML_CPU_NODE_TIMING",
+      "required_first_projection": "gate",
+      "required_layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "required_second_projection": "up"
+    },
+    "negative_result_rule": "Retain any guard, patch, build, source-path, mechanism-count, safety-preflight, output, quality, failure, speed, latency, CPU, p95, readiness, RSS, closure, or scheduler-dispersion failure without changing the pair predicate, toggle, workload, order, repetitions, or gates.",
+    "prerequisites": {
+      "e16a_summary_sha256": "cd3ed3ceb1fe5e6b02284e43b8bcf1e6c6cfdfb7178fe41a07a401935234c686",
+      "e20a_summary_sha256": "f59ca2cc8398a408f79b30268393c8386391e1165a8e4da749fac61e0230618f",
+      "e20b_contract_sha256": "cf4872ca1a8145b14eff079daeddcd1d7cd57e2650d365e972a959102e62d8a3",
+      "e20b_failure_artifact": "e20b-repack-pair-30867317408-1",
+      "e20b_failure_run_id": "30867317408",
+      "e20b_failure_sha256": "799e69e59e917d84f20b866d090784273d9430be9c8d39f123d3043faafd8386",
+      "e20b_observed_assertion": "GGML_ASSERT(nb1 <= nb2) failed",
+      "e9a_summary_sha256": "39424e7f3a43a3a05b4139609224584945c8da7c1de66a9f224e8c7184de012d",
+      "execution_path": {
+        "activation_parameter_type": "q8_K",
+        "input_width": 3072,
+        "layers": 26,
+        "output_width": 9216,
+        "projections_per_layer": [
+          "gate",
+          "up"
+        ],
+        "weight_type": "q4_K"
+      },
+      "guard_requires_exact_ffn_gate_up_names": true,
+      "guard_requires_monotonic_f32_output_strides": true,
+      "kleidiai_ineligible_for_selected_weight_type": true,
+      "original_pair_patch_safe_for_service": false,
+      "profile_selected_family": "ffn_gate_up",
+      "profile_shares": {
+        "eligible": true,
+        "geometric_mean_share": 0.18465992111025345,
+        "shared_activation_layers": {
+          "pp4096": 26,
+          "pp512": 26
+        },
+        "shares": {
+          "pp4096": 0.10848844266541771,
+          "pp512": 0.314312618253803
+        }
+      },
+      "repack_backend_converts_shared_f32_source_to_q8_k_per_matmul": true
+    },
+    "request": {
+      "chat_template_mode": "model_jinja_system_instruction",
+      "instruction_role": "system",
+      "max_output_tokens": 8,
+      "measured_tasks": 30,
+      "seed": 424242,
+      "temperature": 0.0,
+      "timeout_seconds": 30.0,
+      "warmup_task_ids": [
+        "arithmetic-02",
+        "logic-01"
+      ]
+    },
+    "runtime": {
+      "changed_files": [
+        "common/reasoning-budget.cpp",
+        "ggml/src/ggml-cpu/CMakeLists.txt",
+        "ggml/src/ggml-cpu/arch/arm/quants.c",
+        "ggml/src/ggml-cpu/ggml-cpu.c",
+        "ggml/src/ggml-cpu/repack.cpp",
+        "ggml/src/ggml-cpu/traits.cpp",
+        "ggml/src/ggml-cpu/traits.h",
+        "tests/test-reasoning-budget.cpp"
+      ],
+      "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "patches": [
+        {
+          "name": "feature_patch",
+          "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+          "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+        },
+        {
+          "name": "q8_patch",
+          "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+          "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+        },
+        {
+          "name": "reasoning_patch",
+          "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+          "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+        },
+        {
+          "name": "timing_patch",
+          "path": "patches/llama.cpp/b10216/0008-cpu-node-timing.patch",
+          "sha256": "2810e893b781137fa41444641c451aa9020843055addae97936499c6e8b4df31"
+        },
+        {
+          "name": "pair_reuse_patch",
+          "path": "patches/llama.cpp/b10216/0009-reuse-repack-pair-activation.patch",
+          "sha256": "4094d9c35d705c4b92da7d8ad793dbd980acabbc070695edd5e7276bf1959dc0"
+        },
+        {
+          "name": "pair_safety_patch",
+          "path": "patches/llama.cpp/b10216/0010-guard-repack-ffn-pair-shapes.patch",
+          "sha256": "24c4efac34b3b340b6f3e037081541c3273d96034737e774042aaa4b5e2cbe0c"
+        }
+      ],
+      "repository": "https://github.com/ggml-org/llama.cpp.git",
+      "source_diff_sha256": "274bc5b6ad5789d54759e51d55169b6fd5c7868a944dedf4dc2fc90a654aa3b7",
+      "tag": "b10216"
+    },
+    "safety_preflight": {
+      "directory": "cells/safety-reuse_on-r7",
+      "exact_30_task_workload": true,
+      "fresh_server": true,
+      "must_complete_before_measurement": true,
+      "profile": "reuse_on",
+      "repetition": 7,
+      "required_correct": 23,
+      "required_reference_prediction_mismatches": 0,
+      "required_request_failures": 0,
+      "required_total": 30,
+      "timings_are_diagnostic_not_performance_evidence": true
+    },
+    "schema_version": 1,
+    "selected": {
+      "candidate": "ministral3_3b_q4_k_m",
+      "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "model_size_bytes": 2146497824,
+      "path": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "reference_accuracy": 0.7666666666666667,
+      "reference_correct": 23,
+      "reference_total": 30,
+      "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+      "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a"
+    },
+    "service": {
+      "batch_size": 64,
+      "client_concurrency": 1,
+      "context_per_slot": 256,
+      "flash_attention": "auto",
+      "kv_cache_type_k": "f16",
+      "kv_cache_type_v": "f16",
+      "micro_batch_size": 64,
+      "prompt_cache": true,
+      "server_parallel_slots": 1,
+      "threads": 4,
+      "warmup_slot_ids": [
+        0,
+        0
+      ],
+      "weight_repack": true
+    },
+    "state": "frozen after retaining E20b's native candidate assertion and before any E20c native patched build, mechanism preflight, safety smoke, service answer, or performance result was observed",
+    "title": "Guarded repacked FFN gate/up activation-conversion reuse"
+  },
+  "experiment_id": "E20c",
+  "github": {
+    "artifact_digest": "sha256:22175f3be8da0c3009e9573a0a7385cf4ea9acec7343a4486ebd8d4f01f62fbb",
+    "artifact_expires_at": "2026-11-02T01:55:39Z",
+    "artifact_id": "8877825372",
+    "artifact_name": "e20c-repack-pair-30870229218-1",
+    "artifact_size_bytes": 9424825,
+    "job_id": "91870547126",
+    "repository_commit": "10dc5b02630e3950e5850da7db67d28c8cb68b83",
+    "run_attempt": 1,
+    "run_id": "30870229218",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30870229218"
+  },
+  "hypothesis": {
+    "candidate_rss_ratio": 1.0000323631868748,
+    "candidate_throughput_cv": 0.0008183847412741469,
+    "cpu_seconds_per_request_ratio": 0.9974032105760149,
+    "cpu_time_passed": false,
+    "median_http_latency_ratio": 0.9982326636081619,
+    "median_latency_passed": false,
+    "p95_http_latency_ratio": 0.9979142312581605,
+    "p95_latency_passed": true,
+    "passed": false,
+    "quality_passed": true,
+    "readiness_passed": true,
+    "ready_time_ratio": 0.9995739211402056,
+    "rss_passed": true,
+    "runtime_closure_passed": true,
+    "runtime_closure_ratio": 1.0,
+    "scheduler_dispersion_passed": true,
+    "selected_profile": "reuse_off",
+    "throughput_passed": false,
+    "throughput_ratio": 1.0026140192719093,
+    "weighted_score_used": false
+  },
+  "maximum_observed_prompt_tokens": 127,
+  "mechanism_preflight": {
+    "reuse_off": {
+      "ffn_record_count": 52,
+      "fused_ffn_pair_count": 0,
+      "process": {
+        "elapsed": "0:15.21",
+        "exit_status": 0,
+        "maximum_rss_kib": 4360916,
+        "percent_cpu": "351%"
+      },
+      "result_sha256": "d10a02e6c762b04a384603011c626435ea42861e415286f4c938cd65a4d9b4aa",
+      "stderr_sha256": "2d456a420ed2401294764757a749e2d74235b81c74c44078fb9ed73ac4722922",
+      "timing_record_count": 473
+    },
+    "reuse_on": {
+      "ffn_record_count": 26,
+      "fused_ffn_pair_count": 26,
+      "process": {
+        "elapsed": "0:14.99",
+        "exit_status": 0,
+        "maximum_rss_kib": 4360788,
+        "percent_cpu": "355%"
+      },
+      "result_sha256": "e92081af54ef82183c75ae1196e9a2e4d19f7f5579808465b40cd87c25832792",
+      "stderr_sha256": "1d0573797e0c2186c5a4ad45baa431e910d0db0cd8601efc22b0373a1cc642cd",
+      "timing_record_count": 447
+    }
+  },
+  "performance": {
+    "reuse_off": {
+      "average_server_cores_used": {
+        "coefficient_of_variation": 0.000768151699045196,
+        "max": 3.963557707857133,
+        "mean": 3.9603821555369207,
+        "median": 3.961000495654952,
+        "min": 3.9540595669101837,
+        "p95": 3.963557707857133,
+        "population_stddev": 0.003042174281643961
+      },
+      "cached_tokens": {
+        "coefficient_of_variation": 0.5090210830396161,
+        "max": 92.0,
+        "mean": 29.766666666666666,
+        "median": 25.0,
+        "min": 25.0,
+        "p95": 80.0,
+        "population_stddev": 15.151860905145906
+      },
+      "decode_ms": {
+        "coefficient_of_variation": 0.016835187770851037,
+        "max": 71.329,
+        "mean": 62.99000555555555,
+        "median": 62.736000000000004,
+        "min": 62.048,
+        "p95": 64.154,
+        "population_stddev": 1.0604485712147276
+      },
+      "encode_ms": {
+        "coefficient_of_variation": 0.35176715144263054,
+        "max": 2043.711,
+        "mean": 1001.5191722222222,
+        "median": 976.331,
+        "min": 62.443,
+        "p95": 1779.533,
+        "population_stddev": 352.30154632779244
+      },
+      "http_ms": {
+        "coefficient_of_variation": 0.32964015584126216,
+        "max": 2110.547621,
+        "mean": 1069.2534548166668,
+        "median": 1043.8598495,
+        "min": 130.385517,
+        "p95": 1848.698239,
+        "population_stddev": 352.468875479574
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 1.5109220330811898e-05,
+        "max": 4449500.0,
+        "mean": 4449444.666666667,
+        "median": 4449486.0,
+        "min": 4449328.0,
+        "p95": 4449500.0,
+        "population_stddev": 67.22763981842257
+      },
+      "prompt_tokens": {
+        "coefficient_of_variation": 0.19499399772169315,
+        "max": 127.0,
+        "mean": 81.0,
+        "median": 76.0,
+        "min": 61.0,
+        "p95": 125.0,
+        "population_stddev": 15.794513815457146
+      },
+      "quality": {
+        "correct_per_repetition": [
+          23,
+          23,
+          23,
+          23,
+          23,
+          23
+        ],
+        "exact_selected_predictions": true,
+        "predictions_stable_between_repetitions": true,
+        "reference_prediction_mismatches_per_repetition": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.0009837038488880808,
+        "max": 2431.049023,
+        "mean": 2427.3545943333334,
+        "median": 2427.5341905,
+        "min": 2424.275763,
+        "p95": 2431.049023,
+        "population_stddev": 2.387798057061866
+      },
+      "repetitions": [
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.5090210830396161,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145906
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.011619799874941791,
+              "max": 65.544,
+              "mean": 62.87016666666667,
+              "median": 62.717,
+              "min": 62.048,
+              "p95": 64.896,
+              "population_stddev": 0.7305387547709029
+            },
+            "elapsed_seconds": 32.069673099,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3515189105127562,
+              "max": 2036.421,
+              "mean": 1001.1691333333333,
+              "median": 977.71,
+              "min": 63.375,
+              "p95": 1779.407,
+              "population_stddev": 351.92988298833365
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.32949442847997173,
+              "max": 2103.471946,
+              "mean": 1068.8305414,
+              "median": 1044.969459,
+              "min": 131.753436,
+              "p95": 1849.691037,
+              "population_stddev": 352.17370838053176
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9354632305539611,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.10",
+            "exit_status": 0,
+            "maximum_rss_kib": 4449492,
+            "percent_cpu": "375%"
+          },
+          "profile": "reuse_off",
+          "ready_ms": 2424.275763,
+          "repetition": 1,
+          "server_process_cpu": {
+            "average_cores_used": 3.963557707857133,
+            "clock_ticks_per_second": 100,
+            "pid": 4553,
+            "seconds_per_request": 4.237,
+            "system_seconds": 0.14,
+            "system_ticks": 14,
+            "total_seconds": 127.11,
+            "total_ticks": 12711,
+            "user_seconds": 126.97,
+            "user_ticks": 12697
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.5090210830396161,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145906
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.0144634993614686,
+              "max": 67.357,
+              "mean": 62.99823333333333,
+              "median": 62.6755,
+              "min": 62.195,
+              "p95": 63.719,
+              "population_stddev": 0.9111749075903165
+            },
+            "elapsed_seconds": 32.154295566,
+            "encode_ms": {
+              "coefficient_of_variation": 0.35080634470599936,
+              "max": 2043.711,
+              "mean": 1003.9382333333334,
+              "median": 975.816,
+              "min": 64.144,
+              "p95": 1779.533,
+              "population_stddev": 352.18790194626536
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.3290311155129585,
+              "max": 2110.547621,
+              "mean": 1071.6562862333333,
+              "median": 1043.7651,
+              "min": 132.537105,
+              "p95": 1852.219584,
+              "population_stddev": 352.608263305828
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9330013135701235,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.19",
+            "exit_status": 0,
+            "maximum_rss_kib": 4449480,
+            "percent_cpu": "375%"
+          },
+          "profile": "reuse_off",
+          "ready_ms": 2428.092355,
+          "repetition": 2,
+          "server_process_cpu": {
+            "average_cores_used": 3.9540595669101837,
+            "clock_ticks_per_second": 100,
+            "pid": 4663,
+            "seconds_per_request": 4.238,
+            "system_seconds": 0.13,
+            "system_ticks": 13,
+            "total_seconds": 127.14,
+            "total_ticks": 12714,
+            "user_seconds": 127.01,
+            "user_ticks": 12701
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.5090210830396161,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145906
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.025519836376270703,
+              "max": 71.329,
+              "mean": 63.02953333333333,
+              "median": 62.6605,
+              "min": 62.17,
+              "p95": 64.154,
+              "population_stddev": 1.608503377539367
+            },
+            "elapsed_seconds": 32.048579513,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3522227083533922,
+              "max": 2031.261,
+              "mean": 1000.3377333333334,
+              "median": 974.373,
+              "min": 62.443,
+              "p95": 1779.558,
+              "population_stddev": 352.3416657027601
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.3300088878759853,
+              "max": 2098.217883,
+              "mean": 1068.1202927333334,
+              "median": 1041.547468,
+              "min": 130.385517,
+              "p95": 1847.944863,
+              "population_stddev": 352.4891899226992
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9360789294212236,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.09",
+            "exit_status": 0,
+            "maximum_rss_kib": 4449328,
+            "percent_cpu": "375%"
+          },
+          "profile": "reuse_off",
+          "ready_ms": 2426.976026,
+          "repetition": 3,
+          "server_process_cpu": {
+            "average_cores_used": 3.9624221082400393,
+            "clock_ticks_per_second": 100,
+            "pid": 4706,
+            "seconds_per_request": 4.233,
+            "system_seconds": 0.15,
+            "system_ticks": 15,
+            "total_seconds": 126.99,
+            "total_ticks": 12699,
+            "user_seconds": 126.84,
+            "user_ticks": 12684
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.5090210830396161,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145906
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.01553924624534997,
+              "max": 67.019,
+              "mean": 63.0773,
+              "median": 62.808,
+              "min": 62.226,
+              "p95": 65.799,
+              "population_stddev": 0.9801736971918137
+            },
+            "elapsed_seconds": 32.093792685,
+            "encode_ms": {
+              "coefficient_of_variation": 0.35228127075198723,
+              "max": 2039.547,
+              "mean": 1001.8187333333334,
+              "median": 976.1205,
+              "min": 62.955,
+              "p95": 1780.296,
+              "population_stddev": 352.92197644181294
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.32993790283003205,
+              "max": 2106.365796,
+              "mean": 1069.6345989666668,
+              "median": 1044.4229945,
+              "min": 131.019194,
+              "p95": 1848.698239,
+              "population_stddev": 352.9129963775044
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9347601978503901,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.14",
+            "exit_status": 0,
+            "maximum_rss_kib": 4449500,
+            "percent_cpu": "375%"
+          },
+          "profile": "reuse_off",
+          "ready_ms": 2431.049023,
+          "repetition": 4,
+          "server_process_cpu": {
+            "average_cores_used": 3.9615137184899534,
+            "clock_ticks_per_second": 100,
+            "pid": 4810,
+            "seconds_per_request": 4.238,
+            "system_seconds": 0.13,
+            "system_ticks": 13,
+            "total_seconds": 127.14,
+            "total_ticks": 12714,
+            "user_seconds": 127.01,
+            "user_ticks": 12701
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.5090210830396161,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145906
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.004893608928590203,
+              "max": 63.317,
+              "mean": 62.72056666666666,
+              "median": 62.615,
+              "min": 62.192,
+              "p95": 63.3,
+              "population_stddev": 0.30692992504623706
+            },
+            "elapsed_seconds": 32.046561763,
+            "encode_ms": {
+              "coefficient_of_variation": 0.35188714780131636,
+              "max": 2031.735,
+              "mean": 1000.5980333333333,
+              "median": 976.331,
+              "min": 62.586,
+              "p95": 1783.815,
+              "population_stddev": 352.09758804527314
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.3297237560304171,
+              "max": 2098.210609,
+              "mean": 1068.0584466,
+              "median": 1043.4754925,
+              "min": 130.896353,
+              "p95": 1852.209723,
+              "population_stddev": 352.1642426729647
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9361378678269661,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.09",
+            "exit_status": 0,
+            "maximum_rss_kib": 4449492,
+            "percent_cpu": "375%"
+          },
+          "profile": "reuse_off",
+          "ready_ms": 2424.640233,
+          "repetition": 5,
+          "server_process_cpu": {
+            "average_cores_used": 3.960487272819951,
+            "clock_ticks_per_second": 100,
+            "pid": 4844,
+            "seconds_per_request": 4.230666666666667,
+            "system_seconds": 0.13,
+            "system_ticks": 13,
+            "total_seconds": 126.92,
+            "total_ticks": 12692,
+            "user_seconds": 126.79,
+            "user_ticks": 12679
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.5090210830396161,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145906
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.019876971222125655,
+              "max": 69.211,
+              "mean": 63.244233333333334,
+              "median": 62.9035,
+              "min": 62.072,
+              "p95": 64.618,
+              "population_stddev": 1.2571038059320667
+            },
+            "elapsed_seconds": 32.081287269,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3518765884087107,
+              "max": 2033.138,
+              "mean": 1001.2531666666667,
+              "median": 976.6775,
+              "min": 62.521,
+              "p95": 1778.129,
+              "population_stddev": 352.3175484200849
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.32963431679233235,
+              "max": 2099.633768,
+              "mean": 1069.2205629666666,
+              "median": 1044.324931,
+              "min": 130.724684,
+              "p95": 1846.191188,
+              "population_stddev": 352.4517897738301
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9351245711698377,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.13",
+            "exit_status": 0,
+            "maximum_rss_kib": 4449376,
+            "percent_cpu": "375%"
+          },
+          "profile": "reuse_off",
+          "ready_ms": 2429.094166,
+          "repetition": 6,
+          "server_process_cpu": {
+            "average_cores_used": 3.9602525589042625,
+            "clock_ticks_per_second": 100,
+            "pid": 4944,
+            "seconds_per_request": 4.235,
+            "system_seconds": 0.16,
+            "system_ticks": 16,
+            "total_seconds": 127.05,
+            "total_ticks": 12705,
+            "user_seconds": 126.89,
+            "user_ticks": 12689
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        }
+      ],
+      "requests_per_second": {
+        "coefficient_of_variation": 0.0011290408407184079,
+        "max": 0.9361378678269661,
+        "mean": 0.9350943517320837,
+        "median": 0.9352939008618995,
+        "min": 0.9330013135701235,
+        "p95": 0.9361378678269661,
+        "population_stddev": 0.0010557597130306264
+      },
+      "server_cpu_seconds_per_request": {
+        "coefficient_of_variation": 0.000641677697049148,
+        "max": 4.238,
+        "mean": 4.235277777777778,
+        "median": 4.236000000000001,
+        "min": 4.230666666666667,
+        "p95": 4.238,
+        "population_stddev": 0.002717683290807878
+      }
+    },
+    "reuse_on": {
+      "average_server_cores_used": {
+        "coefficient_of_variation": 0.0006674222755081404,
+        "max": 3.964809000372627,
+        "mean": 3.962194517557664,
+        "median": 3.9629768636707725,
+        "min": 3.956589737083991,
+        "p95": 3.964809000372627,
+        "population_stddev": 0.0026444568809142147
+      },
+      "cached_tokens": {
+        "coefficient_of_variation": 0.5090210830396161,
+        "max": 92.0,
+        "mean": 29.766666666666666,
+        "median": 25.0,
+        "min": 25.0,
+        "p95": 80.0,
+        "population_stddev": 15.151860905145906
+      },
+      "decode_ms": {
+        "coefficient_of_variation": 0.035970785678127754,
+        "max": 90.95,
+        "mean": 63.14183333333334,
+        "median": 62.82,
+        "min": 62.077,
+        "p95": 64.488,
+        "population_stddev": 2.2712613541573963
+      },
+      "encode_ms": {
+        "coefficient_of_variation": 0.35205488175245336,
+        "max": 2037.469,
+        "mean": 998.368338888889,
+        "median": 974.8235,
+        "min": 62.444,
+        "p95": 1776.699,
+        "population_stddev": 351.4804474929211
+      },
+      "http_ms": {
+        "coefficient_of_variation": 0.32973779211190246,
+        "max": 2105.142388,
+        "mean": 1066.2316488,
+        "median": 1042.014998,
+        "min": 130.447925,
+        "p95": 1844.842282,
+        "population_stddev": 351.57686975514537
+      },
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 2.1828062201992887e-05,
+        "max": 4449644.0,
+        "mean": 4449458.666666667,
+        "median": 4449438.0,
+        "min": 4449356.0,
+        "p95": 4449644.0,
+        "population_stddev": 97.12306054119634
+      },
+      "prompt_tokens": {
+        "coefficient_of_variation": 0.19499399772169315,
+        "max": 127.0,
+        "mean": 81.0,
+        "median": 76.0,
+        "min": 61.0,
+        "p95": 125.0,
+        "population_stddev": 15.794513815457146
+      },
+      "quality": {
+        "correct_per_repetition": [
+          23,
+          23,
+          23,
+          23,
+          23,
+          23
+        ],
+        "exact_selected_predictions": true,
+        "predictions_stable_between_repetitions": true,
+        "reference_prediction_mismatches_per_repetition": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "ready_ms": {
+        "coefficient_of_variation": 0.0010592398027826212,
+        "max": 2429.09566,
+        "mean": 2426.032458,
+        "median": 2426.4998695,
+        "min": 2421.424664,
+        "p95": 2429.09566,
+        "population_stddev": 2.569750142356158
+      },
+      "repetitions": [
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.5090210830396161,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145906
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.08034430691599594,
+              "max": 90.95,
+              "mean": 63.801,
+              "median": 62.685500000000005,
+              "min": 62.077,
+              "p95": 67.447,
+              "population_stddev": 5.126047125547457
+            },
+            "elapsed_seconds": 32.037691149,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3530176303913407,
+              "max": 2030.23,
+              "mean": 999.2561666666667,
+              "median": 973.314,
+              "min": 62.444,
+              "p95": 1792.459,
+              "population_stddev": 352.75504411060126
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.33052470923697336,
+              "max": 2097.159038,
+              "mean": 1067.7689232999999,
+              "median": 1041.0924169999998,
+              "min": 130.447925,
+              "p95": 1860.814011,
+              "population_stddev": 352.92401290600856
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9363970662079499,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.06",
+            "exit_status": 0,
+            "maximum_rss_kib": 4449448,
+            "percent_cpu": "375%"
+          },
+          "profile": "reuse_on",
+          "ready_ms": 2426.493924,
+          "repetition": 1,
+          "server_process_cpu": {
+            "average_cores_used": 3.956589737083991,
+            "clock_ticks_per_second": 100,
+            "pid": 4588,
+            "seconds_per_request": 4.225333333333333,
+            "system_seconds": 0.13,
+            "system_ticks": 13,
+            "total_seconds": 126.76,
+            "total_ticks": 12676,
+            "user_seconds": 126.63,
+            "user_ticks": 12663
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.5090210830396161,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145906
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.02613983982531198,
+              "max": 71.291,
+              "mean": 63.56846666666667,
+              "median": 63.143,
+              "min": 62.299,
+              "p95": 66.301,
+              "population_stddev": 1.6616695366073506
+            },
+            "elapsed_seconds": 31.995462989,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3512130539765056,
+              "max": 2028.381,
+              "mean": 998.0186666666667,
+              "median": 972.4655,
+              "min": 62.795,
+              "p95": 1774.551,
+              "population_stddev": 350.51718384556017
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.32888961097982145,
+              "max": 2096.053121,
+              "mean": 1066.3668149666667,
+              "median": 1041.1386165,
+              "min": 131.156196,
+              "p95": 1844.008547,
+              "population_stddev": 350.7169669361782
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.937632939092457,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.02",
+            "exit_status": 0,
+            "maximum_rss_kib": 4449508,
+            "percent_cpu": "375%"
+          },
+          "profile": "reuse_on",
+          "ready_ms": 2426.505815,
+          "repetition": 2,
+          "server_process_cpu": {
+            "average_cores_used": 3.9627493449177544,
+            "clock_ticks_per_second": 100,
+            "pid": 4627,
+            "seconds_per_request": 4.226333333333334,
+            "system_seconds": 0.13,
+            "system_ticks": 13,
+            "total_seconds": 126.79,
+            "total_ticks": 12679,
+            "user_seconds": 126.66,
+            "user_ticks": 12666
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.5090210830396161,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145906
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.007542929757964496,
+              "max": 64.488,
+              "mean": 63.06496666666667,
+              "median": 63.076,
+              "min": 62.36,
+              "p95": 64.399,
+              "population_stddev": 0.475694613755039
+            },
+            "elapsed_seconds": 32.002654013,
+            "encode_ms": {
+              "coefficient_of_variation": 0.35230118918664577,
+              "max": 2037.469,
+              "mean": 998.8034666666666,
+              "median": 973.409,
+              "min": 64.064,
+              "p95": 1779.739,
+              "population_stddev": 351.87964907041095
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.32993107419692946,
+              "max": 2105.142388,
+              "mean": 1066.5960205666665,
+              "median": 1041.2131709999999,
+              "min": 132.925601,
+              "p95": 1848.122389,
+              "population_stddev": 351.90317079973056
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9374222521611337,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.03",
+            "exit_status": 0,
+            "maximum_rss_kib": 4449356,
+            "percent_cpu": "375%"
+          },
+          "profile": "reuse_on",
+          "ready_ms": 2429.09566,
+          "repetition": 3,
+          "server_process_cpu": {
+            "average_cores_used": 3.963733756221327,
+            "clock_ticks_per_second": 100,
+            "pid": 4739,
+            "seconds_per_request": 4.2283333333333335,
+            "system_seconds": 0.14,
+            "system_ticks": 14,
+            "total_seconds": 126.85,
+            "total_ticks": 12685,
+            "user_seconds": 126.71,
+            "user_ticks": 12671
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.5090210830396161,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145906
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.005145774738908788,
+              "max": 63.643,
+              "mean": 62.79943333333333,
+              "median": 62.840500000000006,
+              "min": 62.284,
+              "p95": 63.355,
+              "population_stddev": 0.32315173766445315
+            },
+            "elapsed_seconds": 31.988241457,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3523575332392848,
+              "max": 2036.177,
+              "mean": 998.6177666666666,
+              "median": 975.41,
+              "min": 62.46,
+              "p95": 1775.362,
+              "population_stddev": 351.87049291159036
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.3301344277882973,
+              "max": 2102.66495,
+              "mean": 1066.1198177666668,
+              "median": 1042.865158,
+              "min": 130.460068,
+              "p95": 1844.053493,
+              "population_stddev": 351.96285599216236
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9378446151948464,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.01",
+            "exit_status": 0,
+            "maximum_rss_kib": 4449428,
+            "percent_cpu": "375%"
+          },
+          "profile": "reuse_on",
+          "ready_ms": 2421.424664,
+          "repetition": 4,
+          "server_process_cpu": {
+            "average_cores_used": 3.9620808843264945,
+            "clock_ticks_per_second": 100,
+            "pid": 4773,
+            "seconds_per_request": 4.224666666666667,
+            "system_seconds": 0.12,
+            "system_ticks": 12,
+            "total_seconds": 126.74,
+            "total_ticks": 12674,
+            "user_seconds": 126.62,
+            "user_ticks": 12662
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.5090210830396161,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145906
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.009712245771901478,
+              "max": 65.307,
+              "mean": 62.86076666666667,
+              "median": 62.6545,
+              "min": 62.09,
+              "p95": 63.945,
+              "population_stddev": 0.6105192152768187
+            },
+            "elapsed_seconds": 31.971603726,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3518425765624168,
+              "max": 2030.309,
+              "mean": 997.9888,
+              "median": 972.4705,
+              "min": 63.568,
+              "p95": 1777.05,
+              "population_stddev": 351.1349507724345
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.32958624837433054,
+              "max": 2097.188093,
+              "mean": 1065.5681339666667,
+              "median": 1039.545768,
+              "min": 132.285196,
+              "p95": 1845.463717,
+              "population_stddev": 351.1966036613097
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9383326609795101,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:37.00",
+            "exit_status": 0,
+            "maximum_rss_kib": 4449644,
+            "percent_cpu": "375%"
+          },
+          "profile": "reuse_on",
+          "ready_ms": 2428.384755,
+          "repetition": 5,
+          "server_process_cpu": {
+            "average_cores_used": 3.9632043824237906,
+            "clock_ticks_per_second": 100,
+            "pid": 4877,
+            "seconds_per_request": 4.2236666666666665,
+            "system_seconds": 0.13,
+            "system_ticks": 13,
+            "total_seconds": 126.71,
+            "total_ticks": 12671,
+            "user_seconds": 126.58,
+            "user_ticks": 12658
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        },
+        {
+          "probe": {
+            "accuracy": 0.7666666666666667,
+            "cached_tokens": {
+              "coefficient_of_variation": 0.5090210830396161,
+              "max": 92.0,
+              "mean": 29.766666666666666,
+              "median": 25.0,
+              "min": 25.0,
+              "p95": 80.0,
+              "population_stddev": 15.151860905145906
+            },
+            "correct": 23,
+            "decode_ms": {
+              "coefficient_of_variation": 0.007864223699388917,
+              "max": 64.771,
+              "mean": 62.756366666666665,
+              "median": 62.667,
+              "min": 62.172,
+              "p95": 63.263,
+              "population_stddev": 0.4935301060275406
+            },
+            "elapsed_seconds": 31.953619957,
+            "encode_ms": {
+              "coefficient_of_variation": 0.3515875432759731,
+              "max": 2027.099,
+              "mean": 997.5251666666667,
+              "median": 972.5645,
+              "min": 62.503,
+              "p95": 1776.699,
+              "population_stddev": 350.71742270428894
+            },
+            "evaluated_prompt_tokens": {
+              "coefficient_of_variation": 0.3300763243464773,
+              "max": 100.0,
+              "mean": 51.233333333333334,
+              "median": 51.0,
+              "min": 1.0,
+              "p95": 85.0,
+              "population_stddev": 16.91091035068452
+            },
+            "failures": 0,
+            "http_ms": {
+              "coefficient_of_variation": 0.32934813389781586,
+              "max": 2093.37821,
+              "mean": 1064.9701822333334,
+              "median": 1039.7748225,
+              "min": 130.541821,
+              "p95": 1844.842282,
+              "population_stddev": 350.74594217536526
+            },
+            "reference_prediction_mismatches": 0,
+            "requests_per_second": 0.9388607625793576,
+            "total": 30
+          },
+          "process": {
+            "elapsed": "0:36.98",
+            "exit_status": 0,
+            "maximum_rss_kib": 4449368,
+            "percent_cpu": "375%"
+          },
+          "profile": "reuse_on",
+          "ready_ms": 2424.28993,
+          "repetition": 6,
+          "server_process_cpu": {
+            "average_cores_used": 3.964809000372627,
+            "clock_ticks_per_second": 100,
+            "pid": 4911,
+            "seconds_per_request": 4.223,
+            "system_seconds": 0.13,
+            "system_ticks": 13,
+            "total_seconds": 126.69,
+            "total_ticks": 12669,
+            "user_seconds": 126.56,
+            "user_ticks": 12656
+          },
+          "server_shell_exit_status": 0,
+          "slots_observed": 1
+        }
+      ],
+      "requests_per_second": {
+        "coefficient_of_variation": 0.0008183847412741469,
+        "max": 0.9388607625793576,
+        "mean": 0.9377483827025425,
+        "median": 0.9377387771436517,
+        "min": 0.9363970662079499,
+        "p95": 0.9388607625793576,
+        "population_stddev": 0.0007674389675582699
+      },
+      "server_cpu_seconds_per_request": {
+        "coefficient_of_variation": 0.00041662449096053177,
+        "max": 4.2283333333333335,
+        "mean": 4.225222222222222,
+        "median": 4.225,
+        "min": 4.223,
+        "p95": 4.2283333333333335,
+        "population_stddev": 0.0017603310575284603
+      }
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\ng++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\ncmake version 3.31.6\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\n1.13.2",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "python": "Python 3.12.3",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1,
+    "uname": "Linux runnervma9114 6.17.0-1020-azure #20~24.04.1-Ubuntu SMP Fri Jun 19 20:26:28 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux"
+  },
+  "provenance": {
+    "baseline_profile": "reuse_off",
+    "candidate_profile": "reuse_on",
+    "experiment_id": "E20c",
+    "git_commit": "10dc5b02630e3950e5850da7db67d28c8cb68b83",
+    "github_run_attempt": "1",
+    "github_run_id": "30870229218",
+    "schema_version": 1
+  },
+  "retention_validation": {
+    "artifact_identity_bound": true,
+    "independent_replay_byte_identical": true,
+    "workflow_inventory_hashed_files": 195,
+    "workflow_inventory_sha256": "9e4ce85681f9fa751e910ff907b0c50077d13c9b6a4a13bb49786788bc967df1",
+    "workflow_summary_sha256": "3a0a0d4af371a4336f493cabf754d824ac742d72030fcfb2f1846a8bf17b3734"
+  },
+  "safety_preflight": {
+    "completed_before_measurement": true,
+    "excluded_from_performance_summary": true,
+    "probe": {
+      "accuracy": 0.7666666666666667,
+      "cached_tokens": {
+        "coefficient_of_variation": 0.5090210830396161,
+        "max": 92.0,
+        "mean": 29.766666666666666,
+        "median": 25.0,
+        "min": 25.0,
+        "p95": 80.0,
+        "population_stddev": 15.151860905145906
+      },
+      "correct": 23,
+      "decode_ms": {
+        "coefficient_of_variation": 0.014912909915764034,
+        "max": 66.683,
+        "mean": 62.895599999999995,
+        "median": 62.703,
+        "min": 62.012,
+        "p95": 65.454,
+        "population_stddev": 0.9379564168979283
+      },
+      "elapsed_seconds": 32.043293107,
+      "encode_ms": {
+        "coefficient_of_variation": 0.34975185322783947,
+        "max": 2029.465,
+        "mean": 1000.3189,
+        "median": 976.6105,
+        "min": 66.101,
+        "p95": 1777.124,
+        "population_stddev": 349.8633890938338
+      },
+      "evaluated_prompt_tokens": {
+        "coefficient_of_variation": 0.3300763243464773,
+        "max": 100.0,
+        "mean": 51.233333333333334,
+        "median": 51.0,
+        "min": 1.0,
+        "p95": 85.0,
+        "population_stddev": 16.91091035068452
+      },
+      "failures": 0,
+      "http_ms": {
+        "coefficient_of_variation": 0.3275782754612418,
+        "max": 2096.046505,
+        "mean": 1067.9482617666665,
+        "median": 1043.4805729999998,
+        "min": 134.788577,
+        "p95": 1845.28086,
+        "population_stddev": 349.83664987135546
+      },
+      "reference_prediction_mismatches": 0,
+      "requests_per_second": 0.9362333609040442,
+      "total": 30
+    },
+    "process": {
+      "elapsed": "0:37.08",
+      "exit_status": 0,
+      "maximum_rss_kib": 4449604,
+      "percent_cpu": "374%"
+    },
+    "profile": "reuse_on",
+    "ready_ms": 2427.057375,
+    "repetition": 7,
+    "server_process_cpu": {
+      "average_cores_used": 3.9530893275238426,
+      "clock_ticks_per_second": 100,
+      "pid": 4511,
+      "seconds_per_request": 4.222333333333333,
+      "system_seconds": 0.13,
+      "system_ticks": 13,
+      "total_seconds": 126.67,
+      "total_ticks": 12667,
+      "user_seconds": 126.54,
+      "user_ticks": 12654
+    },
+    "server_shell_exit_status": 0,
+    "slots_observed": 1,
+    "timings_are_diagnostic_not_performance_evidence": true
+  },
+  "schema_version": 1,
+  "scope": "Exact patched b10216 guarded repack-backend FFN gate/up activation reuse",
+  "selection": {
+    "accuracy": 0.7666666666666667,
+    "baseline_profile": "reuse_off",
+    "candidate": "ministral3_3b_q4_k_m",
+    "candidate_profile": "reuse_on",
+    "correct": 23,
+    "selected_profile": "reuse_off",
+    "total": 30
+  },
+  "source": {
+    "artifact_name": "e20c-repack-pair-30870229218-1",
+    "artifact_retention_days": 90,
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30870229218",
+    "runtime_proof": {
+      "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "patches_applied": [
+        "feature_patch",
+        "q8_patch",
+        "reasoning_patch",
+        "timing_patch",
+        "pair_reuse_patch",
+        "pair_safety_patch"
+      ],
+      "tag": "b10216"
+    }
+  },
+  "status": "valid_guarded_repack_pair_reuse_no_win",
+  "validation": {
+    "all_input_hashes_match": true,
+    "automatic_product_promotion_allowed": false,
+    "candidate_full_service_safety_preflight_passed": true,
+    "candidate_fused_ffn_pairs_verified": true,
+    "claim_scope": "E20c can establish only the effect of conditionally reusing one repack-backend Q8_K activation conversion across exact-name, compatible-output Q4_K FFN gate/up projections for the exact patched b10216 OpenSSL-off Q4_K_M service and 30-task workload on one four-vCPU GitHub Arm64 runner. Mechanism and safety-preflight timings are diagnostic only. No other-model, other-backend, long-context, PMU, cache-counter, energy, local-device, fleet, or cost claim is allowed.",
+    "control_separate_ffn_nodes_verified": true,
+    "diagnostic_timer_disabled_during_service_measurement": true,
+    "energy_claim_allowed": false,
+    "exact_model_verified": true,
+    "exact_patch_series_verified": true,
+    "fresh_server_per_cell": true,
+    "measured_window_process_cpu_validated": true,
+    "optimization_claim_allowed": false,
+    "quality_drift_treated_as_rejection": true,
+    "safety_preflight_excluded_from_performance_summary": true,
+    "single_binary_for_both_profiles": true,
+    "transitive_runtime_closure_hashed": true
+  }
+}

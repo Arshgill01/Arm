@@ -1932,3 +1932,20 @@ results/
 
 Large raw artifacts stay in GitHub Actions artifacts until a compact, reviewable
 result set is selected for Git.
+
+## E20c guarded FFN pair-reuse outcome
+
+E20c added only E20b's missing exact-name and monotonic-output-stride guards,
+then repeated the mechanism proof before a full candidate safety preflight and
+twelve reverse-balanced fresh-process service cells. Native run `30870229218`
+verified 52 separate control nodes versus 26 fused candidate pairs. Every one
+of the 360 measured requests reproduced the exact selected outputs at 23/30
+with zero failures or drift.
+
+The repaired candidate reaches 1.00261x throughput, 0.99823x median latency,
+0.99791x p95 latency and 0.99740x CPU seconds/request. It therefore misses the
+frozen 1.02x throughput, 0.99x median-latency and 0.99x CPU gates. Readiness and
+RSS guardrails pass, but there is no product win: `reuse_off` remains selected
+and this FFN pair-fusion lane is closed. See the retained
+[`manifest`](../results/manifests/e20c-30870229218.json) and
+[`report`](../results/reports/e20c-guarded-ffn-pair-no-win.md).

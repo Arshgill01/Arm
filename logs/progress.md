@@ -2028,3 +2028,19 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   `e16b-repack-sidecar-loader-30842925537-1` (ID `8867796505`, digest
   `acffa293…dddfb`) retains 189 independently rehashed files but no model,
   tensor dump or deployable sidecar.
+
+## 2026-08-05 — E20c guarded FFN reuse retained as a valid no-win
+
+- Recovered native run `30870229218` and independently replayed the complete
+  195-file artifact. The replay is byte-identical to the workflow summary at
+  SHA-256 `3a0a0d4a…b3734`.
+- The narrowed guards rehabilitate the mechanism safely: the diagnostic
+  preflight records 52 separate control nodes versus 26 fused candidate pairs,
+  and the candidate passes the complete 30-task safety preflight.
+- Six reverse-balanced repetitions per profile preserve 23/30 exact answers
+  with zero failures. Candidate ratios are 1.00261x throughput, 0.99823x median
+  latency, 0.99791x p95 latency, 0.99740x CPU/request, 0.99957x readiness and
+  1.00003x maximum RSS.
+- The candidate misses the frozen throughput, median-latency and CPU gates. No
+  optimization is promoted, `reuse_off` remains selected, E20b remains invalid,
+  and the FFN pair-fusion lane is closed.
