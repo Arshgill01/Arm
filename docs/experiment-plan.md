@@ -2151,3 +2151,22 @@ all 16 gates twice byte-for-byte at summary SHA-256 `77bceb3e…a1169`.
 The readiness gate stops at `await_native_preflight`; all native timings are
 diagnostic. Contract SHA-256 is `4dc537ff…27f02`, the native budget is 20 minutes
 and 4 GiB, and no full E21b matrix is authorized before this preflight passes.
+
+### E21b native preflight outcome
+
+Run `30983800871` passed all 16 frozen gates on native GitHub-hosted Arm64. Both
+policies reproduced the exact 23/30 reference prediction map in both cycles,
+all 60 online served outputs matched their paired uncached outputs, and neither
+policy had a request failure. The fail-closed controller certified 30
+transitions, denied one, and served all 29 later-known routes through the
+certified cache; no unknown shadow attempt was served and the denial fell back
+uncached.
+
+The two-process timing remains diagnostic: throughput was 1.0106x and
+CPU/request 0.9920x, while first-use work regressed median latency to 1.2095x and
+p95 to 1.3582x. The full repeated matrix is therefore authorized to measure the
+steady-state benefit, first-use cost, break-even, and scheduler variance, not to
+repeat or erase the tail regression. The byte-identical independent replay and
+artifact identity are retained in the
+[`manifest`](../results/manifests/e21b-preflight-30983800871.json) and
+[`report`](../results/reports/e21b-openai-certificate-preflight.md).

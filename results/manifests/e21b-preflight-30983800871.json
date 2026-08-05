@@ -1,0 +1,1544 @@
+{
+  "baseline": {
+    "actual_http_calls": 60,
+    "answers": [
+      {
+        "admission": null,
+        "expected": "A",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 0,
+        "task_id": "arithmetic-01"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 1,
+        "task_id": "arithmetic-02"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 2,
+        "task_id": "arithmetic-03"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 3,
+        "task_id": "arithmetic-04"
+      },
+      {
+        "admission": null,
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "response": "A",
+        "route": "baseline_uncached",
+        "served_index": 4,
+        "task_id": "arithmetic-05"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 5,
+        "task_id": "logic-01"
+      },
+      {
+        "admission": null,
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "response": "A",
+        "route": "baseline_uncached",
+        "served_index": 6,
+        "task_id": "logic-02"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 7,
+        "task_id": "logic-03"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 8,
+        "task_id": "logic-04"
+      },
+      {
+        "admission": null,
+        "expected": "A",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 9,
+        "task_id": "logic-05"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 10,
+        "task_id": "code-01"
+      },
+      {
+        "admission": null,
+        "expected": "D",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 11,
+        "task_id": "code-02"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 12,
+        "task_id": "code-03"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 13,
+        "task_id": "code-04"
+      },
+      {
+        "admission": null,
+        "expected": "D",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 14,
+        "task_id": "code-05"
+      },
+      {
+        "admission": null,
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "response": "A",
+        "route": "baseline_uncached",
+        "served_index": 15,
+        "task_id": "data-01"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 16,
+        "task_id": "data-02"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 17,
+        "task_id": "data-03"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 18,
+        "task_id": "data-04"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 19,
+        "task_id": "data-05"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 20,
+        "task_id": "systems-01"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 21,
+        "task_id": "systems-02"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 22,
+        "task_id": "systems-03"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 23,
+        "task_id": "systems-04"
+      },
+      {
+        "admission": null,
+        "expected": "D",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 24,
+        "task_id": "systems-05"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 25,
+        "task_id": "evidence-01"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 26,
+        "task_id": "evidence-02"
+      },
+      {
+        "admission": null,
+        "expected": "A",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 27,
+        "task_id": "evidence-03"
+      },
+      {
+        "admission": null,
+        "expected": "D",
+        "prediction": "D",
+        "reference_prediction": "D",
+        "response": "D",
+        "route": "baseline_uncached",
+        "served_index": 28,
+        "task_id": "evidence-04"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 29,
+        "task_id": "evidence-05"
+      },
+      {
+        "admission": null,
+        "expected": "A",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 30,
+        "task_id": "arithmetic-01"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 31,
+        "task_id": "arithmetic-02"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 32,
+        "task_id": "arithmetic-03"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 33,
+        "task_id": "arithmetic-04"
+      },
+      {
+        "admission": null,
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "response": "A",
+        "route": "baseline_uncached",
+        "served_index": 34,
+        "task_id": "arithmetic-05"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 35,
+        "task_id": "logic-01"
+      },
+      {
+        "admission": null,
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "response": "A",
+        "route": "baseline_uncached",
+        "served_index": 36,
+        "task_id": "logic-02"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 37,
+        "task_id": "logic-03"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 38,
+        "task_id": "logic-04"
+      },
+      {
+        "admission": null,
+        "expected": "A",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 39,
+        "task_id": "logic-05"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 40,
+        "task_id": "code-01"
+      },
+      {
+        "admission": null,
+        "expected": "D",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 41,
+        "task_id": "code-02"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 42,
+        "task_id": "code-03"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 43,
+        "task_id": "code-04"
+      },
+      {
+        "admission": null,
+        "expected": "D",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 44,
+        "task_id": "code-05"
+      },
+      {
+        "admission": null,
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "response": "A",
+        "route": "baseline_uncached",
+        "served_index": 45,
+        "task_id": "data-01"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 46,
+        "task_id": "data-02"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 47,
+        "task_id": "data-03"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 48,
+        "task_id": "data-04"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 49,
+        "task_id": "data-05"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 50,
+        "task_id": "systems-01"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 51,
+        "task_id": "systems-02"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 52,
+        "task_id": "systems-03"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 53,
+        "task_id": "systems-04"
+      },
+      {
+        "admission": null,
+        "expected": "D",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 54,
+        "task_id": "systems-05"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 55,
+        "task_id": "evidence-01"
+      },
+      {
+        "admission": null,
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 56,
+        "task_id": "evidence-02"
+      },
+      {
+        "admission": null,
+        "expected": "A",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "baseline_uncached",
+        "served_index": 57,
+        "task_id": "evidence-03"
+      },
+      {
+        "admission": null,
+        "expected": "D",
+        "prediction": "D",
+        "reference_prediction": "D",
+        "response": "D",
+        "route": "baseline_uncached",
+        "served_index": 58,
+        "task_id": "evidence-04"
+      },
+      {
+        "admission": null,
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "baseline_uncached",
+        "served_index": 59,
+        "task_id": "evidence-05"
+      }
+    ],
+    "correct": 46,
+    "cpu_seconds_per_served_request": 6.655833333333334,
+    "maximum_rss_kib": 4491464,
+    "readiness_ms": 2524.523768,
+    "reference_prediction_mismatches": 0,
+    "request_failures": 0,
+    "served_requests": 60,
+    "served_requests_per_second": 0.5938140752770712,
+    "user_http_ms": {
+      "coefficient_of_variation": 0.18069285539187835,
+      "max": 2561.706779,
+      "mean": 1683.9423401499998,
+      "median": 1608.263527,
+      "min": 1204.655095,
+      "p95": 2480.41039,
+      "population_stddev": 304.27634975698516
+    }
+  },
+  "claim_boundary": "A passing E21b preflight establishes full 30-task API/binary identity, quality, adaptive safety and timing-schema compatibility for one fresh native Arm64 process per policy. Timings are diagnostic and authorize no performance, arbitrary-prompt, concurrency, energy, PMU, device, fleet, cost or other-runtime claim.",
+  "client": {
+    "api_path": "/v1/chat/completions",
+    "cache_prompt": "explicit per route",
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "fingerprint_add_special": false,
+    "fingerprint_parse_special": true,
+    "fingerprint_path": "/apply-template then /tokenize",
+    "maximum_output_tokens": 8,
+    "message_shape": "system instruction plus original task user prompt",
+    "seed": 424242,
+    "stream": false,
+    "temperature": 0.0
+  },
+  "contract_sha256": "4dc537ffdb9bcf5de830e90a8398d628e1eb64b421a1d389d8e72b477d727f02",
+  "decision": {
+    "full_experiment_authorized": true,
+    "native_performance_claim_allowed": false,
+    "post_result_gate_change_permitted": false,
+    "preflight_timings_are_diagnostic_only": true
+  },
+  "experiment_id": "E21b-preflight",
+  "gates": {
+    "adaptive_admission_bounds": true,
+    "adaptive_route_shape": true,
+    "all_30_prompts_unseen_to_e13b": true,
+    "baseline_uncached_mechanism": true,
+    "certified_cache_mechanism": true,
+    "denied_fallback_is_uncached": true,
+    "exact_e7c_service_and_binary": true,
+    "exact_online_outputs_match_uncached": true,
+    "exact_openai_compatible_client": true,
+    "full_reference_quality_preserved": true,
+    "native_arm64": true,
+    "raw_call_counts": true,
+    "registry_integrity_and_bounds": true,
+    "unknown_cached_attempts_never_served": true,
+    "unknown_shadow_mechanism": true,
+    "zero_request_failures": true
+  },
+  "github": {
+    "artifact_digest": "sha256:61bd6165a886658ebb14f5bf3911ed4681846ad1c1e401138a0ed1ec4a784719",
+    "artifact_expires_at": "2026-11-03T07:07:16Z",
+    "artifact_id": "8921316583",
+    "artifact_name": "e21b-openai-certificate-preflight-30983800871-1",
+    "artifact_size_bytes": 13858713,
+    "job_id": "92233874162",
+    "repository_commit": "356d0143a6a6107c39cc95eb3633bfa724521ffe",
+    "run_attempt": 1,
+    "run_id": "30983800871",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30983800871"
+  },
+  "online": {
+    "actual_http_calls": 91,
+    "answers": [
+      {
+        "admission": "denied",
+        "expected": "A",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 0,
+        "task_id": "arithmetic-01"
+      },
+      {
+        "admission": "certified",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 1,
+        "task_id": "arithmetic-02"
+      },
+      {
+        "admission": "certified",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 2,
+        "task_id": "arithmetic-03"
+      },
+      {
+        "admission": "certified",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 3,
+        "task_id": "arithmetic-04"
+      },
+      {
+        "admission": "certified",
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "response": "A",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 4,
+        "task_id": "arithmetic-05"
+      },
+      {
+        "admission": "certified",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 5,
+        "task_id": "logic-01"
+      },
+      {
+        "admission": "certified",
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "response": "A",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 6,
+        "task_id": "logic-02"
+      },
+      {
+        "admission": "certified",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 7,
+        "task_id": "logic-03"
+      },
+      {
+        "admission": "certified",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 8,
+        "task_id": "logic-04"
+      },
+      {
+        "admission": "certified",
+        "expected": "A",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 9,
+        "task_id": "logic-05"
+      },
+      {
+        "admission": "certified",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 10,
+        "task_id": "code-01"
+      },
+      {
+        "admission": "certified",
+        "expected": "D",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 11,
+        "task_id": "code-02"
+      },
+      {
+        "admission": "certified",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 12,
+        "task_id": "code-03"
+      },
+      {
+        "admission": "certified",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 13,
+        "task_id": "code-04"
+      },
+      {
+        "admission": "certified",
+        "expected": "D",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 14,
+        "task_id": "code-05"
+      },
+      {
+        "admission": "certified",
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "response": "A",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 15,
+        "task_id": "data-01"
+      },
+      {
+        "admission": "certified",
+        "expected": "C",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 16,
+        "task_id": "data-02"
+      },
+      {
+        "admission": "certified",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 17,
+        "task_id": "data-03"
+      },
+      {
+        "admission": "certified",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 18,
+        "task_id": "data-04"
+      },
+      {
+        "admission": "certified",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 19,
+        "task_id": "data-05"
+      },
+      {
+        "admission": "certified",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 20,
+        "task_id": "systems-01"
+      },
+      {
+        "admission": "certified",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 21,
+        "task_id": "systems-02"
+      },
+      {
+        "admission": "certified",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 22,
+        "task_id": "systems-03"
+      },
+      {
+        "admission": "certified",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 23,
+        "task_id": "systems-04"
+      },
+      {
+        "admission": "certified",
+        "expected": "D",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 24,
+        "task_id": "systems-05"
+      },
+      {
+        "admission": "certified",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 25,
+        "task_id": "evidence-01"
+      },
+      {
+        "admission": "certified",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 26,
+        "task_id": "evidence-02"
+      },
+      {
+        "admission": "certified",
+        "expected": "A",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 27,
+        "task_id": "evidence-03"
+      },
+      {
+        "admission": "certified",
+        "expected": "D",
+        "prediction": "D",
+        "reference_prediction": "D",
+        "response": "D",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 28,
+        "task_id": "evidence-04"
+      },
+      {
+        "admission": "certified",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 29,
+        "task_id": "evidence-05"
+      },
+      {
+        "admission": "certified",
+        "expected": "A",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "unknown_shadow_then_oracle",
+        "served_index": 30,
+        "task_id": "arithmetic-01"
+      },
+      {
+        "admission": "retained",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "certified_cache",
+        "served_index": 31,
+        "task_id": "arithmetic-02"
+      },
+      {
+        "admission": "retained",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "certified_cache",
+        "served_index": 32,
+        "task_id": "arithmetic-03"
+      },
+      {
+        "admission": "retained",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "certified_cache",
+        "served_index": 33,
+        "task_id": "arithmetic-04"
+      },
+      {
+        "admission": "retained",
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "response": "A",
+        "route": "certified_cache",
+        "served_index": 34,
+        "task_id": "arithmetic-05"
+      },
+      {
+        "admission": "retained",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "certified_cache",
+        "served_index": 35,
+        "task_id": "logic-01"
+      },
+      {
+        "admission": "retained",
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "response": "A",
+        "route": "certified_cache",
+        "served_index": 36,
+        "task_id": "logic-02"
+      },
+      {
+        "admission": "retained",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "certified_cache",
+        "served_index": 37,
+        "task_id": "logic-03"
+      },
+      {
+        "admission": "retained",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "certified_cache",
+        "served_index": 38,
+        "task_id": "logic-04"
+      },
+      {
+        "admission": "retained",
+        "expected": "A",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "certified_cache",
+        "served_index": 39,
+        "task_id": "logic-05"
+      },
+      {
+        "admission": "retained",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "certified_cache",
+        "served_index": 40,
+        "task_id": "code-01"
+      },
+      {
+        "admission": "retained",
+        "expected": "D",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "certified_cache",
+        "served_index": 41,
+        "task_id": "code-02"
+      },
+      {
+        "admission": "retained",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "certified_cache",
+        "served_index": 42,
+        "task_id": "code-03"
+      },
+      {
+        "admission": "retained",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "certified_cache",
+        "served_index": 43,
+        "task_id": "code-04"
+      },
+      {
+        "admission": "retained",
+        "expected": "D",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "certified_cache",
+        "served_index": 44,
+        "task_id": "code-05"
+      },
+      {
+        "admission": "retained",
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "response": "A",
+        "route": "certified_cache",
+        "served_index": 45,
+        "task_id": "data-01"
+      },
+      {
+        "admission": "retained",
+        "expected": "C",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "certified_cache",
+        "served_index": 46,
+        "task_id": "data-02"
+      },
+      {
+        "admission": "retained",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "certified_cache",
+        "served_index": 47,
+        "task_id": "data-03"
+      },
+      {
+        "admission": "retained",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "certified_cache",
+        "served_index": 48,
+        "task_id": "data-04"
+      },
+      {
+        "admission": "retained",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "certified_cache",
+        "served_index": 49,
+        "task_id": "data-05"
+      },
+      {
+        "admission": "retained",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "certified_cache",
+        "served_index": 50,
+        "task_id": "systems-01"
+      },
+      {
+        "admission": "retained",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "certified_cache",
+        "served_index": 51,
+        "task_id": "systems-02"
+      },
+      {
+        "admission": "retained",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "certified_cache",
+        "served_index": 52,
+        "task_id": "systems-03"
+      },
+      {
+        "admission": "retained",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "certified_cache",
+        "served_index": 53,
+        "task_id": "systems-04"
+      },
+      {
+        "admission": "retained",
+        "expected": "D",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "certified_cache",
+        "served_index": 54,
+        "task_id": "systems-05"
+      },
+      {
+        "admission": "retained",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "certified_cache",
+        "served_index": 55,
+        "task_id": "evidence-01"
+      },
+      {
+        "admission": "retained",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "certified_cache",
+        "served_index": 56,
+        "task_id": "evidence-02"
+      },
+      {
+        "admission": "retained",
+        "expected": "A",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "response": "C",
+        "route": "certified_cache",
+        "served_index": 57,
+        "task_id": "evidence-03"
+      },
+      {
+        "admission": "retained",
+        "expected": "D",
+        "prediction": "D",
+        "reference_prediction": "D",
+        "response": "D",
+        "route": "certified_cache",
+        "served_index": 58,
+        "task_id": "evidence-04"
+      },
+      {
+        "admission": "retained",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "response": "B",
+        "route": "certified_cache",
+        "served_index": 59,
+        "task_id": "evidence-05"
+      }
+    ],
+    "correct": 46,
+    "cpu_seconds_per_served_request": 6.6025,
+    "maximum_rss_kib": 4491456,
+    "readiness_ms": 2526.826434,
+    "reference_prediction_mismatches": 0,
+    "request_failures": 0,
+    "served_requests": 60,
+    "served_requests_per_second": 0.6001019498980266,
+    "user_http_ms": {
+      "coefficient_of_variation": 0.7579702238260172,
+      "max": 4619.675073,
+      "mean": 1666.2188724666667,
+      "median": 1945.148603,
+      "min": 130.07245,
+      "p95": 3368.88775,
+      "population_stddev": 1262.9442917066933
+    }
+  },
+  "online_decisions": {
+    "admission_counts": {
+      "certified": 30,
+      "denied": 1,
+      "retained": 29
+    },
+    "certified_transitions": 30,
+    "denied_transitions": 1,
+    "registry_sha256": "3d0ea1b57fb8943b6e5b646c1f1497c57927b9c2647674dcac9d9f7eaeded95b",
+    "route_counts": {
+      "certified_cache": 29,
+      "unknown_shadow_then_oracle": 31
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "preflight_decision": {
+    "all_frozen_gates_passed": true,
+    "diagnostic_cpu_per_request_ratio": 0.9919869788406159,
+    "diagnostic_median_latency_ratio": 1.2094713150825562,
+    "diagnostic_p95_latency_ratio": 1.3581977254981583,
+    "diagnostic_throughput_ratio": 1.0105889619036421,
+    "full_experiment_authorized": true,
+    "native_performance_claim_allowed": false,
+    "observed_first_use_tail_regression_retained": true,
+    "post_result_gate_change_permitted": false
+  },
+  "provenance": {
+    "ref": "refs/heads/main",
+    "run_attempt": 1,
+    "run_id": "30983800871",
+    "runner_arch": "ARM64",
+    "runner_os": "Linux",
+    "runtime_artifact": "e9c-prompt-cache-30770403695-1",
+    "runtime_run_id": "30770403695",
+    "sha": "356d0143a6a6107c39cc95eb3633bfa724521ffe"
+  },
+  "quality": {
+    "baseline_correct": 46,
+    "baseline_reference_prediction_mismatches": 0,
+    "online_correct": 46,
+    "online_reference_prediction_mismatches": 0,
+    "online_vs_uncached_response_mismatches": 0,
+    "task_score_per_cycle": "23/30"
+  },
+  "ratios_diagnostic_only": {
+    "cpu_seconds_per_served_request": 0.9919869788406159,
+    "median_user_latency": 1.2094713150825562,
+    "p95_user_latency": 1.3581977254981583,
+    "throughput": 1.0105889619036421
+  },
+  "retention_validation": {
+    "artifact_identity_bound": true,
+    "independent_replay_byte_identical": true,
+    "workflow_inventory": {
+      "all_retained_file_hashes_verified": true,
+      "files_outside_runner_regular_file_inventory": {
+        "build/runtime-files/bin/libggml-base.so.0": "1d3eaf1f192812b30748039fa0f1299fbc5acd3b03c34998c75cba56db92a8a0",
+        "build/runtime-files/bin/libggml-cpu.so.0": "c12b543b317bb81751924c0fd0b17fd8fd22133ed428f7212d964c6a595883cc",
+        "build/runtime-files/bin/libggml.so.0": "c51d94267578bc626f0fce908ff27d2904273b61798a045de027189fcca8f742",
+        "build/runtime-files/bin/libllama-common.so.0": "2f43ca3ec9af17e5d85406d18cd31a5467879a9048fac360825a6d8327fa9beb",
+        "build/runtime-files/bin/libllama.so.0": "6a497259422d15afd2ff9b16ba2b31b94e579ce7403cea9ac7e1e4c258c6fd4f",
+        "build/runtime-files/bin/libmtmd.so.0": "bc568b305c057eea8484e50439bfa8d6c2d193ab9704399573c55dc115c587b0",
+        "disk-after.txt": "bd806ebdd3c846bad70073f2ef0dad7575269b223b51421b905a5ed88bd077a6"
+      },
+      "hashed_files": 60,
+      "sha256": "90ebdfac9c157c0fd99dc207589183c90da8b5ce21cc9b6dc7c8fda45684a160"
+    },
+    "workflow_inventory_hashed_files": 60,
+    "workflow_inventory_sha256": "90ebdfac9c157c0fd99dc207589183c90da8b5ce21cc9b6dc7c8fda45684a160",
+    "workflow_summary_sha256": "f66e4c7f78f33c1116fd8144a632f0c3cceff252b564d8adf9a527fef1bd6295"
+  },
+  "runtime": {
+    "dynamic_dependency_basenames": [
+      "ld-linux-aarch64.so.1",
+      "libc.so.6",
+      "libgcc_s.so.1",
+      "libggml-base.so.0.18.0",
+      "libggml-cpu.so.0.18.0",
+      "libggml.so.0.18.0",
+      "libgomp.so.1.0.0",
+      "libllama-common.so.0.0.10216",
+      "libllama-server-impl.so",
+      "libllama.so.0.0.10216",
+      "libm.so.6",
+      "libmtmd.so.0.0.10216",
+      "libstdc++.so.6.0.33"
+    ],
+    "reused_calibration_run": "30770403695",
+    "runtime_closure": {
+      "build_root": "/tmp/llama.cpp-E9c-build",
+      "file_count": 8,
+      "files": [
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-base.so.0.18.0",
+          "relative_path": "bin/libggml-base.so.0.18.0",
+          "sha256": "1d3eaf1f192812b30748039fa0f1299fbc5acd3b03c34998c75cba56db92a8a0",
+          "size_bytes": 873464
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-cpu.so.0.18.0",
+          "relative_path": "bin/libggml-cpu.so.0.18.0",
+          "sha256": "c12b543b317bb81751924c0fd0b17fd8fd22133ed428f7212d964c6a595883cc",
+          "size_bytes": 1160432
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml.so.0.18.0",
+          "relative_path": "bin/libggml.so.0.18.0",
+          "sha256": "c51d94267578bc626f0fce908ff27d2904273b61798a045de027189fcca8f742",
+          "size_bytes": 78176
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-common.so.0.0.10216",
+          "relative_path": "bin/libllama-common.so.0.0.10216",
+          "sha256": "2f43ca3ec9af17e5d85406d18cd31a5467879a9048fac360825a6d8327fa9beb",
+          "size_bytes": 5325720
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-server-impl.so",
+          "relative_path": "bin/libllama-server-impl.so",
+          "sha256": "491a7c475723c1f44bc304424c7be89aba1f0f19426439a7a089442eb1cd1358",
+          "size_bytes": 6949024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama.so.0.0.10216",
+          "relative_path": "bin/libllama.so.0.0.10216",
+          "sha256": "6a497259422d15afd2ff9b16ba2b31b94e579ce7403cea9ac7e1e4c258c6fd4f",
+          "size_bytes": 3937120
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libmtmd.so.0.0.10216",
+          "relative_path": "bin/libmtmd.so.0.0.10216",
+          "sha256": "bc568b305c057eea8484e50439bfa8d6c2d193ab9704399573c55dc115c587b0",
+          "size_bytes": 1461024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/llama-server",
+          "relative_path": "bin/llama-server",
+          "sha256": "ec60d4975757948cd330dfa82c1f8d274ea67e73cb319ce623f02232dcf61dbd",
+          "size_bytes": 72488
+        }
+      ],
+      "ldd_output": "\tlinux-vdso.so.1 (0x0000ff394677c000)\n\tlibllama-server-impl.so => /tmp/llama.cpp-E9c-build/bin/libllama-server-impl.so (0x0000ff3946110000)\n\tlibstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ff3945e80000)\n\tlibgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ff3945e40000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ff3945c80000)\n\t/lib/ld-linux-aarch64.so.1 (0x0000ff3946730000)\n\tlibllama-common.so.0 => /tmp/llama.cpp-E9c-build/bin/libllama-common.so.0 (0x0000ff3945860000)\n\tlibmtmd.so.0 => /tmp/llama.cpp-E9c-build/bin/libmtmd.so.0 (0x0000ff3945710000)\n\tlibllama.so.0 => /tmp/llama.cpp-E9c-build/bin/libllama.so.0 (0x0000ff39453d0000)\n\tlibggml.so.0 => /tmp/llama.cpp-E9c-build/bin/libggml.so.0 (0x0000ff39453a0000)\n\tlibggml-base.so.0 => /tmp/llama.cpp-E9c-build/bin/libggml-base.so.0 (0x0000ff39452c0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ff3945210000)\n\tlibggml-cpu.so.0 => /tmp/llama.cpp-E9c-build/bin/libggml-cpu.so.0 (0x0000ff3945070000)\n\tlibgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000ff3944ff0000)\n",
+      "runtime_dependencies": [
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libllama-server-impl.so",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libllama-server-impl.so"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libstdc++.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgcc_s.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgcc_s.so.1"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libc.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libc.so.6"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/ld-linux-aarch64.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libllama-common.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libllama-common.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libmtmd.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libmtmd.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libllama.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libllama.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libggml.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libggml.so.0.18.0"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libggml-base.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libggml-base.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libm.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libm.so.6"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libggml-cpu.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libggml-cpu.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgomp.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0"
+        }
+      ],
+      "schema_version": 1,
+      "server_path": "/tmp/llama.cpp-E9c-build/bin/llama-server",
+      "server_relative_path": "bin/llama-server",
+      "system_dependencies_excluded": true,
+      "total_size_bytes": 19857448
+    },
+    "server_binary_sha256": "ec60d4975757948cd330dfa82c1f8d274ea67e73cb319ce623f02232dcf61dbd",
+    "source": {
+      "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "patches_applied": [
+        "0001-kleidiai-use-validated-arm-features.patch",
+        "0002-arm-q8-vector-narrowing-stores.patch",
+        "0003-reasoning-budget-forced-token-guard.patch"
+      ],
+      "tag": "b10216"
+    }
+  },
+  "schema_version": 1,
+  "status": "valid_openai_online_certificate_preflight"
+}
