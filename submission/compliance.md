@@ -1,6 +1,6 @@
 # Final submission checklist
 
-Last technical review: 2026-08-03 UTC. The submission deadline is August 14,
+Last technical review: 2026-08-05 UTC. The submission deadline is August 14,
 2026 at 23:00 UTC.
 
 ## Completed in the repository
@@ -21,7 +21,7 @@ Last technical review: 2026-08-03 UTC. The submission deadline is August 14,
 - [x] English project overview, functionality, implementation, challenges,
       accomplishments, learning, and future work are drafted.
 - [x] Interactive no-dependency demo is implemented and browser-tested.
-- [x] Video script is under three minutes (2m45s; 363 spoken words).
+- [x] Video script is under three minutes (2m45s; 327 spoken words).
 - [x] The final judge package passes clean-checkout native Arm validation in
       GitHub Actions workflow run
       [`30798816900`](https://github.com/Arshgill01/Arm/actions/runs/30798816900):
@@ -30,12 +30,14 @@ Last technical review: 2026-08-03 UTC. The submission deadline is August 14,
 
 The demo, favicon, and four 1,440×900 screenshots are first-party assets created
 for this repository. They use no third-party imagery, fonts, music, or footage.
-The overview and final-service gallery images were re-rendered from the final
-E9a–E9e demo on August 3 with zero browser warnings.
+All four gallery images were re-rendered from the E9a, E21b, and E16e demo on
+August 5 and visually inspected at their final resolution.
 
 ## Entrant actions still required
 
 - [x] `Arshgill01/Arm` is public.
+- [x] The public HTML evidence report is available without credentials at
+      <https://pareto64-arm-evidence.arshgill01.chatgpt.site>.
 - [x] Anonymous HTTP access to the source, Apache-2.0 license, and linked E10b
       workflow evidence was verified on August 3, 2026.
 - [ ] Confirm personal/team eligibility and appoint the submitting representative.

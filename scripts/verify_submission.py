@@ -29,6 +29,18 @@ build_terminal_model_decision = import_module(
 
 
 EXPECTED_HASHES = {
+    "experiments/e16e_lifecycle_contract.json": (
+        "f7034e7c56d5ef45e7c24f60af06bbeb781932f69c8d02746d970247e807a22e"
+    ),
+    "results/manifests/e16e-30989161576.json": (
+        "ca44f051104970be5db03b8febd12c27d6225ca7acb8d4ba9541eb99693c6299"
+    ),
+    "results/manifests/e16c-30851609576.json": (
+        "a469358f7f1b6698961d7481c795893595c88e85e235fa705c650042bcc025da"
+    ),
+    "results/manifests/e21b-30985501097.json": (
+        "df0b6907e35a78061c93ab09ba36378c96c5decce2b44f9586f14d26751ff805"
+    ),
     "experiments/e21b_full_contract.json": (
         "d9486025e0d6a405fef3c1808141fdcd685b1354f54e00a68c21d156b3147b88"
     ),
@@ -1684,17 +1696,14 @@ def main() -> int:
         ROOT / "results/manifests/model-tier-terminal-decision.json"
     )
     model_decision_replay = build_terminal_model_decision(
-        e11b_path=ROOT
-        / "results/manifests/e11b-30869286295-recovered.json",
-        e12b_path=ROOT
-        / "results/manifests/e12b-30869536393-recovered.json",
+        e11b_path=ROOT / "results/manifests/e11b-30869286295-recovered.json",
+        e12b_path=ROOT / "results/manifests/e12b-30869536393-recovered.json",
         memory_path=ROOT / "results/manifests/e6i-30691254831.json",
         sidecar_path=ROOT / "results/manifests/e16b-30842925537.json",
     )
     if (
         model_decision != model_decision_replay
-        or model_decision.get("status")
-        != "selected_q4_k_m_and_closed_model_sweep"
+        or model_decision.get("status") != "selected_q4_k_m_and_closed_model_sweep"
         or model_decision.get("terminal_decision", {}).get("selected_model")
         != "ministral3_3b_q4_k_m"
         or model_decision.get("terminal_decision", {}).get(
@@ -1707,6 +1716,86 @@ def main() -> int:
         is not False
     ):
         raise ValueError("terminal model-tier decision changed or reopened")
+
+    online_cache = load_object(ROOT / "results/manifests/e21b-30985501097.json")
+    if (
+        online_cache.get("status") != "valid_openai_online_certificate_promoted"
+        or not all(online_cache.get("validity_gates", {}).values())
+        or not all(online_cache.get("promotion_gates", {}).values())
+        or online_cache.get("quality", {}).get("task_score") != "23/30"
+        or online_cache.get("quality", {}).get("paired_exact_response_mismatches") != 0
+        or online_cache.get("lifecycle_ratios", {}).get("throughput")
+        != 1.7277643677141625
+        or online_cache.get("lifecycle_ratios", {}).get(
+            "cpu_seconds_per_served_request"
+        )
+        != 0.5775226263862093
+        or online_cache.get("tail_boundaries", {})
+        .get("synchronous_first_use", {})
+        .get("p95_latency_ratio")
+        != 1.6646836511307348
+        or online_cache.get("tail_boundaries", {})
+        .get("certified_steady_state", {})
+        .get("p95_latency_ratio")
+        != 0.43301642057316214
+        or [
+            item.get("first_cumulative_break_even_cycle")
+            for item in online_cache.get("break_even", [])
+        ]
+        != [2, 2, 2, 2]
+        or online_cache.get("campaign_decision", {}).get(
+            "semantic_or_arbitrary_prompt_generalization_claimed"
+        )
+        is not False
+        or online_cache.get("campaign_decision", {}).get(
+            "periodic_post_certification_revocation_claimed"
+        )
+        is not False
+    ):
+        raise ValueError("bounded E21b online certificate changed or broadened")
+
+    sidecar_lifecycle = load_object(ROOT / "results/manifests/e16e-30989161576.json")
+    if (
+        sidecar_lifecycle.get("status")
+        != "valid_product_sidecar_lifecycle_retained_after_reader_repair"
+        or len(sidecar_lifecycle.get("gates", {})) != 14
+        or not all(sidecar_lifecycle.get("gates", {}).values())
+        or sidecar_lifecycle.get("failed_gates") != []
+        or sidecar_lifecycle.get("quality", {}).get("worker_answer_mismatches") != 0
+        or any(
+            worker.get("correct") != 23
+            or worker.get("total") != 30
+            or worker.get("request_failures") != 0
+            or worker.get("reference_prediction_mismatches") != 0
+            for worker in sidecar_lifecycle.get("quality", {}).get("workers", [])
+        )
+        or len(sidecar_lifecycle.get("quality", {}).get("workers", [])) != 2
+        or sidecar_lifecycle.get("construction", {}).get("total_prepack_seconds")
+        != 12.602439033000053
+        or sidecar_lifecycle.get("boundaries", {})
+        .get("amortization", {})
+        .get("warm_start_break_even_worker_starts_estimate")
+        != 9
+        or sidecar_lifecycle.get("validation_repair", {}).get(
+            "acceptance_gates_changed"
+        )
+        is not False
+        or sidecar_lifecycle.get("validation_repair", {}).get(
+            "native_measurements_added"
+        )
+        != 0
+        or sidecar_lifecycle.get("validation_repair", {}).get("source_artifact_mutated")
+        is not False
+        or sidecar_lifecycle.get("decision", {}).get("e16d_failed_workflow_retained")
+        is not True
+        or sidecar_lifecycle.get("decision", {}).get("cold_start_claim_allowed")
+        is not False
+        or sidecar_lifecycle.get("decision", {}).get(
+            "per_process_rss_reduction_claim_allowed"
+        )
+        is not False
+    ):
+        raise ValueError("E16d/E16e sidecar lifecycle changed or broadened")
 
     local_assets = verify_demo()
     gallery_assets = verify_gallery()

@@ -68,6 +68,10 @@ jobs:
           grep -q 'The fastest model lost' /tmp/pareto64-demo.html
           grep -q 'Cache + concurrency did not compound' /tmp/pareto64-demo.html
           grep -q 'Right-size before quantizing' /tmp/pareto64-demo.html
+          grep -q 'Safe after first use; not free on first use' \
+            /tmp/pareto64-demo.html
+          grep -q 'Pack once. Verify every launch. Share the pages' \
+            /tmp/pareto64-demo.html
           curl --fail --silent http://127.0.0.1:4174/app.js \
             > /tmp/pareto64-demo-app.js
           grep -q 'renderDecision' /tmp/pareto64-demo-app.js

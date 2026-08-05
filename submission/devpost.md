@@ -7,6 +7,8 @@ broken speedups, launch only the proven deployment.
 
 **Source:** <https://github.com/Arshgill01/Arm>
 
+**Public evidence report:** <https://pareto64-arm-evidence.arshgill01.chatgpt.site>
+
 **Interactive demo:** `<ADD PUBLIC DEMO URL>`
 
 **Public video:** `<ADD PUBLIC VIDEO URL>`
@@ -47,10 +49,15 @@ summed. Every promoted service change preserved the selected task predictions.
 | Source robustness | Historical pins → llama.cpp b10216 | Complete native build and 47/47 tests passed | Validate one upstream-equivalent Arm CPU lane |
 | Application runtime | Clean b10208 → patched b10216 | Exact 23/30 twice; 1.0028x throughput; +100 KiB RSS | Accept an exact-service upgrade candidate |
 | Product integration | Manual command risk → evidence-bound adapter | Native adapter launch reproduced 23/30 with zero drift or failures | Admit only the exact measured service |
+| Final compounded service | Earliest admitted E5b → exact E7c | 1.7168x throughput; 41.5% lower median latency; all 240 answers exact | Accept the end-product delta; attribute through isolated lanes |
+| Online cache safety | Empty registry → exact-response transition certificate | 1.72776x lifecycle throughput; cycle-two break-even; first-use p95 1.66468x | Promote only for the exact identity/workload |
+| Persistent Arm weights | Private per-process repacks → one verified read-only sidecar | 62.03% lower warm readiness; 1.995 GiB less two-worker summed PSS | Keep warm/PSS claims separate from cold/RSS |
+| Product lifecycle | Manual sidecar handling → prepack/verify/launch/cleanup CLI | 14/14 unchanged gates; 23/30 on both workers | Promote through E16e; retain E16d reader failure |
 
 ## What it does
 
-- runs checksum-pinned AI experiments on native four-core Neoverse N2 hosts;
+- runs checksum-pinned AI experiments on native Neoverse N2 hosts and records
+  the exact CPU topology for every claim;
 - preserves raw per-request/per-round data and independently re-ingests it;
 - enforces stable quality before comparing latency, RSS, load time, or size;
 - builds a Pareto frontier without a hidden weighted score;
@@ -345,6 +352,40 @@ sidecar SHA-256 despite different absolute allocations. Both preserve 23/30
 with zero failures. This is a passing feasibility boundary, not a loader or
 performance result; those claims require the separately frozen E16b comparison.
 
+E16b supplies that fail-closed loader comparison. Every sidecar tensor must
+match the model, source diff, CPU identity, layout, and hash before the server
+can become ready. It preserves exact quality and 1.0029x throughput while
+reducing same-job median warm readiness from 2,530.23 to 960.75 milliseconds,
+or 62.03%. RSS and PSS remain unchanged in one process, and Linux page cache was
+not flushed, so this is not a cold-start claim.
+
+E16c measures the missing multi-process boundary. Two simultaneous workers map
+one verified read-only sidecar and preserve all 480 answers. Summed PSS falls by
+2,091,714 KiB, or 1.995 GiB, at 1.00044x aggregate throughput. Per-process RSS
+still counts the shared pages, so we claim physical attribution through PSS—not
+an RSS saving.
+
+E16d then runs the complete product lifecycle from a clean native checkout:
+prepack all 183 tensors, independently verify them, reject a corrupted index,
+launch two verified workers, reproduce 23/30 on both, stop them, and clean up
+only receipt-bound files. Every product step completed, but the frozen final
+reader decoded raw llama.cpp tokenizer diagnostics as UTF-8 and failed before
+gate evaluation. E16d remains a failed workflow. E16e changes only that reader,
+replays the exact 61-file artifact twice, and passes all 14 unchanged gates
+without adding a measurement. The one-time construction took 12.602 seconds;
+using E16b's warm medians gives an estimated break-even after nine warm worker
+starts. Cold storage, energy, money, maintenance, and fleet economics remain
+outside the claim.
+
+The final cache result follows the same pattern. E21b begins each process with
+an empty registry, shadows unknown transitions, certifies only exact response
+reuse, and denies the unsafe start transition. Four reverse-balanced
+repetitions preserve 23/30 and every paired response, reach 1.72776x lifecycle
+throughput and 0.57752x CPU per served request, and break even in cycle two.
+Synchronous first-use p95 regresses to 1.66468x while certified steady-state p95
+improves to 0.43302x. The promotion is therefore exact-identity/workload-bound;
+it does not claim arbitrary-prompt semantics or periodic revocation.
+
 ## How we built it
 
 Pareto64 uses standard-library Python for schemas, evidence ingestion, Pareto
@@ -415,6 +456,10 @@ without changing measured inputs or post-observation thresholds.
 - a final same-job comparison that retains all 240 raw request records and
   measures 1.7168x throughput with 41.5% lower median latency against the exact
   earliest admitted service;
+- an adaptive fail-closed cache certificate that reaches 1.72776x lifecycle
+  throughput while retaining its 1.66468x first-use p95 regression;
+- a persistent Arm-packed sidecar that saves 1.995 GiB of two-worker summed PSS
+  and passes a 14-gate clean-checkout product lifecycle;
 - a process-bound thread-efficiency study that rejects lower thread counts
   instead of confusing fewer active cores with less total CPU work;
 - three reviewable Arm source patches revalidated on current llama.cpp with
@@ -422,7 +467,7 @@ without changing measured inputs or post-observation thresholds.
 - roughly 2x direct NEON quantizer throughput;
 - a reusable no-weighted-score planner, HTTP API, experiment schema, reports,
   and clean-checkout validation workflow; and
-- 163 focused tests plus native Arm workflows for the final evidence path.
+- focused correctness tests plus native Arm workflows for the final evidence path.
 
 ## What we learned
 
@@ -443,6 +488,11 @@ can be removed safely, but doing so gives up more than half of serving
 throughput. A product should expose both qualified operating points and route
 explicit deployment envelopes to them instead of pretending one profile
 dominates every use case.
+Persisting the packed representation changes that tradeoff again: the repack
+cost can be paid once and physically shared, but only after identity binding,
+full verification, corruption rejection, safe cleanup, and explicit warm-versus-
+cold boundaries. Cache reuse taught the same lesson in time rather than memory:
+steady-state gains do not erase first-use cost or justify semantic generalization.
 
 ## What's next
 

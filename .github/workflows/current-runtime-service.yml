@@ -292,9 +292,10 @@ jobs:
             if jq -e '.service.weight_repack' "$CONTRACT_PATH" >/dev/null; then
               grep -q 'CPU_REPACK model buffer size' \
                 "$output_dir/runtime-proof.stderr.log"
-            else
-              ! grep -q 'CPU_REPACK model buffer size' \
-                "$output_dir/runtime-proof.stderr.log"
+            elif grep -q 'CPU_REPACK model buffer size' \
+              "$output_dir/runtime-proof.stderr.log"; then
+              echo 'runtime proof unexpectedly used the repack buffer' >&2
+              exit 1
             fi
           done
           trap - EXIT

@@ -14,8 +14,8 @@ and media needed for the Arm Create: AI Optimization Challenge 2026 entry.
 
 The ready-to-upload 1,440×900 gallery assets are in
 [`../output/playwright/`](../output/playwright/): project overview, interactive
-policy, final E5b-versus-E7c service comparison, and cache-generalization
-boundary.
+policy, the final service plus online-cache lifecycle, and the persistent
+Arm-packed-weight lifecycle.
 
 The interactive static demo is in [`../demo/index.html`](../demo/index.html).
 From the repository root:
@@ -38,9 +38,9 @@ covering 175 tests, 55 immutable evidence hashes, planner replay, and the demo
 smoke test at commit `03ae10d`. It also validates all four gallery assets and
 the enforced video-script word ceiling.
 
-The GitHub repository is public, and anonymous HTTP checks pass for the source,
-license, and current native workflow evidence. It does not yet publish or
-configure a hosted site automatically. The entrant must put the static `demo/`
-directory at a public URL that remains available through September 4, 2026,
-upload the video, and replace the URL placeholders in `devpost.md` and
-`compliance.md`.
+The GitHub repository and the
+[HTML evidence report](https://pareto64-arm-evidence.arshgill01.chatgpt.site)
+are public, and anonymous HTTP checks pass. The interactive static `demo/`
+directory is not yet hosted. The entrant must put it at a public URL that
+remains available through September 4, 2026, upload or omit the optional video,
+and resolve the URL placeholders in `devpost.md` and `compliance.md`.

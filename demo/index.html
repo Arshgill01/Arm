@@ -20,6 +20,7 @@
       <nav aria-label="Primary navigation">
         <a href="#decision">Decision lab</a>
         <a href="#serving">Serving evidence</a>
+        <a href="#lifecycle">Packed weights</a>
         <a href="#optimization">Arm patch</a>
         <a href="#evidence">Evidence</a>
       </nav>
@@ -53,8 +54,8 @@
               <dd>1.717×</dd>
             </div>
             <div>
-              <dt>Compute buffer</dt>
-              <dd>10.03 MiB</dd>
+              <dt>Online cache lifecycle</dt>
+              <dd>1.728×</dd>
             </div>
             <div>
               <dt>Model package</dt>
@@ -220,6 +221,50 @@
             request fell 41.9%. Every cell reproduced 23/30 with zero drift or
             failures. One baseline readiness outlier reached 10.13 seconds and
             remains included under the frozen 15-second ceiling.
+          </p>
+        </div>
+
+        <div class="cache-interaction">
+          <table>
+            <caption>
+              <strong>Safe after first use; not free on first use.</strong>
+              E21b starts with an empty registry in every fresh process and
+              certifies only exact response reuse.
+            </caption>
+            <thead>
+              <tr>
+                <th>Four-cycle evidence</th>
+                <th>Online / uncached</th>
+                <th>Quality</th>
+                <th>Decision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Lifecycle throughput</td>
+                <td class="select-text">1.72776×</td>
+                <td>23/30 · zero paired drift</td>
+                <td class="select-text">Promoted in-boundary</td>
+              </tr>
+              <tr>
+                <td>Synchronous first-use p95</td>
+                <td>1.66468×</td>
+                <td>regression retained</td>
+                <td>not hidden</td>
+              </tr>
+              <tr>
+                <td>Certified steady-state p95</td>
+                <td class="select-text">0.43302×</td>
+                <td>break-even in cycle two</td>
+                <td>exact identity/workload only</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            Every repetition certified 30 transitions, denied one unsafe start
+            transition, and served unknowns only after shadow plus uncached oracle.
+            The result does not claim arbitrary-prompt semantics or periodic
+            post-certification revocation.
           </p>
         </div>
 
@@ -572,6 +617,94 @@
         </div>
       </section>
 
+      <section class="optimization-section" id="lifecycle" aria-labelledby="lifecycle-title">
+        <header class="section-heading">
+          <h2 id="lifecycle-title">Pack once. Verify every launch. Share the pages.</h2>
+          <p>
+            E16a proves the 183-tensor Arm-packed representation is deterministic.
+            E16b measures the fail-closed loader, E16c measures two-worker physical
+            sharing, and E16d/E16e close the clean-checkout product lifecycle without
+            turning warm or PSS evidence into cold, RSS, energy, or fleet claims.
+          </p>
+        </header>
+
+        <div class="cache-interaction">
+          <table>
+            <caption>
+              <strong>The reusable representation has two separately measured benefits.</strong>
+              Readiness and PSS come from different frozen same-job experiments.
+            </caption>
+            <thead>
+              <tr>
+                <th>Evidence</th>
+                <th>Normal/private</th>
+                <th>Shared sidecar</th>
+                <th>Measured result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>E16b · warm readiness</td>
+                <td>2,530.23 ms</td>
+                <td>960.75 ms</td>
+                <td class="select-text">62.03% lower</td>
+              </tr>
+              <tr>
+                <td>E16c · two-worker summed PSS</td>
+                <td>6,815,078 KiB</td>
+                <td>4,723,364 KiB</td>
+                <td class="select-text">−2,091,714 KiB</td>
+              </tr>
+              <tr>
+                <td>E16c · aggregate throughput</td>
+                <td>1.00000×</td>
+                <td>1.00044×</td>
+                <td>retained</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="cache-interaction">
+          <table>
+            <caption>
+              <strong>The public CLI lifecycle passes every unchanged gate.</strong>
+              E16d remains failed because its final reader assumed UTF-8; E16e
+              replays the exact artifact with only a byte-safe ASCII marker search.
+            </caption>
+            <thead>
+              <tr>
+                <th>Lifecycle</th>
+                <th>Native evidence</th>
+                <th>Boundary</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Prepack + full verification</td>
+                <td>12.602 s · 183 tensors · 2,139,013,120-byte sidecar</td>
+                <td>one construction</td>
+              </tr>
+              <tr>
+                <td>Two-worker quality</td>
+                <td>23/30 each · 60/60 successful requests · zero drift</td>
+                <td>exact Q4_K_M/E7c identity</td>
+              </tr>
+              <tr>
+                <td>Corruption, shutdown, cleanup</td>
+                <td class="select-text">14/14 gates · two byte-identical replays</td>
+                <td>failed E16d retained</td>
+              </tr>
+              <tr>
+                <td>Warm construction estimate</td>
+                <td>break-even after nine worker starts</td>
+                <td>no cold, energy, money, or maintenance</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <section class="optimization-section" id="optimization" aria-labelledby="optimization-title">
         <header class="section-heading">
           <h2 id="optimization-title">Six vector instructions replaced 32 scalar stores</h2>
@@ -788,6 +921,26 @@
             <div><strong>Fail-closed cache certificate</strong><p>Outputs stayed byte-exact at 1.84765× throughput, but six safe unknown fallbacks violated the frozen decision count.</p></div>
             <span class="evidence-result reject-text">Count gate failed</span>
           </li>
+          <li>
+            <span class="evidence-id">E21b</span>
+            <div><strong>Adaptive online cache certificate</strong><p>1.72776× lifecycle throughput with exact output; first-use p95 regressed to 1.66468×.</p></div>
+            <span class="evidence-result select-text">Bounded promotion</span>
+          </li>
+          <li>
+            <span class="evidence-id">E16c</span>
+            <div><strong>Two-worker shared packed arena</strong><p>1.995 GiB less summed PSS at 1.00044× aggregate throughput with exact answers.</p></div>
+            <span class="evidence-result select-text">Promoted</span>
+          </li>
+          <li>
+            <span class="evidence-id">E16d</span>
+            <div><strong>Persistent sidecar product lifecycle</strong><p>All product commands completed, but the frozen UTF-8 log reader failed before gate evaluation.</p></div>
+            <span class="evidence-result reject-text">Failure retained</span>
+          </li>
+          <li>
+            <span class="evidence-id">E16e</span>
+            <div><strong>Byte-safe lifecycle retention</strong><p>The exact 61-file E16d artifact passes all 14 unchanged gates twice without new measurement.</p></div>
+            <span class="evidence-result select-text">Integrated</span>
+          </li>
         </ol>
 
         <div class="reproduce">
@@ -823,6 +976,12 @@
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e13a-cache-certificate.md">
           Cache certificate boundary
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e21b-online-cache-certificate.md">
+          Online cache certificate
+        </a>
+        <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e16e-persistent-sidecar-product-lifecycle.md">
+          Packed-weight lifecycle
         </a>
         <a href="https://github.com/Arshgill01/Arm/blob/main/results/reports/e5e-kv-context-profile.md">
           Memory profile

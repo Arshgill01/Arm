@@ -68,7 +68,7 @@ jobs:
           test -z "$(git -C "$LLAMA_CPP_DIR" status --short)"
           grep -q 'set(KLEIDIAI_COMMIT_TAG "v1.24.0")' \
             "$LLAMA_CPP_DIR/ggml/src/ggml-cpu/CMakeLists.txt"
-          grep -q '`id_slot`' "$LLAMA_CPP_DIR/tools/server/README.md"
+          grep -Fq $'\x60id_slot\x60' "$LLAMA_CPP_DIR/tools/server/README.md"
           grep -q 'not.*guaranteed to be bit-for-bit identical' \
             "$LLAMA_CPP_DIR/tools/server/README.md"
 

@@ -202,8 +202,11 @@ jobs:
             if [[ "$flash_mode" == "off" ]]; then
               grep -Eq 'flash_attn[[:space:]]*=[[:space:]]*disabled' \
                 "$output_dir/server.stderr.log"
-              ! grep -q 'resolve_fused_ops: Flash Attention enabled' \
-                "$output_dir/server.stderr.log"
+              if grep -q 'resolve_fused_ops: Flash Attention enabled' \
+                "$output_dir/server.stderr.log"; then
+                echo 'Flash Attention was unexpectedly enabled' >&2
+                exit 1
+              fi
             else
               grep -Eq 'flash_attn[[:space:]]*=[[:space:]]*auto' \
                 "$output_dir/server.stderr.log"

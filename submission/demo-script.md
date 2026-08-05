@@ -7,84 +7,78 @@ Use no copyrighted music or third-party footage.
 
 **Screen:** Open the Pareto64 demo at the top.
 
-**Voice:** “The fastest model lost. On native Arm, our KleidiAI model was 29%
-faster and slightly smaller—but it failed the workload. Pareto64 selected the
-only package that cleared quality and every deployment SLO.”
+**Voice:** “The fastest model lost. On native Arm, our KleidiAI package was 29%
+faster and slightly smaller, but it failed the workload. Pareto64 selected the
+only model that cleared quality and every deployment obligation.”
 
-## 0:18–0:40 — The quality frontier
+## 0:18–0:40 — Quality before speed
 
-**Screen:** Point to the 70% Q4_0 marker, the fixed 75% line, and the selected
-76.67% Q4_K_M marker. Keep all four selected metrics visible.
+**Screen:** Point to the 70% Q4_0 marker, fixed 75% line, and selected 76.67%
+Q4_K_M marker.
 
-**Voice:** “Every experiment is pinned and repeated. The planner locks quality
-first, then evaluates latency, memory, load time, and size. There is no weighted
-score to hide a bad tradeoff.”
+**Voice:** “The planner locks quality first, then evaluates latency, memory,
+startup, and package size. There is no weighted score to hide a bad tradeoff,
+and changing an operator policy cannot rescue a model whose experiment failed.”
 
 ## 0:40–1:00 — Interactive refusal
 
-**Screen:** Navigate to “Decision lab.” Click “Latency temptation.” Show
-`No feasible candidate`, then return to “Quality deployment.”
+**Screen:** In “Decision lab,” click “Latency temptation,” show `No feasible
+candidate`, then restore “Quality deployment.”
 
-**Voice:** “Lowering a policy after measurement cannot rescue the faster model:
-its experiment gate already failed. Tighten latency and the selected model fails
-too, so Pareto64 refuses deployment instead of moving the goalposts.”
+**Voice:** “When no measured package clears every obligation, Pareto64 refuses
+deployment. The rejection reason and exact evidence hashes remain visible
+instead of moving the gate after results.”
 
-## 1:00–1:42 — Serving optimization
+## 1:00–1:30 — Exact final service
 
-**Screen:** Scroll to “Reuse 25 tokens. Keep all 120 answers.” Point to the
-throughput bars, concurrency boundary, context/KV profile, and prompt-batch
-profile.
+**Screen:** Show the earliest-versus-final table.
 
-**Voice:** “More server slots gained only 1.9%, so we rejected them. Shared-prefix
-caching preserved all 120 answers, raised throughput 1.67 times, and cut median
-latency 41%. Combining cache and concurrency nearly doubled latency, so one slot
-stayed. Right-sizing context saved 183 MiB; q4 KV saved more but changed an
-answer. Batch 64 cut the compute buffer 75%. Disabling Arm weight repacking
-saved another 1.98 GiB but halved throughput, so the planner exposes separate
-fast and under-three-GiB tiers—and refuses an envelope neither tier measured.”
+**Voice:** “One native job ran the exact earliest and final service recipes four
+times each with fresh processes and reverse-balanced order. All 240 answers
+matched. The final service reached 1.717 times throughput, cut median latency
+41.5%, and cut CPU seconds per request 41.9%. This is a compounded product
+result; the controlled cache, context, batch, runtime, and dependency experiments
+provide attribution.”
 
-## 1:42–2:08 — Arm-specific patch
+## 1:30–1:58 — Cache certification with an honest first-use cost
 
-**Screen:** Scroll to the before/after assembly section.
+**Screen:** Show the E21b lifecycle table and first-use row.
 
-**Voice:** “In llama.cpp’s Q8 activation quantizer, we replaced 32 scalar stores
-with six NEON narrows and two vector stores. Direct throughput doubled from 5.1
-to 10.3 gigabytes per second with bit-identical output. The full Arm CPU lane
-then passed 47 tests. Real-model inference stayed neutral, so we claim the hot
-path—not a whole-model speedup.”
+**Voice:** “The online cache begins empty, shadows unknown transitions, certifies
+only exact response reuse, and denies the unsafe start transition. Across four
+repetitions it preserved 23 of 30 and every paired response, reached 1.728 times
+lifecycle throughput, and broke even in cycle two. First-use p95 regressed 66%,
+so that cost stays visible. The claim covers this identity and workload—not
+arbitrary prompts.”
 
-## 2:08–2:36 — Exact serving and final boundaries
+## 1:58–2:28 — Persistent Arm-packed weights
 
-**Screen:** Show the E5b through E9e rows and final comparison, then the terminal.
+**Screen:** Navigate to “Packed weights.” Point to readiness, summed PSS, and
+the clean-checkout lifecycle table.
+
+**Voice:** “Pareto64 can pack all 183 Arm tensors once, verify every tensor, and
+map one read-only sidecar into two workers. Same-job warm readiness fell 62%.
+Two workers saved 1.995 GiB of summed PSS at unchanged throughput and exact
+answers. The public prepack, verify, corruption-rejection, launch, stop, and
+cleanup lifecycle passed all 14 gates. Its one-time 12.6-second construction
+breaks even after an estimated nine warm starts. Cold storage, per-process RSS,
+energy, and fleet economics remain unclaimed.”
+
+## 2:28–2:40 — Failed evidence stays failed
+
+**Screen:** Show E16d and E16e together in the evidence list, then run:
 
 ```bash
 python3 scripts/verify_submission.py
 ```
 
-**Voice:** “The hash-verifying adapter reproduced all 30 task outputs with zero
-drift. OpenSSL-off removed two unused library edges and retained 99.981% of
-throughput. Then one same-job comparison ran the exact earliest and final
-recipes four times each. All 240 answers matched: final throughput was 1.717
-times, median latency fell 41.5%, and CPU work per request fell 41.9%. This is a
-compounded product result; isolated experiments provide attribution. The
-external holdout later ran all 300 selected samples for both models, but one
-Q4_K_M and two Q4_0 samples lost a required one-token probability record. We
-rejected the incomplete comparison and retained all 28,490 raw responses.
-Alternating prefixes changed answers, strict sanitizer readiness failed on an
-inherited test, and speculative/cross-runtime gates failed before measurement.
-We publish those boundaries too.”
+**Voice:** “E16d completed the product but its frozen reader failed on raw
+tokenizer bytes. E16e changed only that reader and replayed the exact artifact.
+The failed run remains public.”
 
-## 2:36–2:45 — Close
+## 2:40–2:45 — Close
 
-**Screen:** Run the service planner command, show `repack_off` and
-`--no-weight-repack`, then end on the top of the demo.
+**Screen:** End on the report masthead and public source link.
 
-```bash
-python3 -m pareto64 service-plan \
-  --manifest results/manifests/e5h-30672633366.json \
-  --constraints configs/service-memory.json
-```
-
-**Voice:** “Pareto64 turns Arm optimization from a leaderboard into a sequence
-of provable obligations: measure, reject, select, verify, and launch. Every win,
-near-miss, patch, and raw run is retained and ready for review.”
+**Voice:** “Pareto64 makes Arm optimization auditable: freeze, measure, reject,
+select, verify, and launch.”

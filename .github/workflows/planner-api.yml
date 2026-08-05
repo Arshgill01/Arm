@@ -65,7 +65,7 @@ jobs:
             > "$EVIDENCE_DIR/server.stdout.log" \
             2> "$EVIDENCE_DIR/server.stderr.log" &
           server_job_pid=$!
-          for attempt in $(seq 1 50); do
+          for _ in $(seq 1 50); do
             if curl --fail --silent http://127.0.0.1:8765/healthz \
               > "$EVIDENCE_DIR/health.json"; then
               break

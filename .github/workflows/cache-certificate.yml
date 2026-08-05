@@ -96,8 +96,14 @@ jobs:
             | sha256sum --check --strict
           LD_LIBRARY_PATH="$runtime_dir" ldd "$runtime_dir/llama-server" \
             | tee "$EVIDENCE_DIR/reused-runtime-ldd.txt"
-          ! grep -q 'not found' "$EVIDENCE_DIR/reused-runtime-ldd.txt"
-          ! grep -Eq 'lib(ssl|crypto)\.so' "$EVIDENCE_DIR/reused-runtime-ldd.txt"
+          if grep -q 'not found' "$EVIDENCE_DIR/reused-runtime-ldd.txt"; then
+            echo 'runtime dependency closure contains a missing library' >&2
+            exit 1
+          fi
+          if grep -Eq 'lib(ssl|crypto)\.so' "$EVIDENCE_DIR/reused-runtime-ldd.txt"; then
+            echo 'runtime dependency closure unexpectedly contains OpenSSL' >&2
+            exit 1
+          fi
 
       - name: Download and verify exact selected model
         run: |

@@ -1,6 +1,6 @@
 # Entrant submission handoff
 
-Checked: 2026-08-03 UTC. This is a preparation packet, not authorization to
+Checked: 2026-08-05 UTC. This is a preparation packet, not authorization to
 publish or submit anything.
 
 ## Stop gates
@@ -43,18 +43,20 @@ Upload the four 1,440×900 PNGs in this order so the compounded result appears
 before supporting detail:
 
 1. [`pareto64-overview.png`](../output/playwright/pareto64-overview.png) —
-   quality-first hook and 1.717× final-service result.
+   quality-first hook, 1.717× final-service result, and 1.728× online-cache
+   lifecycle result.
 2. [`pareto64-final-service.png`](../output/playwright/pareto64-final-service.png)
-   — exact E5b-versus-E7c recipes and same-job metrics.
+   — exact E5b-versus-E7c metrics plus E21b's retained first-use regression.
 3. [`pareto64-policy-lab.png`](../output/playwright/pareto64-policy-lab.png) —
    measured deployment-envelope routing and refusal behavior.
 4. [`pareto64-serving-boundary.png`](../output/playwright/pareto64-serving-boundary.png)
-   — negative cache-generalization boundary.
+   — persistent packed-weight readiness, shared-PSS, and lifecycle evidence.
 
 Suggested first-image caption: **Pareto64 rejects a faster model that misses
 quality, then launches only an evidence-bound Arm64 service. The exact final
 service delivers 1.7168× throughput with 41.5% lower median latency in a
-same-job native Neoverse N2 comparison.**
+same-job native Neoverse N2 comparison; its online certificate preserves exact
+answers and reaches break-even in cycle two.**
 
 ## Entrant survey choices to confirm
 

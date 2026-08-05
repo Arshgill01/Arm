@@ -1,6 +1,6 @@
 # Repository publication record
 
-Checked: 2026-08-03 UTC.
+Checked: 2026-08-05 UTC.
 
 The official rules require a public source repository. GitHub reports
 `Arshgill01/Arm` as **public**. On August 3, 2026, unauthenticated HTTP checks
@@ -50,5 +50,6 @@ The evidence-ledger site is published at
 [`https://pareto64-arm-evidence.arshgill01.chatgpt.site`](https://pareto64-arm-evidence.arshgill01.chatgpt.site).
 Sites reports public access, and an unauthenticated HTTP request returned 200
 with the E9a final-service, E10f holdout, E13 cache-certificate, E14 selective-
-repack, and E16 packed-loader evidence. This is a public HTML report, not a
-Devpost submission or a published upstream patch.
+repack, E16 packed-loader/lifecycle, and E21 online-certificate evidence. This
+is a public HTML report, not a Devpost submission or a published upstream
+patch.
