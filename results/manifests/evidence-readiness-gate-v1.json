@@ -1,0 +1,108 @@
+{
+  "artifact_shape_fixture": {
+    "cells": {
+      "claim_ready": false,
+      "complete": [
+        "control"
+      ],
+      "failed": [
+        "failed"
+      ],
+      "missing": [],
+      "partial": [
+        "partial"
+      ],
+      "unexpected": []
+    },
+    "inventory": {
+      "file_count": 2,
+      "inventory_sha256": "97397db4b7b4ec14bea1ee1761be803c1c10ed123bb37aa1f477bc8c1caf6c7c"
+    },
+    "raw": {
+      "all_requests_are_inventory_bound_json_objects": true,
+      "layout_sha256": "54f29ddab221e2567774cf6779dd9c30b5571274298815e001970e067e08f3c1",
+      "paths": [
+        "raw/requests/control.json",
+        "raw/requests/candidate.json"
+      ],
+      "request_count": 2
+    },
+    "slots": [
+      {
+        "id": 0,
+        "is_processing": false
+      }
+    ],
+    "timing": {
+      "encode_ms": 4.0,
+      "http_ms": 10.0
+    }
+  },
+  "claim_boundary": "This local fixture validates parser shapes, fail-closed cell accounting, inventory binding, deterministic replay, and readiness decisions only. It is not native performance evidence.",
+  "experiment_id": "evidence-readiness-gate-v1",
+  "independent_replay": {
+    "byte_stable": true,
+    "independent_replays": 2,
+    "summary_bytes": 755,
+    "summary_sha256": "bad324e2dbddd18c4f164f05edbfa59738b76f4e244d121fa22c0b00d863f963"
+  },
+  "policy_sha256": "4802e2a4f9fd3bdf83d612804405f878ad43d0d26285fa52699877da91ad8c40",
+  "readiness_decisions": {
+    "below_floor": {
+      "affected_runtime_share": 0.01,
+      "alternate_values": [],
+      "budget": {
+        "maximum_runtime_minutes": 90.0,
+        "maximum_storage_bytes": 536870912.0
+      },
+      "computed_system_throughput_gain_ceiling": 0.010101010101010166,
+      "decision": "stop_below_amdahl_floor",
+      "economic_value_present": false,
+      "matrix_allowed": false,
+      "mechanism_unit_passed": true,
+      "minimum_system_gain_ceiling": 0.03,
+      "native_preflight_passed": true,
+      "synthetic_replay_passed": true
+    },
+    "passed": {
+      "affected_runtime_share": 0.08,
+      "alternate_values": [],
+      "budget": {
+        "maximum_runtime_minutes": 90.0,
+        "maximum_storage_bytes": 536870912.0
+      },
+      "computed_system_throughput_gain_ceiling": 0.04166666666666652,
+      "decision": "matrix_allowed",
+      "economic_value_present": true,
+      "matrix_allowed": true,
+      "mechanism_unit_passed": true,
+      "minimum_system_gain_ceiling": 0.03,
+      "native_preflight_passed": true,
+      "synthetic_replay_passed": true
+    },
+    "planned": {
+      "affected_runtime_share": 0.08,
+      "alternate_values": [],
+      "budget": {
+        "maximum_runtime_minutes": 90.0,
+        "maximum_storage_bytes": 536870912.0
+      },
+      "computed_system_throughput_gain_ceiling": 0.04166666666666652,
+      "decision": "await_native_preflight",
+      "economic_value_present": true,
+      "matrix_allowed": false,
+      "mechanism_unit_passed": true,
+      "minimum_system_gain_ceiling": 0.03,
+      "native_preflight_passed": false,
+      "synthetic_replay_passed": true
+    }
+  },
+  "schema_version": 1,
+  "status": "valid_local_artifact_shape_and_readiness_gate",
+  "timing_rejections": {
+    "missing": "timing.encode_ms is missing",
+    "nonfinite": "timing.encode_ms must be finite",
+    "null": "timing.encode_ms is null",
+    "unsupported": "timing.encode_ms has unsupported type str"
+  }
+}

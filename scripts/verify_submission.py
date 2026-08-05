@@ -20,9 +20,18 @@ build_service_plan = import_module("pareto64.service_planner").build_service_pla
 validate_runtime_upgrade_service = import_module(
     "pareto64.runtime"
 ).validate_runtime_upgrade_service
+run_readiness_fixture_suite = import_module(
+    "experiments.evidence_readiness"
+).run_fixture_suite
 
 
 EXPECTED_HASHES = {
+    "experiments/evidence_readiness_policy.json": (
+        "4802e2a4f9fd3bdf83d612804405f878ad43d0d26285fa52699877da91ad8c40"
+    ),
+    "results/manifests/evidence-readiness-gate-v1.json": (
+        "f75fbb3482a47f00d7ef68f4efe502a3ec9169c28bae627c21497457902b831d"
+    ),
     "results/manifests/e3f-30656151957.json": (
         "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c"
     ),
@@ -1612,6 +1621,31 @@ def main() -> int:
         is not False
     ):
         raise ValueError("retained E10b primitive result changed or broadened")
+
+    readiness_manifest = load_object(
+        ROOT / "results/manifests/evidence-readiness-gate-v1.json"
+    )
+    readiness_replay = run_readiness_fixture_suite(
+        ROOT / "experiments/evidence_readiness_policy.json"
+    )
+    if (
+        readiness_manifest != readiness_replay
+        or readiness_manifest.get("status")
+        != "valid_local_artifact_shape_and_readiness_gate"
+        or readiness_manifest.get("readiness_decisions", {})
+        .get("planned", {})
+        .get("matrix_allowed")
+        is not False
+        or readiness_manifest.get("readiness_decisions", {})
+        .get("passed", {})
+        .get("matrix_allowed")
+        is not True
+        or readiness_manifest.get("readiness_decisions", {})
+        .get("below_floor", {})
+        .get("decision")
+        != "stop_below_amdahl_floor"
+    ):
+        raise ValueError("native experiment readiness gate changed or weakened")
 
     local_assets = verify_demo()
     gallery_assets = verify_gallery()

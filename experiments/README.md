@@ -37,3 +37,24 @@ x86_64 runs are useful for harness development and functional screening. They
 are not proof of an Arm improvement. Final performance claims require an Arm
 device or Arm64 cloud environment and a recorded architecture check.
 
+## Expensive native experiment readiness
+
+Before dispatching a new performance matrix on `ubuntu-24.04-arm`, validate its
+frozen lane plan with
+[`evidence_readiness.py`](evidence_readiness.py) and the versioned
+[`evidence_readiness_policy.json`](evidence_readiness_policy.json). The required
+order is mechanism/unit proof, a complete byte-stable synthetic replay, one
+native control/candidate preflight, and only then a matrix. The plan must freeze
+the affected runtime share, Amdahl ceiling, minimum product-changing result,
+claim boundary, and runtime/storage budget. A lane whose system-throughput
+ceiling is below 3% stops unless it predeclared a distinct novelty, memory,
+quality, or deployability value.
+
+The local artifact-shape fixture covers the documented `/slots` array, missing,
+null and unsupported timing values, complete/failed/partial cells, raw JSON
+request inventories, and independent byte-stable replay:
+
+```bash
+python3 experiments/evidence_readiness.py --self-test
+python3 -m unittest tests.test_evidence_readiness
+```

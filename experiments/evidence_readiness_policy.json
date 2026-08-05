@@ -1,0 +1,26 @@
+{
+  "allowed_alternate_values": [
+    "deployability",
+    "memory",
+    "novelty",
+    "quality"
+  ],
+  "minimum_system_gain_ceiling": 0.03,
+  "native_candidate_cells": 1,
+  "native_control_cells": 1,
+  "policy_id": "pareto64-native-expensive-readiness-v1",
+  "required_order": [
+    "mechanism_unit",
+    "complete_synthetic_replay",
+    "cheap_native_preflight",
+    "full_matrix"
+  ],
+  "required_target": {
+    "architecture": "aarch64",
+    "runner": "ubuntu-24.04-arm"
+  },
+  "schema_version": 1,
+  "stop_rule": "Stop before a full matrix when the frozen Amdahl system-throughput ceiling is below 3 percent and no novelty, memory, quality, or deployability value is predeclared.",
+  "synthetic_candidate_cells": 1,
+  "synthetic_control_cells": 1
+}

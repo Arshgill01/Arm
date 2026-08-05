@@ -2102,3 +2102,18 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - No configuration is promoted, E17b is not rehabilitated, and no 8K/16K claim
   is made. The current long-context K/V lane is parked without another rerun or
   successor.
+
+## 2026-08-05 — Reusable native experiment readiness gate added
+
+- Added a local fail-closed artifact fixture for the documented `/slots` array,
+  missing/null/unsupported timing values, complete/failed/partial cell states,
+  safe raw-request inventories and independent canonical replay.
+- Two independent replays produce the same 755-byte summary at SHA-256
+  `bad324e2…3f963`; all seven focused unit tests pass.
+- Frozen the expensive-lane order as mechanism/unit proof, complete synthetic
+  control/candidate replay, one native `ubuntu-24.04-arm` control/candidate
+  preflight, and only then a full matrix.
+- Each lane must predeclare its Amdahl share/ceiling, minimum product-changing
+  result, claim and runtime/storage budget. A sub-3% ceiling stops unless a
+  distinct novelty, memory, quality or deployability value was declared.
+- This is harness hardening only. It authorizes no native performance claim.
