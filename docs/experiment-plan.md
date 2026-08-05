@@ -1996,3 +1996,19 @@ must be combined with recovered E11b before the terminal model decision; it does
 not justify an 11-way service sweep. See the retained
 [`manifest`](../results/manifests/e12b-30869536393-recovered.json) and
 [`report`](../results/reports/e12b-generated-quant-frontier-recovered.md).
+
+## E17c terminal timing-schema failure
+
+Native run `30867998030` attempted all nine frozen E17c cells. Every fresh
+server wrote readiness evidence, but every probe raised `ValueError: invalid
+E17b encode_ms` before writing `probe.json`; the final ingester then correctly
+rejected the missing f16 control. The failure manifest binds all nine caller
+status-1 cells, exact recipes, runtime/model/input identity, GitHub artifact,
+failure log and independently hashed 144-file artifact.
+
+This outcome supports no answer, failure-rate, throughput, latency, CPU, K/V
+density, 8K or 16K claim. Partial server logs are not reinterpreted. No cache
+type is promoted, E17b remains invalid, and the current long-context K/V lane is
+parked without a rerun. See the retained
+[`manifest`](../results/manifests/e17c-30867998030-failure.json) and
+[`report`](../results/reports/e17c-timing-schema-failure.md).

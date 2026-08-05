@@ -2087,3 +2087,18 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - The Q3 output/embed Q6 recipe exactly matches its imatrix control's quality at
   32 extra bytes and is dominated. The 11-point combined quality-size frontier
   remains exploratory; no model is promoted without E11b service evidence.
+
+## 2026-08-05 — E17c invalid timing schema retained and lane parked
+
+- Native run `30867998030` attempted all nine frozen four/eight-slot cells. All
+  fresh servers wrote readiness records, but every probe terminated with
+  `ValueError: invalid E17b encode_ms` before producing `probe.json`.
+- The final ingester correctly raised `E17c f16 four-slot control did not serve`.
+  The source workflow remains failed; partial server logs are not converted into
+  quality, request-failure, throughput, latency, CPU or K/V density evidence.
+- Bound all nine caller status-1 cells, exact recipes and inputs, E9a runtime,
+  Q4_K_M identity, failure log, job and artifact. All 144 artifact files hash to
+  canonical inventory `5684d38c…e28d2`.
+- No configuration is promoted, E17b is not rehabilitated, and no 8K/16K claim
+  is made. The current long-context K/V lane is parked without another rerun or
+  successor.
