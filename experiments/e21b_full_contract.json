@@ -1,0 +1,591 @@
+{
+  "acceptance": {
+    "baseline_http_calls_per_cell": 120,
+    "correct_per_cell": 92,
+    "known_routes": 89,
+    "maximum_denied_fallback_routes": 21,
+    "maximum_denied_transitions": 7,
+    "minimum_certified_routes": 68,
+    "minimum_certified_transitions": 24,
+    "minimum_transition_certification_fraction": 0.8,
+    "online_http_calls_per_cell": 151,
+    "online_vs_uncached_response_mismatches": 0,
+    "reference_prediction_mismatches_per_cell": 0,
+    "required_architecture": "aarch64",
+    "revocations": 0,
+    "server_binary_sha256": "ec60d4975757948cd330dfa82c1f8d274ea67e73cb319ce623f02232dcf61dbd",
+    "server_exit_statuses": [
+      0,
+      130
+    ],
+    "unknown_routes": 31,
+    "unknown_shadow_calls": 31
+  },
+  "calibration": {
+    "artifact_id": 8840851593,
+    "artifact_name": "e9c-prompt-cache-30770403695-1",
+    "e13a_results_observed_during_freeze": true,
+    "e13b_results_observed_during_freeze": false,
+    "manifest_sha256": "29b075b605e5d84d6de66b07fb4ab3c1562236c9aa4e7fd43d51e0ff7932eed4",
+    "run_attempt": 1,
+    "run_id": "30770403695"
+  },
+  "claim_boundary": "A valid E21b result establishes exact-output adaptive online transition admission and its observed certification, denial, fallback, first-use, steady-state and break-even boundaries only for the exact E7c Q4_K_M OpenAI-compatible service, this frozen sequential 30-task four-cycle workload, and native four-vCPU GitHub Arm64 runners. It does not certify arbitrary prompts, semantic equivalence, concurrency, post-certification revocation, another model/runtime, energy, PMU, device, fleet, cost or Mac behavior.",
+  "client": {
+    "api_path": "/v1/chat/completions",
+    "cache_prompt": "explicit per route",
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "fingerprint_add_special": false,
+    "fingerprint_parse_special": true,
+    "fingerprint_path": "/apply-template then /tokenize",
+    "maximum_output_tokens": 8,
+    "message_shape": "system instruction plus original task user prompt",
+    "seed": 424242,
+    "stream": false,
+    "temperature": 0.0
+  },
+  "client_identity_sha256": "10ce4b727a4fbbd196bdf72112e8dd86f00e16b0439c9ed75b8d4e7a07de1fbc",
+  "execution": {
+    "cell_order": [
+      {
+        "index": 1,
+        "policy": "all_uncached",
+        "repetition": 1
+      },
+      {
+        "index": 2,
+        "policy": "online",
+        "repetition": 1
+      },
+      {
+        "index": 3,
+        "policy": "online",
+        "repetition": 2
+      },
+      {
+        "index": 4,
+        "policy": "all_uncached",
+        "repetition": 2
+      },
+      {
+        "index": 5,
+        "policy": "online",
+        "repetition": 3
+      },
+      {
+        "index": 6,
+        "policy": "all_uncached",
+        "repetition": 3
+      },
+      {
+        "index": 7,
+        "policy": "all_uncached",
+        "repetition": 4
+      },
+      {
+        "index": 8,
+        "policy": "online",
+        "repetition": 4
+      }
+    ],
+    "empty_transition_registry_per_online_cell": true,
+    "fresh_server_per_cell": true,
+    "order_design": "ABBA/BAAB",
+    "repetitions_per_policy": 4,
+    "runner": "ubuntu-24.04-arm",
+    "total_cells": 8,
+    "total_raw_http_calls": 1084,
+    "total_served_requests": 960
+  },
+  "experiment_id": "E21b",
+  "identity": {
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "server_sha256": "ec60d4975757948cd330dfa82c1f8d274ea67e73cb319ce623f02232dcf61dbd",
+    "service_sha256": "e03458ebe96eef285b2a03efcd65d4e24830bcb17dcc0c989c3a4fa5de24a8a9",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893"
+  },
+  "identity_sha256": "42865a266cf15572af63a214bbcc8ef5678a709614de2ce4d937153b7844040e",
+  "inputs": {
+    "cell_runner": {
+      "path": "experiments/e21b_full_cell.sh",
+      "sha256": "79dd5e06e5e58b34f9524664be9d1cb44ff6417f3fc7eb8f1d745b28118e2361"
+    },
+    "e9a_contract": {
+      "path": "experiments/e9a_contract.json",
+      "sha256": "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928"
+    },
+    "freeze": {
+      "path": "experiments/e21b_full_freeze.py",
+      "sha256": "fa9b4cd2be9cee379a8de9dbea8c73ebc95b9e41a84318222438bb7981a44a74"
+    },
+    "ingest": {
+      "path": "experiments/e21b_full_ingest.py",
+      "sha256": "a229cfe37581194e26d52d82976828c05f93e646dbff42d1e9cde9eec5b7b460"
+    },
+    "models": {
+      "path": "experiments/e3f_models.json",
+      "sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d"
+    },
+    "online_policy": {
+      "path": "experiments/e21a_online_policy.py",
+      "sha256": "0da959e39ff43d49822e25c2df63b2c065bc09924ced717bea33e074acb5dba7"
+    },
+    "openai_request": {
+      "path": "experiments/e21b_openai_probe.py",
+      "sha256": "b5d7c689f28913325c8ad42260ad1512cf927fb7631fd6930d484a67da825342"
+    },
+    "preflight_contract": {
+      "path": "experiments/e21b_preflight_contract.json",
+      "sha256": "4dc537ffdb9bcf5de830e90a8398d628e1eb64b421a1d389d8e72b477d727f02"
+    },
+    "preflight_manifest": {
+      "path": "results/manifests/e21b-preflight-30983800871.json",
+      "sha256": "616a75dc69cb192e8b2c454f53159e1e4778c0bf634018164ccb4898e4e363f4"
+    },
+    "probe": {
+      "path": "experiments/e21b_full_probe.py",
+      "sha256": "d589689f2a5cd2ff2f1de19804e073cf1da69a45da68851f9f9ada2648459ca4"
+    },
+    "readiness_module": {
+      "path": "experiments/evidence_readiness.py",
+      "sha256": "3ca3b39b66f9f456b51146d912919449c96dec905bd63f29f903b6fb29b50af6"
+    },
+    "readiness_policy": {
+      "path": "experiments/evidence_readiness_policy.json",
+      "sha256": "4802e2a4f9fd3bdf83d612804405f878ad43d0d26285fa52699877da91ad8c40"
+    },
+    "synthetic_fixture": {
+      "path": "experiments/e21b_full_fixture.py",
+      "sha256": "4d675151bd6b822afefa42e04bea6e05635b37e11474b84436713306785e07f4"
+    },
+    "tasks": {
+      "path": "experiments/e3_tasks.json",
+      "sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    },
+    "tests": {
+      "path": "tests/test_e21b_full.py",
+      "sha256": "8bf96cdb2166704cdd6728f56477c0b54608f6eae1fa0b609b7d069061f39f7b"
+    }
+  },
+  "mechanism": {
+    "adaptive_policy": "certify exact output signature with at least eight reused tokens; otherwise persist a fail-closed denial",
+    "post_result_exact_count_gate": false,
+    "registry_scope": "one fresh process and exact bound identity",
+    "revocation": "no periodic post-certification re-probe; identity changes reject the complete registry and observed revocations are counted",
+    "transition_key": "model + exact binary/source/service/client identity + previous served prompt/response + current prompt",
+    "unknown_route": "run cached shadow, never serve it, then run and serve uncached oracle"
+  },
+  "negative_result_rule": "Retain every failed validity or promotion gate without changing the tasks, client, cycles, order, repetitions, adaptive ranges, state machine, calls, thresholds, or synchronous first-use accounting.",
+  "preflight": {
+    "artifact_digest": "sha256:61bd6165a886658ebb14f5bf3911ed4681846ad1c1e401138a0ed1ec4a784719",
+    "artifact_id": "8921316583",
+    "contract_sha256": "4dc537ffdb9bcf5de830e90a8398d628e1eb64b421a1d389d8e72b477d727f02",
+    "online_decisions": {
+      "admission_counts": {
+        "certified": 30,
+        "denied": 1,
+        "retained": 29
+      },
+      "certified_transitions": 30,
+      "denied_transitions": 1,
+      "registry_sha256": "3d0ea1b57fb8943b6e5b646c1f1497c57927b9c2647674dcac9d9f7eaeded95b",
+      "route_counts": {
+        "certified_cache": 29,
+        "unknown_shadow_then_oracle": 31
+      }
+    },
+    "quality": {
+      "baseline_correct": 46,
+      "baseline_reference_prediction_mismatches": 0,
+      "online_correct": 46,
+      "online_reference_prediction_mismatches": 0,
+      "online_vs_uncached_response_mismatches": 0,
+      "task_score_per_cycle": "23/30"
+    },
+    "repository_commit": "356d0143a6a6107c39cc95eb3633bfa724521ffe",
+    "run_attempt": 1,
+    "run_id": "30983800871",
+    "summary_sha256": "f66e4c7f78f33c1116fd8144a632f0c3cceff252b564d8adf9a527fef1bd6295"
+  },
+  "prior_certificate": {
+    "prompt_fingerprints": [
+      "029dee6c1fc726602cb11dc52d01fc14fe022d03007f4ca2f329c1b0f3ee9c0f",
+      "0609b5ff91ec44db25d379709658fcfe6ac3b5d86e841ab151de797428a4ba92",
+      "07deae988112519d3554d61b54a4f43909b834b518620aaf644d71c0271e0984",
+      "0eae404dd34ad7b34171cc5bead0ab3d8e898fd708259bc48510ab0e1d54e345",
+      "11e40fa6be913fdbb7ddcb563f3d1149a66454f78e4deacfbd1bb14a41e825b6",
+      "14eaa8f668c608fbe5fb0e6ddfcc5c9e68e8c5d84dba59006763593aaf94f6d2",
+      "1b14de078d2d571b5fbbb19aa44f82f2075b9e20b881ab642b213dfdc9c8f70f",
+      "25a660280ba86e31957dd1405fc5d133bf9f210fa542e421a8489d5d473b5fb1",
+      "30e74861d094daa7a023b4346d616f03836753d6ac443e5e4e4d256e3d505e73",
+      "32a3ea5cefe5b9d389951288fd3e667e113dc2322b54bbb8843605fc222cb10e",
+      "32a85c74e9b5d576a9595d4d57377e95fe2c5fb3b2a289051a255da355248dbd",
+      "3417a01df2b93fb7995905f0fca52c05183ceb8ed1ceec3aa0d66240f3d203a0",
+      "366c5cf94a5710090bfa54cc64cd44fca165d0a97f7872da6f731d3f060ac48f",
+      "40be880e28af6c244f6965f4521fc0cbcb74c30f136fff9d822b67263d29d0e4",
+      "4827934050663a900996f9b150d82b64823e36809e188290b3a45beee95ef8e9",
+      "48e5ccc615409a0ef72a748fd2b9ddae0149bc6e2857c269c2ca4b364a1f2399",
+      "4d1158c6c9e92f0602ca909f14966c7b0f9deeb3dab76edfab14b25c622024d8",
+      "4db8b1b4761f94240b04448d433d5c595981a38302dbd53900b5cf2a24e5539f",
+      "53cd7e76906aabdbbe887bbf43018a044dd4e6d2ad89f73f9d1335db4f1f6256",
+      "541ffd8612040f1bcfe7a03fe093603af10755ac48e830ba77c27615f96139a6",
+      "55c39ecb690695742bcef761a44f110b4c9e700df86959430311f0987d6234b6",
+      "58ac18d1caba84dc71f2cbf70b3dd129d2ab2c53d4d3833db447b45bc901e150",
+      "5a111fb5aa4bd1d83fdeddd5a155f7b81db7919b7899f1d49cd8d4430a06196d",
+      "70f9afa0786c6549fed2bd0947f0778352377a822630c5b0035f591efdc52de5",
+      "761aacba46973afcab557834f2b8465f5cdc9e1e47c9483c71934511ed20a9eb",
+      "7ae569e6fcd33524f72600a32102af3b917e5a77d910e6dfe90404cc5e66542e",
+      "93a5074cae6d8eccb2c2bbac317697306f8c34573bab928e8d0cda27540878aa",
+      "98085bead66cacac19f2e731c7e3d6f27962aaaaeed44ce5426ebd929985dfdc",
+      "9d09c40ee183f28c856741a0c46dfd13127132f55dae353b071b0b6ae93a1a06",
+      "9e765ddf1778b061a3171a816c11b960b8da330fa2fdf1aef358d5219ef287cf",
+      "a56bc36e664b1dc052017c71ff26ea5c9156529d01eff51c309d84565f2d4beb",
+      "aaf3eeb5b7ab7f1f147f84967d9e5302d0239846de8d2429769c16b0810e6d55",
+      "b29dcd80b291b80a264f7321799d0bd26322d7d31eaf5cd7dd43562c4cbce994",
+      "ba59e6e15c70ed1663549d8fd01eec9b80943bdea2c79356bbf282d38104eb04",
+      "bb94dbf82001112f4296488756d3bd82bafaff723dafc3e7f5f8ae389acef87b",
+      "be44e0b3a849e787fb3d47d84c195ec79eeca6f7efe19e4562e9d9c4785e420c",
+      "be7d26ccc18efc1cdcf142bec678565de4a596989095860aa812e1930d852fba",
+      "cda64d701878d4de62300a84c05d208bf2ee80c6bbdd1597ab77f639ee15a0ce",
+      "cfe1f92b2024366b2174a0266aec770325a6b270643c09a7f3390a7f51553d03",
+      "d4ed0823ebb99a1d23bdef422c7303c88282fd606cadc789e66d30aea94756b4",
+      "d8cff3ef7d5cf6d49c9dd8f367a17eafdc24269b0d0733c9c1dc9eaa80bb38d9",
+      "dd4b63e431a0abe47e3a4e74ffbfce1d662a6971c287898d8e85647f9592b5ea",
+      "e2637c380951e1a5445c1be0bb4ae1ac7821b7b98422228619f4ab1b84dc07ad",
+      "e29d77583816f2704c8eb1f0fce2a5c19f48ac92b4666d6e3d8dc92f694a0f13",
+      "e879d771a2a3c9f31ca1e1b64d7387fb6f4322f08d989f98293af525571291ee",
+      "e9ac4a570d500d939d0252ee1bb0667d9db3d07f1607568149abca9db5442940",
+      "ec8a31e9c1dcc4bb0b03b6dec1a83c68eef734b20003e069b8adddc381544b66",
+      "f00a2cec67842c3b06391dd801d65e44fa2ebb8d029f6b8e95230689972cc468"
+    ],
+    "required_unseen_prompts": true,
+    "source": "E13b exact prompt certificate"
+  },
+  "promotion_thresholds": {
+    "first_use_p95_nonregression_required": false,
+    "maximum_break_even_cycle": 4,
+    "maximum_certified_p95_ratio": 1.0,
+    "maximum_cpu_ratio": 0.95,
+    "maximum_lifecycle_p95_ratio": 2.25,
+    "maximum_readiness_ratio": 1.05,
+    "maximum_rss_ratio": 1.03,
+    "minimum_throughput_ratio": 1.1,
+    "reason": "The preflight exposed synchronous first-use median and p95 regressions. Promotion preserves that cost and requires at least 10% lifecycle throughput, at least 5% CPU/request reduction, bounded lifecycle p95, certified steady-state p95 nonregression, and cumulative break-even in every repetition. These are the same performance thresholds frozen for E21a, not post-result tuning."
+  },
+  "readiness": {
+    "evaluation": {
+      "affected_runtime_share": 0.46,
+      "alternate_values": [
+        "deployability",
+        "novelty",
+        "quality"
+      ],
+      "budget": {
+        "maximum_runtime_minutes": 45.0,
+        "maximum_storage_bytes": 4294967296.0
+      },
+      "computed_system_throughput_gain_ceiling": 0.8518518518518516,
+      "decision": "matrix_allowed",
+      "economic_value_present": true,
+      "matrix_allowed": true,
+      "mechanism_unit_passed": true,
+      "minimum_system_gain_ceiling": 0.03,
+      "native_preflight_passed": true,
+      "synthetic_replay_passed": true
+    },
+    "plan": {
+      "budget": {
+        "maximum_runtime_minutes": 45,
+        "maximum_storage_bytes": 4294967296
+      },
+      "experiment_id": "E21b",
+      "mechanism_unit": {
+        "affected_runtime_share": 0.46,
+        "command": "python3 -m unittest tests.test_e21b_full",
+        "component_speedup_ceiling": "unbounded",
+        "status": "passed",
+        "system_throughput_gain_ceiling": 0.8518518518518516
+      },
+      "native_preflight": {
+        "architecture": "aarch64",
+        "artifact_digest": "sha256:61bd6165a886658ebb14f5bf3911ed4681846ad1c1e401138a0ed1ec4a784719",
+        "candidate_cells": 1,
+        "command": "python3 experiments/e21b_preflight_retain.py --evidence-dir .scratch/e21b-preflight-30983800871 --contract experiments/e21b_preflight_contract.json --output /tmp/e21b.json",
+        "control_cells": 1,
+        "run_id": "30983800871",
+        "runner": "ubuntu-24.04-arm",
+        "status": "passed"
+      },
+      "schema_version": 1,
+      "synthetic_replay": {
+        "byte_stable": true,
+        "candidate_cells": 1,
+        "command": "python3 experiments/e21b_full_fixture.py --contract experiments/e21b_full_contract.json --output /tmp/e21b-full.json",
+        "complete_matrix_cells": 8,
+        "complete_matrix_served_requests": 960,
+        "control_cells": 1,
+        "independent_replays": 2,
+        "status": "passed"
+      },
+      "target": {
+        "architecture": "aarch64",
+        "runner": "ubuntu-24.04-arm"
+      },
+      "value_contract": {
+        "alternate_values": [
+          "deployability",
+          "novelty",
+          "quality"
+        ],
+        "claim_unlocked": "quality-equivalent identity-bound online admission with measured first-use, steady-state and break-even boundaries",
+        "minimum_product_result": {
+          "metric": "throughput",
+          "relative_delta": 0.1
+        }
+      }
+    }
+  },
+  "runtime": {
+    "source_artifact": "e9c-prompt-cache-30770403695-1",
+    "source_run_id": "30770403695"
+  },
+  "schema_version": 1,
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "reference_source": "E3f repeated selected prediction map"
+  },
+  "service": {
+    "batch_size": 64,
+    "context_per_slot": 256,
+    "continuous_batching": true,
+    "flash_attention": "auto",
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "micro_batch_size": 64,
+    "openssl": false,
+    "profile": "e7c_final",
+    "server_parallel_slots": 1,
+    "server_prompt_cache": true,
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "source_tag": "b10216",
+    "threads": 4,
+    "threads_batch": 4,
+    "weight_repack": true
+  },
+  "state": "frozen after byte-stable complete synthetic replay and the passing native E21b preflight; before any full-matrix answer, admission, timing, resource, or result was observed",
+  "synthetic_replay": {
+    "byte_stable": true,
+    "complete_cells": 8,
+    "independent_replays": 2,
+    "served_requests": 960
+  },
+  "threshold_rationale": {
+    "adaptive_not_exact": "An online safety policy must be allowed to discover unsafe transitions. Safety, quality, minimum retained share and maximum denial bounds are gates; the exact observed split is not.",
+    "minimum_certified_routes": "At least 68/89 later-known routes must be cached. This is the worst case implied by at most 7 denied transitions when the denied transitions are the most frequently repeated ones.",
+    "minimum_certified_transitions": "At least 24 of the 30 repeating workload transitions (80%) must be reusable; this is stricter than merely repeating E21a's 10% performance target and was frozen before E21b native results."
+  },
+  "title": "Full-quality adaptive online cache-certificate service matrix",
+  "workload": {
+    "client_concurrency": 1,
+    "correct_per_cell": 92,
+    "correct_per_cycle": 23,
+    "cycles_per_cell": 4,
+    "maximum_output_tokens": 8,
+    "minimum_cached_tokens": 8,
+    "reference_predictions": {
+      "arithmetic-01": "B",
+      "arithmetic-02": "C",
+      "arithmetic-03": "B",
+      "arithmetic-04": "B",
+      "arithmetic-05": "A",
+      "code-01": "C",
+      "code-02": "C",
+      "code-03": "B",
+      "code-04": "C",
+      "code-05": "B",
+      "data-01": "A",
+      "data-02": "B",
+      "data-03": "B",
+      "data-04": "C",
+      "data-05": "B",
+      "evidence-01": "B",
+      "evidence-02": "C",
+      "evidence-03": "C",
+      "evidence-04": "D",
+      "evidence-05": "B",
+      "logic-01": "C",
+      "logic-02": "A",
+      "logic-03": "B",
+      "logic-04": "C",
+      "logic-05": "B",
+      "systems-01": "B",
+      "systems-02": "B",
+      "systems-03": "C",
+      "systems-04": "B",
+      "systems-05": "C"
+    },
+    "seed": 424242,
+    "served_requests_per_cell": 120,
+    "task_ids": [
+      "arithmetic-01",
+      "arithmetic-02",
+      "arithmetic-03",
+      "arithmetic-04",
+      "arithmetic-05",
+      "logic-01",
+      "logic-02",
+      "logic-03",
+      "logic-04",
+      "logic-05",
+      "code-01",
+      "code-02",
+      "code-03",
+      "code-04",
+      "code-05",
+      "data-01",
+      "data-02",
+      "data-03",
+      "data-04",
+      "data-05",
+      "systems-01",
+      "systems-02",
+      "systems-03",
+      "systems-04",
+      "systems-05",
+      "evidence-01",
+      "evidence-02",
+      "evidence-03",
+      "evidence-04",
+      "evidence-05"
+    ],
+    "task_sequence": [
+      "arithmetic-01",
+      "arithmetic-02",
+      "arithmetic-03",
+      "arithmetic-04",
+      "arithmetic-05",
+      "logic-01",
+      "logic-02",
+      "logic-03",
+      "logic-04",
+      "logic-05",
+      "code-01",
+      "code-02",
+      "code-03",
+      "code-04",
+      "code-05",
+      "data-01",
+      "data-02",
+      "data-03",
+      "data-04",
+      "data-05",
+      "systems-01",
+      "systems-02",
+      "systems-03",
+      "systems-04",
+      "systems-05",
+      "evidence-01",
+      "evidence-02",
+      "evidence-03",
+      "evidence-04",
+      "evidence-05",
+      "arithmetic-01",
+      "arithmetic-02",
+      "arithmetic-03",
+      "arithmetic-04",
+      "arithmetic-05",
+      "logic-01",
+      "logic-02",
+      "logic-03",
+      "logic-04",
+      "logic-05",
+      "code-01",
+      "code-02",
+      "code-03",
+      "code-04",
+      "code-05",
+      "data-01",
+      "data-02",
+      "data-03",
+      "data-04",
+      "data-05",
+      "systems-01",
+      "systems-02",
+      "systems-03",
+      "systems-04",
+      "systems-05",
+      "evidence-01",
+      "evidence-02",
+      "evidence-03",
+      "evidence-04",
+      "evidence-05",
+      "arithmetic-01",
+      "arithmetic-02",
+      "arithmetic-03",
+      "arithmetic-04",
+      "arithmetic-05",
+      "logic-01",
+      "logic-02",
+      "logic-03",
+      "logic-04",
+      "logic-05",
+      "code-01",
+      "code-02",
+      "code-03",
+      "code-04",
+      "code-05",
+      "data-01",
+      "data-02",
+      "data-03",
+      "data-04",
+      "data-05",
+      "systems-01",
+      "systems-02",
+      "systems-03",
+      "systems-04",
+      "systems-05",
+      "evidence-01",
+      "evidence-02",
+      "evidence-03",
+      "evidence-04",
+      "evidence-05",
+      "arithmetic-01",
+      "arithmetic-02",
+      "arithmetic-03",
+      "arithmetic-04",
+      "arithmetic-05",
+      "logic-01",
+      "logic-02",
+      "logic-03",
+      "logic-04",
+      "logic-05",
+      "code-01",
+      "code-02",
+      "code-03",
+      "code-04",
+      "code-05",
+      "data-01",
+      "data-02",
+      "data-03",
+      "data-04",
+      "data-05",
+      "systems-01",
+      "systems-02",
+      "systems-03",
+      "systems-04",
+      "systems-05",
+      "evidence-01",
+      "evidence-02",
+      "evidence-03",
+      "evidence-04",
+      "evidence-05"
+    ],
+    "timeout_seconds": 30.0,
+    "unique_prompts": 30
+  }
+}

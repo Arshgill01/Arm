@@ -2170,3 +2170,33 @@ repeat or erase the tail regression. The byte-identical independent replay and
 artifact identity are retained in the
 [`manifest`](../results/manifests/e21b-preflight-30983800871.json) and
 [`report`](../results/reports/e21b-openai-certificate-preflight.md).
+
+### E21b full matrix frozen
+
+The passing preflight authorizes one bounded repeated matrix without changing
+the E21b client, policy, tasks, or adaptive ranges. Four fresh processes per
+policy serve four 30-task cycles each in ABBA/BAAB reverse-balanced order: eight
+cells, 960 served requests, and 1,084 raw HTTP calls. Every online cell starts
+with an empty registry. Exact responses are compared to the contemporaneous
+uncached process for the same repetition.
+
+The first 31 routes are necessarily unknown and the remaining 89 are
+later-known. The preflight's adaptive gate remains at least 24 certified
+transitions and at most seven denials. For four cycles, the predeclared worst
+case is therefore at least 68/89 certified known routes and at most 21 uncached
+denial fallbacks; the observed preflight split is not imposed as an exact
+post-result count.
+
+Promotion uses the thresholds previously frozen for E21a: at least 1.10x
+lifecycle throughput, at most 0.95x CPU/request, at most 2.25x lifecycle p95,
+certified steady-state p95 nonregression, cumulative break-even by cycle four in
+every repetition, at most 1.03x peak RSS, and at most 1.05x median readiness.
+First-use regression is retained rather than gated away. The policy records zero
+revocations but does not claim periodic post-certification revocation; an
+identity change rejects the registry.
+
+The complete eight-cell synthetic matrix passes all 17 validity and seven
+promotion gates twice byte-for-byte at summary SHA-256 `44b3eaa8…104e8`.
+Contract SHA-256 is `d9486025…7b88`; the readiness gate returns
+`matrix_allowed` with a 45-minute, 4-GiB native budget. No full native answer,
+admission, timing, resource, or result was observed before this freeze.

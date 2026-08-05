@@ -1,0 +1,721 @@
+{
+  "replay": {
+    "byte_stable": true,
+    "complete_cells": 8,
+    "independent_replays": 2,
+    "served_requests": 960,
+    "summary_bytes": 19921,
+    "summary_sha256": "44b3eaa8313ff5e71b37c30361d4ae3afb31cd35c2f8031a918533d27b4104e8"
+  },
+  "summary": {
+    "baseline": {
+      "actual_http_calls": 480,
+      "cell_metrics": [
+        {
+          "cpu_seconds_per_served_request": 3.0,
+          "maximum_rss_kib": 4290001,
+          "median_user_http_ms": 1000.0,
+          "p95_user_http_ms": 1000.0,
+          "readiness_ms": 2500.0,
+          "repetition": 1,
+          "served_requests_per_second": 1.0
+        },
+        {
+          "cpu_seconds_per_served_request": 3.06,
+          "maximum_rss_kib": 4290002,
+          "median_user_http_ms": 1020.0,
+          "p95_user_http_ms": 1020.0,
+          "readiness_ms": 2550.0,
+          "repetition": 2,
+          "served_requests_per_second": 0.9803921568627451
+        },
+        {
+          "cpu_seconds_per_served_request": 2.9699999999999998,
+          "maximum_rss_kib": 4290003,
+          "median_user_http_ms": 990.0,
+          "p95_user_http_ms": 990.0,
+          "readiness_ms": 2475.0,
+          "repetition": 3,
+          "served_requests_per_second": 1.0101010101010102
+        },
+        {
+          "cpu_seconds_per_served_request": 3.0300000000000002,
+          "maximum_rss_kib": 4290004,
+          "median_user_http_ms": 1010.0,
+          "p95_user_http_ms": 1010.0,
+          "readiness_ms": 2525.0,
+          "repetition": 4,
+          "served_requests_per_second": 0.9900990099009901
+        }
+      ],
+      "correct": 368,
+      "cpu_seconds_per_served_request": 3.015,
+      "elapsed_seconds": 482.4,
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 2.606138315187217e-07,
+        "max": 4290004.0,
+        "mean": 4290002.5,
+        "median": 4290002.5,
+        "min": 4290001.0,
+        "p95": 4290004.0,
+        "population_stddev": 1.118033988749895
+      },
+      "per_cell_served_requests_per_second": {
+        "coefficient_of_variation": 0.011126038215858143,
+        "max": 1.0101010101010102,
+        "mean": 0.9951480442161863,
+        "median": 0.995049504950495,
+        "min": 0.9803921568627451,
+        "p95": 1.0101010101010102,
+        "population_stddev": 0.011072055170385777
+      },
+      "readiness_ms": {
+        "coefficient_of_variation": 0.011124716305969102,
+        "max": 2550.0,
+        "mean": 2512.5,
+        "median": 2512.5,
+        "min": 2475.0,
+        "p95": 2550.0,
+        "population_stddev": 27.95084971874737
+      },
+      "reference_prediction_mismatches": 0,
+      "repetitions": 4,
+      "request_failures": 0,
+      "served_requests": 480,
+      "served_requests_per_second": 0.9950248756218906,
+      "user_http_ms": {
+        "coefficient_of_variation": 0.011124716305969104,
+        "max": 1020.0,
+        "mean": 1005.0,
+        "median": 1005.0,
+        "min": 990.0,
+        "p95": 1020.0,
+        "population_stddev": 11.180339887498949
+      }
+    },
+    "break_even": [
+      {
+        "cumulative_cycles": [
+          {
+            "cumulative_latency_ratio": 2.0,
+            "cycle": 1
+          },
+          {
+            "cumulative_latency_ratio": 1.2266666666666666,
+            "cycle": 2
+          },
+          {
+            "cumulative_latency_ratio": 0.9511111111111111,
+            "cycle": 3
+          },
+          {
+            "cumulative_latency_ratio": 0.8133333333333334,
+            "cycle": 4
+          }
+        ],
+        "first_cumulative_break_even_cycle": 3,
+        "repetition": 1
+      },
+      {
+        "cumulative_cycles": [
+          {
+            "cumulative_latency_ratio": 2.0,
+            "cycle": 1
+          },
+          {
+            "cumulative_latency_ratio": 1.2266666666666666,
+            "cycle": 2
+          },
+          {
+            "cumulative_latency_ratio": 0.9511111111111111,
+            "cycle": 3
+          },
+          {
+            "cumulative_latency_ratio": 0.8133333333333334,
+            "cycle": 4
+          }
+        ],
+        "first_cumulative_break_even_cycle": 3,
+        "repetition": 2
+      },
+      {
+        "cumulative_cycles": [
+          {
+            "cumulative_latency_ratio": 2.0,
+            "cycle": 1
+          },
+          {
+            "cumulative_latency_ratio": 1.2266666666666666,
+            "cycle": 2
+          },
+          {
+            "cumulative_latency_ratio": 0.9511111111111111,
+            "cycle": 3
+          },
+          {
+            "cumulative_latency_ratio": 0.8133333333333334,
+            "cycle": 4
+          }
+        ],
+        "first_cumulative_break_even_cycle": 3,
+        "repetition": 3
+      },
+      {
+        "cumulative_cycles": [
+          {
+            "cumulative_latency_ratio": 2.0,
+            "cycle": 1
+          },
+          {
+            "cumulative_latency_ratio": 1.2266666666666666,
+            "cycle": 2
+          },
+          {
+            "cumulative_latency_ratio": 0.9511111111111111,
+            "cycle": 3
+          },
+          {
+            "cumulative_latency_ratio": 0.8133333333333334,
+            "cycle": 4
+          }
+        ],
+        "first_cumulative_break_even_cycle": 3,
+        "repetition": 4
+      }
+    ],
+    "claim_boundary": "A valid E21b result establishes exact-output adaptive online transition admission and its observed certification, denial, fallback, first-use, steady-state and break-even boundaries only for the exact E7c Q4_K_M OpenAI-compatible service, this frozen sequential 30-task four-cycle workload, and native four-vCPU GitHub Arm64 runners. It does not certify arbitrary prompts, semantic equivalence, concurrency, post-certification revocation, another model/runtime, energy, PMU, device, fleet, cost or Mac behavior.",
+    "client": {
+      "api_path": "/v1/chat/completions",
+      "cache_prompt": "explicit per route",
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      },
+      "fingerprint_add_special": false,
+      "fingerprint_parse_special": true,
+      "fingerprint_path": "/apply-template then /tokenize",
+      "maximum_output_tokens": 8,
+      "message_shape": "system instruction plus original task user prompt",
+      "seed": 424242,
+      "stream": false,
+      "temperature": 0.0
+    },
+    "contract_sha256": "674d56e21bb08a4bd0abc264d59b9137687c89207b0949cbfca30ffbcb745c4d",
+    "decision": {
+      "first_use_tail_regression_retained": true,
+      "performance_policy_promoted": true,
+      "post_result_gate_change_permitted": false,
+      "safety_certificate_established": true,
+      "selected_policy": "online",
+      "valid": true
+    },
+    "experiment_id": "E21b",
+    "lifecycle_ratios": {
+      "cpu_seconds_per_served_request": 0.9,
+      "maximum_rss": 1.0,
+      "median_readiness": 1.0,
+      "median_user_latency": 0.4019900497512438,
+      "p95_user_latency": 2.0,
+      "throughput": 1.2295081967213115
+    },
+    "online": {
+      "actual_http_calls": 604,
+      "cell_metrics": [
+        {
+          "cpu_seconds_per_served_request": 2.7,
+          "maximum_rss_kib": 4290001,
+          "median_user_http_ms": 400.0,
+          "p95_user_http_ms": 2000.0,
+          "readiness_ms": 2500.0,
+          "repetition": 1,
+          "served_requests_per_second": 1.2295081967213115
+        },
+        {
+          "cpu_seconds_per_served_request": 2.754,
+          "maximum_rss_kib": 4290002,
+          "median_user_http_ms": 408.0,
+          "p95_user_http_ms": 2040.0,
+          "readiness_ms": 2550.0,
+          "repetition": 2,
+          "served_requests_per_second": 1.2054001928640308
+        },
+        {
+          "cpu_seconds_per_served_request": 2.673,
+          "maximum_rss_kib": 4290003,
+          "median_user_http_ms": 396.0,
+          "p95_user_http_ms": 1980.0,
+          "readiness_ms": 2475.0,
+          "repetition": 3,
+          "served_requests_per_second": 1.2419274714356683
+        },
+        {
+          "cpu_seconds_per_served_request": 2.727,
+          "maximum_rss_kib": 4290004,
+          "median_user_http_ms": 404.0,
+          "p95_user_http_ms": 2020.0,
+          "readiness_ms": 2525.0,
+          "repetition": 4,
+          "served_requests_per_second": 1.2173348482389224
+        }
+      ],
+      "correct": 368,
+      "cpu_seconds_per_served_request": 2.7135000000000002,
+      "elapsed_seconds": 392.352,
+      "maximum_rss_kib": {
+        "coefficient_of_variation": 2.606138315187217e-07,
+        "max": 4290004.0,
+        "mean": 4290002.5,
+        "median": 4290002.5,
+        "min": 4290001.0,
+        "p95": 4290004.0,
+        "population_stddev": 1.118033988749895
+      },
+      "per_cell_served_requests_per_second": {
+        "coefficient_of_variation": 0.011126038215858156,
+        "max": 1.2419274714356683,
+        "mean": 1.2235426773149833,
+        "median": 1.223421522480117,
+        "min": 1.2054001928640308,
+        "p95": 1.2419274714356683,
+        "population_stddev": 0.013613182586539908
+      },
+      "readiness_ms": {
+        "coefficient_of_variation": 0.011124716305969102,
+        "max": 2550.0,
+        "mean": 2512.5,
+        "median": 2512.5,
+        "min": 2475.0,
+        "p95": 2550.0,
+        "population_stddev": 27.95084971874737
+      },
+      "reference_prediction_mismatches": 0,
+      "repetitions": 4,
+      "request_failures": 0,
+      "served_requests": 480,
+      "served_requests_per_second": 1.223391240518718,
+      "user_http_ms": {
+        "coefficient_of_variation": 0.8612101197092246,
+        "max": 2040.0,
+        "mean": 817.4,
+        "median": 404.0,
+        "min": 396.0,
+        "p95": 2040.0,
+        "population_stddev": 703.9531518503202
+      }
+    },
+    "online_decisions_per_repetition": [
+      {
+        "admission_counts": {
+          "certified": 30,
+          "denied": 1,
+          "retained": 89
+        },
+        "certified_transitions": 30,
+        "denied_transitions": 1,
+        "registry_sha256": "133baf25c3cd22c7e8fce09b8bd59b68dec0dc8cc98187e5f271facfad79eee2",
+        "repetition": 1,
+        "revocations": 0,
+        "route_counts": {
+          "certified_cache": 89,
+          "unknown_shadow_then_oracle": 31
+        }
+      },
+      {
+        "admission_counts": {
+          "certified": 30,
+          "denied": 1,
+          "retained": 89
+        },
+        "certified_transitions": 30,
+        "denied_transitions": 1,
+        "registry_sha256": "133baf25c3cd22c7e8fce09b8bd59b68dec0dc8cc98187e5f271facfad79eee2",
+        "repetition": 2,
+        "revocations": 0,
+        "route_counts": {
+          "certified_cache": 89,
+          "unknown_shadow_then_oracle": 31
+        }
+      },
+      {
+        "admission_counts": {
+          "certified": 30,
+          "denied": 1,
+          "retained": 89
+        },
+        "certified_transitions": 30,
+        "denied_transitions": 1,
+        "registry_sha256": "133baf25c3cd22c7e8fce09b8bd59b68dec0dc8cc98187e5f271facfad79eee2",
+        "repetition": 3,
+        "revocations": 0,
+        "route_counts": {
+          "certified_cache": 89,
+          "unknown_shadow_then_oracle": 31
+        }
+      },
+      {
+        "admission_counts": {
+          "certified": 30,
+          "denied": 1,
+          "retained": 89
+        },
+        "certified_transitions": 30,
+        "denied_transitions": 1,
+        "registry_sha256": "133baf25c3cd22c7e8fce09b8bd59b68dec0dc8cc98187e5f271facfad79eee2",
+        "repetition": 4,
+        "revocations": 0,
+        "route_counts": {
+          "certified_cache": 89,
+          "unknown_shadow_then_oracle": 31
+        }
+      }
+    ],
+    "platform": {
+      "architecture": "aarch64",
+      "logical_cpus": 4,
+      "model_name": "Neoverse-N2",
+      "relevant_features": [
+        "asimd",
+        "asimddp",
+        "i8mm",
+        "sve",
+        "sve2"
+      ],
+      "sockets": 1,
+      "threads_per_core": 1
+    },
+    "promotion_gates": {
+      "bounded_lifecycle_p95": true,
+      "break_even_by_frozen_cycle": true,
+      "certified_steady_state_p95_nonregression": true,
+      "maximum_cpu_per_request": true,
+      "maximum_rss_bound": true,
+      "minimum_lifecycle_throughput": true,
+      "readiness_bound": true
+    },
+    "provenance": {
+      "ref": "synthetic",
+      "run_attempt": 1,
+      "run_id": "synthetic",
+      "runner_arch": "ARM64",
+      "runner_os": "Linux",
+      "sha": "synthetic"
+    },
+    "quality": {
+      "answers": [
+        {
+          "exact_response": "B",
+          "expected": "A",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "arithmetic-01"
+        },
+        {
+          "exact_response": "C",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "task_id": "arithmetic-02"
+        },
+        {
+          "exact_response": "B",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "arithmetic-03"
+        },
+        {
+          "exact_response": "B",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "arithmetic-04"
+        },
+        {
+          "exact_response": "A",
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "task_id": "arithmetic-05"
+        },
+        {
+          "exact_response": "C",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "task_id": "logic-01"
+        },
+        {
+          "exact_response": "A",
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "task_id": "logic-02"
+        },
+        {
+          "exact_response": "B",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "logic-03"
+        },
+        {
+          "exact_response": "C",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "task_id": "logic-04"
+        },
+        {
+          "exact_response": "B",
+          "expected": "A",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "logic-05"
+        },
+        {
+          "exact_response": "C",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "task_id": "code-01"
+        },
+        {
+          "exact_response": "C",
+          "expected": "D",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "task_id": "code-02"
+        },
+        {
+          "exact_response": "B",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "code-03"
+        },
+        {
+          "exact_response": "C",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "task_id": "code-04"
+        },
+        {
+          "exact_response": "B",
+          "expected": "D",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "code-05"
+        },
+        {
+          "exact_response": "A",
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "task_id": "data-01"
+        },
+        {
+          "exact_response": "B",
+          "expected": "C",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "data-02"
+        },
+        {
+          "exact_response": "B",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "data-03"
+        },
+        {
+          "exact_response": "C",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "task_id": "data-04"
+        },
+        {
+          "exact_response": "B",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "data-05"
+        },
+        {
+          "exact_response": "B",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "systems-01"
+        },
+        {
+          "exact_response": "B",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "systems-02"
+        },
+        {
+          "exact_response": "C",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "task_id": "systems-03"
+        },
+        {
+          "exact_response": "B",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "systems-04"
+        },
+        {
+          "exact_response": "C",
+          "expected": "D",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "task_id": "systems-05"
+        },
+        {
+          "exact_response": "B",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "evidence-01"
+        },
+        {
+          "exact_response": "C",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "task_id": "evidence-02"
+        },
+        {
+          "exact_response": "C",
+          "expected": "A",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "task_id": "evidence-03"
+        },
+        {
+          "exact_response": "D",
+          "expected": "D",
+          "prediction": "D",
+          "reference_prediction": "D",
+          "task_id": "evidence-04"
+        },
+        {
+          "exact_response": "B",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "task_id": "evidence-05"
+        }
+      ],
+      "baseline_correct": 368,
+      "baseline_cross_repetition_exact_response_mismatches": 0,
+      "online_correct": 368,
+      "paired_exact_response_mismatches": 0,
+      "task_score": "23/30"
+    },
+    "revocation_boundary": {
+      "observed_revocations": 0,
+      "post_certification_revocation_supported": false,
+      "reason": "This bounded policy uses one exact shadow/oracle comparison per identity-bound transition and does not periodically re-probe a certified transition. Identity changes invalidate the registry."
+    },
+    "runtime": {
+      "dynamic_dependency_basenames": [],
+      "reused_calibration_run": "30770403695",
+      "runtime_closure": {
+        "build_root": "/synthetic/build",
+        "file_count": 1,
+        "files": [
+          {
+            "artifact_relative_path": "runtime-files/bin/llama-server",
+            "relative_path": "bin/llama-server",
+            "sha256": "c51c19edc5ffe72d9fadadbddb61a2bafd5f6eeaa2ab3a96fe79612b20da0005",
+            "size_bytes": 59
+          }
+        ],
+        "ldd_output": "synthetic static fixture\n",
+        "runtime_dependencies": [],
+        "server_relative_path": "bin/llama-server"
+      },
+      "server_binary_sha256": "c51c19edc5ffe72d9fadadbddb61a2bafd5f6eeaa2ab3a96fe79612b20da0005",
+      "source": {
+        "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+        "tag": "b10216"
+      }
+    },
+    "schema_version": 1,
+    "status": "valid_openai_online_certificate_promoted",
+    "tail_boundaries": {
+      "certified_steady_state": {
+        "baseline_user_http_ms": {
+          "coefficient_of_variation": 0.011124716305969104,
+          "max": 1020.0,
+          "mean": 1005.0,
+          "median": 1005.0,
+          "min": 990.0,
+          "p95": 1020.0,
+          "population_stddev": 11.180339887498949
+        },
+        "median_latency_ratio": 0.4,
+        "online_user_http_ms": {
+          "coefficient_of_variation": 0.011124716305969104,
+          "max": 408.0,
+          "mean": 402.0,
+          "median": 402.0,
+          "min": 396.0,
+          "p95": 408.0,
+          "population_stddev": 4.47213595499958
+        },
+        "p95_latency_ratio": 0.4,
+        "requests_per_policy": 356
+      },
+      "denied_fallback": null,
+      "synchronous_first_use": {
+        "baseline_user_http_ms": {
+          "coefficient_of_variation": 0.011124716305969104,
+          "max": 1020.0,
+          "mean": 1005.0,
+          "median": 1005.0,
+          "min": 990.0,
+          "p95": 1020.0,
+          "population_stddev": 11.180339887498949
+        },
+        "median_latency_ratio": 2.0,
+        "online_user_http_ms": {
+          "coefficient_of_variation": 0.011124716305969104,
+          "max": 2040.0,
+          "mean": 2010.0,
+          "median": 2010.0,
+          "min": 1980.0,
+          "p95": 2040.0,
+          "population_stddev": 22.360679774997898
+        },
+        "p95_latency_ratio": 2.0,
+        "requests_per_policy": 124
+      }
+    },
+    "validity_gates": {
+      "adaptive_route_and_admission_bounds": true,
+      "all_30_prompts_unseen_to_e13b": true,
+      "baseline_uncached_mechanism": true,
+      "certified_cache_mechanism": true,
+      "complete_reverse_balanced_fresh_process_matrix": true,
+      "denied_fallback_is_uncached": true,
+      "exact_e7c_service_binary_and_client": true,
+      "exact_online_outputs_match_paired_uncached": true,
+      "exact_openai_compatible_requests": true,
+      "full_reference_quality_preserved": true,
+      "native_arm64": true,
+      "raw_call_counts": true,
+      "registry_integrity_and_bounds": true,
+      "supported_timing_schema": true,
+      "unknown_cached_attempts_never_served": true,
+      "unknown_shadow_mechanism": true,
+      "zero_request_failures": true
+    }
+  }
+}
