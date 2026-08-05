@@ -1,0 +1,159 @@
+name: Arm E21b full-quality OpenAI certificate preflight
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e21b_preflight_contract.json
+  CONTRACT_SHA256: 4dc537ffdb9bcf5de830e90a8398d628e1eb64b421a1d389d8e72b477d727f02
+  RUNTIME_RUN_ID: "30770403695"
+  RUNTIME_ARTIFACT: e9c-prompt-cache-30770403695-1
+  SELECTED_CANDIDATE: ministral3_3b_q4_k_m
+
+jobs:
+  preflight:
+    name: Full 30-task control and adaptive online pair
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 20
+    env:
+      RUNTIME_DIR: ${{ github.workspace }}/results/raw/e21b-runtime
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e21b-preflight-${{ github.run_id }}-${{ github.run_attempt }}
+      MODEL_ROOT: /tmp/Pareto64-E21b-preflight/models
+
+    steps:
+      - name: Check out frozen E21b preflight
+        uses: actions/checkout@v7
+
+      - name: Download exact retained E7c runtime artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ env.RUNTIME_ARTIFACT }}
+          path: ${{ env.RUNTIME_DIR }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: Arshgill01/Arm
+          run-id: ${{ env.RUNTIME_RUN_ID }}
+
+      - name: Revalidate readiness, complete synthetic replay, and runtime
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          jq -r '.inputs[] | [.sha256, .path] | @tsv' "$CONTRACT_PATH" \
+            | while IFS=$'\t' read -r expected input_path; do
+                echo "$expected  $input_path" | sha256sum --check --strict
+              done
+          python3 -m unittest \
+            tests.test_evidence_readiness \
+            tests.test_e21a_online_policy \
+            tests.test_e21b_preflight
+          python3 experiments/e21b_preflight_fixture.py \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output /tmp/e21b-synthetic-replay.json
+
+          mkdir -p "$EVIDENCE_DIR/cells" "$MODEL_ROOT"
+          cp -R "$RUNTIME_DIR/build" "$EVIDENCE_DIR/build"
+          cp -R "$RUNTIME_DIR/patches" "$EVIDENCE_DIR/patches"
+          cp "$RUNTIME_DIR/source.json" "$EVIDENCE_DIR/source.json"
+          cp "$RUNTIME_DIR/source-diff.patch" "$EVIDENCE_DIR/source-diff.patch"
+          cp "$RUNTIME_DIR/patched-files.txt" "$EVIDENCE_DIR/patched-files.txt"
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          git rev-parse HEAD | tee "$EVIDENCE_DIR/repository-commit.txt"
+          jq -n \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --argjson run_attempt "$GITHUB_RUN_ATTEMPT" \
+            --arg sha "$GITHUB_SHA" \
+            --arg ref "$GITHUB_REF" \
+            --arg runner_os "$RUNNER_OS" \
+            --arg runner_arch "$RUNNER_ARCH" \
+            --arg runtime_run_id "$RUNTIME_RUN_ID" \
+            --arg runtime_artifact "$RUNTIME_ARTIFACT" \
+            '{run_id: $run_id, run_attempt: $run_attempt, sha: $sha, ref: $ref, runner_os: $runner_os, runner_arch: $runner_arch, runtime_run_id: $runtime_run_id, runtime_artifact: $runtime_artifact}' \
+            > "$EVIDENCE_DIR/github.json"
+
+          runtime_bin="$EVIDENCE_DIR/build/runtime-files/bin"
+          chmod +x "$runtime_bin/llama-server"
+          ln -sfn libllama-common.so.0.0.10216 "$runtime_bin/libllama-common.so.0"
+          ln -sfn libmtmd.so.0.0.10216 "$runtime_bin/libmtmd.so.0"
+          ln -sfn libllama.so.0.0.10216 "$runtime_bin/libllama.so.0"
+          ln -sfn libggml.so.0.18.0 "$runtime_bin/libggml.so.0"
+          ln -sfn libggml-base.so.0.18.0 "$runtime_bin/libggml-base.so.0"
+          ln -sfn libggml-cpu.so.0.18.0 "$runtime_bin/libggml-cpu.so.0"
+          echo "$(jq -r '.acceptance.server_binary_sha256' "$CONTRACT_PATH")  $runtime_bin/llama-server" \
+            | sha256sum --check --strict
+          LD_LIBRARY_PATH="$runtime_bin" ldd "$runtime_bin/llama-server" \
+            | tee "$EVIDENCE_DIR/reused-runtime-ldd.txt"
+          if grep -q 'not found' "$EVIDENCE_DIR/reused-runtime-ldd.txt"; then
+            exit 1
+          fi
+          if grep -Eq 'lib(ssl|crypto)\.so' "$EVIDENCE_DIR/reused-runtime-ldd.txt"; then
+            exit 1
+          fi
+
+      - name: Download and verify exact selected model
+        run: |
+          set -euo pipefail
+          df -B1 "$MODEL_ROOT" | tee "$EVIDENCE_DIR/disk-before-model.txt"
+          available="$(df --output=avail -B1 "$MODEL_ROOT" | tail -1 | tr -d ' ')"
+          test "$available" -ge 4294967296
+          repository="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].repository' experiments/e3f_models.json)"
+          revision="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].revision' experiments/e3f_models.json)"
+          entrypoint="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].entrypoint' experiments/e3f_models.json)"
+          model="$MODEL_ROOT/$entrypoint"
+          mkdir -p "$(dirname "$model")"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$model" \
+            "https://huggingface.co/$repository/resolve/$revision/$entrypoint?download=true"
+          test "$(stat --format='%s' "$model")" = \
+            "$(jq -r '.selected.model_size_bytes' "$CONTRACT_PATH")"
+          echo "$(jq -r '.selected.model_sha256' "$CONTRACT_PATH")  $model" \
+            | sha256sum --check --strict
+          sha256sum "$model" | tee "$EVIDENCE_DIR/model-sha256.txt"
+
+      - name: Run full-quality control and online preflight pair
+        run: |
+          set -euo pipefail
+          entrypoint="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].entrypoint' experiments/e3f_models.json)"
+          server="$EVIDENCE_DIR/build/runtime-files/bin/llama-server"
+          model="$MODEL_ROOT/$entrypoint"
+          index=0
+          while IFS= read -r policy; do
+            index=$((index + 1))
+            bash experiments/e21b_preflight_cell.sh \
+              "$CONTRACT_PATH" "$EVIDENCE_DIR" "$server" "$model" "$index" "$policy"
+          done < <(jq -r '.execution.cell_order[]' "$CONTRACT_PATH")
+          test "$index" -eq 2
+
+      - name: Independently validate full-quality preflight
+        run: |
+          set -euo pipefail
+          python3 experiments/e21b_preflight_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary.json"
+          jq '{status, quality, online_decisions, gates, decision, ratios_diagnostic_only}' \
+            "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum \
+            > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+
+      - name: Upload complete E21b preflight evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e21b-openai-certificate-preflight-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error
+          compression-level: 6

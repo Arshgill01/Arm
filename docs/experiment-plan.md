@@ -2126,3 +2126,28 @@ failed first. The source run remains failed and the exact retained certificate
 boundary remains authoritative. See the retained
 [`manifest`](../results/manifests/e21a-30980957266.json) and
 [`report`](../results/reports/e21a-online-certificate-full-negative.md).
+
+### E21b corrected full-quality preflight frozen
+
+E21a remains invalid and unchanged. One narrowly corrected successor is allowed
+because its controller demonstrated fail-closed behavior and a material retained
+share; E21b does not replay E21a under weaker gates. It changes the client to the
+exact `/v1/chat/completions` quality path, binds that client schema into the
+certificate identity, and requires all original 30 reference tasks before any
+repeated performance matrix can be authorized.
+
+The preflight uses one fresh all-uncached process and one fresh adaptive-online
+process. Each serves two complete 30-task cycles. The online trace has 31
+shadow/oracle first observations and 29 later known routes. Exact route counts
+are deliberately not predicted: an online safety policy must be able to discover
+and deny unsafe transitions. Instead, the pre-result contract requires exact
+23/30 reference quality in both cycles and policies, zero paired response drift,
+zero failures, no shadow served, at least 24/30 repeating transitions certified,
+at most seven denied, at least 23/29 known routes cached, and every denial served
+uncached.
+
+The complete two-cell synthetic artifact covers 120 served requests and passes
+all 16 gates twice byte-for-byte at summary SHA-256 `77bceb3e…a1169`.
+The readiness gate stops at `await_native_preflight`; all native timings are
+diagnostic. Contract SHA-256 is `4dc537ff…27f02`, the native budget is 20 minutes
+and 4 GiB, and no full E21b matrix is authorized before this preflight passes.

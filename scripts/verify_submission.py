@@ -29,6 +29,12 @@ build_terminal_model_decision = import_module(
 
 
 EXPECTED_HASHES = {
+    "experiments/e21b_preflight_contract.json": (
+        "4dc537ffdb9bcf5de830e90a8398d628e1eb64b421a1d389d8e72b477d727f02"
+    ),
+    "results/manifests/e21b-preflight-synthetic-replay.json": (
+        "8275d2e80c812eef05100d16a57cf5494f6ffc5a2323e0fe365449d21f3290e1"
+    ),
     "results/manifests/e21a-30980957266.json": (
         "e18d3bbcf4e076e922c792a2b6867fb749af8179fad76377bc1703326da715ca"
     ),

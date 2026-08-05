@@ -1,0 +1,1374 @@
+{
+  "replay": {
+    "byte_stable": true,
+    "candidate_cells": 1,
+    "control_cells": 1,
+    "independent_replays": 2,
+    "served_requests": 120,
+    "summary_bytes": 36267,
+    "summary_sha256": "77bceb3eaa4dd39954a270c143778385d5a70beeea4c768b950a342659da1169"
+  },
+  "summary": {
+    "baseline": {
+      "actual_http_calls": 60,
+      "answers": [
+        {
+          "admission": null,
+          "expected": "A",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 0,
+          "task_id": "arithmetic-01"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 1,
+          "task_id": "arithmetic-02"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 2,
+          "task_id": "arithmetic-03"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 3,
+          "task_id": "arithmetic-04"
+        },
+        {
+          "admission": null,
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "response": "A",
+          "route": "baseline_uncached",
+          "served_index": 4,
+          "task_id": "arithmetic-05"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 5,
+          "task_id": "logic-01"
+        },
+        {
+          "admission": null,
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "response": "A",
+          "route": "baseline_uncached",
+          "served_index": 6,
+          "task_id": "logic-02"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 7,
+          "task_id": "logic-03"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 8,
+          "task_id": "logic-04"
+        },
+        {
+          "admission": null,
+          "expected": "A",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 9,
+          "task_id": "logic-05"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 10,
+          "task_id": "code-01"
+        },
+        {
+          "admission": null,
+          "expected": "D",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 11,
+          "task_id": "code-02"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 12,
+          "task_id": "code-03"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 13,
+          "task_id": "code-04"
+        },
+        {
+          "admission": null,
+          "expected": "D",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 14,
+          "task_id": "code-05"
+        },
+        {
+          "admission": null,
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "response": "A",
+          "route": "baseline_uncached",
+          "served_index": 15,
+          "task_id": "data-01"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 16,
+          "task_id": "data-02"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 17,
+          "task_id": "data-03"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 18,
+          "task_id": "data-04"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 19,
+          "task_id": "data-05"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 20,
+          "task_id": "systems-01"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 21,
+          "task_id": "systems-02"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 22,
+          "task_id": "systems-03"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 23,
+          "task_id": "systems-04"
+        },
+        {
+          "admission": null,
+          "expected": "D",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 24,
+          "task_id": "systems-05"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 25,
+          "task_id": "evidence-01"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 26,
+          "task_id": "evidence-02"
+        },
+        {
+          "admission": null,
+          "expected": "A",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 27,
+          "task_id": "evidence-03"
+        },
+        {
+          "admission": null,
+          "expected": "D",
+          "prediction": "D",
+          "reference_prediction": "D",
+          "response": "D",
+          "route": "baseline_uncached",
+          "served_index": 28,
+          "task_id": "evidence-04"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 29,
+          "task_id": "evidence-05"
+        },
+        {
+          "admission": null,
+          "expected": "A",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 30,
+          "task_id": "arithmetic-01"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 31,
+          "task_id": "arithmetic-02"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 32,
+          "task_id": "arithmetic-03"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 33,
+          "task_id": "arithmetic-04"
+        },
+        {
+          "admission": null,
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "response": "A",
+          "route": "baseline_uncached",
+          "served_index": 34,
+          "task_id": "arithmetic-05"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 35,
+          "task_id": "logic-01"
+        },
+        {
+          "admission": null,
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "response": "A",
+          "route": "baseline_uncached",
+          "served_index": 36,
+          "task_id": "logic-02"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 37,
+          "task_id": "logic-03"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 38,
+          "task_id": "logic-04"
+        },
+        {
+          "admission": null,
+          "expected": "A",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 39,
+          "task_id": "logic-05"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 40,
+          "task_id": "code-01"
+        },
+        {
+          "admission": null,
+          "expected": "D",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 41,
+          "task_id": "code-02"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 42,
+          "task_id": "code-03"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 43,
+          "task_id": "code-04"
+        },
+        {
+          "admission": null,
+          "expected": "D",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 44,
+          "task_id": "code-05"
+        },
+        {
+          "admission": null,
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "response": "A",
+          "route": "baseline_uncached",
+          "served_index": 45,
+          "task_id": "data-01"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 46,
+          "task_id": "data-02"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 47,
+          "task_id": "data-03"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 48,
+          "task_id": "data-04"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 49,
+          "task_id": "data-05"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 50,
+          "task_id": "systems-01"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 51,
+          "task_id": "systems-02"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 52,
+          "task_id": "systems-03"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 53,
+          "task_id": "systems-04"
+        },
+        {
+          "admission": null,
+          "expected": "D",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 54,
+          "task_id": "systems-05"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 55,
+          "task_id": "evidence-01"
+        },
+        {
+          "admission": null,
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 56,
+          "task_id": "evidence-02"
+        },
+        {
+          "admission": null,
+          "expected": "A",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "baseline_uncached",
+          "served_index": 57,
+          "task_id": "evidence-03"
+        },
+        {
+          "admission": null,
+          "expected": "D",
+          "prediction": "D",
+          "reference_prediction": "D",
+          "response": "D",
+          "route": "baseline_uncached",
+          "served_index": 58,
+          "task_id": "evidence-04"
+        },
+        {
+          "admission": null,
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "baseline_uncached",
+          "served_index": 59,
+          "task_id": "evidence-05"
+        }
+      ],
+      "correct": 46,
+      "cpu_seconds_per_served_request": 3.0,
+      "maximum_rss_kib": 4290000,
+      "readiness_ms": 2500.0,
+      "reference_prediction_mismatches": 0,
+      "request_failures": 0,
+      "served_requests": 60,
+      "served_requests_per_second": 1.0,
+      "user_http_ms": {
+        "coefficient_of_variation": 0.0,
+        "max": 1000.0,
+        "mean": 1000.0,
+        "median": 1000.0,
+        "min": 1000.0,
+        "p95": 1000.0,
+        "population_stddev": 0.0
+      }
+    },
+    "claim_boundary": "A passing E21b preflight establishes full 30-task API/binary identity, quality, adaptive safety and timing-schema compatibility for one fresh native Arm64 process per policy. Timings are diagnostic and authorize no performance, arbitrary-prompt, concurrency, energy, PMU, device, fleet, cost or other-runtime claim.",
+    "client": {
+      "api_path": "/v1/chat/completions",
+      "cache_prompt": "explicit per route",
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      },
+      "fingerprint_add_special": false,
+      "fingerprint_parse_special": true,
+      "fingerprint_path": "/apply-template then /tokenize",
+      "maximum_output_tokens": 8,
+      "message_shape": "system instruction plus original task user prompt",
+      "seed": 424242,
+      "stream": false,
+      "temperature": 0.0
+    },
+    "contract_sha256": "861a7016bd93c469cdb0fac500188cdaf424a6d77d6c7bb44c884d5c48e01b62",
+    "decision": {
+      "full_experiment_authorized": true,
+      "native_performance_claim_allowed": false,
+      "post_result_gate_change_permitted": false,
+      "preflight_timings_are_diagnostic_only": true
+    },
+    "experiment_id": "E21b-preflight",
+    "gates": {
+      "adaptive_admission_bounds": true,
+      "adaptive_route_shape": true,
+      "all_30_prompts_unseen_to_e13b": true,
+      "baseline_uncached_mechanism": true,
+      "certified_cache_mechanism": true,
+      "denied_fallback_is_uncached": true,
+      "exact_e7c_service_and_binary": true,
+      "exact_online_outputs_match_uncached": true,
+      "exact_openai_compatible_client": true,
+      "full_reference_quality_preserved": true,
+      "native_arm64": true,
+      "raw_call_counts": true,
+      "registry_integrity_and_bounds": true,
+      "unknown_cached_attempts_never_served": true,
+      "unknown_shadow_mechanism": true,
+      "zero_request_failures": true
+    },
+    "online": {
+      "actual_http_calls": 91,
+      "answers": [
+        {
+          "admission": "denied",
+          "expected": "A",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 0,
+          "task_id": "arithmetic-01"
+        },
+        {
+          "admission": "certified",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 1,
+          "task_id": "arithmetic-02"
+        },
+        {
+          "admission": "certified",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 2,
+          "task_id": "arithmetic-03"
+        },
+        {
+          "admission": "certified",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 3,
+          "task_id": "arithmetic-04"
+        },
+        {
+          "admission": "certified",
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "response": "A",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 4,
+          "task_id": "arithmetic-05"
+        },
+        {
+          "admission": "certified",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 5,
+          "task_id": "logic-01"
+        },
+        {
+          "admission": "certified",
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "response": "A",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 6,
+          "task_id": "logic-02"
+        },
+        {
+          "admission": "certified",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 7,
+          "task_id": "logic-03"
+        },
+        {
+          "admission": "certified",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 8,
+          "task_id": "logic-04"
+        },
+        {
+          "admission": "certified",
+          "expected": "A",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 9,
+          "task_id": "logic-05"
+        },
+        {
+          "admission": "certified",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 10,
+          "task_id": "code-01"
+        },
+        {
+          "admission": "certified",
+          "expected": "D",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 11,
+          "task_id": "code-02"
+        },
+        {
+          "admission": "certified",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 12,
+          "task_id": "code-03"
+        },
+        {
+          "admission": "certified",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 13,
+          "task_id": "code-04"
+        },
+        {
+          "admission": "certified",
+          "expected": "D",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 14,
+          "task_id": "code-05"
+        },
+        {
+          "admission": "certified",
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "response": "A",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 15,
+          "task_id": "data-01"
+        },
+        {
+          "admission": "certified",
+          "expected": "C",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 16,
+          "task_id": "data-02"
+        },
+        {
+          "admission": "certified",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 17,
+          "task_id": "data-03"
+        },
+        {
+          "admission": "certified",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 18,
+          "task_id": "data-04"
+        },
+        {
+          "admission": "certified",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 19,
+          "task_id": "data-05"
+        },
+        {
+          "admission": "certified",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 20,
+          "task_id": "systems-01"
+        },
+        {
+          "admission": "certified",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 21,
+          "task_id": "systems-02"
+        },
+        {
+          "admission": "certified",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 22,
+          "task_id": "systems-03"
+        },
+        {
+          "admission": "certified",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 23,
+          "task_id": "systems-04"
+        },
+        {
+          "admission": "certified",
+          "expected": "D",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 24,
+          "task_id": "systems-05"
+        },
+        {
+          "admission": "certified",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 25,
+          "task_id": "evidence-01"
+        },
+        {
+          "admission": "certified",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 26,
+          "task_id": "evidence-02"
+        },
+        {
+          "admission": "certified",
+          "expected": "A",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 27,
+          "task_id": "evidence-03"
+        },
+        {
+          "admission": "certified",
+          "expected": "D",
+          "prediction": "D",
+          "reference_prediction": "D",
+          "response": "D",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 28,
+          "task_id": "evidence-04"
+        },
+        {
+          "admission": "certified",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 29,
+          "task_id": "evidence-05"
+        },
+        {
+          "admission": "certified",
+          "expected": "A",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "unknown_shadow_then_oracle",
+          "served_index": 30,
+          "task_id": "arithmetic-01"
+        },
+        {
+          "admission": "retained",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "certified_cache",
+          "served_index": 31,
+          "task_id": "arithmetic-02"
+        },
+        {
+          "admission": "retained",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "certified_cache",
+          "served_index": 32,
+          "task_id": "arithmetic-03"
+        },
+        {
+          "admission": "retained",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "certified_cache",
+          "served_index": 33,
+          "task_id": "arithmetic-04"
+        },
+        {
+          "admission": "retained",
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "response": "A",
+          "route": "certified_cache",
+          "served_index": 34,
+          "task_id": "arithmetic-05"
+        },
+        {
+          "admission": "retained",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "certified_cache",
+          "served_index": 35,
+          "task_id": "logic-01"
+        },
+        {
+          "admission": "retained",
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "response": "A",
+          "route": "certified_cache",
+          "served_index": 36,
+          "task_id": "logic-02"
+        },
+        {
+          "admission": "retained",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "certified_cache",
+          "served_index": 37,
+          "task_id": "logic-03"
+        },
+        {
+          "admission": "retained",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "certified_cache",
+          "served_index": 38,
+          "task_id": "logic-04"
+        },
+        {
+          "admission": "retained",
+          "expected": "A",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "certified_cache",
+          "served_index": 39,
+          "task_id": "logic-05"
+        },
+        {
+          "admission": "retained",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "certified_cache",
+          "served_index": 40,
+          "task_id": "code-01"
+        },
+        {
+          "admission": "retained",
+          "expected": "D",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "certified_cache",
+          "served_index": 41,
+          "task_id": "code-02"
+        },
+        {
+          "admission": "retained",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "certified_cache",
+          "served_index": 42,
+          "task_id": "code-03"
+        },
+        {
+          "admission": "retained",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "certified_cache",
+          "served_index": 43,
+          "task_id": "code-04"
+        },
+        {
+          "admission": "retained",
+          "expected": "D",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "certified_cache",
+          "served_index": 44,
+          "task_id": "code-05"
+        },
+        {
+          "admission": "retained",
+          "expected": "A",
+          "prediction": "A",
+          "reference_prediction": "A",
+          "response": "A",
+          "route": "certified_cache",
+          "served_index": 45,
+          "task_id": "data-01"
+        },
+        {
+          "admission": "retained",
+          "expected": "C",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "certified_cache",
+          "served_index": 46,
+          "task_id": "data-02"
+        },
+        {
+          "admission": "retained",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "certified_cache",
+          "served_index": 47,
+          "task_id": "data-03"
+        },
+        {
+          "admission": "retained",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "certified_cache",
+          "served_index": 48,
+          "task_id": "data-04"
+        },
+        {
+          "admission": "retained",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "certified_cache",
+          "served_index": 49,
+          "task_id": "data-05"
+        },
+        {
+          "admission": "retained",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "certified_cache",
+          "served_index": 50,
+          "task_id": "systems-01"
+        },
+        {
+          "admission": "retained",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "certified_cache",
+          "served_index": 51,
+          "task_id": "systems-02"
+        },
+        {
+          "admission": "retained",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "certified_cache",
+          "served_index": 52,
+          "task_id": "systems-03"
+        },
+        {
+          "admission": "retained",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "certified_cache",
+          "served_index": 53,
+          "task_id": "systems-04"
+        },
+        {
+          "admission": "retained",
+          "expected": "D",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "certified_cache",
+          "served_index": 54,
+          "task_id": "systems-05"
+        },
+        {
+          "admission": "retained",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "certified_cache",
+          "served_index": 55,
+          "task_id": "evidence-01"
+        },
+        {
+          "admission": "retained",
+          "expected": "C",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "certified_cache",
+          "served_index": 56,
+          "task_id": "evidence-02"
+        },
+        {
+          "admission": "retained",
+          "expected": "A",
+          "prediction": "C",
+          "reference_prediction": "C",
+          "response": "C",
+          "route": "certified_cache",
+          "served_index": 57,
+          "task_id": "evidence-03"
+        },
+        {
+          "admission": "retained",
+          "expected": "D",
+          "prediction": "D",
+          "reference_prediction": "D",
+          "response": "D",
+          "route": "certified_cache",
+          "served_index": 58,
+          "task_id": "evidence-04"
+        },
+        {
+          "admission": "retained",
+          "expected": "B",
+          "prediction": "B",
+          "reference_prediction": "B",
+          "response": "B",
+          "route": "certified_cache",
+          "served_index": 59,
+          "task_id": "evidence-05"
+        }
+      ],
+      "correct": 46,
+      "cpu_seconds_per_served_request": 2.7,
+      "maximum_rss_kib": 4290000,
+      "readiness_ms": 2500.0,
+      "reference_prediction_mismatches": 0,
+      "request_failures": 0,
+      "served_requests": 60,
+      "served_requests_per_second": 0.8152173913043479,
+      "user_http_ms": {
+        "coefficient_of_variation": 0.6518114935028239,
+        "max": 2000.0,
+        "mean": 1226.6666666666667,
+        "median": 2000.0,
+        "min": 400.0,
+        "p95": 2000.0,
+        "population_stddev": 799.5554320301306
+      }
+    },
+    "online_decisions": {
+      "admission_counts": {
+        "certified": 30,
+        "denied": 1,
+        "retained": 29
+      },
+      "certified_transitions": 30,
+      "denied_transitions": 1,
+      "registry_sha256": "7d7db43a35885d80ec9fe639e2d319f069add60ab84c56777ece355546477509",
+      "route_counts": {
+        "certified_cache": 29,
+        "unknown_shadow_then_oracle": 31
+      }
+    },
+    "platform": {
+      "architecture": "aarch64",
+      "logical_cpus": 4,
+      "model_name": "Neoverse-N2",
+      "relevant_features": [
+        "asimd",
+        "asimddp",
+        "i8mm",
+        "sve",
+        "sve2"
+      ],
+      "sockets": 1,
+      "threads_per_core": 1
+    },
+    "provenance": {
+      "run_attempt": 1,
+      "run_id": "synthetic",
+      "runner_arch": "ARM64",
+      "runner_os": "Linux",
+      "sha": "synthetic"
+    },
+    "quality": {
+      "baseline_correct": 46,
+      "baseline_reference_prediction_mismatches": 0,
+      "online_correct": 46,
+      "online_reference_prediction_mismatches": 0,
+      "online_vs_uncached_response_mismatches": 0,
+      "task_score_per_cycle": "23/30"
+    },
+    "ratios_diagnostic_only": {
+      "cpu_seconds_per_served_request": 0.9,
+      "median_user_latency": 2.0,
+      "p95_user_latency": 2.0,
+      "throughput": 0.8152173913043479
+    },
+    "runtime": {
+      "dynamic_dependency_basenames": [],
+      "reused_calibration_run": "30770403695",
+      "runtime_closure": {
+        "build_root": "/synthetic/build",
+        "file_count": 1,
+        "files": [
+          {
+            "artifact_relative_path": "runtime-files/bin/llama-server",
+            "relative_path": "bin/llama-server",
+            "sha256": "f4a6671bd43a59f3906145c9000422680ed6adccde53d8831fa8347460f562a3",
+            "size_bytes": 54
+          }
+        ],
+        "ldd_output": "synthetic static fixture\n",
+        "runtime_dependencies": [],
+        "server_relative_path": "bin/llama-server"
+      },
+      "server_binary_sha256": "f4a6671bd43a59f3906145c9000422680ed6adccde53d8831fa8347460f562a3",
+      "source": {
+        "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+        "tag": "b10216"
+      }
+    },
+    "schema_version": 1,
+    "status": "valid_openai_online_certificate_preflight"
+  }
+}

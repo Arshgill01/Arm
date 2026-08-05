@@ -2209,3 +2209,22 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   0.62022x CPU/request, 0.44497x certified p95, cycle-three break-even), but the
   quality and exact-count validity gates failed first. No generalization claim
   or product promotion is made; the exact certificate boundary remains.
+
+## 2026-08-05 — E21b full-quality OpenAI preflight frozen
+
+- Kept E21a immutable and introduced one corrected successor only after its
+  fail-closed behavior plus 70% retained served-route share cleared the campaign
+  value test. This is an API/quality equivalence correction, not a knob sweep.
+- Bound `/v1/chat/completions`, the exact message/sampling/template body and the
+  reused E9c binary into the transition-certificate identity. The preflight now
+  covers every original task rather than the two-task E21a subset.
+- Froze one fresh control and one fresh adaptive-online process, two complete
+  30-task cycles each, 120 served requests and 151 total expected HTTP calls.
+- Replaced E21a's brittle exact admission prediction with predeclared safety and
+  materiality bounds: at least 24/30 repeating transitions certified, at most
+  seven denied, and at least 23/29 known routes cached, after exact 23/30 quality,
+  paired output, oracle and uncached-fallback gates pass.
+- A complete deterministic two-cell artifact passes all 16 gates twice
+  byte-for-byte at summary `77bceb3e…a1169`. Contract `4dc537ff…27f02` remains at
+  `await_native_preflight`; timings cannot support a performance claim and no
+  full matrix is yet authorized.
