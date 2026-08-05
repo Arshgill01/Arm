@@ -29,6 +29,9 @@ build_terminal_model_decision = import_module(
 
 
 EXPECTED_HASHES = {
+    "results/manifests/e21a-30980957266.json": (
+        "e18d3bbcf4e076e922c792a2b6867fb749af8179fad76377bc1703326da715ca"
+    ),
     "experiments/e21a_full_contract.json": (
         "149e5d0b012848e86d16e83a890420798f6a8d4ae60ff066a936da1492666348"
     ),

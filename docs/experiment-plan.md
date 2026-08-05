@@ -2104,3 +2104,25 @@ certified steady-state p95 nonregression, break-even by cycle four, at most
 not a gate because the preflight already proved synchronous calibration has a
 tail cost; that cost must remain separately reported. Contract SHA-256 is
 `149e5d0b…66348`.
+
+### E21a full native outcome: fail-closed safety, invalid promotion
+
+Run `30980957266` completed the frozen eight-cell, 960-served-request matrix,
+then the source ingester correctly stopped on a count mismatch before emitting
+a summary. The 143-file uploaded artifact was recovered without a native rerun
+or gate change. Independent replay is byte-stable.
+
+All online responses matched the contemporaneous all-uncached responses and no
+unknown cached attempt was served. The controller failed closed on three
+transitions per online cell and retained 84 certified routes. This differed
+from the frozen 30-certification/1-denial/89-route shape. More importantly, both
+policies returned C instead of the frozen B for `arithmetic-04` and
+`systems-04`, producing 21/30 rather than 23/30 in every cycle.
+
+All numerical gates passed diagnostically, including 1.60995x throughput,
+0.62022x CPU/request, 0.44497x certified steady-state p95 and cycle-three
+break-even. They support no promotion because the quality and exact-count gates
+failed first. The source run remains failed and the exact retained certificate
+boundary remains authoritative. See the retained
+[`manifest`](../results/manifests/e21a-30980957266.json) and
+[`report`](../results/reports/e21a-online-certificate-full-negative.md).

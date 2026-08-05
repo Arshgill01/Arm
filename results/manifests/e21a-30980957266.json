@@ -1,0 +1,943 @@
+{
+  "artifact_recovery": {
+    "artifact_upload_step_conclusion": "success",
+    "byte_stable": true,
+    "complete_retained_matrix_replayed": true,
+    "independent_replays": 2,
+    "inventory": {
+      "all_source_artifact_files_hashed": true,
+      "file_count": 143,
+      "fresh_process_cells": 8,
+      "independent_inventory_sha256": "92b558de41cf5ff890be1d6d1fe877f295bea2d9523010f9d209c753afee5920",
+      "served_requests": 960,
+      "total_bytes": 36028075
+    },
+    "measurement_step_conclusion": "success",
+    "native_measurements_added": 0,
+    "native_rerun_required": false,
+    "source_contract_or_gates_changed": false,
+    "source_failure": "E21a all_uncached r1 frozen counts differ",
+    "source_ingestion_step_conclusion": "failure",
+    "source_workflow_remains_failed": true
+  },
+  "baseline": {
+    "actual_http_calls": 480,
+    "cell_metrics": [
+      {
+        "cpu_seconds_per_served_request": 6.580583333333333,
+        "maximum_rss_kib": 4506556,
+        "median_user_http_ms": 1613.8907075,
+        "p95_user_http_ms": 2443.113249,
+        "readiness_ms": 2529.562725,
+        "repetition": 1,
+        "served_requests_per_second": 0.6011742039566157
+      },
+      {
+        "cpu_seconds_per_served_request": 6.5960833333333335,
+        "maximum_rss_kib": 4506304,
+        "median_user_http_ms": 1609.9400735,
+        "p95_user_http_ms": 2453.345397,
+        "readiness_ms": 2632.077334,
+        "repetition": 2,
+        "served_requests_per_second": 0.6015990206825262
+      },
+      {
+        "cpu_seconds_per_served_request": 6.5535,
+        "maximum_rss_kib": 4506448,
+        "median_user_http_ms": 1598.2944149999998,
+        "p95_user_http_ms": 2433.452136,
+        "readiness_ms": 2529.855147,
+        "repetition": 3,
+        "served_requests_per_second": 0.6059036345050309
+      },
+      {
+        "cpu_seconds_per_served_request": 6.54875,
+        "maximum_rss_kib": 4506436,
+        "median_user_http_ms": 1595.0483665,
+        "p95_user_http_ms": 2439.061309,
+        "readiness_ms": 2425.684338,
+        "repetition": 4,
+        "served_requests_per_second": 0.6065278321738207
+      }
+    ],
+    "correct": 336,
+    "cpu_seconds_per_served_request": 6.569729166666666,
+    "elapsed_seconds": 794.976543679,
+    "maximum_rss_kib": {
+      "coefficient_of_variation": 1.9837846705136396e-05,
+      "max": 4506556.0,
+      "mean": 4506436.0,
+      "median": 4506442.0,
+      "min": 4506304.0,
+      "p95": 4506556.0,
+      "population_stddev": 89.39798655450804
+    },
+    "per_cell_served_requests_per_second": {
+      "coefficient_of_variation": 0.004023298428029916,
+      "max": 0.6065278321738207,
+      "mean": 0.6038011728294984,
+      "median": 0.6037513275937786,
+      "min": 0.6011742039566157,
+      "p95": 0.6065278321738207,
+      "population_stddev": 0.0024292723094875407
+    },
+    "readiness_ms": {
+      "coefficient_of_variation": 0.02885080417487188,
+      "max": 2632.077334,
+      "mean": 2529.294886,
+      "median": 2529.708936,
+      "min": 2425.684338,
+      "p95": 2632.077334,
+      "population_stddev": 72.9721914564909
+    },
+    "reference_prediction_mismatches": 32,
+    "repetitions": 4,
+    "request_failures": 0,
+    "served_requests": 480,
+    "served_requests_per_second": 0.6037913996539463,
+    "user_http_ms": {
+      "coefficient_of_variation": 0.18326923821243973,
+      "max": 2658.916534,
+      "mean": 1656.1378216083333,
+      "median": 1604.0862965000001,
+      "min": 1157.609088,
+      "p95": 2442.584103,
+      "population_stddev": 303.5191169409687
+    }
+  },
+  "break_even": [
+    {
+      "cumulative_cycles": [
+        {
+          "cumulative_latency_ratio": 1.6922180050170967,
+          "cycle": 1
+        },
+        {
+          "cumulative_latency_ratio": 1.006305056674452,
+          "cycle": 2
+        },
+        {
+          "cumulative_latency_ratio": 0.7626161143636497,
+          "cycle": 3
+        },
+        {
+          "cumulative_latency_ratio": 0.6241499401207896,
+          "cycle": 4
+        }
+      ],
+      "first_cumulative_break_even_cycle": 3,
+      "repetition": 1
+    },
+    {
+      "cumulative_cycles": [
+        {
+          "cumulative_latency_ratio": 1.6891424344302728,
+          "cycle": 1
+        },
+        {
+          "cumulative_latency_ratio": 1.0097695340841246,
+          "cycle": 2
+        },
+        {
+          "cumulative_latency_ratio": 0.7629164053982607,
+          "cycle": 3
+        },
+        {
+          "cumulative_latency_ratio": 0.6235623506607811,
+          "cycle": 4
+        }
+      ],
+      "first_cumulative_break_even_cycle": 3,
+      "repetition": 2
+    },
+    {
+      "cumulative_cycles": [
+        {
+          "cumulative_latency_ratio": 1.6861066283087935,
+          "cycle": 1
+        },
+        {
+          "cumulative_latency_ratio": 1.004790791272097,
+          "cycle": 2
+        },
+        {
+          "cumulative_latency_ratio": 0.7583344489730489,
+          "cycle": 3
+        },
+        {
+          "cumulative_latency_ratio": 0.6199970651957478,
+          "cycle": 4
+        }
+      ],
+      "first_cumulative_break_even_cycle": 3,
+      "repetition": 3
+    },
+    {
+      "cumulative_cycles": [
+        {
+          "cumulative_latency_ratio": 1.6773972342866406,
+          "cycle": 1
+        },
+        {
+          "cumulative_latency_ratio": 1.0003092036015988,
+          "cycle": 2
+        },
+        {
+          "cumulative_latency_ratio": 0.7543477517335779,
+          "cycle": 3
+        },
+        {
+          "cumulative_latency_ratio": 0.616591513878742,
+          "cycle": 4
+        }
+      ],
+      "first_cumulative_break_even_cycle": 3,
+      "repetition": 4
+    }
+  ],
+  "campaign_decision": {
+    "corrected_successor_requires_full_quality_api_equivalence_preflight": true,
+    "diagnostic_performance_gates_passed": true,
+    "exact_retained_certificate_boundary_remains_authoritative": true,
+    "online_certificate_generalization_claim_made": false,
+    "product_promotion_made": false
+  },
+  "claim_boundary": "A promoted E21a result establishes exact-output online transition admission and its measured first-use, break-even and certified steady-state boundaries only for the exact E7c Q4_K_M service, this frozen sequential 30-task four-cycle workload, and native four-vCPU GitHub Arm64 runners. It does not certify arbitrary prompts, semantic equivalence, concurrency, another model/runtime, energy, PMU, device, fleet, cost or Mac behavior.",
+  "contract_sha256": "149e5d0b012848e86d16e83a890420798f6a8d4ae60ff066a936da1492666348",
+  "decision": {
+    "first_use_tail_regression_retained": true,
+    "post_result_gate_change_permitted": false,
+    "promoted": false,
+    "selected_policy": "all_uncached",
+    "valid": false
+  },
+  "experiment_id": "E21a",
+  "github": {
+    "artifact_digest": "sha256:c66adef1b213d18f5eec42187c752d87c74ea8ce8c1d035316ee45066bd90c52",
+    "artifact_expires_at": "2026-11-03T06:19:15Z",
+    "artifact_id": "8920582060",
+    "artifact_name": "e21a-online-certificate-30980957266-1",
+    "artifact_size_bytes": 14098713,
+    "repository_commit": "3f540e010f3a14de2ba9eabd5c5cee1b16c24db4",
+    "source_job_id": "92225070047",
+    "source_run_attempt": 1,
+    "source_run_conclusion": "failure",
+    "source_run_id": "30980957266",
+    "source_run_url": "https://github.com/Arshgill01/Arm/actions/runs/30980957266"
+  },
+  "lifecycle_ratios": {
+    "cpu_seconds_per_served_request": 0.620221533739024,
+    "maximum_rss": 1.0000230774897727,
+    "median_readiness": 1.021365396520859,
+    "median_user_latency": 0.41435536040064913,
+    "p95_user_latency": 1.2309548335744653,
+    "throughput": 1.609952027762682
+  },
+  "online": {
+    "actual_http_calls": 604,
+    "cell_metrics": [
+      {
+        "cpu_seconds_per_served_request": 4.108333333333333,
+        "maximum_rss_kib": 4506660,
+        "median_user_http_ms": 677.1550045,
+        "p95_user_http_ms": 3006.710708,
+        "readiness_ms": 2731.718887,
+        "repetition": 1,
+        "served_requests_per_second": 0.9631083556468837
+      },
+      {
+        "cpu_seconds_per_served_request": 4.104416666666666,
+        "maximum_rss_kib": 4506484,
+        "median_user_http_ms": 677.882438,
+        "p95_user_http_ms": 2990.380286,
+        "readiness_ms": 2631.523433,
+        "repetition": 2,
+        "served_requests_per_second": 0.9647004820218754
+      },
+      {
+        "cpu_seconds_per_served_request": 4.053333333333333,
+        "maximum_rss_kib": 4506524,
+        "median_user_http_ms": 663.287855,
+        "p95_user_http_ms": 2962.8916980000004,
+        "readiness_ms": 2535.990908,
+        "repetition": 3,
+        "served_requests_per_second": 0.9771913228389141
+      },
+      {
+        "cpu_seconds_per_served_request": 4.032666666666667,
+        "maximum_rss_kib": 4506536,
+        "median_user_http_ms": 662.81912,
+        "p95_user_http_ms": 2937.757858,
+        "readiness_ms": 2423.308854,
+        "repetition": 4,
+        "served_requests_per_second": 0.9836023285723331
+      }
+    ],
+    "correct": 336,
+    "cpu_seconds_per_served_request": 4.0746875,
+    "elapsed_seconds": 493.788963876,
+    "maximum_rss_kib": {
+      "coefficient_of_variation": 1.46032594627447e-05,
+      "max": 4506660.0,
+      "mean": 4506551.0,
+      "median": 4506530.0,
+      "min": 4506484.0,
+      "p95": 4506660.0,
+      "population_stddev": 65.81033353509159
+    },
+    "per_cell_served_requests_per_second": {
+      "coefficient_of_variation": 0.008816073707676238,
+      "max": 0.9836023285723331,
+      "mean": 0.9721506222700016,
+      "median": 0.9709459024303948,
+      "min": 0.9631083556468837,
+      "p95": 0.9836023285723331,
+      "population_stddev": 0.008570551540895654
+    },
+    "readiness_ms": {
+      "coefficient_of_variation": 0.04425013083161485,
+      "max": 2731.718887,
+      "mean": 2580.6355205,
+      "median": 2583.7571705,
+      "min": 2423.308854,
+      "p95": 2731.718887,
+      "population_stddev": 114.19345941083749
+    },
+    "reference_prediction_mismatches": 32,
+    "repetitions": 4,
+    "request_failures": 0,
+    "served_requests": 480,
+    "served_requests_per_second": 0.9720751882185389,
+    "user_http_ms": {
+      "coefficient_of_variation": 1.1017132332296387,
+      "max": 4593.643681,
+      "mean": 1028.6053830541666,
+      "median": 664.6617555,
+      "min": 125.711598,
+      "p95": 3006.710708,
+      "population_stddev": 1133.228162282017
+    }
+  },
+  "online_decisions_per_repetition": {
+    "admission_counts": {
+      "certified": 30,
+      "denied": 1,
+      "retained": 89
+    },
+    "certified_transitions": 30,
+    "denied_transitions": 1,
+    "route_counts": {
+      "certified_cache": 89,
+      "unknown_shadow_then_oracle": 31
+    }
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "promotion_gates": {
+    "bounded_lifecycle_p95": true,
+    "break_even_by_frozen_cycle": true,
+    "certified_steady_state_p95_nonregression": true,
+    "maximum_cpu_per_request": true,
+    "maximum_rss_bound": true,
+    "minimum_lifecycle_throughput": true,
+    "readiness_bound": true
+  },
+  "provenance": {
+    "ref": "refs/heads/main",
+    "run_attempt": 1,
+    "run_id": "30980957266",
+    "runner_arch": "ARM64",
+    "runner_os": "Linux",
+    "runtime_artifact": "e9c-prompt-cache-30770403695-1",
+    "runtime_run_id": "30770403695",
+    "sha": "3f540e010f3a14de2ba9eabd5c5cee1b16c24db4"
+  },
+  "quality": {
+    "actual_correct_per_repetition": 84,
+    "answers": [
+      {
+        "exact_response": "B",
+        "expected": "A",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "arithmetic-01"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "arithmetic-02"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "arithmetic-03"
+      },
+      {
+        "exact_response": "C",
+        "expected": "B",
+        "prediction": "C",
+        "reference_prediction": "B",
+        "task_id": "arithmetic-04"
+      },
+      {
+        "exact_response": "A",
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "task_id": "arithmetic-05"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "logic-01"
+      },
+      {
+        "exact_response": "A",
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "task_id": "logic-02"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "logic-03"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "logic-04"
+      },
+      {
+        "exact_response": "B",
+        "expected": "A",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "logic-05"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "code-01"
+      },
+      {
+        "exact_response": "C",
+        "expected": "D",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "code-02"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "code-03"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "code-04"
+      },
+      {
+        "exact_response": "B",
+        "expected": "D",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "code-05"
+      },
+      {
+        "exact_response": "A",
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "task_id": "data-01"
+      },
+      {
+        "exact_response": "B",
+        "expected": "C",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "data-02"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "data-03"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "data-04"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "data-05"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "systems-01"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "systems-02"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "systems-03"
+      },
+      {
+        "exact_response": "C",
+        "expected": "B",
+        "prediction": "C",
+        "reference_prediction": "B",
+        "task_id": "systems-04"
+      },
+      {
+        "exact_response": "C",
+        "expected": "D",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "systems-05"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "evidence-01"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "evidence-02"
+      },
+      {
+        "exact_response": "C",
+        "expected": "A",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "evidence-03"
+      },
+      {
+        "exact_response": "D",
+        "expected": "D",
+        "prediction": "D",
+        "reference_prediction": "D",
+        "task_id": "evidence-04"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "evidence-05"
+      }
+    ],
+    "baseline_correct": 336,
+    "exact_response_mismatches": 0,
+    "frozen_reference_task_score": "23/30",
+    "online_correct": 336,
+    "task_score": "21/30"
+  },
+  "recovery": {
+    "all_observed_summaries_recomputed_from_raw_records": true,
+    "native_measurements_added": 0,
+    "native_rerun_required": false,
+    "observed_counts_by_cell": {
+      "01-all_uncached-r1": {
+        "actual_http_calls": 120,
+        "admission_counts": {},
+        "correct": 84,
+        "reference_prediction_mismatches": 8,
+        "request_failures": 0,
+        "route_counts": {
+          "baseline_uncached": 120
+        },
+        "served_requests": 120
+      },
+      "02-online-r1": {
+        "actual_http_calls": 151,
+        "admission_counts": {
+          "certified": 28,
+          "denied": 3,
+          "retained": 84,
+          "retained_denial": 5
+        },
+        "correct": 84,
+        "reference_prediction_mismatches": 8,
+        "request_failures": 0,
+        "route_counts": {
+          "certified_cache": 84,
+          "denied_fallback": 5,
+          "unknown_shadow_then_oracle": 31
+        },
+        "served_requests": 120
+      },
+      "03-online-r2": {
+        "actual_http_calls": 151,
+        "admission_counts": {
+          "certified": 28,
+          "denied": 3,
+          "retained": 84,
+          "retained_denial": 5
+        },
+        "correct": 84,
+        "reference_prediction_mismatches": 8,
+        "request_failures": 0,
+        "route_counts": {
+          "certified_cache": 84,
+          "denied_fallback": 5,
+          "unknown_shadow_then_oracle": 31
+        },
+        "served_requests": 120
+      },
+      "04-all_uncached-r2": {
+        "actual_http_calls": 120,
+        "admission_counts": {},
+        "correct": 84,
+        "reference_prediction_mismatches": 8,
+        "request_failures": 0,
+        "route_counts": {
+          "baseline_uncached": 120
+        },
+        "served_requests": 120
+      },
+      "05-online-r3": {
+        "actual_http_calls": 151,
+        "admission_counts": {
+          "certified": 28,
+          "denied": 3,
+          "retained": 84,
+          "retained_denial": 5
+        },
+        "correct": 84,
+        "reference_prediction_mismatches": 8,
+        "request_failures": 0,
+        "route_counts": {
+          "certified_cache": 84,
+          "denied_fallback": 5,
+          "unknown_shadow_then_oracle": 31
+        },
+        "served_requests": 120
+      },
+      "06-all_uncached-r3": {
+        "actual_http_calls": 120,
+        "admission_counts": {},
+        "correct": 84,
+        "reference_prediction_mismatches": 8,
+        "request_failures": 0,
+        "route_counts": {
+          "baseline_uncached": 120
+        },
+        "served_requests": 120
+      },
+      "07-all_uncached-r4": {
+        "actual_http_calls": 120,
+        "admission_counts": {},
+        "correct": 84,
+        "reference_prediction_mismatches": 8,
+        "request_failures": 0,
+        "route_counts": {
+          "baseline_uncached": 120
+        },
+        "served_requests": 120
+      },
+      "08-online-r4": {
+        "actual_http_calls": 151,
+        "admission_counts": {
+          "certified": 28,
+          "denied": 3,
+          "retained": 84,
+          "retained_denial": 5
+        },
+        "correct": 84,
+        "reference_prediction_mismatches": 8,
+        "request_failures": 0,
+        "route_counts": {
+          "certified_cache": 84,
+          "denied_fallback": 5,
+          "unknown_shadow_then_oracle": 31
+        },
+        "served_requests": 120
+      }
+    },
+    "source_contract_or_gates_changed": false,
+    "source_failure": "frozen counts differ at e21a_full_ingest.py:148",
+    "source_workflow_remains_failed": true
+  },
+  "root_cause_boundary": {
+    "observed": "The raw-completion client returned C instead of the frozen B for arithmetic-04 and systems-04 in every control and online cycle.",
+    "policy_behavior": "The online policy failed closed on three transitions, served no unknown cached attempt, and retained 84 certified routes per cell.",
+    "preflight_coverage_gap": "The two-task preflight did not include either drifting task.",
+    "unattributed_difference": "The E21 client used /completion with pre-rendered tokens and an E9c-built binary, while the frozen reference map came from the earlier OpenAI-compatible quality path and another build. The artifact does not isolate which difference caused the drift."
+  },
+  "runtime": {
+    "dynamic_dependency_basenames": [
+      "ld-linux-aarch64.so.1",
+      "libc.so.6",
+      "libgcc_s.so.1",
+      "libggml-base.so.0.18.0",
+      "libggml-cpu.so.0.18.0",
+      "libggml.so.0.18.0",
+      "libgomp.so.1.0.0",
+      "libllama-common.so.0.0.10216",
+      "libllama-server-impl.so",
+      "libllama.so.0.0.10216",
+      "libm.so.6",
+      "libmtmd.so.0.0.10216",
+      "libstdc++.so.6.0.33"
+    ],
+    "reused_calibration_run": "30770403695",
+    "runtime_closure": {
+      "build_root": "/tmp/llama.cpp-E9c-build",
+      "file_count": 8,
+      "files": [
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-base.so.0.18.0",
+          "relative_path": "bin/libggml-base.so.0.18.0",
+          "sha256": "1d3eaf1f192812b30748039fa0f1299fbc5acd3b03c34998c75cba56db92a8a0",
+          "size_bytes": 873464
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-cpu.so.0.18.0",
+          "relative_path": "bin/libggml-cpu.so.0.18.0",
+          "sha256": "c12b543b317bb81751924c0fd0b17fd8fd22133ed428f7212d964c6a595883cc",
+          "size_bytes": 1160432
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml.so.0.18.0",
+          "relative_path": "bin/libggml.so.0.18.0",
+          "sha256": "c51d94267578bc626f0fce908ff27d2904273b61798a045de027189fcca8f742",
+          "size_bytes": 78176
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-common.so.0.0.10216",
+          "relative_path": "bin/libllama-common.so.0.0.10216",
+          "sha256": "2f43ca3ec9af17e5d85406d18cd31a5467879a9048fac360825a6d8327fa9beb",
+          "size_bytes": 5325720
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-server-impl.so",
+          "relative_path": "bin/libllama-server-impl.so",
+          "sha256": "491a7c475723c1f44bc304424c7be89aba1f0f19426439a7a089442eb1cd1358",
+          "size_bytes": 6949024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama.so.0.0.10216",
+          "relative_path": "bin/libllama.so.0.0.10216",
+          "sha256": "6a497259422d15afd2ff9b16ba2b31b94e579ce7403cea9ac7e1e4c258c6fd4f",
+          "size_bytes": 3937120
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libmtmd.so.0.0.10216",
+          "relative_path": "bin/libmtmd.so.0.0.10216",
+          "sha256": "bc568b305c057eea8484e50439bfa8d6c2d193ab9704399573c55dc115c587b0",
+          "size_bytes": 1461024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/llama-server",
+          "relative_path": "bin/llama-server",
+          "sha256": "ec60d4975757948cd330dfa82c1f8d274ea67e73cb319ce623f02232dcf61dbd",
+          "size_bytes": 72488
+        }
+      ],
+      "ldd_output": "\tlinux-vdso.so.1 (0x0000ff394677c000)\n\tlibllama-server-impl.so => /tmp/llama.cpp-E9c-build/bin/libllama-server-impl.so (0x0000ff3946110000)\n\tlibstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ff3945e80000)\n\tlibgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ff3945e40000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ff3945c80000)\n\t/lib/ld-linux-aarch64.so.1 (0x0000ff3946730000)\n\tlibllama-common.so.0 => /tmp/llama.cpp-E9c-build/bin/libllama-common.so.0 (0x0000ff3945860000)\n\tlibmtmd.so.0 => /tmp/llama.cpp-E9c-build/bin/libmtmd.so.0 (0x0000ff3945710000)\n\tlibllama.so.0 => /tmp/llama.cpp-E9c-build/bin/libllama.so.0 (0x0000ff39453d0000)\n\tlibggml.so.0 => /tmp/llama.cpp-E9c-build/bin/libggml.so.0 (0x0000ff39453a0000)\n\tlibggml-base.so.0 => /tmp/llama.cpp-E9c-build/bin/libggml-base.so.0 (0x0000ff39452c0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ff3945210000)\n\tlibggml-cpu.so.0 => /tmp/llama.cpp-E9c-build/bin/libggml-cpu.so.0 (0x0000ff3945070000)\n\tlibgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000ff3944ff0000)\n",
+      "runtime_dependencies": [
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libllama-server-impl.so",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libllama-server-impl.so"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libstdc++.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgcc_s.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgcc_s.so.1"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libc.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libc.so.6"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/ld-linux-aarch64.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libllama-common.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libllama-common.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libmtmd.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libmtmd.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libllama.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libllama.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libggml.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libggml.so.0.18.0"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libggml-base.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libggml-base.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libm.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libm.so.6"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libggml-cpu.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libggml-cpu.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgomp.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0"
+        }
+      ],
+      "schema_version": 1,
+      "server_path": "/tmp/llama.cpp-E9c-build/bin/llama-server",
+      "server_relative_path": "bin/llama-server",
+      "system_dependencies_excluded": true,
+      "total_size_bytes": 19857448
+    },
+    "server_binary_sha256": "ec60d4975757948cd330dfa82c1f8d274ea67e73cb319ce623f02232dcf61dbd",
+    "source": {
+      "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "patches_applied": [
+        "0001-kleidiai-use-validated-arm-features.patch",
+        "0002-arm-q8-vector-narrowing-stores.patch",
+        "0003-reasoning-budget-forced-token-guard.patch"
+      ],
+      "tag": "b10216"
+    }
+  },
+  "schema_version": 1,
+  "status": "invalid_online_transition_certificate",
+  "tail_boundaries": {
+    "certified_steady_state": {
+      "baseline_user_http_ms": {
+        "coefficient_of_variation": 0.18625197300316174,
+        "max": 2658.916534,
+        "mean": 1666.4328841398808,
+        "median": 1602.8871315000001,
+        "min": 1157.609088,
+        "p95": 2450.963233,
+        "population_stddev": 310.376412548402
+      },
+      "median_latency_ratio": 0.08379014395998974,
+      "online_user_http_ms": {
+        "coefficient_of_variation": 0.9933895218051519,
+        "max": 1194.747156,
+        "mean": 353.73331324702383,
+        "median": 134.30614350000002,
+        "min": 125.711598,
+        "p95": 1090.60097,
+        "population_stddev": 351.394966893013
+      },
+      "p95_latency_ratio": 0.444968310954667,
+      "requests_per_policy": 336
+    },
+    "synchronous_first_use": {
+      "baseline_user_http_ms": {
+        "coefficient_of_variation": 0.18255145927030472,
+        "max": 2524.941284,
+        "mean": 1647.2708260080644,
+        "median": 1603.7195609999999,
+        "min": 1159.853711,
+        "p95": 2437.330777,
+        "population_stddev": 300.7116931011724
+      },
+      "median_latency_ratio": 1.678159561963465,
+      "online_user_http_ms": {
+        "coefficient_of_variation": 0.19976942123302638,
+        "max": 4593.643681,
+        "mean": 2775.268104903226,
+        "median": 2691.297316,
+        "min": 1825.612482,
+        "p95": 4081.5683580000004,
+        "population_stddev": 554.4137030829953
+      },
+      "p95_latency_ratio": 1.67460584197924,
+      "requests_per_policy": 124
+    }
+  },
+  "validity_gates": {
+    "all_30_prompts_unseen_to_e13b": true,
+    "baseline_uncached_mechanism": true,
+    "certified_cache_mechanism": true,
+    "complete_reverse_balanced_fresh_process_matrix": true,
+    "exact_e7c_service_and_runtime": true,
+    "exact_outputs_match_all_uncached": true,
+    "frozen_route_and_admission_counts": false,
+    "native_arm64": true,
+    "raw_call_counts": true,
+    "reference_answers_preserved": false,
+    "registry_counts": false,
+    "unknown_cached_attempts_never_served": true,
+    "unknown_shadow_mechanism": true,
+    "zero_request_failures": true
+  }
+}

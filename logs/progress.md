@@ -2189,3 +2189,23 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Contract `149e5d0b…66348` and the native-only GitHub workflow are ready for one
   full dispatch. No arbitrary-prompt, concurrency, energy, PMU, device, fleet,
   cost or other-runtime claim is permitted.
+
+## 2026-08-05 — E21a full matrix retained as fail-closed safety / invalid promotion
+
+- Native run `30980957266` completed all eight fresh-process cells and 960
+  served requests before the frozen ingester raised on the first observed count
+  difference. Artifact upload succeeded; the source workflow remains failed.
+- Independently replayed all 143 files twice byte-for-byte without another
+  native request, contract change or gate change. The retained manifest hashes
+  to `e18d3bbc…15ca`; independent artifact inventory is `92b558de…5920`.
+- Every online answer exactly matched its paired uncached answer and no unknown
+  cached attempt was served. The policy safely denied three transitions and
+  retained 84 cached routes per cell instead of the frozen 1 denial/89 routes.
+- Both policies changed `arithmetic-04` and `systems-04` from frozen B to C,
+  scoring 21/30 rather than 23/30 in every cycle. The two-task preflight had not
+  covered either task; the raw-completion client/binary was not proven exactly
+  equivalent to the earlier reference path.
+- All seven numerical gates passed diagnostically (1.60995x throughput,
+  0.62022x CPU/request, 0.44497x certified p95, cycle-three break-even), but the
+  quality and exact-count validity gates failed first. No generalization claim
+  or product promotion is made; the exact certificate boundary remains.
