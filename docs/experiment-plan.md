@@ -1885,6 +1885,36 @@ tensors and is deleted before artifact upload. See the retained
 [`manifest`](../results/manifests/e16c-30851609576.json) and
 [`report`](../results/reports/e16c-shared-repack-arena.md).
 
+## E16d/E16e frozen persistent-sidecar product lifecycle
+
+E16d turns the E16 mechanism into four clean-checkout product commands without
+rerunning its performance matrix. On one exact `ubuntu-24.04-arm` identity it
+must construct the complete sidecar, independently verify every tensor, reject
+a corrupted index without changing the source files, launch two verified
+workers on one `r--s` inode, reproduce 23/30 and the complete reference map on
+both, stop cleanly, and delete only the receipt-bound sidecar and index. The
+contract records construction and storage cost, but imports readiness and PSS
+claims only from E16b/E16c.
+
+Native run `30988414887` completes every product step. Prepack takes 12.60244
+seconds, creates a 2,139,013,120-byte sidecar from 2,137,964,544 raw packed
+bytes, verifies it, deletes all 183 raw tensors, rejects a corrupted index,
+serves 60 exact requests across two workers, and completes verified cleanup.
+The final frozen ingester nevertheless fails before evaluating any gate because
+llama.cpp wrote raw tokenizer bytes that are not valid UTF-8. E16d therefore
+remains a failed workflow with its exact always-uploaded artifact.
+
+E16e is frozen after that reader failure and permits one change only: search
+the same two ASCII mechanism markers in the original bytes. It downloads the
+exact E16d artifact, changes no gate, mutates no source byte, reruns no product
+command, and adds no measurement. Native run `30989161576` inventories all 61
+source files, replays every unchanged gate twice byte-for-byte, and passes all
+14. The retained warm-only construction estimate breaks even after nine worker
+starts. No cold-start, new throughput, per-process RSS, energy, PMU, Mac,
+portability, fleet, or monetary claim is permitted. See the retained
+[`manifest`](../results/manifests/e16e-30989161576.json) and
+[`report`](../results/reports/e16e-persistent-sidecar-product-lifecycle.md).
+
 ## E4a frozen accept-backlog tuner
 
 E4a tests the one-second E5a tail as a TCP admission hypothesis. The only server

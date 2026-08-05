@@ -202,7 +202,16 @@ same-job median readiness 62.03%, but leaves RSS and PSS unchanged. E16c then
 tests the missing multi-process boundary: two workers sharing one read-only
 sidecar save 2,091,714 KiB of summed PSS (30.69%) at 1.00044x aggregate
 throughput with every answer unchanged. This is a physical-sharing claim, not
-a per-process RSS or cold-storage claim. Separately, E15b's exact two-CPU
+a per-process RSS or cold-storage claim. E16d then runs the complete public CLI
+lifecycle from a clean native checkout: prepack, full verification, corrupted-
+index rejection, two-worker shared launch, exact 23/30 quality on both workers,
+controlled stop, and receipt-bound cleanup all complete. Its frozen reader
+fails on non-UTF-8 tokenizer diagnostics before gate evaluation, so the failed
+workflow remains retained. E16e performs a separately frozen byte-safe replay
+of that exact 61-file artifact, changes no gate or measurement, and passes all
+14 lifecycle gates twice. The one-time prepack takes 12.602 s and the retained
+warm-only estimate breaks even after nine worker starts; cold, energy, money,
+and fleet claims remain excluded. Separately, E15b's exact two-CPU
 confirmation rejects asymmetric 2/4 scheduling: its 1.00427x throughput comes
 with exactly 1.00000x CPU seconds/request and misses the frozen efficiency gate.
 
@@ -357,12 +366,13 @@ repack flag that conflicts with the plan is refused.
 | [E16b](results/reports/e16b-repack-sidecar-loader.md) | The repaired successor passes every frozen gate: exact quality and steady-state performance are retained while same-job median readiness falls 62.03%; RSS/PSS does not materially change |
 | [E15b](results/reports/e15b-affinity-split-scheduler.md) | Strict two-CPU confirmation preserves exact quality but rejects split 2/4 scheduling: 0.43% throughput gain with no CPU/request reduction misses the unchanged efficiency gate |
 | [E16c](results/reports/e16c-shared-repack-arena.md) | Two simultaneous workers share one verified read-only packed arena, saving 1.995 GiB summed PSS at 1.00044x throughput with all answers unchanged |
+| [E16d/E16e](results/reports/e16e-persistent-sidecar-product-lifecycle.md) | The exact native clean-checkout product lifecycle completes, but E16d's UTF-8 log reader fails; E16e retains that failure and passes all 14 unchanged gates twice with a byte-safe replay of the exact artifact |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
 The E5f through E5j, E6d through E6i, E7a through E7c, E9a/E9c, E10a through
 E10f, E11b, E12a/E12b, E13a/E13b, E14a/E14b, E15a/E15b,
-E16a/E16b/E16c, and E17a/E17c results are retained under their exact frozen
+E16a through E16e, and E17a/E17c results are retained under their exact frozen
 contracts and independently re-ingested byte for byte. E9e separately retains its reproducible
 premeasurement stop record.
 

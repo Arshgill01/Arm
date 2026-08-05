@@ -72,6 +72,10 @@ artifact.
 | Persistent Arm-repack sidecar feasibility | [E16a `30837796757`](https://github.com/Arshgill01/Arm/actions/runs/30837796757) | [`e16a` manifest](../results/manifests/e16a-30837796757.json) · [`report`](../results/reports/e16a-repack-sidecar-feasibility.md) | `cd3ed3ce…c686` |
 | Read-only sidecar loader first-run ingester failure | [E16b `30841531260`](https://github.com/Arshgill01/Arm/actions/runs/30841531260) | [`failure` manifest](../results/manifests/e16b-30841531260.json) · [`report`](../results/reports/e16b-repack-sidecar-loader-ingestion-failure.md) | `5ef05b79…de07` |
 | Fail-closed read-only Arm repack-sidecar loader | [E16b `30842925537`](https://github.com/Arshgill01/Arm/actions/runs/30842925537) | [`e16b` manifest](../results/manifests/e16b-30842925537.json) · [`report`](../results/reports/e16b-repack-sidecar-loader.md) | `fc5500c3…6ddc` |
+| Two-worker physical sidecar sharing | [E16c `30851609576`](https://github.com/Arshgill01/Arm/actions/runs/30851609576) | [`e16c` manifest](../results/manifests/e16c-30851609576.json) · [`report`](../results/reports/e16c-shared-repack-arena.md) | `a469358f…25da` |
+| Adaptive online cache certificate | [E21b `30985501097`](https://github.com/Arshgill01/Arm/actions/runs/30985501097) | [`e21b` manifest](../results/manifests/e21b-30985501097.json) · [`report`](../results/reports/e21b-online-cache-certificate.md) | `df0b6907…f805` |
+| Clean-checkout sidecar lifecycle reader failure | [E16d `30988414887`](https://github.com/Arshgill01/Arm/actions/runs/30988414887) | Exact always-uploaded failure artifact retained; bounded repair is E16e | `sha256:9324b4da…b8d51d` artifact |
+| Clean-checkout sidecar lifecycle retained after byte-reader repair | [E16e `30989161576`](https://github.com/Arshgill01/Arm/actions/runs/30989161576) | [`e16e` manifest](../results/manifests/e16e-30989161576.json) · [`report`](../results/reports/e16e-persistent-sidecar-product-lifecycle.md) | `ca44f051…c6299` |
 | Final judge-package clean-checkout validation | [`30798816900`](https://github.com/Arshgill01/Arm/actions/runs/30798816900) | 175 tests, 55 hashes through E10b, exact runtime/plan checks, four gallery assets, video-word ceiling, demo smoke test | passed on native `aarch64` at `03ae10d` |
 
 ## Final selected package
@@ -163,6 +167,14 @@ artifact.
   throughput and exact quality while reducing same-job median readiness from
   2,530.23 to 960.75 ms. RSS/PSS is unchanged; cold startup, multi-process
   sharing, portability, energy, and construction economics remain unclaimed.
+- Persistent-prepack sharing and lifecycle: E16c measures two simultaneous
+  workers and saves 2,091,714 KiB summed PSS at 1.00044x throughput without
+  answer drift; it does not claim per-process RSS. E16d then completes the
+  public prepack/verify/two-worker/cleanup lifecycle but fails its final UTF-8
+  log reader. E16e retains that failure, changes only the ASCII marker reader,
+  and passes all 14 unchanged lifecycle gates twice against the exact artifact.
+  The 12.602-second construction has a nine-warm-start estimate only; cold,
+  energy, money, and fleet behavior remain unmeasured.
 
 ## Recompute locally
 

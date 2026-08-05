@@ -1,0 +1,1104 @@
+{
+  "boundaries": {
+    "amortization": {
+      "estimate_boundary": "Matched Neoverse N2 same-job warm-readiness evidence only; excludes cold storage, request work, energy, money, and maintenance cost.",
+      "prepack_seconds": 12.602439033000053,
+      "warm_start_break_even_worker_starts_estimate": 9,
+      "warm_start_saving_seconds_per_worker": 1.5694819705
+    },
+    "cold_storage": {
+      "claim_permitted": false,
+      "measured": false,
+      "reason": "Linux page cache was not flushed in E16b or E16c."
+    },
+    "multi_worker": {
+      "matched_native_evidence": true,
+      "per_process_rss_reduction_claim_permitted": false,
+      "summed_pss_ratio": 0.6930755598101739,
+      "summed_pss_saved_kib": 2091714.0,
+      "workers": 2
+    },
+    "warm_process_start": {
+      "matched_native_evidence": true,
+      "normal_median_seconds": 2.530229953,
+      "readiness_ratio": 0.3797077737384607,
+      "same_job_observed_cache_state_only": true,
+      "sidecar_median_seconds": 0.9607479825
+    }
+  },
+  "claim_boundary": "A valid E16e result establishes that the exact native E16d artifact completed the clean-checkout prepack, full verification, corruption rejection, two-worker read-only shared launch, exact 23/30 quality on both workers, controlled stop, and receipt-bound cleanup. E16d's failed workflow conclusion remains retained. E16e changes no lifecycle gate, adds no native measurement, and makes no new throughput, cold-start, per-process RSS, energy, PMU, Mac, fleet, or cost claim.",
+  "cleanup": {
+    "complete": {
+      "deleted": true,
+      "receipt_retained": true,
+      "schema_version": 1,
+      "status": "sidecar_cleanup_complete",
+      "targets": [
+        {
+          "path": "/tmp/Pareto64-E16d/ministral-q4-k-m.sidecar",
+          "size_bytes": 2139013120
+        },
+        {
+          "path": "/tmp/Pareto64-E16d/ministral-q4-k-m.index.json",
+          "size_bytes": 81926
+        }
+      ],
+      "targets_absent": true
+    },
+    "plan": {
+      "deleted": false,
+      "receipt_retained": true,
+      "schema_version": 1,
+      "status": "sidecar_cleanup_planned",
+      "targets": [
+        {
+          "path": "/tmp/Pareto64-E16d/ministral-q4-k-m.sidecar",
+          "size_bytes": 2139013120
+        },
+        {
+          "path": "/tmp/Pareto64-E16d/ministral-q4-k-m.index.json",
+          "size_bytes": 81926
+        }
+      ],
+      "targets_absent": false
+    }
+  },
+  "construction": {
+    "cleanup": {
+      "deleted_raw_tensor_bytes": 2137964544,
+      "deleted_raw_tensor_count": 183,
+      "raw_tensor_cleanup_complete": true
+    },
+    "full_verification_seconds": 2.3750437969999894,
+    "server_process_seconds": 3.2746268359999817,
+    "server_returncode": 0,
+    "server_start_to_ready_seconds": 3.0604557080000063,
+    "sidecar_build_seconds": 5.688840083000002,
+    "total_prepack_seconds": 12.602439033000053
+  },
+  "contract_sha256": "f7034e7c56d5ef45e7c24f60af06bbeb781932f69c8d02746d970247e807a22e",
+  "corruption_rejection": {
+    "corrupted_index_sha256": "64461416cb8b3741361ec67e8af5cb803d079d13279d73020c664f48d6b9e32f",
+    "exit_status": 1,
+    "failure_contains": "sidecar container differs from its index",
+    "index_sha256_after": "0e39f342b7a3abc2c39f66a458fc80deaaa1badd3ade827e71867c862ac3d891",
+    "index_sha256_before": "0e39f342b7a3abc2c39f66a458fc80deaaa1badd3ade827e71867c862ac3d891",
+    "schema_version": 1,
+    "sidecar_sha256_after": "037a8697ad16ef8200a238d7005278ef15fe9db78b2200ca7517fa73fd649dc2",
+    "sidecar_sha256_before": "037a8697ad16ef8200a238d7005278ef15fe9db78b2200ca7517fa73fd649dc2",
+    "status": "corrupt_index_rejected",
+    "verification_output_absent": true
+  },
+  "decision": {
+    "clean_checkout_lifecycle_validated": true,
+    "cold_start_claim_allowed": false,
+    "e16d_failed_workflow_retained": true,
+    "e16e_repaired_retention_valid": true,
+    "new_native_performance_claim_allowed": false,
+    "per_process_rss_reduction_claim_allowed": false,
+    "product_sidecar_workflow_promoted": true,
+    "valid": true
+  },
+  "experiment_id": "E16e",
+  "failed_gates": [],
+  "gates": {
+    "construction_and_storage_cost_recorded": true,
+    "controlled_worker_group_shutdown": true,
+    "corrupted_index_rejected_without_sidecar_change": true,
+    "exact_frozen_product_inputs": true,
+    "exact_quality_on_both_workers": true,
+    "generated_raw_tensors_cleaned": true,
+    "independent_full_verification": true,
+    "native_arm64": true,
+    "prepack_constructed_full_read_only_sidecar": true,
+    "receipt_bound_cleanup_complete": true,
+    "runtime_repack_skipped_after_binding": true,
+    "same_read_only_shared_inode_mapped": true,
+    "two_verified_workers_ready": true,
+    "warm_cold_amortized_boundaries_explicit": true
+  },
+  "github": {
+    "ref": "refs/heads/main",
+    "run_attempt": 1,
+    "run_id": "30988414887",
+    "runner_arch": "ARM64",
+    "runner_os": "Linux",
+    "sha": "9baf8b53b8ac704a509ff9abb68805ebbf6b34dd",
+    "source_artifact": "e16c-shared-repack-arena-30851609576-1",
+    "source_artifact_run_id": "30851609576"
+  },
+  "identity": {
+    "cpu": {
+      "architecture": "aarch64",
+      "common_features": [
+        "aes",
+        "asimd",
+        "asimddp",
+        "asimdfhm",
+        "asimdhp",
+        "asimdrdm",
+        "atomics",
+        "bf16",
+        "cpuid",
+        "crc32",
+        "dcpodp",
+        "dcpop",
+        "evtstrm",
+        "fcma",
+        "flagm",
+        "flagm2",
+        "fp",
+        "fphp",
+        "frint",
+        "i8mm",
+        "ilrcpc",
+        "jscvt",
+        "lrcpc",
+        "paca",
+        "pacg",
+        "pmull",
+        "sb",
+        "sha1",
+        "sha2",
+        "sha3",
+        "sha512",
+        "sm3",
+        "sm4",
+        "sve",
+        "sve2",
+        "sveaes",
+        "svebf16",
+        "svebitperm",
+        "svei8mm",
+        "svesha3",
+        "svesm4",
+        "uscat"
+      ],
+      "common_features_sha256": "4162bfdb7c8ed3914bd17232c428ee08a46e9055a18790d8e17f5fe6b7b96f92",
+      "cpu_implementers": [
+        "0x41"
+      ],
+      "cpu_parts": [
+        "0xd49"
+      ],
+      "sve_vector_length_bytes": 16
+    },
+    "experiment_id": "E16c",
+    "llama_cpp_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "repack_dump_format_version": 1,
+    "schema_version": 1,
+    "sidecar_format_version": 1,
+    "source_diff_sha256": "48a7611bbe6e22a0303bf0b8855dbab3f718ca6d56d5a594a8ef1650f959f003",
+    "source_model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4"
+  },
+  "launch": {
+    "mappings": [
+      {
+        "device": "08:01",
+        "inode": 6031266,
+        "offset": "00100000",
+        "path": "/tmp/Pareto64-E16d/ministral-q4-k-m.sidecar",
+        "permissions": "r--s"
+      },
+      {
+        "device": "08:01",
+        "inode": 6031266,
+        "offset": "00100000",
+        "path": "/tmp/Pareto64-E16d/ministral-q4-k-m.sidecar",
+        "permissions": "r--s"
+      }
+    ],
+    "mechanism_logs": [
+      {
+        "all_tensors_loaded_without_runtime_repacking": true,
+        "identity_rejection_observed": false,
+        "mapped_read_only": true
+      },
+      {
+        "all_tensors_loaded_without_runtime_repacking": true,
+        "identity_rejection_observed": false,
+        "mapped_read_only": true
+      }
+    ],
+    "outcome": {
+      "error": null,
+      "readiness": [
+        {
+          "host": "127.0.0.1",
+          "pid": 2560,
+          "port": 18081,
+          "ready_seconds": 1.4478056600000286,
+          "worker": 1
+        },
+        {
+          "host": "127.0.0.1",
+          "pid": 2561,
+          "port": 18082,
+          "ready_seconds": 0.0005508189999545721,
+          "worker": 2
+        }
+      ],
+      "status": "sidecar_worker_group_stopped",
+      "stop_requested": true,
+      "worker_returncodes": [
+        0,
+        0
+      ]
+    },
+    "plan": {
+      "claim_boundary": "E16c can establish only observed two-process physical sharing for one exact model, source diff, CPU identity, sidecar, and four-core native runner. It cannot claim per-process RSS reduction, cold-storage startup, more than two workers, other CPUs/models, energy, PMU, local-device, fleet, or cost.",
+      "schema_version": 1,
+      "sidecar": {
+        "device": 2049,
+        "inode": 6031266,
+        "mapping_protection": "PROT_READ",
+        "mapping_sharing": "MAP_SHARED",
+        "path": "/tmp/Pareto64-E16d/ministral-q4-k-m.sidecar",
+        "read_only": true,
+        "sha256": "037a8697ad16ef8200a238d7005278ef15fe9db78b2200ca7517fa73fd649dc2"
+      },
+      "status": "ready_to_launch_shared_sidecar_workers",
+      "verification_passes": 2,
+      "verification_seconds": [
+        2.384908607,
+        2.374585491000005
+      ],
+      "worker_count": 2,
+      "workers": [
+        {
+          "argv": [
+            "/home/runner/work/Arm/Arm/results/raw/e16d-30988414887-1/runtime/bin/llama-server",
+            "--model",
+            "/tmp/Pareto64-E16d/models/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+            "--alias",
+            "ministral3_3b_q4_k_m",
+            "--threads",
+            "4",
+            "--threads-batch",
+            "4",
+            "--ctx-size",
+            "256",
+            "--cache-type-k",
+            "f16",
+            "--cache-type-v",
+            "f16",
+            "--flash-attn",
+            "auto",
+            "--parallel",
+            "1",
+            "--cont-batching",
+            "--cache-prompt",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "18081",
+            "--no-webui",
+            "--metrics",
+            "--slots",
+            "--jinja",
+            "--temp",
+            "0.0",
+            "--seed",
+            "424242",
+            "--log-colors",
+            "off",
+            "--batch-size",
+            "64",
+            "--ubatch-size",
+            "64",
+            "--log-verbosity",
+            "4"
+          ],
+          "environment": {
+            "GGML_CPU_REPACK_SIDECAR": "/tmp/Pareto64-E16d/ministral-q4-k-m.sidecar",
+            "GGML_CPU_REPACK_SIDECAR_ARCHITECTURE": "aarch64",
+            "GGML_CPU_REPACK_SIDECAR_CPU_FEATURES_SHA256": "4162bfdb7c8ed3914bd17232c428ee08a46e9055a18790d8e17f5fe6b7b96f92",
+            "GGML_CPU_REPACK_SIDECAR_EXPERIMENT_ID": "E16c",
+            "GGML_CPU_REPACK_SIDECAR_MODEL_SHA256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+            "GGML_CPU_REPACK_SIDECAR_SOURCE_COMMIT": "876a4321163249c43ca4e986818fab5ab081f282",
+            "GGML_CPU_REPACK_SIDECAR_SOURCE_DIFF_SHA256": "48a7611bbe6e22a0303bf0b8855dbab3f718ca6d56d5a594a8ef1650f959f003",
+            "GGML_CPU_REPACK_SIDECAR_SVE_BYTES": "16"
+          },
+          "host": "127.0.0.1",
+          "port": 18081,
+          "worker": 1
+        },
+        {
+          "argv": [
+            "/home/runner/work/Arm/Arm/results/raw/e16d-30988414887-1/runtime/bin/llama-server",
+            "--model",
+            "/tmp/Pareto64-E16d/models/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+            "--alias",
+            "ministral3_3b_q4_k_m",
+            "--threads",
+            "4",
+            "--threads-batch",
+            "4",
+            "--ctx-size",
+            "256",
+            "--cache-type-k",
+            "f16",
+            "--cache-type-v",
+            "f16",
+            "--flash-attn",
+            "auto",
+            "--parallel",
+            "1",
+            "--cont-batching",
+            "--cache-prompt",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "18082",
+            "--no-webui",
+            "--metrics",
+            "--slots",
+            "--jinja",
+            "--temp",
+            "0.0",
+            "--seed",
+            "424242",
+            "--log-colors",
+            "off",
+            "--batch-size",
+            "64",
+            "--ubatch-size",
+            "64",
+            "--log-verbosity",
+            "4"
+          ],
+          "environment": {
+            "GGML_CPU_REPACK_SIDECAR": "/tmp/Pareto64-E16d/ministral-q4-k-m.sidecar",
+            "GGML_CPU_REPACK_SIDECAR_ARCHITECTURE": "aarch64",
+            "GGML_CPU_REPACK_SIDECAR_CPU_FEATURES_SHA256": "4162bfdb7c8ed3914bd17232c428ee08a46e9055a18790d8e17f5fe6b7b96f92",
+            "GGML_CPU_REPACK_SIDECAR_EXPERIMENT_ID": "E16c",
+            "GGML_CPU_REPACK_SIDECAR_MODEL_SHA256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+            "GGML_CPU_REPACK_SIDECAR_SOURCE_COMMIT": "876a4321163249c43ca4e986818fab5ab081f282",
+            "GGML_CPU_REPACK_SIDECAR_SOURCE_DIFF_SHA256": "48a7611bbe6e22a0303bf0b8855dbab3f718ca6d56d5a594a8ef1650f959f003",
+            "GGML_CPU_REPACK_SIDECAR_SVE_BYTES": "16"
+          },
+          "host": "127.0.0.1",
+          "port": 18082,
+          "worker": 2
+        }
+      ]
+    },
+    "ready": {
+      "schema_version": 1,
+      "sidecar": {
+        "device": 2049,
+        "inode": 6031266,
+        "mapping_protection": "PROT_READ",
+        "mapping_sharing": "MAP_SHARED",
+        "path": "/tmp/Pareto64-E16d/ministral-q4-k-m.sidecar",
+        "read_only": true,
+        "sha256": "037a8697ad16ef8200a238d7005278ef15fe9db78b2200ca7517fa73fd649dc2"
+      },
+      "status": "shared_sidecar_workers_ready",
+      "worker_count": 2,
+      "workers": [
+        {
+          "host": "127.0.0.1",
+          "pid": 2560,
+          "port": 18081,
+          "ready_seconds": 1.4478056600000286,
+          "worker": 1
+        },
+        {
+          "host": "127.0.0.1",
+          "pid": 2561,
+          "port": 18082,
+          "ready_seconds": 0.0005508189999545721,
+          "worker": 2
+        }
+      ]
+    }
+  },
+  "native_retention": {
+    "artifact_digest": "sha256:7dc461cacd549a10e3fbd6777758ff7bada630dc9d58aadf1a6507c63ccf686e",
+    "artifact_expires_at": "2026-11-03T08:28:30Z",
+    "artifact_id": "8923346367",
+    "artifact_name": "e16e-lifecycle-retention-repair-30989161576-1",
+    "artifact_size_bytes": 13997803,
+    "job_id": "92250913881",
+    "repository_commit": "144b22e584b9f325ad03721fde900c074a83c343",
+    "run_attempt": 1,
+    "run_id": "30989161576",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30989161576"
+  },
+  "quality": {
+    "group_measured_requests": 60,
+    "worker_answer_mismatches": 0,
+    "workers": [
+      {
+        "answers": [
+          {
+            "expected": "A",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "arithmetic-03"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "arithmetic-04"
+          },
+          {
+            "expected": "A",
+            "prediction": "A",
+            "reference_prediction": "A",
+            "response": "A",
+            "task_id": "arithmetic-05"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "logic-01"
+          },
+          {
+            "expected": "A",
+            "prediction": "A",
+            "reference_prediction": "A",
+            "response": "A",
+            "task_id": "logic-02"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "logic-03"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "logic-04"
+          },
+          {
+            "expected": "A",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "logic-05"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "code-01"
+          },
+          {
+            "expected": "D",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "code-02"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "code-03"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "code-04"
+          },
+          {
+            "expected": "D",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "code-05"
+          },
+          {
+            "expected": "A",
+            "prediction": "A",
+            "reference_prediction": "A",
+            "response": "A",
+            "task_id": "data-01"
+          },
+          {
+            "expected": "C",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "data-02"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "data-03"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "data-04"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "data-05"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "systems-01"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "systems-02"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "systems-03"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "systems-04"
+          },
+          {
+            "expected": "D",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "systems-05"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "evidence-01"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected": "A",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "evidence-03"
+          },
+          {
+            "expected": "D",
+            "prediction": "D",
+            "reference_prediction": "D",
+            "response": "D",
+            "task_id": "evidence-04"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "evidence-05"
+          }
+        ],
+        "correct": 23,
+        "reference_prediction_mismatches": 0,
+        "request_failures": 0,
+        "total": 30,
+        "worker": 1
+      },
+      {
+        "answers": [
+          {
+            "expected": "A",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "arithmetic-01"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "arithmetic-02"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "arithmetic-03"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "arithmetic-04"
+          },
+          {
+            "expected": "A",
+            "prediction": "A",
+            "reference_prediction": "A",
+            "response": "A",
+            "task_id": "arithmetic-05"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "logic-01"
+          },
+          {
+            "expected": "A",
+            "prediction": "A",
+            "reference_prediction": "A",
+            "response": "A",
+            "task_id": "logic-02"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "logic-03"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "logic-04"
+          },
+          {
+            "expected": "A",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "logic-05"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "code-01"
+          },
+          {
+            "expected": "D",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "code-02"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "code-03"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "code-04"
+          },
+          {
+            "expected": "D",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "code-05"
+          },
+          {
+            "expected": "A",
+            "prediction": "A",
+            "reference_prediction": "A",
+            "response": "A",
+            "task_id": "data-01"
+          },
+          {
+            "expected": "C",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "data-02"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "data-03"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "data-04"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "data-05"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "systems-01"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "systems-02"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "systems-03"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "systems-04"
+          },
+          {
+            "expected": "D",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "systems-05"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "evidence-01"
+          },
+          {
+            "expected": "C",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "evidence-02"
+          },
+          {
+            "expected": "A",
+            "prediction": "C",
+            "reference_prediction": "C",
+            "response": "C",
+            "task_id": "evidence-03"
+          },
+          {
+            "expected": "D",
+            "prediction": "D",
+            "reference_prediction": "D",
+            "response": "D",
+            "task_id": "evidence-04"
+          },
+          {
+            "expected": "B",
+            "prediction": "B",
+            "reference_prediction": "B",
+            "response": "B",
+            "task_id": "evidence-05"
+          }
+        ],
+        "correct": 23,
+        "reference_prediction_mismatches": 0,
+        "request_failures": 0,
+        "total": 30,
+        "worker": 2
+      }
+    ]
+  },
+  "retention_validation": {
+    "acceptance_gates_changed": false,
+    "artifact_identity_bound": true,
+    "artifact_inventory": {
+      "all_file_hashes_verified": true,
+      "bytes": 33885227,
+      "files": 67,
+      "sha256": "2afd9700e3512fc2cffce45dd8bc64a41641fcb5c290f935ee297881cbd8d38d"
+    },
+    "independent_replays": 2,
+    "native_measurements_added": 0,
+    "source_e16d_artifact_mutated": false,
+    "source_inventory_sha256": "b55833c162f77859550dd0f82b26e483866e412aeef78c3b6c6a335ff4d66a4b",
+    "workflow_and_local_replays_byte_identical": true,
+    "workflow_summary_sha256": "7d9aa3af0ce2b674bd4386a8e7760a5cde633d0b5a096dd9214c2013ad64bc57"
+  },
+  "schema_version": 1,
+  "sidecar": {
+    "index_path": "/tmp/Pareto64-E16d/ministral-q4-k-m.index.json",
+    "index_sha256": "0e39f342b7a3abc2c39f66a458fc80deaaa1badd3ade827e71867c862ac3d891",
+    "index_size_bytes": 81926,
+    "mapping_offset_bytes": 1048576,
+    "mapping_protection": "PROT_READ",
+    "mapping_sharing": "MAP_SHARED",
+    "mode": "0444",
+    "path": "/tmp/Pareto64-E16d/ministral-q4-k-m.sidecar",
+    "sha256": "037a8697ad16ef8200a238d7005278ef15fe9db78b2200ca7517fa73fd649dc2",
+    "size_bytes": 2139013120,
+    "tensor_count": 183
+  },
+  "source_experiment": {
+    "artifact_digest": "sha256:9324b4dabdccd47fdb2094ec309de9f9ef79f6f5c688aab7a1166f25d9b8d51d",
+    "artifact_expires_at": "2026-11-03T08:17:31Z",
+    "artifact_id": "8923128444",
+    "artifact_name": "e16d-product-sidecar-lifecycle-30988414887-1",
+    "artifact_size_bytes": 13968867,
+    "experiment_id": "E16d",
+    "head_sha": "9baf8b53b8ac704a509ff9abb68805ebbf6b34dd",
+    "inventory": {
+      "all_file_hashes_computed": true,
+      "bytes": 33762667,
+      "entries": [
+        "055c656a14583d76e64ea773367e67979d36bcb026c072241892a4bd30d7fd2e  contract.json",
+        "7c583e419990059421914fb0cc7102c171c4b9c88d710edc4d1b4fbc3405bd5d  disk-after.txt",
+        "0e7d1384c5226c73e37e3e74cb6ad8d32d95d352b988caaddc67ffee72e45c7a  disk-before.txt",
+        "983e42e4b6a6997f0491419f92f21aa15edc6f50ed9341d1148bcfa7039d244c  github.json",
+        "e5f7302f9882c8b4eca9892fce7bab78f37c49da0f8babcb23d2c2db5ed004bc  lscpu.txt",
+        "576b6da60ee5d8817a099f366d5c1fedeae87a0ddf90909cc4a65b01e7996ae0  memory-before.txt",
+        "e9f26f3d1061b68e2d377a9cf759ed951453dfdcd502702d4c5d63c1cdea9ca6  model-sha256.txt",
+        "8055b6aab5fe27c7a7d65b264b239555229f75db82462e138f89946598647877  product/cleanup-complete.json",
+        "c7bde24c016331a7fedc565e93bdb7211e438bc979463a22be72fb7d4658657d  product/cleanup-plan.json",
+        "64461416cb8b3741361ec67e8af5cb803d079d13279d73020c664f48d6b9e32f  product/corrupted-index.json",
+        "793a36c467f31221161c9db1e9627b23e4063a215c57bd94b5d1ddf5b3691260  product/corruption-rejection.json",
+        "b054f17e1761f9305bea3464f75bf716b9ea61e806f38fcd902c8fa6e77534ff  product/corruption.stderr.log",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  product/corruption.stdout.log",
+        "a29ee2b15c494311c52521766e44af56a3ad2248e7a8ab465e5206463c13d288  product/health-worker-1.json",
+        "a29ee2b15c494311c52521766e44af56a3ad2248e7a8ab465e5206463c13d288  product/health-worker-2.json",
+        "f4d5626b6e72d91798fe52e822fd4f2ea088ad44e9a3c420516398c7d2e09054  product/launch-plan.json",
+        "de104d78aacb83a5e462a32f412cc08d22b4b97bfef8d4f58c6f875ea71fb5ec  product/logs/worker-1.stderr.log",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  product/logs/worker-1.stdout.log",
+        "fdb1a407f06857c3e89d5138e0cc5c376b7fd676c41fa9d94cff741edf16394a  product/logs/worker-2.stderr.log",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  product/logs/worker-2.stdout.log",
+        "8d0c57e9df2b310b2a18a02b8af72170e076a84164fbd8e4cab7b1eae7a67c59  product/metrics-worker-1.txt",
+        "6a4fba6d4c9ce8dcc324936d8c703ce2eed140f1b30d56f329095e4265d62a5d  product/metrics-worker-2.txt",
+        "bda0ec8aae71dfaff3531f645849785a72e300db99b54b19fcd0cc29f8b4bf8e  product/outcome.json",
+        "cb891f2716b4857c91d935a0e75f162228636afbd45ddac8cb355a9723eeb9b7  product/prepack/construction-recipe.json",
+        "133a48d0b30cc6dd41255022642af46a2e40b238e0e7ef345685ba327f87498c  product/prepack/identity.json",
+        "968262f6f4c15cb2cd08e07887b27cb7e5bef32999e8599016a02db71810ca6e  product/prepack/inventory.tsv",
+        "03c0c99c4bd60a105cf0cd94ee494b7ad8ddc19b304fb293f87d8102f2972026  product/prepack/runtime.tsv",
+        "5e57a345fc72488a194b859a50a583239e3cfc76069db0ef95beb446bfedff04  product/prepack/server.stderr.log",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  product/prepack/server.stdout.log",
+        "24ac928e92d6e951bc8442d52a18512524f75e691d99eb9380c89746fc78683f  product/probe.json",
+        "7b128c39c1fd76097141e26dfc657c61a3c2b868aafca48f57c0fdc210602ed8  product/process-maps-worker-1.txt",
+        "734fe3d1ff1b99516b594194584a8c139e4933dcc869fb4499781895c791f2cb  product/process-maps-worker-2.txt",
+        "911313ca28ef55450eaf92e025f0673e4a846b80b6aae8bca0860628dab11e35  product/ready.json",
+        "d0a4d6cb28c57c44e3d31b5f80fe3b18e58aa65bb80b300bd677d4408f4a2db3  product/receipt.json",
+        "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653  product/slots-worker-1.json",
+        "484de29607155ee2c3ff9719dfc692fad366332aa1d06ef116231ac1f6162653  product/slots-worker-2.json",
+        "1c1b908db9ece55a91c969af45da7f79d67712de6d4b482196456acf560bc238  product/smaps-rollup-worker-1.txt",
+        "97fd1271573986f25c3bbd2663eef377b516515926a63e7873c836c3f240b02f  product/smaps-rollup-worker-2.txt",
+        "499972c56e6c57126016296bb0b56419a4c69c5e59ec7a7cebffe85245f9e4d0  product/verification.json",
+        "5b3e43dc38ca01e3f5a7854ba50d4330864b0c1e0f646650b2c78cf072acc366  python-version.txt",
+        "fd08222a8b2e2b377e0f2440f7d682b3e937eed3fba29dc4d14274dbf15e3e90  repository-commit.txt",
+        "f3a734dbc4095ea1861614d67f78b4a9272fd07d7d06b7629963a7fd683ffd7b  runtime/bin/libggml-base.so.0",
+        "f3a734dbc4095ea1861614d67f78b4a9272fd07d7d06b7629963a7fd683ffd7b  runtime/bin/libggml-base.so.0.18.0",
+        "d7ca38068974500c4181eb9d9e44e64725c04c2defc59cfe6bec7d2ab536faf4  runtime/bin/libggml-cpu.so.0",
+        "d7ca38068974500c4181eb9d9e44e64725c04c2defc59cfe6bec7d2ab536faf4  runtime/bin/libggml-cpu.so.0.18.0",
+        "28978e08eef4a50bf8b318ebd67173c8624f460f71783113b9eec635759d00f9  runtime/bin/libggml.so.0",
+        "28978e08eef4a50bf8b318ebd67173c8624f460f71783113b9eec635759d00f9  runtime/bin/libggml.so.0.18.0",
+        "a3ac7ea3b89240df9e05fb089eef956e9b700dd30a559de75850f74ef05ca690  runtime/bin/libllama-common.so.0",
+        "a3ac7ea3b89240df9e05fb089eef956e9b700dd30a559de75850f74ef05ca690  runtime/bin/libllama-common.so.0.0.10216",
+        "0ad1a5c259f586ac3c27582ef3bb09bf9153a0f67004798900d2f5b2869bb7e5  runtime/bin/libllama-server-impl.so",
+        "42cc316f65e94bdec6d011d12eca142f1ba8f2fff93327bbd50ae97b8bec85f5  runtime/bin/libllama.so.0",
+        "42cc316f65e94bdec6d011d12eca142f1ba8f2fff93327bbd50ae97b8bec85f5  runtime/bin/libllama.so.0.0.10216",
+        "960886f36d2af70354eb41b7239a25328ee49bd274587e903d9e0e884cec30c9  runtime/bin/libmtmd.so.0",
+        "960886f36d2af70354eb41b7239a25328ee49bd274587e903d9e0e884cec30c9  runtime/bin/libmtmd.so.0.0.10216",
+        "69ad2bf026d1908f19f5ea0570a978f1734fba07db526504410b34cdcb859121  runtime/bin/llama-server",
+        "7539d0abfd9be802161ac12c991ecee0c046515b8be64325c9173f60b3f0353c  runtime/ldd.txt",
+        "0f3503a81ee2b0877d4f0853fcd8c4d341fb9f07f34599c70fc1ed7710d66d78  runtime/runtime-closure.json",
+        "fafd6a479981514195a5e29773105bcb87d9c149cb5d659aa0956617c52028a6  runtime/server-version.txt",
+        "48a7611bbe6e22a0303bf0b8855dbab3f718ca6d56d5a594a8ef1650f959f003  runtime/source-diff.patch",
+        "bf120c05d912f4b7fedd39a0cf0bccb91256a46fe9f747601238c110ef7b1942  runtime/source.json",
+        "2b2d2155a3ee4b0765bc71c1658528f1dc5fc194f033a9dc1680ed43ee7269e0  uname.txt"
+      ],
+      "files": 61,
+      "sha256": "b55833c162f77859550dd0f82b26e483866e412aeef78c3b6c6a335ff4d66a4b"
+    },
+    "job_id": "92248513907",
+    "run_id": "30988414887",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30988414887",
+    "workflow_conclusion": "failure"
+  },
+  "status": "valid_product_sidecar_lifecycle_retained_after_reader_repair",
+  "storage": {
+    "index_bytes": 81926,
+    "raw_plus_sidecar_peak_bytes": 4276977664,
+    "raw_repack_bytes": 2137964544,
+    "retained_lifecycle_metadata_bytes_before_receipt": 36480,
+    "sidecar_bytes": 2139013120,
+    "space_preflight": {
+      "output_free_before_bytes": 114661498880,
+      "output_required_bytes": 2206121984,
+      "same_device": true,
+      "scratch_free_before_bytes": 114661498880,
+      "scratch_required_bytes": 2205073408
+    }
+  },
+  "validation_repair": {
+    "acceptance_gates_changed": false,
+    "change": "Search the same two ASCII mechanism markers in retained bytes; all other E16d parsing and all 14 acceptance gates are unchanged.",
+    "failure": "The frozen E16d reader raised UnicodeDecodeError on raw tokenizer diagnostic bytes before it could evaluate any lifecycle gate.",
+    "native_measurements_added": 0,
+    "product_commands_rerun": false,
+    "source_artifact_mutated": false,
+    "strict_utf8_decode_failures": 2
+  },
+  "verification": {
+    "binding": {
+      "cpu": {
+        "architecture": "aarch64",
+        "common_features": [
+          "aes",
+          "asimd",
+          "asimddp",
+          "asimdfhm",
+          "asimdhp",
+          "asimdrdm",
+          "atomics",
+          "bf16",
+          "cpuid",
+          "crc32",
+          "dcpodp",
+          "dcpop",
+          "evtstrm",
+          "fcma",
+          "flagm",
+          "flagm2",
+          "fp",
+          "fphp",
+          "frint",
+          "i8mm",
+          "ilrcpc",
+          "jscvt",
+          "lrcpc",
+          "paca",
+          "pacg",
+          "pmull",
+          "sb",
+          "sha1",
+          "sha2",
+          "sha3",
+          "sha512",
+          "sm3",
+          "sm4",
+          "sve",
+          "sve2",
+          "sveaes",
+          "svebf16",
+          "svebitperm",
+          "svei8mm",
+          "svesha3",
+          "svesm4",
+          "uscat"
+        ],
+        "common_features_sha256": "4162bfdb7c8ed3914bd17232c428ee08a46e9055a18790d8e17f5fe6b7b96f92",
+        "cpu_implementers": [
+          "0x41"
+        ],
+        "cpu_parts": [
+          "0xd49"
+        ],
+        "sve_vector_length_bytes": 16
+      },
+      "experiment_id": "E16c",
+      "llama_cpp_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "repack_dump_format_version": 1,
+      "schema_version": 1,
+      "sidecar_format_version": 1,
+      "source_diff_sha256": "48a7611bbe6e22a0303bf0b8855dbab3f718ca6d56d5a594a8ef1650f959f003",
+      "source_model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4"
+    },
+    "contract_sha256": "118bed9c2887bfaef877dbac5ffdd74890f2b3abab6c651c8c579c3891d26df0",
+    "environment": {
+      "GGML_CPU_REPACK_SIDECAR": "/tmp/Pareto64-E16d/ministral-q4-k-m.sidecar",
+      "GGML_CPU_REPACK_SIDECAR_ARCHITECTURE": "aarch64",
+      "GGML_CPU_REPACK_SIDECAR_CPU_FEATURES_SHA256": "4162bfdb7c8ed3914bd17232c428ee08a46e9055a18790d8e17f5fe6b7b96f92",
+      "GGML_CPU_REPACK_SIDECAR_EXPERIMENT_ID": "E16c",
+      "GGML_CPU_REPACK_SIDECAR_MODEL_SHA256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "GGML_CPU_REPACK_SIDECAR_SOURCE_COMMIT": "876a4321163249c43ca4e986818fab5ab081f282",
+      "GGML_CPU_REPACK_SIDECAR_SOURCE_DIFF_SHA256": "48a7611bbe6e22a0303bf0b8855dbab3f718ca6d56d5a594a8ef1650f959f003",
+      "GGML_CPU_REPACK_SIDECAR_SVE_BYTES": "16"
+    },
+    "evidence_sha256": "a469358f7f1b6698961d7481c795893595c88e85e235fa705c650042bcc025da",
+    "index_sha256": "0e39f342b7a3abc2c39f66a458fc80deaaa1badd3ade827e71867c862ac3d891",
+    "mapping": {
+      "device": 2049,
+      "inode": 6031266,
+      "offset_bytes": 1048576,
+      "protection": "PROT_READ",
+      "sharing": "MAP_SHARED"
+    },
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "read_only": true,
+    "receipt_verified": true,
+    "runtime_server_sha256": "69ad2bf026d1908f19f5ea0570a978f1734fba07db526504410b34cdcb859121",
+    "schema_version": 1,
+    "sidecar_sha256": "037a8697ad16ef8200a238d7005278ef15fe9db78b2200ca7517fa73fd649dc2",
+    "status": "valid_persistent_arm_sidecar",
+    "tensor_count": 183,
+    "verification_seconds": 2.3784796730000153
+  }
+}

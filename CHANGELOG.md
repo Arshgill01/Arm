@@ -4,6 +4,25 @@ Pareto64 and this repository were created during the Arm Create: AI
 Optimization Challenge 2026 submission period. The full Git history is the
 authoritative, timestamped record; this file groups the significant additions.
 
+## 2026-08-05
+
+### Final evidence hardening
+
+- Promoted E21b's bounded adaptive online cache certificate after eight fresh
+  native processes preserved exact 23/30 quality and paired output, reached
+  1.72776x lifecycle throughput, and broke even in cycle two. The 1.66468x
+  synchronous first-use p95 regression remains explicit; arbitrary prompts and
+  periodic post-certification revocation remain outside the claim.
+- Added the public persistent-sidecar product lifecycle. E16d completed exact
+  prepack, verification, corruption rejection, two-worker shared launch,
+  quality checks, controlled stop, and receipt-bound cleanup, but its frozen
+  reader failed on non-UTF-8 tokenizer diagnostics before gate evaluation.
+- Retained E16d as failed and froze E16e as a byte-reader-only repair. Native
+  E16e replayed the exact 61-file artifact twice, passed all 14 unchanged gates,
+  and added no measurement. Construction took 12.602 seconds; the imported
+  warm-only estimate breaks even at nine starts, with cold, energy, money, and
+  fleet claims excluded.
+
 ## 2026-08-03
 
 ### Native evidence
