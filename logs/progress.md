@@ -2066,3 +2066,24 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - The frozen frontier rule retains all six points as non-dominated, so E11b
   makes no promotion. A broad five-way confirmation is not authorized; the
   terminal decision moves to independent recovery of E12b's completed matrix.
+
+## 2026-08-05 — E12b nine-cell frontier independently aggregated
+
+- Confirmed nine successful native cell jobs and one failed aggregate job in
+  run `30869536393`. The aggregate's recursive summary discovery found every
+  root cell summary plus every nested E12a prerequisite summary: 18 files failed
+  the exact-nine assertion before the ingester ran.
+- Downloaded the nine retained artifacts within a bounded 1.2 GiB scratch
+  footprint. Selected exactly their nine root summaries and independently ran
+  the unchanged aggregate; no native work, scoring, quantization or gate change
+  was introduced.
+- Rehashed 130,473 workflow-inventoried files and 129,366 compressed raw
+  responses against the nine GitHub artifact identities. The recovered
+  aggregate is valid with zero reported scoring failures in every cell.
+- Imatrix effects are mixed: Q3_K_M `+0.04/+0.03/-0.01`, Q4_K_S
+  `+0.03/+0.04/-0.01`, and IQ4_XS `-0.07/+0.01/-0.07` on frozen
+  ARC/HellaSwag/WinoGrande coordinates. The IQ4_XS imatrix file is 13.27 MB
+  smaller; the other two add 320 bytes.
+- The Q3 output/embed Q6 recipe exactly matches its imatrix control's quality at
+  32 extra bytes and is dominated. The 11-point combined quality-size frontier
+  remains exploratory; no model is promoted without E11b service evidence.

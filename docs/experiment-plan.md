@@ -1973,3 +1973,26 @@ to recovery of the already completed E12b generated-quant matrix, without an
 E11b rerun or five-way confirmation sweep. See the retained
 [`manifest`](../results/manifests/e11b-30869286295-recovered.json) and
 [`report`](../results/reports/e11b-stock-service-frontier-recovered.md).
+
+## E12b retained-artifact aggregation outcome
+
+All nine generated-quant jobs in native run `30869536393` succeeded. The sole
+aggregate job failed before ingestion because its recursive `find` selected 18
+files: nine root cell summaries and nine nested E12a prerequisite summaries.
+Recovery selects only the exact root summaries, verifies all 130,473 workflow-
+inventoried files and 129,366 raw responses, and reruns the unchanged aggregate
+without any native work.
+
+Imatrix is mixed rather than uniformly beneficial. Q3_K_M gains 0.04 ARC Easy
+norm and 0.03 HellaSwag norm but loses 0.01 WinoGrande; Q4_K_S gains 0.03 and
+0.04 but also loses 0.01. IQ4_XS loses 0.07 ARC Easy norm and 0.07 WinoGrande
+while gaining 0.01 HellaSwag and saving 13.27 MB. Output/embed Q6 reproduces the
+Q3_K_M-imatrix coordinates at 32 extra bytes and is dominated. V/down Q5 and
+edge-layer Q6 preserve distinct quality/size tradeoffs.
+
+The combined quality-size frontier contains 11 stock/generated points, but
+E12b cannot promote any of them without matched service evidence. This result
+must be combined with recovered E11b before the terminal model decision; it does
+not justify an 11-way service sweep. See the retained
+[`manifest`](../results/manifests/e12b-30869536393-recovered.json) and
+[`report`](../results/reports/e12b-generated-quant-frontier-recovered.md).
