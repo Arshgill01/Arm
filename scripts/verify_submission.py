@@ -23,6 +23,9 @@ validate_runtime_upgrade_service = import_module(
 run_readiness_fixture_suite = import_module(
     "experiments.evidence_readiness"
 ).run_fixture_suite
+build_terminal_model_decision = import_module(
+    "experiments.model_tier_decision"
+).build_decision
 
 
 EXPECTED_HASHES = {
@@ -31,6 +34,9 @@ EXPECTED_HASHES = {
     ),
     "results/manifests/evidence-readiness-gate-v1.json": (
         "f75fbb3482a47f00d7ef68f4efe502a3ec9169c28bae627c21497457902b831d"
+    ),
+    "results/manifests/model-tier-terminal-decision.json": (
+        "c71994be8dbf237e930f1a063438772e011f954d7f0878925848463b725ed23b"
     ),
     "results/manifests/e3f-30656151957.json": (
         "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c"
@@ -1646,6 +1652,34 @@ def main() -> int:
         != "stop_below_amdahl_floor"
     ):
         raise ValueError("native experiment readiness gate changed or weakened")
+
+    model_decision = load_object(
+        ROOT / "results/manifests/model-tier-terminal-decision.json"
+    )
+    model_decision_replay = build_terminal_model_decision(
+        e11b_path=ROOT
+        / "results/manifests/e11b-30869286295-recovered.json",
+        e12b_path=ROOT
+        / "results/manifests/e12b-30869536393-recovered.json",
+        memory_path=ROOT / "results/manifests/e6i-30691254831.json",
+        sidecar_path=ROOT / "results/manifests/e16b-30842925537.json",
+    )
+    if (
+        model_decision != model_decision_replay
+        or model_decision.get("status")
+        != "selected_q4_k_m_and_closed_model_sweep"
+        or model_decision.get("terminal_decision", {}).get("selected_model")
+        != "ministral3_3b_q4_k_m"
+        or model_decision.get("terminal_decision", {}).get(
+            "additional_model_tiers_promoted"
+        )
+        != []
+        or model_decision.get("terminal_decision", {}).get(
+            "new_native_model_experiment_authorized"
+        )
+        is not False
+    ):
+        raise ValueError("terminal model-tier decision changed or reopened")
 
     local_assets = verify_demo()
     gallery_assets = verify_gallery()

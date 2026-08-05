@@ -1997,6 +1997,28 @@ not justify an 11-way service sweep. See the retained
 [`manifest`](../results/manifests/e12b-30869536393-recovered.json) and
 [`report`](../results/reports/e12b-generated-quant-frontier-recovered.md).
 
+## Terminal model-tier decision
+
+The combined decision keeps Q4_K_M as Pareto64's only promoted model tier and
+closes the model sweep. It is the fastest recovered native service point,
+repeats 23/30 with no answer drift, and already supports the selected
+performance, no-repack memory, and identity-bound sidecar startup profiles.
+
+IQ4_NL's real tradeoff is retained rather than hidden: the same 23/30 count,
+4.4% smaller bytes, 4.2% lower RSS and 19.9% lower readiness accompany one
+changed answer, 0.9821x throughput and regressions in median/p95 latency and
+CPU/request. Once the stronger exact-Q4 memory and startup profiles are
+considered, that tradeoff does not supply a unique deployable role. Every other
+stock candidate loses quality or service performance more materially.
+
+E12b's two strongest unconfirmed generated signals still lack matched 30-task
+service evidence, are mixed across quality coordinates, and do not establish a
+product role strong enough to justify regeneration plus another matrix. No
+generated model is promoted, no original gate changes, and no further native
+model experiment is authorized. See the retained
+[`manifest`](../results/manifests/model-tier-terminal-decision.json) and
+[`report`](../results/reports/terminal-model-tier-decision.md).
+
 ## E17c terminal timing-schema failure
 
 Native run `30867998030` attempted all nine frozen E17c cells. Every fresh

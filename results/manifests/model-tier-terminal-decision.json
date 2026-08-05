@@ -1,0 +1,256 @@
+{
+  "claim_boundary": "This terminal decision selects one model tier for the exact retained Pareto64 Arm service portfolio. It does not erase the E11b or E12b frontiers, attribute their differences to one mechanism, or make energy, PMU, local-device, fleet, cost, other-model, or other-runtime claims.",
+  "decision_id": "terminal-model-tier-2026-08-05",
+  "generated_frontier_assessment": {
+    "combined_quality_size_frontier_points": 11,
+    "decision": "no_generated_recipe_promoted_or_regenerated",
+    "generated_recipes": 9,
+    "matched_native_service_evidence_available": false,
+    "reason": "E12b is a mixed quality/size map. No generated recipe has matched 30-task service evidence, and neither retained signal establishes a unique product role strong enough to justify another generation and service matrix.",
+    "stock_iq4_xs_throughput_ratio_is_family_context_not_causal_proof": 0.5560860945607521,
+    "strongest_unconfirmed_signals": [
+      {
+        "candidate": "e12b_iq4_xs_control",
+        "external_quality_coordinates": {
+          "e9b_arc_easy.acc_norm": 0.62,
+          "e9b_hellaswag.acc_norm": 0.7,
+          "e9b_winogrande.acc": 0.63
+        },
+        "matched_native_service_evidence": false,
+        "model_sha256": "e504aee74b8ab3804511bc0a1734db380416788915093ade8d3ef9252b9b1981",
+        "model_size_bytes": 1972548608,
+        "request_failures": 0
+      },
+      {
+        "candidate": "e12b_q4_k_s_edge_layers_q6",
+        "external_quality_coordinates": {
+          "e9b_arc_easy.acc_norm": 0.62,
+          "e9b_hellaswag.acc_norm": 0.7,
+          "e9b_winogrande.acc": 0.64
+        },
+        "matched_native_service_evidence": false,
+        "model_sha256": "5c946d84374271a1d8b5691b3a06e738c999056aa1db4544b4136acef23c31d9",
+        "model_size_bytes": 2173285728,
+        "request_failures": 0
+      }
+    ]
+  },
+  "inputs": {
+    "e11b": {
+      "complete_native_service_cells": 40,
+      "github_run_id": "30869286295",
+      "path": "results/manifests/e11b-30869286295-recovered.json",
+      "sha256": "7f05e1cb341c115a22f0ef560ec3a6ab628d4a56d90f8111045c05efd786b885",
+      "source_workflow_remains_failed": true
+    },
+    "e12b": {
+      "github_run_id": "30869536393",
+      "path": "results/manifests/e12b-30869536393-recovered.json",
+      "sha256": "5101132b071098b6bfb5368f41159b8c80256383fcc728c360d0e82afe3cec44",
+      "source_workflow_remains_failed": true,
+      "successful_generated_cells": 9
+    },
+    "selected_memory_profile": {
+      "path": "results/manifests/e6i-30691254831.json",
+      "sha256": "2bcbd7e1a7b727a763ca12c9664106a82d9ef8a70ec17ef1ac2fe9ed460c06d2"
+    },
+    "selected_sidecar_profile": {
+      "path": "results/manifests/e16b-30842925537.json",
+      "sha256": "fc5500c38af75b00571fc2fd57c3efbc00b5e764c0965ddf9bc2a4809e676ddc"
+    }
+  },
+  "schema_version": 1,
+  "selected_model": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "cpu_seconds_per_request": 4.264833333333334,
+    "exact_30_task_correct": 23,
+    "external_quality_coordinates": {
+      "e9b_arc_easy.acc_norm": 0.59,
+      "e9b_hellaswag.acc_norm": 0.72,
+      "e9b_winogrande.acc": 0.57
+    },
+    "maximum_anchor_answer_mismatches": 0,
+    "maximum_rss_kib": 4448624.0,
+    "median_http_ms": 1056.6086615,
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "model_size_ratio_to_anchor": 1.0,
+    "p95_http_ms": 1863.508882,
+    "readiness_ms": 2530.6036455000003,
+    "role": "only promoted model tier",
+    "throughput_requests_per_second": 0.928285855795645
+  },
+  "selected_model_portfolio": {
+    "memory_service": {
+      "candidate": "ministral3_3b_q4_k_m",
+      "claim": "A passing E6i validates the explicit Pareto64 launch integration for one exact patched b10216 native Arm no-repack memory service. It is not a new optimization comparison, energy claim, other-profile promotion, fast-tier result, or full upstream validation.",
+      "weight_repack": false
+    },
+    "performance_service": "ministral3_3b_q4_k_m",
+    "startup_service": {
+      "candidate": "ministral3_3b_q4_k_m",
+      "claim": "Exact identity-bound single-process Neoverse N2 loader only; same-job readiness is not a cold-storage claim and sharing, portability, energy, and amortized construction remain unmeasured.",
+      "configuration": "sidecar_loader",
+      "same_job_readiness_ratio": 0.3797077737384607,
+      "throughput_ratio": 1.002871528240577
+    }
+  },
+  "status": "selected_q4_k_m_and_closed_model_sweep",
+  "stock_candidate_assessments": [
+    {
+      "candidate": "ministral3_3b_iq4_nl",
+      "cpu_seconds_per_request": 4.336499999999999,
+      "decision": "closed_marginal_tradeoff_has_no_unique_portfolio_role",
+      "exact_30_task_correct": 23,
+      "external_quality_coordinates": {
+        "e9b_arc_easy.acc_norm": 0.56,
+        "e9b_hellaswag.acc_norm": 0.72,
+        "e9b_winogrande.acc": 0.6
+      },
+      "maximum_anchor_answer_mismatches": 1,
+      "maximum_rss_kib": 4262720.0,
+      "median_http_ms": 1070.7869595,
+      "model_size_bytes": 2051290400,
+      "model_size_ratio_to_anchor": 0.9556452268735214,
+      "p95_http_ms": 1896.583316,
+      "ratios_to_anchor": {
+        "cpu_seconds_per_request": 1.0179577464788732,
+        "maximum_rss": 0.9582229607370282,
+        "median_http_latency": 1.0159259368866296,
+        "p95_http_latency": 1.0189437914290207,
+        "readiness": 0.801194177890938,
+        "throughput": 0.9820700899993217
+      },
+      "readiness_ms": 2027.853835,
+      "reason": "23/30 but one answer changes; speed, latency and CPU regress while the 4.2% RSS and 19.9% readiness benefits are already addressed more strongly by the exact-Q4 memory and sidecar profiles",
+      "throughput_requests_per_second": 0.9130424067800476
+    },
+    {
+      "candidate": "ministral3_3b_iq4_xs",
+      "cpu_seconds_per_request": 7.7010000000000005,
+      "decision": "closed_quality_and_service_regression",
+      "exact_30_task_correct": 22,
+      "external_quality_coordinates": {
+        "e9b_arc_easy.acc_norm": 0.58,
+        "e9b_hellaswag.acc_norm": 0.73,
+        "e9b_winogrande.acc": 0.59
+      },
+      "maximum_anchor_answer_mismatches": 1,
+      "maximum_rss_kib": 2571044.0,
+      "median_http_ms": 1899.0366195000001,
+      "model_size_bytes": 1959277856,
+      "model_size_ratio_to_anchor": 0.9127788689526293,
+      "p95_http_ms": 3312.107861,
+      "ratios_to_anchor": {
+        "cpu_seconds_per_request": 1.8044284765884329,
+        "maximum_rss": 0.5779564743954603,
+        "median_http_latency": 1.794716011686718,
+        "p95_http_latency": 1.7785564898086466,
+        "readiness": 0.49095701650817913,
+        "throughput": 0.5560860945607521
+      },
+      "readiness_ms": 1218.4086315,
+      "reason": "22/30 with one anchor-answer mismatch and 0.5561x anchor throughput",
+      "throughput_requests_per_second": 0.516130602785442
+    },
+    {
+      "candidate": "ministral3_3b_q3_k_m",
+      "cpu_seconds_per_request": 10.869833333333332,
+      "decision": "closed_quality_and_service_regression",
+      "exact_30_task_correct": 17,
+      "external_quality_coordinates": {
+        "e9b_arc_easy.acc_norm": 0.57,
+        "e9b_hellaswag.acc_norm": 0.69,
+        "e9b_winogrande.acc": 0.62
+      },
+      "maximum_anchor_answer_mismatches": 6,
+      "maximum_rss_kib": 2989300.0,
+      "median_http_ms": 2696.635296,
+      "model_size_bytes": 1795552544,
+      "model_size_ratio_to_anchor": 0.8365033143401873,
+      "p95_http_ms": 4620.85152,
+      "ratios_to_anchor": {
+        "cpu_seconds_per_request": 2.5491108071135433,
+        "maximum_rss": 0.6719605882627977,
+        "median_http_latency": 2.564497258989539,
+        "p95_http_latency": 2.4793819872336806,
+        "readiness": 0.6805112770444293,
+        "throughput": 0.3942828464422718
+      },
+      "readiness_ms": 1723.0627305,
+      "reason": "17/30 with six anchor-answer mismatches and 0.3943x anchor throughput",
+      "throughput_requests_per_second": 0.36598615427357833
+    },
+    {
+      "candidate": "ministral3_3b_q3_k_s",
+      "cpu_seconds_per_request": 14.954833333333333,
+      "decision": "closed_quality_and_service_regression",
+      "exact_30_task_correct": 15,
+      "external_quality_coordinates": {
+        "e9b_arc_easy.acc_norm": 0.52,
+        "e9b_hellaswag.acc_norm": 0.68,
+        "e9b_winogrande.acc": 0.59
+      },
+      "maximum_anchor_answer_mismatches": 14,
+      "maximum_rss_kib": 2203424.0,
+      "median_http_ms": 3709.9025485,
+      "model_size_bytes": 1639150880,
+      "model_size_ratio_to_anchor": 0.763639665352859,
+      "p95_http_ms": 6314.072442,
+      "ratios_to_anchor": {
+        "cpu_seconds_per_request": 3.4999804969380195,
+        "maximum_rss": 0.49531441355088507,
+        "median_http_latency": 3.5250290444368586,
+        "p95_http_latency": 3.386168238174017,
+        "readiness": 0.5189151920703642,
+        "throughput": 0.28749284312027457
+      },
+      "readiness_ms": 1317.589143,
+      "reason": "15/30 with 14 anchor-answer mismatches and 0.2875x anchor throughput",
+      "throughput_requests_per_second": 0.2662001317720474
+    },
+    {
+      "candidate": "ministral3_3b_q5_k_m",
+      "cpu_seconds_per_request": 5.359500000000001,
+      "decision": "closed_quality_service_and_resource_regression",
+      "exact_30_task_correct": 22,
+      "external_quality_coordinates": {
+        "e9b_arc_easy.acc_norm": 0.58,
+        "e9b_hellaswag.acc_norm": 0.74,
+        "e9b_winogrande.acc": 0.6
+      },
+      "maximum_anchor_answer_mismatches": 1,
+      "maximum_rss_kib": 5083748.0,
+      "median_http_ms": 1344.1204595,
+      "model_size_bytes": 2473653536,
+      "model_size_ratio_to_anchor": 1.1524137170520607,
+      "p95_http_ms": 2261.727959,
+      "ratios_to_anchor": {
+        "cpu_seconds_per_request": 1.2573115420706915,
+        "maximum_rss": 1.1427850810149802,
+        "median_http_latency": 1.273130548607131,
+        "p95_http_latency": 1.2156902746542506,
+        "readiness": 1.0196609674545405,
+        "throughput": 0.792334204477336
+      },
+      "readiness_ms": 2531.017809,
+      "reason": "22/30 with one answer mismatch, 0.7923x throughput and 1.1428x RSS",
+      "throughput_requests_per_second": 0.7359036842045965
+    }
+  ],
+  "terminal_decision": {
+    "additional_model_candidates_to_test": [],
+    "additional_model_tiers_promoted": [],
+    "broad_model_knob_sweep_closed": true,
+    "new_native_model_experiment_authorized": false,
+    "original_30_task_contract_changed": false,
+    "poor_and_mixed_results_preserved": true,
+    "rationale": [
+      "Q4_K_M is the fastest exact native service point and preserves all anchor answers.",
+      "No stock alternative supplies a unique quality-certified product role after the exact-Q4 memory and startup profiles are considered.",
+      "E12b generated recipes have mixed external quality and no matched service evidence, so the quality-size map is not converted into a promotion.",
+      "The model lane is closed instead of spending another Arm matrix on marginal or unconfirmed tradeoffs."
+    ],
+    "selected_model": "ministral3_3b_q4_k_m"
+  }
+}

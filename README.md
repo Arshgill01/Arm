@@ -327,10 +327,14 @@ repack flag that conflicts with the plan is refused.
 | [E12a resume second run](results/reports/e12a-resume-statistics-invocation-failure.md) | All remaining chunks completed and wrote hash-bound bytes, but the following statistics command omitted required `--model`; the run remains invalid and a frozen inspection-only, no-recompute recovery is required |
 | [E12a inspection recovery](results/reports/e12a-inspection-metadata-dependency-failure.md) | Corrected statistics passed for all 182 tensors with unchanged matrix bytes, but the metadata dumper lacked PyYAML; a frozen metadata-only recovery may add that dependency without repeating compute, statistics, build, or model download |
 | [E12a complete matrix](results/reports/e12a-application-imatrix-complete.md) | The metadata-only successor accepts the exact 32-chunk, 182-entry matrix with byte-identical independent replay; computation and statistics were not repeated, and generated quantization is now authorized once E11a also passes |
+| [E11b recovered](results/reports/e11b-stock-service-frontier-recovered.md) | All 40 native service cells and 1,200 requests are recovered after a one-path `/slots` array parser repair; Q4_K_M remains fastest and no five-way confirmation sweep is authorized |
+| [E12b recovered](results/reports/e12b-generated-quant-frontier-recovered.md) | Nine successful generated-quant artifacts are independently aggregated after excluding nested prerequisite summaries; the mixed 11-point quality/size frontier makes no service promotion |
+| [Terminal model tier](results/reports/terminal-model-tier-decision.md) | Q4_K_M remains the only promoted model: no stock or generated alternative establishes a unique quality-certified role after service, memory and startup evidence are combined, so the model sweep is closed |
 | [E17a first preflight](results/reports/e17a-preflight-permission-failure.md) | Exact runtime and model checks passed, but the cell runner lacked executable permission; zero cache configurations or requests started, and a frozen shell-invocation-only successor retains every scientific control |
 | [E17a second preflight](results/reports/e17a-subset-reference-probe-failure.md) | All three native servers reached readiness and exposed smaller quantized-cache allocations, but a full-map/subset reference mismatch stopped every cell before its first measured request; the run remains invalid and a hash-bound subset adapter changes no scientific control |
 | [E17a](results/reports/e17a-quantized-v-compatibility.md) | The unchanged native preflight passes: q8/q8 and q4/q4 retain all nine diagnostic answers while reducing the 1K one-slot KV allocation 46.88% and 71.88%; both advance to long-context testing, with no performance or service promotion from the three-request diagnostic |
 | [E17b](results/reports/e17b-long-context-timeout.md) | All nine frozen 16K-density cells were attempted: eight serving cells exceeded the 600-second request limit, while f16 eight-slot failed its 13,312 MiB KV allocation under the 15 GiB ceiling; no quality, speed, or 16K promotion is claimed |
+| [E17c](results/reports/e17c-timing-schema-failure.md) | All nine shorter-context cells reached server readiness but every probe failed the required timing schema before producing results; no K/V, 8K or 16K claim is made and the lane is parked |
 | [E18a successor ingestion](results/reports/e18a-successor-ingestion-failure.md) | Corrected training and all twelve service cells completed, but a recursive validator adapter prevented the workflow summary; the exact 501-file artifact is retained and only a no-remeasurement deterministic recovery is authorized |
 | [E18a](results/reports/e18a-workload-pgo.md) | Native inspection-only recovery verifies all 501 completed source files and retains the honest no-win: exact quality, 0.9924x throughput, 1.0082x median latency, 1.0075x CPU/request, and 1.0689x closure; Release remains selected |
 | [E20a ingestion](results/reports/e20a-ingestion-failure.md) | All six software-timing cases and exact quality completed, but a `llama-bench` model-size semantics assumption stopped ingestion; the exact 90-file artifact is retained and only a no-measurement selector recovery is authorized |
@@ -349,7 +353,8 @@ repack flag that conflicts with the plan is refused.
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
 The E5f through E5j, E6d through E6i, E7a through E7c, E9a/E9c, E10a through
-E10f, E12a, E13a/E13b, E14a/E14b, E15a/E15b, E16a/E16b/E16c, and E17a results are retained under their exact frozen
+E10f, E11b, E12a/E12b, E13a/E13b, E14a/E14b, E15a/E15b,
+E16a/E16b/E16c, and E17a/E17c results are retained under their exact frozen
 contracts and independently re-ingested byte for byte. E9e separately retains its reproducible
 premeasurement stop record.
 

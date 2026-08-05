@@ -2117,3 +2117,18 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   result, claim and runtime/storage budget. A sub-3% ceiling stops unless a
   distinct novelty, memory, quality or deployability value was declared.
 - This is harness hardening only. It authorizes no native performance claim.
+
+## 2026-08-05 — Model-tier lane made terminal
+
+- Combined the recovered E11b native service frontier with E12b's generated
+  quality/size frontier and the already promoted exact-Q4 memory/startup paths.
+- Q4_K_M remains the only selected model: it is the fastest service point and
+  repeats 23/30 with no anchor-answer drift or request failures.
+- Preserved IQ4_NL's marginal trade honestly: 4.4% smaller, 4.2% lower RSS and
+  19.9% lower readiness, but one changed answer plus throughput, latency and
+  CPU/request regressions. Exact-Q4 profiles already address its small positive
+  coordinates more strongly without changing model identity.
+- E12b's nine generated recipes remain mixed and lack matched service evidence.
+  None is regenerated or promoted; the 11-point map remains retained.
+- Closed the broad model sweep with no additional candidate or native model job
+  authorized. The original 30-task contract remains unchanged.
