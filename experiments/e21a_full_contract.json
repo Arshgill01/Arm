@@ -1,0 +1,543 @@
+{
+  "acceptance": {
+    "all_uncached_admission_counts": {},
+    "all_uncached_http_calls": 120,
+    "all_uncached_route_counts": {
+      "baseline_uncached": 120
+    },
+    "certified_served_requests": 89,
+    "certified_transitions": 30,
+    "denied_transitions": 1,
+    "exact_response_mismatches": 0,
+    "online_admission_counts": {
+      "certified": 30,
+      "denied": 1,
+      "retained": 89
+    },
+    "online_http_calls": 151,
+    "online_route_counts": {
+      "certified_cache": 89,
+      "unknown_shadow_then_oracle": 31
+    },
+    "request_failures": 0,
+    "required_architecture": "aarch64",
+    "server_binary_sha256": "ec60d4975757948cd330dfa82c1f8d274ea67e73cb319ce623f02232dcf61dbd",
+    "server_exit_statuses": [
+      0,
+      130
+    ],
+    "unknown_shadow_calls": 31
+  },
+  "calibration": {
+    "artifact_id": 8840851593,
+    "artifact_name": "e9c-prompt-cache-30770403695-1",
+    "e13a_results_observed_during_freeze": true,
+    "e13b_results_observed_during_freeze": false,
+    "manifest_sha256": "29b075b605e5d84d6de66b07fb4ab3c1562236c9aa4e7fd43d51e0ff7932eed4",
+    "run_attempt": 1,
+    "run_id": "30770403695"
+  },
+  "claim_boundary": "A promoted E21a result establishes exact-output online transition admission and its measured first-use, break-even and certified steady-state boundaries only for the exact E7c Q4_K_M service, this frozen sequential 30-task four-cycle workload, and native four-vCPU GitHub Arm64 runners. It does not certify arbitrary prompts, semantic equivalence, concurrency, another model/runtime, energy, PMU, device, fleet, cost or Mac behavior.",
+  "execution": {
+    "cell_order": [
+      {
+        "index": 1,
+        "policy": "all_uncached",
+        "repetition": 1
+      },
+      {
+        "index": 2,
+        "policy": "online",
+        "repetition": 1
+      },
+      {
+        "index": 3,
+        "policy": "online",
+        "repetition": 2
+      },
+      {
+        "index": 4,
+        "policy": "all_uncached",
+        "repetition": 2
+      },
+      {
+        "index": 5,
+        "policy": "online",
+        "repetition": 3
+      },
+      {
+        "index": 6,
+        "policy": "all_uncached",
+        "repetition": 3
+      },
+      {
+        "index": 7,
+        "policy": "all_uncached",
+        "repetition": 4
+      },
+      {
+        "index": 8,
+        "policy": "online",
+        "repetition": 4
+      }
+    ],
+    "empty_transition_registry_per_online_cell": true,
+    "fresh_server_per_cell": true,
+    "order_design": "ABBA/BAAB",
+    "repetitions_per_policy": 4,
+    "runner": "ubuntu-24.04-arm",
+    "total_cells": 8,
+    "total_served_requests": 960
+  },
+  "experiment_id": "E21a",
+  "identity": {
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "server_sha256": "ec60d4975757948cd330dfa82c1f8d274ea67e73cb319ce623f02232dcf61dbd",
+    "service_sha256": "7335817c87479d435209c1b9479b274450b929552fa3bbe3e3b719dbfd3d1eb8",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893"
+  },
+  "identity_sha256": "6602801c64714766a2a75cc959dbecf93cc07248f4603b1eff44998d81c1f928",
+  "inputs": {
+    "cell_runner": {
+      "path": "experiments/e21a_full_cell.sh",
+      "sha256": "4c1b978f391602c87f33a237691712f6e8d6d74ff64289251ea21aba7f4ccf5d"
+    },
+    "e13b_contract": {
+      "path": "experiments/e13b_contract.json",
+      "sha256": "a2e8ab75848e7b9965ade6ade176662a97e0e715f3dd6de71e1c15092b95ab7f"
+    },
+    "e13b_manifest": {
+      "path": "results/manifests/e13b-30833985784.json",
+      "sha256": "570b8debd02d6b6d83e4790ff07e2e5ad55799a2047b6d6d3c6cfaad7fe02a19"
+    },
+    "e9a_contract": {
+      "path": "experiments/e9a_contract.json",
+      "sha256": "56c275b2f986991688dd97790fe9d9cfba9213db7b0cfe2614a3c81d0c65f928"
+    },
+    "freeze": {
+      "path": "experiments/e21a_full_freeze.py",
+      "sha256": "5bc31d0a2c93d3d7375b4449ddf1cc52a6e17df2271b63c94bcb21d24a5a2466"
+    },
+    "ingest": {
+      "path": "experiments/e21a_full_ingest.py",
+      "sha256": "0b3bda615e834c6e53327c00388b9afc0d19caee6fed0f474d40a3643d4e6f2f"
+    },
+    "models": {
+      "path": "experiments/e3f_models.json",
+      "sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d"
+    },
+    "online_policy": {
+      "path": "experiments/e21a_online_policy.py",
+      "sha256": "0da959e39ff43d49822e25c2df63b2c065bc09924ced717bea33e074acb5dba7"
+    },
+    "preflight_contract": {
+      "path": "experiments/e21a_preflight_contract.json",
+      "sha256": "ae58d2784d2baec523577d6257ba4b0cc5b703c98c17cf8a0ac24a981cc8b0f9"
+    },
+    "preflight_manifest": {
+      "path": "results/manifests/e21a-preflight-30979498751.json",
+      "sha256": "d39f94fe1e56d8a3fa0b3a3f15b062109c8135d684e9179101d034a16f65b978"
+    },
+    "probe": {
+      "path": "experiments/e21a_full_probe.py",
+      "sha256": "2a6e4231d814315276bac0e3ff0ec8b1be06eb20834e9156049494d944333236"
+    },
+    "readiness_module": {
+      "path": "experiments/evidence_readiness.py",
+      "sha256": "3ca3b39b66f9f456b51146d912919449c96dec905bd63f29f903b6fb29b50af6"
+    },
+    "readiness_policy": {
+      "path": "experiments/evidence_readiness_policy.json",
+      "sha256": "4802e2a4f9fd3bdf83d612804405f878ad43d0d26285fa52699877da91ad8c40"
+    },
+    "selected_manifest": {
+      "path": "results/manifests/e3f-30656151957.json",
+      "sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c"
+    },
+    "synthetic_fixture": {
+      "path": "experiments/e21a_full_fixture.py",
+      "sha256": "383fbb2732aeca8edd9fd5dbbefdfc30831b98670d99bd8166eacd257f0bc067"
+    },
+    "tasks": {
+      "path": "experiments/e3_tasks.json",
+      "sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    },
+    "tests": {
+      "path": "tests/test_e21a_full.py",
+      "sha256": "7514590cde4ee62264d46d60082fa18e60a9101826070769538e8b32ea2f1ea4"
+    }
+  },
+  "mechanism": {
+    "admission": "certify only exact output-signature equality with minimum observed cache reuse; otherwise deny",
+    "corrupt_or_foreign_registry": "fail closed before routing",
+    "known_route": "serve one cached call for an exact certified transition",
+    "transition_key": "identity + previous served prompt + previous served response + current prompt",
+    "unknown_route": "run cached shadow first, never serve it, then run and serve the uncached oracle"
+  },
+  "negative_result_rule": "Retain every failed validity or promotion gate without changing the tasks, cycles, order, repetitions, state machine, calls, thresholds, or synchronous first-use latency accounting.",
+  "prior_certificate": {
+    "prompt_fingerprints": [
+      "029dee6c1fc726602cb11dc52d01fc14fe022d03007f4ca2f329c1b0f3ee9c0f",
+      "0609b5ff91ec44db25d379709658fcfe6ac3b5d86e841ab151de797428a4ba92",
+      "07deae988112519d3554d61b54a4f43909b834b518620aaf644d71c0271e0984",
+      "0eae404dd34ad7b34171cc5bead0ab3d8e898fd708259bc48510ab0e1d54e345",
+      "11e40fa6be913fdbb7ddcb563f3d1149a66454f78e4deacfbd1bb14a41e825b6",
+      "14eaa8f668c608fbe5fb0e6ddfcc5c9e68e8c5d84dba59006763593aaf94f6d2",
+      "1b14de078d2d571b5fbbb19aa44f82f2075b9e20b881ab642b213dfdc9c8f70f",
+      "25a660280ba86e31957dd1405fc5d133bf9f210fa542e421a8489d5d473b5fb1",
+      "30e74861d094daa7a023b4346d616f03836753d6ac443e5e4e4d256e3d505e73",
+      "32a3ea5cefe5b9d389951288fd3e667e113dc2322b54bbb8843605fc222cb10e",
+      "32a85c74e9b5d576a9595d4d57377e95fe2c5fb3b2a289051a255da355248dbd",
+      "3417a01df2b93fb7995905f0fca52c05183ceb8ed1ceec3aa0d66240f3d203a0",
+      "366c5cf94a5710090bfa54cc64cd44fca165d0a97f7872da6f731d3f060ac48f",
+      "40be880e28af6c244f6965f4521fc0cbcb74c30f136fff9d822b67263d29d0e4",
+      "4827934050663a900996f9b150d82b64823e36809e188290b3a45beee95ef8e9",
+      "48e5ccc615409a0ef72a748fd2b9ddae0149bc6e2857c269c2ca4b364a1f2399",
+      "4d1158c6c9e92f0602ca909f14966c7b0f9deeb3dab76edfab14b25c622024d8",
+      "4db8b1b4761f94240b04448d433d5c595981a38302dbd53900b5cf2a24e5539f",
+      "53cd7e76906aabdbbe887bbf43018a044dd4e6d2ad89f73f9d1335db4f1f6256",
+      "541ffd8612040f1bcfe7a03fe093603af10755ac48e830ba77c27615f96139a6",
+      "55c39ecb690695742bcef761a44f110b4c9e700df86959430311f0987d6234b6",
+      "58ac18d1caba84dc71f2cbf70b3dd129d2ab2c53d4d3833db447b45bc901e150",
+      "5a111fb5aa4bd1d83fdeddd5a155f7b81db7919b7899f1d49cd8d4430a06196d",
+      "70f9afa0786c6549fed2bd0947f0778352377a822630c5b0035f591efdc52de5",
+      "761aacba46973afcab557834f2b8465f5cdc9e1e47c9483c71934511ed20a9eb",
+      "7ae569e6fcd33524f72600a32102af3b917e5a77d910e6dfe90404cc5e66542e",
+      "93a5074cae6d8eccb2c2bbac317697306f8c34573bab928e8d0cda27540878aa",
+      "98085bead66cacac19f2e731c7e3d6f27962aaaaeed44ce5426ebd929985dfdc",
+      "9d09c40ee183f28c856741a0c46dfd13127132f55dae353b071b0b6ae93a1a06",
+      "9e765ddf1778b061a3171a816c11b960b8da330fa2fdf1aef358d5219ef287cf",
+      "a56bc36e664b1dc052017c71ff26ea5c9156529d01eff51c309d84565f2d4beb",
+      "aaf3eeb5b7ab7f1f147f84967d9e5302d0239846de8d2429769c16b0810e6d55",
+      "b29dcd80b291b80a264f7321799d0bd26322d7d31eaf5cd7dd43562c4cbce994",
+      "ba59e6e15c70ed1663549d8fd01eec9b80943bdea2c79356bbf282d38104eb04",
+      "bb94dbf82001112f4296488756d3bd82bafaff723dafc3e7f5f8ae389acef87b",
+      "be44e0b3a849e787fb3d47d84c195ec79eeca6f7efe19e4562e9d9c4785e420c",
+      "be7d26ccc18efc1cdcf142bec678565de4a596989095860aa812e1930d852fba",
+      "cda64d701878d4de62300a84c05d208bf2ee80c6bbdd1597ab77f639ee15a0ce",
+      "cfe1f92b2024366b2174a0266aec770325a6b270643c09a7f3390a7f51553d03",
+      "d4ed0823ebb99a1d23bdef422c7303c88282fd606cadc789e66d30aea94756b4",
+      "d8cff3ef7d5cf6d49c9dd8f367a17eafdc24269b0d0733c9c1dc9eaa80bb38d9",
+      "dd4b63e431a0abe47e3a4e74ffbfce1d662a6971c287898d8e85647f9592b5ea",
+      "e2637c380951e1a5445c1be0bb4ae1ac7821b7b98422228619f4ab1b84dc07ad",
+      "e29d77583816f2704c8eb1f0fce2a5c19f48ac92b4666d6e3d8dc92f694a0f13",
+      "e879d771a2a3c9f31ca1e1b64d7387fb6f4322f08d989f98293af525571291ee",
+      "e9ac4a570d500d939d0252ee1bb0667d9db3d07f1607568149abca9db5442940",
+      "ec8a31e9c1dcc4bb0b03b6dec1a83c68eef734b20003e069b8adddc381544b66",
+      "f00a2cec67842c3b06391dd801d65e44fa2ebb8d029f6b8e95230689972cc468"
+    ],
+    "required_unseen_preflight_prompts": true,
+    "source": "E13b exact prompt certificate"
+  },
+  "promotion_thresholds": {
+    "first_use_p95_nonregression_required": false,
+    "maximum_break_even_cycle": 4,
+    "maximum_certified_p95_ratio": 1.0,
+    "maximum_cpu_ratio": 0.95,
+    "maximum_lifecycle_p95_ratio": 2.25,
+    "maximum_readiness_ratio": 1.05,
+    "maximum_rss_ratio": 1.03,
+    "minimum_throughput_ratio": 1.1,
+    "reason": "The preflight already exposed synchronous calibration's first-use tail. Promotion requires bounded full-lifecycle p95, certified steady-state nonregression and break-even, while the first-use regression remains explicitly reported."
+  },
+  "readiness": {
+    "evaluation": {
+      "affected_runtime_share": 0.46,
+      "alternate_values": [
+        "deployability",
+        "novelty"
+      ],
+      "budget": {
+        "maximum_runtime_minutes": 45.0,
+        "maximum_storage_bytes": 4294967296.0
+      },
+      "computed_system_throughput_gain_ceiling": 0.8518518518518516,
+      "decision": "matrix_allowed",
+      "economic_value_present": true,
+      "matrix_allowed": true,
+      "mechanism_unit_passed": true,
+      "minimum_system_gain_ceiling": 0.03,
+      "native_preflight_passed": true,
+      "synthetic_replay_passed": true
+    },
+    "plan": {
+      "budget": {
+        "maximum_runtime_minutes": 45,
+        "maximum_storage_bytes": 4294967296
+      },
+      "experiment_id": "E21a",
+      "mechanism_unit": {
+        "affected_runtime_share": 0.46,
+        "command": "python3 -m unittest tests.test_e21a_online_policy",
+        "component_speedup_ceiling": "unbounded",
+        "status": "passed",
+        "system_throughput_gain_ceiling": 0.8518518518518516
+      },
+      "native_preflight": {
+        "architecture": "aarch64",
+        "artifact_digest": "sha256:24ee6f5e9d01ac3cb054b99fffea989c47b31cd652adb4d8a4092aefc1fcb741",
+        "candidate_cells": 1,
+        "command": "python3 experiments/e21a_preflight_retain.py --evidence-dir .scratch/e21a-preflight-30979498751 --contract experiments/e21a_preflight_contract.json --output /tmp/e21a.json",
+        "control_cells": 1,
+        "run_id": "30979498751",
+        "runner": "ubuntu-24.04-arm",
+        "status": "passed"
+      },
+      "schema_version": 1,
+      "synthetic_replay": {
+        "byte_stable": true,
+        "candidate_cells": 1,
+        "command": "python3 -m unittest tests.test_e21a_full",
+        "complete_matrix_cells": 8,
+        "complete_matrix_served_requests": 960,
+        "control_cells": 1,
+        "status": "passed"
+      },
+      "target": {
+        "architecture": "aarch64",
+        "runner": "ubuntu-24.04-arm"
+      },
+      "value_contract": {
+        "alternate_values": [
+          "deployability",
+          "novelty"
+        ],
+        "claim_unlocked": "identity-bound online admission for a frozen 30-prompt unseen lifecycle with an explicit break-even boundary",
+        "minimum_product_result": {
+          "metric": "throughput",
+          "relative_delta": 0.1
+        }
+      }
+    }
+  },
+  "runtime": {
+    "source_artifact": "e9c-prompt-cache-30770403695-1",
+    "source_run_id": "30770403695"
+  },
+  "schema_version": 1,
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "reference_source": "E3f repeated selected prediction map"
+  },
+  "service": {
+    "batch_size": 64,
+    "context_per_slot": 256,
+    "continuous_batching": true,
+    "flash_attention": "auto",
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "micro_batch_size": 64,
+    "openssl": false,
+    "profile": "e7c_final",
+    "server_parallel_slots": 1,
+    "server_prompt_cache": true,
+    "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "source_diff_sha256": "e11cdd41091d5d76b973c67ffcc04429760fbef58c7a2bc971947b80900a9893",
+    "source_tag": "b10216",
+    "threads": 4,
+    "threads_batch": 4,
+    "weight_repack": true
+  },
+  "state": "frozen after mechanism/unit, complete byte-stable synthetic replay, and passing native one-control/one-online preflight; before any full matrix answer, timing, route, resource, or result was observed",
+  "title": "Full unseen-transition online cache-certificate service matrix",
+  "workload": {
+    "client_concurrency": 1,
+    "correct_per_cell": 92,
+    "correct_per_cycle": 23,
+    "cycles_per_cell": 4,
+    "maximum_output_tokens": 8,
+    "minimum_cached_tokens": 8,
+    "reference_predictions": {
+      "arithmetic-01": "B",
+      "arithmetic-02": "C",
+      "arithmetic-03": "B",
+      "arithmetic-04": "B",
+      "arithmetic-05": "A",
+      "code-01": "C",
+      "code-02": "C",
+      "code-03": "B",
+      "code-04": "C",
+      "code-05": "B",
+      "data-01": "A",
+      "data-02": "B",
+      "data-03": "B",
+      "data-04": "C",
+      "data-05": "B",
+      "evidence-01": "B",
+      "evidence-02": "C",
+      "evidence-03": "C",
+      "evidence-04": "D",
+      "evidence-05": "B",
+      "logic-01": "C",
+      "logic-02": "A",
+      "logic-03": "B",
+      "logic-04": "C",
+      "logic-05": "B",
+      "systems-01": "B",
+      "systems-02": "B",
+      "systems-03": "C",
+      "systems-04": "B",
+      "systems-05": "C"
+    },
+    "seed": 424242,
+    "served_requests_per_cell": 120,
+    "task_ids": [
+      "arithmetic-01",
+      "arithmetic-02",
+      "arithmetic-03",
+      "arithmetic-04",
+      "arithmetic-05",
+      "logic-01",
+      "logic-02",
+      "logic-03",
+      "logic-04",
+      "logic-05",
+      "code-01",
+      "code-02",
+      "code-03",
+      "code-04",
+      "code-05",
+      "data-01",
+      "data-02",
+      "data-03",
+      "data-04",
+      "data-05",
+      "systems-01",
+      "systems-02",
+      "systems-03",
+      "systems-04",
+      "systems-05",
+      "evidence-01",
+      "evidence-02",
+      "evidence-03",
+      "evidence-04",
+      "evidence-05"
+    ],
+    "task_sequence": [
+      "arithmetic-01",
+      "arithmetic-02",
+      "arithmetic-03",
+      "arithmetic-04",
+      "arithmetic-05",
+      "logic-01",
+      "logic-02",
+      "logic-03",
+      "logic-04",
+      "logic-05",
+      "code-01",
+      "code-02",
+      "code-03",
+      "code-04",
+      "code-05",
+      "data-01",
+      "data-02",
+      "data-03",
+      "data-04",
+      "data-05",
+      "systems-01",
+      "systems-02",
+      "systems-03",
+      "systems-04",
+      "systems-05",
+      "evidence-01",
+      "evidence-02",
+      "evidence-03",
+      "evidence-04",
+      "evidence-05",
+      "arithmetic-01",
+      "arithmetic-02",
+      "arithmetic-03",
+      "arithmetic-04",
+      "arithmetic-05",
+      "logic-01",
+      "logic-02",
+      "logic-03",
+      "logic-04",
+      "logic-05",
+      "code-01",
+      "code-02",
+      "code-03",
+      "code-04",
+      "code-05",
+      "data-01",
+      "data-02",
+      "data-03",
+      "data-04",
+      "data-05",
+      "systems-01",
+      "systems-02",
+      "systems-03",
+      "systems-04",
+      "systems-05",
+      "evidence-01",
+      "evidence-02",
+      "evidence-03",
+      "evidence-04",
+      "evidence-05",
+      "arithmetic-01",
+      "arithmetic-02",
+      "arithmetic-03",
+      "arithmetic-04",
+      "arithmetic-05",
+      "logic-01",
+      "logic-02",
+      "logic-03",
+      "logic-04",
+      "logic-05",
+      "code-01",
+      "code-02",
+      "code-03",
+      "code-04",
+      "code-05",
+      "data-01",
+      "data-02",
+      "data-03",
+      "data-04",
+      "data-05",
+      "systems-01",
+      "systems-02",
+      "systems-03",
+      "systems-04",
+      "systems-05",
+      "evidence-01",
+      "evidence-02",
+      "evidence-03",
+      "evidence-04",
+      "evidence-05",
+      "arithmetic-01",
+      "arithmetic-02",
+      "arithmetic-03",
+      "arithmetic-04",
+      "arithmetic-05",
+      "logic-01",
+      "logic-02",
+      "logic-03",
+      "logic-04",
+      "logic-05",
+      "code-01",
+      "code-02",
+      "code-03",
+      "code-04",
+      "code-05",
+      "data-01",
+      "data-02",
+      "data-03",
+      "data-04",
+      "data-05",
+      "systems-01",
+      "systems-02",
+      "systems-03",
+      "systems-04",
+      "systems-05",
+      "evidence-01",
+      "evidence-02",
+      "evidence-03",
+      "evidence-04",
+      "evidence-05"
+    ],
+    "timeout_seconds": 30.0,
+    "unique_prompts": 30
+  }
+}

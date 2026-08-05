@@ -2081,3 +2081,26 @@ separate certified steady-state tail, and establish an explicit break-even
 boundary. See the retained
 [`manifest`](../results/manifests/e21a-preflight-30979498751.json) and
 [`report`](../results/reports/e21a-online-certificate-preflight.md).
+
+### E21a full experiment frozen
+
+The passing preflight advances to one bounded matrix, not another cache sweep.
+Each policy receives four fresh exact E7c processes in ABBA/BAAB order. Every
+cell serves the original 30 quality tasks for four complete cycles: 120 served
+requests per process, eight processes and 960 served requests overall. Every
+online process starts with an empty transition registry.
+
+The state machine mechanically predicts 31 unknown shadow/oracle routes, 30
+certifications, one denied start transition and 89 later certified routes per
+online cell. The complete eight-cell synthetic artifact exercises 960 served
+requests and 1,084 actual calls, passes the full ingester twice byte-for-byte at
+`030ae3b0…031e`, and retains a deliberately visible 2.0x first-use p95.
+
+Promotion gates were frozen before native results: exact responses and 23/30
+reference quality, zero failures, every mechanism/count gate, at least 1.10x
+lifecycle throughput, at most 0.95x CPU/request, at most 2.25x lifecycle p95,
+certified steady-state p95 nonregression, break-even by cycle four, at most
+1.03x maximum RSS and at most 1.05x readiness. First-use p95 nonregression is
+not a gate because the preflight already proved synchronous calibration has a
+tail cost; that cost must remain separately reported. Contract SHA-256 is
+`149e5d0b…66348`.

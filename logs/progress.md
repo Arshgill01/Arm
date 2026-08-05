@@ -2170,3 +2170,22 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - Artifact `e21a-online-certificate-preflight-30979498751-1` (ID `8919581630`,
   digest `24ee6f5e…cb741`) retains 60 independently hashed runner files plus
   verified aliases and the post-inventory disk record.
+
+## 2026-08-05 — E21a full 30-prompt lifecycle matrix frozen
+
+- Advanced only after the retained native preflight passed. The full contract
+  uses four fresh processes per policy in ABBA/BAAB order, the original 30-task
+  reference set, four lifecycle cycles per cell and 960 served requests total.
+- Every online cell starts with an empty registry. Frozen counts are 31 unknown
+  shadow/oracle routes, 30 certifications, one denied start transition, 89
+  certified routes and 151 actual calls for 120 served responses.
+- A complete synthetic eight-cell artifact runs the exact production ingester
+  twice byte-for-byte at `030ae3b0…031e`, covering 960 served requests. It
+  deliberately preserves a 2.0x first-use p95 beside a 0.4x certified p95.
+- Product gates are fixed at at least 1.10x lifecycle throughput, at most 0.95x
+  CPU/request, at most 2.25x lifecycle p95, certified p95 nonregression,
+  break-even by cycle four, at most 1.03x RSS and at most 1.05x readiness after
+  every exactness and mechanism gate passes.
+- Contract `149e5d0b…66348` and the native-only GitHub workflow are ready for one
+  full dispatch. No arbitrary-prompt, concurrency, energy, PMU, device, fleet,
+  cost or other-runtime claim is permitted.
