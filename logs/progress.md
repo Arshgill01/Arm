@@ -2044,3 +2044,25 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
 - The candidate misses the frozen throughput, median-latency and CPU gates. No
   optimization is promoted, `reuse_off` remains selected, E20b remains invalid,
   and the FFN pair-fusion lane is closed.
+
+## 2026-08-05 — E11b complete native matrix recovered without rerun
+
+- Source run `30869286295` completed its build, five model downloads and all 40
+  same-job cells before the validator rejected `/slots`' correct JSON-array
+  shape through the generic object-only loader. The source workflow remains
+  failed.
+- Added a one-path recovery adapter plus exact array/object fixtures. Every
+  other JSON path retains the original object-only contract. Replays are pinned
+  to the source job's Python 3.10.20 because later statistics implementations
+  differ in the last bits of population standard deviation.
+- Recovered all 1,200 requests, stable per-model answers, zero failures, process
+  CPU windows, readiness, RSS, commands, cache mechanism, source and runtime
+  closure. All 566 source-artifact files hash to canonical inventory
+  `b6bde877…04d484`.
+- Q4_K_M leads service speed at 0.9283 median req/s. IQ4_NL reaches 0.9130 req/s
+  and 23/30 with one anchor-answer mismatch while reducing size, RSS and
+  readiness. IQ4_XS reaches 22/30 and much lower memory/readiness at 0.5561x
+  anchor throughput. The other stock points regress speed materially.
+- The frozen frontier rule retains all six points as non-dominated, so E11b
+  makes no promotion. A broad five-way confirmation is not authorized; the
+  terminal decision moves to independent recovery of E12b's completed matrix.

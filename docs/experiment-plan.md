@@ -1949,3 +1949,27 @@ RSS guardrails pass, but there is no product win: `reuse_off` remains selected
 and this FFN pair-fusion lane is closed. See the retained
 [`manifest`](../results/manifests/e20c-30870229218.json) and
 [`report`](../results/reports/e20c-guarded-ffn-pair-no-win.md).
+
+## E11b retained-artifact recovery outcome
+
+Native source run `30869286295` completed all 40 fresh-process cells but failed
+while ingesting the first `slots.json`: the frozen code used an object-only
+loader for an endpoint whose intended shape was a JSON array. A narrowly scoped
+recovery accepts an array of slot objects only on that path, preserves
+object-only parsing everywhere else, and replays under the source job's exact
+Python 3.10.20 statistics implementation. It changes no measurement or gate.
+
+All 1,200 measured requests are recovered with zero failures and stable outputs.
+Q4_K_M remains the fastest at 0.9283 median req/s. IQ4_NL is closest at 0.9130
+req/s, the same 23/30 score but one different answer, 4.3% smaller model bytes,
+4.1% lower maximum RSS and 19.9% faster readiness. IQ4_XS reaches 22/30 and
+substantially reduces model bytes, RSS and readiness, but only 0.5561x the
+anchor throughput. Q3_K_S, Q3_K_M and Q5_K_M preserve additional quality/size
+tradeoffs but regress service speed materially.
+
+All six points are non-dominated under the frozen multi-coordinate definition;
+E11b therefore makes no product promotion. The terminal decision is deferred
+to recovery of the already completed E12b generated-quant matrix, without an
+E11b rerun or five-way confirmation sweep. See the retained
+[`manifest`](../results/manifests/e11b-30869286295-recovered.json) and
+[`report`](../results/reports/e11b-stock-service-frontier-recovered.md).
