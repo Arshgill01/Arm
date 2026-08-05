@@ -1,0 +1,219 @@
+{
+  "acceptance": {
+    "arena_size_bytes": 2137964544,
+    "correct_per_worker": 23,
+    "data_offset_bytes": 1048576,
+    "final_sidecar_cleanup_required": true,
+    "full_verification_before_each_worker": true,
+    "raw_tensor_cleanup_required": true,
+    "reference_prediction_mismatches": 0,
+    "request_failures": 0,
+    "required_mapping_permissions": "r--s",
+    "sidecar_size_bytes": 2139013120,
+    "tasks_per_worker": 30,
+    "tensor_count": 183,
+    "worker_answer_mismatches": 0,
+    "worker_exit_statuses": [
+      0,
+      -2,
+      130
+    ],
+    "worker_ports": [
+      18081,
+      18082
+    ]
+  },
+  "claim_boundary": "A valid E16d result establishes only that a clean Pareto64 checkout can prepack, fully verify, launch two exact E7c Q4_K_M workers on one read-only identity-bound sidecar, preserve the 23/30 reference map, record construction/storage cost, and clean up by verified receipt on the exact native GitHub Arm64 host. E16b remains the same-job warm readiness evidence and E16c remains the two-worker summed-PSS evidence. E16d makes no cold-start, new throughput, per-process RSS, energy, PMU, Mac, other CPU/model, fleet, or cost claim.",
+  "execution": {
+    "fresh_checkout": true,
+    "large_model_raw_dump_and_sidecar_excluded_from_artifact": true,
+    "metadata_logs_receipt_and_raw_quality_retained": true,
+    "model_download": "exact pinned Hugging Face revision",
+    "required_architecture": "aarch64",
+    "runner": "ubuntu-24.04-arm",
+    "sidecar_retained_during_launch": true,
+    "source_runtime": "retained exact E16c artifact"
+  },
+  "experiment_id": "E16d",
+  "inputs": {
+    "cli_tests": {
+      "path": "tests/test_pareto64_cli.py",
+      "sha256": "b8a5a528fc87f5b88f3c05d1b71ca785206f138b2f3d80ba936e19da50be6431"
+    },
+    "e16b_manifest": {
+      "path": "results/manifests/e16b-30842925537.json",
+      "sha256": "fc5500c38af75b00571fc2fd57c3efbc00b5e764c0965ddf9bc2a4809e676ddc"
+    },
+    "e16c_contract": {
+      "path": "experiments/e16c_contract.json",
+      "sha256": "118bed9c2887bfaef877dbac5ffdd74890f2b3abab6c651c8c579c3891d26df0"
+    },
+    "e16c_manifest": {
+      "path": "results/manifests/e16c-30851609576.json",
+      "sha256": "a469358f7f1b6698961d7481c795893595c88e85e235fa705c650042bcc025da"
+    },
+    "e16c_report": {
+      "path": "results/reports/e16c-shared-repack-arena.md",
+      "sha256": "c435134a3f395cb786901835887cc50dd052f5283cb5fc4ba326cb2150c154f4"
+    },
+    "freeze": {
+      "path": "experiments/e16d_lifecycle_freeze.py",
+      "sha256": "18eeb4f0b0e18a91c8de6b4d176603f76663e1c63a9567e1557b04dbff4a21c2"
+    },
+    "ingest": {
+      "path": "experiments/e16d_lifecycle_ingest.py",
+      "sha256": "d1eb3b6cfebf9f64e628239401d44d4d7a5021eb4ca6a0ed75d542ab70cad035"
+    },
+    "lifecycle_tests": {
+      "path": "tests/test_e16d_lifecycle.py",
+      "sha256": "d562ec1544a5d1d537f6f8aba4b741a16b1630af9c5ce5b5693bcdb11cb85883"
+    },
+    "model_registry": {
+      "path": "experiments/e3f_models.json",
+      "sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d"
+    },
+    "product_cli": {
+      "path": "pareto64/cli.py",
+      "sha256": "1b981b21bf4bdc27c21e89a5b808f26b0847d2f350165513ae21bd73a832fcce"
+    },
+    "product_sidecar": {
+      "path": "pareto64/sidecar.py",
+      "sha256": "2d5a06579e753b0c19f8b6340e9016e45e7c8db8c31f46901576a32dadbe348f"
+    },
+    "reference_manifest": {
+      "path": "results/manifests/e3f-30656151957.json",
+      "sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c"
+    },
+    "sidecar_tests": {
+      "path": "tests/test_pareto64_sidecar.py",
+      "sha256": "aaea58bc78a85594fb4ba9c02989795cf83ef6f61a5ae40bd852e5c5b83381ea"
+    },
+    "synthetic_fixture": {
+      "path": "experiments/e16d_lifecycle_fixture.py",
+      "sha256": "a514a1e49b12ec62e6079ae093e67daad7bc4ac006899682fae7982712e0a00e"
+    },
+    "tasks": {
+      "path": "experiments/e3_tasks.json",
+      "sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    }
+  },
+  "negative_result_rule": "Retain any failure without weakening identity, quality, mapping, cleanup, storage, or boundary gates. Do not infer performance from this lifecycle validation.",
+  "prerequisite": {
+    "e16c_artifact_digest": "sha256:e29d3a4440dafd42364fb586f9d5f8adb2c6c69b3bd312a10ffd10761312db02",
+    "e16c_artifact_expires_at": "2026-11-01T20:44:53Z",
+    "e16c_artifact_id": "8871236545",
+    "e16c_artifact_name": "e16c-shared-repack-arena-30851609576-1",
+    "e16c_artifact_run_id": "30851609576",
+    "e16c_contract_path": "experiments/e16c_contract.json",
+    "e16c_contract_sha256": "118bed9c2887bfaef877dbac5ffdd74890f2b3abab6c651c8c579c3891d26df0",
+    "e16c_manifest_path": "results/manifests/e16c-30851609576.json",
+    "e16c_manifest_sha256": "a469358f7f1b6698961d7481c795893595c88e85e235fa705c650042bcc025da",
+    "reuse": "Download the retained E16c runtime closure; do not rebuild the already validated source or rerun its performance matrix."
+  },
+  "product": {
+    "commands": [
+      "python3 -m pareto64 sidecar-prepack",
+      "python3 -m pareto64 sidecar-verify",
+      "python3 -m pareto64 sidecar-launch --workers 2",
+      "python3 -m pareto64 sidecar-cleanup"
+    ],
+    "fresh_checkout_required": true,
+    "lifecycle": "one-time prepack -> independent full verify -> two-worker read-only shared launch -> receipt-bound cleanup",
+    "receipt_bound_cleanup": true,
+    "sidecar_and_index_read_only": true
+  },
+  "readiness": {
+    "affected_end_to_end_share": "Not used for a new speed claim. E16b bounds same-job warm readiness; E16c bounds two-worker summed PSS.",
+    "budget": {
+      "artifact_excludes_large_generated_files": true,
+      "expected_peak_large_bytes": 6423475488,
+      "maximum_generated_storage_bytes": 8589934592,
+      "maximum_runtime_minutes": 30
+    },
+    "claim_unlocked": "The existing E16 mechanism is reproducibly deployable through the Pareto64 product CLI on its exact native identity.",
+    "decision": "single_native_lifecycle_allowed",
+    "mechanism_unit": {
+      "command": "python3 -m unittest tests.test_pareto64_sidecar tests.test_pareto64_cli tests.test_pareto64_runtime",
+      "status": "passed",
+      "tests": 30
+    },
+    "minimum_product_changing_result": "All four clean-checkout commands must pass with exact quality, read-only same-inode sharing, corruption-bound verification, recorded construction/storage cost, and safe cleanup.",
+    "native_preflight": {
+      "candidate_lifecycles": 1,
+      "control_cells": 0,
+      "performance_matrix_authorized": false,
+      "status": "this bounded run is the product lifecycle preflight"
+    },
+    "optimistic_amdahl_ceiling": "Not applicable: this run validates deployment lifecycle rather than estimating another performance mechanism.",
+    "synthetic_replay": {
+      "byte_stable": true,
+      "complete_lifecycle_gates": 14,
+      "independent_replays": 2,
+      "status": "passed"
+    }
+  },
+  "runtime": {
+    "closure_file_count": 8,
+    "closure_total_size_bytes": 20100528,
+    "openssl_linked": false,
+    "server_relative_path": "bin/llama-server",
+    "server_sha256": "69ad2bf026d1908f19f5ea0570a978f1734fba07db526504410b34cdcb859121"
+  },
+  "schema_version": 1,
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "reference_accuracy": 0.7666666666666667,
+    "reference_correct": 23,
+    "reference_total": 30
+  },
+  "source": {
+    "aggregate_diff_sha256": "48a7611bbe6e22a0303bf0b8855dbab3f718ca6d56d5a594a8ef1650f959f003",
+    "changed_files": [
+      "common/reasoning-budget.cpp",
+      "ggml/src/ggml-cpu/CMakeLists.txt",
+      "ggml/src/ggml-cpu/arch/arm/quants.c",
+      "ggml/src/ggml-cpu/repack.cpp",
+      "tests/test-reasoning-budget.cpp"
+    ],
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "patches": [
+      {
+        "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      },
+      {
+        "path": "patches/llama.cpp/b10216/0006-repack-sidecar-feasibility-dump.patch",
+        "sha256": "7257b6d668230a4cc5e9480b24b6a6f9665e403a14e7244203f9672760805b5c"
+      },
+      {
+        "path": "patches/llama.cpp/b10216/0007-repack-sidecar-readonly-loader.patch",
+        "sha256": "5dc4beeeb50b5c5430632431c1462ee8d454409e9ff51a69bd671e0a859f47d6"
+      }
+    ],
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216"
+  },
+  "state": "frozen_after_byte_stable_synthetic_replay_before_native_lifecycle",
+  "title": "Clean-checkout persistent Arm-prepacked sidecar lifecycle",
+  "workload": {
+    "client_concurrency_per_worker": 1,
+    "maximum_output_tokens": 8,
+    "reference_score_per_worker": "23/30",
+    "requests": 60,
+    "seed": 424242,
+    "simultaneous_measurement_barrier": true,
+    "tasks": 30,
+    "temperature": 0.0,
+    "workers": 2
+  }
+}

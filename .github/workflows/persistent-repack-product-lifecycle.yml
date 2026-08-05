@@ -1,0 +1,314 @@
+name: Arm E16d persistent sidecar product lifecycle
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  CONTRACT_PATH: experiments/e16d_lifecycle_contract.json
+  CONTRACT_SHA256: 055c656a14583d76e64ea773367e67979d36bcb026c072241892a4bd30d7fd2e
+  SOURCE_RUN_ID: "30851609576"
+  SOURCE_ARTIFACT: e16c-shared-repack-arena-30851609576-1
+  SELECTED_CANDIDATE: ministral3_3b_q4_k_m
+
+jobs:
+  lifecycle:
+    name: Prepack, reject corruption, launch two workers, and clean up
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e16d-${{ github.run_id }}-${{ github.run_attempt }}
+      SOURCE_ARTIFACT_DIR: /tmp/Pareto64-E16d/e16c-retained-artifact
+      MODEL_ROOT: /tmp/Pareto64-E16d/models
+      SCRATCH_ROOT: /tmp/Pareto64-E16d/scratch
+      SIDECAR_PATH: /tmp/Pareto64-E16d/ministral-q4-k-m.sidecar
+      INDEX_PATH: /tmp/Pareto64-E16d/ministral-q4-k-m.index.json
+
+    steps:
+      - name: Check out frozen E16d product lifecycle
+        uses: actions/checkout@v7
+
+      - name: Revalidate mechanism, complete synthetic replay, and frozen inputs
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          echo "$CONTRACT_SHA256  $CONTRACT_PATH" | sha256sum --check --strict
+          jq -r '.inputs[] | [.sha256, .path] | @tsv' "$CONTRACT_PATH" \
+            | while IFS=$'\t' read -r expected input_path; do
+                echo "$expected  $input_path" | sha256sum --check --strict
+              done
+          python3 -m unittest \
+            tests.test_pareto64_sidecar \
+            tests.test_pareto64_cli \
+            tests.test_pareto64_runtime \
+            tests.test_e16d_lifecycle
+          python3 experiments/e16d_lifecycle_fixture.py \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output /tmp/e16d-synthetic-replay.json
+          test "$(jq -r '.replay.summary_sha256' /tmp/e16d-synthetic-replay.json)" = \
+            "$(jq -r '.replay.summary_sha256' results/manifests/e16d-lifecycle-synthetic-replay.json)"
+
+          mkdir -p "$EVIDENCE_DIR/product/logs" "$MODEL_ROOT" "$SCRATCH_ROOT"
+          cp "$CONTRACT_PATH" "$EVIDENCE_DIR/contract.json"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+          free -h | tee "$EVIDENCE_DIR/memory-before.txt"
+          df -h | tee "$EVIDENCE_DIR/disk-before.txt"
+          python3 --version | tee "$EVIDENCE_DIR/python-version.txt"
+          git rev-parse HEAD | tee "$EVIDENCE_DIR/repository-commit.txt"
+          jq -n \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --argjson run_attempt "$GITHUB_RUN_ATTEMPT" \
+            --arg sha "$GITHUB_SHA" \
+            --arg ref "$GITHUB_REF" \
+            --arg runner_os "$RUNNER_OS" \
+            --arg runner_arch "$RUNNER_ARCH" \
+            --arg source_run_id "$SOURCE_RUN_ID" \
+            --arg source_artifact "$SOURCE_ARTIFACT" \
+            '{run_id: $run_id, run_attempt: $run_attempt, sha: $sha, ref: $ref, runner_os: $runner_os, runner_arch: $runner_arch, source_artifact_run_id: $source_run_id, source_artifact: $source_artifact}' \
+            > "$EVIDENCE_DIR/github.json"
+
+      - name: Download exact retained E16c runtime closure
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ env.SOURCE_ARTIFACT }}
+          path: ${{ env.SOURCE_ARTIFACT_DIR }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: Arshgill01/Arm
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Rehydrate and verify the exact sidecar-capable runtime
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR/runtime"
+          cp -R "$SOURCE_ARTIFACT_DIR/build/runtime-files/bin" \
+            "$EVIDENCE_DIR/runtime/bin"
+          cp "$SOURCE_ARTIFACT_DIR/build/runtime-closure.json" \
+            "$EVIDENCE_DIR/runtime/runtime-closure.json"
+          cp "$SOURCE_ARTIFACT_DIR/source.json" "$EVIDENCE_DIR/runtime/source.json"
+          cp "$SOURCE_ARTIFACT_DIR/source-diff.patch" \
+            "$EVIDENCE_DIR/runtime/source-diff.patch"
+          runtime_bin="$EVIDENCE_DIR/runtime/bin"
+          chmod +x "$runtime_bin/llama-server"
+          ln -sfn libllama-common.so.0.0.10216 "$runtime_bin/libllama-common.so.0"
+          ln -sfn libmtmd.so.0.0.10216 "$runtime_bin/libmtmd.so.0"
+          ln -sfn libllama.so.0.0.10216 "$runtime_bin/libllama.so.0"
+          ln -sfn libggml.so.0.18.0 "$runtime_bin/libggml.so.0"
+          ln -sfn libggml-base.so.0.18.0 "$runtime_bin/libggml-base.so.0"
+          ln -sfn libggml-cpu.so.0.18.0 "$runtime_bin/libggml-cpu.so.0"
+          echo "LD_LIBRARY_PATH=$runtime_bin" >> "$GITHUB_ENV"
+          echo "SERVER_PATH=$runtime_bin/llama-server" >> "$GITHUB_ENV"
+          echo "$(jq -r '.runtime.server_sha256' "$CONTRACT_PATH")  $runtime_bin/llama-server" \
+            | sha256sum --check --strict
+          LD_LIBRARY_PATH="$runtime_bin" ldd "$runtime_bin/llama-server" \
+            | tee "$EVIDENCE_DIR/runtime/ldd.txt"
+          if grep -q 'not found' "$EVIDENCE_DIR/runtime/ldd.txt"; then exit 1; fi
+          if grep -Eq 'lib(ssl|crypto)\.so' "$EVIDENCE_DIR/runtime/ldd.txt"; then exit 1; fi
+          LD_LIBRARY_PATH="$runtime_bin" "$runtime_bin/llama-server" --version \
+            |& tee "$EVIDENCE_DIR/runtime/server-version.txt"
+
+      - name: Download and verify the exact selected model
+        run: |
+          set -euo pipefail
+          expected_peak="$(jq -r '.readiness.budget.expected_peak_large_bytes' "$CONTRACT_PATH")"
+          available="$(df --output=avail -B1 "$MODEL_ROOT" | tail -1 | tr -d ' ')"
+          test "$available" -ge "$expected_peak"
+          repository="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].repository' experiments/e3f_models.json)"
+          revision="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].revision' experiments/e3f_models.json)"
+          entrypoint="$(jq -r --arg candidate "$SELECTED_CANDIDATE" '.variants[$candidate].entrypoint' experiments/e3f_models.json)"
+          model="$MODEL_ROOT/$entrypoint"
+          mkdir -p "$(dirname "$model")"
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$model" \
+            "https://huggingface.co/$repository/resolve/$revision/$entrypoint?download=true"
+          test "$(stat --format='%s' "$model")" = \
+            "$(jq -r '.selected.model_size_bytes' "$CONTRACT_PATH")"
+          echo "$(jq -r '.selected.model_sha256' "$CONTRACT_PATH")  $model" \
+            | sha256sum --check --strict
+          echo "MODEL_PATH=$model" >> "$GITHUB_ENV"
+          sha256sum "$model" | tee "$EVIDENCE_DIR/model-sha256.txt"
+
+      - name: Run clean-checkout prepack and independent full verification
+        run: |
+          set -euo pipefail
+          python3 -m pareto64 sidecar-prepack \
+            --contract experiments/e16c_contract.json \
+            --evidence results/manifests/e16c-30851609576.json \
+            --model "$MODEL_PATH" \
+            --llama-server "$SERVER_PATH" \
+            --sidecar "$SIDECAR_PATH" \
+            --index "$INDEX_PATH" \
+            --receipt "$EVIDENCE_DIR/product/receipt.json" \
+            --lifecycle-dir "$EVIDENCE_DIR/product/prepack" \
+            --scratch-root "$SCRATCH_ROOT" \
+            --port 18081 \
+            --readiness-timeout 120
+          python3 -m pareto64 sidecar-verify \
+            --contract experiments/e16c_contract.json \
+            --evidence results/manifests/e16c-30851609576.json \
+            --model "$MODEL_PATH" \
+            --llama-server "$SERVER_PATH" \
+            --sidecar "$SIDECAR_PATH" \
+            --index "$INDEX_PATH" \
+            --receipt "$EVIDENCE_DIR/product/receipt.json" \
+            --output "$EVIDENCE_DIR/product/verification.json"
+
+      - name: Prove corrupted-index rejection without changing the sidecar
+        run: |
+          set -euo pipefail
+          sidecar_before="$(sha256sum "$SIDECAR_PATH" | cut -d' ' -f1)"
+          index_before="$(sha256sum "$INDEX_PATH" | cut -d' ' -f1)"
+          corrupted="$EVIDENCE_DIR/product/corrupted-index.json"
+          zero="0000000000000000000000000000000000000000000000000000000000000000"
+          jq --arg zero "$zero" \
+            '.header.binding.cpu.common_features_sha256 = $zero' \
+            "$INDEX_PATH" > "$corrupted"
+          set +e
+          python3 -m pareto64 sidecar-verify \
+            --contract experiments/e16c_contract.json \
+            --evidence results/manifests/e16c-30851609576.json \
+            --model "$MODEL_PATH" \
+            --llama-server "$SERVER_PATH" \
+            --sidecar "$SIDECAR_PATH" \
+            --index "$corrupted" \
+            --output "$EVIDENCE_DIR/product/corrupted-verification.json" \
+            > "$EVIDENCE_DIR/product/corruption.stdout.log" \
+            2> "$EVIDENCE_DIR/product/corruption.stderr.log"
+          status=$?
+          set -e
+          test "$status" -ne 0
+          test ! -e "$EVIDENCE_DIR/product/corrupted-verification.json"
+          grep -q 'sidecar container differs from its index' \
+            "$EVIDENCE_DIR/product/corruption.stderr.log"
+          sidecar_after="$(sha256sum "$SIDECAR_PATH" | cut -d' ' -f1)"
+          index_after="$(sha256sum "$INDEX_PATH" | cut -d' ' -f1)"
+          test "$sidecar_before" = "$sidecar_after"
+          test "$index_before" = "$index_after"
+          jq -n \
+            --argjson exit_status "$status" \
+            --arg sidecar_before "$sidecar_before" \
+            --arg sidecar_after "$sidecar_after" \
+            --arg index_before "$index_before" \
+            --arg index_after "$index_after" \
+            --arg corrupted_index "$(sha256sum "$corrupted" | cut -d' ' -f1)" \
+            '{schema_version: 1, status: "corrupt_index_rejected", exit_status: $exit_status, verification_output_absent: true, failure_contains: "sidecar container differs from its index", sidecar_sha256_before: $sidecar_before, sidecar_sha256_after: $sidecar_after, index_sha256_before: $index_before, index_sha256_after: $index_after, corrupted_index_sha256: $corrupted_index}' \
+            > "$EVIDENCE_DIR/product/corruption-rejection.json"
+
+      - name: Launch and probe two verified workers on one sidecar
+        run: |
+          set -euo pipefail
+          stop_file="$RUNNER_TEMP/e16d-stop"
+          test ! -e "$stop_file"
+          python3 -m pareto64 sidecar-launch \
+            --contract experiments/e16c_contract.json \
+            --evidence results/manifests/e16c-30851609576.json \
+            --model "$MODEL_PATH" \
+            --llama-server "$SERVER_PATH" \
+            --sidecar "$SIDECAR_PATH" \
+            --index "$INDEX_PATH" \
+            --receipt "$EVIDENCE_DIR/product/receipt.json" \
+            --workers 2 \
+            --base-port 18081 \
+            --plan-output "$EVIDENCE_DIR/product/launch-plan.json" \
+            --log-dir "$EVIDENCE_DIR/product/logs" \
+            --ready-output "$EVIDENCE_DIR/product/ready.json" \
+            --outcome-output "$EVIDENCE_DIR/product/outcome.json" \
+            --stop-file "$stop_file" \
+            --readiness-timeout 120 &
+          launcher_pid=$!
+          cleanup_launcher() {
+            touch "$stop_file"
+            wait "$launcher_pid" 2>/dev/null || true
+          }
+          trap cleanup_launcher EXIT
+          for _ in $(seq 1 1800); do
+            if [[ -f "$EVIDENCE_DIR/product/ready.json" ]]; then break; fi
+            kill -0 "$launcher_pid"
+            sleep 0.1
+          done
+          test -f "$EVIDENCE_DIR/product/ready.json"
+          worker_one="$(jq -r '.workers[] | select(.worker == 1) | .pid' "$EVIDENCE_DIR/product/ready.json")"
+          worker_two="$(jq -r '.workers[] | select(.worker == 2) | .pid' "$EVIDENCE_DIR/product/ready.json")"
+          test -r "/proc/$worker_one/maps"
+          test -r "/proc/$worker_two/maps"
+          python3 experiments/e16c_dual_probe.py \
+            --url http://127.0.0.1:18081 \
+            --url http://127.0.0.1:18082 \
+            --server-pid "$worker_one" \
+            --server-pid "$worker_two" \
+            --tasks experiments/e3_tasks.json \
+            --reference-manifest results/manifests/e3f-30656151957.json \
+            --candidate "$SELECTED_CANDIDATE" \
+            --configuration shared_sidecar_workers \
+            --repetition 1 \
+            --warmup-task arithmetic-02 \
+            --warmup-task logic-01 \
+            --max-output-tokens 8 \
+            --seed 424242 \
+            --timeout 30 \
+            --output "$EVIDENCE_DIR/product/probe.json"
+          for worker in 1 2; do
+            pid="$(jq -r --argjson worker "$worker" '.workers[] | select(.worker == $worker) | .pid' "$EVIDENCE_DIR/product/ready.json")"
+            port=$((18080 + worker))
+            cat "/proc/$pid/maps" > "$EVIDENCE_DIR/product/process-maps-worker-$worker.txt"
+            cat "/proc/$pid/smaps_rollup" > "$EVIDENCE_DIR/product/smaps-rollup-worker-$worker.txt"
+            curl --fail --silent "http://127.0.0.1:$port/health" \
+              > "$EVIDENCE_DIR/product/health-worker-$worker.json"
+            curl --fail --silent "http://127.0.0.1:$port/slots" \
+              > "$EVIDENCE_DIR/product/slots-worker-$worker.json"
+            curl --fail --silent "http://127.0.0.1:$port/metrics" \
+              > "$EVIDENCE_DIR/product/metrics-worker-$worker.txt"
+          done
+          touch "$stop_file"
+          wait "$launcher_pid"
+          trap - EXIT
+          test "$(jq -r '.status' "$EVIDENCE_DIR/product/outcome.json")" = \
+            sidecar_worker_group_stopped
+
+      - name: Plan and execute receipt-bound sidecar cleanup
+        run: |
+          set -euo pipefail
+          python3 -m pareto64 sidecar-cleanup \
+            --receipt "$EVIDENCE_DIR/product/receipt.json" \
+            --output "$EVIDENCE_DIR/product/cleanup-plan.json"
+          test -f "$SIDECAR_PATH"
+          test -f "$INDEX_PATH"
+          python3 -m pareto64 sidecar-cleanup \
+            --receipt "$EVIDENCE_DIR/product/receipt.json" \
+            --output "$EVIDENCE_DIR/product/cleanup-complete.json" \
+            --execute
+          test ! -e "$SIDECAR_PATH"
+          test ! -e "$INDEX_PATH"
+          test -f "$EVIDENCE_DIR/product/receipt.json"
+          df -h | tee "$EVIDENCE_DIR/disk-after.txt"
+
+      - name: Independently validate complete E16d lifecycle
+        run: |
+          set -euo pipefail
+          python3 experiments/e16d_lifecycle_ingest.py \
+            --evidence-dir "$EVIDENCE_DIR" \
+            --contract "$CONTRACT_PATH" \
+            --root "$GITHUB_WORKSPACE" \
+            --output "$EVIDENCE_DIR/summary.json"
+          test "$(jq '[.gates[]] | all' "$EVIDENCE_DIR/summary.json")" = true
+          test "$(jq -r '.status' "$EVIDENCE_DIR/summary.json")" = \
+            valid_product_sidecar_lifecycle
+          jq '{status, construction, storage, boundaries, quality, gates, decision}' \
+            "$EVIDENCE_DIR/summary.json"
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum \
+            > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+
+      - name: Upload complete bounded E16d evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e16d-product-sidecar-lifecycle-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          retention-days: 90
+          if-no-files-found: error
+          compression-level: 6

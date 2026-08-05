@@ -307,6 +307,72 @@ feature set, vector length, format, tensor layouts, and complete SHA-256 all
 match. It does not promise lower per-process RSS, cross-host portability, cold
 startup, energy, or fleet economics.
 
+E16d turns that retained mechanism into four fail-closed product commands. The
+inputs remain the promoted E16c contract/evidence, exact selected GGUF, and exact
+sidecar-capable runtime closure:
+
+```bash
+python3 -m pareto64 sidecar-prepack \
+  --contract experiments/e16c_contract.json \
+  --evidence results/manifests/e16c-30851609576.json \
+  --model /path/to/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf \
+  --llama-server /path/to/runtime/bin/llama-server \
+  --sidecar /path/to/ministral.sidecar \
+  --index /path/to/ministral.index.json \
+  --receipt /path/to/receipt.json \
+  --lifecycle-dir /path/to/lifecycle-evidence \
+  --scratch-root /path/to/bounded-scratch
+
+python3 -m pareto64 sidecar-verify \
+  --contract experiments/e16c_contract.json \
+  --evidence results/manifests/e16c-30851609576.json \
+  --model /path/to/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf \
+  --llama-server /path/to/runtime/bin/llama-server \
+  --sidecar /path/to/ministral.sidecar \
+  --index /path/to/ministral.index.json \
+  --receipt /path/to/receipt.json \
+  --output /path/to/verification.json
+
+python3 -m pareto64 sidecar-launch \
+  --contract experiments/e16c_contract.json \
+  --evidence results/manifests/e16c-30851609576.json \
+  --model /path/to/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf \
+  --llama-server /path/to/runtime/bin/llama-server \
+  --sidecar /path/to/ministral.sidecar \
+  --index /path/to/ministral.index.json \
+  --receipt /path/to/receipt.json \
+  --workers 2 \
+  --plan-output /path/to/launch-plan.json \
+  --ready-output /path/to/ready.json \
+  --outcome-output /path/to/outcome.json
+
+python3 -m pareto64 sidecar-cleanup \
+  --receipt /path/to/receipt.json \
+  --output /path/to/cleanup-plan.json
+```
+
+`sidecar-prepack` starts the exact final service once to emit every runtime
+packed tensor, constructs the canonical sidecar, hashes the entire container
+and every tensor, removes only the command's fresh raw-tensor directory, and
+writes a read-only receipt. The receipt binds the model, source diff, CPU
+identity, runtime closure, sidecar hash, and index hash. Existing output paths
+or insufficient bounded scratch space fail before construction.
+
+`sidecar-verify` repeats the full identity, container, tensor, runtime, receipt,
+and read-only checks. `sidecar-launch` performs that full verification once per
+worker before starting distinct ports on the same inode; it emits a plan and an
+optional post-health ready record. A `--stop-file` can request controlled group
+shutdown for supervisors. `sidecar-cleanup` is dry-run by default and deletes
+only the two absolute, hash-matching paths in the retained receipt when
+`--execute` is supplied; the receipt remains.
+
+The lifecycle receipt separates observed E16b same-job warm readiness, E16c
+two-worker summed PSS, unmeasured cold storage, and a warm-only construction
+amortization estimate. It explicitly excludes cold-start, per-process RSS,
+energy, money, and maintenance claims. E16d's native product validation is
+frozen separately; until it passes, these commands are locally and synthetically
+validated interfaces rather than a new native result.
+
 The asymmetric scheduler remains experimental and disabled. E15b's strict
 two-CPU confirmation found only 1.00427x throughput for split 2/4 and exactly
 1.00000x CPU seconds/request, so it failed the predeclared efficiency gate and

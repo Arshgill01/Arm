@@ -9,6 +9,14 @@ from .planner import build_plan, load_object
 from .runtime import prepare_launch, server_version, write_recipe
 from .server import DEFAULT_ACCEPT_BACKLOG, PlannerHTTPServer, PlannerState
 from .service_planner import build_service_plan
+from .sidecar import (
+    cleanup_sidecar,
+    execute_sidecar_group,
+    prepack_sidecar,
+    prepare_sidecar_launch,
+    verify_product_sidecar,
+    write_object,
+)
 
 
 def resolve_batch_profile(
@@ -146,6 +154,61 @@ def parse_args() -> argparse.Namespace:
         help="confirm a repack mode or override the default when no service plan is used",
     )
     launch.add_argument("--dry-run", action="store_true")
+    prepack = commands.add_parser(
+        "sidecar-prepack",
+        help="construct and fully verify an identity-bound Arm repack sidecar",
+    )
+    prepack.add_argument("--contract", type=Path, required=True)
+    prepack.add_argument("--evidence", type=Path, required=True)
+    prepack.add_argument("--model", type=Path, required=True)
+    prepack.add_argument("--llama-server", type=Path, required=True)
+    prepack.add_argument("--sidecar", type=Path, required=True)
+    prepack.add_argument("--index", type=Path, required=True)
+    prepack.add_argument("--receipt", type=Path, required=True)
+    prepack.add_argument("--lifecycle-dir", type=Path, required=True)
+    prepack.add_argument("--scratch-root", type=Path, required=True)
+    prepack.add_argument("--host", default="127.0.0.1")
+    prepack.add_argument("--port", type=int, default=18081)
+    prepack.add_argument("--readiness-timeout", type=float, default=120.0)
+    verify = commands.add_parser(
+        "sidecar-verify",
+        help="fully hash and verify a sidecar against model/runtime/CPU identity",
+    )
+    verify.add_argument("--contract", type=Path, required=True)
+    verify.add_argument("--evidence", type=Path, required=True)
+    verify.add_argument("--model", type=Path, required=True)
+    verify.add_argument("--llama-server", type=Path, required=True)
+    verify.add_argument("--sidecar", type=Path, required=True)
+    verify.add_argument("--index", type=Path, required=True)
+    verify.add_argument("--receipt", type=Path)
+    verify.add_argument("--output", type=Path, required=True)
+    sidecar_launch = commands.add_parser(
+        "sidecar-launch",
+        help="verify and launch multiple workers on one shared read-only sidecar",
+    )
+    sidecar_launch.add_argument("--contract", type=Path, required=True)
+    sidecar_launch.add_argument("--evidence", type=Path, required=True)
+    sidecar_launch.add_argument("--model", type=Path, required=True)
+    sidecar_launch.add_argument("--llama-server", type=Path, required=True)
+    sidecar_launch.add_argument("--sidecar", type=Path, required=True)
+    sidecar_launch.add_argument("--index", type=Path, required=True)
+    sidecar_launch.add_argument("--receipt", type=Path, required=True)
+    sidecar_launch.add_argument("--workers", type=int, default=2)
+    sidecar_launch.add_argument("--host", default="127.0.0.1")
+    sidecar_launch.add_argument("--base-port", type=int, default=18081)
+    sidecar_launch.add_argument("--plan-output", type=Path, required=True)
+    sidecar_launch.add_argument("--log-dir", type=Path)
+    sidecar_launch.add_argument("--readiness-timeout", type=float, default=120.0)
+    sidecar_launch.add_argument("--ready-output", type=Path)
+    sidecar_launch.add_argument("--outcome-output", type=Path)
+    sidecar_launch.add_argument("--stop-file", type=Path)
+    sidecar_launch.add_argument("--dry-run", action="store_true")
+    cleanup = commands.add_parser(
+        "sidecar-cleanup", help="remove only receipt-bound sidecar artifacts"
+    )
+    cleanup.add_argument("--receipt", type=Path, required=True)
+    cleanup.add_argument("--output", type=Path, required=True)
+    cleanup.add_argument("--execute", action="store_true")
     return parser.parse_args()
 
 
@@ -204,6 +267,68 @@ def main() -> int:
             pass
         finally:
             server.server_close()
+        return 0
+    if arguments.command == "sidecar-prepack":
+        prepack_sidecar(
+            contract_path=arguments.contract,
+            evidence_path=arguments.evidence,
+            model_path=arguments.model,
+            server_path=arguments.llama_server,
+            sidecar_path=arguments.sidecar,
+            index_path=arguments.index,
+            receipt_path=arguments.receipt,
+            lifecycle_dir=arguments.lifecycle_dir,
+            scratch_root=arguments.scratch_root,
+            host=arguments.host,
+            port=arguments.port,
+            readiness_timeout=arguments.readiness_timeout,
+        )
+        print(arguments.receipt, flush=True)
+        return 0
+    if arguments.command == "sidecar-verify":
+        result = verify_product_sidecar(
+            contract_path=arguments.contract,
+            evidence_path=arguments.evidence,
+            model_path=arguments.model,
+            server_path=arguments.llama_server,
+            sidecar_path=arguments.sidecar,
+            index_path=arguments.index,
+            receipt_path=arguments.receipt,
+        )
+        write_object(arguments.output, result)
+        print(arguments.output, flush=True)
+        return 0
+    if arguments.command == "sidecar-launch":
+        plan = prepare_sidecar_launch(
+            contract_path=arguments.contract,
+            evidence_path=arguments.evidence,
+            model_path=arguments.model,
+            server_path=arguments.llama_server,
+            sidecar_path=arguments.sidecar,
+            index_path=arguments.index,
+            receipt_path=arguments.receipt,
+            workers=arguments.workers,
+            host=arguments.host,
+            base_port=arguments.base_port,
+        )
+        write_object(arguments.plan_output, plan)
+        print(arguments.plan_output, flush=True)
+        if arguments.dry_run:
+            return 0
+        outcome = execute_sidecar_group(
+            plan,
+            log_dir=arguments.log_dir,
+            readiness_timeout=arguments.readiness_timeout,
+            ready_output=arguments.ready_output,
+            stop_file=arguments.stop_file,
+        )
+        if arguments.outcome_output is not None:
+            write_object(arguments.outcome_output, outcome)
+        return 0 if outcome["status"] == "sidecar_worker_group_stopped" else 1
+    if arguments.command == "sidecar-cleanup":
+        result = cleanup_sidecar(arguments.receipt, execute=arguments.execute)
+        write_object(arguments.output, result)
+        print(arguments.output, flush=True)
         return 0
     if arguments.command == "launch":
         batch_size, micro_batch_size = resolve_batch_profile(

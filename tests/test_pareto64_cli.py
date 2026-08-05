@@ -57,9 +57,7 @@ class Pareto64CLITests(unittest.TestCase):
         ):
             arguments = parse_args()
         self.assertEqual("e5h.json", str(arguments.service_manifest))
-        self.assertEqual(
-            "service-memory.json", str(arguments.service_constraints)
-        )
+        self.assertEqual("service-memory.json", str(arguments.service_constraints))
 
     def test_launch_accepts_explicit_runtime_upgrade_paths(self) -> None:
         with patch(
@@ -138,6 +136,58 @@ class Pareto64CLITests(unittest.TestCase):
         self.assertEqual("e5h.json", str(arguments.manifest))
         self.assertEqual("service-memory.json", str(arguments.constraints))
         self.assertEqual("service-plan.json", str(arguments.output))
+
+    def test_sidecar_product_commands_are_explicit_and_bounded(self) -> None:
+        common = [
+            "--contract",
+            "e16c.json",
+            "--evidence",
+            "e16c-result.json",
+            "--model",
+            "model.gguf",
+            "--llama-server",
+            "runtime/bin/llama-server",
+            "--sidecar",
+            "weights.sidecar",
+            "--index",
+            "weights.index.json",
+        ]
+        with patch(
+            "sys.argv",
+            [
+                "pareto64",
+                "sidecar-prepack",
+                *common,
+                "--receipt",
+                "receipt.json",
+                "--lifecycle-dir",
+                "lifecycle",
+                "--scratch-root",
+                "scratch",
+            ],
+        ):
+            prepack = parse_args()
+        self.assertEqual("sidecar-prepack", prepack.command)
+        self.assertEqual(18081, prepack.port)
+        self.assertEqual(120.0, prepack.readiness_timeout)
+        with patch(
+            "sys.argv",
+            [
+                "pareto64",
+                "sidecar-launch",
+                *common,
+                "--receipt",
+                "receipt.json",
+                "--plan-output",
+                "plan.json",
+                "--dry-run",
+            ],
+        ):
+            launch = parse_args()
+        self.assertEqual("sidecar-launch", launch.command)
+        self.assertEqual(2, launch.workers)
+        self.assertEqual(120.0, launch.readiness_timeout)
+        self.assertTrue(launch.dry_run)
 
 
 if __name__ == "__main__":

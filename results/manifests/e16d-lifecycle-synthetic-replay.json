@@ -1,0 +1,831 @@
+{
+  "replay": {
+    "byte_stable": true,
+    "complete_gates": 14,
+    "experiment_id": "E16d-synthetic-replay",
+    "independent_replays": 2,
+    "schema_version": 1,
+    "status": "valid_complete_synthetic_lifecycle_replay",
+    "summary_sha256": "5f2d71bc374462db2de0b24cf6f53ad49d4b92cc85efb3f056115c6da26d7505"
+  },
+  "summary": {
+    "boundaries": {
+      "amortization": {
+        "estimate_boundary": "Warm same-job estimate; excludes energy, money, and cold storage."
+      },
+      "cold_storage": {
+        "claim_permitted": false,
+        "measured": false
+      },
+      "multi_worker": {
+        "matched_native_evidence": true,
+        "per_process_rss_reduction_claim_permitted": false
+      },
+      "warm_process_start": {
+        "matched_native_evidence": true
+      }
+    },
+    "claim_boundary": "A valid E16d result establishes only that a clean Pareto64 checkout can prepack, fully verify, launch two exact E7c Q4_K_M workers on one read-only identity-bound sidecar, preserve the 23/30 reference map, record construction/storage cost, and clean up by verified receipt on the exact native GitHub Arm64 host. E16b remains the same-job warm readiness evidence and E16c remains the two-worker summed-PSS evidence. E16d makes no cold-start, new throughput, per-process RSS, energy, PMU, Mac, other CPU/model, fleet, or cost claim.",
+    "cleanup": {
+      "complete": {
+        "deleted": true,
+        "receipt_retained": true,
+        "schema_version": 1,
+        "status": "sidecar_cleanup_complete",
+        "targets": [
+          {
+            "path": "/tmp/pareto64-e16d.sidecar",
+            "size_bytes": 2139013120
+          },
+          {
+            "path": "/tmp/pareto64-e16d.index.json",
+            "size_bytes": 1000
+          }
+        ],
+        "targets_absent": true
+      },
+      "plan": {
+        "deleted": false,
+        "receipt_retained": true,
+        "schema_version": 1,
+        "status": "sidecar_cleanup_planned",
+        "targets": [
+          {
+            "path": "/tmp/pareto64-e16d.sidecar",
+            "size_bytes": 2139013120
+          },
+          {
+            "path": "/tmp/pareto64-e16d.index.json",
+            "size_bytes": 1000
+          }
+        ],
+        "targets_absent": false
+      }
+    },
+    "construction": {
+      "cleanup": {
+        "deleted_raw_tensor_bytes": 2137964544,
+        "deleted_raw_tensor_count": 183,
+        "raw_tensor_cleanup_complete": true
+      },
+      "full_verification_seconds": 7.0,
+      "server_process_seconds": 5.0,
+      "server_returncode": 0,
+      "server_start_to_ready_seconds": 4.0,
+      "sidecar_build_seconds": 6.0,
+      "total_prepack_seconds": 18.0
+    },
+    "contract_sha256": "055c656a14583d76e64ea773367e67979d36bcb026c072241892a4bd30d7fd2e",
+    "corruption_rejection": {
+      "corrupted_index_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "exit_status": 1,
+      "failure_contains": "sidecar container differs from its index",
+      "index_sha256_after": "1111111111111111111111111111111111111111111111111111111111111111",
+      "index_sha256_before": "1111111111111111111111111111111111111111111111111111111111111111",
+      "schema_version": 1,
+      "sidecar_sha256_after": "037a8697ad16ef8200a238d7005278ef15fe9db78b2200ca7517fa73fd649dc2",
+      "sidecar_sha256_before": "037a8697ad16ef8200a238d7005278ef15fe9db78b2200ca7517fa73fd649dc2",
+      "status": "corrupt_index_rejected",
+      "verification_output_absent": true
+    },
+    "decision": {
+      "clean_checkout_lifecycle_validated": true,
+      "cold_start_claim_allowed": false,
+      "new_native_performance_claim_allowed": false,
+      "per_process_rss_reduction_claim_allowed": false,
+      "product_sidecar_workflow_promoted": true,
+      "valid": true
+    },
+    "experiment_id": "E16d",
+    "failed_gates": [],
+    "gates": {
+      "construction_and_storage_cost_recorded": true,
+      "controlled_worker_group_shutdown": true,
+      "corrupted_index_rejected_without_sidecar_change": true,
+      "exact_frozen_product_inputs": true,
+      "exact_quality_on_both_workers": true,
+      "generated_raw_tensors_cleaned": true,
+      "independent_full_verification": true,
+      "native_arm64": true,
+      "prepack_constructed_full_read_only_sidecar": true,
+      "receipt_bound_cleanup_complete": true,
+      "runtime_repack_skipped_after_binding": true,
+      "same_read_only_shared_inode_mapped": true,
+      "two_verified_workers_ready": true,
+      "warm_cold_amortized_boundaries_explicit": true
+    },
+    "github": {
+      "run_attempt": 1,
+      "run_id": "synthetic",
+      "runner_arch": "ARM64",
+      "runner_os": "Linux",
+      "sha": "synthetic",
+      "source_artifact_run_id": "30851609576"
+    },
+    "identity": {
+      "cpu": {
+        "architecture": "aarch64",
+        "common_features": [
+          "aes",
+          "asimd",
+          "asimddp",
+          "asimdfhm",
+          "asimdhp",
+          "asimdrdm",
+          "atomics",
+          "bf16",
+          "cpuid",
+          "crc32",
+          "dcpodp",
+          "dcpop",
+          "evtstrm",
+          "fcma",
+          "flagm",
+          "flagm2",
+          "fp",
+          "fphp",
+          "frint",
+          "i8mm",
+          "ilrcpc",
+          "jscvt",
+          "lrcpc",
+          "paca",
+          "pacg",
+          "pmull",
+          "sb",
+          "sha1",
+          "sha2",
+          "sha3",
+          "sha512",
+          "sm3",
+          "sm4",
+          "sve",
+          "sve2",
+          "sveaes",
+          "svebf16",
+          "svebitperm",
+          "svei8mm",
+          "svesha3",
+          "svesm4",
+          "uscat"
+        ],
+        "common_features_sha256": "4162bfdb7c8ed3914bd17232c428ee08a46e9055a18790d8e17f5fe6b7b96f92",
+        "cpu_implementers": [
+          "0x41"
+        ],
+        "cpu_parts": [
+          "0xd49"
+        ],
+        "sve_vector_length_bytes": 16
+      },
+      "experiment_id": "E16c",
+      "llama_cpp_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "repack_dump_format_version": 1,
+      "schema_version": 1,
+      "sidecar_format_version": 1,
+      "source_diff_sha256": "48a7611bbe6e22a0303bf0b8855dbab3f718ca6d56d5a594a8ef1650f959f003",
+      "source_model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4"
+    },
+    "launch": {
+      "mappings": [
+        {
+          "device": "08:01",
+          "inode": 4242,
+          "offset": "00100000",
+          "path": "/tmp/pareto64-e16d.sidecar",
+          "permissions": "r--s"
+        },
+        {
+          "device": "08:01",
+          "inode": 4242,
+          "offset": "00100000",
+          "path": "/tmp/pareto64-e16d.sidecar",
+          "permissions": "r--s"
+        }
+      ],
+      "mechanism_logs": [
+        {
+          "all_tensors_loaded_without_runtime_repacking": true,
+          "identity_rejection_observed": false,
+          "mapped_read_only": true
+        },
+        {
+          "all_tensors_loaded_without_runtime_repacking": true,
+          "identity_rejection_observed": false,
+          "mapped_read_only": true
+        }
+      ],
+      "outcome": {
+        "error": null,
+        "readiness": [
+          {
+            "host": "127.0.0.1",
+            "pid": 9001,
+            "port": 18081,
+            "ready_seconds": 1.1,
+            "worker": 1
+          },
+          {
+            "host": "127.0.0.1",
+            "pid": 9002,
+            "port": 18082,
+            "ready_seconds": 1.2,
+            "worker": 2
+          }
+        ],
+        "status": "sidecar_worker_group_stopped",
+        "stop_requested": true,
+        "worker_returncodes": [
+          0,
+          0
+        ]
+      },
+      "plan": {
+        "schema_version": 1,
+        "sidecar": {
+          "inode": 4242,
+          "path": "/tmp/pareto64-e16d.sidecar",
+          "read_only": true,
+          "sha256": "037a8697ad16ef8200a238d7005278ef15fe9db78b2200ca7517fa73fd649dc2"
+        },
+        "status": "ready_to_launch_shared_sidecar_workers",
+        "verification_passes": 2,
+        "worker_count": 2,
+        "workers": [
+          {
+            "port": 18081,
+            "worker": 1
+          },
+          {
+            "port": 18082,
+            "worker": 2
+          }
+        ]
+      },
+      "ready": {
+        "schema_version": 1,
+        "sidecar": {
+          "inode": 4242,
+          "path": "/tmp/pareto64-e16d.sidecar",
+          "read_only": true,
+          "sha256": "037a8697ad16ef8200a238d7005278ef15fe9db78b2200ca7517fa73fd649dc2"
+        },
+        "status": "shared_sidecar_workers_ready",
+        "worker_count": 2,
+        "workers": [
+          {
+            "host": "127.0.0.1",
+            "pid": 9001,
+            "port": 18081,
+            "ready_seconds": 1.1,
+            "worker": 1
+          },
+          {
+            "host": "127.0.0.1",
+            "pid": 9002,
+            "port": 18082,
+            "ready_seconds": 1.2,
+            "worker": 2
+          }
+        ]
+      }
+    },
+    "quality": {
+      "group_measured_requests": 60,
+      "worker_answer_mismatches": 0,
+      "workers": [
+        {
+          "answers": [
+            {
+              "expected": "A",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "arithmetic-01"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "arithmetic-02"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "arithmetic-03"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "arithmetic-04"
+            },
+            {
+              "expected": "A",
+              "prediction": "A",
+              "reference_prediction": "A",
+              "response": "A",
+              "task_id": "arithmetic-05"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "logic-01"
+            },
+            {
+              "expected": "A",
+              "prediction": "A",
+              "reference_prediction": "A",
+              "response": "A",
+              "task_id": "logic-02"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "logic-03"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "logic-04"
+            },
+            {
+              "expected": "A",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "logic-05"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "code-01"
+            },
+            {
+              "expected": "D",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "code-02"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "code-03"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "code-04"
+            },
+            {
+              "expected": "D",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "code-05"
+            },
+            {
+              "expected": "A",
+              "prediction": "A",
+              "reference_prediction": "A",
+              "response": "A",
+              "task_id": "data-01"
+            },
+            {
+              "expected": "C",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "data-02"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "data-03"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "data-04"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "data-05"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "systems-01"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "systems-02"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "systems-03"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "systems-04"
+            },
+            {
+              "expected": "D",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "systems-05"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "evidence-01"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "evidence-02"
+            },
+            {
+              "expected": "A",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "evidence-03"
+            },
+            {
+              "expected": "D",
+              "prediction": "D",
+              "reference_prediction": "D",
+              "response": "D",
+              "task_id": "evidence-04"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "evidence-05"
+            }
+          ],
+          "correct": 23,
+          "reference_prediction_mismatches": 0,
+          "request_failures": 0,
+          "total": 30,
+          "worker": 1
+        },
+        {
+          "answers": [
+            {
+              "expected": "A",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "arithmetic-01"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "arithmetic-02"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "arithmetic-03"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "arithmetic-04"
+            },
+            {
+              "expected": "A",
+              "prediction": "A",
+              "reference_prediction": "A",
+              "response": "A",
+              "task_id": "arithmetic-05"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "logic-01"
+            },
+            {
+              "expected": "A",
+              "prediction": "A",
+              "reference_prediction": "A",
+              "response": "A",
+              "task_id": "logic-02"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "logic-03"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "logic-04"
+            },
+            {
+              "expected": "A",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "logic-05"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "code-01"
+            },
+            {
+              "expected": "D",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "code-02"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "code-03"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "code-04"
+            },
+            {
+              "expected": "D",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "code-05"
+            },
+            {
+              "expected": "A",
+              "prediction": "A",
+              "reference_prediction": "A",
+              "response": "A",
+              "task_id": "data-01"
+            },
+            {
+              "expected": "C",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "data-02"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "data-03"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "data-04"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "data-05"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "systems-01"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "systems-02"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "systems-03"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "systems-04"
+            },
+            {
+              "expected": "D",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "systems-05"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "evidence-01"
+            },
+            {
+              "expected": "C",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "evidence-02"
+            },
+            {
+              "expected": "A",
+              "prediction": "C",
+              "reference_prediction": "C",
+              "response": "C",
+              "task_id": "evidence-03"
+            },
+            {
+              "expected": "D",
+              "prediction": "D",
+              "reference_prediction": "D",
+              "response": "D",
+              "task_id": "evidence-04"
+            },
+            {
+              "expected": "B",
+              "prediction": "B",
+              "reference_prediction": "B",
+              "response": "B",
+              "task_id": "evidence-05"
+            }
+          ],
+          "correct": 23,
+          "reference_prediction_mismatches": 0,
+          "request_failures": 0,
+          "total": 30,
+          "worker": 2
+        }
+      ]
+    },
+    "schema_version": 1,
+    "sidecar": {
+      "index_path": "/tmp/pareto64-e16d.index.json",
+      "index_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "index_size_bytes": 1000,
+      "mapping_offset_bytes": 1048576,
+      "mapping_protection": "PROT_READ",
+      "mapping_sharing": "MAP_SHARED",
+      "mode": "0444",
+      "path": "/tmp/pareto64-e16d.sidecar",
+      "sha256": "037a8697ad16ef8200a238d7005278ef15fe9db78b2200ca7517fa73fd649dc2",
+      "size_bytes": 2139013120,
+      "tensor_count": 183
+    },
+    "status": "valid_product_sidecar_lifecycle",
+    "storage": {
+      "raw_plus_sidecar_peak_bytes": 4276977664,
+      "raw_repack_bytes": 2137964544,
+      "sidecar_bytes": 2139013120
+    },
+    "verification": {
+      "binding": {
+        "cpu": {
+          "architecture": "aarch64",
+          "common_features": [
+            "aes",
+            "asimd",
+            "asimddp",
+            "asimdfhm",
+            "asimdhp",
+            "asimdrdm",
+            "atomics",
+            "bf16",
+            "cpuid",
+            "crc32",
+            "dcpodp",
+            "dcpop",
+            "evtstrm",
+            "fcma",
+            "flagm",
+            "flagm2",
+            "fp",
+            "fphp",
+            "frint",
+            "i8mm",
+            "ilrcpc",
+            "jscvt",
+            "lrcpc",
+            "paca",
+            "pacg",
+            "pmull",
+            "sb",
+            "sha1",
+            "sha2",
+            "sha3",
+            "sha512",
+            "sm3",
+            "sm4",
+            "sve",
+            "sve2",
+            "sveaes",
+            "svebf16",
+            "svebitperm",
+            "svei8mm",
+            "svesha3",
+            "svesm4",
+            "uscat"
+          ],
+          "common_features_sha256": "4162bfdb7c8ed3914bd17232c428ee08a46e9055a18790d8e17f5fe6b7b96f92",
+          "cpu_implementers": [
+            "0x41"
+          ],
+          "cpu_parts": [
+            "0xd49"
+          ],
+          "sve_vector_length_bytes": 16
+        },
+        "experiment_id": "E16c",
+        "llama_cpp_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+        "repack_dump_format_version": 1,
+        "schema_version": 1,
+        "sidecar_format_version": 1,
+        "source_diff_sha256": "48a7611bbe6e22a0303bf0b8855dbab3f718ca6d56d5a594a8ef1650f959f003",
+        "source_model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4"
+      },
+      "index_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "read_only": true,
+      "receipt_verified": true,
+      "schema_version": 1,
+      "sidecar_sha256": "037a8697ad16ef8200a238d7005278ef15fe9db78b2200ca7517fa73fd649dc2",
+      "status": "valid_persistent_arm_sidecar",
+      "tensor_count": 183
+    }
+  }
+}
