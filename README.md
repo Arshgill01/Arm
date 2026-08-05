@@ -182,7 +182,13 @@ all mechanically calibration-known. It reproduces every uncached byte, routes
 the predeclared 146/19/0 certified/calibrated/unknown decisions in both traces,
 and reaches 1.85158x throughput with 0.94427x p95 and 0.53934x CPU/request.
 This admits only that exact certificate boundary; missing fingerprints still
-fail closed. E14b then repairs only E14a's log verbosity and validates the
+fail closed. E21b then validates a fresh online transition registry over all 30
+quality tasks: four reverse-balanced repetitions preserve 23/30 and every
+paired response, reach **1.72776x** lifecycle throughput and 0.57752x
+CPU/request, and break even in cycle two. Synchronous first-use p95 regresses to
+1.66468x while certified steady-state p95 improves to 0.43302x, so promotion is
+explicitly identity/workload-bound and makes no arbitrary-prompt or periodic
+revocation claim. E14b then repairs only E14a's log verbosity and validates the
 four-point selective-repack frontier. Both selective points miss the unchanged
 joint 80%-throughput/40%-extra-RSS product target, so full repack remains the
 selected service and the experimental hook is not promoted.
@@ -234,6 +240,7 @@ preserved unless the row explicitly describes a rejected candidate.
 | Safe-sampled external holdout | Exact Q4_K_M and Q4_0 over the pinned 300-sample workload | Use E10e's one-byte safe sample while reading each target's pre-sampling score | Zero failures across 28,748 responses; Q4_K_M raw task scores 73%/49%/57% versus 72%/48%/60% | Admit as supplemental mixed robustness evidence; keep the original admission contract |
 | Fail-closed cache certificate | All-uncached 165-request temporal trace | Certify 44 exact prompt fingerprints, deny four, and route unknowns uncached | Byte-exact outputs; 1.84765x throughput; 0.90716x p95; six safe unknown fallbacks differed from the frozen count | Reject E13a on the unchanged decision-count gate; retain the otherwise passing evidence |
 | Calibration-known cache certificate | All-uncached reversed 165-request trace | Restrict transitions to fingerprints derived before E13b and fail closed otherwise | Byte-exact outputs; **1.85158x** throughput; 0.94427x p95; exact 146/19/0 decisions twice | Admit only the retained exact-fingerprint boundary; do not generalize semantically |
+| Adaptive online cache certificate | Fresh empty registry over four 30-task cycles | Shadow unknown transitions, serve an uncached oracle, and certify only byte-exact reuse | Exact 23/30; **1.72776x** lifecycle throughput; 0.57752x CPU/request; cycle-two break-even; first-use p95 1.66468x | Promote only the exact identity/workload policy; no arbitrary-prompt or periodic-revocation claim |
 | Selective weight repack | Full-repack and no-repack memory/throughput endpoints | Leave two predeclared tensor families in mapped storage | Valid four-point frontier; selective points retain 78.06%/62.56% throughput and save 22.14%/46.11% of extra RSS | Retain E14a as invalid and E14b as a valid no-promotion result; keep full repack |
 | Persistent packed-weight prerequisite | Runtime-only Arm-repacked Q4_K_M arena | Serialize all 183 packed tensors at arena-relative offsets with model/source/CPU binding | Two fresh processes produce the same 2,139,013,120-byte SHA-256 and preserve 23/30 | Admit only the representation feasibility; measure a fail-closed loader separately |
 | Asymmetric prefill/decode scheduling | Exact E9a 4/4 pools inside strict two-CPU affinity | Reduce only decode threads to two across six reverse-balanced pairs | 1.00427x throughput, 0.99897x p95, but exactly 1.00000x CPU/request | Reject: no CPU-efficiency gain; keep 4/4 |
@@ -343,6 +350,7 @@ repack flag that conflicts with the plan is refused.
 | [E13a](results/reports/e13a-cache-certificate.md) | Byte-exact fail-closed routing reached 1.84765x throughput, but six safe unknown warmup fallbacks violated the frozen decision-count expectation; the policy remains rejected |
 | [E14a](results/reports/e14a-selective-repack-instrumentation-failure.md) | All eight native cells completed with exact quality, but missing verbosity-4 mechanism logs invalidate the frontier and forbid promotion |
 | [E13b](results/reports/e13b-cache-certificate-successor.md) | A separately frozen calibration-known trace passes every gate at 1.85158x throughput with byte-exact output and exact decision counts; admission remains fingerprint-bounded |
+| [E21b](results/reports/e21b-online-cache-certificate.md) | The adaptive online policy passes all frozen safety and performance gates at 1.72776x lifecycle throughput with exact 23/30 quality, cycle-two break-even, and a separately retained 1.66468x first-use p95 regression |
 | [E14b](results/reports/e14b-selective-repack-frontier.md) | The corrected four-point frontier is valid, but neither selective tier clears the unchanged joint target; full repack remains selected |
 | [E16a](results/reports/e16a-repack-sidecar-feasibility.md) | Two fresh native processes produce a byte-identical complete repack sidecar with exact quality; only the separately frozen loader successor is authorized |
 | [E16b first run](results/reports/e16b-repack-sidecar-loader-ingestion-failure.md) | All eight native loader cells complete with descriptive passing values, but a frozen post-measurement ingester error invalidates the run and forbids promotion |

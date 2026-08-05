@@ -2200,3 +2200,22 @@ promotion gates twice byte-for-byte at summary SHA-256 `44b3eaa8…104e8`.
 Contract SHA-256 is `d9486025…7b88`; the readiness gate returns
 `matrix_allowed` with a 45-minute, 4-GiB native budget. No full native answer,
 admission, timing, resource, or result was observed before this freeze.
+
+### E21b full native outcome: promoted with explicit first-use cost
+
+Run `30985501097` passes every frozen validity and promotion gate across all
+eight fresh native processes. Both policies reproduce 23/30 in every cycle;
+all 480 adaptive served responses match their paired uncached responses exactly,
+and no request fails. Each repetition certifies 30 transitions, denies one,
+serves 31 unknown routes only after shadow plus uncached oracle, and later serves
+89 certified routes.
+
+Lifecycle throughput is 1.72776x and CPU/served request is 0.57752x. The tail is
+intentionally split: synchronous first-use p95 regresses to 1.66468x, while
+certified steady-state p95 falls to 0.43302x. Cumulative latency breaks even in
+cycle two in all four repetitions. The policy is promoted only inside the exact
+identity/workload boundary. It records zero revocations but does not implement
+or claim periodic post-certification revocation, semantic equivalence, or
+arbitrary-prompt safety. See the retained
+[`manifest`](../results/manifests/e21b-30985501097.json) and
+[`report`](../results/reports/e21b-online-cache-certificate.md).

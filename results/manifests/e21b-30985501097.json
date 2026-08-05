@@ -1,0 +1,893 @@
+{
+  "baseline": {
+    "actual_http_calls": 480,
+    "cell_metrics": [
+      {
+        "cpu_seconds_per_served_request": 6.642166666666666,
+        "maximum_rss_kib": 4512972,
+        "median_user_http_ms": 1598.0779364999999,
+        "p95_user_http_ms": 2476.999347,
+        "readiness_ms": 2727.851678,
+        "repetition": 1,
+        "served_requests_per_second": 0.5962271843396781
+      },
+      {
+        "cpu_seconds_per_served_request": 6.649166666666667,
+        "maximum_rss_kib": 4512824,
+        "median_user_http_ms": 1602.199484,
+        "p95_user_http_ms": 2484.089218,
+        "readiness_ms": 2527.449153,
+        "repetition": 2,
+        "served_requests_per_second": 0.5966556381588141
+      },
+      {
+        "cpu_seconds_per_served_request": 6.633916666666667,
+        "maximum_rss_kib": 4512920,
+        "median_user_http_ms": 1596.929523,
+        "p95_user_http_ms": 2472.134504,
+        "readiness_ms": 2525.820139,
+        "repetition": 3,
+        "served_requests_per_second": 0.5981494500316414
+      },
+      {
+        "cpu_seconds_per_served_request": 6.6385,
+        "maximum_rss_kib": 4512952,
+        "median_user_http_ms": 1596.9653454999998,
+        "p95_user_http_ms": 2472.088964,
+        "readiness_ms": 2632.554376,
+        "repetition": 4,
+        "served_requests_per_second": 0.597823238834285
+      }
+    ],
+    "correct": 368,
+    "cpu_seconds_per_served_request": 6.640937500000001,
+    "elapsed_seconds": 803.733586395,
+    "maximum_rss_kib": {
+      "coefficient_of_variation": 1.2587576892483314e-05,
+      "max": 4512972.0,
+      "mean": 4512917.0,
+      "median": 4512936.0,
+      "min": 4512824.0,
+      "p95": 4512972.0,
+      "population_stddev": 56.806689746895124
+    },
+    "per_cell_served_requests_per_second": {
+      "coefficient_of_variation": 0.001332158250710496,
+      "max": 0.5981494500316414,
+      "mean": 0.5972138778411047,
+      "median": 0.5972394384965496,
+      "min": 0.5962271843396781,
+      "p95": 0.5981494500316414,
+      "population_stddev": 0.0007955833948048379
+    },
+    "readiness_ms": {
+      "coefficient_of_variation": 0.03220883561605119,
+      "max": 2727.851678,
+      "mean": 2603.4188365,
+      "median": 2580.0017645,
+      "min": 2525.820139,
+      "p95": 2727.851678,
+      "population_stddev": 83.85308934455973
+    },
+    "reference_prediction_mismatches": 0,
+    "repetitions": 4,
+    "request_failures": 0,
+    "served_requests": 480,
+    "served_requests_per_second": 0.5972128179350477,
+    "user_http_ms": {
+      "coefficient_of_variation": 0.18219015340416814,
+      "max": 2573.014264,
+      "mean": 1674.3594076166667,
+      "median": 1598.1495315,
+      "min": 1199.530237,
+      "p95": 2475.434184,
+      "population_stddev": 305.0517973273926
+    }
+  },
+  "break_even": [
+    {
+      "cumulative_cycles": [
+        {
+          "cumulative_latency_ratio": 1.6704085171647762,
+          "cycle": 1
+        },
+        {
+          "cumulative_latency_ratio": 0.9910911020146991,
+          "cycle": 2
+        },
+        {
+          "cumulative_latency_ratio": 0.7226619251311236,
+          "cycle": 3
+        },
+        {
+          "cumulative_latency_ratio": 0.5779521488926773,
+          "cycle": 4
+        }
+      ],
+      "first_cumulative_break_even_cycle": 2,
+      "repetition": 1
+    },
+    {
+      "cumulative_cycles": [
+        {
+          "cumulative_latency_ratio": 1.6689039333760989,
+          "cycle": 1
+        },
+        {
+          "cumulative_latency_ratio": 0.9898790498355066,
+          "cycle": 2
+        },
+        {
+          "cumulative_latency_ratio": 0.7230497585821347,
+          "cycle": 3
+        },
+        {
+          "cumulative_latency_ratio": 0.577834645011872,
+          "cycle": 4
+        }
+      ],
+      "first_cumulative_break_even_cycle": 2,
+      "repetition": 2
+    },
+    {
+      "cumulative_cycles": [
+        {
+          "cumulative_latency_ratio": 1.6728887999927555,
+          "cycle": 1
+        },
+        {
+          "cumulative_latency_ratio": 0.9935194594759189,
+          "cycle": 2
+        },
+        {
+          "cumulative_latency_ratio": 0.7260730676214574,
+          "cycle": 3
+        },
+        {
+          "cumulative_latency_ratio": 0.5802634757360865,
+          "cycle": 4
+        }
+      ],
+      "first_cumulative_break_even_cycle": 2,
+      "repetition": 3
+    },
+    {
+      "cumulative_cycles": [
+        {
+          "cumulative_latency_ratio": 1.6695899691234048,
+          "cycle": 1
+        },
+        {
+          "cumulative_latency_ratio": 0.9912624128795275,
+          "cycle": 2
+        },
+        {
+          "cumulative_latency_ratio": 0.7244163050090446,
+          "cycle": 3
+        },
+        {
+          "cumulative_latency_ratio": 0.5788629405016693,
+          "cycle": 4
+        }
+      ],
+      "first_cumulative_break_even_cycle": 2,
+      "repetition": 4
+    }
+  ],
+  "campaign_decision": {
+    "adaptive_online_policy_promoted": true,
+    "break_even_cycle": 2,
+    "e13b_exact_certificate_remains_valid_for_its_own_boundary": true,
+    "exact_output_safety_established": true,
+    "first_use_tail_regression_retained": true,
+    "periodic_post_certification_revocation_claimed": false,
+    "semantic_or_arbitrary_prompt_generalization_claimed": false
+  },
+  "claim_boundary": "A valid E21b result establishes exact-output adaptive online transition admission and its observed certification, denial, fallback, first-use, steady-state and break-even boundaries only for the exact E7c Q4_K_M OpenAI-compatible service, this frozen sequential 30-task four-cycle workload, and native four-vCPU GitHub Arm64 runners. It does not certify arbitrary prompts, semantic equivalence, concurrency, post-certification revocation, another model/runtime, energy, PMU, device, fleet, cost or Mac behavior.",
+  "client": {
+    "api_path": "/v1/chat/completions",
+    "cache_prompt": "explicit per route",
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "fingerprint_add_special": false,
+    "fingerprint_parse_special": true,
+    "fingerprint_path": "/apply-template then /tokenize",
+    "maximum_output_tokens": 8,
+    "message_shape": "system instruction plus original task user prompt",
+    "seed": 424242,
+    "stream": false,
+    "temperature": 0.0
+  },
+  "contract_sha256": "d9486025e0d6a405fef3c1808141fdcd685b1354f54e00a68c21d156b3147b88",
+  "decision": {
+    "first_use_tail_regression_retained": true,
+    "performance_policy_promoted": true,
+    "post_result_gate_change_permitted": false,
+    "safety_certificate_established": true,
+    "selected_policy": "online",
+    "valid": true
+  },
+  "experiment_id": "E21b",
+  "github": {
+    "artifact_digest": "sha256:dc4ffe0c0b58a805df5d4c1a72c43593bb0fd9513b4726b8814ccd0376bb7fce",
+    "artifact_expires_at": "2026-11-03T07:33:41Z",
+    "artifact_id": "8922450721",
+    "artifact_name": "e21b-openai-certificate-30985501097-1",
+    "artifact_size_bytes": 14416402,
+    "job_id": "92239193095",
+    "repository_commit": "48cadbca063a2ad3b541edddf9649eb8356d0511",
+    "run_attempt": 1,
+    "run_id": "30985501097",
+    "run_url": "https://github.com/Arshgill01/Arm/actions/runs/30985501097"
+  },
+  "lifecycle_ratios": {
+    "cpu_seconds_per_served_request": 0.5775226263862093,
+    "maximum_rss": 1.0000257036826286,
+    "median_readiness": 0.9615501456762668,
+    "median_user_latency": 0.08338768893228563,
+    "p95_user_latency": 1.19683257836113,
+    "throughput": 1.7277643677141625
+  },
+  "online": {
+    "actual_http_calls": 604,
+    "cell_metrics": [
+      {
+        "cpu_seconds_per_served_request": 3.835166666666667,
+        "maximum_rss_kib": 4513004,
+        "median_user_http_ms": 132.39117349999998,
+        "p95_user_http_ms": 2957.411019,
+        "readiness_ms": 2535.925769,
+        "repetition": 1,
+        "served_requests_per_second": 1.0315229882973735
+      },
+      {
+        "cpu_seconds_per_served_request": 3.833666666666667,
+        "maximum_rss_kib": 4512888,
+        "median_user_http_ms": 133.486157,
+        "p95_user_http_ms": 2956.634859,
+        "readiness_ms": 2428.104158,
+        "repetition": 2,
+        "served_requests_per_second": 1.032472121627777
+      },
+      {
+        "cpu_seconds_per_served_request": 3.8383333333333334,
+        "maximum_rss_kib": 4512716,
+        "median_user_http_ms": 134.98274,
+        "p95_user_http_ms": 2962.680277,
+        "readiness_ms": 2533.497987,
+        "repetition": 3,
+        "served_requests_per_second": 1.0307258342437795
+      },
+      {
+        "cpu_seconds_per_served_request": 3.834,
+        "maximum_rss_kib": 4513088,
+        "median_user_http_ms": 133.072875,
+        "p95_user_http_ms": 2954.9833280000003,
+        "readiness_ms": 2427.554497,
+        "repetition": 4,
+        "served_requests_per_second": 1.0326534925175248
+      }
+    ],
+    "correct": 368,
+    "cpu_seconds_per_served_request": 3.835291666666667,
+    "elapsed_seconds": 465.187036736,
+    "maximum_rss_kib": {
+      "coefficient_of_variation": 3.091420112830668e-05,
+      "max": 4513088.0,
+      "mean": 4512924.0,
+      "median": 4512946.0,
+      "min": 4512716.0,
+      "p95": 4513088.0,
+      "population_stddev": 139.5134402127623
+    },
+    "per_cell_served_requests_per_second": {
+      "coefficient_of_variation": 0.0007511855772958039,
+      "max": 1.0326534925175248,
+      "mean": 1.0318436091716137,
+      "median": 1.0319975549625753,
+      "min": 1.0307258342437795,
+      "p95": 1.0326534925175248,
+      "population_stddev": 0.0007751060372345644
+    },
+    "readiness_ms": {
+      "coefficient_of_variation": 0.021540786912435016,
+      "max": 2535.925769,
+      "mean": 2481.27060275,
+      "median": 2480.8010725000004,
+      "min": 2427.554497,
+      "p95": 2535.925769,
+      "population_stddev": 53.44852132592694
+    },
+    "reference_prediction_mismatches": 0,
+    "repetitions": 4,
+    "request_failures": 0,
+    "served_requests": 480,
+    "served_requests_per_second": 1.031843026770341,
+    "user_http_ms": {
+      "coefficient_of_variation": 1.1810663706615807,
+      "max": 4602.111637,
+      "mean": 968.9972278854167,
+      "median": 133.265996,
+      "min": 128.604679,
+      "p95": 2962.680277,
+      "population_stddev": 1144.4500391197616
+    }
+  },
+  "online_decisions_per_repetition": [
+    {
+      "admission_counts": {
+        "certified": 30,
+        "denied": 1,
+        "retained": 89
+      },
+      "certified_transitions": 30,
+      "denied_transitions": 1,
+      "registry_sha256": "3d0ea1b57fb8943b6e5b646c1f1497c57927b9c2647674dcac9d9f7eaeded95b",
+      "repetition": 1,
+      "revocations": 0,
+      "route_counts": {
+        "certified_cache": 89,
+        "unknown_shadow_then_oracle": 31
+      }
+    },
+    {
+      "admission_counts": {
+        "certified": 30,
+        "denied": 1,
+        "retained": 89
+      },
+      "certified_transitions": 30,
+      "denied_transitions": 1,
+      "registry_sha256": "3d0ea1b57fb8943b6e5b646c1f1497c57927b9c2647674dcac9d9f7eaeded95b",
+      "repetition": 2,
+      "revocations": 0,
+      "route_counts": {
+        "certified_cache": 89,
+        "unknown_shadow_then_oracle": 31
+      }
+    },
+    {
+      "admission_counts": {
+        "certified": 30,
+        "denied": 1,
+        "retained": 89
+      },
+      "certified_transitions": 30,
+      "denied_transitions": 1,
+      "registry_sha256": "3d0ea1b57fb8943b6e5b646c1f1497c57927b9c2647674dcac9d9f7eaeded95b",
+      "repetition": 3,
+      "revocations": 0,
+      "route_counts": {
+        "certified_cache": 89,
+        "unknown_shadow_then_oracle": 31
+      }
+    },
+    {
+      "admission_counts": {
+        "certified": 30,
+        "denied": 1,
+        "retained": 89
+      },
+      "certified_transitions": 30,
+      "denied_transitions": 1,
+      "registry_sha256": "3d0ea1b57fb8943b6e5b646c1f1497c57927b9c2647674dcac9d9f7eaeded95b",
+      "repetition": 4,
+      "revocations": 0,
+      "route_counts": {
+        "certified_cache": 89,
+        "unknown_shadow_then_oracle": 31
+      }
+    }
+  ],
+  "platform": {
+    "architecture": "aarch64",
+    "logical_cpus": 4,
+    "model_name": "Neoverse-N2",
+    "relevant_features": [
+      "asimd",
+      "asimddp",
+      "bf16",
+      "i8mm",
+      "sve",
+      "sve2",
+      "svebf16",
+      "svei8mm"
+    ],
+    "sockets": 1,
+    "threads_per_core": 1
+  },
+  "promotion_gates": {
+    "bounded_lifecycle_p95": true,
+    "break_even_by_frozen_cycle": true,
+    "certified_steady_state_p95_nonregression": true,
+    "maximum_cpu_per_request": true,
+    "maximum_rss_bound": true,
+    "minimum_lifecycle_throughput": true,
+    "readiness_bound": true
+  },
+  "provenance": {
+    "ref": "refs/heads/main",
+    "run_attempt": 1,
+    "run_id": "30985501097",
+    "runner_arch": "ARM64",
+    "runner_os": "Linux",
+    "runtime_artifact": "e9c-prompt-cache-30770403695-1",
+    "runtime_run_id": "30770403695",
+    "sha": "48cadbca063a2ad3b541edddf9649eb8356d0511"
+  },
+  "quality": {
+    "answers": [
+      {
+        "exact_response": "B",
+        "expected": "A",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "arithmetic-01"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "arithmetic-02"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "arithmetic-03"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "arithmetic-04"
+      },
+      {
+        "exact_response": "A",
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "task_id": "arithmetic-05"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "logic-01"
+      },
+      {
+        "exact_response": "A",
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "task_id": "logic-02"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "logic-03"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "logic-04"
+      },
+      {
+        "exact_response": "B",
+        "expected": "A",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "logic-05"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "code-01"
+      },
+      {
+        "exact_response": "C",
+        "expected": "D",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "code-02"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "code-03"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "code-04"
+      },
+      {
+        "exact_response": "B",
+        "expected": "D",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "code-05"
+      },
+      {
+        "exact_response": "A",
+        "expected": "A",
+        "prediction": "A",
+        "reference_prediction": "A",
+        "task_id": "data-01"
+      },
+      {
+        "exact_response": "B",
+        "expected": "C",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "data-02"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "data-03"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "data-04"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "data-05"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "systems-01"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "systems-02"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "systems-03"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "systems-04"
+      },
+      {
+        "exact_response": "C",
+        "expected": "D",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "systems-05"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "evidence-01"
+      },
+      {
+        "exact_response": "C",
+        "expected": "C",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "evidence-02"
+      },
+      {
+        "exact_response": "C",
+        "expected": "A",
+        "prediction": "C",
+        "reference_prediction": "C",
+        "task_id": "evidence-03"
+      },
+      {
+        "exact_response": "D",
+        "expected": "D",
+        "prediction": "D",
+        "reference_prediction": "D",
+        "task_id": "evidence-04"
+      },
+      {
+        "exact_response": "B",
+        "expected": "B",
+        "prediction": "B",
+        "reference_prediction": "B",
+        "task_id": "evidence-05"
+      }
+    ],
+    "baseline_correct": 368,
+    "baseline_cross_repetition_exact_response_mismatches": 0,
+    "online_correct": 368,
+    "paired_exact_response_mismatches": 0,
+    "task_score": "23/30"
+  },
+  "retention_validation": {
+    "artifact_identity_bound": true,
+    "independent_replay_byte_identical": true,
+    "independent_replays": 2,
+    "native_measurements_added": 0,
+    "source_contract_or_gates_changed": false,
+    "workflow_inventory": {
+      "all_retained_file_hashes_verified": true,
+      "extracted_bytes": 37909169,
+      "extracted_files": 146,
+      "files_outside_runner_regular_file_inventory": {
+        "build/runtime-files/bin/libggml-base.so.0": "1d3eaf1f192812b30748039fa0f1299fbc5acd3b03c34998c75cba56db92a8a0",
+        "build/runtime-files/bin/libggml-cpu.so.0": "c12b543b317bb81751924c0fd0b17fd8fd22133ed428f7212d964c6a595883cc",
+        "build/runtime-files/bin/libggml.so.0": "c51d94267578bc626f0fce908ff27d2904273b61798a045de027189fcca8f742",
+        "build/runtime-files/bin/libllama-common.so.0": "2f43ca3ec9af17e5d85406d18cd31a5467879a9048fac360825a6d8327fa9beb",
+        "build/runtime-files/bin/libllama.so.0": "6a497259422d15afd2ff9b16ba2b31b94e579ce7403cea9ac7e1e4c258c6fd4f",
+        "build/runtime-files/bin/libmtmd.so.0": "bc568b305c057eea8484e50439bfa8d6c2d193ab9704399573c55dc115c587b0",
+        "disk-after.txt": "7c583e419990059421914fb0cc7102c171c4b9c88d710edc4d1b4fbc3405bd5d"
+      },
+      "hashed_files": 138,
+      "sha256": "ee99000b8264081356d35c106c85cbfd7169aba4761167a467073649335293eb"
+    },
+    "workflow_inventory_sha256": "ee99000b8264081356d35c106c85cbfd7169aba4761167a467073649335293eb",
+    "workflow_summary_sha256": "74b4ab3c0cff5bb7785337c4355a90bd9920b5013215e1a891a76c7eb2e790ce"
+  },
+  "revocation_boundary": {
+    "observed_revocations": 0,
+    "post_certification_revocation_supported": false,
+    "reason": "This bounded policy uses one exact shadow/oracle comparison per identity-bound transition and does not periodically re-probe a certified transition. Identity changes invalidate the registry."
+  },
+  "runtime": {
+    "dynamic_dependency_basenames": [
+      "ld-linux-aarch64.so.1",
+      "libc.so.6",
+      "libgcc_s.so.1",
+      "libggml-base.so.0.18.0",
+      "libggml-cpu.so.0.18.0",
+      "libggml.so.0.18.0",
+      "libgomp.so.1.0.0",
+      "libllama-common.so.0.0.10216",
+      "libllama-server-impl.so",
+      "libllama.so.0.0.10216",
+      "libm.so.6",
+      "libmtmd.so.0.0.10216",
+      "libstdc++.so.6.0.33"
+    ],
+    "reused_calibration_run": "30770403695",
+    "runtime_closure": {
+      "build_root": "/tmp/llama.cpp-E9c-build",
+      "file_count": 8,
+      "files": [
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-base.so.0.18.0",
+          "relative_path": "bin/libggml-base.so.0.18.0",
+          "sha256": "1d3eaf1f192812b30748039fa0f1299fbc5acd3b03c34998c75cba56db92a8a0",
+          "size_bytes": 873464
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml-cpu.so.0.18.0",
+          "relative_path": "bin/libggml-cpu.so.0.18.0",
+          "sha256": "c12b543b317bb81751924c0fd0b17fd8fd22133ed428f7212d964c6a595883cc",
+          "size_bytes": 1160432
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libggml.so.0.18.0",
+          "relative_path": "bin/libggml.so.0.18.0",
+          "sha256": "c51d94267578bc626f0fce908ff27d2904273b61798a045de027189fcca8f742",
+          "size_bytes": 78176
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-common.so.0.0.10216",
+          "relative_path": "bin/libllama-common.so.0.0.10216",
+          "sha256": "2f43ca3ec9af17e5d85406d18cd31a5467879a9048fac360825a6d8327fa9beb",
+          "size_bytes": 5325720
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama-server-impl.so",
+          "relative_path": "bin/libllama-server-impl.so",
+          "sha256": "491a7c475723c1f44bc304424c7be89aba1f0f19426439a7a089442eb1cd1358",
+          "size_bytes": 6949024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libllama.so.0.0.10216",
+          "relative_path": "bin/libllama.so.0.0.10216",
+          "sha256": "6a497259422d15afd2ff9b16ba2b31b94e579ce7403cea9ac7e1e4c258c6fd4f",
+          "size_bytes": 3937120
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/libmtmd.so.0.0.10216",
+          "relative_path": "bin/libmtmd.so.0.0.10216",
+          "sha256": "bc568b305c057eea8484e50439bfa8d6c2d193ab9704399573c55dc115c587b0",
+          "size_bytes": 1461024
+        },
+        {
+          "artifact_relative_path": "runtime-files/bin/llama-server",
+          "relative_path": "bin/llama-server",
+          "sha256": "ec60d4975757948cd330dfa82c1f8d274ea67e73cb319ce623f02232dcf61dbd",
+          "size_bytes": 72488
+        }
+      ],
+      "ldd_output": "\tlinux-vdso.so.1 (0x0000ff394677c000)\n\tlibllama-server-impl.so => /tmp/llama.cpp-E9c-build/bin/libllama-server-impl.so (0x0000ff3946110000)\n\tlibstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ff3945e80000)\n\tlibgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ff3945e40000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ff3945c80000)\n\t/lib/ld-linux-aarch64.so.1 (0x0000ff3946730000)\n\tlibllama-common.so.0 => /tmp/llama.cpp-E9c-build/bin/libllama-common.so.0 (0x0000ff3945860000)\n\tlibmtmd.so.0 => /tmp/llama.cpp-E9c-build/bin/libmtmd.so.0 (0x0000ff3945710000)\n\tlibllama.so.0 => /tmp/llama.cpp-E9c-build/bin/libllama.so.0 (0x0000ff39453d0000)\n\tlibggml.so.0 => /tmp/llama.cpp-E9c-build/bin/libggml.so.0 (0x0000ff39453a0000)\n\tlibggml-base.so.0 => /tmp/llama.cpp-E9c-build/bin/libggml-base.so.0 (0x0000ff39452c0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ff3945210000)\n\tlibggml-cpu.so.0 => /tmp/llama.cpp-E9c-build/bin/libggml-cpu.so.0 (0x0000ff3945070000)\n\tlibgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000ff3944ff0000)\n",
+      "runtime_dependencies": [
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libllama-server-impl.so",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libllama-server-impl.so"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libstdc++.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgcc_s.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgcc_s.so.1"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libc.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libc.so.6"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/ld-linux-aarch64.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libllama-common.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libllama-common.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libmtmd.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libmtmd.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libllama.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libllama.so.0.0.10216"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libggml.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libggml.so.0.18.0"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libggml-base.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libggml-base.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libm.so.6",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libm.so.6"
+        },
+        {
+          "build_local": true,
+          "ldd_path": "/tmp/llama.cpp-E9c-build/bin/libggml-cpu.so.0",
+          "resolved_path": "/tmp/llama.cpp-E9c-build/bin/libggml-cpu.so.0.18.0"
+        },
+        {
+          "build_local": false,
+          "ldd_path": "/lib/aarch64-linux-gnu/libgomp.so.1",
+          "resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0"
+        }
+      ],
+      "schema_version": 1,
+      "server_path": "/tmp/llama.cpp-E9c-build/bin/llama-server",
+      "server_relative_path": "bin/llama-server",
+      "system_dependencies_excluded": true,
+      "total_size_bytes": 19857448
+    },
+    "server_binary_sha256": "ec60d4975757948cd330dfa82c1f8d274ea67e73cb319ce623f02232dcf61dbd",
+    "source": {
+      "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+      "patches_applied": [
+        "0001-kleidiai-use-validated-arm-features.patch",
+        "0002-arm-q8-vector-narrowing-stores.patch",
+        "0003-reasoning-budget-forced-token-guard.patch"
+      ],
+      "tag": "b10216"
+    }
+  },
+  "schema_version": 1,
+  "status": "valid_openai_online_certificate_promoted",
+  "tail_boundaries": {
+    "certified_steady_state": {
+      "baseline_user_http_ms": {
+        "coefficient_of_variation": 0.18229877450799553,
+        "max": 2557.225442,
+        "mean": 1676.8785365955055,
+        "median": 1599.0222985,
+        "min": 1199.530237,
+        "p95": 2476.999347,
+        "population_stddev": 305.6929022201216
+      },
+      "median_latency_ratio": 0.08232041299454088,
+      "online_user_http_ms": {
+        "coefficient_of_variation": 1.007518578659699,
+        "max": 1178.352575,
+        "mean": 337.79094712078654,
+        "median": 131.63217600000002,
+        "min": 128.604679,
+        "p95": 1072.581391,
+        "population_stddev": 340.3306549272484
+      },
+      "p95_latency_ratio": 0.43301642057316214,
+      "requests_per_policy": 356
+    },
+    "denied_fallback": null,
+    "synchronous_first_use": {
+      "baseline_user_http_ms": {
+        "coefficient_of_variation": 0.1818021885810537,
+        "max": 2573.014264,
+        "mean": 1667.1270695806452,
+        "median": 1596.7686825,
+        "min": 1201.607491,
+        "p95": 2471.880449,
+        "population_stddev": 303.0873498924799
+      },
+      "median_latency_ratio": 1.6476137716960764,
+      "online_user_http_ms": {
+        "coefficient_of_variation": 0.20010020676929036,
+        "max": 4602.111637,
+        "mean": 2781.170098467742,
+        "median": 2630.8580715,
+        "min": 1868.3661149999998,
+        "p95": 4114.8989710000005,
+        "population_stddev": 556.5127117639628
+      },
+      "p95_latency_ratio": 1.6646836511307348,
+      "requests_per_policy": 124
+    }
+  },
+  "validity_gates": {
+    "adaptive_route_and_admission_bounds": true,
+    "all_30_prompts_unseen_to_e13b": true,
+    "baseline_uncached_mechanism": true,
+    "certified_cache_mechanism": true,
+    "complete_reverse_balanced_fresh_process_matrix": true,
+    "denied_fallback_is_uncached": true,
+    "exact_e7c_service_binary_and_client": true,
+    "exact_online_outputs_match_paired_uncached": true,
+    "exact_openai_compatible_requests": true,
+    "full_reference_quality_preserved": true,
+    "native_arm64": true,
+    "raw_call_counts": true,
+    "registry_integrity_and_bounds": true,
+    "supported_timing_schema": true,
+    "unknown_cached_attempts_never_served": true,
+    "unknown_shadow_mechanism": true,
+    "zero_request_failures": true
+  }
+}
