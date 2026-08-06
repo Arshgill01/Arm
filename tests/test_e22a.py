@@ -4,7 +4,7 @@ import json
 import unittest
 from pathlib import Path
 
-from experiments.e22a_freeze import build_contract
+from experiments.e22a_freeze import build_contract, sha256_file
 from experiments.e22a_ingest import evaluate_pairs
 from experiments.e22a_retain import (
     ARTIFACT_DIGEST,
@@ -18,9 +18,25 @@ class E22aPreflightTests(unittest.TestCase):
     def root(self) -> Path:
         return Path(__file__).resolve().parents[1]
 
-    def test_frozen_contract_matches_generator(self) -> None:
-        frozen = json.loads((self.root / "experiments/e22a_contract.json").read_text())
-        self.assertEqual(frozen, build_contract(self.root))
+    def test_completed_preflight_contract_remains_immutable(self) -> None:
+        contract_path = self.root / "experiments/e22a_contract.json"
+        frozen = json.loads(contract_path.read_text())
+        retained = json.loads(
+            (self.root / "results/manifests/e22a-31086439785.json").read_text()
+        )
+        self.assertEqual(
+            "23b4cd7d49eb09ae685713bf19b08676cdf75fc600701fb3c35c7313733c4c86",
+            sha256_file(contract_path),
+        )
+        self.assertEqual(sha256_file(contract_path), retained["contract_sha256"])
+        self.assertEqual(
+            "d24a12bdcfa5e710064139956572f343fdce09636e0faffde50916ac69084845",
+            frozen["inputs"]["pareto64/sidecar.py"]["sha256"],
+        )
+        self.assertNotEqual(
+            frozen["inputs"]["pareto64/sidecar.py"]["sha256"],
+            build_contract(self.root)["inputs"]["pareto64/sidecar.py"]["sha256"],
+        )
 
     def test_matrix_pairs_every_mode_at_1_2_4_workers(self) -> None:
         contract = build_contract(self.root)

@@ -305,7 +305,7 @@ class Pareto64SidecarTests(unittest.TestCase):
                     receipt_path=product["receipt"],
                 )
 
-    def test_multi_worker_plan_reverifies_per_worker_and_shares_inode(self) -> None:
+    def test_multi_worker_plan_verifies_once_then_shares_inode(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             product = self.make_product(Path(directory))
             with patch(
@@ -322,7 +322,8 @@ class Pareto64SidecarTests(unittest.TestCase):
                     workers=2,
                     base_port=19081,
                 )
-            self.assertEqual(plan["verification_passes"], 2)
+            self.assertEqual(plan["verification_passes"], 1)
+            self.assertIn("each worker mapping", plan["verification_scope"])
             self.assertEqual([item["port"] for item in plan["workers"]], [19081, 19082])
             self.assertEqual(
                 {

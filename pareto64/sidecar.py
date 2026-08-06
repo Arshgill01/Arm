@@ -663,41 +663,40 @@ def prepare_sidecar_launch(
         raise ValueError("sidecar worker threads must be between 1 and 4")
     if not 1 <= base_port <= 65535 or base_port + workers - 1 > 65535:
         raise ValueError("sidecar worker port range is invalid")
-    verifications = [
-        verify_product_sidecar(
-            contract_path=contract_path,
-            evidence_path=evidence_path,
-            model_path=model_path,
-            server_path=server_path,
-            sidecar_path=sidecar_path,
-            index_path=index_path,
-            receipt_path=receipt_path,
-        )
-        for _ in range(workers)
-    ]
+    verification = verify_product_sidecar(
+        contract_path=contract_path,
+        evidence_path=evidence_path,
+        model_path=model_path,
+        server_path=server_path,
+        sidecar_path=sidecar_path,
+        index_path=index_path,
+        receipt_path=receipt_path,
+    )
     contract = load_object(contract_path)
-    environment = verifications[0]["environment"]
+    environment = verification["environment"]
     stat_result = sidecar_path.stat()
     return {
         "schema_version": 1,
         "status": "ready_to_launch_shared_sidecar_workers",
         "worker_count": workers,
         "threads_per_worker": threads,
-        "verification_passes": len(verifications),
-        "verification_seconds": [
-            item["verification_seconds"] for item in verifications
-        ],
+        "verification_passes": 1,
+        "verification_seconds": [verification["verification_seconds"]],
+        "verification_scope": (
+            "one complete identity-bound sidecar verification before launch; "
+            "each worker mapping is verified after readiness"
+        ),
         "sidecar": {
             "path": str(sidecar_path.resolve()),
-            "sha256": verifications[0]["sidecar_sha256"],
+            "sha256": verification["sidecar_sha256"],
             "read_only": True,
             "device": stat_result.st_dev,
             "inode": stat_result.st_ino,
             "mapping_protection": "PROT_READ",
             "mapping_sharing": "MAP_SHARED",
         },
-        "runtime_server_sha256": verifications[0]["runtime_server_sha256"],
-        "product_identity": verifications[0]["binding"],
+        "runtime_server_sha256": verification["runtime_server_sha256"],
+        "product_identity": verification["binding"],
         "deployment_mode": "shared_sidecar",
         "workers": [
             {

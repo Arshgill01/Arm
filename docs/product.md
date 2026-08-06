@@ -359,10 +359,12 @@ identity, runtime closure, sidecar hash, and index hash. Existing output paths
 or insufficient bounded scratch space fail before construction.
 
 `sidecar-verify` repeats the full identity, container, tensor, runtime, receipt,
-and read-only checks. `sidecar-launch` performs that full verification once per
-worker before starting distinct ports on the same inode; it emits a plan and an
-optional post-health ready record. A `--stop-file` can request controlled group
-shutdown for supervisors. `sidecar-cleanup` is dry-run by default and deletes
+and read-only checks. `sidecar-launch` performs one complete verification of the
+immutable sidecar before starting distinct ports on the same inode. After each
+worker becomes healthy, the deployment boundary independently proves that its
+mapping is read-only, shared, and uses the verified inode. It emits a plan and
+an optional post-health ready record. A `--stop-file` can request controlled
+group shutdown for supervisors. `sidecar-cleanup` is dry-run by default and deletes
 only the two absolute, hash-matching paths in the retained receipt when
 `--execute` is supplied; the receipt remains.
 
@@ -377,6 +379,47 @@ The asymmetric scheduler remains experimental and disabled. E15b's strict
 two-CPU confirmation found only 1.00427x throughput for split 2/4 and exactly
 1.00000x CPU seconds/request, so it failed the predeclared efficiency gate and
 the product retains tied 4/4 thread pools.
+
+## Deploy workers behind the certificate gateway
+
+`pareto64 deploy` composes sidecar validation, multiple workers, mapping proof,
+and the OpenAI-compatible certificate gateway into one supervised lifecycle:
+
+```bash
+python3 -m pareto64 deploy \
+  --contract experiments/e16c_contract.json \
+  --evidence results/manifests/e16c-30851609576.json \
+  --model /path/to/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf \
+  --llama-server /path/to/runtime/bin/llama-server \
+  --mode shared \
+  --sidecar /path/to/ministral.sidecar \
+  --index /path/to/ministral.index.json \
+  --sidecar-receipt /path/to/sidecar-receipt.json \
+  --workers 4 \
+  --threads 1 \
+  --registry /path/to/certificates.json \
+  --plan-output /path/to/deployment-plan.json \
+  --ready-output /path/to/ready.json \
+  --deployment-receipt /path/to/deployment-receipt.json \
+  --stop-file /path/to/stop
+```
+
+`--mode normal` launches the exact control with private runtime repacks and
+requires no sidecar arguments. `--mode shared --prepack` may construct a fresh
+sidecar before launch when bounded scratch and lifecycle paths are supplied.
+The command records command-lifecycle readiness, starts all workers, verifies
+every shared mapping through `/proc/PID/maps`, and writes a final read-only
+receipt even when a worker or gateway fails.
+
+Clients send standard `/v1/chat/completions` requests to the ready record's
+gateway origin and must include `X-Pareto64-Session-ID`. An unknown transition
+runs cached shadow plus uncached oracle and serves only the oracle. Exact,
+materially reused transitions become identity- and session-bound certificates;
+certified routes use cache with periodic oracle revalidation. Any successful
+output drift revokes the certificate immediately. `/healthz` and `/metrics`
+expose worker, route, oracle, certification, denial, and revocation state. The
+registry is integrity protected, atomically replaced, persistent across
+restarts, and isolated across sessions.
 
 ## Select a measured service profile
 
