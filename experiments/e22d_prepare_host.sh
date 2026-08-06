@@ -31,6 +31,10 @@ mkdir -p "$evidence/build" "$evidence/model" "$evidence/product" \
   "$model_root" "$scratch_root"
 cp "$contract" "$evidence/contract.json"
 git rev-parse HEAD > "$evidence/repository-commit.txt"
+cat /proc/sys/kernel/perf_event_paranoid \
+  > "$evidence/perf-event-paranoid-before-configuration.txt"
+sudo sysctl -w kernel.perf_event_paranoid=1 \
+  > "$evidence/perf-event-paranoid-configuration.txt"
 dpkg-query -W > "$evidence/packages.tsv"
 cmake --version > "$evidence/cmake-version.txt"
 gcc --version > "$evidence/gcc-version.txt"

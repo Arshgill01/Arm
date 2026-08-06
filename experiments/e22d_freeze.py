@@ -94,6 +94,7 @@ def build_contract(root: Path) -> dict[str, Any]:
             "swap_total_bytes": 0,
             "provisioning_model": "STANDARD",
             "pmu_tracking_type": "standard",
+            "perf_event_paranoid_maximum": 1,
             "different_instance_id_from_source": True,
             "automatic_delete_after_seconds_at_most": 14_400,
             "instance_termination_action": "DELETE",
@@ -167,6 +168,7 @@ def build_contract(root: Path) -> dict[str, Any]:
             "billing_claim_permitted": False,
             "fleet_or_other_machine_class_claim_permitted": False,
             "broader_microarchitectural_causality_permitted": False,
+            "perf_event_paranoid_adjustment_disclosed": True,
         },
         "successor_rule": (
             "Promote cross-instance replication only if every frozen validity and "

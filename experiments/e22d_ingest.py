@@ -94,6 +94,10 @@ def validate_host(evidence_dir: Path, contract: dict[str, Any]) -> dict[str, Any
         and host.get("swap_total_bytes") == required["swap_total_bytes"],
         "standard_pmu_available": host.get("pmu", {}).get("perf_stat_available")
         is True,
+        "perf_policy_matches": int(
+            (host_dir / "perf-event-paranoid.txt").read_text(encoding="utf-8")
+        )
+        <= required["perf_event_paranoid_maximum"],
         "automatic_delete_bounded": 0
         < duration_seconds
         <= required["automatic_delete_after_seconds_at_most"]

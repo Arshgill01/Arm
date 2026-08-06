@@ -69,6 +69,7 @@
     "logical_cpus": 8,
     "machine_type_basename": "c4a-highcpu-8",
     "mem_total_bytes": 16723460096,
+    "perf_event_paranoid_maximum": 1,
     "pmu_tracking_type": "standard",
     "provider": "Google Cloud Compute Engine",
     "provisioning_model": "STANDARD",
@@ -101,13 +102,13 @@
       "sha256": "253f1ad7b9dbe53d92e5bdc7a59233cb01a8cbed05c4a3ee18b4530631f4e2d4"
     },
     "experiments/e22d_freeze.py": {
-      "sha256": "5ab1bb775ad6a9442d068274540f7b3faed4b48480bba4e1ce20bec4cf159c9c"
+      "sha256": "ebf3ad07dde3c029aa3d5b32887a85c9a0b16f54d1311b22d602511febc5e605"
     },
     "experiments/e22d_ingest.py": {
-      "sha256": "808ddb9418daeae3536045d1aa960c7a8ed0913e156bfa2502e4232edcebbae8"
+      "sha256": "98da82f3ac7417c085c4c302ccc140278b234449418422c91f571e6095904a40"
     },
     "experiments/e22d_prepare_host.sh": {
-      "sha256": "435eb83cca3e22ae9cc3b7f6b16fc8b4ae50d754c99e10bf7b52814cd9393288"
+      "sha256": "8b10c675d8e2a2297ea599b77f43773a0dd4197f8f1eeaec9bf148b50b6c93d5"
     },
     "experiments/e3_tasks.json": {
       "sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
@@ -228,6 +229,7 @@
     "energy_claim_permitted": false,
     "fleet_or_other_machine_class_claim_permitted": false,
     "independent_instance_replication": true,
+    "perf_event_paranoid_adjustment_disclosed": true,
     "readiness_reroll_permitted": false,
     "same_exact_model_runtime_product_and_workload": true,
     "same_provider_machine_class": true,
