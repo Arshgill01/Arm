@@ -189,6 +189,98 @@ class Pareto64CLITests(unittest.TestCase):
         self.assertEqual(120.0, launch.readiness_timeout)
         self.assertTrue(launch.dry_run)
 
+    def test_unified_deploy_command_exposes_gateway_and_lifecycle_controls(
+        self,
+    ) -> None:
+        with patch(
+            "sys.argv",
+            [
+                "pareto64",
+                "deploy",
+                "--contract",
+                "e16c.json",
+                "--evidence",
+                "e16c-result.json",
+                "--model",
+                "model.gguf",
+                "--llama-server",
+                "runtime/bin/llama-server",
+                "--sidecar",
+                "weights.sidecar",
+                "--index",
+                "weights.index.json",
+                "--sidecar-receipt",
+                "sidecar-receipt.json",
+                "--registry",
+                "certificates.json",
+                "--plan-output",
+                "deployment-plan.json",
+                "--deployment-receipt",
+                "deployment-receipt.json",
+                "--workers",
+                "4",
+                "--revalidate-every",
+                "16",
+                "--dry-run",
+            ],
+        ):
+            arguments = parse_args()
+        self.assertEqual("deploy", arguments.command)
+        self.assertEqual(4, arguments.workers)
+        self.assertEqual("shared", arguments.mode)
+        self.assertEqual(16, arguments.revalidate_every)
+        self.assertEqual(18080, arguments.gateway_port)
+        self.assertTrue(arguments.dry_run)
+
+    def test_unified_deploy_accepts_a_normal_control_without_sidecar_paths(
+        self,
+    ) -> None:
+        with patch(
+            "sys.argv",
+            [
+                "pareto64",
+                "deploy",
+                "--mode",
+                "normal",
+                "--contract",
+                "e16c.json",
+                "--evidence",
+                "e16c-result.json",
+                "--model",
+                "model.gguf",
+                "--llama-server",
+                "runtime/bin/llama-server",
+                "--registry",
+                "certificates.json",
+                "--plan-output",
+                "deployment-plan.json",
+                "--deployment-receipt",
+                "deployment-receipt.json",
+            ],
+        ):
+            arguments = parse_args()
+        self.assertEqual("normal", arguments.mode)
+        self.assertIsNone(arguments.sidecar)
+
+    def test_gateway_command_requires_identity_workers_and_registry(self) -> None:
+        with patch(
+            "sys.argv",
+            [
+                "pareto64",
+                "gateway",
+                "--identity",
+                "identity.json",
+                "--worker-origin",
+                "http://127.0.0.1:18081",
+                "--registry",
+                "certificates.json",
+            ],
+        ):
+            arguments = parse_args()
+        self.assertEqual("gateway", arguments.command)
+        self.assertEqual(["http://127.0.0.1:18081"], arguments.worker_origin)
+        self.assertEqual(32, arguments.revalidate_every)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -5,6 +5,9 @@ import json
 import os
 from pathlib import Path
 
+from .certificate import CertificateStore
+from .deploy import execute_deployment, prepare_deployment
+from .gateway import GatewayHTTPServer, GatewayState
 from .planner import build_plan, load_object
 from .runtime import prepare_launch, server_version, write_recipe
 from .server import DEFAULT_ACCEPT_BACKLOG, PlannerHTTPServer, PlannerState
@@ -13,6 +16,7 @@ from .sidecar import (
     cleanup_sidecar,
     execute_sidecar_group,
     prepack_sidecar,
+    prepare_normal_launch,
     prepare_sidecar_launch,
     verify_product_sidecar,
     write_object,
@@ -194,6 +198,7 @@ def parse_args() -> argparse.Namespace:
     sidecar_launch.add_argument("--index", type=Path, required=True)
     sidecar_launch.add_argument("--receipt", type=Path, required=True)
     sidecar_launch.add_argument("--workers", type=int, default=2)
+    sidecar_launch.add_argument("--threads", type=int, default=4)
     sidecar_launch.add_argument("--host", default="127.0.0.1")
     sidecar_launch.add_argument("--base-port", type=int, default=18081)
     sidecar_launch.add_argument("--plan-output", type=Path, required=True)
@@ -209,6 +214,48 @@ def parse_args() -> argparse.Namespace:
     cleanup.add_argument("--receipt", type=Path, required=True)
     cleanup.add_argument("--output", type=Path, required=True)
     cleanup.add_argument("--execute", action="store_true")
+    gateway = commands.add_parser(
+        "gateway", help="serve the certificate-aware OpenAI worker gateway"
+    )
+    gateway.add_argument("--identity", type=Path, required=True)
+    gateway.add_argument("--worker-origin", action="append", required=True)
+    gateway.add_argument("--registry", type=Path, required=True)
+    gateway.add_argument("--host", default="127.0.0.1")
+    gateway.add_argument("--port", type=int, default=18080)
+    gateway.add_argument("--minimum-cached-tokens", type=int, default=8)
+    gateway.add_argument("--revalidate-every", type=int, default=32)
+    gateway.add_argument("--upstream-timeout", type=float, default=120.0)
+    deploy = commands.add_parser(
+        "deploy", help="verify or prepack, launch workers, and serve one gateway"
+    )
+    deploy.add_argument("--contract", type=Path, required=True)
+    deploy.add_argument("--evidence", type=Path, required=True)
+    deploy.add_argument("--model", type=Path, required=True)
+    deploy.add_argument("--llama-server", type=Path, required=True)
+    deploy.add_argument("--mode", choices=("normal", "shared"), default="shared")
+    deploy.add_argument("--sidecar", type=Path)
+    deploy.add_argument("--index", type=Path)
+    deploy.add_argument("--sidecar-receipt", type=Path)
+    deploy.add_argument("--prepack", action="store_true")
+    deploy.add_argument("--lifecycle-dir", type=Path)
+    deploy.add_argument("--scratch-root", type=Path)
+    deploy.add_argument("--workers", type=int, default=2)
+    deploy.add_argument("--threads", type=int, default=4)
+    deploy.add_argument("--worker-host", default="127.0.0.1")
+    deploy.add_argument("--worker-base-port", type=int, default=18081)
+    deploy.add_argument("--gateway-host", default="127.0.0.1")
+    deploy.add_argument("--gateway-port", type=int, default=18080)
+    deploy.add_argument("--registry", type=Path, required=True)
+    deploy.add_argument("--minimum-cached-tokens", type=int, default=8)
+    deploy.add_argument("--revalidate-every", type=int, default=32)
+    deploy.add_argument("--plan-output", type=Path, required=True)
+    deploy.add_argument("--deployment-receipt", type=Path, required=True)
+    deploy.add_argument("--ready-output", type=Path)
+    deploy.add_argument("--log-dir", type=Path)
+    deploy.add_argument("--stop-file", type=Path)
+    deploy.add_argument("--readiness-timeout", type=float, default=120.0)
+    deploy.add_argument("--upstream-timeout", type=float, default=120.0)
+    deploy.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 
 
@@ -308,6 +355,7 @@ def main() -> int:
             index_path=arguments.index,
             receipt_path=arguments.receipt,
             workers=arguments.workers,
+            threads=arguments.threads,
             host=arguments.host,
             base_port=arguments.base_port,
         )
@@ -330,6 +378,111 @@ def main() -> int:
         write_object(arguments.output, result)
         print(arguments.output, flush=True)
         return 0
+    if arguments.command == "gateway":
+        store = CertificateStore(
+            arguments.registry,
+            load_object(arguments.identity),
+            minimum_cached_tokens=arguments.minimum_cached_tokens,
+            revalidate_every=arguments.revalidate_every,
+        )
+        state = GatewayState(
+            tuple(arguments.worker_origin),
+            store,
+            upstream_timeout=arguments.upstream_timeout,
+        )
+        server = GatewayHTTPServer((arguments.host, arguments.port), state)
+        host, port = server.server_address
+        print(f"Pareto64 gateway listening on http://{host}:{port}", flush=True)
+        try:
+            server.serve_forever()
+        except KeyboardInterrupt:
+            pass
+        finally:
+            server.server_close()
+        return 0
+    if arguments.command == "deploy":
+        sidecar_paths = (
+            arguments.sidecar,
+            arguments.index,
+            arguments.sidecar_receipt,
+        )
+        if arguments.mode == "shared" and any(path is None for path in sidecar_paths):
+            raise ValueError(
+                "shared deployment requires --sidecar, --index, and --sidecar-receipt"
+            )
+        if arguments.mode == "normal" and arguments.prepack:
+            raise ValueError("normal deployment cannot prepack a sidecar")
+        if arguments.prepack:
+            if arguments.lifecycle_dir is None or arguments.scratch_root is None:
+                raise ValueError(
+                    "--prepack requires --lifecycle-dir and --scratch-root"
+                )
+            prepack_sidecar(
+                contract_path=arguments.contract,
+                evidence_path=arguments.evidence,
+                model_path=arguments.model,
+                server_path=arguments.llama_server,
+                sidecar_path=arguments.sidecar,
+                index_path=arguments.index,
+                receipt_path=arguments.sidecar_receipt,
+                lifecycle_dir=arguments.lifecycle_dir,
+                scratch_root=arguments.scratch_root,
+                host=arguments.worker_host,
+                port=arguments.worker_base_port,
+                readiness_timeout=arguments.readiness_timeout,
+            )
+        elif arguments.lifecycle_dir is not None or arguments.scratch_root is not None:
+            raise ValueError(
+                "--lifecycle-dir and --scratch-root are valid only with --prepack"
+            )
+        if arguments.mode == "shared":
+            sidecar_plan = prepare_sidecar_launch(
+                contract_path=arguments.contract,
+                evidence_path=arguments.evidence,
+                model_path=arguments.model,
+                server_path=arguments.llama_server,
+                sidecar_path=arguments.sidecar,
+                index_path=arguments.index,
+                receipt_path=arguments.sidecar_receipt,
+                workers=arguments.workers,
+                threads=arguments.threads,
+                host=arguments.worker_host,
+                base_port=arguments.worker_base_port,
+            )
+        else:
+            sidecar_plan = prepare_normal_launch(
+                contract_path=arguments.contract,
+                evidence_path=arguments.evidence,
+                model_path=arguments.model,
+                server_path=arguments.llama_server,
+                workers=arguments.workers,
+                threads=arguments.threads,
+                host=arguments.worker_host,
+                base_port=arguments.worker_base_port,
+            )
+        plan = prepare_deployment(
+            sidecar_plan,
+            gateway_host=arguments.gateway_host,
+            gateway_port=arguments.gateway_port,
+            registry_path=arguments.registry,
+            minimum_cached_tokens=arguments.minimum_cached_tokens,
+            revalidate_every=arguments.revalidate_every,
+        )
+        write_object(arguments.plan_output, plan)
+        print(arguments.plan_output, flush=True)
+        if arguments.dry_run:
+            return 0
+        receipt = execute_deployment(
+            plan,
+            receipt_path=arguments.deployment_receipt,
+            log_dir=arguments.log_dir,
+            readiness_timeout=arguments.readiness_timeout,
+            upstream_timeout=arguments.upstream_timeout,
+            ready_output=arguments.ready_output,
+            stop_file=arguments.stop_file,
+        )
+        print(arguments.deployment_receipt, flush=True)
+        return 0 if receipt["status"] == "valid_pareto64_deployment_lifecycle" else 1
     if arguments.command == "launch":
         batch_size, micro_batch_size = resolve_batch_profile(
             arguments.batch_size,

@@ -17,6 +17,7 @@ from pareto64.sidecar import (
     cleanup_sidecar,
     execute_sidecar_group,
     prepack_sidecar,
+    prepare_normal_launch,
     prepare_sidecar_launch,
     verify_product_sidecar,
 )
@@ -331,6 +332,31 @@ class Pareto64SidecarTests(unittest.TestCase):
                 {str(product["sidecar"].resolve())},
             )
             self.assertEqual(plan["sidecar"]["inode"], product["sidecar"].stat().st_ino)
+
+    def test_normal_worker_plan_uses_the_same_verified_runtime_without_sidecar(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            product = self.make_product(Path(directory))
+            with patch(
+                "pareto64.sidecar.create_identity", return_value=product["identity"]
+            ):
+                plan = prepare_normal_launch(
+                    contract_path=product["contract"],
+                    evidence_path=product["evidence"],
+                    model_path=product["model"],
+                    server_path=product["server"],
+                    workers=2,
+                    threads=1,
+                    base_port=19081,
+                )
+            self.assertEqual("ready_to_launch_normal_workers", plan["status"])
+            self.assertEqual("normal_repack", plan["deployment_mode"])
+            self.assertEqual(1, plan["threads_per_worker"])
+            self.assertIsNone(plan["sidecar"])
+            self.assertEqual(
+                [{}, {}], [item["environment"] for item in plan["workers"]]
+            )
 
     def test_execute_group_waits_for_health_and_writes_ready_state(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

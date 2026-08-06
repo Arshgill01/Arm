@@ -16,15 +16,13 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
-from experiments.e9a_ingest import expected_server_argv
-from experiments.e16a_sidecar import (
+from .planner import sha256_file
+from .repack import (
     build_sidecar,
     create_identity,
     parse_inventory,
     verify_sidecar,
 )
-
-from .planner import sha256_file
 from .runtime import server_version, validate_server_version
 
 SIDECAR_ENVIRONMENT = {
@@ -276,15 +274,51 @@ def service_argv(
     *,
     host: str,
     port: int,
+    threads: int = 4,
 ) -> list[str]:
-    argv = expected_server_argv(
+    if type(threads) is not int or not 1 <= threads <= 4:
+        raise ValueError("sidecar worker threads must be between 1 and 4")
+    argv = [
         str(server_path.resolve()),
+        "--model",
         str(model_path.resolve()),
-        candidate=contract["selected"]["candidate"],
-        profile_name="e7c_final",
-    )
-    argv[argv.index("--host") + 1] = host
-    argv[argv.index("--port") + 1] = str(port)
+        "--alias",
+        contract["selected"]["candidate"],
+        "--threads",
+        str(threads),
+        "--threads-batch",
+        str(threads),
+        "--ctx-size",
+        "256",
+        "--cache-type-k",
+        "f16",
+        "--cache-type-v",
+        "f16",
+        "--flash-attn",
+        "auto",
+        "--parallel",
+        "1",
+        "--cont-batching",
+        "--cache-prompt",
+        "--host",
+        host,
+        "--port",
+        str(port),
+        "--no-webui",
+        "--metrics",
+        "--slots",
+        "--jinja",
+        "--temp",
+        "0.0",
+        "--seed",
+        "424242",
+        "--log-colors",
+        "off",
+        "--batch-size",
+        "64",
+        "--ubatch-size",
+        "64",
+    ]
     argv.extend(["--log-verbosity", str(contract["mechanism"]["proof_log_verbosity"])])
     return argv
 
@@ -619,11 +653,14 @@ def prepare_sidecar_launch(
     index_path: Path,
     receipt_path: Path,
     workers: int = 2,
+    threads: int = 4,
     host: str = "127.0.0.1",
     base_port: int = 18081,
 ) -> dict[str, Any]:
     if type(workers) is not int or not 1 <= workers <= 64:
         raise ValueError("sidecar workers must be between 1 and 64")
+    if type(threads) is not int or not 1 <= threads <= 4:
+        raise ValueError("sidecar worker threads must be between 1 and 4")
     if not 1 <= base_port <= 65535 or base_port + workers - 1 > 65535:
         raise ValueError("sidecar worker port range is invalid")
     verifications = [
@@ -645,6 +682,7 @@ def prepare_sidecar_launch(
         "schema_version": 1,
         "status": "ready_to_launch_shared_sidecar_workers",
         "worker_count": workers,
+        "threads_per_worker": threads,
         "verification_passes": len(verifications),
         "verification_seconds": [
             item["verification_seconds"] for item in verifications
@@ -658,6 +696,9 @@ def prepare_sidecar_launch(
             "mapping_protection": "PROT_READ",
             "mapping_sharing": "MAP_SHARED",
         },
+        "runtime_server_sha256": verifications[0]["runtime_server_sha256"],
+        "product_identity": verifications[0]["binding"],
+        "deployment_mode": "shared_sidecar",
         "workers": [
             {
                 "worker": worker,
@@ -669,8 +710,63 @@ def prepare_sidecar_launch(
                     contract,
                     host=host,
                     port=base_port + worker - 1,
+                    threads=threads,
                 ),
                 "environment": environment,
+            }
+            for worker in range(1, workers + 1)
+        ],
+        "claim_boundary": contract["claim_boundary"],
+    }
+
+
+def prepare_normal_launch(
+    *,
+    contract_path: Path,
+    evidence_path: Path,
+    model_path: Path,
+    server_path: Path,
+    workers: int = 2,
+    threads: int = 4,
+    host: str = "127.0.0.1",
+    base_port: int = 18081,
+) -> dict[str, Any]:
+    if type(workers) is not int or not 1 <= workers <= 64:
+        raise ValueError("normal workers must be between 1 and 64")
+    if type(threads) is not int or not 1 <= threads <= 4:
+        raise ValueError("normal worker threads must be between 1 and 4")
+    if not 1 <= base_port <= 65535 or base_port + workers - 1 > 65535:
+        raise ValueError("normal worker port range is invalid")
+    inputs = validate_product_inputs(
+        contract_path=contract_path,
+        evidence_path=evidence_path,
+        model_path=model_path,
+        server_path=server_path,
+    )
+    contract = inputs["contract"]
+    return {
+        "schema_version": 1,
+        "status": "ready_to_launch_normal_workers",
+        "deployment_mode": "normal_repack",
+        "worker_count": workers,
+        "threads_per_worker": threads,
+        "sidecar": None,
+        "runtime_server_sha256": inputs["runtime"]["server_sha256"],
+        "product_identity": inputs["identity"],
+        "workers": [
+            {
+                "worker": worker,
+                "host": host,
+                "port": base_port + worker - 1,
+                "argv": service_argv(
+                    server_path,
+                    model_path,
+                    contract,
+                    host=host,
+                    port=base_port + worker - 1,
+                    threads=threads,
+                ),
+                "environment": {},
             }
             for worker in range(1, workers + 1)
         ],
