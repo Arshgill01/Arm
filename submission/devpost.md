@@ -85,6 +85,33 @@ summed. Every promoted service change preserved the selected task predictions.
 - packages reports, manifests, source patches, CI workflows, and an interactive
   judge demo in one Apache-2.0 repository.
 
+## Run and validate on Arm64
+
+The compact judge package uses only Python's standard library and needs no model
+download:
+
+```bash
+git clone https://github.com/Arshgill01/Arm.git
+cd Arm
+python3 scripts/verify_submission.py
+python3 -m unittest discover -s tests -v
+python3 -m pareto64 plan \
+  --manifest results/manifests/e3f-30656151957.json \
+  --constraints configs/cloud-quality.json
+```
+
+To exercise the browser demo locally, run
+`python3 -m http.server 4174 --directory demo` and open
+`http://127.0.0.1:4174`. The public copy is linked above.
+
+Live inference requires Linux Arm64, the exact hash-pinned Ministral GGUF and
+the measured llama.cpp build. The public
+[`docs/product.md`](https://github.com/Arshgill01/Arm/blob/main/docs/product.md)
+gives the complete `pareto64 deploy` command for normal or shared workers,
+sidecar paths, certificate registry, gateway and receipt. Every mismatch in
+model, runtime, source, policy, CPU identity, sidecar or mapping fails before
+admission.
+
 ## Native Arm results
 
 ### Repeated fixed-memory density on Google Axion

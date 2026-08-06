@@ -61,6 +61,19 @@ the private representation sustained six: 1.3525× median aggregate throughput
 and 59.43% lower summed PSS across 1,680 exact requests. Readiness was 2.0817×
 and failed its frozen ≤2.0 gate, so the claim stops at steady-state density.**
 
+Suggested remaining captions:
+
+2. **One `pareto64 deploy` command binds evidence and policy to sidecar
+   verification, workers, mapping proof, an exact-transition gateway and a
+   final receipt. E22a exercised normal/shared one-, two- and four-worker paths
+   with 420/420 exact requests.**
+3. **The service planner has no hidden weighted score: a throughput envelope
+   selects Arm repacking, a ≤3 GiB envelope selects the qualified no-repack
+   tier, and an unsupported ≤2 GiB request is refused.**
+4. **Four Axion repetitions per mode show the bounded result and its cost:
+   shared-8/normal-6 throughput is 1.3525× and summed PSS is 59.43% lower, while
+   2.0817× readiness fails the frozen lifecycle gate.**
+
 ## Entrant survey choices to confirm
 
 The unpublished [project gallery](https://arm-ai-optimization-challenge.devpost.com/project-gallery)

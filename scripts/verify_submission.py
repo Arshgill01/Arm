@@ -402,6 +402,15 @@ def verify_publication_copy() -> int:
     devpost = (ROOT / "submission/devpost.md").read_text(encoding="utf-8")
     if "<ADD PUBLIC" in devpost:
         raise ValueError("Devpost copy still contains a public-URL placeholder")
+    for required in (
+        "## Run and validate on Arm64",
+        "git clone https://github.com/Arshgill01/Arm.git",
+        "python3 scripts/verify_submission.py",
+        "python3 -m unittest discover -s tests -v",
+        "python3 -m pareto64 plan",
+    ):
+        if required not in devpost:
+            raise ValueError(f"Devpost copy is missing setup instruction: {required}")
     missing = [
         url
         for url in (PUBLIC_DEMO_URL, PUBLIC_RELEASE_URL, PUBLIC_VIDEO_URL)
