@@ -11,6 +11,8 @@ and media needed for the Arm Create: AI Optimization Challenge 2026 entry.
   visibility and anonymous-access gate.
 - [`entrant-handoff.md`](entrant-handoff.md): exact field, gallery, survey, and
   final signed-out review packet.
+- [`public-assets.json`](public-assets.json): exact public release and gallery
+  URLs, byte counts, dimensions, deployment identity, and SHA-256 values.
 
 The ready-to-upload 1,440×900 gallery assets are in
 [`../output/playwright/`](../output/playwright/): final Axion density overview,
@@ -35,7 +37,7 @@ python3 -m unittest discover -s tests -v
 The native Arm
 [`submission-validation.yml`](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml)
 workflow validates the current package from a clean checkout. The local suite
-currently runs 500 tests with two toolchain-gated skips; the verifier pins 77
+currently runs 500 tests with two toolchain-gated skips; the verifier pins 78
 immutable evidence files through E22c, exact planner replay, all four gallery
 assets, the dependency-free demo, publication URLs, and the enforced 296/390-
 word video-script ceiling.

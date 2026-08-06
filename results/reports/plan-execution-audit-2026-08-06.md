@@ -34,7 +34,7 @@ hosting rule.
 | Public demo URL filled | Achieved | [`https://pareto64-arm-evidence.arshgill01.chatgpt.site/demo/index.html`](https://pareto64-arm-evidence.arshgill01.chatgpt.site/demo/index.html), anonymously verified. |
 | Public video URL filled | Achieved as supplemental evidence | The 76-second direct MP4 is public in the E22 release. The optional Devpost video field remains entrant-controlled because its rules require YouTube, Vimeo or Youku. |
 | Devpost draft complete | Achieved locally; account entry remains entrant-controlled | `submission/devpost.md` is paste-ready with source, report, demo, raw evidence, and supplemental walkthrough URLs and no public-URL placeholder. |
-| Final submission verifier passes | Achieved | `scripts/verify_submission.py` covers 77 immutable evidence files, final E22 gates, demo, gallery, 296-word script and three publication URLs. Native Arm run [`31096144130`](https://github.com/Arshgill01/Arm/actions/runs/31096144130) passes from a clean checkout. |
+| Final submission verifier passes | Achieved | `scripts/verify_submission.py` covers 78 immutable evidence files, final E22 gates, exact gallery pixels, public release inventory, demo, 296-word script and three publication URLs. Native Arm run [`31096144130`](https://github.com/Arshgill01/Arm/actions/runs/31096144130) passes from a clean checkout. |
 
 ## P1 differentiators
 

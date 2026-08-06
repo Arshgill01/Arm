@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "checked_utc": "2026-08-06",
+  "report": {
+    "url": "https://pareto64-arm-evidence.arshgill01.chatgpt.site",
+    "demo_url": "https://pareto64-arm-evidence.arshgill01.chatgpt.site/demo/index.html",
+    "source_commit": "ab27c0addd9e90beb0365c384b7e67001ed56c3d",
+    "sites_project_id": "appgprj_6a70e7f47b14819187f717ed8c6c3d66",
+    "deployment_id": "appgdep_6a7467ac44e48191bb06637deea6591a",
+    "access": "public"
+  },
+  "release": {
+    "tag": "e22-axion-evidence-20260806",
+    "url": "https://github.com/Arshgill01/Arm/releases/tag/e22-axion-evidence-20260806",
+    "assets": [
+      {
+        "name": "e22b-evidence-a0c539f-v2.tar.gz",
+        "bytes": 10255094,
+        "sha256": "a415ac6ad262911a98b38c6fe136bd4dfbe74d2e815531a80d2037d884af5ec0",
+        "url": "https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/e22b-evidence-a0c539f-v2.tar.gz"
+      },
+      {
+        "name": "e22c-evidence-15ca91b.tar.gz",
+        "bytes": 10317998,
+        "sha256": "4ec1589ddb986667a710d8b049b2ce3d37fc6ea8c2caee656bc2d6c428b58246",
+        "url": "https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/e22c-evidence-15ca91b.tar.gz"
+      },
+      {
+        "name": "pareto64-demo.mp4",
+        "bytes": 5247685,
+        "sha256": "f46bc07ba7edfb6b56fef3329aa5fc06ee2adca9a11f9a97bc901f84e5b2bef7",
+        "url": "https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/pareto64-demo.mp4"
+      }
+    ]
+  },
+  "gallery": [
+    {
+      "path": "output/playwright/pareto64-overview.png",
+      "bytes": 140650,
+      "width": 1440,
+      "height": 900,
+      "sha256": "713f0ec37df151765f905925abb1b6746847cc03638fb4d9a3bbd682e539410a"
+    },
+    {
+      "path": "output/playwright/pareto64-final-service.png",
+      "bytes": 111771,
+      "width": 1440,
+      "height": 900,
+      "sha256": "2ac1562c938237f1f93b1681dbd9308d210082baf109879475f4b9f6d8bfef9b"
+    },
+    {
+      "path": "output/playwright/pareto64-policy-lab.png",
+      "bytes": 83124,
+      "width": 1440,
+      "height": 900,
+      "sha256": "d9a8e1997865ad9489c32b540da32ff612b252d99c9568567e87d5e9716548e3"
+    },
+    {
+      "path": "output/playwright/pareto64-serving-boundary.png",
+      "bytes": 116688,
+      "width": 1440,
+      "height": 900,
+      "sha256": "c92e48af9a639b290f9b5c943a26841cfe91e4b3646908d080e5f6b4b0f30e72"
+    }
+  ]
+}

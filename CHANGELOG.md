@@ -39,7 +39,7 @@ authoritative, timestamped record; this file groups the significant additions.
 - Published the final evidence report and hosted interactive demo, released the
   sealed E22b/E22c raw bundles and a 76-second supplemental walkthrough, and
   refreshed the four 1,440x900 gallery images around the bounded density result.
-- Expanded submission verification to 77 immutable evidence files, the exact
+- Expanded submission verification to 78 immutable evidence files, the exact
   E22 decisions, gallery dimensions, final demo text, 296-word script ceiling
   and public report/demo/release/walkthrough URLs.
 - Passed the final package from a clean checkout on native `aarch64` in workflow

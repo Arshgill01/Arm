@@ -29,8 +29,11 @@ build_terminal_model_decision = import_module(
 
 
 EXPECTED_HASHES = {
+    "submission/public-assets.json": (
+        "bf39df2eb3b3b8ed47ed0bb7cf36df73c1b3b5964434738476fdb31c0edc8953"
+    ),
     "results/reports/plan-execution-audit-2026-08-06.md": (
-        "b899af51e185434235a85aa34cfb2f0f7817e94e51f4a2c061cc76cc9bad6b3f"
+        "430e5a34216fe7abeb0a4a9e0fdd00ab3ce953dbdf40c1c30ea0d994ee35c42b"
     ),
     "experiments/e22c_contract.json": (
         "9bc0e63c4a59e5b9efaba176a47f5efe4b8b4664e27847dae0d675d06a360207"
@@ -284,6 +287,7 @@ REQUIRED_SUBMISSION_FILES = (
     "submission/compliance.md",
     "submission/publication-handoff.md",
     "submission/entrant-handoff.md",
+    "submission/public-assets.json",
     "results/reports/plan-execution-audit-2026-08-06.md",
 )
 GALLERY_FILES = (
@@ -303,6 +307,20 @@ PUBLIC_VIDEO_URL = (
     "https://github.com/Arshgill01/Arm/releases/download/"
     "e22-axion-evidence-20260806/pareto64-demo.mp4"
 )
+PUBLIC_RELEASE_ASSETS = {
+    "e22b-evidence-a0c539f-v2.tar.gz": (
+        10_255_094,
+        "a415ac6ad262911a98b38c6fe136bd4dfbe74d2e815531a80d2037d884af5ec0",
+    ),
+    "e22c-evidence-15ca91b.tar.gz": (
+        10_317_998,
+        "4ec1589ddb986667a710d8b049b2ce3d37fc6ea8c2caee656bc2d6c428b58246",
+    ),
+    "pareto64-demo.mp4": (
+        5_247_685,
+        "f46bc07ba7edfb6b56fef3329aa5fc06ee2adca9a11f9a97bc901f84e5b2bef7",
+    ),
+}
 
 
 def sha256_file(path: Path) -> str:
@@ -366,8 +384,18 @@ def verify_demo() -> int:
 
 
 def verify_gallery() -> int:
+    public_assets = load_object(ROOT / "submission/public-assets.json")
+    gallery = public_assets.get("gallery")
+    if not isinstance(gallery, list) or len(gallery) != len(GALLERY_FILES):
+        raise ValueError("public asset inventory has an invalid gallery")
+    records = {
+        item.get("path"): item for item in gallery if isinstance(item, dict)
+    }
+    if set(records) != set(GALLERY_FILES):
+        raise ValueError("public asset inventory gallery paths differ")
     for relative in GALLERY_FILES:
-        header = (ROOT / relative).read_bytes()[:24]
+        path = ROOT / relative
+        header = path.read_bytes()[:24]
         if len(header) != 24 or header[:16] != b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR":
             raise ValueError(f"gallery asset is not a valid PNG: {relative}")
         width, height = struct.unpack(">II", header[16:24])
@@ -376,6 +404,14 @@ def verify_gallery() -> int:
                 f"gallery asset has unexpected dimensions: {relative} "
                 f"({width}x{height})"
             )
+        record = records[relative]
+        if (
+            record.get("width") != width
+            or record.get("height") != height
+            or record.get("bytes") != path.stat().st_size
+            or record.get("sha256") != sha256_file(path)
+        ):
+            raise ValueError(f"gallery asset differs from inventory: {relative}")
     return len(GALLERY_FILES)
 
 
@@ -419,6 +455,40 @@ def verify_publication_copy() -> int:
     if missing:
         raise ValueError(f"Devpost copy is missing public evidence URLs: {missing}")
     return 3
+
+
+def verify_public_asset_manifest() -> int:
+    manifest = load_object(ROOT / "submission/public-assets.json")
+    report = manifest.get("report", {})
+    release = manifest.get("release", {})
+    if (
+        manifest.get("schema_version") != 1
+        or report.get("url")
+        != "https://pareto64-arm-evidence.arshgill01.chatgpt.site"
+        or report.get("demo_url") != PUBLIC_DEMO_URL
+        or report.get("access") != "public"
+        or release.get("url") != PUBLIC_RELEASE_URL
+    ):
+        raise ValueError("public asset inventory identity differs")
+    assets = release.get("assets")
+    if not isinstance(assets, list) or len(assets) != len(PUBLIC_RELEASE_ASSETS):
+        raise ValueError("public release asset inventory differs")
+    records = {item.get("name"): item for item in assets if isinstance(item, dict)}
+    if set(records) != set(PUBLIC_RELEASE_ASSETS):
+        raise ValueError("public release asset names differ")
+    for name, (expected_bytes, expected_sha256) in PUBLIC_RELEASE_ASSETS.items():
+        record = records[name]
+        if (
+            record.get("bytes") != expected_bytes
+            or record.get("sha256") != expected_sha256
+            or record.get("url")
+            != f"https://github.com/Arshgill01/Arm/releases/download/"
+            f"e22-axion-evidence-20260806/{name}"
+        ):
+            raise ValueError(f"public release asset differs: {name}")
+    if records["pareto64-demo.mp4"].get("url") != PUBLIC_VIDEO_URL:
+        raise ValueError("public video URL differs from release inventory")
+    return len(assets)
 
 
 def main() -> int:
@@ -1973,6 +2043,7 @@ def main() -> int:
     gallery_assets = verify_gallery()
     spoken_words = verify_video_script()
     public_urls = verify_publication_copy()
+    release_assets = verify_public_asset_manifest()
     print("Pareto64 submission verification passed")
     print(f"selected candidate: {plan['selected']['name']}")
     print(f"selected accuracy: {plan['selected']['metrics']['minimum_accuracy']:.4f}")
@@ -1981,6 +2052,7 @@ def main() -> int:
     print(f"verified 1440x900 gallery assets: {gallery_assets}")
     print(f"verified demo-script spoken words: {spoken_words}/390")
     print(f"verified public submission URLs: {public_urls}")
+    print(f"verified public release assets: {release_assets}")
     return 0
 
 

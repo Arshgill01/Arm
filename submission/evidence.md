@@ -6,6 +6,9 @@ Public HTML report:
 Plan-wide achieved, parked, and entrant-controlled status:
 [`plan-execution-audit-2026-08-06.md`](../results/reports/plan-execution-audit-2026-08-06.md)
 
+Machine-readable public report, release, video, and gallery inventory:
+[`public-assets.json`](public-assets.json)
+
 All performance claims below come from native `aarch64` hosts. Each manifest
 records its exact CPU topology: E0–E7c use four-logical-CPU GitHub-hosted
 Neoverse N2 runners, E9a's same-job comparison uses two logical CPUs, and the
@@ -85,7 +88,7 @@ artifact.
 | Product-path 1/2/4-worker sidecar scaling preflight | [E22a `31086439785`](https://github.com/Arshgill01/Arm/actions/runs/31086439785) | [`e22a` manifest](../results/manifests/e22a-31086439785.json) · [`report`](../results/reports/e22a-sidecar-scaling-preflight.md) | `8a82337e…c6a4` |
 | Stable Axion fixed-memory worker curve | Native Google Axion c4a-highcpu-8; retained bundle inventory | [`e22b` manifest](../results/manifests/e22b-axion-20260806.json) · [`report`](../results/reports/e22b-axion-fixed-memory-curve.md) · [raw bundle](https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/e22b-evidence-a0c539f-v2.tar.gz) | `6192a067…1391` |
 | Repeated Axion maximum-density comparison | Four normal-6 + four shared-8 cells; 1,680 exact requests | [`e22c` manifest](../results/manifests/e22c-axion-20260806.json) · [`report`](../results/reports/e22c-repeated-axion-density.md) · [raw bundle](https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/e22c-evidence-15ca91b.tar.gz) | `5aa21ea8…a8f6` |
-| Current judge-package clean-checkout validation | [`submission-validation.yml`](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml) | Full unittest suite with expected artifact/environment skips, 77 hashes through E22c and the plan audit, exact plan replay, four gallery assets, 296/390-word ceiling, final E22 demo and publication-copy checks | required native `aarch64` workflow on current `main` |
+| Current judge-package clean-checkout validation | [`submission-validation.yml`](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml) | Full unittest suite with expected artifact/environment skips, 78 hashes through E22c, public assets and the plan audit, exact plan replay, four hash-pinned gallery assets, 296/390-word ceiling, final E22 demo and publication-copy checks | required native `aarch64` workflow on current `main` |
 
 ## Final selected package
 

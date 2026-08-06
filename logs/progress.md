@@ -2289,7 +2289,7 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   gallery images, and released a 76-second silent annotated MP4 as supplemental
   evidence. The direct MP4 is not represented as a compliant Devpost optional-
   video-field URL; that field requires YouTube, Vimeo or Youku.
-- Extended `scripts/verify_submission.py` to 77 immutable evidence files, exact
+- Extended `scripts/verify_submission.py` to 78 immutable evidence files, exact
   E22 decisions, final demo/gallery/script and three public publication URLs.
 - Local validation passes 500 tests with two toolchain-gated skips. Native Arm
   clean-checkout run `31096144130` passes the complete test, verifier, exact plan

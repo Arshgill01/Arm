@@ -26,7 +26,7 @@ Last technical review: 2026-08-06 UTC. The submission deadline is August 14,
 - [x] The final judge package is covered by the native Arm
       [`submission-validation.yml`](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml)
       clean-checkout workflow: the full unittest suite with expected
-      artifact/environment skips, 77 immutable evidence files, exact planner
+      artifact/environment skips, 78 immutable evidence files, exact planner
       replay, four gallery
       assets, final E22 demo checks, publication-link checks, and the
       296/390-word ceiling.

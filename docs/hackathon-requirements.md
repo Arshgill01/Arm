@@ -176,7 +176,7 @@ the rule defects in `open-questions.md`.
 - [x] All dependencies, models, datasets, and generated assets have provenance
       and compatible rights.
 - [x] Clean-checkout setup/run/validation succeeds on the intended Arm target:
-      the full test suite, 77 immutable evidence files, planner replay, four
+      the full test suite, 78 immutable evidence files, planner replay, four
       gallery assets, video-word ceiling, final E22 publication checks, and demo
       smoke pass in the current native
       [`submission-validation.yml`](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml)
