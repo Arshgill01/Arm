@@ -28,6 +28,7 @@ INPUT_PATHS = (
     "experiments/e22d_campaign.sh",
     "experiments/e22d_freeze.py",
     "experiments/e22d_ingest.py",
+    "experiments/e22d_prepare_host.sh",
     "results/manifests/e3f-30656151957.json",
     "results/manifests/e16c-30851609576.json",
     "results/manifests/e22c-axion-20260806.json",
