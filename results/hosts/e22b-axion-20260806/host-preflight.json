@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "status": "valid_stable_axion_host_preflight",
+  "provider": "Google Cloud Compute Engine",
+  "instance_id": "5558962151178759364",
+  "machine_type": "projects/1074244600392/machineTypes/c4a-highcpu-8",
+  "zone": "projects/1074244600392/zones/us-central1-a",
+  "architecture": "aarch64",
+  "cpu_model": "Neoverse-V2",
+  "logical_cpus": 8,
+  "threads_per_core": 1,
+  "mem_total_bytes": 16723460096,
+  "swap_total_bytes": 0,
+  "disk_available_bytes": 25428619264,
+  "provisioning_model": "STANDARD",
+  "pmu": {
+    "requested_tracking_type": "standard",
+    "event_source": "armv8_pmuv3_0",
+    "perf_stat_available": true
+  },
+  "preempted": false,
+  "maintenance_event": "NONE"
+}
