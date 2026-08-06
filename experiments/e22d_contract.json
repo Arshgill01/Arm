@@ -102,13 +102,13 @@
       "sha256": "253f1ad7b9dbe53d92e5bdc7a59233cb01a8cbed05c4a3ee18b4530631f4e2d4"
     },
     "experiments/e22d_freeze.py": {
-      "sha256": "ebf3ad07dde3c029aa3d5b32887a85c9a0b16f54d1311b22d602511febc5e605"
+      "sha256": "4ad7679e3c504ed046910552eb6fdf6f5a3b84b6ba288d490b59a500f2104f02"
     },
     "experiments/e22d_ingest.py": {
       "sha256": "98da82f3ac7417c085c4c302ccc140278b234449418422c91f571e6095904a40"
     },
     "experiments/e22d_prepare_host.sh": {
-      "sha256": "a2c88b0603730535b04936985a1ed376eb258d3562f5b67a81982ea56eee7f7c"
+      "sha256": "3037b172ba831961115940acfdf141a982b4d41d3cc1d87b0e698c120b995a0d"
     },
     "experiments/e3_tasks.json": {
       "sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
@@ -231,6 +231,7 @@
     "independent_instance_replication": true,
     "perf_event_paranoid_adjustment_disclosed": true,
     "readiness_reroll_permitted": false,
+    "runtime_recovered_from_hash_bound_public_e22c_bundle": true,
     "same_exact_model_runtime_product_and_workload": true,
     "same_provider_machine_class": true,
     "steady_state_density_claim_only": true,
@@ -306,7 +307,11 @@
     "manifest_sha256": "5aa21ea8d312d6ae3ae6024453f2bc43dccbaf2686de7e8f929a51189fc7a8f6",
     "median_aggregate_throughput_ratio": 1.3525388639297642,
     "median_summed_pss_normal_kib": 15727791.0,
-    "median_summed_pss_shared_kib": 6380921.5
+    "median_summed_pss_shared_kib": 6380921.5,
+    "raw_archive_name": "e22c-evidence-15ca91b.tar.gz",
+    "raw_archive_sha256": "4ec1589ddb986667a710d8b049b2ce3d37fc6ea8c2caee656bc2d6c428b58246",
+    "raw_archive_size_bytes": 10317998,
+    "raw_archive_url": "https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/e22c-evidence-15ca91b.tar.gz"
   },
   "stage": "independent stable Arm host replication",
   "successor_rule": "Promote cross-instance replication only if every frozen validity and advance gate passes. Readiness is always reported but cannot change the E22c lifecycle decision. Stop after this one independent instance.",

@@ -86,6 +86,20 @@ if grep -Eq 'lib(ssl|crypto)\.so' "$evidence/build/runtime-closure.json"; then
   exit 1
 fi
 
+runtime_archive="$work_root/e22c-runtime-source.tar.gz"
+runtime_url="$(jq -r '.source_result.raw_archive_url' "$contract")"
+curl --fail --location --retry 5 --retry-all-errors \
+  --output "$runtime_archive" "$runtime_url"
+test "$(stat --format='%s' "$runtime_archive")" = \
+  "$(jq -r '.source_result.raw_archive_size_bytes' "$contract")"
+echo "$(jq -r '.source_result.raw_archive_sha256' "$contract")  $runtime_archive" \
+  | sha256sum --check --strict
+tar --extract --gzip --file "$runtime_archive" --directory "$evidence" \
+  --strip-components=1 evidence-e22c/runtime
+server="$evidence/runtime/bin/llama-server"
+export LD_LIBRARY_PATH="$evidence/runtime/bin"
+"$server" --version 2>&1 | tee "$evidence/runtime/server-version-e22d.txt"
+
 candidate="$(jq -r '.selected.candidate' "$contract")"
 repository="$(jq -r --arg candidate "$candidate" \
   '.variants[$candidate].repository' experiments/e3f_models.json)"
@@ -103,12 +117,11 @@ echo "$(jq -r '.selected.model_sha256' "$contract")  $model" \
   | sha256sum --check --strict
 sha256sum "$model" > "$evidence/model/model-sha256.txt"
 
-export LD_LIBRARY_PATH="$build_dir/bin"
 python3 -m pareto64 sidecar-prepack \
   --contract experiments/e16c_contract.json \
   --evidence results/manifests/e16c-30851609576.json \
   --model "$model" \
-  --llama-server "$build_dir/bin/llama-server" \
+  --llama-server "$server" \
   --sidecar "$sidecar" \
   --index "$index" \
   --receipt "$receipt" \
@@ -120,14 +133,14 @@ python3 -m pareto64 sidecar-verify \
   --contract experiments/e16c_contract.json \
   --evidence results/manifests/e16c-30851609576.json \
   --model "$model" \
-  --llama-server "$build_dir/bin/llama-server" \
+  --llama-server "$server" \
   --sidecar "$sidecar" \
   --index "$index" \
   --receipt "$receipt" \
   --output "$evidence/product/sidecar-verification.json"
 
 jq -n \
-  --arg server "$build_dir/bin/llama-server" \
+  --arg server "$server" \
   --arg model "$model" \
   --arg sidecar "$sidecar" \
   --arg index "$index" \

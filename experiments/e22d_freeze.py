@@ -82,6 +82,16 @@ def build_contract(root: Path) -> dict[str, Any]:
                 "summed_pss_kib"
             ]["median"],
             "failed_gate": "median_readiness_bounded",
+            "raw_archive_name": source["retention_validation"]["archive_name"],
+            "raw_archive_sha256": source["retention_validation"]["archive_sha256"],
+            "raw_archive_size_bytes": source["retention_validation"][
+                "archive_size_bytes"
+            ],
+            "raw_archive_url": (
+                "https://github.com/Arshgill01/Arm/releases/download/"
+                "e22-axion-evidence-20260806/"
+                + source["retention_validation"]["archive_name"]
+            ),
         },
         "host_requirements": {
             "provider": "Google Cloud Compute Engine",
@@ -160,6 +170,7 @@ def build_contract(root: Path) -> dict[str, Any]:
             "independent_instance_replication": True,
             "same_provider_machine_class": True,
             "same_exact_model_runtime_product_and_workload": True,
+            "runtime_recovered_from_hash_bound_public_e22c_bundle": True,
             "warm_same_host_page_cache_only": True,
             "steady_state_density_claim_only": True,
             "readiness_reroll_permitted": False,
