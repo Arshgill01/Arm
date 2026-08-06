@@ -176,16 +176,27 @@ the rule defects in `open-questions.md`.
 - [x] All dependencies, models, datasets, and generated assets have provenance
       and compatible rights.
 - [x] Clean-checkout setup/run/validation succeeds on the intended Arm target:
-      175 tests, 55 immutable evidence hashes, planner replay, four gallery
-      assets, video-word ceiling, and demo smoke at final native judge-package
-      run
-      [`30798816900`](https://github.com/Arshgill01/Arm/actions/runs/30798816900).
+      the full test suite, 77 immutable evidence files, planner replay, four
+      gallery assets, video-word ceiling, final E22 publication checks, and demo
+      smoke pass in the current native
+      [`submission-validation.yml`](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml)
+      workflow.
 - [x] Repeated before/after results and compact evidence are retained in Git.
 - [x] Current linked raw workflow evidence is anonymously accessible after
       repository publication.
 - [x] Correctness or quality guardrails show optimization did not silently break
       the workload.
-- [ ] Working demo remains freely accessible through September 4, 2026.
+- [x] Working demo is publicly accessible without credentials at
+      <https://pareto64-arm-evidence.arshgill01.chatgpt.site/demo/index.html>
+      (anonymous check, 2026-08-06).
+- [ ] Keep the report and demo available through September 4, 2026.
 - [x] English Devpost write-up is complete.
-- [ ] Public demo video is under three minutes and shows the intended device.
+- [x] A 76-second silent annotated walkthrough is public as supplemental direct
+      MP4 evidence; it uses the first-party project UI and no third-party music
+      or footage.
+- [ ] To use Devpost's optional video field, mirror that MP4 publicly to
+      YouTube, Vimeo or Youku; otherwise leave the optional field empty.
 - [ ] Submission is finalized before August 14, 2026, 23:00 UTC.
+
+The complete achieved/parked/entrant-controlled mapping is in
+[`../results/reports/plan-execution-audit-2026-08-06.md`](../results/reports/plan-execution-audit-2026-08-06.md).

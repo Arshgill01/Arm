@@ -35,7 +35,7 @@ python3 -m unittest discover -s tests -v
 The native Arm
 [`submission-validation.yml`](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml)
 workflow validates the current package from a clean checkout. The local suite
-currently runs 500 tests with two toolchain-gated skips; the verifier pins 76
+currently runs 500 tests with two toolchain-gated skips; the verifier pins 77
 immutable evidence files through E22c, exact planner replay, all four gallery
 assets, the dependency-free demo, publication URLs, and the enforced 296/390-
 word video-script ceiling.

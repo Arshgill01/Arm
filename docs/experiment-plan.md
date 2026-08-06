@@ -2249,3 +2249,104 @@ or claim periodic post-certification revocation, semantic equivalence, or
 arbitrary-prompt safety. See the retained
 [`manifest`](../results/manifests/e21b-30985501097.json) and
 [`report`](../results/reports/e21b-online-cache-certificate.md).
+
+## E22a unified product-path sidecar scaling preflight
+
+E16e proves the public sidecar lifecycle and E21b proves the adaptive
+certificate policy, but neither measures the final composed command across
+worker counts. E22a therefore freezes exactly six `pareto64 deploy` cells:
+normal/shared at one, two and four workers in balanced pair order. Every worker
+runs the full 30-task reference trace after two fixed warmups; the gateway then
+receives a bounded smoke request. Shared cells must prove one verified read-only
+sidecar inode in every worker mapping.
+
+The preflight runs on a native GitHub Arm64 host only to validate mechanism,
+quality and scaling shape. The host is not a stable performance authority,
+`perf_event_paranoid=4` blocks PMU access, and no fixed physical-memory cap is
+frozen. Advance requires all 420 requests to succeed, the retained 23/30 map in
+every worker, zero normal/shared output drift, mapping proof, at least 5 GiB
+summed-PSS savings at four workers, at least 1.8x throughput/GiB, common-count
+throughput retention and bounded p95. Timings, construction and storage costs
+are retained even when they are unfavorable.
+
+### E22a outcome: product path passes, readiness cost remains visible
+
+Run `31086439785` passes every advance gate. Shared/control aggregate throughput
+is 1.0055x, 1.0031x and 1.0052x at one, two and four workers. Summed-PSS savings
+grow from 2,086,925 KiB at two workers to 6,261,824 KiB at four; throughput/GiB
+at four improves 2.1986x. All 420 requests are exact and every shared mapping
+uses the verified read-only inode.
+
+Full-command shared readiness is 1.1695x, 1.9932x and 3.5466x control because
+the product plan repeats a complete 2.14 GB sidecar verification per worker.
+That cost is not hidden or confused with E16b's warm loader. The stable-host
+successor is authorized; E22a itself makes no final throughput, fixed-memory,
+PMU, energy, cost or causality claim. See the retained
+[`manifest`](../results/manifests/e22a-31086439785.json) and
+[`report`](../results/reports/e22a-sidecar-scaling-preflight.md).
+
+## E22b stable Axion fixed-memory curve
+
+E22b freezes one complete worker-density curve on a standard Google Axion
+`c4a-highcpu-8` Neoverse V2 node. The physical `/proc/meminfo` total of
+16,723,460,096 bytes is the immutable cap; the host has eight cores, no SMT and
+no swap. Normal and shared modes run one, two, four, five and six workers. Each
+valid worker again serves the full 30-task reference trace. Shared-8 is tested
+when the common curve passes; normal-8 is permitted only after normal-6 is valid
+with at least a 512 MiB reserve and no OOM during its workload.
+
+Correctness, request completion, source/runtime/model identity, shared mappings,
+summed PSS, `MemAvailable`, page faults and five standard Arm PMU events are
+required before throughput counts. The curve advances only if shared retains
+common-count throughput/p95, saves at least 5 GiB PSS at four workers, admits a
+higher maximum worker count and improves maximum-admitted aggregate throughput
+by at least 1.20x. PMU is mechanism telemetry, not standalone causal proof.
+
+### E22b outcome: shared-8 admitted, normal-8 OOM retained
+
+Every valid curve cell is exact. Normal-6 is the largest admitted private
+configuration at 1.9757 requests/s; shared-8 completes at 2.6760 requests/s.
+The candidate serves two additional workers, uses 58.90% less summed PSS and
+delivers 1.3545x aggregate throughput. Normal-8 fails before readiness: only
+four workers become ready, one exits on signal 9 and `/proc/vmstat` records
+`oom_kill` increasing from zero to one with no swap traffic.
+
+The curve passes, but same-count four-worker readiness is 1.2694x and later
+shared readiness is order-sensitive. A clean repeated normal-6/shared-8
+comparison is therefore required before the final claim. See the retained
+[`manifest`](../results/manifests/e22b-axion-20260806.json),
+[`report`](../results/reports/e22b-axion-fixed-memory-curve.md) and public sealed
+raw bundle linked from the report.
+
+## E22c repeated maximum-density decision
+
+E22c freezes normal-6 and shared-8 before any repeated observation. Four
+repetitions per mode run in `N6/S8/S8/N6/S8/N6/N6/S8` order so both modes appear
+twice in each half and twice first in a pair. Normal cells serve 180 measured
+requests; shared cells serve 240. All response, failure, mapping, memory, OOM,
+swap, PMU and host-stability gates precede performance.
+
+The advance policy requires every paired throughput ratio to reach 1.20x,
+median aggregate throughput at least 1.20x, p95 at most 1.05x, per-worker
+throughput at least 0.95x, shared median summed PSS at most 70% of normal,
+throughput-ratio coefficient of variation at most 5%, and median all-worker
+readiness at most 2.0x. A failed readiness gate forbids the full lifecycle claim
+but does not erase a separately valid steady-state density result.
+
+### E22c outcome: repeated density retained, lifecycle promotion rejected
+
+All 1,680 requests succeed and reproduce the retained response map. Median
+normal-6/shared-8 throughput is 1.9897/2.6862 requests/s; the median paired ratio
+is 1.3525x and every pair exceeds 1.345x. Median p95 is 0.9780x, per-worker
+throughput is 1.0144x and the paired ratio coefficient of variation is 0.3628%.
+Median summed PSS falls from 15,727,791 to 6,380,921.5 KiB, or 59.43%.
+
+Median readiness is 2.0817x and fails the frozen 2.0x limit. Pareto64 therefore
+retains only the repeated warm steady-state fixed-memory density claim. It does
+not claim faster readiness, cold-cache behavior, energy, billing economics,
+fleet behavior or broad kernel causality. The paid VM was deleted after about
+1.24 hours; estimated compute is about US$0.37 plus a small prorated disk charge.
+See the retained
+[`manifest`](../results/manifests/e22c-axion-20260806.json),
+[`report`](../results/reports/e22c-repeated-axion-density.md) and public sealed
+raw bundle linked from the report.

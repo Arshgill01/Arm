@@ -2228,3 +2228,71 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   byte-for-byte at summary `77bceb3e…a1169`. Contract `4dc537ff…27f02` remains at
   `await_native_preflight`; timings cannot support a performance claim and no
   full matrix is yet authorized.
+
+## 2026-08-05 — E21b promoted and unified deployment product completed
+
+- Native E21b preflight `30983800871` passes all 16 gates with exact 23/30
+  quality, 30 certified transitions, one denial and no unknown cached response
+  served. Its timing remains diagnostic and retains first-use cost.
+- Full run `30985501097` passes every validity and promotion gate across eight
+  fresh processes and 960 served requests. Lifecycle throughput is 1.72776x,
+  CPU/request is 0.57752x, all adaptive outputs match control and cumulative
+  latency breaks even in cycle two; first-use p95 remains 1.66468x.
+- Added persistent, integrity-protected online certificate state, session
+  isolation, bounded oracle revalidation and successful-output-drift revocation.
+- Added one `pareto64 deploy` lifecycle over normal/shared workers, mapping
+  proof, the OpenAI-compatible gateway and a final read-only receipt. Product
+  tests cover normal control, exact sharing, refusal, revocation and cleanup.
+
+## 2026-08-06 — E22a product-path scaling preflight retained
+
+- Native run `31086439785` completed normal/shared one-, two- and four-worker
+  `pareto64 deploy` cells. All 420 measured requests were exact and every shared
+  worker mapped the verified read-only sidecar inode.
+- Shared/control throughput remained within 0.55% at every count; summed-PSS
+  savings grew to 6,261,824 KiB and throughput/GiB reached 2.1986x at four.
+- Command readiness exposed repeated full-sidecar verification cost, reaching
+  3.5466x control at four workers. The unstable hosted runner and blocked PMU
+  keep this result preflight-only and authorize one stable-host successor.
+
+## 2026-08-06 — E22b stable Axion fixed-memory curve retained
+
+- Froze and ran the complete normal/shared 1/2/4/5/6 curve on one standard
+  eight-core Google Axion Neoverse V2 host with exactly 16,723,460,096 physical
+  bytes, no SMT and no swap. Shared-8 and conditional normal-8 close the worker
+  boundary.
+- All valid cells preserved exact output, mappings, reserve and five standard
+  PMU events. Normal-6 reached 1.9757 requests/s; shared-8 reached 2.6760
+  requests/s with 58.90% lower summed PSS.
+- Normal-8 failed before readiness with one signal-9 worker and `oom_kill`
+  increasing from zero to one. The failed cell remains part of the evidence.
+- The curve passes but readiness remains unfavorable/order-sensitive, so only a
+  pre-frozen repeated normal-6/shared-8 comparison can become the headline.
+
+## 2026-08-06 — E22c repeated density result retained
+
+- Ran four normal-6 and four shared-8 cells in reverse-balanced order. All 1,680
+  requests succeeded and reproduced the retained response map; every validity,
+  mapping, memory, PMU, throughput, p95, density and dispersion gate passed.
+- Median aggregate throughput improved 1.3525x, median p95 was 0.9780x and
+  summed PSS fell 59.43%. The paired throughput-ratio CV was 0.3628%.
+- Median readiness was 2.0817x and failed the frozen 2.0x gate. The accepted
+  claim is warm steady-state fixed-memory density only—not full lifecycle,
+  cold-cache, energy, billing, fleet or broad causal behavior.
+- Published sealed E22b/E22c raw bundles. Deleted the paid VM, removed only the
+  temporary SSH key and verified no matching VM/disk/address remained. The
+  safety estimate is about US$0.37 compute plus a small prorated disk charge.
+
+## 2026-08-06 — Final judge package published and validated
+
+- Published the final Sites report and hosted static demo, refreshed the four
+  gallery images, and released a 76-second silent annotated MP4 as supplemental
+  evidence. The direct MP4 is not represented as a compliant Devpost optional-
+  video-field URL; that field requires YouTube, Vimeo or Youku.
+- Extended `scripts/verify_submission.py` to 77 immutable evidence files, exact
+  E22 decisions, final demo/gallery/script and three public publication URLs.
+- Local validation passes 500 tests with two toolchain-gated skips. Native Arm
+  clean-checkout run `31096144130` passes the complete test, verifier, exact plan
+  replay and demo smoke workflow at commit `2852466`.
+- Retained a plan execution audit separating achieved technical work, bounded
+  parked branches and the remaining entrant-controlled Devpost actions.

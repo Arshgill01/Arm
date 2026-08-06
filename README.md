@@ -24,6 +24,15 @@ E3e, or E3f evidence, applies explicit quality and SLO gates, recomputes the Par
 frontier, and emits a hashed deployment decision without a hidden weighted
 score.
 
+The final Arm result is a repeated fixed-memory systems result. On one 16.72 GB
+Google Axion Neoverse V2 host, the private Arm-packed representation sustained
+six workers while eight failed before readiness with one kernel OOM kill. One
+verified read-only sidecar sustained eight workers. Across four repetitions per
+mode, shared-8 delivered 1.3525x median aggregate throughput with 59.43% lower
+summed PSS and all 1,680 requests exact. Shared readiness was 2.0817x normal and
+failed the frozen 2.0x gate, so the claim stops at steady-state density rather
+than a full lifecycle win.
+
 The judge-facing package is available in [`submission/`](submission/), and the
 dependency-free interactive evidence demo is in [`demo/`](demo/). Verify the
 compact submission from a clean checkout with:
@@ -367,12 +376,15 @@ repack flag that conflicts with the plan is refused.
 | [E15b](results/reports/e15b-affinity-split-scheduler.md) | Strict two-CPU confirmation preserves exact quality but rejects split 2/4 scheduling: 0.43% throughput gain with no CPU/request reduction misses the unchanged efficiency gate |
 | [E16c](results/reports/e16c-shared-repack-arena.md) | Two simultaneous workers share one verified read-only packed arena, saving 1.995 GiB summed PSS at 1.00044x throughput with all answers unchanged |
 | [E16d/E16e](results/reports/e16e-persistent-sidecar-product-lifecycle.md) | The exact native clean-checkout product lifecycle completes, but E16d's UTF-8 log reader fails; E16e retains that failure and passes all 14 unchanged gates twice with a byte-safe replay of the exact artifact |
+| [E22a](results/reports/e22a-sidecar-scaling-preflight.md) | The actual `pareto64 deploy` path completes normal/shared 1/2/4-worker cells with 420/420 exact requests, shared-inode proof and growing PSS savings; unstable-host timing and blocked PMU remain preflight-only |
+| [E22b](results/reports/e22b-axion-fixed-memory-curve.md) | One 16.72 GB Axion host admits normal-6 and shared-8; normal-8 fails before readiness with an independently retained OOM-kill transition, while all valid curve cells preserve exact output and PMU telemetry |
+| [E22c](results/reports/e22c-repeated-axion-density.md) | Four repetitions per mode retain a 1.3525x shared-8/normal-6 aggregate-throughput ratio and 59.43% lower summed PSS across 1,680 exact requests; 2.0817x readiness fails the frozen gate, narrowing the claim to steady-state density |
 
 Negative results remain first-class evidence. No runtime is promoted into the
 planner until it passes a predeclared quality/SLO contract.
 The E5f through E5j, E6d through E6i, E7a through E7c, E9a/E9c, E10a through
 E10f, E11b, E12a/E12b, E13a/E13b, E14a/E14b, E15a/E15b,
-E16a through E16e, and E17a/E17c results are retained under their exact frozen
+E16a through E16e, E17a/E17c, and E22a through E22c results are retained under their exact frozen
 contracts and independently re-ingested byte for byte. E9e separately retains its reproducible
 premeasurement stop record.
 

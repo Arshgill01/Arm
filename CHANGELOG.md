@@ -4,6 +4,48 @@ Pareto64 and this repository were created during the Arm Create: AI
 Optimization Challenge 2026 submission period. The full Git history is the
 authoritative, timestamped record; this file groups the significant additions.
 
+## 2026-08-06
+
+### Unified deployment product
+
+- Added `pareto64 deploy`, composing exact sidecar verification, normal/shared
+  multi-worker launch, post-health mapping proof, an OpenAI-compatible
+  exact-transition gateway, persistent integrity-protected certificate state,
+  bounded oracle revalidation/revocation, and a final deployment receipt.
+- Extended the product suite through unknown-route oracle serving, session
+  isolation, successful-output-drift revocation, normal control behavior and
+  complete shared mapping/receipt proof.
+
+### Final native Arm evidence
+
+- Retained E22a product-path scaling preflight on native GitHub Arm64. Normal
+  and shared 1/2/4-worker deployments completed 420/420 exact requests; shared
+  summed-PSS savings grew to 6,261,824 KiB at four workers. Unstable-host timing
+  and blocked PMU remain preflight-only.
+- Ran E22b's complete 1/2/4/5/6/8 fixed-memory curve on one 16.72 GB Google
+  Axion `c4a-highcpu-8`. Normal-6 and shared-8 are the maximum admitted modes;
+  normal-8 failed before readiness with one independently retained OOM kill and
+  no swap. Standard Arm PMU telemetry was retained for every valid cell.
+- Retained E22c's four-repetition, reverse-balanced normal-6/shared-8 comparison.
+  Shared-8 reaches 1.3525x median aggregate throughput with 59.43% lower summed
+  PSS and 1,680 exact requests. Median readiness is 2.0817x and fails the frozen
+  2.0x gate, so only the steady-state fixed-memory density claim is promoted.
+- Deleted the paid Axion VM and uniquely removed its temporary SSH key. The
+  safety estimate is about US$0.37 compute plus a small prorated disk charge;
+  no billing-product claim is made.
+
+### Final publication package
+
+- Published the final evidence report and hosted interactive demo, released the
+  sealed E22b/E22c raw bundles and a 76-second supplemental walkthrough, and
+  refreshed the four 1,440x900 gallery images around the bounded density result.
+- Expanded submission verification to 77 immutable evidence files, the exact
+  E22 decisions, gallery dimensions, final demo text, 296-word script ceiling
+  and public report/demo/release/walkthrough URLs.
+- Passed the final package from a clean checkout on native `aarch64` in workflow
+  run `31096144130`. Devpost identity, eligibility, survey, gallery upload and
+  final submission remain entrant-controlled.
+
 ## 2026-08-05
 
 ### Final evidence hardening

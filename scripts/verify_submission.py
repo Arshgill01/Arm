@@ -29,6 +29,9 @@ build_terminal_model_decision = import_module(
 
 
 EXPECTED_HASHES = {
+    "results/reports/plan-execution-audit-2026-08-06.md": (
+        "b899af51e185434235a85aa34cfb2f0f7817e94e51f4a2c061cc76cc9bad6b3f"
+    ),
     "experiments/e22c_contract.json": (
         "9bc0e63c4a59e5b9efaba176a47f5efe4b8b4664e27847dae0d675d06a360207"
     ),
@@ -281,6 +284,7 @@ REQUIRED_SUBMISSION_FILES = (
     "submission/compliance.md",
     "submission/publication-handoff.md",
     "submission/entrant-handoff.md",
+    "results/reports/plan-execution-audit-2026-08-06.md",
 )
 GALLERY_FILES = (
     "output/playwright/pareto64-overview.png",

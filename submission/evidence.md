@@ -3,15 +3,21 @@
 Public HTML report:
 [`pareto64-arm-evidence.arshgill01.chatgpt.site`](https://pareto64-arm-evidence.arshgill01.chatgpt.site)
 
-All performance claims below come from native `aarch64` GitHub-hosted Neoverse
-N2 runners. Each manifest records its exact CPU topology; E0–E7c used four
-logical CPUs, while E9a's same-job final comparison used two. No absolute rate
-is compared across those topologies. Each compact manifest is generated from
-raw evidence by a fail-closed ingester. Raw artifacts are retained for 90 days
-by the linked GitHub Actions workflow run; compact manifests and reports are
-committed permanently. The repository is public, so source, reports, and
-workflow pages are anonymously accessible. The remaining publication handoff
-is tracked in [`publication-handoff.md`](publication-handoff.md). E9e is a
+Plan-wide achieved, parked, and entrant-controlled status:
+[`plan-execution-audit-2026-08-06.md`](../results/reports/plan-execution-audit-2026-08-06.md)
+
+All performance claims below come from native `aarch64` hosts. Each manifest
+records its exact CPU topology: E0–E7c use four-logical-CPU GitHub-hosted
+Neoverse N2 runners, E9a's same-job comparison uses two logical CPUs, and the
+final E22b/E22c result uses one fixed eight-core Google Axion Neoverse V2 host.
+No absolute rate is compared across those topologies. Each compact manifest is
+generated from raw evidence by a fail-closed ingester. Earlier GitHub workflow
+artifacts use their stated retention window; the sealed E22b/E22c raw bundles
+are also published in the public GitHub release. Compact manifests and reports
+are committed permanently. The repository is public, so source, reports,
+release assets, and workflow pages are anonymously accessible. The remaining
+publication handoff is tracked in
+[`publication-handoff.md`](publication-handoff.md). E9e is a
 source/model/workload feasibility stop, so it has no native run or performance
 artifact.
 
@@ -79,7 +85,7 @@ artifact.
 | Product-path 1/2/4-worker sidecar scaling preflight | [E22a `31086439785`](https://github.com/Arshgill01/Arm/actions/runs/31086439785) | [`e22a` manifest](../results/manifests/e22a-31086439785.json) · [`report`](../results/reports/e22a-sidecar-scaling-preflight.md) | `8a82337e…c6a4` |
 | Stable Axion fixed-memory worker curve | Native Google Axion c4a-highcpu-8; retained bundle inventory | [`e22b` manifest](../results/manifests/e22b-axion-20260806.json) · [`report`](../results/reports/e22b-axion-fixed-memory-curve.md) · [raw bundle](https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/e22b-evidence-a0c539f-v2.tar.gz) | `6192a067…1391` |
 | Repeated Axion maximum-density comparison | Four normal-6 + four shared-8 cells; 1,680 exact requests | [`e22c` manifest](../results/manifests/e22c-axion-20260806.json) · [`report`](../results/reports/e22c-repeated-axion-density.md) · [raw bundle](https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/e22c-evidence-15ca91b.tar.gz) | `5aa21ea8…a8f6` |
-| Current judge-package clean-checkout validation | [`submission-validation.yml`](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml) | Full unittest suite with expected artifact/environment skips, 76 hashes through E22c, exact plan replay, four gallery assets, 296/390-word ceiling, final E22 demo and publication-copy checks | required native `aarch64` workflow on current `main` |
+| Current judge-package clean-checkout validation | [`submission-validation.yml`](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml) | Full unittest suite with expected artifact/environment skips, 77 hashes through E22c and the plan audit, exact plan replay, four gallery assets, 296/390-word ceiling, final E22 demo and publication-copy checks | required native `aarch64` workflow on current `main` |
 
 ## Final selected package
 

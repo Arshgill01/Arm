@@ -371,9 +371,9 @@ only the two absolute, hash-matching paths in the retained receipt when
 The lifecycle receipt separates observed E16b same-job warm readiness, E16c
 two-worker summed PSS, unmeasured cold storage, and a warm-only construction
 amortization estimate. It explicitly excludes cold-start, per-process RSS,
-energy, money, and maintenance claims. E16d's native product validation is
-frozen separately; until it passes, these commands are locally and synthetically
-validated interfaces rather than a new native result.
+energy, money, and maintenance claims. E16d completed the native product path
+but failed its final UTF-8 reader; E16e retains that failure and passes all 14
+unchanged lifecycle gates twice with a byte-safe replay of the exact artifact.
 
 The asymmetric scheduler remains experimental and disabled. E15b's strict
 two-CPU confirmation found only 1.00427x throughput for split 2/4 and exactly
@@ -420,6 +420,26 @@ output drift revokes the certificate immediately. `/healthz` and `/metrics`
 expose worker, route, oracle, certification, denial, and revocation state. The
 registry is integrity protected, atomically replaced, persistent across
 restarts, and isolated across sessions.
+
+### Measured multi-worker product boundary
+
+E22a runs this exact `pareto64 deploy` path in normal and shared modes at one,
+two and four workers on native Arm. All 420 measured requests are exact across
+modes; each shared worker proves the verified sidecar inode through a read-only
+shared mapping. Shared/control throughput stays within 0.55% at every count,
+while summed PSS savings grow from 2,086,925 KiB at two workers to 6,261,824 KiB
+at four. The ephemeral GitHub host blocks PMU access and is not a stable
+performance authority, so E22a is a mechanism/product preflight only.
+
+E22b then measures the complete fixed-memory curve on one eight-core Google
+Axion Neoverse V2 host with 16,723,460,096 physical bytes, no SMT and no swap.
+The private path admits six workers; normal-8 fails before readiness with a
+retained `oom_kill` transition. The shared path admits eight workers. E22c
+repeats normal-6 and shared-8 four times each in reverse-balanced order. Shared-8
+delivers 1.3525x median aggregate throughput and 59.43% lower summed PSS across
+1,680 exact requests. The 2.0817x median readiness ratio fails the frozen 2.0x
+gate, so the product claims only warm steady-state fixed-memory density—not
+faster readiness, cold startup, energy, billing economics or fleet behavior.
 
 ## Select a measured service profile
 
