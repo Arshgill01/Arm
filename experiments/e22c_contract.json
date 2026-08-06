@@ -1,0 +1,321 @@
+{
+  "advance": {
+    "all_eight_cells_valid_and_admitted": true,
+    "all_pmu_events_counted": true,
+    "all_shared_workers_map_one_verified_inode_read_only": true,
+    "density_worker_gain": 2,
+    "maximum_each_paired_p95_latency_ratio": 1.2,
+    "maximum_median_all_worker_readiness_ratio": 2.0,
+    "maximum_median_p95_latency_ratio": 1.15,
+    "maximum_mode_throughput_coefficient_of_variation": 0.1,
+    "minimum_each_paired_aggregate_throughput_ratio": 1.2,
+    "minimum_median_aggregate_throughput_ratio": 1.25,
+    "minimum_median_per_worker_throughput_ratio": 0.8,
+    "minimum_median_throughput_per_gib_pss_ratio": 2.5,
+    "post_result_gate_change_permitted": false,
+    "reference_prediction_mismatches": 0,
+    "request_failures": 0,
+    "response_differences_between_all_cells": 0
+  },
+  "build": {
+    "cmake_arguments": [
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DGGML_CPU_KLEIDIAI=ON",
+      "-DGGML_LTO=OFF",
+      "-DGGML_NATIVE=ON",
+      "-DLLAMA_BUILD_EXAMPLES=OFF",
+      "-DLLAMA_BUILD_SERVER=ON",
+      "-DLLAMA_BUILD_TESTS=OFF",
+      "-DLLAMA_CURL=OFF",
+      "-DLLAMA_OPENSSL=OFF"
+    ],
+    "forbidden_dynamic_dependency_basenames": [
+      "libcrypto.so.3",
+      "libssl.so.3"
+    ]
+  },
+  "cost_control": {
+    "authorized_maximum_usd": 10.0,
+    "estimate_boundary": "Eight times the published starting c4a-highcpu hourly rate; not a bill, cost claim, or commitment price.",
+    "estimate_source": "https://cloud.google.com/products/axion",
+    "estimated_compute_rate_usd_per_hour": 0.30296,
+    "estimated_maximum_compute_usd": 1.81776,
+    "instance_maximum_runtime_hours": 6.0,
+    "instance_termination_action": "DELETE"
+  },
+  "created_utc": "2026-08-06",
+  "experiment_id": "E22c-clean-maximum-density",
+  "fixed_memory": {
+    "admitted_cell_requires": [
+      "valid deployment lifecycle and every worker ready",
+      "all exact requests succeed with the reference response map",
+      "zero OOM kills and zero swap",
+      "MemAvailable remains at least 536,870,912 bytes after workload"
+    ],
+    "cap_bytes": 16723460096,
+    "cap_source": "physical /proc/meminfo MemTotal on the frozen host",
+    "minimum_mem_available_bytes": 536870912,
+    "swap_total_bytes": 0
+  },
+  "host": {
+    "architecture": "aarch64",
+    "automatic_delete_after_seconds": 21600,
+    "cloud_creation_timestamp": "2026-08-06T02:21:48.160-07:00",
+    "cloud_instance_sha256": "265e1f64a07a1ab7442935a323bff2b177e9fcbc52b2f1c4f52f58f36724b7e0",
+    "cpu_model": "Neoverse-V2",
+    "disk_available_bytes": 25428619264,
+    "host_inventory_sha256": "8f6bfcd47d88a82cb978886a2a70e5c21ae3ed4ff7d890a0e8f885811c2256b3",
+    "host_preflight_sha256": "a298427b1c0dca79ee0dc9ba1cba4e285359eb7acfc516dc2ee4e500d5a6580a",
+    "instance_id": "5558962151178759364",
+    "logical_cpus": 8,
+    "machine_type": "projects/1074244600392/machineTypes/c4a-highcpu-8",
+    "maintenance_event": "NONE",
+    "mem_total_bytes": 16723460096,
+    "on_host_maintenance": "TERMINATE",
+    "pmu": {
+      "event_source": "armv8_pmuv3_0",
+      "perf_stat_available": true,
+      "requested_tracking_type": "standard"
+    },
+    "preempted": false,
+    "provider": "Google Cloud Compute Engine",
+    "provisioning_model": "STANDARD",
+    "schema_version": 1,
+    "status": "valid_stable_axion_host_preflight",
+    "swap_total_bytes": 0,
+    "threads_per_core": 1,
+    "zone": "projects/1074244600392/zones/us-central1-a"
+  },
+  "inputs": {
+    "experiments/e16c_contract.json": {
+      "sha256": "118bed9c2887bfaef877dbac5ffdd74890f2b3abab6c651c8c579c3891d26df0"
+    },
+    "experiments/e22b_cell.sh": {
+      "sha256": "9788531edeb67fb3b611be2103a47637e6c1dac16fc3396aef370f58137a8041"
+    },
+    "experiments/e22b_contract.json": {
+      "sha256": "8f26bc713a817636b97aaa772c3926977d5d5cabaed9b7c4f8c66cc2d7849fae"
+    },
+    "experiments/e22b_ingest.py": {
+      "sha256": "1398c8786c063f91c5acd75c7da35665cbdb440be47b1bedd40fec5d228ab3d1"
+    },
+    "experiments/e22b_probe.py": {
+      "sha256": "c53755fc46f66aa8dae5669c5d4d31452efe9c484c9495ca06e8a2a00cf6edce"
+    },
+    "experiments/e22c_campaign.sh": {
+      "sha256": "8795d036fb0186d9eacde7890ac9527d24ddbc64f6d5847e53dfac27de23cde1"
+    },
+    "experiments/e22c_freeze.py": {
+      "sha256": "ee02db5e959c6ea9e31fdbe47e0b7799105ec90e8bca7587e2543e42a65813d2"
+    },
+    "experiments/e22c_ingest.py": {
+      "sha256": "6ab236fbb919061f08b7d4bbb66eb0b38411426a641918650539dca933379f64"
+    },
+    "experiments/e3_tasks.json": {
+      "sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    },
+    "pareto64/certificate.py": {
+      "sha256": "f7837c32bc918c5c0be04153cc51086d2d571cb34a9acd6c597e29be0c966ee6"
+    },
+    "pareto64/cli.py": {
+      "sha256": "9133d8f984e40a2b4115ce0d963eec76e4115482982d0cac585a11dc98030dcf"
+    },
+    "pareto64/deploy.py": {
+      "sha256": "cf7c4ded8dc959406f366e00c8a528e7c56cf425d28abca0c94c29bb994df8a1"
+    },
+    "pareto64/gateway.py": {
+      "sha256": "74d107954dc32bffee9307418f6ee18d37c8c6f6b1f91b1507cfe9d12d530633"
+    },
+    "pareto64/repack.py": {
+      "sha256": "fbac61d20ffe0f5b5465f435817a5d352a36659543907d79f2111cf31d654221"
+    },
+    "pareto64/sidecar.py": {
+      "sha256": "12b460f276b33890f2fc56afcd4b7486f0e2f5abc889a6d63052955116a172a0"
+    },
+    "results/manifests/e16c-30851609576.json": {
+      "sha256": "a469358f7f1b6698961d7481c795893595c88e85e235fa705c650042bcc025da"
+    },
+    "results/manifests/e22b-axion-20260806.json": {
+      "sha256": "6192a06718026e3f29a11fb70df2408081268046404afdd56031963dca6e1391"
+    },
+    "results/manifests/e3f-30656151957.json": {
+      "sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c"
+    }
+  },
+  "matrix": {
+    "drop_caches": false,
+    "inter_cell_idle_seconds": 5,
+    "normal_workers": 6,
+    "order": [
+      {
+        "mode": "normal",
+        "position": 1,
+        "repetition": 1,
+        "workers": 6
+      },
+      {
+        "mode": "shared",
+        "position": 2,
+        "repetition": 1,
+        "workers": 8
+      },
+      {
+        "mode": "shared",
+        "position": 3,
+        "repetition": 2,
+        "workers": 8
+      },
+      {
+        "mode": "normal",
+        "position": 4,
+        "repetition": 2,
+        "workers": 6
+      },
+      {
+        "mode": "shared",
+        "position": 5,
+        "repetition": 3,
+        "workers": 8
+      },
+      {
+        "mode": "normal",
+        "position": 6,
+        "repetition": 3,
+        "workers": 6
+      },
+      {
+        "mode": "normal",
+        "position": 7,
+        "repetition": 4,
+        "workers": 6
+      },
+      {
+        "mode": "shared",
+        "position": 8,
+        "repetition": 4,
+        "workers": 8
+      }
+    ],
+    "order_rationale": "NSSNSNNS places each mode twice in the first and second half, pairs each repetition once, and gives each mode two first-in-pair runs.",
+    "repetitions_per_mode": 4,
+    "shared_workers": 8,
+    "warm_same_host_page_cache": true
+  },
+  "pmu": {
+    "broader_microarchitectural_causality_permitted": false,
+    "density_result_blocked_if_missing": true,
+    "events": [
+      "cpu_cycles",
+      "inst_retired",
+      "l1d_cache",
+      "l1d_cache_refill",
+      "l2d_cache"
+    ],
+    "scope": "worker processes during only the exact measured trace",
+    "tracking_type": "standard"
+  },
+  "question": "Does the E22b maximum-density result repeat cleanly when normal-six and shared-eight are measured four times in an order-balanced sequence?",
+  "schema_version": 1,
+  "scientific_boundary": {
+    "billing_cost_claim_permitted": false,
+    "cold_page_cache_claim_permitted": false,
+    "e22b_cell_schema_reused_without_behavior_change": true,
+    "energy_claim_permitted": false,
+    "final_performance_claim_permitted_if_all_gates_pass": true,
+    "final_repeated_comparison": true,
+    "fixed_memory_cap_frozen_before_measurement": true,
+    "host_class": "Google Axion c4a-highcpu-8, Neoverse V2",
+    "host_is_stable_performance_authority": true,
+    "order_balanced": true,
+    "pmu_mechanism_claim_limited_to_counted_events": true,
+    "preflight_only": false,
+    "warm_same_host_page_cache_only": true
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "reference_accuracy": 0.7666666666666667,
+    "reference_correct": 23,
+    "reference_total": 30
+  },
+  "service": {
+    "batch_size": 64,
+    "client_concurrency": 1,
+    "context_per_slot": 256,
+    "flash_attention": "auto",
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "micro_batch_size": 64,
+    "prompt_cache": true,
+    "reason_for_thread_count": "One matched worker thread per physical V2 core exposes the maximum eight-worker density without oversubscribing inference.",
+    "request_cache_prompt": true,
+    "server_parallel_slots": 1,
+    "threads": 1,
+    "threads_batch": 1,
+    "warmup_slot_ids": [
+      0,
+      0
+    ],
+    "weight_repack": true
+  },
+  "source": {
+    "aggregate_diff_sha256": "48a7611bbe6e22a0303bf0b8855dbab3f718ca6d56d5a594a8ef1650f959f003",
+    "changed_files": [
+      "common/reasoning-budget.cpp",
+      "ggml/src/ggml-cpu/CMakeLists.txt",
+      "ggml/src/ggml-cpu/arch/arm/quants.c",
+      "ggml/src/ggml-cpu/repack.cpp",
+      "tests/test-reasoning-budget.cpp"
+    ],
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "patches": [
+      {
+        "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      },
+      {
+        "path": "patches/llama.cpp/b10216/0006-repack-sidecar-feasibility-dump.patch",
+        "sha256": "7257b6d668230a4cc5e9480b24b6a6f9665e403a14e7244203f9672760805b5c"
+      },
+      {
+        "path": "patches/llama.cpp/b10216/0007-repack-sidecar-readonly-loader.patch",
+        "sha256": "5dc4beeeb50b5c5430632431c1462ee8d454409e9ff51a69bd671e0a859f47d6"
+      }
+    ],
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216"
+  },
+  "source_curve": {
+    "manifest": "results/manifests/e22b-axion-20260806.json",
+    "manifest_sha256": "6192a06718026e3f29a11fb70df2408081268046404afdd56031963dca6e1391",
+    "normal_maximum_workers": 6,
+    "raw_archive_name": "e22b-evidence-a0c539f-v2.tar.gz",
+    "raw_archive_sha256": "a415ac6ad262911a98b38c6fe136bd4dfbe74d2e815531a80d2037d884af5ec0",
+    "shared_maximum_workers": 8,
+    "single_curve_throughput_ratio": 1.3544872858658519
+  },
+  "stage": "final stable Arm fixed-memory comparison",
+  "successor_rule": "If every gate passes, promote the native Axion fixed-memory result as the primary Arm-specific submission claim. Otherwise retain E22c and narrow the claim to the strongest repeated boundary that was predeclared.",
+  "workload": {
+    "client_concurrency_per_worker": 1,
+    "maximum_output_tokens": 8,
+    "prompt_cache": true,
+    "requests_per_worker": 30,
+    "seed": 424242,
+    "tasks": 30,
+    "timeout_seconds": 90,
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ]
+  }
+}
