@@ -83,7 +83,8 @@ cost, and claim boundary. Three independent ingestions reproduced the summary
 byte for byte at SHA-256
 `1df07171f09c780ca33c1d6f7d1049bf2f8094908dc75537bdd486fe477a55b8`.
 
-The sealed raw bundle is `e22c-evidence-15ca91b.tar.gz`, 10,317,998 bytes,
+The sealed [raw bundle](https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/e22c-evidence-15ca91b.tar.gz)
+is `e22c-evidence-15ca91b.tar.gz`, 10,317,998 bytes,
 SHA-256
 `4ec1589ddb986667a710d8b049b2ce3d37fc6ea8c2caee656bc2d6c428b58246`.
 Its inventory rehashes 554 regular files; six runtime library symlinks are

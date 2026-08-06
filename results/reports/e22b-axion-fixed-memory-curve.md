@@ -83,7 +83,8 @@ host identity, PMU counts, and the independently proven OOM boundary. Three
 independent ingestions reproduced the raw summary byte for byte at SHA-256
 `06d921ad37bfb19969ab4a5a564937f3176fe556d25f28f0df61fd30bd6e09c9`.
 
-The corrected sealed raw bundle is `e22b-evidence-a0c539f-v2.tar.gz`,
+The corrected sealed [raw bundle](https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/e22b-evidence-a0c539f-v2.tar.gz)
+is `e22b-evidence-a0c539f-v2.tar.gz`,
 10,255,094 bytes, SHA-256
 `a415ac6ad262911a98b38c6fe136bd4dfbe74d2e815531a80d2037d884af5ec0`.
 Its inventory rehashes 628 regular files; six runtime library symlinks are
