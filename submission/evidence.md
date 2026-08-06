@@ -76,6 +76,7 @@ artifact.
 | Adaptive online cache certificate | [E21b `30985501097`](https://github.com/Arshgill01/Arm/actions/runs/30985501097) | [`e21b` manifest](../results/manifests/e21b-30985501097.json) · [`report`](../results/reports/e21b-online-cache-certificate.md) | `df0b6907…f805` |
 | Clean-checkout sidecar lifecycle reader failure | [E16d `30988414887`](https://github.com/Arshgill01/Arm/actions/runs/30988414887) | Exact always-uploaded failure artifact retained; bounded repair is E16e | `sha256:9324b4da…b8d51d` artifact |
 | Clean-checkout sidecar lifecycle retained after byte-reader repair | [E16e `30989161576`](https://github.com/Arshgill01/Arm/actions/runs/30989161576) | [`e16e` manifest](../results/manifests/e16e-30989161576.json) · [`report`](../results/reports/e16e-persistent-sidecar-product-lifecycle.md) | `ca44f051…c6299` |
+| Product-path 1/2/4-worker sidecar scaling preflight | [E22a `31086439785`](https://github.com/Arshgill01/Arm/actions/runs/31086439785) | [`e22a` manifest](../results/manifests/e22a-31086439785.json) · [`report`](../results/reports/e22a-sidecar-scaling-preflight.md) | `8a82337e…c6a4` |
 | Final judge-package clean-checkout validation | [`30991082053`](https://github.com/Arshgill01/Arm/actions/runs/30991082053) | 468 tests (20 expected artifact/environment skips), 71 hashes through E16e/E21b, exact plan replay, four gallery assets, 327/390-word ceiling, E21/E16 demo smoke | passed on native `aarch64` at `f12b4a1` |
 
 ## Final selected package
@@ -175,6 +176,13 @@ artifact.
   and passes all 14 unchanged lifecycle gates twice against the exact artifact.
   The 12.602-second construction has a nine-warm-start estimate only; cold,
   energy, money, and fleet behavior remain unmeasured.
+- Product-path scaling preflight: E22a runs normal and shared `pareto64 deploy`
+  modes at one, two, and four workers. All 420 requests are exact between modes;
+  shared throughput is 1.0031x/1.0052x and summed PSS is lower by 2,086,925 KiB
+  at two workers and 6,261,824 KiB at four. The GitHub host is explicitly a
+  non-authoritative preflight, PMU access is blocked, no fixed memory cap was
+  frozen, and repeated full sidecar verification makes command-level readiness
+  worse. A stable-host successor is authorized; no final scaling claim is.
 
 ## Recompute locally
 

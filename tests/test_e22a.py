@@ -6,6 +6,11 @@ from pathlib import Path
 
 from experiments.e22a_freeze import build_contract
 from experiments.e22a_ingest import evaluate_pairs
+from experiments.e22a_retain import (
+    ARTIFACT_DIGEST,
+    HEAD_SHA,
+    WORKFLOW_SUMMARY_SHA256,
+)
 
 
 class E22aPreflightTests(unittest.TestCase):
@@ -88,6 +93,17 @@ class E22aPreflightTests(unittest.TestCase):
         cells[-1]["response_map"] = {"task": "B"}
         _, gates = evaluate_pairs(cells, contract["advance"])
         self.assertFalse(gates["exact_responses_between_modes"])
+
+    def test_retention_identity_is_bound_to_the_native_preflight(self) -> None:
+        self.assertEqual(HEAD_SHA, "659c53acf83f6669957e7a30cf1c0a80287e58c4")
+        self.assertEqual(
+            ARTIFACT_DIGEST,
+            "sha256:112ac47bdffdf2ba5ad620f2e6d5b8c8f68392ae6b949c21d311680a1f8f5fe5",
+        )
+        self.assertEqual(
+            WORKFLOW_SUMMARY_SHA256,
+            "02228e33f4f295f1aa638b623c952f9aed7df406768f7810c4a948477bc3cf11",
+        )
 
 
 if __name__ == "__main__":

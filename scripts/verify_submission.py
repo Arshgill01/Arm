@@ -29,6 +29,9 @@ build_terminal_model_decision = import_module(
 
 
 EXPECTED_HASHES = {
+    "results/manifests/e22a-31086439785.json": (
+        "8a82337e66555ca880a6446099f58eb70618a89cfe929c302cf4e71cd4fbc6a4"
+    ),
     "experiments/e16e_lifecycle_contract.json": (
         "f7034e7c56d5ef45e7c24f60af06bbeb781932f69c8d02746d970247e807a22e"
     ),
@@ -1796,6 +1799,34 @@ def main() -> int:
         is not False
     ):
         raise ValueError("E16d/E16e sidecar lifecycle changed or broadened")
+
+    scaling_preflight = load_object(ROOT / "results/manifests/e22a-31086439785.json")
+    scaling_pairs = {
+        item.get("worker_count"): item for item in scaling_preflight.get("pairs", [])
+    }
+    if (
+        scaling_preflight.get("status") != "valid_sidecar_scaling_preflight"
+        or scaling_preflight.get("decision")
+        != "proceed_to_stable_host_fixed_memory_contract"
+        or scaling_preflight.get("failed_advance_gates") != []
+        or not all(scaling_preflight.get("advance_gates", {}).values())
+        or scaling_pairs.get(2, {}).get("summed_pss_saved_kib") != 2_086_925
+        or scaling_pairs.get(4, {}).get("summed_pss_saved_kib") != 6_261_824
+        or scaling_preflight.get("claim_boundary", {}).get("preflight_only") is not True
+        or scaling_preflight.get("claim_boundary", {}).get(
+            "final_performance_claim_permitted"
+        )
+        is not False
+        or scaling_preflight.get("host", {}).get("stable_performance_authority")
+        is not False
+        or scaling_preflight.get("campaign_decision", {}).get("fixed_memory_cap_frozen")
+        is not False
+        or scaling_preflight.get("campaign_decision", {}).get(
+            "pmu_causality_claim_permitted"
+        )
+        is not False
+    ):
+        raise ValueError("E22a scaling preflight changed or broadened")
 
     local_assets = verify_demo()
     gallery_assets = verify_gallery()
