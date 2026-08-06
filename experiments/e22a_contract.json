@@ -1,0 +1,236 @@
+{
+  "advance": {
+    "all_shared_workers_map_one_verified_inode_read_only": true,
+    "maximum_four_to_two_pss_savings_collapse_ratio": 0.9,
+    "maximum_shared_p95_latency_ratio_per_count": 1.15,
+    "minimum_pss_saved_kib_at_four_workers": 1048576,
+    "minimum_pss_saved_kib_at_two_workers": 524288,
+    "minimum_shared_throughput_ratio_per_count": 0.9,
+    "post_result_gate_change_permitted": false,
+    "reference_prediction_mismatches": 0,
+    "request_failures": 0,
+    "response_differences_between_modes": 0
+  },
+  "build": {
+    "cmake_arguments": [
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DGGML_CPU_KLEIDIAI=ON",
+      "-DGGML_LTO=OFF",
+      "-DGGML_NATIVE=ON",
+      "-DLLAMA_BUILD_EXAMPLES=OFF",
+      "-DLLAMA_BUILD_SERVER=ON",
+      "-DLLAMA_BUILD_TESTS=OFF",
+      "-DLLAMA_CURL=OFF",
+      "-DLLAMA_OPENSSL=OFF"
+    ],
+    "forbidden_dynamic_dependency_basenames": [
+      "libcrypto.so.3",
+      "libssl.so.3"
+    ]
+  },
+  "created_utc": "2026-08-06",
+  "experiment_id": "E22a-preflight",
+  "inputs": {
+    "experiments/e16c_contract.json": {
+      "sha256": "118bed9c2887bfaef877dbac5ffdd74890f2b3abab6c651c8c579c3891d26df0"
+    },
+    "experiments/e22a_cell.sh": {
+      "sha256": "ae176a12b16275af290787e14dc56643489206a6d2c33b890e1b43ba0a5f9e63"
+    },
+    "experiments/e22a_freeze.py": {
+      "sha256": "518c20d3e6b6a89d14869030e105671ee49a69f015bf068f7e7d10b2946c296a"
+    },
+    "experiments/e22a_ingest.py": {
+      "sha256": "525ce61f742f8ea78d993f1a5474ba61f4e5ce1e996b0841318e036593df51cc"
+    },
+    "experiments/e22a_probe.py": {
+      "sha256": "e1313d8190da25c2172dfcbf3678ee995a11daa5388e9c425627fa1f5257d53a"
+    },
+    "experiments/e3_tasks.json": {
+      "sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346"
+    },
+    "experiments/e3f_models.json": {
+      "sha256": "31b398201671a01ddde5f61a276b307a9641fec4602518f8dc18728c30eb697d"
+    },
+    "pareto64/certificate.py": {
+      "sha256": "f7837c32bc918c5c0be04153cc51086d2d571cb34a9acd6c597e29be0c966ee6"
+    },
+    "pareto64/cli.py": {
+      "sha256": "9133d8f984e40a2b4115ce0d963eec76e4115482982d0cac585a11dc98030dcf"
+    },
+    "pareto64/deploy.py": {
+      "sha256": "cf7c4ded8dc959406f366e00c8a528e7c56cf425d28abca0c94c29bb994df8a1"
+    },
+    "pareto64/gateway.py": {
+      "sha256": "74d107954dc32bffee9307418f6ee18d37c8c6f6b1f91b1507cfe9d12d530633"
+    },
+    "pareto64/repack.py": {
+      "sha256": "fbac61d20ffe0f5b5465f435817a5d352a36659543907d79f2111cf31d654221"
+    },
+    "pareto64/sidecar.py": {
+      "sha256": "d24a12bdcfa5e710064139956572f343fdce09636e0faffde50916ac69084845"
+    },
+    "results/manifests/e16c-30851609576.json": {
+      "sha256": "a469358f7f1b6698961d7481c795893595c88e85e235fa705c650042bcc025da"
+    },
+    "results/manifests/e3f-30656151957.json": {
+      "sha256": "54adb3d4317e7a33c08c3bc59a4d534c5b5c6952a1dcc9a01b93e87a445aff9c"
+    }
+  },
+  "matrix": {
+    "full_quality_trace_per_worker": true,
+    "gateway_smoke_after_direct_measurement": true,
+    "modes": [
+      "normal",
+      "shared"
+    ],
+    "order": [
+      {
+        "mode": "normal",
+        "position": 1,
+        "workers": 1
+      },
+      {
+        "mode": "shared",
+        "position": 2,
+        "workers": 1
+      },
+      {
+        "mode": "shared",
+        "position": 3,
+        "workers": 2
+      },
+      {
+        "mode": "normal",
+        "position": 4,
+        "workers": 2
+      },
+      {
+        "mode": "normal",
+        "position": 5,
+        "workers": 4
+      },
+      {
+        "mode": "shared",
+        "position": 6,
+        "workers": 4
+      }
+    ],
+    "repetitions": 1,
+    "same_worker_count_pair_required": true,
+    "worker_counts": [
+      1,
+      2,
+      4
+    ]
+  },
+  "measurements": [
+    "exact response and reference prediction match per request",
+    "successful request count",
+    "aggregate requests per second",
+    "per-worker and aggregate p50/p95/maximum latency",
+    "per-worker and summed RSS/PSS after workload",
+    "throughput per GiB of summed PSS",
+    "one-worker and all-worker warm readiness",
+    "minor and major page faults",
+    "per-worker CPU time",
+    "shared sidecar device/inode and read-only MAP_SHARED regions",
+    "host topology, load, steal visibility, and perf availability",
+    "sidecar construction time, storage, and peak-space accounting"
+  ],
+  "question": "Does one verified shared Arm packed-weight sidecar retain exact output and useful service behavior while summed worker PSS scales better than ordinary private repack at 1, 2, and 4 workers?",
+  "schema_version": 1,
+  "scientific_boundary": {
+    "cold_page_cache_claim_permitted": false,
+    "cost_claim_permitted": false,
+    "energy_claim_permitted": false,
+    "final_performance_claim_permitted": false,
+    "fixed_memory_cap_frozen_after_preflight": false,
+    "host_class": "GitHub-hosted ubuntu-24.04-arm",
+    "host_is_stable_performance_authority": false,
+    "preflight_only": true
+  },
+  "selected": {
+    "candidate": "ministral3_3b_q4_k_m",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "model_size_bytes": 2146497824,
+    "reference_accuracy": 0.7666666666666667,
+    "reference_correct": 23,
+    "reference_total": 30
+  },
+  "service": {
+    "batch_size": 64,
+    "client_concurrency": 1,
+    "context_per_slot": 256,
+    "flash_attention": "auto",
+    "kv_cache_type_k": "f16",
+    "kv_cache_type_v": "f16",
+    "micro_batch_size": 64,
+    "prompt_cache": true,
+    "reason_for_thread_count": "One matched thread per worker exposes aggregate scaling on the four-logical-CPU preflight host without changing arithmetic, model, request, cache, context, batch, or sidecar mechanism.",
+    "request_cache_prompt": true,
+    "server_parallel_slots": 1,
+    "threads": 1,
+    "threads_batch": 1,
+    "warmup_slot_ids": [
+      0,
+      0
+    ],
+    "weight_repack": true
+  },
+  "source": {
+    "aggregate_diff_sha256": "48a7611bbe6e22a0303bf0b8855dbab3f718ca6d56d5a594a8ef1650f959f003",
+    "changed_files": [
+      "common/reasoning-budget.cpp",
+      "ggml/src/ggml-cpu/CMakeLists.txt",
+      "ggml/src/ggml-cpu/arch/arm/quants.c",
+      "ggml/src/ggml-cpu/repack.cpp",
+      "tests/test-reasoning-budget.cpp"
+    ],
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "patches": [
+      {
+        "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"
+      },
+      {
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"
+      },
+      {
+        "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"
+      },
+      {
+        "path": "patches/llama.cpp/b10216/0006-repack-sidecar-feasibility-dump.patch",
+        "sha256": "7257b6d668230a4cc5e9480b24b6a6f9665e403a14e7244203f9672760805b5c"
+      },
+      {
+        "path": "patches/llama.cpp/b10216/0007-repack-sidecar-readonly-loader.patch",
+        "sha256": "5dc4beeeb50b5c5430632431c1462ee8d454409e9ff51a69bd671e0a859f47d6"
+      }
+    ],
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216"
+  },
+  "source_artifact": {
+    "name": "e16c-shared-repack-arena-30851609576-1",
+    "repository": "Arshgill01/Arm",
+    "run_id": "30851609576"
+  },
+  "stage": "native Arm product-path scaling preflight",
+  "successor_rule": "Freeze a stable-host fixed-memory contract only if exactness and mechanism gates pass and the 4-worker PSS curve remains materially better without a large throughput or p95 regression.",
+  "workload": {
+    "client_concurrency_per_worker": 1,
+    "maximum_output_tokens": 8,
+    "prompt_cache": true,
+    "requests_per_worker": 30,
+    "seed": 424242,
+    "tasks": 30,
+    "timeout_seconds": 60,
+    "warmup_task_ids": [
+      "arithmetic-02",
+      "logic-01"
+    ]
+  }
+}

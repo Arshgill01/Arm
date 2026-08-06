@@ -85,6 +85,7 @@ def execute_deployment(
     upstream_timeout: float = 120.0,
     ready_output: Path | None = None,
     stop_file: Path | None = None,
+    lifecycle_started: float | None = None,
 ) -> dict[str, Any]:
     if plan.get("status") != "ready_to_deploy_pareto64":
         raise ValueError("deployment plan is not verified")
@@ -103,7 +104,9 @@ def execute_deployment(
     gateway_thread: threading.Thread | None = None
     failure: str | None = None
     stop_requested = False
-    started = time.perf_counter()
+    started = (
+        lifecycle_started if lifecycle_started is not None else time.perf_counter()
+    )
     if log_dir is not None:
         log_dir.mkdir(parents=True, exist_ok=True)
     previous_sigint = signal.getsignal(signal.SIGINT)
@@ -135,7 +138,8 @@ def execute_deployment(
                     "pid": process.pid,
                     "host": worker["host"],
                     "port": worker["port"],
-                    "ready_seconds": elapsed,
+                    "health_wait_seconds": elapsed,
+                    "ready_seconds": time.perf_counter() - started,
                 }
             )
             if plan["deployment_mode"] == "shared_sidecar":

@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import time
 from pathlib import Path
 
 from .certificate import CertificateStore
@@ -401,6 +402,7 @@ def main() -> int:
             server.server_close()
         return 0
     if arguments.command == "deploy":
+        lifecycle_started = time.perf_counter()
         sidecar_paths = (
             arguments.sidecar,
             arguments.index,
@@ -480,6 +482,7 @@ def main() -> int:
             upstream_timeout=arguments.upstream_timeout,
             ready_output=arguments.ready_output,
             stop_file=arguments.stop_file,
+            lifecycle_started=lifecycle_started,
         )
         print(arguments.deployment_receipt, flush=True)
         return 0 if receipt["status"] == "valid_pareto64_deployment_lifecycle" else 1
