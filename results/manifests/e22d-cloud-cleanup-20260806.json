@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E22d-independent-host-density-replication",
+  "instance": {
+    "creation_timestamp": "2026-08-06T09:34:09.153-07:00",
+    "id": "5259602977892141423",
+    "name": "pareto64-axion-e22d-20260806",
+    "zone": "us-central1-a"
+  },
+  "delete_operation": {
+    "end_time": "2026-08-06T10:05:00.726-07:00",
+    "id": "9036119256853971046",
+    "name": "operation-1786035848859-65863e053d057-57698fe7-2735d625",
+    "operation_type": "delete",
+    "progress": 100,
+    "status": "DONE",
+    "target_id": "5259602977892141423"
+  },
+  "cost_closeout": {
+    "estimated_compute_rate_usd_per_hour": 0.30296,
+    "estimated_compute_usd": 0.1558201544666667,
+    "lifetime_hours": 0.5143258333333334,
+    "lifetime_seconds": 1851.573,
+    "scope": "Compute estimate only; excludes the small prorated boot-disk charge and is not a billing claim."
+  },
+  "post_delete_checks": {
+    "address_absent": true,
+    "boot_disk_absent": true,
+    "instance_absent": true,
+    "project_ssh_metadata_restored_to_preexisting_state": true
+  }
+}

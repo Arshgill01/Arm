@@ -7,6 +7,11 @@ from pathlib import Path
 from experiments.e22a_freeze import sha256_file
 from experiments.e22d_freeze import build_contract
 from experiments.e22d_ingest import distribution
+from experiments.e22d_retain import (
+    ARCHIVE_SHA256,
+    INSTANCE_ID,
+    SETUP_FAILURE_ARCHIVE_SHA256,
+)
 
 
 class E22dIndependentHostReplicationTests(unittest.TestCase):
@@ -49,6 +54,60 @@ class E22dIndependentHostReplicationTests(unittest.TestCase):
         self.assertEqual(2.5, result["median"])
         self.assertAlmostEqual(
             1.118033988749895, result["population_standard_deviation"]
+        )
+
+    def test_retained_result_promotes_only_the_two_instance_density_claim(
+        self,
+    ) -> None:
+        result = json.loads(
+            (self.root / "results/manifests/e22d-axion-20260806.json").read_text()
+        )
+        combined = result["combined_two_instance_result"]
+        retention = result["retention_validation"]
+        claims = result["claim_decision"]
+
+        self.assertEqual(
+            "valid_independent_host_replication_promoted", result["status"]
+        )
+        self.assertFalse(result["failed_advance_gates"])
+        self.assertTrue(all(result["validity_gates"].values()))
+        self.assertTrue(all(result["advance_gates"].values()))
+        self.assertEqual(INSTANCE_ID, result["host"]["instance_id"])
+        self.assertEqual(2, combined["independent_instances"])
+        self.assertEqual(8, combined["balanced_pairs"])
+        self.assertEqual(3_360, combined["exact_measured_requests"])
+        self.assertAlmostEqual(
+            1.3568374837384678,
+            combined["ratio_distributions"]["aggregate_throughput_ratio"]["median"],
+        )
+        self.assertAlmostEqual(
+            0.5932237202265771,
+            combined["ratio_distributions"]["summed_pss_saved_fraction"]["median"],
+        )
+        self.assertEqual(ARCHIVE_SHA256, retention["archive_sha256"])
+        self.assertEqual(
+            SETUP_FAILURE_ARCHIVE_SHA256,
+            retention["setup_failure_archive_sha256"],
+        )
+        self.assertTrue(
+            retention["workflow_inventory"]["all_retained_file_hashes_verified"]
+        )
+        self.assertTrue(claims["two_independent_axion_instance_density_promotion"])
+        self.assertFalse(claims["full_all_lifecycle_promotion"])
+        self.assertFalse(claims["cross_provider_or_fleet_claim_permitted"])
+        self.assertTrue(claims["readiness_regression_must_be_disclosed"])
+
+    def test_paid_replication_was_deleted_below_its_cost_guardrail(self) -> None:
+        result = json.loads(
+            (self.root / "results/manifests/e22d-axion-20260806.json").read_text()
+        )
+        cleanup = result["resource_cleanup"]
+        self.assertEqual("DONE", cleanup["delete_operation"]["status"])
+        self.assertEqual(INSTANCE_ID, cleanup["delete_operation"]["target_id"])
+        self.assertTrue(all(cleanup["post_delete_checks"].values()))
+        self.assertLess(
+            cleanup["cost_closeout"]["estimated_compute_usd"],
+            result["cost_control"]["experiment_maximum_usd"],
         )
 
 
