@@ -29,6 +29,18 @@ build_terminal_model_decision = import_module(
 
 
 EXPECTED_HASHES = {
+    "experiments/e22c_contract.json": (
+        "9bc0e63c4a59e5b9efaba176a47f5efe4b8b4664e27847dae0d675d06a360207"
+    ),
+    "results/manifests/e22c-axion-20260806.json": (
+        "5aa21ea8d312d6ae3ae6024453f2bc43dccbaf2686de7e8f929a51189fc7a8f6"
+    ),
+    "experiments/e22b_contract.json": (
+        "8f26bc713a817636b97aaa772c3926977d5d5cabaed9b7c4f8c66cc2d7849fae"
+    ),
+    "results/manifests/e22b-axion-20260806.json": (
+        "6192a06718026e3f29a11fb70df2408081268046404afdd56031963dca6e1391"
+    ),
     "results/manifests/e22a-31086439785.json": (
         "8a82337e66555ca880a6446099f58eb70618a89cfe929c302cf4e71cd4fbc6a4"
     ),
@@ -314,8 +326,9 @@ class LocalAssetParser(HTMLParser):
 
 def verify_demo() -> int:
     index = ROOT / "demo/index.html"
+    index_text = index.read_text(encoding="utf-8")
     parser = LocalAssetParser()
-    parser.feed(index.read_text(encoding="utf-8"))
+    parser.feed(index_text)
     missing = []
     for asset in parser.assets:
         candidate = (index.parent / asset).resolve()
@@ -323,8 +336,17 @@ def verify_demo() -> int:
             missing.append(asset)
     if missing:
         raise ValueError(f"demo references missing local assets: {missing}")
-    if "<h1" not in index.read_text(encoding="utf-8"):
+    if "<h1" not in index_text:
         raise ValueError("demo lacks a primary heading")
+    for required in (
+        "1.3525×",
+        "59.43% lower",
+        "failed ≤2.0× gate",
+        "E22c",
+        "steady-state fixed-memory density claim",
+    ):
+        if required not in index_text:
+            raise ValueError(f"demo lacks final E22 boundary text: {required}")
     return len(parser.assets)
 
 
@@ -1827,6 +1849,87 @@ def main() -> int:
         is not False
     ):
         raise ValueError("E22a scaling preflight changed or broadened")
+
+    fixed_memory_curve = load_object(
+        ROOT / "results/manifests/e22b-axion-20260806.json"
+    )
+    curve_normal = fixed_memory_curve.get("maximum_admitted", {}).get("normal", {})
+    curve_shared = fixed_memory_curve.get("maximum_admitted", {}).get("shared", {})
+    normal_eight = fixed_memory_curve.get("normal_eight_resource_boundary", {})
+    if (
+        fixed_memory_curve.get("status") != "valid_fixed_memory_curve_promoted"
+        or fixed_memory_curve.get("decision")
+        != "freeze_clean_repeated_maximum_density_comparison"
+        or fixed_memory_curve.get("failed_advance_gates") != []
+        or not all(fixed_memory_curve.get("advance_gates", {}).values())
+        or fixed_memory_curve.get("fixed_memory", {}).get("cap_bytes")
+        != 16_723_460_096
+        or curve_normal.get("worker_count") != 6
+        or curve_shared.get("worker_count") != 8
+        or fixed_memory_curve.get("fixed_memory_aggregate_throughput_ratio")
+        != 1.3544872858658519
+        or normal_eight.get("oom_kill_delta") != 1
+        or normal_eight.get("worker_exit_signal") != 9
+        or fixed_memory_curve.get("claim_boundary", {}).get(
+            "host_is_stable_performance_authority"
+        )
+        is not True
+        or fixed_memory_curve.get("claim_boundary", {}).get(
+            "billing_cost_claim_permitted"
+        )
+        is not False
+    ):
+        raise ValueError("E22b fixed-memory curve changed or broadened")
+
+    repeated_density = load_object(
+        ROOT / "results/manifests/e22c-axion-20260806.json"
+    )
+    ratio_distributions = repeated_density.get("ratio_distributions", {})
+    mode_distributions = repeated_density.get("mode_distributions", {})
+    if (
+        repeated_density.get("status")
+        != "valid_repeated_maximum_density_not_promoted"
+        or repeated_density.get("decision")
+        != "retain_and_narrow_native_axion_claim"
+        or repeated_density.get("failed_advance_gates")
+        != ["median_readiness_bounded"]
+        or repeated_density.get("advance_gates", {}).get(
+            "median_readiness_bounded"
+        )
+        is not False
+        or any(
+            passed is not True
+            for name, passed in repeated_density.get("advance_gates", {}).items()
+            if name != "median_readiness_bounded"
+        )
+        or ratio_distributions.get("aggregate_throughput_ratio", {}).get("median")
+        != 1.3525388639297642
+        or ratio_distributions.get("all_worker_readiness_ratio", {}).get("median")
+        != 2.0816513504316654
+        or ratio_distributions.get("p95_latency_ratio", {}).get("median")
+        != 0.9779794570822045
+        or mode_distributions.get("normal", {}).get("summed_pss_kib", {}).get(
+            "median"
+        )
+        != 15_727_791.0
+        or mode_distributions.get("shared", {}).get("summed_pss_kib", {}).get(
+            "median"
+        )
+        != 6_380_921.5
+        or repeated_density.get("claim_decision", {}).get(
+            "repeated_steady_state_fixed_memory_result_valid"
+        )
+        is not True
+        or repeated_density.get("claim_decision", {}).get(
+            "full_all_lifecycle_promotion"
+        )
+        is not False
+        or repeated_density.get("claim_decision", {}).get(
+            "readiness_regression_must_be_disclosed"
+        )
+        is not True
+    ):
+        raise ValueError("E22c repeated density decision changed or broadened")
 
     local_assets = verify_demo()
     gallery_assets = verify_gallery()

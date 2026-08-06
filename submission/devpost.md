@@ -1,7 +1,7 @@
 # Pareto64
 
-**Tagline:** Quality-constrained Arm64 inference: measure every tradeoff, reject
-broken speedups, launch only the proven deployment.
+**Tagline:** Proof-carrying Arm64 inference: eight exact shared workers where
+the private representation could sustain six.
 
 **Track:** Cloud AI
 
@@ -9,7 +9,7 @@ broken speedups, launch only the proven deployment.
 
 **Public evidence report:** <https://pareto64-arm-evidence.arshgill01.chatgpt.site>
 
-**Interactive demo:** `<ADD PUBLIC DEMO URL>`
+**Interactive demo:** <https://pareto64-arm-evidence.arshgill01.chatgpt.site/demo/index.html>
 
 **Public video:** `<ADD PUBLIC VIDEO URL>`
 
@@ -27,10 +27,19 @@ and emits a reproducible deployment plan. Once a candidate passes, a fail-closed
 launch adapter verifies its exact model hash, source revisions, policy, runtime
 contract, and llama.cpp commit before starting the OpenAI-compatible server.
 
-The memorable result is simple: our faster 2.05 GB KleidiAI model lost. It was
-29% faster but scored only 70% on the frozen workload. Pareto64 selected the
-2.15 GB Q4_K_M package because it reached a stable 76.67% and cleared every
-latency, load, memory, and package-size obligation.
+The final result is a fixed-memory systems result. On one stable 16.72 GB Google
+Axion c4a-highcpu-8 host, the normal Arm-packed representation sustained six
+workers; eight normal workers failed before readiness with one kernel OOM kill.
+Pareto64 mapped one verified read-only Arm-packed sidecar into eight workers.
+Across four repetitions per mode, shared-8 delivered a median 2.6862 requests/s
+versus normal-6 at 1.9897 requests/s: a 1.3525x gain with 59.43% lower summed
+PSS and zero response drift across 1,680 requests.
+
+The claim deliberately stops at steady-state density. Shared readiness was a
+median 2.0817x normal and missed the frozen <=2.0 gate, so Pareto64 does not
+claim a full lifecycle improvement. The original selection story remains
+equally important: our faster 2.05 GB KleidiAI model lost because it scored 70%.
+The 2.15 GB Q4_K_M package scored 76.67% and became the only admitted model.
 
 ## Optimization at a glance
 
@@ -39,6 +48,9 @@ summed. Every promoted service change preserved the selected task predictions.
 
 | Front | Baseline → change | Measured result | Decision |
 | --- | --- | --- | --- |
+| Fixed-memory worker density | Normal-6 → shared-8 on one 16.72 GB Axion host | 1.3525x median aggregate throughput; 59.43% lower summed PSS; 1,680 exact requests | Promote repeated steady-state density only |
+| Lifecycle boundary | Normal-6 → shared-8 readiness | 2.0817x median ratio against a frozen <=2.0 gate | Do not promote full lifecycle claim |
+| Product deployment | Separate planner/sidecar/controller → one deploy command | Six product cells; 420/420 exact requests; shared-inode proof and receipt | Integrate gateway + workers + registry |
 | Model/quality | Faster Q4_0 → gated package search | 70% → 76.67%; selected model is slightly larger | Reject speed without quality |
 | Prompt work | Cache off → shared-prefix reuse | 1.672x throughput; median latency 1,807 → 1,062 ms | Promote cache |
 | KV memory | 2,048/f16 → 256/f16 context | 183.36 MiB RSS saved at 99.62% throughput | Promote; reject q4_0 drift |
@@ -63,11 +75,36 @@ summed. Every promoted service change preserved the selected task predictions.
 - builds a Pareto frontier without a hidden weighted score;
 - serves the decision through a bounded standard-library HTTP API;
 - verifies and launches the exact selected GGUF with pinned llama.cpp settings;
+- launches normal or shared workers plus an OpenAI-compatible exact-transition
+  gateway from one receipt-producing command;
+- verifies one read-only Arm-packed inode across workers and bounds registry
+  revalidation/revocation;
 - retains negative results and near-misses instead of rewriting thresholds; and
 - packages reports, manifests, source patches, CI workflows, and an interactive
   judge demo in one Apache-2.0 repository.
 
 ## Native Arm results
+
+### Repeated fixed-memory density on Google Axion
+
+E22b froze the physical `/proc/meminfo` total of 16,723,460,096 bytes as the
+cap on one standard eight-core Neoverse V2 Axion host with no SMT and no swap.
+It measured the complete 1/2/4/5/6/8-worker curve with exact requests, mapping
+identity, PSS, MemAvailable and standard Arm PMU counters. Shared-8 completed at
+2.6760 requests/s. Normal-8 failed before readiness with one OOM kill; normal-6
+was the largest admitted private configuration.
+
+E22c then froze normal-6 versus shared-8 before running four repetitions of each
+in reverse-balanced order. Median aggregate throughput was 1.9897 versus 2.6862
+requests/s, a 1.3525x ratio; every paired ratio exceeded 1.20 and coefficient of
+variation was 0.00363. Median p95 latency improved slightly to 0.9780x. Median
+summed PSS fell from 15,727,791 to 6,380,921.5 KiB, while per-worker throughput
+remained 1.0144x. All 1,680 requests completed without failures or output drift.
+
+The median all-worker readiness ratio was 2.0817x and failed the frozen <=2.0
+gate. Pareto64 therefore retains a repeated steady-state fixed-memory density
+claim, not a full lifecycle promotion. It makes no cold-cache, energy, billing,
+kernel-causality or fleet claim from this campaign.
 
 ### Quality-per-byte selection
 

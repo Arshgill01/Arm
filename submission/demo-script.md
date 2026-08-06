@@ -3,82 +3,71 @@
 Record at 1440×900 or 1920×1080. Show the browser and terminal at readable zoom.
 Use no copyrighted music or third-party footage.
 
-## 0:00–0:18 — The hook
+## 0:00–0:20 — The result
 
-**Screen:** Open the Pareto64 demo at the top.
+**Screen:** Open the final report and point to the result card.
 
-**Voice:** “The fastest model lost. On native Arm, our KleidiAI package was 29%
-faster and slightly smaller, but it failed the workload. Pareto64 selected the
-only model that cleared quality and every deployment obligation.”
+**Voice:** “Pareto64 fits eight exact Arm inference workers where the normal
+representation could sustain six. Across four repetitions on one fixed 16.72
+gigabyte Google Axion host, shared workers delivered 1.3525 times median
+aggregate throughput while using 59.43 percent less summed PSS.”
 
-## 0:18–0:40 — Quality before speed
+## 0:20–0:42 — The boundary
 
-**Screen:** Point to the 70% Q4_0 marker, fixed 75% line, and selected 76.67%
-Q4_K_M marker.
+**Screen:** Point to the red readiness boundary and the 2.0817× metric.
 
-**Voice:** “The planner locks quality first, then evaluates latency, memory,
-startup, and package size. There is no weighted score to hide a bad tradeoff,
-and changing an operator policy cannot rescue a model whose experiment failed.”
+**Voice:** “That is a steady-state density result, not a full lifecycle win.
+Shared readiness was 2.0817 times normal and missed our frozen limit of two.
+We did not move the gate after seeing the throughput number.”
 
-## 0:40–1:00 — Interactive refusal
+## 0:42–1:08 — Why it works
 
-**Screen:** In “Decision lab,” click “Latency temptation,” show `No feasible
-candidate`, then restore “Quality deployment.”
+**Screen:** Open “Fixed-memory density” in the interactive demo and show the
+normal/shared table.
 
-**Voice:** “When no measured package clears every obligation, Pareto64 refuses
-deployment. The rejection reason and exact evidence hashes remain visible
-instead of moving the gate after results.”
+**Voice:** “Normal workers privately rebuild about two gigabytes of Arm-packed
+tensor pages. Pareto64 serializes all 183 packed tensors once, verifies them,
+and maps one read-only inode into every worker. Per-worker speed is nearly the
+same; the gain comes from fitting two more workers inside the same host.”
 
-## 1:00–1:30 — Exact final service
+## 1:08–1:30 — The failure that defines the frontier
 
-**Screen:** Show the earliest-versus-final table.
+**Screen:** Point to the normal-8 OOM note and the evidence list.
 
-**Voice:** “One native job ran the exact earliest and final service recipes four
-times each with fresh processes and reverse-balanced order. All 240 answers
-matched. The final service reached 1.717 times throughput, cut median latency
-41.5%, and cut CPU seconds per request 41.9%. This is a compounded product
-result; the controlled cache, context, batch, runtime, and dependency experiments
-provide attribution.”
+**Voice:** “The curve tested one through eight workers. Normal eight failed
+before readiness with one kernel OOM kill and no swap. Shared eight completed
+with 13.84 gigabytes still available. The failed cell is retained as the
+maximum-density boundary, never converted into a performance sample.”
 
-## 1:30–1:58 — Cache certification with an honest first-use cost
+## 1:30–2:00 — One deployable system
 
-**Screen:** Show the E21b lifecycle table and first-use row.
+**Screen:** Show “Six planes, one deployment decision,” then the E22a row.
 
-**Voice:** “The online cache begins empty, shadows unknown transitions, certifies
-only exact response reuse, and denies the unsafe start transition. Across four
-repetitions it preserved 23 of 30 and every paired response, reached 1.728 times
-lifecycle throughput, and broke even in cycle two. First-use p95 regressed 66%,
-so that cost stays visible. The claim covers this identity and workload—not
-arbitrary prompts.”
+**Voice:** “This is not a hand-run benchmark. One Pareto64 command verifies or
+builds the sidecar, launches workers, starts an OpenAI-compatible exact-transition
+gateway, and writes an integrity-bound receipt. Unknown routes serve the oracle;
+only exact reuse is certified, with bounded revalidation and revocation. E22a
+passed all 420 requests across normal and shared product modes.”
 
-## 1:58–2:28 — Persistent Arm-packed weights
+## 2:00–2:24 — Quality still comes first
 
-**Screen:** Navigate to “Packed weights.” Point to readiness, summed PSS, and
-the clean-checkout lifecycle table.
+**Screen:** Scroll to the original quality comparison and final-service claim.
 
-**Voice:** “Pareto64 can pack all 183 Arm tensors once, verify every tensor, and
-map one read-only sidecar into two workers. Same-job warm readiness fell 62%.
-Two workers saved 1.995 GiB of summed PSS at unchanged throughput and exact
-answers. The public prepack, verify, corruption-rejection, launch, stop, and
-cleanup lifecycle passed all 14 gates. Its one-time 12.6-second construction
-breaks even after an estimated nine warm starts. Cold storage, per-process RSS,
-energy, and fleet economics remain unclaimed.”
+**Voice:** “The faster model still lost: Q4_0 was 29 percent faster but scored
+70 percent. Q4_K_M scored 76.67 percent and became the only admitted package.
+The final exact service later reached 1.7168 times its earliest admitted
+baseline with all 240 answers unchanged.”
 
-## 2:28–2:40 — Failed evidence stays failed
+## 2:24–2:40 — Reproduce
 
-**Screen:** Show E16d and E16e together in the evidence list, then run:
+**Screen:** Run `python3 scripts/verify_submission.py` and show the pass line.
 
-```bash
-python3 scripts/verify_submission.py
-```
-
-**Voice:** “E16d completed the product but its frozen reader failed on raw
-tokenizer bytes. E16e changed only that reader and replayed the exact artifact.
-The failed run remains public.”
+**Voice:** “Contracts, hashes, requests, mappings, PMU counters, raw artifacts,
+failed gates, and reports are retained together. The compact verifier downloads
+nothing and fails if the evidence or claim boundary changes.”
 
 ## 2:40–2:45 — Close
 
-**Screen:** End on the report masthead and public source link.
+**Screen:** End on the report title and public source link.
 
-**Voice:** “Pareto64 makes Arm optimization auditable: freeze, measure, reject,
-select, verify, and launch.”
+**Voice:** “Pareto64: more exact Arm workers, with the readiness bill visible.”
