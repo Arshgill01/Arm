@@ -40,6 +40,7 @@ cleanup() {
     touch "$stop_file"
     wait "$launcher_pid" 2>/dev/null || true
   fi
+  rm -f -- "$stop_file"
 }
 
 finalize() {
@@ -74,13 +75,13 @@ finalize() {
   fi
   exit "$exit_status"
 }
-trap finalize EXIT
 
 test "$mode" = normal || test "$mode" = shared
 test ! -e "$cell"
 test ! -e "$stop_file"
 mkdir -p "$cell/logs" "$temp_root"
 capture_state "$cell/host-state-before.txt"
+trap finalize EXIT
 
 command=(
   python3 -m pareto64 deploy

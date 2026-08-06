@@ -26,7 +26,7 @@ class E22bFixedMemoryTests(unittest.TestCase):
         )
         self.assertEqual(frozen, recomputed)
         self.assertEqual(
-            "d87b746aca548af9d5fcf605dc93f85f4a4ecd28e72974f66cd1156c6463b808",
+            "8f26bc713a817636b97aaa772c3926977d5d5cabaed9b7c4f8c66cc2d7849fae",
             sha256_file(contract_path),
         )
 
@@ -106,6 +106,13 @@ class E22bFixedMemoryTests(unittest.TestCase):
         self.assertIn("skipped_by_frozen_normal_six_stop_rule", campaign)
         self.assertIn("minimum_mem_available_bytes", campaign)
         self.assertIn("oom_kills", campaign)
+
+    def test_cell_trap_starts_after_evidence_directory_and_removes_stop_marker(
+        self,
+    ) -> None:
+        cell = (self.root / "experiments/e22b_cell.sh").read_text()
+        self.assertLess(cell.index('mkdir -p "$cell/logs"'), cell.index("trap finalize EXIT"))
+        self.assertIn('rm -f -- "$stop_file"', cell)
 
 
 if __name__ == "__main__":
