@@ -435,11 +435,14 @@ E22b then measures the complete fixed-memory curve on one eight-core Google
 Axion Neoverse V2 host with 16,723,460,096 physical bytes, no SMT and no swap.
 The private path admits six workers; normal-8 fails before readiness with a
 retained `oom_kill` transition. The shared path admits eight workers. E22c
-repeats normal-6 and shared-8 four times each in reverse-balanced order. Shared-8
-delivers 1.3525x median aggregate throughput and 59.43% lower summed PSS across
-1,680 exact requests. The 2.0817x median readiness ratio fails the frozen 2.0x
-gate, so the product claims only warm steady-state fixed-memory density—not
-faster readiness, cold startup, energy, billing economics or fleet behavior.
+repeats normal-6 and shared-8 four times each in reverse-balanced order.
+E22d repeats that frozen comparison on a fresh instance with a different
+provider instance ID. Across both hosts, eight balanced pairs and 3,360 exact
+requests deliver 1.3568x median aggregate throughput and 59.32% lower median
+summed PSS. Combined median readiness is 2.2138x and remains outside the
+promoted claim, so the product claims only same-provider, same-machine-class
+warm steady-state fixed-memory density—not faster readiness, cold startup,
+energy, billing economics or fleet behavior.
 
 ## Select a measured service profile
 

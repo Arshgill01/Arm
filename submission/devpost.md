@@ -29,17 +29,18 @@ and emits a reproducible deployment plan. Once a candidate passes, a fail-closed
 launch adapter verifies its exact model hash, source revisions, policy, runtime
 contract, and llama.cpp commit before starting the OpenAI-compatible server.
 
-The final result is a fixed-memory systems result. On one stable 16.72 GB Google
-Axion c4a-highcpu-8 host, the normal Arm-packed representation sustained six
-workers; eight normal workers failed before readiness with one kernel OOM kill.
-Pareto64 mapped one verified read-only Arm-packed sidecar into eight workers.
-Across four repetitions per mode, shared-8 delivered a median 2.6862 requests/s
-versus normal-6 at 1.9897 requests/s: a 1.3525x gain with 59.43% lower summed
-PSS and zero response drift across 1,680 requests.
+The final result is an independently replicated fixed-memory systems result.
+On two fresh 16.72 GB Google Axion c4a-highcpu-8 instances, the normal
+Arm-packed representation sustained six workers; normal-8 reached an OOM
+boundary before admission. Pareto64 mapped one verified read-only Arm-packed
+sidecar into eight workers. Across eight balanced pairs, shared-8 delivered a
+median 1.3568x the aggregate throughput of normal-6 with 59.32% lower summed
+PSS and zero response drift across 3,360 measured requests.
 
-The claim deliberately stops at steady-state density. Shared readiness was a
-median 2.0817x normal and missed the frozen <=2.0 gate, so Pareto64 does not
-claim a full lifecycle improvement. The original selection story remains
+The claim deliberately stops at same-provider, same-machine-class steady-state
+density. Combined median shared readiness was 2.2138x normal and remained
+unfavorable, so Pareto64 does not claim a full lifecycle or fleet improvement.
+The original selection story remains
 equally important: our faster 2.05 GB KleidiAI model lost because it scored 70%.
 The 2.15 GB Q4_K_M package scored 76.67% and became the only admitted model.
 
@@ -50,8 +51,8 @@ summed. Every promoted service change preserved the selected task predictions.
 
 | Front | Baseline → change | Measured result | Decision |
 | --- | --- | --- | --- |
-| Fixed-memory worker density | Normal-6 → shared-8 on one 16.72 GB Axion host | 1.3525x median aggregate throughput; 59.43% lower summed PSS; 1,680 exact requests | Promote repeated steady-state density only |
-| Lifecycle boundary | Normal-6 → shared-8 readiness | 2.0817x median ratio against a frozen <=2.0 gate | Do not promote full lifecycle claim |
+| Fixed-memory worker density | Normal-6 → shared-8 on two independent 16.72 GB Axion instances | 1.3568x median aggregate throughput; 59.32% lower summed PSS; 3,360 exact requests | Promote independently replicated steady-state density only |
+| Lifecycle boundary | Normal-6 → shared-8 readiness | 2.2138x combined median; still unfavorable | Do not promote full lifecycle claim |
 | Product deployment | Separate planner/sidecar/controller → one deploy command | Six product cells; 420/420 exact requests; shared-inode proof and receipt | Integrate gateway + workers + registry |
 | Model/quality | Faster Q4_0 → gated package search | 70% → 76.67%; selected model is slightly larger | Reject speed without quality |
 | Prompt work | Cache off → shared-prefix reuse | 1.672x throughput; median latency 1,807 → 1,062 ms | Promote cache |
@@ -134,6 +135,15 @@ The median all-worker readiness ratio was 2.0817x and failed the frozen <=2.0
 gate. Pareto64 therefore retains a repeated steady-state fixed-memory density
 claim, not a full lifecycle promotion. It makes no cold-cache, energy, billing,
 kernel-causality or fleet claim from this campaign.
+
+E22d froze the same comparison on one fresh instance with a different provider
+ID and no permission to reroll readiness. All four second-host pairs passed;
+their median throughput ratio was 1.3613x and median PSS saving was 58.96%.
+Combined across both instances, eight balanced pairs and 3,360 exact requests
+retain a 1.3568x median throughput ratio, a 1.3457x minimum pair, 59.32% median
+PSS saving and 0.6449% ratio CV. Combined median readiness is 2.2138x and stays
+outside the promoted claim. Both setup stops, the successful 606-file evidence
+set, and VM cleanup are public in the raw-evidence release.
 
 ### Quality-per-byte selection
 

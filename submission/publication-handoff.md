@@ -56,8 +56,8 @@ The evidence-ledger site is published at
 Sites reports public access. Unauthenticated HTTP checks on August 6 returned
 200 for the report, its interactive
 [`/demo/index.html`](https://pareto64-arm-evidence.arshgill01.chatgpt.site/demo/index.html)
-route, and the final E22 fixed-memory density evidence. The raw E22b/E22c
-bundles and 76-second MP4 walkthrough are public in the
+route, and the final two-instance E22 fixed-memory density evidence. The raw
+E22b/E22c/E22d bundles, E22d setup stops, and 76-second MP4 walkthrough are public in the
 [`e22-axion-evidence-20260806`](https://github.com/Arshgill01/Arm/releases/tag/e22-axion-evidence-20260806)
 release. These are public evidence assets, not a Devpost submission or a
 published upstream patch.

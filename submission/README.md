@@ -17,7 +17,7 @@ and media needed for the Arm Create: AI Optimization Challenge 2026 entry.
 The ready-to-upload 1,440×900 gallery assets are in
 [`../output/playwright/`](../output/playwright/): final Axion density overview,
 six-plane product deployment, interactive policy/refusal behavior, and the E22c
-density/readiness boundary.
+density/readiness boundary. The live report and demo add the E22d replication.
 
 The interactive static demo is in [`../demo/index.html`](../demo/index.html).
 From the repository root:
@@ -37,8 +37,8 @@ python3 -m unittest discover -s tests -v
 The native Arm
 [`submission-validation.yml`](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml)
 workflow validates the current package from a clean checkout. The local suite
-currently runs 500 tests with two toolchain-gated skips; the verifier pins 78
-immutable evidence files through E22c, exact planner replay, all four gallery
+currently runs 500 tests with two toolchain-gated skips; the verifier pins 81
+immutable evidence files through E22d, exact planner replay, all four gallery
 assets, the dependency-free demo, publication URLs, and the enforced 296/390-
 word video-script ceiling.
 

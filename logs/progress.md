@@ -2296,3 +2296,24 @@ comparison cross-runtime rather than another one-off llama.cpp tuner.
   replay and demo smoke workflow at commit `2852466`.
 - Retained a plan execution audit separating achieved technical work, bounded
   parked branches and the remaining entrant-controlled Devpost actions.
+
+## 2026-08-06 — E22d independent Axion replication promoted
+
+- Froze one independent-instance replication with a US$3 experiment cap,
+  four-hour automatic delete, exact E22c runtime/model/workload boundary and no
+  permission to reroll the failed readiness decision.
+- Two premeasurement setups stopped cleanly and were retained: Ubuntu's default
+  PMU policy was outside the contract, then a fresh source build produced a
+  binary-different runtime closure. The final setup recovered and rehashed the
+  exact certified E22c runtime before measurement.
+- On a fresh `c4a-highcpu-8`, all four normal-6/shared-8 pairs passed every
+  density gate. All 1,680 requests were exact; median aggregate throughput was
+  1.3613x, median summed-PSS saving was 58.96%, median p95 was 0.9695x and the
+  paired ratio CV was 0.5988%. Normal-8 again reached a one-OOM/no-swap boundary.
+- Across two independent Axion instances, eight pairs and 3,360 exact requests
+  retain a 1.3568x median throughput ratio and 59.32% median PSS saving. Median
+  readiness is 2.2138x and remains outside the promoted steady-state claim.
+- Rehashed all 605 inventoried files, independently replayed the summary byte
+  for byte, published successful and failed-setup bundles, deleted the VM, and
+  verified no matching instance, disk or address remained. Estimated additional
+  compute is US$0.1558 plus a small prorated disk charge.

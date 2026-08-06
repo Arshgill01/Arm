@@ -30,7 +30,16 @@ build_terminal_model_decision = import_module(
 
 EXPECTED_HASHES = {
     "submission/public-assets.json": (
-        "bf39df2eb3b3b8ed47ed0bb7cf36df73c1b3b5964434738476fdb31c0edc8953"
+        "8ec7d5dc040fa4e51c319ea8359bb49c1efc9fe0d3a1b90648e5b21cb61189ad"
+    ),
+    "experiments/e22d_contract.json": (
+        "7a75de6a0f21d8e8e7fa25111db64ade142569574c8c92376b213970171618f9"
+    ),
+    "results/manifests/e22d-axion-20260806.json": (
+        "90b795f3d32d6d6fc7bf368da52c8d72179395ae74e7679008fdd40b1f3177ae"
+    ),
+    "results/manifests/e22d-cloud-cleanup-20260806.json": (
+        "56c33af755df4694b1ec064a9dc408508d57f8e224b73824d8542ec81454ec94"
     ),
     "results/reports/plan-execution-audit-2026-08-06.md": (
         "430e5a34216fe7abeb0a4a9e0fdd00ab3ce953dbdf40c1c30ea0d994ee35c42b"
@@ -289,6 +298,7 @@ REQUIRED_SUBMISSION_FILES = (
     "submission/entrant-handoff.md",
     "submission/public-assets.json",
     "results/reports/plan-execution-audit-2026-08-06.md",
+    "results/reports/e22d-independent-axion-replication.md",
 )
 GALLERY_FILES = (
     "output/playwright/pareto64-overview.png",
@@ -300,8 +310,7 @@ PUBLIC_DEMO_URL = (
     "https://pareto64-arm-evidence.arshgill01.chatgpt.site/demo/index.html"
 )
 PUBLIC_RELEASE_URL = (
-    "https://github.com/Arshgill01/Arm/releases/tag/"
-    "e22-axion-evidence-20260806"
+    "https://github.com/Arshgill01/Arm/releases/tag/e22-axion-evidence-20260806"
 )
 PUBLIC_VIDEO_URL = (
     "https://github.com/Arshgill01/Arm/releases/download/"
@@ -315,6 +324,14 @@ PUBLIC_RELEASE_ASSETS = {
     "e22c-evidence-15ca91b.tar.gz": (
         10_317_998,
         "4ec1589ddb986667a710d8b049b2ce3d37fc6ea8c2caee656bc2d6c428b58246",
+    ),
+    "e22d-evidence-4ad5ef4.tar.gz": (
+        19_382_837,
+        "7216dd6e0df5281116af85597b6a1edf7b6fccaa4a532fe8e57baed663c09db6",
+    ),
+    "e22d-setup-failures-4ad5ef4.tar.gz": (
+        9_101_132,
+        "21ecb6913c16c4b4c862507fca5df0b08b69398b2dc65f70d9182568a82ff715",
     ),
     "pareto64-demo.mp4": (
         5_247_685,
@@ -372,11 +389,11 @@ def verify_demo() -> int:
     if "<h1" not in index_text:
         raise ValueError("demo lacks a primary heading")
     for required in (
-        "1.3525×",
-        "59.43% lower",
-        "failed ≤2.0× gate",
-        "E22c",
-        "steady-state fixed-memory density claim",
+        "1.3568×",
+        "59.32% lower",
+        "3,360 exact requests",
+        "E22d",
+        "same-provider and",
     ):
         if required not in index_text:
             raise ValueError(f"demo lacks final E22 boundary text: {required}")
@@ -388,9 +405,7 @@ def verify_gallery() -> int:
     gallery = public_assets.get("gallery")
     if not isinstance(gallery, list) or len(gallery) != len(GALLERY_FILES):
         raise ValueError("public asset inventory has an invalid gallery")
-    records = {
-        item.get("path"): item for item in gallery if isinstance(item, dict)
-    }
+    records = {item.get("path"): item for item in gallery if isinstance(item, dict)}
     if set(records) != set(GALLERY_FILES):
         raise ValueError("public asset inventory gallery paths differ")
     for relative in GALLERY_FILES:
@@ -463,8 +478,7 @@ def verify_public_asset_manifest() -> int:
     release = manifest.get("release", {})
     if (
         manifest.get("schema_version") != 1
-        or report.get("url")
-        != "https://pareto64-arm-evidence.arshgill01.chatgpt.site"
+        or report.get("url") != "https://pareto64-arm-evidence.arshgill01.chatgpt.site"
         or report.get("demo_url") != PUBLIC_DEMO_URL
         or report.get("access") != "public"
         or release.get("url") != PUBLIC_RELEASE_URL
@@ -1970,8 +1984,7 @@ def main() -> int:
         != "freeze_clean_repeated_maximum_density_comparison"
         or fixed_memory_curve.get("failed_advance_gates") != []
         or not all(fixed_memory_curve.get("advance_gates", {}).values())
-        or fixed_memory_curve.get("fixed_memory", {}).get("cap_bytes")
-        != 16_723_460_096
+        or fixed_memory_curve.get("fixed_memory", {}).get("cap_bytes") != 16_723_460_096
         or curve_normal.get("worker_count") != 6
         or curve_shared.get("worker_count") != 8
         or fixed_memory_curve.get("fixed_memory_aggregate_throughput_ratio")
@@ -1989,21 +2002,14 @@ def main() -> int:
     ):
         raise ValueError("E22b fixed-memory curve changed or broadened")
 
-    repeated_density = load_object(
-        ROOT / "results/manifests/e22c-axion-20260806.json"
-    )
+    repeated_density = load_object(ROOT / "results/manifests/e22c-axion-20260806.json")
     ratio_distributions = repeated_density.get("ratio_distributions", {})
     mode_distributions = repeated_density.get("mode_distributions", {})
     if (
-        repeated_density.get("status")
-        != "valid_repeated_maximum_density_not_promoted"
-        or repeated_density.get("decision")
-        != "retain_and_narrow_native_axion_claim"
-        or repeated_density.get("failed_advance_gates")
-        != ["median_readiness_bounded"]
-        or repeated_density.get("advance_gates", {}).get(
-            "median_readiness_bounded"
-        )
+        repeated_density.get("status") != "valid_repeated_maximum_density_not_promoted"
+        or repeated_density.get("decision") != "retain_and_narrow_native_axion_claim"
+        or repeated_density.get("failed_advance_gates") != ["median_readiness_bounded"]
+        or repeated_density.get("advance_gates", {}).get("median_readiness_bounded")
         is not False
         or any(
             passed is not True
@@ -2016,13 +2022,9 @@ def main() -> int:
         != 2.0816513504316654
         or ratio_distributions.get("p95_latency_ratio", {}).get("median")
         != 0.9779794570822045
-        or mode_distributions.get("normal", {}).get("summed_pss_kib", {}).get(
-            "median"
-        )
+        or mode_distributions.get("normal", {}).get("summed_pss_kib", {}).get("median")
         != 15_727_791.0
-        or mode_distributions.get("shared", {}).get("summed_pss_kib", {}).get(
-            "median"
-        )
+        or mode_distributions.get("shared", {}).get("summed_pss_kib", {}).get("median")
         != 6_380_921.5
         or repeated_density.get("claim_decision", {}).get(
             "repeated_steady_state_fixed_memory_result_valid"
@@ -2038,6 +2040,52 @@ def main() -> int:
         is not True
     ):
         raise ValueError("E22c repeated density decision changed or broadened")
+
+    independent_replication = load_object(
+        ROOT / "results/manifests/e22d-axion-20260806.json"
+    )
+    combined = independent_replication.get("combined_two_instance_result", {})
+    combined_ratios = combined.get("ratio_distributions", {})
+    claims = independent_replication.get("claim_decision", {})
+    retention = independent_replication.get("retention_validation", {})
+    cleanup = independent_replication.get("resource_cleanup", {})
+    if (
+        independent_replication.get("status")
+        != "valid_independent_host_replication_promoted"
+        or independent_replication.get("decision")
+        != "promote_two_independent_axion_instance_density_result"
+        or independent_replication.get("failed_advance_gates") != []
+        or not all(independent_replication.get("validity_gates", {}).values())
+        or not all(independent_replication.get("advance_gates", {}).values())
+        or combined.get("independent_instances") != 2
+        or combined.get("balanced_pairs") != 8
+        or combined.get("exact_measured_requests") != 3_360
+        or combined.get("same_provider_machine_class") is not True
+        or combined.get("cross_provider_or_fleet_claim") is not False
+        or combined_ratios.get("aggregate_throughput_ratio", {}).get("median")
+        != 1.3568374837384678
+        or combined_ratios.get("summed_pss_saved_fraction", {}).get("median")
+        != 0.5932237202265771
+        or combined_ratios.get("all_worker_readiness_ratio", {}).get("median")
+        != 2.21383494546337
+        or claims.get("two_independent_axion_instance_density_promotion") is not True
+        or claims.get("full_all_lifecycle_promotion") is not False
+        or claims.get("readiness_regression_must_be_disclosed") is not True
+        or claims.get("cross_provider_or_fleet_claim_permitted") is not False
+        or cleanup.get("delete_operation", {}).get("status") != "DONE"
+        or not all(cleanup.get("post_delete_checks", {}).values())
+        or cleanup.get("cost_closeout", {}).get("estimated_compute_usd")
+        != 0.1558201544666667
+        or retention.get("archive_sha256")
+        != "7216dd6e0df5281116af85597b6a1edf7b6fccaa4a532fe8e57baed663c09db6"
+        or retention.get("setup_failure_archive_sha256")
+        != "21ecb6913c16c4b4c862507fca5df0b08b69398b2dc65f70d9182568a82ff715"
+        or retention.get("workflow_inventory", {}).get(
+            "all_retained_file_hashes_verified"
+        )
+        is not True
+    ):
+        raise ValueError("E22d independent Axion replication changed or broadened")
 
     local_assets = verify_demo()
     gallery_assets = verify_gallery()

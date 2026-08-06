@@ -29,17 +29,23 @@ authoritative, timestamped record; this file groups the significant additions.
 - Retained E22c's four-repetition, reverse-balanced normal-6/shared-8 comparison.
   Shared-8 reaches 1.3525x median aggregate throughput with 59.43% lower summed
   PSS and 1,680 exact requests. Median readiness is 2.0817x and fails the frozen
-  2.0x gate, so only the steady-state fixed-memory density claim is promoted.
-- Deleted the paid Axion VM and uniquely removed its temporary SSH key. The
-  safety estimate is about US$0.37 compute plus a small prorated disk charge;
-  no billing-product claim is made.
+  2.0x gate, so only the steady-state fixed-memory density result is retained.
+- Ran the pre-frozen E22d replication on a fresh independent Axion instance.
+  All four density pairs passed; the two-instance aggregate now covers eight
+  balanced pairs and 3,360 exact requests at a 1.3568x median throughput ratio
+  and 59.32% median PSS saving. Readiness remains outside the promoted claim.
+- Published E22d's successful 606-file evidence set and both premeasurement
+  setup stops. Deleted both paid Axion VMs after retrieval. Estimated compute
+  is about US$0.53 total plus small prorated disk charges; no billing-product
+  claim is made.
 
 ### Final publication package
 
 - Published the final evidence report and hosted interactive demo, released the
-  sealed E22b/E22c raw bundles and a 76-second supplemental walkthrough, and
-  refreshed the four 1,440x900 gallery images around the bounded density result.
-- Expanded submission verification to 78 immutable evidence files, the exact
+  sealed E22b/E22c/E22d raw bundles, E22d setup stops, and a 76-second
+  supplemental walkthrough. The four 1,440x900 gallery images retain the
+  original E22c view while the live report carries the two-instance result.
+- Expanded submission verification to 81 immutable evidence files, the exact
   E22 decisions, gallery dimensions, final demo text, 296-word script ceiling
   and public report/demo/release/walkthrough URLs.
 - Passed the final package from a clean checkout on native `aarch64` in workflow

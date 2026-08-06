@@ -44,7 +44,7 @@ Upload the four 1,440×900 PNGs in this order so the repeated density result
 appears before supporting detail:
 
 1. [`pareto64-overview.png`](../output/playwright/pareto64-overview.png) —
-   final Axion headline, 1.3525× fixed-memory throughput-density result, and
+   original E22c Axion headline, 1.3525× fixed-memory throughput-density result, and
    the failed readiness gate.
 2. [`pareto64-final-service.png`](../output/playwright/pareto64-final-service.png)
    — the six product planes from policy through receipt, plus E22a's exact
@@ -55,11 +55,12 @@ appears before supporting detail:
    — E22c normal-6 versus shared-8 distributions, 59.43% lower summed PSS, and
    the 2.0817× readiness boundary.
 
-Suggested first-image caption: **On one 16.72 GB Google Axion host, Pareto64's
-verified read-only Arm-packed representation served eight exact workers where
-the private representation sustained six: 1.3525× median aggregate throughput
-and 59.43% lower summed PSS across 1,680 exact requests. Readiness was 2.0817×
-and failed its frozen ≤2.0 gate, so the claim stops at steady-state density.**
+Suggested first-image caption: **This E22c view shows the first 16.72 GB Google
+Axion instance: Pareto64's verified read-only Arm-packed representation served
+eight exact workers where the private representation sustained six, at 1.3525×
+median aggregate throughput and 59.43% lower summed PSS. E22d subsequently
+reproduced the result on an independent instance; see the live report for the
+combined 3,360-request result.**
 
 Suggested remaining captions:
 
@@ -70,9 +71,9 @@ Suggested remaining captions:
 3. **The service planner has no hidden weighted score: a throughput envelope
    selects Arm repacking, a ≤3 GiB envelope selects the qualified no-repack
    tier, and an unsupported ≤2 GiB request is refused.**
-4. **Four Axion repetitions per mode show the bounded result and its cost:
-   shared-8/normal-6 throughput is 1.3525× and summed PSS is 59.43% lower, while
-   2.0817× readiness fails the frozen lifecycle gate.**
+4. **The original E22c four-pair view shows shared-8/normal-6 throughput at
+   1.3525× and summed PSS 59.43% lower, while 2.0817× readiness fails the frozen
+   lifecycle gate. E22d's independent replication is in the live report.**
 
 ## Entrant survey choices to confirm
 

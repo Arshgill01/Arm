@@ -4,9 +4,9 @@
   "report": {
     "url": "https://pareto64-arm-evidence.arshgill01.chatgpt.site",
     "demo_url": "https://pareto64-arm-evidence.arshgill01.chatgpt.site/demo/index.html",
-    "source_commit": "ab27c0addd9e90beb0365c384b7e67001ed56c3d",
+    "source_commit": "c1810b4d8d275392d11168658c8268f937f21761",
     "sites_project_id": "appgprj_6a70e7f47b14819187f717ed8c6c3d66",
-    "deployment_id": "appgdep_6a7467ac44e48191bb06637deea6591a",
+    "deployment_id": "appgdep_6a74c37a536c8191be2c548295e376d1",
     "access": "public"
   },
   "release": {
@@ -24,6 +24,18 @@
         "bytes": 10317998,
         "sha256": "4ec1589ddb986667a710d8b049b2ce3d37fc6ea8c2caee656bc2d6c428b58246",
         "url": "https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/e22c-evidence-15ca91b.tar.gz"
+      },
+      {
+        "name": "e22d-evidence-4ad5ef4.tar.gz",
+        "bytes": 19382837,
+        "sha256": "7216dd6e0df5281116af85597b6a1edf7b6fccaa4a532fe8e57baed663c09db6",
+        "url": "https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/e22d-evidence-4ad5ef4.tar.gz"
+      },
+      {
+        "name": "e22d-setup-failures-4ad5ef4.tar.gz",
+        "bytes": 9101132,
+        "sha256": "21ecb6913c16c4b4c862507fca5df0b08b69398b2dc65f70d9182568a82ff715",
+        "url": "https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/e22d-setup-failures-4ad5ef4.tar.gz"
       },
       {
         "name": "pareto64-demo.mp4",

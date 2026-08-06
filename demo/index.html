@@ -55,7 +55,7 @@
             </div>
             <div>
               <dt>Fixed-memory throughput</dt>
-              <dd>1.3525×</dd>
+              <dd>1.3568×</dd>
             </div>
             <div>
               <dt>Shared worker density</dt>
@@ -622,57 +622,57 @@
           <h2 id="lifecycle-title">Eight exact workers fit where eight private copies did not.</h2>
           <p>
             E22b established the fixed-memory curve on one stable eight-core Axion host.
-            E22c then repeated normal-6 versus shared-8 four times each under the exact
-            same 16,723,460,096-byte cap. Every request stayed exact. The density result
-            passed; the frozen readiness gate did not.
+            E22c repeated normal-6 versus shared-8 four times each; E22d reproduced the
+            frozen comparison on a fresh independent instance. Every request stayed
+            exact. The two-instance density result passed; readiness remained outside
+            the promoted claim.
           </p>
         </header>
 
         <div class="cache-interaction">
           <table>
             <caption>
-              <strong>Repeated maximum-density evidence on Axion Neoverse V2.</strong>
-              Four repetitions per mode, reverse-balanced order, 1,680 exact requests.
+              <strong>Independent-instance density evidence on Axion Neoverse V2.</strong>
+              Eight balanced pairs across two fresh instances, 3,360 exact requests.
             </caption>
             <thead>
               <tr>
-                <th>E22c median</th>
-                <th>Normal · 6 workers</th>
-                <th>Shared · 8 workers</th>
-                <th>Paired result</th>
+                <th>Evidence</th>
+                <th>Throughput ratio</th>
+                <th>Summed PSS saved</th>
+                <th>p95 ratio</th>
+                <th>Readiness ratio</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Aggregate throughput</td>
-                <td>1.9897 req/s</td>
-                <td>2.6862 req/s</td>
-                <td class="select-text">1.3525×</td>
-              </tr>
-              <tr>
-                <td>Summed PSS</td>
-                <td>15,727,791 KiB</td>
-                <td>6,380,922 KiB</td>
-                <td class="select-text">59.43% lower</td>
-              </tr>
-              <tr>
-                <td>p95 latency</td>
-                <td>5,405.28 ms</td>
-                <td>5,280.31 ms</td>
+                <td>E22c · instance 1</td>
+                <td>1.3525×</td>
+                <td>59.43%</td>
                 <td>0.9780×</td>
+                <td>2.0817×</td>
               </tr>
               <tr>
-                <td>Readiness</td>
-                <td>baseline</td>
-                <td>2.0817×</td>
-                <td class="reject-text">failed ≤2.0× gate</td>
+                <td>E22d · instance 2</td>
+                <td>1.3613×</td>
+                <td>58.96%</td>
+                <td>0.9695×</td>
+                <td>2.2138×</td>
+              </tr>
+              <tr>
+                <td><strong>Combined · 8 pairs</strong></td>
+                <td class="select-text"><strong>1.3568×</strong></td>
+                <td class="select-text"><strong>59.32% lower</strong></td>
+                <td><strong>0.9727×</strong></td>
+                <td class="reject-text"><strong>2.2138×</strong></td>
               </tr>
             </tbody>
           </table>
           <p>
-            <strong>This is a steady-state fixed-memory density claim, not a full
-            lifecycle win.</strong> Normal-8 failed before readiness with one kernel OOM
-            kill and no swap; shared-8 completed with 13.84 GB still available.
+            <strong>This is an independently replicated, same-provider and
+            same-machine-class steady-state fixed-memory density claim—not a full
+            lifecycle or fleet win.</strong> Normal-8 reached an OOM boundary on both
+            instances with no swap; shared-8 completed on both.
           </p>
         </div>
 
@@ -1003,6 +1003,11 @@
             <span class="evidence-id">E22c</span>
             <div><strong>Repeated maximum-density comparison</strong><p>Median throughput improved 1.3525× and PSS fell 59.43%; the 2.0817× readiness ratio missed its frozen gate.</p></div>
             <span class="evidence-result reject-text">Density only</span>
+          </li>
+          <li>
+            <span class="evidence-id">E22d</span>
+            <div><strong>Independent Axion replication</strong><p>Across two instances, eight balanced pairs retained 1.3568× median throughput and 59.32% lower PSS over 3,360 exact requests.</p></div>
+            <span class="evidence-result select-text">Replicated</span>
           </li>
         </ol>
 

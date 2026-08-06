@@ -2350,3 +2350,40 @@ See the retained
 [`manifest`](../results/manifests/e22c-axion-20260806.json),
 [`report`](../results/reports/e22c-repeated-axion-density.md) and public sealed
 raw bundle linked from the report.
+
+## E22d independent-host density replication
+
+E22d is frozen after E22c as a single bounded independent-instance replication,
+not as a readiness reroll. It requires a fresh Google Axion `c4a-highcpu-8`
+instance with a different provider ID but the exact E22c model, runtime closure,
+product, workload, response map, 16,723,460,096-byte cap, no-swap boundary, PMU
+events, cell order and normal-6/shared-8 modes. Four balanced pairs must all be
+valid. Promotion requires every pair to reach at least 1.20x aggregate
+throughput, a median of at least 1.25x, median p95 at most 1.05x, median
+per-worker throughput at least 0.95x, median summed-PSS saving at least 55%,
+bounded dispersion and a repeated normal-8 OOM boundary. Readiness is always
+reported but cannot repair E22c's failed lifecycle decision.
+
+The host has an automatic four-hour delete action. The experiment cap is US$3
+under the entrant-authorized US$40 ceiling, and the contract stops after this
+one instance.
+
+### E22d outcome: independent same-class density replication promoted
+
+All four second-instance pairs pass every frozen gate and all 1,680 requests
+are exact. Its median aggregate ratio is 1.3613x, median summed-PSS saving is
+58.96%, median p95 is 0.9695x, per-worker throughput is 1.0210x and throughput
+ratio CV is 0.5988%. Normal-8 again reaches an OOM boundary with no swap.
+
+Across E22c and E22d, two independent Axion instances contribute eight
+balanced pairs and 3,360 exact requests. Median aggregate throughput is
+1.3568x, the minimum pair is 1.3457x, median summed-PSS saving is 59.32%, and
+ratio CV is 0.6449%. Combined median readiness is 2.2138x and remains explicitly
+unpromoted. The result is same-provider and same-machine-class, not
+cross-provider or fleet evidence. The E22d VM was deleted after 0.5143 hours;
+estimated compute is US$0.1558 plus a small prorated disk charge.
+
+See the retained
+[`manifest`](../results/manifests/e22d-axion-20260806.json),
+[`report`](../results/reports/e22d-independent-axion-replication.md), successful
+sealed bundle and separately retained setup-failure bundle.
