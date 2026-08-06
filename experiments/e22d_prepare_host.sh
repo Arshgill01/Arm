@@ -34,7 +34,7 @@ git rev-parse HEAD > "$evidence/repository-commit.txt"
 cat /proc/sys/kernel/perf_event_paranoid \
   > "$evidence/perf-event-paranoid-before-configuration.txt"
 sudo sysctl -w kernel.perf_event_paranoid=1 \
-  > "$evidence/perf-event-paranoid-configuration.txt"
+  | tee "$evidence/perf-event-paranoid-configuration.txt" >/dev/null
 dpkg-query -W > "$evidence/packages.tsv"
 cmake --version > "$evidence/cmake-version.txt"
 gcc --version > "$evidence/gcc-version.txt"
