@@ -288,6 +288,17 @@ GALLERY_FILES = (
     "output/playwright/pareto64-policy-lab.png",
     "output/playwright/pareto64-serving-boundary.png",
 )
+PUBLIC_DEMO_URL = (
+    "https://pareto64-arm-evidence.arshgill01.chatgpt.site/demo/index.html"
+)
+PUBLIC_RELEASE_URL = (
+    "https://github.com/Arshgill01/Arm/releases/tag/"
+    "e22-axion-evidence-20260806"
+)
+PUBLIC_VIDEO_URL = (
+    "https://github.com/Arshgill01/Arm/releases/download/"
+    "e22-axion-evidence-20260806/pareto64-demo.mp4"
+)
 
 
 def sha256_file(path: Path) -> str:
@@ -381,6 +392,20 @@ def verify_video_script() -> int:
     if len(spoken) > 390:
         raise ValueError(f"demo script has {len(spoken)} spoken words; maximum is 390")
     return len(spoken)
+
+
+def verify_publication_copy() -> int:
+    devpost = (ROOT / "submission/devpost.md").read_text(encoding="utf-8")
+    if "<ADD PUBLIC" in devpost:
+        raise ValueError("Devpost copy still contains a public-URL placeholder")
+    missing = [
+        url
+        for url in (PUBLIC_DEMO_URL, PUBLIC_RELEASE_URL, PUBLIC_VIDEO_URL)
+        if url not in devpost
+    ]
+    if missing:
+        raise ValueError(f"Devpost copy is missing public evidence URLs: {missing}")
+    return 3
 
 
 def main() -> int:
@@ -1934,6 +1959,7 @@ def main() -> int:
     local_assets = verify_demo()
     gallery_assets = verify_gallery()
     spoken_words = verify_video_script()
+    public_urls = verify_publication_copy()
     print("Pareto64 submission verification passed")
     print(f"selected candidate: {plan['selected']['name']}")
     print(f"selected accuracy: {plan['selected']['metrics']['minimum_accuracy']:.4f}")
@@ -1941,6 +1967,7 @@ def main() -> int:
     print(f"verified demo links/assets: {local_assets}")
     print(f"verified 1440x900 gallery assets: {gallery_assets}")
     print(f"verified demo-script spoken words: {spoken_words}/390")
+    print(f"verified public submission URLs: {public_urls}")
     return 0
 
 

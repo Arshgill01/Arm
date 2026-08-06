@@ -1,6 +1,6 @@
 # Entrant submission handoff
 
-Checked: 2026-08-05 UTC. This is a preparation packet, not authorization to
+Checked: 2026-08-06 UTC. This is a preparation packet, not authorization to
 publish or submit anything.
 
 ## Stop gates
@@ -10,8 +10,7 @@ Do not submit while any of these are true:
 - `Arshgill01/Arm` is private or cannot be cloned anonymously;
 - the Apache-2.0 license, source, or linked workflow evidence is unavailable to
   an unauthenticated judge;
-- `<ADD PUBLIC DEMO URL>` remains in `devpost.md`;
-- `<ADD PUBLIC VIDEO URL>` remains instead of being replaced or removed;
+- an `<ADD PUBLIC ...>` placeholder remains in `devpost.md`;
 - a supplied demo or video URL requires credentials;
 - the selected category is not **Cloud AI**; or
 - the entrant has not confirmed eligibility, team representation, and Arm
@@ -23,40 +22,43 @@ The public repository procedure and identity review are in
 ## Paste-ready identity
 
 - **Project name:** Pareto64
-- **Tagline:** Quality-constrained Arm64 inference: measure every tradeoff,
-  reject broken speedups, launch only the proven deployment.
+- **Tagline:** Proof-carrying Arm64 inference: eight exact shared workers where
+  the private representation could sustain six.
 - **Track/category:** Cloud AI
 - **Source:** <https://github.com/Arshgill01/Arm>
 - **Suggested technology tags:** Python, Arm64, llama.cpp, KleidiAI, GGUF,
   Ministral 3, CMake, GitHub Actions, OpenAI-compatible API
-- **Long-form project text:** [`devpost.md`](devpost.md), after replacing the
-  demo URL and either replacing or removing the optional video URL
+- **Long-form project text:** [`devpost.md`](devpost.md)
 
-The video is optional under the official rules. If no public video is ready,
-remove the placeholder instead of submitting placeholder text. The static demo
-and source remain mandatory judge-access paths under this package's conservative
-interpretation.
+The video is optional under the official rules. A 76-second, silent annotated
+walkthrough is public as a direct MP4 asset, and the interactive demo and source
+are available without credentials. If Devpost's optional video widget accepts
+only YouTube, Vimeo, or Youku, either mirror the same file to one of those
+services or omit that optional field; do not replace the working public link in
+the project text with placeholder text.
 
 ## Gallery upload order
 
-Upload the four 1,440×900 PNGs in this order so the compounded result appears
-before supporting detail:
+Upload the four 1,440×900 PNGs in this order so the repeated density result
+appears before supporting detail:
 
 1. [`pareto64-overview.png`](../output/playwright/pareto64-overview.png) —
-   quality-first hook, 1.717× final-service result, and 1.728× online-cache
-   lifecycle result.
+   final Axion headline, 1.3525× fixed-memory throughput-density result, and
+   the failed readiness gate.
 2. [`pareto64-final-service.png`](../output/playwright/pareto64-final-service.png)
-   — exact E5b-versus-E7c metrics plus E21b's retained first-use regression.
+   — the six product planes from policy through receipt, plus E22a's exact
+   one-command deployment preflight.
 3. [`pareto64-policy-lab.png`](../output/playwright/pareto64-policy-lab.png) —
    measured deployment-envelope routing and refusal behavior.
 4. [`pareto64-serving-boundary.png`](../output/playwright/pareto64-serving-boundary.png)
-   — persistent packed-weight readiness, shared-PSS, and lifecycle evidence.
+   — E22c normal-6 versus shared-8 distributions, 59.43% lower summed PSS, and
+   the 2.0817× readiness boundary.
 
-Suggested first-image caption: **Pareto64 rejects a faster model that misses
-quality, then launches only an evidence-bound Arm64 service. The exact final
-service delivers 1.7168× throughput with 41.5% lower median latency in a
-same-job native Neoverse N2 comparison; its online certificate preserves exact
-answers and reaches break-even in cycle two.**
+Suggested first-image caption: **On one 16.72 GB Google Axion host, Pareto64's
+verified read-only Arm-packed representation served eight exact workers where
+the private representation sustained six: 1.3525× median aggregate throughput
+and 59.43% lower summed PSS across 1,680 exact requests. Readiness was 2.0817×
+and failed its frozen ≤2.0 gate, so the claim stops at steady-state density.**
 
 ## Entrant survey choices to confirm
 

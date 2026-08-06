@@ -13,9 +13,9 @@ and media needed for the Arm Create: AI Optimization Challenge 2026 entry.
   final signed-out review packet.
 
 The ready-to-upload 1,440×900 gallery assets are in
-[`../output/playwright/`](../output/playwright/): project overview, interactive
-policy, the final service plus online-cache lifecycle, and the persistent
-Arm-packed-weight lifecycle.
+[`../output/playwright/`](../output/playwright/): final Axion density overview,
+six-plane product deployment, interactive policy/refusal behavior, and the E22c
+density/readiness boundary.
 
 The interactive static demo is in [`../demo/index.html`](../demo/index.html).
 From the repository root:
@@ -32,16 +32,20 @@ python3 scripts/verify_submission.py
 python3 -m unittest discover -s tests -v
 ```
 
-The latest native Arm judge-package clean-checkout run is
-[`30991082053`](https://github.com/Arshgill01/Arm/actions/runs/30991082053),
-covering 468 tests (20 expected artifact/environment skips), 71 immutable
-evidence hashes through E16e and E21b, exact planner replay, and the dependency-
-free demo smoke test at commit `f12b4a1`. It also validates all four gallery
-assets and the enforced 327/390-word video-script ceiling.
+The native Arm
+[`submission-validation.yml`](https://github.com/Arshgill01/Arm/actions/workflows/submission-validation.yml)
+workflow validates the current package from a clean checkout. The local suite
+currently runs 500 tests with two toolchain-gated skips; the verifier pins 76
+immutable evidence files through E22c, exact planner replay, all four gallery
+assets, the dependency-free demo, publication URLs, and the enforced 296/390-
+word video-script ceiling.
 
-The GitHub repository and the
-[HTML evidence report](https://pareto64-arm-evidence.arshgill01.chatgpt.site)
-are public, and anonymous HTTP checks pass. The interactive static `demo/`
-directory is not yet hosted. The entrant must put it at a public URL that
-remains available through September 4, 2026, upload or omit the optional video,
-and resolve the URL placeholders in `devpost.md` and `compliance.md`.
+The GitHub repository, the
+[HTML evidence report](https://pareto64-arm-evidence.arshgill01.chatgpt.site),
+the hosted
+[interactive demo](https://pareto64-arm-evidence.arshgill01.chatgpt.site/demo/index.html),
+the [raw E22 release](https://github.com/Arshgill01/Arm/releases/tag/e22-axion-evidence-20260806),
+and the [76-second walkthrough](https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/pareto64-demo.mp4)
+are public, and anonymous HTTP checks pass. Entrant identity, eligibility,
+survey answers, gallery upload, category review, and final Devpost submission
+remain outside the repository.

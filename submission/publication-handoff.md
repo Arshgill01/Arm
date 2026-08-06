@@ -1,6 +1,6 @@
 # Repository publication record
 
-Checked: 2026-08-05 UTC.
+Checked: 2026-08-06 UTC.
 
 The official rules require a public source repository. GitHub reports
 `Arshgill01/Arm` as **public**. On August 3, 2026, unauthenticated HTTP checks
@@ -29,7 +29,9 @@ pre-submission blocker.
   entrant must confirm that those identities and all retained evidence are
   intended for public release.
 - No static-site hosting, Devpost submission, video upload, or upstream patch
-  publication was performed by this audit.
+  publication was performed by the original repository audit. Hosting and the
+  optional video were completed separately on August 6; Devpost submission and
+  upstream patch publication were not.
 
 ## Completed publication checks
 
@@ -41,15 +43,19 @@ reviewed. The following anonymous checks now pass:
 3. an anonymous HTTPS clone succeeds with credential helpers disabled; and
 4. `gh repo view` reports `PUBLIC`.
 
-The Devpost source field still needs entrant review. Static demo hosting and
-public video upload remain separate entrant actions.
+The Devpost source field still needs entrant review. The public demo and direct
+MP4 recording are complete; adding the four gallery images and completing the
+entrant-only fields remain entrant actions.
 
 ## Public evidence report
 
 The evidence-ledger site is published at
 [`https://pareto64-arm-evidence.arshgill01.chatgpt.site`](https://pareto64-arm-evidence.arshgill01.chatgpt.site).
-Sites reports public access, and an unauthenticated HTTP request returned 200
-with the E9a final-service, E10f holdout, E13 cache-certificate, E14 selective-
-repack, E16 packed-loader/lifecycle, and E21 online-certificate evidence. This
-is a public HTML report, not a Devpost submission or a published upstream
-patch.
+Sites reports public access. Unauthenticated HTTP checks on August 6 returned
+200 for the report, its interactive
+[`/demo/index.html`](https://pareto64-arm-evidence.arshgill01.chatgpt.site/demo/index.html)
+route, and the final E22 fixed-memory density evidence. The raw E22b/E22c
+bundles and 76-second MP4 walkthrough are public in the
+[`e22-axion-evidence-20260806`](https://github.com/Arshgill01/Arm/releases/tag/e22-axion-evidence-20260806)
+release. These are public evidence assets, not a Devpost submission or a
+published upstream patch.
