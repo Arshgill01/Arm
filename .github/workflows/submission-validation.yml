@@ -72,7 +72,8 @@ jobs:
             /tmp/pareto64-demo.html
           grep -q 'Eight exact workers fit where eight private copies did not' \
             /tmp/pareto64-demo.html
-          grep -q 'failed ≤2.0× gate' /tmp/pareto64-demo.html
+          grep -q 'same-machine-class steady-state fixed-memory density claim' \
+            /tmp/pareto64-demo.html
           curl --fail --silent http://127.0.0.1:4174/app.js \
             > /tmp/pareto64-demo-app.js
           grep -q 'renderDecision' /tmp/pareto64-demo-app.js
