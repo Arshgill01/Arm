@@ -32,10 +32,11 @@ The public repository procedure and identity review are in
 
 The video is optional under the official rules. A 76-second, silent annotated
 walkthrough is public as a direct MP4 asset, and the interactive demo and source
-are available without credentials. If Devpost's optional video widget accepts
-only YouTube, Vimeo, or Youku, either mirror the same file to one of those
-services or omit that optional field; do not replace the working public link in
-the project text with placeholder text.
+are available without credentials. The rules require a video entered in the
+optional Devpost field to be publicly hosted on YouTube, Vimeo, or Youku.
+Therefore either mirror the same file to one of those services or leave that
+optional field empty. Keep the direct MP4 labeled as supplemental evidence in
+the project text; do not present it as a compliant video-field URL.
 
 ## Gallery upload order
 

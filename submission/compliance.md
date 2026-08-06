@@ -50,10 +50,10 @@ and visually inspected at their final resolution.
       without credentials.
 - [x] Replace the public demo URL placeholder in `submission/devpost.md`.
 - [x] Publish a 76-second annotated walkthrough as a credential-free direct MP4
-      and link it from `submission/devpost.md`.
-- [ ] If Devpost's optional video widget requires YouTube, Vimeo, or Youku,
-      mirror the same MP4 to one of those services or leave that optional widget
-      empty.
+      and label it as supplemental evidence in `submission/devpost.md`.
+- [ ] To use Devpost's optional video field, mirror the same MP4 publicly to
+      YouTube, Vimeo, or Youku. Otherwise leave that optional field empty; the
+      direct GitHub asset does not satisfy the field's hosting rule.
 - [ ] Add screenshots from `output/playwright/` to the Devpost gallery.
 - [ ] Confirm all required Devpost fields and the **Cloud AI** category.
 - [ ] Answer the four entrant-only survey fields about build difficulty,

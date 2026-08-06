@@ -29,9 +29,10 @@ pre-submission blocker.
   entrant must confirm that those identities and all retained evidence are
   intended for public release.
 - No static-site hosting, Devpost submission, video upload, or upstream patch
-  publication was performed by the original repository audit. Hosting and the
-  optional video were completed separately on August 6; Devpost submission and
-  upstream patch publication were not.
+  publication was performed by the original repository audit. Hosting and a
+  supplemental direct MP4 were completed separately on August 6; a compliant
+  optional-video-field upload, Devpost submission, and upstream patch
+  publication were not.
 
 ## Completed publication checks
 
@@ -43,9 +44,10 @@ reviewed. The following anonymous checks now pass:
 3. an anonymous HTTPS clone succeeds with credential helpers disabled; and
 4. `gh repo view` reports `PUBLIC`.
 
-The Devpost source field still needs entrant review. The public demo and direct
-MP4 recording are complete; adding the four gallery images and completing the
-entrant-only fields remain entrant actions.
+The Devpost source field still needs entrant review. The public demo and
+supplemental direct MP4 recording are complete. A Devpost video-field entry
+would still require a YouTube, Vimeo, or Youku mirror; adding the four gallery
+images and completing the entrant-only fields also remain entrant actions.
 
 ## Public evidence report
 

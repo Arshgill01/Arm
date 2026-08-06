@@ -13,7 +13,7 @@ the private representation could sustain six.
 
 **Raw Axion evidence:** <https://github.com/Arshgill01/Arm/releases/tag/e22-axion-evidence-20260806>
 
-**Public video:** <https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/pareto64-demo.mp4>
+**Supplemental 76-second walkthrough (direct MP4):** <https://github.com/Arshgill01/Arm/releases/download/e22-axion-evidence-20260806/pareto64-demo.mp4>
 
 ## Project overview
 
