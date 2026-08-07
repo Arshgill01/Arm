@@ -1,0 +1,139 @@
+{
+  "correctness": {
+    "baseline": {
+      "case_count": 15,
+      "max_abs": 0.000274658203125,
+      "max_nmse": 2.38526954695e-13
+    },
+    "baseline_candidate_exact_match": true,
+    "candidate": {
+      "case_count": 15,
+      "max_abs": 0.000274658203125,
+      "max_nmse": 2.38526954695e-13
+    },
+    "micro_checksum_match": true
+  },
+  "gates": {
+    "accepted": true,
+    "correctness": true,
+    "decode_no_material_regression": true,
+    "pp128_material": true,
+    "pp512_positive": true,
+    "sample_count": true
+  },
+  "inference": {
+    "pp128": {
+      "baseline": {
+        "mean_tokens_per_second": 103.09133333333334,
+        "population_cv": 0.005471377610956113,
+        "sample_count": 6,
+        "samples": [
+          102.559,
+          103.527,
+          103.015,
+          102.189,
+          103.766,
+          103.492
+        ]
+      },
+      "candidate": {
+        "mean_tokens_per_second": 113.37683333333334,
+        "population_cv": 0.001174917088726311,
+        "sample_count": 6,
+        "samples": [
+          113.652,
+          113.237,
+          113.375,
+          113.39,
+          113.315,
+          113.292
+        ]
+      },
+      "speedup": 1.0997707534419316
+    },
+    "pp512": {
+      "baseline": {
+        "mean_tokens_per_second": 89.14816666666667,
+        "population_cv": 0.002137272567613909,
+        "sample_count": 6,
+        "samples": [
+          89.3678,
+          88.8651,
+          89.0126,
+          89.3765,
+          89.0373,
+          89.2297
+        ]
+      },
+      "candidate": {
+        "mean_tokens_per_second": 96.66581666666667,
+        "population_cv": 0.0013247895677166645,
+        "sample_count": 6,
+        "samples": [
+          96.5366,
+          96.7332,
+          96.4588,
+          96.7678,
+          96.8199,
+          96.6786
+        ]
+      },
+      "speedup": 1.0843275894624866
+    },
+    "tg128": {
+      "baseline": {
+        "mean_tokens_per_second": 32.260866666666665,
+        "population_cv": 0.007805384541758967,
+        "sample_count": 6,
+        "samples": [
+          32.4327,
+          32.334,
+          32.3296,
+          32.4157,
+          32.3484,
+          31.7048
+        ]
+      },
+      "candidate": {
+        "mean_tokens_per_second": 32.57561666666667,
+        "population_cv": 0.002572795178739222,
+        "sample_count": 6,
+        "samples": [
+          32.5457,
+          32.692,
+          32.6427,
+          32.6169,
+          32.5137,
+          32.4427
+        ]
+      },
+      "speedup": 1.0097564024938368
+    }
+  },
+  "micro": {
+    "baseline": {
+      "checksums": [
+        6217014.59543,
+        6217014.59543
+      ],
+      "median_ms_by_round": [
+        26.081799,
+        26.015608
+      ],
+      "median_of_round_medians_ms": 26.048703500000002
+    },
+    "candidate": {
+      "checksums": [
+        6217014.59543,
+        6217014.59543
+      ],
+      "median_ms_by_round": [
+        22.433939,
+        22.398453
+      ],
+      "median_of_round_medians_ms": 22.416196
+    },
+    "speedup": 1.1620483466507878
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E23",
+  "status": "accepted",
+  "provenance": {
+    "git_commit": "b36f78b1f21d6c7e89c8ffa02f58355f4751585f",
+    "github_run_id": "31165274205",
+    "github_run_attempt": "1",
+    "llama_cpp_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "contract_sha256": "013367d13e93ef762f626a3280b6128e12603b7305183f28bd5051add29d20e1",
+    "runner_sha256": "7f6753b168eec56b7fd0f431410a65f09d824c854fe7dbaab9eece5cee7821f9",
+    "candidate_patch_sha256": "c4794e8e0087fd32691778c23b1ee559fde0e37ee69f281973ec2b02d02c33f2",
+    "summary_sha256": "3ca3741b9233922608530aa565d7784ab68ea470dda36a64c3853b3faa538fef"
+  },
+  "platform": {
+    "runner": "ubuntu-24.04-arm",
+    "architecture": "aarch64",
+    "model_name": "Neoverse-N2",
+    "logical_cpus": 4,
+    "threads_per_core": 1,
+    "compiler": "gcc 13.3.0",
+    "kernel": "Linux 6.17.0-1021-azure"
+  },
+  "model": {
+    "repository": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+    "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+    "filename": "qwen2.5-1.5b-instruct-q4_k_m.gguf",
+    "size_bytes": 1117320736,
+    "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e"
+  },
+  "controls": {
+    "cpu_list": "0-3",
+    "threads": 4,
+    "process_order": ["baseline", "candidate", "candidate", "baseline"],
+    "samples_per_variant_per_case": 6,
+    "same_executable": true,
+    "only_switched_artifact": "libggml-cpu.so",
+    "correctness_before_performance": true
+  },
+  "correctness": {
+    "direct_case_count": 15,
+    "baseline_candidate_exact_match": true,
+    "maximum_nmse": 2.38526954695e-13,
+    "maximum_absolute_error": 0.000274658203125,
+    "micro_checksum_match": true
+  },
+  "performance": {
+    "pp128": {
+      "baseline_tokens_per_second": 103.09133333333334,
+      "candidate_tokens_per_second": 113.37683333333334,
+      "speedup": 1.0997707534419316
+    },
+    "pp512": {
+      "baseline_tokens_per_second": 89.14816666666667,
+      "candidate_tokens_per_second": 96.66581666666667,
+      "speedup": 1.0843275894624866
+    },
+    "tg128": {
+      "baseline_tokens_per_second": 32.260866666666665,
+      "candidate_tokens_per_second": 32.57561666666667,
+      "speedup": 1.0097564024938368
+    },
+    "direct_kernel_speedup": 1.1620483466507878
+  },
+  "validation": {
+    "all_acceptance_gates_passed": true,
+    "correctness_passed": true,
+    "sample_count_passed": true,
+    "pp128_material_gate_passed": true,
+    "pp512_positive_gate_passed": true,
+    "decode_regression_gate_passed": true
+  },
+  "source": {
+    "github_run_url": "https://github.com/Arshgill01/Arm/actions/runs/31165274205",
+    "artifact_id": "8988857812",
+    "artifact_name": "e23-arm-q4-k-31165274205-1",
+    "artifact_size_bytes": 51116,
+    "artifact_retention_days": 30,
+    "raw_directory": "results/raw/e23-31165274205"
+  }
+}

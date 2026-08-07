@@ -1,0 +1,38 @@
+[
+  {
+    "model": "ministral-q4ks",
+    "case": "pp128",
+    "baseline": 70.313875,
+    "baseline_cv": 0.001004777666939783,
+    "candidate": 78.96995,
+    "candidate_cv": 0.0013580478245454237,
+    "speedup": 1.1231062148117992
+  },
+  {
+    "model": "ministral-q4ks",
+    "case": "pp512",
+    "baseline": 52.099725,
+    "baseline_cv": 0.0005807991328187984,
+    "candidate": 56.746475000000004,
+    "candidate_cv": 0.0008185340774252477,
+    "speedup": 1.0891895302710333
+  },
+  {
+    "model": "qwen15-q4km",
+    "case": "pp128",
+    "baseline": 142.7305,
+    "baseline_cv": 0.0016263114634811713,
+    "candidate": 155.7375,
+    "candidate_cv": 0.0017655738567234844,
+    "speedup": 1.0911297865557816
+  },
+  {
+    "model": "qwen15-q4km",
+    "case": "pp512",
+    "baseline": 116.63125000000001,
+    "baseline_cv": 0.0006231921151446007,
+    "candidate": 125.3555,
+    "candidate_cv": 0.0017214306013588368,
+    "speedup": 1.074801993462301
+  }
+]
