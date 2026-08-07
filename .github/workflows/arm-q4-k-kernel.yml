@@ -1,4 +1,4 @@
-name: Arm E23 Q4_K vector-scale kernel
+name: Arm E24 Q6_K decode kernel
 
 on:
   workflow_dispatch:
@@ -14,12 +14,12 @@ env:
 
 jobs:
   validate:
-    name: Matched Q4_K A/B on Arm
+    name: Correctness-first Q6_K A/B on second Arm
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 75
     env:
-      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e23-${{ github.run_id }}-${{ github.run_attempt }}
-      E23_WORK_DIR: /tmp/e23-${{ github.run_id }}-${{ github.run_attempt }}
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e24c-${{ github.run_id }}-${{ github.run_attempt }}
+      E24C_WORK_DIR: /tmp/e24c-${{ github.run_id }}-${{ github.run_attempt }}
 
     steps:
       - name: Check out experiment repository
@@ -66,27 +66,26 @@ jobs:
           path: ${{ env.MODEL_PATH }}
           key: e23-qwen25-q4-k-m-${{ env.MODEL_SHA256 }}
 
-      - name: Run correctness-first matched A/B
+      - name: Run second-machine A/B
         id: experiment
         continue-on-error: true
         run: |
           set -euo pipefail
-          experiments/e23_arm_kernel_ab.sh "$EVIDENCE_DIR"
+          experiments/e24c_second_arm_ab.sh "$EVIDENCE_DIR"
 
-      - name: Ingest raw evidence
-        id: ingest
-        if: always() && hashFiles('results/raw/e23-*/**') != ''
-        continue-on-error: true
+      - name: Print retained result
+        if: always() && hashFiles('results/raw/e24c-*/inference/*summary.json') != ''
         run: |
-          set -euo pipefail
-          experiments/e23_ingest.py "$EVIDENCE_DIR" "$EVIDENCE_DIR/summary.json"
-          cat "$EVIDENCE_DIR/summary.json"
+          jq -n \
+            --slurpfile baseline "$EVIDENCE_DIR/inference/tg128-baseline-summary.json" \
+            --slurpfile candidate "$EVIDENCE_DIR/inference/tg128-candidate-summary.json" \
+            '{baseline: $baseline[0], candidate: $candidate[0], ratio: ($candidate[0].median / $baseline[0].median)}'
 
       - name: Upload evidence
-        if: always() && hashFiles('results/raw/e23-*/**') != ''
+        if: always() && hashFiles('results/raw/e24c-*/**') != ''
         uses: actions/upload-artifact@v6
         with:
-          name: e23-arm-q4-k-${{ github.run_id }}-${{ github.run_attempt }}
+          name: e24c-arm-q6-k-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ env.EVIDENCE_DIR }}
           if-no-files-found: error
           retention-days: 30
@@ -95,8 +94,6 @@ jobs:
         if: always()
         env:
           EXPERIMENT_OUTCOME: ${{ steps.experiment.outcome }}
-          INGEST_OUTCOME: ${{ steps.ingest.outcome }}
         run: |
           set -euo pipefail
           test "$EXPERIMENT_OUTCOME" = success
-          test "$INGEST_OUTCOME" = success
