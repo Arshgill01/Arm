@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "contract_revision": 1,
+  "experiment_id": "E24b",
+  "title": "Axion Q6_K decode-kernel first end-to-end result",
+  "objective": "Measure an AArch64 Q6_K GEMV schedule against the frozen E23 baseline with the same model, output, CPU, threads, and benchmark settings.",
+  "claim_boundary": "This checkpoint covers one Google Axion Neoverse V2 VM and Ministral 3B Q4_K_M. It is not yet an adjacent-model, second-machine, cumulative-stock, or upstream-portability claim.",
+  "source": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216",
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "baseline_patches": [
+      "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+      "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+      "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+      "patches/llama.cpp/b10216/0013-arm-q4-k-neon-vector-scale-kernel.patch"
+    ],
+    "candidate_patches": [
+      "patches/llama.cpp/b10216/0016-arm-q6-k-gemv-fused-scales.patch",
+      "patches/llama.cpp/b10216/0020-arm-q6-k-gemv-just-in-time-loads.patch"
+    ]
+  },
+  "model": {
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "entrypoint": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+    "size_bytes": 2146497824,
+    "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4"
+  },
+  "host": {
+    "provider": "Google Cloud Compute Engine",
+    "machine_type": "c4a-highcpu-8",
+    "cpu": "Google Axion Neoverse V2",
+    "benchmark_core_set": "0-3",
+    "threads": 4,
+    "provisioning_model": "STANDARD",
+    "automatic_deletion": true
+  },
+  "direct_kernel": {
+    "function": "ggml_gemv_q6_K_8x8_q8_K",
+    "correctness_cases": 12,
+    "nmse_limit": 0.0005,
+    "processes_per_variant_and_shape": 11,
+    "timed_calls_per_process": 31,
+    "shapes": [[3072, 2304], [9216, 768]]
+  },
+  "inference": {
+    "case": "tg128",
+    "n_prompt": 0,
+    "n_generation": 128,
+    "repetitions_per_process": 3,
+    "processes_per_variant": 6,
+    "process_order_per_round": ["baseline", "candidate", "candidate", "baseline"],
+    "flash_attention": true,
+    "batch_size": 1024,
+    "ubatch_size": 512,
+    "warmup": false
+  },
+  "gates": {
+    "direct_speedup": 1.10,
+    "projected_decode_speedup": 1.03,
+    "byte_identical_live_output": true,
+    "required_user_checkpoint": true
+  }
+}

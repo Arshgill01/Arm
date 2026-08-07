@@ -1,0 +1,13 @@
+diff --git a/ggml/src/ggml-cpu/arch/arm/repack.cpp b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+--- a/ggml/src/ggml-cpu/arch/arm/repack.cpp
++++ b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+@@ -1619,6 +1619,9 @@ void ggml_gemv_q6_K_8x8_q8_K(int                        n,
+                     int32x2_t sum_h[col_pairs];
+ 
+                     // Process column pairs (0-1, 2-3, 4-5, 6-7)
++#if defined(__GNUC__) && !defined(__clang__)
++#pragma GCC unroll 1
++#endif
+                     for (int cp = 0; cp < col_pairs; cp++) {
+                         const uint8x16_t q6_qs_cp_0_l = q6_ql_0.val[cp];
+                         const uint8x16_t q6_qs_cp_1_l = q6_ql_1.val[cp];

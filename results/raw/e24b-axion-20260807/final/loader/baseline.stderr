@@ -1,0 +1,167 @@
+     10635:	find library=libc.so.6 [0]; searching
+     10635:	 search path=/var/tmp/e24-kernel/variants/e2e-baseline-bin		(LD_LIBRARY_PATH)
+     10635:	  trying file=/var/tmp/e24-kernel/variants/e2e-baseline-bin/libc.so.6
+     10635:	 search cache=/etc/ld.so.cache
+     10635:	  trying file=/lib/aarch64-linux-gnu/libc.so.6
+     10635:	
+     10635:	
+     10635:	calling init: /lib/ld-linux-aarch64.so.1
+     10635:	
+     10635:	
+     10635:	calling init: /lib/aarch64-linux-gnu/libc.so.6
+     10635:	
+     10635:	
+     10635:	initialize program: taskset
+     10635:	
+     10635:	
+     10635:	transferring control: taskset
+     10635:	
+     10635:	find library=libllama-bench-impl.so [0]; searching
+     10635:	 search path=/var/tmp/e24-kernel/variants/e2e-baseline-bin		(LD_LIBRARY_PATH)
+     10635:	  trying file=/var/tmp/e24-kernel/variants/e2e-baseline-bin/libllama-bench-impl.so
+     10635:	
+     10635:	find library=libstdc++.so.6 [0]; searching
+     10635:	 search path=/var/tmp/e24-kernel/variants/e2e-baseline-bin		(LD_LIBRARY_PATH)
+     10635:	  trying file=/var/tmp/e24-kernel/variants/e2e-baseline-bin/libstdc++.so.6
+     10635:	 search path=/var/tmp/e24-kernel/build/bin:		(RUNPATH from file /var/tmp/e24-kernel/variants/e2e-baseline-bin/llama-bench)
+     10635:	  trying file=/var/tmp/e24-kernel/build/bin/libstdc++.so.6
+     10635:	  trying file=libstdc++.so.6
+     10635:	 search cache=/etc/ld.so.cache
+     10635:	  trying file=/lib/aarch64-linux-gnu/libstdc++.so.6
+     10635:	
+     10635:	find library=libgcc_s.so.1 [0]; searching
+     10635:	 search path=/var/tmp/e24-kernel/variants/e2e-baseline-bin		(LD_LIBRARY_PATH)
+     10635:	  trying file=/var/tmp/e24-kernel/variants/e2e-baseline-bin/libgcc_s.so.1
+     10635:	 search path=/var/tmp/e24-kernel/build/bin:		(RUNPATH from file /var/tmp/e24-kernel/variants/e2e-baseline-bin/llama-bench)
+     10635:	  trying file=/var/tmp/e24-kernel/build/bin/libgcc_s.so.1
+     10635:	  trying file=libgcc_s.so.1
+     10635:	 search cache=/etc/ld.so.cache
+     10635:	  trying file=/lib/aarch64-linux-gnu/libgcc_s.so.1
+     10635:	
+     10635:	find library=libc.so.6 [0]; searching
+     10635:	 search path=/var/tmp/e24-kernel/variants/e2e-baseline-bin		(LD_LIBRARY_PATH)
+     10635:	  trying file=/var/tmp/e24-kernel/variants/e2e-baseline-bin/libc.so.6
+     10635:	 search path=/var/tmp/e24-kernel/build/bin:		(RUNPATH from file /var/tmp/e24-kernel/variants/e2e-baseline-bin/llama-bench)
+     10635:	  trying file=/var/tmp/e24-kernel/build/bin/libc.so.6
+     10635:	  trying file=libc.so.6
+     10635:	 search cache=/etc/ld.so.cache
+     10635:	  trying file=/lib/aarch64-linux-gnu/libc.so.6
+     10635:	
+     10635:	find library=libllama-common.so.0 [0]; searching
+     10635:	 search path=/var/tmp/e24-kernel/variants/e2e-baseline-bin		(LD_LIBRARY_PATH)
+     10635:	  trying file=/var/tmp/e24-kernel/variants/e2e-baseline-bin/libllama-common.so.0
+     10635:	
+     10635:	find library=libllama.so.0 [0]; searching
+     10635:	 search path=/var/tmp/e24-kernel/variants/e2e-baseline-bin		(LD_LIBRARY_PATH)
+     10635:	  trying file=/var/tmp/e24-kernel/variants/e2e-baseline-bin/libllama.so.0
+     10635:	
+     10635:	find library=libggml.so.0 [0]; searching
+     10635:	 search path=/var/tmp/e24-kernel/variants/e2e-baseline-bin		(LD_LIBRARY_PATH)
+     10635:	  trying file=/var/tmp/e24-kernel/variants/e2e-baseline-bin/libggml.so.0
+     10635:	
+     10635:	find library=libggml-base.so.0 [0]; searching
+     10635:	 search path=/var/tmp/e24-kernel/variants/e2e-baseline-bin		(LD_LIBRARY_PATH)
+     10635:	  trying file=/var/tmp/e24-kernel/variants/e2e-baseline-bin/libggml-base.so.0
+     10635:	
+     10635:	find library=libm.so.6 [0]; searching
+     10635:	 search path=/var/tmp/e24-kernel/variants/e2e-baseline-bin		(LD_LIBRARY_PATH)
+     10635:	  trying file=/var/tmp/e24-kernel/variants/e2e-baseline-bin/libm.so.6
+     10635:	 search path=/var/tmp/e24-kernel/build/bin:		(RUNPATH from file /var/tmp/e24-kernel/variants/e2e-baseline-bin/llama-bench)
+     10635:	  trying file=/var/tmp/e24-kernel/build/bin/libm.so.6
+     10635:	  trying file=libm.so.6
+     10635:	 search cache=/etc/ld.so.cache
+     10635:	  trying file=/lib/aarch64-linux-gnu/libm.so.6
+     10635:	
+     10635:	find library=libggml-cpu.so.0 [0]; searching
+     10635:	 search path=/var/tmp/e24-kernel/variants/e2e-baseline-bin		(LD_LIBRARY_PATH)
+     10635:	  trying file=/var/tmp/e24-kernel/variants/e2e-baseline-bin/libggml-cpu.so.0
+     10635:	
+     10635:	find library=libgomp.so.1 [0]; searching
+     10635:	 search path=/var/tmp/e24-kernel/variants/e2e-baseline-bin		(LD_LIBRARY_PATH)
+     10635:	  trying file=/var/tmp/e24-kernel/variants/e2e-baseline-bin/libgomp.so.1
+     10635:	 search cache=/etc/ld.so.cache
+     10635:	  trying file=/lib/aarch64-linux-gnu/libgomp.so.1
+     10635:	
+     10635:	
+     10635:	calling init: /lib/ld-linux-aarch64.so.1
+     10635:	
+     10635:	
+     10635:	calling init: /lib/aarch64-linux-gnu/libc.so.6
+     10635:	
+     10635:	
+     10635:	calling init: /lib/aarch64-linux-gnu/libgomp.so.1
+     10635:	
+     10635:	
+     10635:	calling init: /lib/aarch64-linux-gnu/libm.so.6
+     10635:	
+     10635:	
+     10635:	calling init: /lib/aarch64-linux-gnu/libgcc_s.so.1
+     10635:	
+     10635:	
+     10635:	calling init: /lib/aarch64-linux-gnu/libstdc++.so.6
+     10635:	
+     10635:	
+     10635:	calling init: /var/tmp/e24-kernel/variants/e2e-baseline-bin/libggml-base.so.0
+     10635:	
+     10635:	
+     10635:	calling init: /var/tmp/e24-kernel/variants/e2e-baseline-bin/libggml-cpu.so.0
+     10635:	
+     10635:	
+     10635:	calling init: /var/tmp/e24-kernel/variants/e2e-baseline-bin/libggml.so.0
+     10635:	
+     10635:	
+     10635:	calling init: /var/tmp/e24-kernel/variants/e2e-baseline-bin/libllama.so.0
+     10635:	
+     10635:	
+     10635:	calling init: /var/tmp/e24-kernel/variants/e2e-baseline-bin/libllama-common.so.0
+     10635:	
+     10635:	
+     10635:	calling init: /var/tmp/e24-kernel/variants/e2e-baseline-bin/libllama-bench-impl.so
+     10635:	
+     10635:	
+     10635:	initialize program: /var/tmp/e24-kernel/variants/e2e-baseline-bin/llama-bench
+     10635:	
+     10635:	
+     10635:	transferring control: /var/tmp/e24-kernel/variants/e2e-baseline-bin/llama-bench
+     10635:	
+     10635:	/var/tmp/e24-kernel/variants/e2e-baseline-bin/libggml-cpu.so.0: error: symbol lookup error: undefined symbol: ggml_backend_score (fatal)
+     10635:	/var/tmp/e24-kernel/variants/e2e-baseline-bin/libggml-cpu.so.0: error: symbol lookup error: undefined symbol: ggml_backend_init (fatal)
+     10635:	
+     10635:	calling fini:  [0]
+     10635:	
+     10635:	
+     10635:	calling fini: /var/tmp/e24-kernel/variants/e2e-baseline-bin/libllama-bench-impl.so [0]
+     10635:	
+     10635:	
+     10635:	calling fini: /var/tmp/e24-kernel/variants/e2e-baseline-bin/libllama-common.so.0 [0]
+     10635:	
+     10635:	
+     10635:	calling fini: /var/tmp/e24-kernel/variants/e2e-baseline-bin/libllama.so.0 [0]
+     10635:	
+     10635:	
+     10635:	calling fini: /var/tmp/e24-kernel/variants/e2e-baseline-bin/libggml.so.0 [0]
+     10635:	
+     10635:	
+     10635:	calling fini: /var/tmp/e24-kernel/variants/e2e-baseline-bin/libggml-cpu.so.0 [0]
+     10635:	
+     10635:	
+     10635:	calling fini: /var/tmp/e24-kernel/variants/e2e-baseline-bin/libggml-base.so.0 [0]
+     10635:	
+     10635:	
+     10635:	calling fini: /lib/aarch64-linux-gnu/libstdc++.so.6 [0]
+     10635:	
+     10635:	
+     10635:	calling fini: /lib/aarch64-linux-gnu/libgcc_s.so.1 [0]
+     10635:	
+     10635:	
+     10635:	calling fini: /lib/aarch64-linux-gnu/libm.so.6 [0]
+     10635:	
+     10635:	
+     10635:	calling fini: /lib/aarch64-linux-gnu/libgomp.so.1 [0]
+     10635:	
+     10635:	
+     10635:	calling fini: /lib/aarch64-linux-gnu/libc.so.6 [0]
+     10635:	
+     10635:	
+     10635:	calling fini: /lib/ld-linux-aarch64.so.1 [0]
+     10635:	

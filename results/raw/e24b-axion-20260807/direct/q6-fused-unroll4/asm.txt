@@ -1,0 +1,1044 @@
+
+/var/tmp/e24-kernel/variants/q6-fused-unroll4/libggml-cpu.so.0.18.0:     file format elf64-littleaarch64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .text:
+
+00000000000b898c <ggml_gemv_q6_K_8x8_q8_K>:
+   b898c:	cmp	w0, #0x0
+   b8990:	add	w9, w0, #0xff
+   b8994:	csel	w9, w9, w0, lt	// lt = tstop
+   b8998:	cmp	w6, #0x0
+   b899c:	mov	x13, x4
+   b89a0:	add	w4, w6, #0x7
+   b89a4:	csel	w4, w4, w6, lt	// lt = tstop
+   b89a8:	cmp	w6, #0x7
+   b89ac:	b.le	b99a4 <ggml_gemv_q6_K_8x8_q8_K+0x1018>
+   b89b0:	sub	sp, sp, #0x3f0
+   b89b4:	asr	w9, w9, #8
+   b89b8:	movi	v28.4s, #0x0
+   b89bc:	movi	v25.16b, #0xf
+   b89c0:	mov	w10, #0x690                 	// #1680
+   b89c4:	movi	v29.16b, #0x30
+   b89c8:	mov	w5, w0
+   b89cc:	stp	x29, x30, [sp]
+   b89d0:	mov	x29, sp
+   b89d4:	add	x2, x3, #0x10
+   b89d8:	smull	x10, w9, w10
+   b89dc:	mov	x0, x1
+   b89e0:	asr	w4, w4, #3
+   b89e4:	mov	w3, #0x0                   	// #0
+   b89e8:	stp	d14, d15, [sp, #128]
+   b89ec:	movi	v15.16b, #0x3
+   b89f0:	stp	x19, x20, [sp, #16]
+   b89f4:	stp	x21, x22, [sp, #32]
+   b89f8:	stp	x23, x24, [sp, #48]
+   b89fc:	str	x25, [sp, #64]
+   b8a00:	stp	d8, d9, [sp, #80]
+   b8a04:	stp	d10, d11, [sp, #96]
+   b8a08:	stp	d12, d13, [sp, #112]
+   b8a0c:	movi	v2.4s, #0x0
+   b8a10:	cmp	w5, #0xff
+   b8a14:	b.le	b999c <ggml_gemv_q6_K_8x8_q8_K+0x1010>
+   b8a18:	mov	v4.16b, v2.16b
+   b8a1c:	mov	v0.16b, v2.16b
+   b8a20:	add	x21, x13, #0x4
+   b8a24:	add	x12, x2, #0x80
+   b8a28:	mov	x20, x2
+   b8a2c:	mov	w8, #0x0                   	// #0
+   b8a30:	ldp	d2, d1, [x20, #-16]
+   b8a34:	movi	v5.4s, #0x0
+   b8a38:	add	x30, x21, #0x100
+   b8a3c:	add	x19, x20, #0x480
+   b8a40:	mov	x18, x12
+   b8a44:	mov	x17, x21
+   b8a48:	ldur	s3, [x21, #-4]
+   b8a4c:	mov	x1, x20
+   b8a50:	stp	q4, q0, [sp, #944]
+   b8a54:	str	q5, [sp, #352]
+   b8a58:	str	q5, [sp, #384]
+   b8a5c:	str	q5, [sp, #416]
+   b8a60:	str	q5, [sp, #464]
+   b8a64:	fcvtl	v2.4s, v2.4h
+   b8a68:	fcvtl	v1.4s, v1.4h
+   b8a6c:	fmul	v2.4s, v2.4s, v3.s[0]
+   b8a70:	fmul	v1.4s, v1.4s, v3.s[0]
+   b8a74:	stp	q1, q2, [sp, #976]
+   b8a78:	ld1	{v8.16b-v11.16b}, [x18]
+   b8a7c:	add	x16, x19, #0x40
+   b8a80:	add	x11, x18, #0x40
+   b8a84:	add	x22, x18, #0x80
+   b8a88:	add	x15, x19, #0x80
+   b8a8c:	add	x14, x19, #0xc0
+   b8a90:	add	x23, x18, #0xc0
+   b8a94:	ld1	{v16.16b-v19.16b}, [x16]
+   b8a98:	add	x24, x18, #0x100
+   b8a9c:	add	x7, x18, #0x140
+   b8aa0:	add	x6, x18, #0x180
+   b8aa4:	add	x25, x18, #0x1c0
+   b8aa8:	add	x1, x1, #0x40
+   b8aac:	add	x18, x18, #0x200
+   b8ab0:	ld1	{v0.16b-v3.16b}, [x11]
+   b8ab4:	add	x11, sp, #0xd0
+   b8ab8:	add	x30, x30, #0x10
+   b8abc:	mov	v21.16b, v9.16b
+   b8ac0:	mov	v23.16b, v11.16b
+   b8ac4:	mov	v20.16b, v8.16b
+   b8ac8:	mov	v22.16b, v10.16b
+   b8acc:	ld1	{v4.16b-v7.16b}, [x19]
+   b8ad0:	and	v11.16b, v25.16b, v8.16b
+   b8ad4:	and	v10.16b, v25.16b, v21.16b
+   b8ad8:	and	v13.16b, v25.16b, v23.16b
+   b8adc:	st1	{v16.16b-v19.16b}, [x11]
+   b8ae0:	mov	v18.16b, v20.16b
+   b8ae4:	mov	v19.16b, v21.16b
+   b8ae8:	add	x11, sp, #0x90
+   b8aec:	mov	v21.16b, v23.16b
+   b8af0:	mov	v20.16b, v22.16b
+   b8af4:	and	v17.16b, v15.16b, v4.16b
+   b8af8:	and	v16.16b, v15.16b, v5.16b
+   b8afc:	and	v14.16b, v15.16b, v6.16b
+   b8b00:	and	v12.16b, v15.16b, v7.16b
+   b8b04:	ushr	v23.16b, v18.16b, #4
+   b8b08:	and	v24.16b, v29.16b, v5.16b
+   b8b0c:	ushr	v18.16b, v21.16b, #4
+   b8b10:	and	v27.16b, v29.16b, v6.16b
+   b8b14:	and	v9.16b, v25.16b, v22.16b
+   b8b18:	and	v31.16b, v29.16b, v7.16b
+   b8b1c:	and	v22.16b, v29.16b, v4.16b
+   b8b20:	sli	v11.16b, v17.16b, #4
+   b8b24:	sli	v10.16b, v16.16b, #4
+   b8b28:	ld1r	{v8.2d}, [x17]
+   b8b2c:	add	x17, x17, #0x80
+   b8b30:	str	q18, [sp, #592]
+   b8b34:	ushr	v26.16b, v19.16b, #4
+   b8b38:	ld1	{v4.16b-v7.16b}, [x22]
+   b8b3c:	sli	v13.16b, v12.16b, #4
+   b8b40:	ushr	v30.16b, v20.16b, #4
+   b8b44:	orr	v22.16b, v22.16b, v23.16b
+   b8b48:	sli	v9.16b, v14.16b, #4
+   b8b4c:	and	v14.16b, v25.16b, v2.16b
+   b8b50:	orr	v26.16b, v24.16b, v26.16b
+   b8b54:	mov	v21.16b, v13.16b
+   b8b58:	st1	{v4.16b-v7.16b}, [x11]
+   b8b5c:	add	x11, sp, #0xd0
+   b8b60:	and	v5.16b, v25.16b, v0.16b
+   b8b64:	ld1	{v16.16b-v19.16b}, [x11]
+   b8b68:	str	q5, [sp, #432]
+   b8b6c:	and	v5.16b, v25.16b, v1.16b
+   b8b70:	str	q5, [sp, #496]
+   b8b74:	ld1	{v4.16b-v7.16b}, [x15]
+   b8b78:	and	v20.16b, v15.16b, v16.16b
+   b8b7c:	and	v12.16b, v15.16b, v17.16b
+   b8b80:	and	v13.16b, v15.16b, v19.16b
+   b8b84:	and	v17.16b, v29.16b, v16.16b
+   b8b88:	ldp	q16, q19, [sp, #224]
+   b8b8c:	str	q17, [sp, #448]
+   b8b90:	and	v16.16b, v29.16b, v16.16b
+   b8b94:	and	v19.16b, v29.16b, v19.16b
+   b8b98:	stp	q12, q16, [sp, #512]
+   b8b9c:	ldr	q16, [sp, #256]
+   b8ba0:	and	v12.16b, v15.16b, v18.16b
+   b8ba4:	str	q19, [sp, #576]
+   b8ba8:	str	q12, [sp, #560]
+   b8bac:	and	v12.16b, v25.16b, v3.16b
+   b8bb0:	and	v16.16b, v29.16b, v16.16b
+   b8bb4:	sli	v12.16b, v13.16b, #4
+   b8bb8:	str	q16, [sp, #608]
+   b8bbc:	ld1	{v16.16b-v19.16b}, [x14]
+   b8bc0:	mov	v24.16b, v12.16b
+   b8bc4:	and	v12.16b, v29.16b, v4.16b
+   b8bc8:	st1	{v16.16b-v19.16b}, [x11]
+   b8bcc:	ushr	v17.16b, v0.16b, #4
+   b8bd0:	add	x11, sp, #0x110
+   b8bd4:	ldr	q19, [sp, #432]
+   b8bd8:	and	v16.16b, v15.16b, v5.16b
+   b8bdc:	str	q17, [sp, #480]
+   b8be0:	mov	v17.16b, v28.16b
+   b8be4:	sli	v19.16b, v20.16b, #4
+   b8be8:	and	v20.16b, v29.16b, v5.16b
+   b8bec:	sdot	v17.4s, v11.16b, v8.16b
+   b8bf0:	ushr	v11.16b, v1.16b, #4
+   b8bf4:	str	q11, [sp, #544]
+   b8bf8:	mov	v11.16b, v28.16b
+   b8bfc:	str	q17, [sp, #336]
+   b8c00:	sdot	v11.4s, v10.16b, v8.16b
+   b8c04:	mov	v10.16b, v28.16b
+   b8c08:	sdot	v10.4s, v9.16b, v8.16b
+   b8c0c:	ushr	v9.16b, v3.16b, #4
+   b8c10:	str	q11, [sp, #368]
+   b8c14:	ushr	v11.16b, v2.16b, #4
+   b8c18:	str	q10, [sp, #400]
+   b8c1c:	ld1	{v0.16b-v3.16b}, [x23]
+   b8c20:	st1	{v0.16b-v3.16b}, [x11]
+   b8c24:	ldur	d2, [x17, #-120]
+   b8c28:	mov	v1.16b, v28.16b
+   b8c2c:	and	v3.16b, v29.16b, v6.16b
+   b8c30:	str	q20, [sp, #624]
+   b8c34:	ldr	q0, [sp, #560]
+   b8c38:	ldr	q18, [sp, #592]
+   b8c3c:	sdot	v1.4s, v21.16b, v8.16b
+   b8c40:	mov	v21.16b, v19.16b
+   b8c44:	dup	v8.2d, v2.d[0]
+   b8c48:	str	q3, [sp, #720]
+   b8c4c:	ldp	q17, q2, [sp, #496]
+   b8c50:	str	q12, [sp, #512]
+   b8c54:	sli	v14.16b, v0.16b, #4
+   b8c58:	ldr	q0, [sp, #144]
+   b8c5c:	sdot	v1.4s, v24.16b, v8.16b
+   b8c60:	mov	v24.16b, v28.16b
+   b8c64:	orr	v31.16b, v31.16b, v18.16b
+   b8c68:	ldr	q3, [sp, #400]
+   b8c6c:	mov	v23.16b, v14.16b
+   b8c70:	orr	v14.16b, v27.16b, v30.16b
+   b8c74:	ldr	q5, [sp, #528]
+   b8c78:	str	q1, [sp, #400]
+   b8c7c:	ushr	v27.16b, v0.16b, #4
+   b8c80:	and	v13.16b, v25.16b, v0.16b
+   b8c84:	ldr	q0, [sp, #160]
+   b8c88:	sli	v17.16b, v2.16b, #4
+   b8c8c:	ldur	d2, [x17, #-64]
+   b8c90:	sdot	v3.4s, v23.16b, v8.16b
+   b8c94:	ldr	q1, [sp, #448]
+   b8c98:	ushr	v18.16b, v0.16b, #4
+   b8c9c:	and	v12.16b, v25.16b, v0.16b
+   b8ca0:	ldr	q0, [sp, #176]
+   b8ca4:	dup	v10.2d, v2.d[0]
+   b8ca8:	and	v2.16b, v15.16b, v4.16b
+   b8cac:	and	v4.16b, v29.16b, v7.16b
+   b8cb0:	ldur	d30, [x1, #-64]
+   b8cb4:	str	q18, [sp, #672]
+   b8cb8:	and	v18.16b, v15.16b, v6.16b
+   b8cbc:	sli	v12.16b, v16.16b, #4
+   b8cc0:	str	q2, [sp, #432]
+   b8cc4:	sdot	v24.4s, v22.16b, v10.16b
+   b8cc8:	mov	v22.16b, v28.16b
+   b8ccc:	and	v19.16b, v25.16b, v0.16b
+   b8cd0:	ldur	d0, [x1, #-48]
+   b8cd4:	str	q4, [sp, #768]
+   b8cd8:	ldr	q6, [sp, #368]
+   b8cdc:	sxtl	v30.8h, v30.8b
+   b8ce0:	sdot	v22.4s, v26.16b, v10.16b
+   b8ce4:	sli	v19.16b, v18.16b, #4
+   b8ce8:	str	d0, [sp, #848]
+   b8cec:	ldr	q0, [sp, #176]
+   b8cf0:	sdot	v6.4s, v17.16b, v8.16b
+   b8cf4:	ldr	q17, [sp, #480]
+   b8cf8:	ushr	v2.16b, v0.16b, #4
+   b8cfc:	ldr	q0, [sp, #192]
+   b8d00:	orr	v4.16b, v1.16b, v17.16b
+   b8d04:	mov	v1.16b, v28.16b
+   b8d08:	str	q2, [sp, #736]
+   b8d0c:	mov	v2.16b, v28.16b
+   b8d10:	and	v20.16b, v25.16b, v0.16b
+   b8d14:	ushr	v0.16b, v0.16b, #4
+   b8d18:	sdot	v1.4s, v14.16b, v10.16b
+   b8d1c:	sdot	v2.4s, v31.16b, v10.16b
+   b8d20:	ldur	d10, [x17, #-56]
+   b8d24:	str	q0, [sp, #784]
+   b8d28:	and	v0.16b, v15.16b, v7.16b
+   b8d2c:	ldr	q7, [sp, #336]
+   b8d30:	str	q1, [sp, #144]
+   b8d34:	sli	v20.16b, v0.16b, #4
+   b8d38:	sdot	v7.4s, v21.16b, v8.16b
+   b8d3c:	ldr	q8, [sp, #544]
+   b8d40:	mov	v21.16b, v2.16b
+   b8d44:	dup	v2.2d, v10.d[0]
+   b8d48:	sdot	v24.4s, v4.16b, v2.16b
+   b8d4c:	orr	v14.16b, v5.16b, v8.16b
+   b8d50:	ldr	q5, [sp, #576]
+   b8d54:	ldp	q10, q26, [sp, #208]
+   b8d58:	str	q24, [sp, #336]
+   b8d5c:	ldr	q23, [sp, #208]
+   b8d60:	sdot	v22.4s, v14.16b, v2.16b
+   b8d64:	ldp	q31, q8, [sp, #240]
+   b8d68:	orr	v11.16b, v5.16b, v11.16b
+   b8d6c:	ldur	d16, [x17, #-112]
+   b8d70:	str	q22, [sp, #368]
+   b8d74:	and	v1.16b, v29.16b, v23.16b
+   b8d78:	ldr	q4, [sp, #144]
+   b8d7c:	and	v10.16b, v15.16b, v10.16b
+   b8d80:	and	v26.16b, v29.16b, v26.16b
+   b8d84:	ldr	q5, [sp, #608]
+   b8d88:	str	q1, [sp, #640]
+   b8d8c:	str	q10, [sp, #448]
+   b8d90:	and	v8.16b, v15.16b, v8.16b
+   b8d94:	ldp	q1, q10, [sp, #240]
+   b8d98:	sdot	v4.4s, v11.16b, v2.16b
+   b8d9c:	mov	v11.16b, v21.16b
+   b8da0:	str	q26, [sp, #704]
+   b8da4:	ldr	q17, [sp, #224]
+   b8da8:	orr	v9.16b, v5.16b, v9.16b
+   b8dac:	and	v5.16b, v15.16b, v31.16b
+   b8db0:	ldur	d31, [x1, #-16]
+   b8db4:	stp	q8, q4, [sp, #544]
+   b8db8:	ldr	q8, [sp, #432]
+   b8dbc:	sdot	v11.4s, v9.16b, v2.16b
+   b8dc0:	and	v17.16b, v15.16b, v17.16b
+   b8dc4:	and	v1.16b, v29.16b, v1.16b
+   b8dc8:	ldursh	w11, [x30, #-16]
+   b8dcc:	and	v10.16b, v29.16b, v10.16b
+   b8dd0:	str	d31, [sp, #856]
+   b8dd4:	mov	d31, v6.d[1]
+   b8dd8:	str	q11, [sp, #576]
+   b8ddc:	str	q17, [sp, #480]
+   b8de0:	str	q1, [sp, #752]
+   b8de4:	dup	v1.2d, v16.d[0]
+   b8de8:	sli	v13.16b, v8.16b, #4
+   b8dec:	ldr	q16, [sp, #272]
+   b8df0:	str	q10, [sp, #800]
+   b8df4:	mov	d10, v3.d[1]
+   b8df8:	ldur	d26, [x17, #-48]
+   b8dfc:	ldr	q8, [sp, #320]
+   b8e00:	addp	v10.2s, v3.2s, v10.2s
+   b8e04:	and	v18.16b, v25.16b, v16.16b
+   b8e08:	ldr	q16, [sp, #288]
+   b8e0c:	dup	v11.2d, v26.d[0]
+   b8e10:	and	v0.16b, v25.16b, v8.16b
+   b8e14:	mov	d8, v7.d[1]
+   b8e18:	and	v17.16b, v25.16b, v16.16b
+   b8e1c:	ldr	q16, [sp, #304]
+   b8e20:	str	w11, [sp, #496]
+   b8e24:	add	x11, sp, #0x110
+   b8e28:	addp	v8.2s, v7.2s, v8.2s
+   b8e2c:	addp	v7.2s, v6.2s, v31.2s
+   b8e30:	ldur	d6, [x1, #-32]
+   b8e34:	ld1	{v21.16b-v24.16b}, [x11]
+   b8e38:	ldursh	w11, [x30, #-8]
+   b8e3c:	and	v16.16b, v25.16b, v16.16b
+   b8e40:	sxtl	v31.8h, v6.8b
+   b8e44:	sli	v16.16b, v5.16b, #4
+   b8e48:	ldr	q5, [sp, #784]
+   b8e4c:	str	w11, [sp, #528]
+   b8e50:	ldursh	w11, [x30, #-14]
+   b8e54:	ushr	v9.16b, v21.16b, #4
+   b8e58:	ushr	v14.16b, v22.16b, #4
+   b8e5c:	str	w11, [sp, #592]
+   b8e60:	str	q9, [sp, #656]
+   b8e64:	mov	v9.16b, v28.16b
+   b8e68:	ldursh	w11, [x30, #-6]
+   b8e6c:	sdot	v9.4s, v13.16b, v1.16b
+   b8e70:	mov	v13.16b, v28.16b
+   b8e74:	str	w11, [sp, #608]
+   b8e78:	ldursh	w11, [x30, #-12]
+   b8e7c:	mov	v2.16b, v9.16b
+   b8e80:	mov	v9.16b, v28.16b
+   b8e84:	sdot	v13.4s, v20.16b, v1.16b
+   b8e88:	ushr	v20.16b, v23.16b, #4
+   b8e8c:	sdot	v9.4s, v12.16b, v1.16b
+   b8e90:	mov	v12.16b, v28.16b
+   b8e94:	sdot	v12.4s, v19.16b, v1.16b
+   b8e98:	mov	v1.16b, v13.16b
+   b8e9c:	ldur	d13, [x17, #-104]
+   b8ea0:	str	q9, [sp, #208]
+   b8ea4:	ldr	q19, [sp, #624]
+   b8ea8:	str	q12, [sp, #272]
+   b8eac:	ushr	v12.16b, v24.16b, #4
+   b8eb0:	dup	v4.2d, v13.d[0]
+   b8eb4:	ldr	q13, [sp, #512]
+   b8eb8:	orr	v13.16b, v13.16b, v27.16b
+   b8ebc:	ldr	q27, [sp, #448]
+   b8ec0:	sli	v18.16b, v27.16b, #4
+   b8ec4:	mov	v9.16b, v18.16b
+   b8ec8:	ldr	q18, [sp, #672]
+   b8ecc:	orr	v27.16b, v19.16b, v18.16b
+   b8ed0:	ldp	q19, q18, [sp, #720]
+   b8ed4:	str	q27, [sp, #688]
+   b8ed8:	ldr	q27, [sp, #480]
+   b8edc:	str	w11, [sp, #480]
+   b8ee0:	ldursh	w11, [x30, #-4]
+   b8ee4:	orr	v18.16b, v19.16b, v18.16b
+   b8ee8:	ldr	q19, [sp, #768]
+   b8eec:	sli	v17.16b, v27.16b, #4
+   b8ef0:	str	w11, [sp, #720]
+   b8ef4:	add	x11, sp, #0x90
+   b8ef8:	orr	v19.16b, v19.16b, v5.16b
+   b8efc:	ldr	q5, [sp, #544]
+   b8f00:	str	d7, [sp, #544]
+   b8f04:	str	q19, [sp, #736]
+   b8f08:	sli	v0.16b, v5.16b, #4
+   b8f0c:	mov	v5.16b, v0.16b
+   b8f10:	mov	d0, v30.d[1]
+   b8f14:	str	d0, [sp, #512]
+   b8f18:	sdot	v1.4s, v5.16b, v4.16b
+   b8f1c:	ld1	{v21.16b-v24.16b}, [x24]
+   b8f20:	ldr	q0, [sp, #336]
+   b8f24:	st1	{v21.16b-v24.16b}, [x11]
+   b8f28:	mov	d27, v0.d[1]
+   b8f2c:	ldr	q0, [sp, #400]
+   b8f30:	add	x11, sp, #0xd0
+   b8f34:	ldr	q3, [sp, #272]
+   b8f38:	ldr	q21, [sp, #688]
+   b8f3c:	mov	d19, v0.d[1]
+   b8f40:	ldr	q0, [sp, #368]
+   b8f44:	sdot	v3.4s, v16.16b, v4.16b
+   b8f48:	ldr	q16, [sp, #656]
+   b8f4c:	ldr	q24, [sp, #560]
+   b8f50:	mov	d26, v0.d[1]
+   b8f54:	mov	v0.16b, v2.16b
+   b8f58:	str	q3, [sp, #672]
+   b8f5c:	sdot	v0.4s, v9.16b, v4.16b
+   b8f60:	ldr	q9, [sp, #208]
+   b8f64:	mov	d23, v24.d[1]
+   b8f68:	str	q0, [sp, #624]
+   b8f6c:	ldr	q0, [sp, #640]
+   b8f70:	sdot	v9.4s, v17.16b, v4.16b
+   b8f74:	ldur	d17, [x17, #-40]
+   b8f78:	stp	q9, q1, [sp, #432]
+   b8f7c:	dup	v9.2d, v17.d[0]
+   b8f80:	mov	v17.16b, v28.16b
+   b8f84:	ld1	{v4.16b-v7.16b}, [x19]
+   b8f88:	add	x19, x19, #0x100
+   b8f8c:	orr	v16.16b, v0.16b, v16.16b
+   b8f90:	ldr	d0, [sp, #400]
+   b8f94:	sdot	v17.4s, v13.16b, v11.16b
+   b8f98:	mov	v13.16b, v28.16b
+   b8f9c:	sdot	v13.4s, v21.16b, v11.16b
+   b8fa0:	mov	v21.16b, v28.16b
+   b8fa4:	addp	v19.2s, v0.2s, v19.2s
+   b8fa8:	sdot	v21.4s, v18.16b, v11.16b
+   b8fac:	ushr	v18.16b, v4.16b, #2
+   b8fb0:	stp	q17, q13, [sp, #640]
+   b8fb4:	ushr	v17.16b, v5.16b, #2
+   b8fb8:	str	q21, [sp, #688]
+   b8fbc:	ld1	{v0.16b-v3.16b}, [x16]
+   b8fc0:	str	d23, [sp, #400]
+   b8fc4:	mov	v23.16b, v28.16b
+   b8fc8:	st1	{v0.16b-v3.16b}, [x11]
+   b8fcc:	ldr	q3, [sp, #736]
+   b8fd0:	add	x11, sp, #0x90
+   b8fd4:	sdot	v23.4s, v3.16b, v11.16b
+   b8fd8:	ld1	{v0.16b-v3.16b}, [x11]
+   b8fdc:	str	q23, [sp, #560]
+   b8fe0:	mov	v11.16b, v0.16b
+   b8fe4:	and	v3.16b, v25.16b, v1.16b
+   b8fe8:	ldr	q1, [sp, #176]
+   b8fec:	and	v23.16b, v25.16b, v11.16b
+   b8ff0:	ldr	q11, [sp, #704]
+   b8ff4:	str	q3, [sp, #736]
+   b8ff8:	and	v21.16b, v25.16b, v1.16b
+   b8ffc:	ld1	{v0.16b-v3.16b}, [x7]
+   b9000:	add	x7, sp, #0x110
+   b9004:	orr	v14.16b, v11.16b, v14.16b
+   b9008:	ldr	q11, [sp, #752]
+   b900c:	st1	{v0.16b-v3.16b}, [x7]
+   b9010:	add	x7, sp, #0x220
+   b9014:	orr	v13.16b, v11.16b, v20.16b
+   b9018:	ldr	q20, [sp, #800]
+   b901c:	ushr	v11.16b, v6.16b, #2
+   b9020:	orr	v12.16b, v20.16b, v12.16b
+   b9024:	mov	v20.8b, v8.8b
+   b9028:	ld1	{v20.d}[1], [x7]
+   b902c:	add	x7, sp, #0x2f0
+   b9030:	str	q20, [sp, #544]
+   b9034:	ldr	d0, [sp, #336]
+   b9038:	stp	d10, d19, [x7]
+   b903c:	ushr	v10.16b, v7.16b, #2
+   b9040:	ld1	{v4.16b-v7.16b}, [x15]
+   b9044:	add	x7, sp, #0xd0
+   b9048:	sxtl	v19.4s, v30.4h
+   b904c:	addp	v27.2s, v0.2s, v27.2s
+   b9050:	ldr	d0, [sp, #368]
+   b9054:	ldr	q1, [sp, #192]
+   b9058:	ldur	d8, [x17, #-96]
+   b905c:	addp	v22.2s, v0.2s, v26.2s
+   b9060:	mov	v26.8b, v24.8b
+   b9064:	ldr	d24, [sp, #400]
+   b9068:	and	v20.16b, v25.16b, v1.16b
+   b906c:	ld1	{v0.16b-v3.16b}, [x7]
+   b9070:	dup	v8.2d, v8.d[0]
+   b9074:	str	d22, [sp, #368]
+   b9078:	addp	v24.2s, v26.2s, v24.2s
+   b907c:	ldr	q26, [sp, #640]
+   b9080:	ldur	x7, [x17, #-80]
+   b9084:	str	d24, [sp, #400]
+   b9088:	sdot	v26.4s, v16.16b, v9.16b
+   b908c:	and	v16.16b, v18.16b, v15.16b
+   b9090:	str	x7, [sp, #768]
+   b9094:	add	x7, sp, #0xd0
+   b9098:	ushr	v24.16b, v0.16b, #2
+   b909c:	str	q26, [sp, #640]
+   b90a0:	and	v26.16b, v18.16b, v29.16b
+   b90a4:	sli	v23.16b, v16.16b, #4
+   b90a8:	ldur	d18, [x1, #-56]
+   b90ac:	ushr	v16.16b, v2.16b, #2
+   b90b0:	ldr	q2, [sp, #576]
+   b90b4:	str	q26, [sp, #784]
+   b90b8:	sxtl	v18.8h, v18.8b
+   b90bc:	str	q18, [sp, #336]
+   b90c0:	ldr	q18, [sp, #656]
+   b90c4:	sdot	v18.4s, v14.16b, v9.16b
+   b90c8:	ldr	q14, [sp, #688]
+   b90cc:	str	q18, [sp, #656]
+   b90d0:	and	v18.16b, v11.16b, v15.16b
+   b90d4:	and	v11.16b, v11.16b, v29.16b
+   b90d8:	sdot	v14.4s, v13.16b, v9.16b
+   b90dc:	ushr	v13.16b, v1.16b, #2
+   b90e0:	ldr	q1, [sp, #384]
+   b90e4:	sli	v21.16b, v18.16b, #4
+   b90e8:	str	q14, [sp, #688]
+   b90ec:	ldr	q14, [sp, #560]
+   b90f0:	mov	v26.16b, v21.16b
+   b90f4:	and	v21.16b, v24.16b, v15.16b
+   b90f8:	and	v24.16b, v24.16b, v29.16b
+   b90fc:	sdot	v14.4s, v12.16b, v9.16b
+   b9100:	and	v9.16b, v17.16b, v15.16b
+   b9104:	and	v17.16b, v17.16b, v29.16b
+   b9108:	mov	v12.16b, v3.16b
+   b910c:	ldr	q3, [sp, #736]
+   b9110:	str	q14, [sp, #704]
+   b9114:	str	q17, [sp, #800]
+   b9118:	and	v17.16b, v10.16b, v15.16b
+   b911c:	ushr	v14.16b, v12.16b, #2
+   b9120:	mov	d12, v2.d[1]
+   b9124:	and	v10.16b, v10.16b, v29.16b
+   b9128:	sli	v3.16b, v9.16b, #4
+   b912c:	ldur	d9, [x17, #-88]
+   b9130:	sli	v20.16b, v17.16b, #4
+   b9134:	ldr	q17, [sp, #544]
+   b9138:	addp	v2.2s, v2.2s, v12.2s
+   b913c:	str	q3, [sp, #736]
+   b9140:	dup	v9.2d, v9.d[0]
+   b9144:	mla	v1.4s, v17.4s, v19.4s
+   b9148:	str	q1, [sp, #560]
+   b914c:	ldr	q1, [sp, #144]
+   b9150:	str	d2, [sp, #544]
+   b9154:	ldr	s12, [sp, #496]
+   b9158:	ushr	v22.16b, v1.16b, #4
+   b915c:	ldr	q1, [sp, #160]
+   b9160:	ushr	v19.16b, v1.16b, #4
+   b9164:	ld1	{v0.16b-v3.16b}, [x14]
+   b9168:	st1	{v0.16b-v3.16b}, [x7]
+   b916c:	ldr	q2, [sp, #464]
+   b9170:	smlal	v2.4s, v30.4h, v12.h[0]
+   b9174:	ldr	d30, [sp, #512]
+   b9178:	str	q2, [sp, #384]
+   b917c:	ld1	{v0.16b-v3.16b}, [x11]
+   b9180:	mov	h0, v12.h[0]
+   b9184:	sxtl	v12.4s, v30.4h
+   b9188:	ushr	v17.16b, v3.16b, #4
+   b918c:	ldr	q3, [sp, #416]
+   b9190:	ushr	v18.16b, v2.16b, #4
+   b9194:	orr	v10.16b, v10.16b, v17.16b
+   b9198:	ldur	d17, [x1, #-24]
+   b919c:	orr	v18.16b, v11.16b, v18.16b
+   b91a0:	smlal	v3.4s, v30.4h, v0.h[0]
+   b91a4:	mov	v30.16b, v28.16b
+   b91a8:	sdot	v30.4s, v23.16b, v8.16b
+   b91ac:	mov	v23.16b, v28.16b
+   b91b0:	str	q3, [sp, #416]
+   b91b4:	ld1	{v0.16b-v3.16b}, [x6]
+   b91b8:	add	x6, sp, #0x170
+   b91bc:	str	q30, [sp, #464]
+   b91c0:	ldr	q30, [sp, #736]
+   b91c4:	str	q10, [sp, #880]
+   b91c8:	and	v10.16b, v16.16b, v15.16b
+   b91cc:	and	v16.16b, v16.16b, v29.16b
+   b91d0:	ld1	{v27.d}[1], [x6]
+   b91d4:	add	x6, sp, #0x110
+   b91d8:	st1	{v0.16b-v3.16b}, [x11]
+   b91dc:	sdot	v23.4s, v30.16b, v8.16b
+   b91e0:	str	q16, [sp, #864]
+   b91e4:	and	v30.16b, v13.16b, v29.16b
+   b91e8:	ld1	{v0.16b-v3.16b}, [x6]
+   b91ec:	add	x6, sp, #0x220
+   b91f0:	str	q23, [sp, #496]
+   b91f4:	mov	v23.16b, v28.16b
+   b91f8:	ldr	d16, [sp, #400]
+   b91fc:	sdot	v23.4s, v26.16b, v8.16b
+   b9200:	mov	v26.16b, v28.16b
+   b9204:	ld1	{v16.d}[1], [x6]
+   b9208:	sdot	v26.4s, v20.16b, v8.16b
+   b920c:	str	q23, [sp, #576]
+   b9210:	and	v11.16b, v25.16b, v3.16b
+   b9214:	ldr	q8, [sp, #352]
+   b9218:	sxtl	v23.4s, v31.4h
+   b921c:	ldr	q20, [sp, #752]
+   b9220:	str	q16, [sp, #816]
+   b9224:	sxtl	v16.8h, v17.8b
+   b9228:	mla	v8.4s, v20.4s, v12.4s
+   b922c:	and	v20.16b, v25.16b, v0.16b
+   b9230:	ldr	q12, [sp, #784]
+   b9234:	sli	v20.16b, v21.16b, #4
+   b9238:	ldr	q21, [sp, #800]
+   b923c:	orr	v12.16b, v12.16b, v22.16b
+   b9240:	str	q8, [sp, #512]
+   b9244:	ldur	d8, [x17, #-32]
+   b9248:	orr	v19.16b, v21.16b, v19.16b
+   b924c:	str	q12, [sp, #752]
+   b9250:	and	v12.16b, v13.16b, v15.16b
+   b9254:	and	v13.16b, v25.16b, v1.16b
+   b9258:	and	v21.16b, v14.16b, v29.16b
+   b925c:	dup	v8.2d, v8.d[0]
+   b9260:	str	q19, [sp, #832]
+   b9264:	and	v19.16b, v25.16b, v2.16b
+   b9268:	str	q16, [sp, #352]
+   b926c:	sli	v13.16b, v12.16b, #4
+   b9270:	and	v12.16b, v14.16b, v15.16b
+   b9274:	ldr	q17, [sp, #464]
+   b9278:	mov	d14, v31.d[1]
+   b927c:	ldr	q22, [sp, #624]
+   b9280:	sli	v19.16b, v10.16b, #4
+   b9284:	sli	v11.16b, v12.16b, #4
+   b9288:	ldr	q10, [sp, #432]
+   b928c:	sdot	v17.4s, v20.16b, v9.16b
+   b9290:	ldr	q20, [sp, #496]
+   b9294:	mov	d16, v22.d[1]
+   b9298:	ldur	x6, [x17, #-72]
+   b929c:	mov	d12, v10.d[1]
+   b92a0:	ushr	v10.16b, v4.16b, #2
+   b92a4:	ldr	q4, [sp, #560]
+   b92a8:	str	q17, [sp, #736]
+   b92ac:	ushr	v17.16b, v5.16b, #2
+   b92b0:	sdot	v20.4s, v13.16b, v9.16b
+   b92b4:	ldr	q13, [sp, #576]
+   b92b8:	str	x6, [sp, #800]
+   b92bc:	ldur	x6, [x17, #-16]
+   b92c0:	str	q20, [sp, #368]
+   b92c4:	mla	v4.4s, v27.4s, v23.4s
+   b92c8:	addp	v20.2s, v22.2s, v16.2s
+   b92cc:	ldr	d22, [sp, #432]
+   b92d0:	sdot	v13.4s, v19.16b, v9.16b
+   b92d4:	ldr	q19, [sp, #672]
+   b92d8:	str	x6, [sp, #784]
+   b92dc:	add	x6, sp, #0x110
+   b92e0:	ldur	d27, [x17, #-24]
+   b92e4:	str	q13, [sp, #400]
+   b92e8:	addp	v22.2s, v22.2s, v12.2s
+   b92ec:	ldr	q12, [sp, #448]
+   b92f0:	str	q4, [sp, #496]
+   b92f4:	mov	d13, v19.d[1]
+   b92f8:	ldr	s4, [sp, #528]
+   b92fc:	str	d22, [sp, #432]
+   b9300:	mov	v22.16b, v26.16b
+   b9304:	ldr	q5, [sp, #336]
+   b9308:	mov	d16, v12.d[1]
+   b930c:	ushr	v12.16b, v6.16b, #2
+   b9310:	ushr	v6.16b, v7.16b, #2
+   b9314:	mov	v7.8b, v19.8b
+   b9318:	sdot	v22.4s, v11.16b, v9.16b
+   b931c:	ushr	v9.16b, v0.16b, #4
+   b9320:	ushr	v11.16b, v1.16b, #4
+   b9324:	and	v19.16b, v10.16b, v15.16b
+   b9328:	and	v10.16b, v10.16b, v29.16b
+   b932c:	mov	d5, v5.d[1]
+   b9330:	str	q22, [sp, #672]
+   b9334:	addp	v22.2s, v7.2s, v13.2s
+   b9338:	ushr	v13.16b, v2.16b, #4
+   b933c:	ldr	d7, [sp, #448]
+   b9340:	orr	v26.16b, v24.16b, v9.16b
+   b9344:	addp	v7.2s, v7.2s, v16.2s
+   b9348:	ushr	v16.16b, v3.16b, #4
+   b934c:	str	d7, [sp, #544]
+   b9350:	sxtl	v7.4s, v14.4h
+   b9354:	ld1	{v0.16b-v3.16b}, [x25]
+   b9358:	st1	{v0.16b-v3.16b}, [x6]
+   b935c:	ldr	q2, [sp, #384]
+   b9360:	mov	h0, v4.h[0]
+   b9364:	add	x6, sp, #0xd0
+   b9368:	dup	v4.2d, v27.d[0]
+   b936c:	mov	v27.16b, v28.16b
+   b9370:	ldr	q3, [sp, #416]
+   b9374:	ldr	q1, [sp, #144]
+   b9378:	smlal	v2.4s, v31.4h, v0.h[0]
+   b937c:	mov	v31.16b, v28.16b
+   b9380:	smlal	v3.4s, v14.4h, v0.h[0]
+   b9384:	and	v14.16b, v25.16b, v1.16b
+   b9388:	sdot	v31.4s, v18.16b, v8.16b
+   b938c:	mov	v18.16b, v28.16b
+   b9390:	stp	q2, q3, [sp, #448]
+   b9394:	ld1	{v0.16b-v3.16b}, [x6]
+   b9398:	sli	v14.16b, v19.16b, #4
+   b939c:	ldr	q23, [sp, #752]
+   b93a0:	str	q31, [sp, #416]
+   b93a4:	orr	v31.16b, v21.16b, v16.16b
+   b93a8:	ldr	q24, [sp, #864]
+   b93ac:	ldur	d21, [x1, #-40]
+   b93b0:	sdot	v27.4s, v23.16b, v8.16b
+   b93b4:	ldr	q23, [sp, #832]
+   b93b8:	str	q14, [sp, #832]
+   b93bc:	ushr	v9.16b, v0.16b, #2
+   b93c0:	ldur	x6, [x17, #-8]
+   b93c4:	ushr	v16.16b, v2.16b, #2
+   b93c8:	str	q27, [sp, #208]
+   b93cc:	orr	v27.16b, v30.16b, v11.16b
+   b93d0:	mov	v30.16b, v28.16b
+   b93d4:	ushr	v11.16b, v1.16b, #2
+   b93d8:	str	d21, [sp, #864]
+   b93dc:	and	v21.16b, v6.16b, v15.16b
+   b93e0:	ldr	d19, [sp, #768]
+   b93e4:	and	v6.16b, v6.16b, v29.16b
+   b93e8:	sdot	v30.4s, v23.16b, v8.16b
+   b93ec:	ldr	q23, [sp, #880]
+   b93f0:	str	q10, [sp, #880]
+   b93f4:	and	v10.16b, v17.16b, v29.16b
+   b93f8:	dup	v14.2d, v19.d[0]
+   b93fc:	str	q30, [sp, #384]
+   b9400:	orr	v30.16b, v24.16b, v13.16b
+   b9404:	and	v13.16b, v17.16b, v15.16b
+   b9408:	ldr	q24, [sp, #816]
+   b940c:	sdot	v18.4s, v23.16b, v8.16b
+   b9410:	str	x6, [sp, #816]
+   b9414:	add	x6, sp, #0x1b0
+   b9418:	ldr	q23, [sp, #512]
+   b941c:	ldr	q8, [sp, #160]
+   b9420:	str	q18, [sp, #752]
+   b9424:	ld1	{v20.d}[1], [x6]
+   b9428:	add	x6, sp, #0x220
+   b942c:	mla	v23.4s, v24.4s, v7.4s
+   b9430:	ushr	v7.16b, v3.16b, #2
+   b9434:	and	v24.16b, v12.16b, v15.16b
+   b9438:	ld1	{v0.16b-v3.16b}, [x11]
+   b943c:	and	v8.16b, v25.16b, v8.16b
+   b9440:	and	v12.16b, v12.16b, v29.16b
+   b9444:	ld1	{v22.d}[1], [x6]
+   b9448:	add	x6, sp, #0x110
+   b944c:	ldr	d1, [sp, #336]
+   b9450:	sli	v8.16b, v13.16b, #4
+   b9454:	str	q23, [sp, #512]
+   b9458:	ldr	q0, [sp, #656]
+   b945c:	str	q8, [sp, #768]
+   b9460:	and	v18.16b, v25.16b, v3.16b
+   b9464:	and	v23.16b, v25.16b, v2.16b
+   b9468:	sxtl	v1.4s, v1.4h
+   b946c:	mov	d13, v0.d[1]
+   b9470:	sli	v23.16b, v24.16b, #4
+   b9474:	mov	v24.16b, v18.16b
+   b9478:	str	q1, [sp, #624]
+   b947c:	ldr	q1, [sp, #640]
+   b9480:	addp	v13.2s, v0.2s, v13.2s
+   b9484:	sli	v24.16b, v21.16b, #4
+   b9488:	ldp	q2, q21, [sp, #688]
+   b948c:	str	d13, [sp, #544]
+   b9490:	and	v13.16b, v9.16b, v15.16b
+   b9494:	and	v9.16b, v9.16b, v29.16b
+   b9498:	mov	d8, v1.d[1]
+   b949c:	str	q24, [sp, #688]
+   b94a0:	sxtl	v24.4s, v5.4h
+   b94a4:	addp	v8.2s, v1.2s, v8.2s
+   b94a8:	mov	d19, v2.d[1]
+   b94ac:	mov	d18, v21.d[1]
+   b94b0:	str	d8, [sp, #528]
+   b94b4:	addp	v19.2s, v2.2s, v19.2s
+   b94b8:	addp	v21.2s, v21.2s, v18.2s
+   b94bc:	stp	q10, q12, [sp, #896]
+   b94c0:	ld1	{v0.16b-v3.16b}, [x6]
+   b94c4:	str	q6, [sp, #928]
+   b94c8:	and	v18.16b, v11.16b, v15.16b
+   b94cc:	and	v11.16b, v11.16b, v29.16b
+   b94d0:	str	d19, [sp, #560]
+   b94d4:	ldr	q8, [sp, #208]
+   b94d8:	str	d21, [sp, #576]
+   b94dc:	and	v21.16b, v16.16b, v15.16b
+   b94e0:	and	v16.16b, v16.16b, v29.16b
+   b94e4:	ldur	d19, [x1, #-8]
+   b94e8:	ldr	q10, [sp, #384]
+   b94ec:	ldr	q12, [sp, #416]
+   b94f0:	sdot	v8.4s, v26.16b, v4.16b
+   b94f4:	mov	v26.16b, v1.16b
+   b94f8:	str	d19, [sp, #704]
+   b94fc:	and	v17.16b, v25.16b, v0.16b
+   b9500:	ldr	q1, [sp, #496]
+   b9504:	sdot	v10.4s, v27.16b, v4.16b
+   b9508:	str	q8, [sp, #208]
+   b950c:	ldr	q27, [sp, #624]
+   b9510:	and	v19.16b, v25.16b, v26.16b
+   b9514:	sdot	v12.4s, v30.16b, v4.16b
+   b9518:	ldr	q26, [sp, #752]
+   b951c:	mov	v30.16b, v3.16b
+   b9520:	str	q10, [sp, #384]
+   b9524:	ldr	q3, [sp, #464]
+   b9528:	str	q12, [sp, #416]
+   b952c:	sli	v19.16b, v18.16b, #4
+   b9530:	mla	v1.4s, v20.4s, v27.4s
+   b9534:	and	v12.16b, v25.16b, v30.16b
+   b9538:	ldr	q30, [sp, #832]
+   b953c:	mov	v27.16b, v28.16b
+   b9540:	sdot	v26.4s, v31.16b, v4.16b
+   b9544:	ldr	q4, [sp, #352]
+   b9548:	ldr	d6, [sp, #848]
+   b954c:	sdot	v27.4s, v30.16b, v14.16b
+   b9550:	ldr	d30, [sp, #336]
+   b9554:	str	q26, [sp, #432]
+   b9558:	and	v26.16b, v25.16b, v2.16b
+   b955c:	ldr	q2, [sp, #448]
+   b9560:	mov	d10, v4.d[1]
+   b9564:	str	q1, [sp, #496]
+   b9568:	ldr	s4, [sp, #592]
+   b956c:	sxtl	v6.8h, v6.8b
+   b9570:	str	q27, [sp, #640]
+   b9574:	sli	v26.16b, v21.16b, #4
+   b9578:	mov	v21.16b, v28.16b
+   b957c:	ldr	q1, [sp, #144]
+   b9580:	smlal	v3.4s, v5.4h, v4.h[0]
+   b9584:	smlal	v2.4s, v30.4h, v4.h[0]
+   b9588:	ldr	d30, [sp, #800]
+   b958c:	ushr	v8.16b, v1.16b, #4
+   b9590:	str	q3, [sp, #448]
+   b9594:	dup	v4.2d, v30.d[0]
+   b9598:	mov	v30.16b, v17.16b
+   b959c:	str	q2, [sp, #336]
+   b95a0:	ld1	{v0.16b-v3.16b}, [x11]
+   b95a4:	sli	v30.16b, v13.16b, #4
+   b95a8:	ldr	q0, [sp, #736]
+   b95ac:	ldursh	w6, [x30, #-10]
+   b95b0:	str	q30, [sp, #144]
+   b95b4:	mov	v30.16b, v28.16b
+   b95b8:	ldr	q13, [sp, #368]
+   b95bc:	str	q26, [sp, #656]
+   b95c0:	mov	d26, v6.d[1]
+   b95c4:	ldr	q17, [sp, #400]
+   b95c8:	ushr	v5.16b, v2.16b, #4
+   b95cc:	ushr	v2.16b, v3.16b, #4
+   b95d0:	str	w6, [sp, #592]
+   b95d4:	ldr	q31, [sp, #768]
+   b95d8:	ushr	v20.16b, v1.16b, #4
+   b95dc:	mov	d1, v0.d[1]
+   b95e0:	mov	d3, v13.d[1]
+   b95e4:	ldursh	w6, [x30, #-2]
+   b95e8:	mov	d13, v17.d[1]
+   b95ec:	ldr	q17, [sp, #512]
+   b95f0:	addp	v1.2s, v0.2s, v1.2s
+   b95f4:	sdot	v30.4s, v31.16b, v14.16b
+   b95f8:	mov	v31.16b, v28.16b
+   b95fc:	str	w6, [sp, #624]
+   b9600:	add	x6, sp, #0x220
+   b9604:	mla	v17.4s, v22.4s, v24.4s
+   b9608:	ldp	q22, q24, [sp, #672]
+   b960c:	sdot	v31.4s, v23.16b, v14.16b
+   b9610:	ldr	q23, [sp, #880]
+   b9614:	sdot	v30.4s, v19.16b, v4.16b
+   b9618:	orr	v8.16b, v23.16b, v8.16b
+   b961c:	ldr	q23, [sp, #896]
+   b9620:	sdot	v21.4s, v24.16b, v14.16b
+   b9624:	and	v14.16b, v7.16b, v15.16b
+   b9628:	ldr	d24, [sp, #352]
+   b962c:	mov	d18, v22.d[1]
+   b9630:	and	v7.16b, v7.16b, v29.16b
+   b9634:	sli	v12.16b, v14.16b, #4
+   b9638:	ldr	d14, [sp, #528]
+   b963c:	mov	v27.16b, v21.16b
+   b9640:	orr	v20.16b, v23.16b, v20.16b
+   b9644:	addp	v18.2s, v22.2s, v18.2s
+   b9648:	ldr	d23, [sp, #560]
+   b964c:	sxtl	v21.4s, v24.4h
+   b9650:	str	q12, [sp, #672]
+   b9654:	sxtl	v24.4s, v10.4h
+   b9658:	ld1	{v14.d}[1], [x6]
+   b965c:	add	x6, sp, #0x240
+   b9660:	ld1	{v23.d}[1], [x6]
+   b9664:	add	x6, sp, #0x170
+   b9668:	str	q24, [sp, #464]
+   b966c:	ldr	q24, [sp, #304]
+   b9670:	stp	q14, q23, [sp, #544]
+   b9674:	ldr	q14, [sp, #272]
+   b9678:	ldr	q23, [sp, #912]
+   b967c:	ushr	v12.16b, v14.16b, #4
+   b9680:	ldr	d14, [sp, #784]
+   b9684:	orr	v5.16b, v23.16b, v5.16b
+   b9688:	ldr	q23, [sp, #928]
+   b968c:	str	q12, [sp, #688]
+   b9690:	dup	v12.2d, v14.d[0]
+   b9694:	ldr	q14, [sp, #288]
+   b9698:	orr	v2.16b, v23.16b, v2.16b
+   b969c:	ushr	v14.16b, v14.16b, #4
+   b96a0:	str	q14, [sp, #736]
+   b96a4:	ushr	v14.16b, v24.16b, #4
+   b96a8:	ldr	q24, [sp, #320]
+   b96ac:	ldr	d23, [sp, #368]
+   b96b0:	str	d18, [sp, #512]
+   b96b4:	orr	v14.16b, v16.16b, v14.16b
+   b96b8:	sxtl	v16.4s, v6.4h
+   b96bc:	ldr	q0, [sp, #416]
+   b96c0:	ldr	q19, [sp, #336]
+   b96c4:	ushr	v24.16b, v24.16b, #4
+   b96c8:	addp	v23.2s, v23.2s, v3.2s
+   b96cc:	ldr	d3, [sp, #400]
+   b96d0:	ldr	d18, [sp, #856]
+   b96d4:	orr	v24.16b, v7.16b, v24.16b
+   b96d8:	str	d23, [sp, #368]
+   b96dc:	ld1	{v1.d}[1], [x6]
+   b96e0:	add	x6, sp, #0x200
+   b96e4:	addp	v13.2s, v3.2s, v13.2s
+   b96e8:	ldr	q3, [sp, #384]
+   b96ec:	sxtl	v23.8h, v18.8b
+   b96f0:	ldr	q18, [sp, #208]
+   b96f4:	mov	d3, v3.d[1]
+   b96f8:	mov	d18, v18.d[1]
+   b96fc:	str	d3, [sp, #400]
+   b9700:	mov	d3, v0.d[1]
+   b9704:	ldr	q0, [sp, #432]
+   b9708:	mov	d22, v0.d[1]
+   b970c:	ldr	q0, [sp, #640]
+   b9710:	str	d22, [sp, #528]
+   b9714:	ldr	q22, [sp, #144]
+   b9718:	sdot	v0.4s, v22.16b, v4.16b
+   b971c:	ldr	q22, [sp, #656]
+   b9720:	str	q0, [sp, #144]
+   b9724:	ldr	q0, [sp, #688]
+   b9728:	sdot	v31.4s, v22.16b, v4.16b
+   b972c:	ldr	q22, [sp, #672]
+   b9730:	sdot	v27.4s, v22.16b, v4.16b
+   b9734:	orr	v22.16b, v9.16b, v0.16b
+   b9738:	ldr	q0, [sp, #496]
+   b973c:	mov	v9.16b, v28.16b
+   b9740:	ldr	q4, [sp, #544]
+   b9744:	sdot	v9.4s, v8.16b, v12.16b
+   b9748:	mla	v0.4s, v4.4s, v21.4s
+   b974c:	ldr	s4, [sp, #608]
+   b9750:	str	q9, [sp, #496]
+   b9754:	mov	v9.16b, v28.16b
+   b9758:	ldr	d21, [sp, #352]
+   b975c:	mla	v0.4s, v1.4s, v16.4s
+   b9760:	sdot	v9.4s, v20.16b, v12.16b
+   b9764:	ldr	q20, [sp, #448]
+   b9768:	smlal	v19.4s, v21.4h, v4.h[0]
+   b976c:	ldr	d21, [sp, #816]
+   b9770:	smlal	v20.4s, v10.4h, v4.h[0]
+   b9774:	ldr	q10, [sp, #736]
+   b9778:	ldr	q4, [sp, #560]
+   b977c:	dup	v8.2d, v21.d[0]
+   b9780:	mov	v21.16b, v28.16b
+   b9784:	str	q19, [sp, #272]
+   b9788:	mov	d19, v23.d[1]
+   b978c:	orr	v10.16b, v11.16b, v10.16b
+   b9790:	ldr	q11, [sp, #464]
+   b9794:	sdot	v21.4s, v2.16b, v12.16b
+   b9798:	str	q20, [sp, #336]
+   b979c:	str	q10, [sp, #448]
+   b97a0:	sdot	v21.4s, v24.16b, v8.16b
+   b97a4:	mov	d10, v27.d[1]
+   b97a8:	ld1	{v13.d}[1], [x6]
+   b97ac:	add	x6, sp, #0xd0
+   b97b0:	mla	v17.4s, v4.4s, v11.4s
+   b97b4:	mov	v4.16b, v28.16b
+   b97b8:	ldr	q20, [sp, #496]
+   b97bc:	addp	v10.2s, v27.2s, v10.2s
+   b97c0:	ldr	d7, [sp, #208]
+   b97c4:	sdot	v4.4s, v5.16b, v12.16b
+   b97c8:	sxtl	v12.4s, v26.4h
+   b97cc:	ldr	d5, [sp, #400]
+   b97d0:	sdot	v20.4s, v22.16b, v8.16b
+   b97d4:	ldr	q22, [sp, #448]
+   b97d8:	mla	v17.4s, v13.4s, v12.4s
+   b97dc:	sdot	v4.4s, v14.16b, v8.16b
+   b97e0:	addp	v18.2s, v7.2s, v18.2s
+   b97e4:	ldr	d7, [sp, #384]
+   b97e8:	ldr	h14, [sp, #480]
+   b97ec:	mov	d12, v20.d[1]
+   b97f0:	mov	d27, v4.d[1]
+   b97f4:	sdot	v9.4s, v22.16b, v8.16b
+   b97f8:	ldr	q8, [sp, #272]
+   b97fc:	ldr	d11, [sp, #416]
+   b9800:	addp	v7.2s, v7.2s, v5.2s
+   b9804:	addp	v12.2s, v20.2s, v12.2s
+   b9808:	addp	v4.2s, v4.2s, v27.2s
+   b980c:	ldr	d5, [sp, #528]
+   b9810:	mov	d22, v9.d[1]
+   b9814:	smlal	v8.4s, v6.4h, v14.h[0]
+   b9818:	mov	v6.16b, v0.16b
+   b981c:	str	d7, [sp, #208]
+   b9820:	sxtl	v0.4s, v19.4h
+   b9824:	ldr	q16, [sp, #336]
+   b9828:	addp	v3.2s, v11.2s, v3.2s
+   b982c:	sxtl	v14.4s, v23.4h
+   b9830:	ldr	d11, [sp, #432]
+   b9834:	addp	v22.2s, v9.2s, v22.2s
+   b9838:	ld1	{v18.d}[1], [x6]
+   b983c:	add	x6, sp, #0x160
+   b9840:	str	q0, [sp, #208]
+   b9844:	ldr	h0, [sp, #480]
+   b9848:	mov	v12.d[1], v22.d[0]
+   b984c:	ldr	q2, [sp, #144]
+   b9850:	addp	v5.2s, v11.2s, v5.2s
+   b9854:	mov	d11, v30.d[1]
+   b9858:	smlal	v16.4s, v26.4h, v0.h[0]
+   b985c:	ldr	d0, [sp, #144]
+   b9860:	addp	v11.2s, v30.2s, v11.2s
+   b9864:	str	d5, [sp, #352]
+   b9868:	mla	v6.4s, v18.4s, v14.4s
+   b986c:	mov	d26, v21.d[1]
+   b9870:	mov	d5, v2.d[1]
+   b9874:	ldr	d2, [sp, #864]
+   b9878:	ld1	{v3.d}[1], [x6]
+   b987c:	addp	v21.2s, v21.2s, v26.2s
+   b9880:	addp	v5.2s, v0.2s, v5.2s
+   b9884:	ldr	d0, [sp, #704]
+   b9888:	sxtl	v7.8h, v2.8b
+   b988c:	mov	d2, v31.d[1]
+   b9890:	mov	v4.d[1], v21.d[0]
+   b9894:	mov	v5.d[1], v11.d[0]
+   b9898:	sxtl	v13.8h, v0.8b
+   b989c:	ldr	s0, [sp, #720]
+   b98a0:	mov	d24, v7.d[1]
+   b98a4:	addp	v2.2s, v31.2s, v2.2s
+   b98a8:	sxtl	v11.4s, v7.4h
+   b98ac:	mov	d1, v13.d[1]
+   b98b0:	mla	v6.4s, v5.4s, v11.4s
+   b98b4:	mov	v2.d[1], v10.d[0]
+   b98b8:	sxtl	v10.4s, v24.4h
+   b98bc:	smlal	v8.4s, v23.4h, v0.h[0]
+   b98c0:	smlal	v16.4s, v19.4h, v0.h[0]
+   b98c4:	ldr	q0, [sp, #208]
+   b98c8:	mla	v17.4s, v3.4s, v0.4s
+   b98cc:	ldr	s0, [sp, #592]
+   b98d0:	sxtl	v3.4s, v13.4h
+   b98d4:	mla	v6.4s, v12.4s, v3.4s
+   b98d8:	mla	v17.4s, v2.4s, v10.4s
+   b98dc:	sxtl	v2.4s, v1.4h
+   b98e0:	smlal	v16.4s, v24.4h, v0.h[0]
+   b98e4:	smlal	v8.4s, v7.4h, v0.h[0]
+   b98e8:	ldr	s0, [sp, #624]
+   b98ec:	mla	v17.4s, v4.4s, v2.4s
+   b98f0:	str	q6, [sp, #384]
+   b98f4:	smlal	v16.4s, v1.4h, v0.h[0]
+   b98f8:	smlal	v8.4s, v13.4h, v0.h[0]
+   b98fc:	str	q17, [sp, #352]
+   b9900:	str	q16, [sp, #416]
+   b9904:	str	q8, [sp, #464]
+   b9908:	cmp	x12, x1
+   b990c:	b.ne	b8a78 <ggml_gemv_q6_K_8x8_q8_K+0xec>  // b.any
+   b9910:	ldr	q6, [sp, #384]
+   b9914:	shl	v5.4s, v16.4s, #5
+   b9918:	add	w8, w8, #0x1
+   b991c:	add	x20, x20, #0x690
+   b9920:	shl	v3.4s, v8.4s, #5
+   b9924:	add	x21, x21, #0x124
+   b9928:	add	x12, x12, #0x690
+   b992c:	ldp	q4, q0, [sp, #944]
+   b9930:	sub	v5.4s, v17.4s, v5.4s
+   b9934:	ldp	q1, q2, [sp, #976]
+   b9938:	sub	v3.4s, v6.4s, v3.4s
+   b993c:	scvtf	v5.4s, v5.4s
+   b9940:	scvtf	v3.4s, v3.4s
+   b9944:	fmla	v0.4s, v5.4s, v1.4s
+   b9948:	fmla	v4.4s, v3.4s, v2.4s
+   b994c:	cmp	w9, w8
+   b9950:	b.gt	b8a30 <ggml_gemv_q6_K_8x8_q8_K+0xa4>
+   b9954:	mov	v2.16b, v0.16b
+   b9958:	add	w3, w3, #0x1
+   b995c:	add	x2, x2, x10
+   b9960:	stp	q4, q2, [x0]
+   b9964:	add	x0, x0, #0x20
+   b9968:	cmp	w4, w3
+   b996c:	b.gt	b8a0c <ggml_gemv_q6_K_8x8_q8_K+0x80>
+   b9970:	ldp	x29, x30, [sp]
+   b9974:	ldp	x19, x20, [sp, #16]
+   b9978:	ldp	x21, x22, [sp, #32]
+   b997c:	ldp	x23, x24, [sp, #48]
+   b9980:	ldr	x25, [sp, #64]
+   b9984:	ldp	d8, d9, [sp, #80]
+   b9988:	ldp	d10, d11, [sp, #96]
+   b998c:	ldp	d12, d13, [sp, #112]
+   b9990:	ldp	d14, d15, [sp, #128]
+   b9994:	add	sp, sp, #0x3f0
+   b9998:	ret
+   b999c:	mov	v4.16b, v2.16b
+   b99a0:	b	b9958 <ggml_gemv_q6_K_8x8_q8_K+0xfcc>
+   b99a4:	ret
+
+Disassembly of section .fini:

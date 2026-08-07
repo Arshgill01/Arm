@@ -1,0 +1,11 @@
+diff --git a/ggml/src/ggml-cpu/arch/arm/repack.cpp b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+--- a/ggml/src/ggml-cpu/arch/arm/repack.cpp
++++ b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+@@ -782,6 +782,7 @@ void ggml_gemv_q4_K_8x8_q8_K(int                        n,
+             const int16x8_t bsums = vpaddq_s16(vld1q_s16(q8_ptr[b].bsums), vld1q_s16(q8_ptr[b].bsums + 8));
+             int16_t         bsums_arr[8];
+             vst1q_s16(bsums_arr, bsums);
++#pragma GCC unroll 4
+             for (int sb = 0; sb < QK_K / 64; sb++) {
+                 for (int i = 0; i < col_pairs; i++) {
+                     acc_lo[i] = vdupq_n_s32(0);
