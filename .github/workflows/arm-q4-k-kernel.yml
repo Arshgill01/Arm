@@ -2,11 +2,6 @@ name: Arm E23 Q4_K vector-scale kernel
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - codex/arm-native-kernel-speed-pass
-    paths:
-      - .github/workflows/arm-q4-k-kernel.yml
 
 permissions:
   contents: read
