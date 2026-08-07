@@ -1,0 +1,58 @@
+{
+  "cases": {
+    "live": {
+      "exclusive_cpu_cycle_sample_share": {
+        "ggml_compute_forward_flash_attn_ext": 0.0102,
+        "ggml_gemv_q4_K_8x8_q8_K": 0.4816,
+        "ggml_gemv_q5_K_8x8_q8_K": 0.0,
+        "ggml_gemv_q6_K_8x8_q8_K": 0.2912,
+        "ggml_quantize_mat_q8_K_4x8": 0.0025,
+        "quantize_row_q8_K_ref": 0.0025
+      },
+      "perfect_kernel_whole_model_speedup_ceiling": {
+        "ggml_compute_forward_flash_attn_ext": 1.0103051121438675,
+        "ggml_gemv_q4_K_8x8_q8_K": 1.9290123456790125,
+        "ggml_gemv_q5_K_8x8_q8_K": 1.0,
+        "ggml_gemv_q6_K_8x8_q8_K": 1.4108352144469527,
+        "ggml_quantize_mat_q8_K_4x8": 1.0025062656641603,
+        "quantize_row_q8_K_ref": 1.0025062656641603
+      },
+      "real_inference_execution": {
+        "ggml_compute_forward_flash_attn_ext": true,
+        "ggml_gemv_q4_K_8x8_q8_K": true,
+        "ggml_gemv_q5_K_8x8_q8_K": false,
+        "ggml_gemv_q6_K_8x8_q8_K": true,
+        "ggml_quantize_mat_q8_K_4x8": true,
+        "quantize_row_q8_K_ref": true
+      }
+    },
+    "tg128": {
+      "exclusive_cpu_cycle_sample_share": {
+        "ggml_compute_forward_flash_attn_ext": 0.0076,
+        "ggml_gemv_q4_K_8x8_q8_K": 0.5578,
+        "ggml_gemv_q5_K_8x8_q8_K": 0.0,
+        "ggml_gemv_q6_K_8x8_q8_K": 0.33509999999999995,
+        "ggml_quantize_mat_q8_K_4x8": 0.0,
+        "quantize_row_q8_K_ref": 0.0027
+      },
+      "perfect_kernel_whole_model_speedup_ceiling": {
+        "ggml_compute_forward_flash_attn_ext": 1.0076582023377672,
+        "ggml_gemv_q4_K_8x8_q8_K": 2.261420171867933,
+        "ggml_gemv_q5_K_8x8_q8_K": 1.0,
+        "ggml_gemv_q6_K_8x8_q8_K": 1.5039855617386073,
+        "ggml_quantize_mat_q8_K_4x8": 1.0,
+        "quantize_row_q8_K_ref": 1.002707309736288
+      },
+      "real_inference_execution": {
+        "ggml_compute_forward_flash_attn_ext": true,
+        "ggml_gemv_q4_K_8x8_q8_K": true,
+        "ggml_gemv_q5_K_8x8_q8_K": false,
+        "ggml_gemv_q6_K_8x8_q8_K": true,
+        "ggml_quantize_mat_q8_K_4x8": false,
+        "quantize_row_q8_K_ref": true
+      }
+    }
+  },
+  "experiment_id": "E24a",
+  "schema_version": 1
+}

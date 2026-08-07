@@ -1,0 +1,135 @@
+
+/var/tmp/e24a-work/build/bin/libggml-cpu.so:     file format elf64-littleaarch64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .text:
+
+00000000000272a4 <ggml_quantize_mat_q8_K_4x8>:
+   272a4:	d282040d 	mov	x13, #0x1020                	// #4128
+   272a8:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+   272ac:	910003fd 	mov	x29, sp
+   272b0:	cb2d63ff 	sub	sp, sp, x13
+   272b4:	f90203ff 	str	xzr, [sp, #1024]
+   272b8:	90000743 	adrp	x3, 10f000 <quantize_row_q5_0@@Base+0xc81d0>
+   272bc:	f9470863 	ldr	x3, [x3, #3600]
+   272c0:	aa0203e9 	mov	x9, x2
+   272c4:	f100005f 	cmp	x2, #0x0
+   272c8:	aa0003eb 	mov	x11, x0
+   272cc:	9103fc42 	add	x2, x2, #0xff
+   272d0:	9a89b042 	csel	x2, x2, x9, lt	// lt = tstop
+   272d4:	9348fc42 	asr	x2, x2, #8
+   272d8:	f9400060 	ldr	x0, [x3]
+   272dc:	f9080fe0 	str	x0, [sp, #4120]
+   272e0:	d2800000 	mov	x0, #0x0                   	// #0
+   272e4:	7100005f 	cmp	w2, #0x0
+   272e8:	54000a2d 	b.le	2742c <ggml_quantize_mat_q8_K_4x8+0x188>
+   272ec:	aa0103e5 	mov	x5, x1
+   272f0:	52a96800 	mov	w0, #0x4b400000            	// #1262485504
+   272f4:	1e2e1007 	fmov	s7, #1.000000000000000000e+00
+   272f8:	4f000405 	movi	v5.4s, #0x0
+   272fc:	52b85fc1 	mov	w1, #0xc2fe0000            	// #-1023541248
+   27300:	5100044a 	sub	w10, w2, #0x1
+   27304:	1e270004 	fmov	s4, w0
+   27308:	9100054a 	add	x10, x10, #0x1
+   2730c:	910040a5 	add	x5, x5, #0x10
+   27310:	1e270026 	fmov	s6, w1
+   27314:	d378dd4a 	lsl	x10, x10, #8
+   27318:	d37ef529 	lsl	x9, x9, #2
+   2731c:	d280000c 	mov	x12, #0x0                   	// #0
+   27320:	910023e6 	add	x6, sp, #0x8
+   27324:	910063e7 	add	x7, sp, #0x18
+   27328:	d10040a8 	sub	x8, x5, #0x10
+   2732c:	aa0703e2 	mov	x2, x7
+   27330:	aa0b03e1 	mov	x1, x11
+   27334:	d2800023 	mov	x3, #0x1                   	// #1
+   27338:	d10050a4 	sub	x4, x5, #0x14
+   2733c:	0f000403 	movi	v3.2s, #0x0
+   27340:	d2800000 	mov	x0, #0x0                   	// #0
+   27344:	1e204062 	fmov	s2, s3
+   27348:	bc606820 	ldr	s0, [x1, x0]
+   2734c:	1e20c001 	fabs	s1, s0
+   27350:	bc206840 	str	s0, [x2, x0]
+   27354:	1e212050 	fcmpe	s2, s1
+   27358:	54000804 	b.mi	27458 <ggml_quantize_mat_q8_K_4x8+0x1b4>  // b.first
+   2735c:	91001000 	add	x0, x0, #0x4
+   27360:	f110001f 	cmp	x0, #0x400
+   27364:	54ffff21 	b.ne	27348 <ggml_quantize_mat_q8_K_4x8+0xa4>  // b.any
+   27368:	1e202048 	fcmp	s2, #0.0
+   2736c:	540007c0 	b.eq	27464 <ggml_quantize_mat_q8_K_4x8+0x1c0>  // b.none
+   27370:	1e2318c3 	fdiv	s3, s6, s3
+   27374:	8b0308c0 	add	x0, x6, x3, lsl #2
+   27378:	8b090021 	add	x1, x1, x9
+   2737c:	91100042 	add	x2, x2, #0x400
+   27380:	1e2318e0 	fdiv	s0, s7, s3
+   27384:	bc1fc003 	stur	s3, [x0, #-4]
+   27388:	bc237880 	str	s0, [x4, x3, lsl #2]
+   2738c:	91000463 	add	x3, x3, #0x1
+   27390:	f100147f 	cmp	x3, #0x5
+   27394:	54fffd41 	b.ne	2733c <ggml_quantize_mat_q8_K_4x8+0x98>  // b.any
+   27398:	911000a0 	add	x0, x5, #0x400
+   2739c:	d2800001 	mov	x1, #0x0                   	// #0
+   273a0:	ad001405 	stp	q5, q5, [x0]
+   273a4:	ad011405 	stp	q5, q5, [x0, #32]
+   273a8:	ad021405 	stp	q5, q5, [x0, #64]
+   273ac:	ad031405 	stp	q5, q5, [x0, #96]
+   273b0:	d3431022 	ubfx	x2, x1, #3, #2
+   273b4:	12000824 	and	w4, w1, #0x7
+   273b8:	13057c20 	asr	w0, w1, #5
+   273bc:	d378dc43 	lsl	x3, x2, #8
+   273c0:	bc6278c1 	ldr	s1, [x6, x2, lsl #2]
+   273c4:	0b000c80 	add	w0, w4, w0, lsl #3
+   273c8:	8b20c060 	add	x0, x3, w0, sxtw
+   273cc:	13037c23 	asr	w3, w1, #3
+   273d0:	13087c22 	asr	w2, w1, #8
+   273d4:	531e0463 	ubfiz	w3, w3, #2, #2
+   273d8:	53061c24 	ubfx	w4, w1, #6, #2
+   273dc:	bc6078e0 	ldr	s0, [x7, x0, lsl #2]
+   273e0:	0b021062 	add	w2, w3, w2, lsl #4
+   273e4:	0b040042 	add	w2, w2, w4
+   273e8:	8b22c502 	add	x2, x8, w2, sxtw #1
+   273ec:	1f011000 	fmadd	s0, s0, s1, s4
+   273f0:	1e260000 	fmov	w0, s0
+   273f4:	12005800 	and	w0, w0, #0x7fffff
+   273f8:	13001c00 	sxtb	w0, w0
+   273fc:	382168a0 	strb	w0, [x5, x1]
+   27400:	91000421 	add	x1, x1, #0x1
+   27404:	79482043 	ldrh	w3, [x2, #1040]
+   27408:	0b030000 	add	w0, w0, w3
+   2740c:	79082040 	strh	w0, [x2, #1040]
+   27410:	f110003f 	cmp	x1, #0x400
+   27414:	54fffce1 	b.ne	273b0 <ggml_quantize_mat_q8_K_4x8+0x10c>  // b.any
+   27418:	9104018c 	add	x12, x12, #0x100
+   2741c:	911240a5 	add	x5, x5, #0x490
+   27420:	9110016b 	add	x11, x11, #0x400
+   27424:	eb0a019f 	cmp	x12, x10
+   27428:	54fff801 	b.ne	27328 <ggml_quantize_mat_q8_K_4x8+0x84>  // b.any
+   2742c:	90000740 	adrp	x0, 10f000 <quantize_row_q5_0@@Base+0xc81d0>
+   27430:	f9470800 	ldr	x0, [x0, #3600]
+   27434:	f9480fe2 	ldr	x2, [sp, #4120]
+   27438:	f9400001 	ldr	x1, [x0]
+   2743c:	eb010042 	subs	x2, x2, x1
+   27440:	d2800001 	mov	x1, #0x0                   	// #0
+   27444:	54000221 	b.ne	27488 <ggml_quantize_mat_q8_K_4x8+0x1e4>  // b.any
+   27448:	d282040d 	mov	x13, #0x1020                	// #4128
+   2744c:	8b2d63ff 	add	sp, sp, x13
+   27450:	a8c17bfd 	ldp	x29, x30, [sp], #16
+   27454:	d65f03c0 	ret
+   27458:	1e204003 	fmov	s3, s0
+   2745c:	1e204022 	fmov	s2, s1
+   27460:	17ffffbf 	b	2735c <ggml_quantize_mat_q8_K_4x8+0xb8>
+   27464:	8b0308c0 	add	x0, x6, x3, lsl #2
+   27468:	b823789f 	str	wzr, [x4, x3, lsl #2]
+   2746c:	91000463 	add	x3, x3, #0x1
+   27470:	8b090021 	add	x1, x1, x9
+   27474:	91100042 	add	x2, x2, #0x400
+   27478:	b81fc01f 	stur	wzr, [x0, #-4]
+   2747c:	f100147f 	cmp	x3, #0x5
+   27480:	54fff5e1 	b.ne	2733c <ggml_quantize_mat_q8_K_4x8+0x98>  // b.any
+   27484:	17ffffc5 	b	27398 <ggml_quantize_mat_q8_K_4x8+0xf4>
+   27488:	97ffc276 	bl	17e60 <__stack_chk_fail@plt>
+
+Disassembly of section .fini:

@@ -1,0 +1,291 @@
+ Percent |	Source code & Disassembly of libggml-base.so.0.18.0 for cpu_cycles:u (888 samples, percent: local period)
+-------------------------------------------------------------------------------------------------------------------------
+         :
+         :
+         :
+         : 3     Disassembly of section .text:
+         :
+         : 5     000000000006f3f0 <quantize_row_q8_K_ref>:
+         :
+         : 7     //===================================== Q8_K ==============================================
+         :
+         : 9     void quantize_row_q8_K_ref(const float * GGML_RESTRICT x, block_q8_K * GGML_RESTRICT y, int64_t k) {
+         : 10    assert(k % QK_K == 0);
+         : 11    const int64_t nb = k / QK_K;
+    0.00 :   6f3f0:  cmp     x2, #0x0
+    0.00 :   6f3f4:  add     x6, x2, #0xff
+    0.00 :   6f3f8:  csel    x6, x6, x2, lt  // lt = tstop
+         :
+         : 16    for (int i = 0; i < nb; i++) {
+    0.00 :   6f3fc:  cmp     x2, #0xff
+    0.00 :   6f400:  b.le    6f714 <quantize_row_q8_K_ref+0x324>
+    0.00 :   6f404:  mov     x3, x0
+    0.00 :   6f408:  add     x2, x1, #0x4
+    0.00 :   6f40c:  add     x1, x0, #0x400
+         : 22    x += QK_K;
+         : 23    continue;
+         : 24    }
+         : 25    //const float iscale = -128.f/max;
+         : 26    // We need this change for IQ2_XXS, else the AVX implementation becomes very awkward
+         : 27    const float iscale = -127.f/max;
+    0.00 :   6f410:  mov     w0, #0xc2fe0000                 // #-1023541248
+         : 29    void quantize_row_q8_K_ref(const float * GGML_RESTRICT x, block_q8_K * GGML_RESTRICT y, int64_t k) {
+    0.00 :   6f414:  stp     d8, d9, [sp, #-80]!
+    0.00 :   6f418:  asr     x6, x6, #8
+         : 32    for (int i = 0; i < nb; i++) {
+    0.00 :   6f41c:  mov     x5, #0x0                        // #0
+         : 34    return (i & 0x007fffff) - 0x00400000;
+    0.00 :   6f420:  movi    v3.4s, #0x7f, msl #16
+         : 36    const float iscale = -127.f/max;
+    0.00 :   6f424:  str     w0, [sp, #76]
+         : 38    float val = fval + 12582912.f;
+    0.00 :   6f428:  adrp    x0, 95000 <_fini+0x7aa0>
+         : 40    void quantize_row_q8_K_ref(const float * GGML_RESTRICT x, block_q8_K * GGML_RESTRICT y, int64_t k) {
+    0.00 :   6f42c:  stp     d10, d11, [sp, #16]
+         : 42    return (i & 0x007fffff) - 0x00400000;
+    0.00 :   6f430:  mvni    v2.4s, #0x3f, msl #16
+         : 44    void quantize_row_q8_K_ref(const float * GGML_RESTRICT x, block_q8_K * GGML_RESTRICT y, int64_t k) {
+    0.00 :   6f434:  stp     d12, d13, [sp, #32]
+         : 46    for (int j = 0; j < QK_K; ++j) {
+         : 47    int v = nearest_int(iscale*x[j]);
+         : 48    y[i].qs[j] = MIN(127, v);
+    0.00 :   6f438:  movi    v1.4s, #0x7f
+         : 50    void quantize_row_q8_K_ref(const float * GGML_RESTRICT x, block_q8_K * GGML_RESTRICT y, int64_t k) {
+    0.00 :   6f43c:  stp     d14, d15, [sp, #48]
+         : 52    case no work is done at all.  We detect these problems by referring
+         : 53    non-existing functions.  */
+         : 54    __fortify_function void *
+         : 55    __NTH (memset (void *__dest, int __ch, size_t __len))
+         : 56    {
+         : 57    return __builtin___memset_chk (__dest, __ch, __len,
+    0.00 :   6f440:  movi    v18.4s, #0x0
+         : 59    float val = fval + 12582912.f;
+    0.00 :   6f444:  ldr     q4, [x0, #3760]
+         : 61    float amax = 0;
+    0.11 :   6f448:  movi    v6.2s, #0x0
+         : 63    void quantize_row_q8_K_ref(const float * GGML_RESTRICT x, block_q8_K * GGML_RESTRICT y, int64_t k) {
+    0.00 :   6f44c:  mov     x0, x3
+         : 65    float max = 0;
+    0.00 :   6f450:  fmov    s7, s6
+    0.11 :   6f454:  nop
+         : 68    float ax = fabsf(x[j]);
+    7.32 :   6f458:  ldr     s0, [x0]
+    8.90 :   6f45c:  fabs    s5, s0
+         : 71    if (ax > amax) {
+    5.41 :   6f460:  fcmpe   s5, s6
+    4.05 :   6f464:  b.gt    6f6dc <quantize_row_q8_K_ref+0x2ec>
+         : 74    for (int j = 0; j < QK_K; ++j) {
+   32.32 :   6f468:  add     x0, x0, #0x4
+    5.41 :   6f46c:  cmp     x1, x0
+    0.00 :   6f470:  b.ne    6f458 <quantize_row_q8_K_ref+0x68>  // b.any
+         : 78    if (!amax) {
+    0.00 :   6f474:  fcmp    s6, #0.0
+    0.00 :   6f478:  b.eq    6f6e8 <quantize_row_q8_K_ref+0x2f8>  // b.none
+         : 81    const float iscale = -127.f/max;
+    0.34 :   6f47c:  ldr     s0, [sp, #76]
+    0.00 :   6f480:  mov     x0, x3
+    0.00 :   6f484:  mov     x4, x2
+    0.00 :   6f488:  add     x3, x3, #0x400
+    0.00 :   6f48c:  fdiv    s7, s0, s7
+         : 87    for (int j = 0; j < QK_K; ++j) {
+    0.00 :   6f490:  dup     v9.4s, v7.s[0]
+    0.00 :   6f494:  nop
+         : 90    int v = nearest_int(iscale*x[j]);
+    0.34 :   6f498:  ldp     q5, q8, [x0, #16]
+         : 92    float val = fval + 12582912.f;
+    6.31 :   6f49c:  mov     v6.16b, v4.16b
+         : 94    int v = nearest_int(iscale*x[j]);
+    0.56 :   6f4a0:  ldr     q0, [x0, #48]
+    1.13 :   6f4a4:  ldr     q10, [x0], #64
+         : 97    float val = fval + 12582912.f;
+    1.13 :   6f4a8:  fmla    v6.4s, v5.4s, v9.4s
+    0.00 :   6f4ac:  mov     v5.16b, v4.16b
+         : 100   return (i & 0x007fffff) - 0x00400000;
+    0.68 :   6f4b0:  and     v6.16b, v6.16b, v3.16b
+         : 102   float val = fval + 12582912.f;
+    0.00 :   6f4b4:  fmla    v5.4s, v8.4s, v9.4s
+    0.34 :   6f4b8:  mov     v8.16b, v4.16b
+         : 105   return (i & 0x007fffff) - 0x00400000;
+    0.00 :   6f4bc:  add     v6.4s, v6.4s, v2.4s
+    0.11 :   6f4c0:  and     v5.16b, v5.16b, v3.16b
+         : 108   float val = fval + 12582912.f;
+    0.11 :   6f4c4:  fmla    v8.4s, v0.4s, v9.4s
+    0.23 :   6f4c8:  mov     v0.16b, v4.16b
+         : 111   y[i].qs[j] = MIN(127, v);
+    0.56 :   6f4cc:  smin    v6.4s, v6.4s, v1.4s
+         : 113   return (i & 0x007fffff) - 0x00400000;
+    0.23 :   6f4d0:  add     v5.4s, v5.4s, v2.4s
+    0.34 :   6f4d4:  and     v8.16b, v8.16b, v3.16b
+         : 116   float val = fval + 12582912.f;
+    0.11 :   6f4d8:  fmla    v0.4s, v10.4s, v9.4s
+         : 118   y[i].qs[j] = MIN(127, v);
+    0.00 :   6f4dc:  smin    v5.4s, v5.4s, v1.4s
+         : 120   return (i & 0x007fffff) - 0x00400000;
+    0.45 :   6f4e0:  add     v8.4s, v8.4s, v2.4s
+    0.11 :   6f4e4:  and     v0.16b, v0.16b, v3.16b
+         : 123   y[i].qs[j] = MIN(127, v);
+    0.11 :   6f4e8:  smin    v8.4s, v8.4s, v1.4s
+         : 125   return (i & 0x007fffff) - 0x00400000;
+    0.11 :   6f4ec:  add     v0.4s, v0.4s, v2.4s
+         : 127   y[i].qs[j] = MIN(127, v);
+    0.11 :   6f4f0:  uzp1    v5.8h, v5.8h, v8.8h
+    0.11 :   6f4f4:  smin    v0.4s, v0.4s, v1.4s
+    0.23 :   6f4f8:  uzp1    v0.8h, v0.8h, v6.8h
+    0.34 :   6f4fc:  uzp1    v0.16b, v0.16b, v5.16b
+    0.23 :   6f500:  str     q0, [x4], #16
+         : 133   for (int j = 0; j < QK_K; ++j) {
+    5.52 :   6f504:  cmp     x0, x3
+    0.00 :   6f508:  b.ne    6f498 <quantize_row_q8_K_ref+0xa8>  // b.any
+         : 136   }
+         : 137   for (int j = 0; j < QK_K/16; ++j) {
+         : 138   int sum = 0;
+         : 139   for (int ii = 0; ii < 16; ++ii) {
+         : 140   sum += y[i].qs[j*16 + ii];
+    0.00 :   6f50c:  ldp     q6, q20, [x2]
+    1.91 :   6f510:  ldp     q14, q19, [x2, #32]
+    2.25 :   6f514:  ldp     q25, q17, [x2, #64]
+    0.68 :   6f518:  ldp     q0, q13, [x2, #96]
+    0.68 :   6f51c:  ldp     q12, q16, [x2, #128]
+    0.11 :   6f520:  ldp     q11, q15, [x2, #160]
+    0.34 :   6f524:  ldp     q24, q10, [x2, #192]
+    1.46 :   6f528:  ldp     q5, q9, [x2, #224]
+    2.03 :   6f52c:  uzp1    v22.16b, v14.16b, v19.16b
+    0.00 :   6f530:  uzp1    v21.16b, v0.16b, v13.16b
+    0.11 :   6f534:  uzp1    v8.16b, v6.16b, v20.16b
+    0.00 :   6f538:  uzp2    v14.16b, v14.16b, v19.16b
+    0.00 :   6f53c:  uzp1    v28.16b, v25.16b, v17.16b
+    0.00 :   6f540:  uzp2    v0.16b, v0.16b, v13.16b
+    0.00 :   6f544:  uzp1    v26.16b, v24.16b, v10.16b
+    0.00 :   6f548:  uzp1    v13.16b, v12.16b, v16.16b
+    0.00 :   6f54c:  uzp2    v6.16b, v6.16b, v20.16b
+    0.11 :   6f550:  uzp2    v25.16b, v25.16b, v17.16b
+    0.00 :   6f554:  uzp1    v20.16b, v11.16b, v15.16b
+    0.00 :   6f558:  uzp2    v12.16b, v12.16b, v16.16b
+    0.00 :   6f55c:  uzp2    v11.16b, v11.16b, v15.16b
+    0.00 :   6f560:  uzp1    v16.16b, v5.16b, v9.16b
+    0.00 :   6f564:  uzp2    v24.16b, v24.16b, v10.16b
+    0.11 :   6f568:  uzp2    v5.16b, v5.16b, v9.16b
+    0.00 :   6f56c:  uzp1    v19.16b, v28.16b, v21.16b
+    0.00 :   6f570:  uzp1    v10.16b, v8.16b, v22.16b
+    0.11 :   6f574:  uzp1    v17.16b, v13.16b, v20.16b
+    0.00 :   6f578:  uzp1    v27.16b, v24.16b, v5.16b
+    0.00 :   6f57c:  uzp1    v31.16b, v26.16b, v16.16b
+    0.00 :   6f580:  uzp1    v9.16b, v6.16b, v14.16b
+    0.00 :   6f584:  uzp1    v30.16b, v25.16b, v0.16b
+    0.00 :   6f588:  uzp1    v15.16b, v12.16b, v11.16b
+    0.11 :   6f58c:  uzp1    v23.16b, v10.16b, v19.16b
+    0.00 :   6f590:  uzp2    v26.16b, v26.16b, v16.16b
+    0.00 :   6f594:  uzp2    v8.16b, v8.16b, v22.16b
+    0.11 :   6f598:  uzp2    v28.16b, v28.16b, v21.16b
+    0.00 :   6f59c:  uzp1    v22.16b, v17.16b, v31.16b
+    0.00 :   6f5a0:  uzp1    v21.16b, v15.16b, v27.16b
+    0.00 :   6f5a4:  uzp1    v16.16b, v9.16b, v30.16b
+    0.00 :   6f5a8:  uzp2    v13.16b, v13.16b, v20.16b
+    0.00 :   6f5ac:  uzp2    v25.16b, v25.16b, v0.16b
+    0.00 :   6f5b0:  uzp2    v24.16b, v24.16b, v5.16b
+    0.00 :   6f5b4:  uzp1    v29.16b, v16.16b, v21.16b
+    0.00 :   6f5b8:  uzp1    v20.16b, v13.16b, v26.16b
+    0.00 :   6f5bc:  uzp2    v6.16b, v6.16b, v14.16b
+    0.00 :   6f5c0:  uzp1    v0.16b, v23.16b, v22.16b
+    0.00 :   6f5c4:  uzp2    v12.16b, v12.16b, v11.16b
+    0.00 :   6f5c8:  uzp1    v14.16b, v8.16b, v28.16b
+    0.00 :   6f5cc:  uzp1    v11.16b, v6.16b, v25.16b
+    0.00 :   6f5d0:  saddl   v5.8h, v0.8b, v29.8b
+    0.00 :   6f5d4:  uzp2    v10.16b, v10.16b, v19.16b
+    0.00 :   6f5d8:  saddl2  v0.8h, v0.16b, v29.16b
+    0.00 :   6f5dc:  uzp1    v19.16b, v12.16b, v24.16b
+    0.00 :   6f5e0:  uzp1    v29.16b, v14.16b, v20.16b
+    0.00 :   6f5e4:  uzp2    v17.16b, v17.16b, v31.16b
+    0.00 :   6f5e8:  uzp2    v15.16b, v15.16b, v27.16b
+    0.00 :   6f5ec:  uzp2    v9.16b, v9.16b, v30.16b
+    0.00 :   6f5f0:  saddw   v5.8h, v5.8h, v29.8b
+    0.23 :   6f5f4:  saddw2  v0.8h, v0.8h, v29.16b
+    0.00 :   6f5f8:  uzp1    v29.16b, v11.16b, v19.16b
+    0.00 :   6f5fc:  uzp1    v27.16b, v10.16b, v17.16b
+    0.00 :   6f600:  uzp2    v13.16b, v13.16b, v26.16b
+    0.00 :   6f604:  uzp2    v8.16b, v8.16b, v28.16b
+    0.00 :   6f608:  saddw   v5.8h, v5.8h, v29.8b
+    0.00 :   6f60c:  saddw2  v0.8h, v0.8h, v29.16b
+    0.00 :   6f610:  uzp1    v26.16b, v9.16b, v15.16b
+    0.00 :   6f614:  uzp2    v6.16b, v6.16b, v25.16b
+    0.00 :   6f618:  saddw   v5.8h, v5.8h, v27.8b
+    0.00 :   6f61c:  saddw2  v0.8h, v0.8h, v27.16b
+    0.00 :   6f620:  uzp1    v25.16b, v8.16b, v13.16b
+    0.00 :   6f624:  uzp2    v12.16b, v12.16b, v24.16b
+    0.00 :   6f628:  saddw   v5.8h, v5.8h, v26.8b
+    0.00 :   6f62c:  saddw2  v0.8h, v0.8h, v26.16b
+    0.00 :   6f630:  uzp2    v22.16b, v23.16b, v22.16b
+    0.00 :   6f634:  uzp1    v24.16b, v6.16b, v12.16b
+    0.00 :   6f638:  saddw   v5.8h, v5.8h, v25.8b
+    0.00 :   6f63c:  saddw2  v0.8h, v0.8h, v25.16b
+    0.00 :   6f640:  uzp2    v16.16b, v16.16b, v21.16b
+    0.00 :   6f644:  uzp2    v14.16b, v14.16b, v20.16b
+    0.00 :   6f648:  saddw   v5.8h, v5.8h, v24.8b
+    0.00 :   6f64c:  saddw2  v0.8h, v0.8h, v24.16b
+    0.11 :   6f650:  uzp2    v11.16b, v11.16b, v19.16b
+    0.00 :   6f654:  uzp2    v10.16b, v10.16b, v17.16b
+    0.00 :   6f658:  saddw   v5.8h, v5.8h, v22.8b
+    0.00 :   6f65c:  saddw2  v0.8h, v0.8h, v22.16b
+    0.11 :   6f660:  uzp2    v9.16b, v9.16b, v15.16b
+         : 227   }
+         : 228   y[i].bsums[j] = sum;
+         : 229   }
+         : 230   y[i].d = 1/iscale;
+    0.00 :   6f664:  fmov    s15, #1.000000000000000000e+00
+         : 232   sum += y[i].qs[j*16 + ii];
+    0.00 :   6f668:  saddw   v5.8h, v5.8h, v16.8b
+    0.00 :   6f66c:  saddw2  v0.8h, v0.8h, v16.16b
+         : 235   y[i].d = 1/iscale;
+    0.00 :   6f670:  fdiv    s7, s15, s7
+         : 237   sum += y[i].qs[j*16 + ii];
+    0.00 :   6f674:  uzp2    v8.16b, v8.16b, v13.16b
+    0.00 :   6f678:  saddw   v5.8h, v5.8h, v14.8b
+    0.00 :   6f67c:  saddw2  v0.8h, v0.8h, v14.16b
+    0.00 :   6f680:  uzp2    v6.16b, v6.16b, v12.16b
+    0.00 :   6f684:  saddw   v5.8h, v5.8h, v11.8b
+    0.00 :   6f688:  saddw2  v0.8h, v0.8h, v11.16b
+    0.00 :   6f68c:  saddw   v5.8h, v5.8h, v10.8b
+    0.00 :   6f690:  saddw2  v0.8h, v0.8h, v10.16b
+    0.00 :   6f694:  saddw   v5.8h, v5.8h, v9.8b
+         : 247   y[i].d = 1/iscale;
+    0.11 :   6f698:  stur    s7, [x2, #-4]
+         : 249   sum += y[i].qs[j*16 + ii];
+    0.11 :   6f69c:  saddw2  v0.8h, v0.8h, v9.16b
+    0.00 :   6f6a0:  saddw   v5.8h, v5.8h, v8.8b
+    0.00 :   6f6a4:  saddw2  v0.8h, v0.8h, v8.16b
+    0.00 :   6f6a8:  saddw   v5.8h, v5.8h, v6.8b
+    0.00 :   6f6ac:  saddw2  v0.8h, v0.8h, v6.16b
+         : 255   y[i].bsums[j] = sum;
+    0.00 :   6f6b0:  stp     q5, q0, [x2, #256]
+         : 257   for (int i = 0; i < nb; i++) {
+    0.00 :   6f6b4:  add     x5, x5, #0x1
+    0.00 :   6f6b8:  add     x1, x1, #0x400
+    0.11 :   6f6bc:  add     x2, x2, #0x124
+    0.00 :   6f6c0:  cmp     x6, x5
+    0.00 :   6f6c4:  b.gt    6f448 <quantize_row_q8_K_ref+0x58>
+         : 263   x += QK_K;
+         : 264   }
+         : 265   }
+    0.00 :   6f6c8:  ldp     d10, d11, [sp, #16]
+    0.00 :   6f6cc:  ldp     d12, d13, [sp, #32]
+    0.00 :   6f6d0:  ldp     d14, d15, [sp, #48]
+    0.00 :   6f6d4:  ldp     d8, d9, [sp], #80
+    0.11 :   6f6d8:  ret
+         : 271   amax = ax; max = x[j];
+    3.27 :   6f6dc:  fmov    s6, s5
+    2.14 :   6f6e0:  fmov    s7, s0
+    0.11 :   6f6e4:  b       6f468 <quantize_row_q8_K_ref+0x78>
+         : 275   y[i].d = 0;
+    0.00 :   6f6e8:  add     x3, x3, #0x400
+    0.00 :   6f6ec:  stur    wzr, [x2, #-4]
+    0.00 :   6f6f0:  stp     q18, q18, [x2]
+    0.00 :   6f6f4:  stp     q18, q18, [x2, #32]
+    0.00 :   6f6f8:  stp     q18, q18, [x2, #64]
+    0.00 :   6f6fc:  stp     q18, q18, [x2, #96]
+    0.00 :   6f700:  stp     q18, q18, [x2, #128]
+    0.00 :   6f704:  stp     q18, q18, [x2, #160]
+    0.00 :   6f708:  stp     q18, q18, [x2, #192]
+    0.00 :   6f70c:  stp     q18, q18, [x2, #224]
+         : 286   continue;
+    0.00 :   6f710:  b       6f6b4 <quantize_row_q8_K_ref+0x2c4>
+    0.00 :   6f714:  ret

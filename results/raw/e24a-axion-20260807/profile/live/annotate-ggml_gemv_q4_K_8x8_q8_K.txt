@@ -1,0 +1,538 @@
+ Percent |	Source code & Disassembly of libggml-cpu.so.0.18.0 for cpu_cycles:u (174173 samples, percent: local period)
+---------------------------------------------------------------------------------------------------------------------------
+         :
+         :
+         :
+         : 3     Disassembly of section .text:
+         :
+         : 5     00000000000b6e80 <ggml_gemv_q4_K_8x8_q8_K>:
+         : 6     float * GGML_RESTRICT      s,
+         : 7     size_t                     bs,
+         : 8     const void * GGML_RESTRICT vx,
+         : 9     const void * GGML_RESTRICT vy,
+         : 10    int                        nr,
+         : 11    int                        nc) {
+    0.00 :   b6e80:  adrp    x5, 10f000 <quantize_row_q5_0@@Base+0xc81d0>
+    0.00 :   b6e84:  ldr     x5, [x5, #3600]
+    0.00 :   b6e88:  sub     sp, sp, #0x130
+         : 15    constexpr int qk = QK_K;
+         : 16    const int     nb = n / qk;
+    0.00 :   b6e8c:  cmp     w0, #0x0
+    0.00 :   b6e90:  add     w8, w0, #0xff
+         : 19    int                        nc) {
+    0.00 :   b6e94:  mov     w11, w0
+         : 21    const int     nb = n / qk;
+    0.00 :   b6e98:  csel    w8, w8, w0, lt  // lt = tstop
+         : 23    int                        nc) {
+    0.00 :   b6e9c:  stp     x29, x30, [sp, #144]
+         : 25    // 1x8 tile = 2 x 4
+         : 26    float32x4_t acc_f32[ncols_interleaved / 4];
+         :
+         : 28    const block_q8_K * GGML_RESTRICT q8_ptr = (const block_q8_K *) vy;
+         :
+         : 30    for (int x = 0; x < nc / ncols_interleaved; x++) {
+    0.00 :   b6ea0:  cmp     w6, #0x0
+         : 32    int                        nc) {
+    0.00 :   b6ea4:  add     x29, sp, #0x90
+         : 34    for (int x = 0; x < nc / ncols_interleaved; x++) {
+    0.00 :   b6ea8:  add     w16, w6, #0x7
+    0.00 :   b6eac:  csel    w16, w16, w6, lt        // lt = tstop
+         : 37    int                        nc) {
+    0.00 :   b6eb0:  ldr     x0, [x5]
+    0.00 :   b6eb4:  str     x0, [sp, #136]
+    0.00 :   b6eb8:  mov     x0, #0x0                        // #0
+         : 41    for (int x = 0; x < nc / ncols_interleaved; x++) {
+    0.00 :   b6ebc:  cmp     w6, #0x7
+    0.00 :   b6ec0:  b.le    b72fc <ggml_gemv_q4_K_8x8_q8_K+0x47c>
+    0.00 :   b6ec4:  asr     w8, w8, #8
+    0.00 :   b6ec8:  mov     w17, #0x480                     // #1152
+         : 46    float32x4_t q4_dmin_1  = vcvt_f32_f16(vld1_f16((const __fp16 *) q4_ptr[b].dmin + 4));  // dmin 4..7
+         : 47    float32x4_t sb_min_0   = vmulq_f32(q4_dmin_0, q8_d);
+         : 48    float32x4_t sb_min_1   = vmulq_f32(q4_dmin_1, q8_d);
+         :
+         : 50    // interleaved bias_acc: [0]->r0 0123, [1]->r0 4567
+         : 51    int32x4_t bias_acc[2] = { vdupq_n_s32(0), vdupq_n_s32(0) };
+    0.00 :   b6ecc:  movi    v5.4s, #0x0
+         :
+         : 54    __extension__ extern __inline uint8x16_t
+         : 55    __attribute__ ((__always_inline__, __gnu_inline__, __artificial__))
+         : 56    vandq_u8 (uint8x16_t __a, uint8x16_t __b)
+         : 57    {
+         : 58    return __a & __b;
+    0.00 :   b6ed0:  movi    v0.16b, #0xf
+    0.00 :   b6ed4:  stp     x19, x20, [sp, #160]
+    0.00 :   b6ed8:  mov     x0, x1
+    0.00 :   b6edc:  mov     x18, x4
+    0.00 :   b6ee0:  smull   x17, w8, w17
+    0.00 :   b6ee4:  asr     w16, w16, #3
+    0.00 :   b6ee8:  add     x3, x3, #0x80
+         : 66    for (int x = 0; x < nc / ncols_interleaved; x++) {
+    0.00 :   b6eec:  mov     w10, #0x0                       // #0
+    0.00 :   b6ef0:  add     x9, sp, #0x30
+    0.00 :   b6ef4:  stp     x21, x22, [sp, #176]
+    0.00 :   b6ef8:  add     x14, sp, #0x60
+    0.00 :   b6efc:  add     x13, sp, #0x40
+    0.00 :   b6f00:  stp     x23, x24, [sp, #192]
+    0.00 :   b6f04:  stp     x25, x26, [sp, #208]
+    0.00 :   b6f08:  stp     x27, x28, [sp, #224]
+    0.00 :   b6f0c:  stp     d8, d9, [sp, #240]
+    0.00 :   b6f10:  stp     d10, d11, [sp, #256]
+    0.00 :   b6f14:  stp     d12, d13, [sp, #272]
+    0.00 :   b6f18:  stp     d14, d15, [sp, #288]
+         : 79    acc_f32[i] = vdupq_n_f32(0);
+    0.01 :   b6f1c:  movi    v30.4s, #0x0
+         : 81    for (int b = 0; b < nb; b++) {
+    0.01 :   b6f20:  cmp     w11, #0xff
+    0.00 :   b6f24:  b.le    b7324 <ggml_gemv_q4_K_8x8_q8_K+0x4a4>
+         : 84    acc_f32[i] = vdupq_n_f32(0);
+    0.01 :   b6f28:  mov     v31.16b, v30.16b
+    0.00 :   b6f2c:  add     x4, x18, #0x4
+         : 87    for (int b = 0; b < nb; b++) {
+    0.00 :   b6f30:  mov     x15, x3
+    0.00 :   b6f34:  mov     w5, #0x0                        // #0
+    0.00 :   b6f38:  add     x12, sp, #0x20
+         : 91    acc_f32[i] = vdupq_n_f32(0);
+    0.01 :   b6f3c:  mov     x1, x3
+    0.01 :   b6f40:  mov     x20, x0
+    0.00 :   b6f44:  mov     w21, w11
+         :
+         : 96    __extension__ extern __inline float16x4_t
+         : 97    __attribute__ ((__always_inline__, __gnu_inline__, __artificial__))
+         : 98    vld1_f16 (const float16_t *__a)
+         : 99    {
+         : 100   return __builtin_aarch64_ld1v4hf (__a);
+    0.07 :   b6f48:  ldp     d27, d26, [x15, #-128]
+         : 102   int32x4_t bias_acc[2] = { vdupq_n_s32(0), vdupq_n_s32(0) };
+    2.73 :   b6f4c:  movi    v13.4s, #0x0
+    0.00 :   b6f50:  sub     x3, x15, #0x60
+         :
+         : 106   __extension__ extern __inline void
+         : 107   __attribute__ ((__always_inline__, __gnu_inline__, __artificial__))
+         : 108   vst1q_s16 (int16_t *__a, int16x8_t __b)
+         : 109   {
+         : 110   __builtin_aarch64_st1v8hi ((__builtin_aarch64_simd_hi *) __a, __b);
+    0.06 :   b6f54:  mov     x2, x4
+    0.06 :   b6f58:  mov     x22, x3
+    0.05 :   b6f5c:  mov     x19, x4
+         : 114   return __builtin_aarch64_ld1v4hf (__a);
+    0.06 :   b6f60:  ldp     d4, d2, [x15, #-112]
+    0.31 :   b6f64:  mov     w24, w8
+    0.06 :   b6f68:  mov     w26, w10
+    0.05 :   b6f6c:  mov     x30, x15
+    0.06 :   b6f70:  mov     x23, x9
+         : 120   return __builtin_aarch64_ld1v8hi ((const __builtin_aarch64_simd_hi *) __a);
+    0.07 :   b6f74:  ldp     q3, q6, [x4, #256]
+    0.54 :   b6f78:  mov     v14.16b, v13.16b
+    0.07 :   b6f7c:  mov     x27, x9
+    0.04 :   b6f80:  mov     w11, w21
+    0.05 :   b6f84:  mov     x3, x1
+    0.06 :   b6f88:  mov     x0, x20
+         : 127   float32x4_t q8_d       = vdupq_n_f32(q8_ptr[b].d);
+    0.07 :   b6f8c:  ldur    s1, [x4, #-4]
+         : 129   return __builtin_aarch64_float_extend_lo_v4sf (__a);
+    0.53 :   b6f90:  fcvtl   v27.4s, v27.4h
+    0.00 :   b6f94:  fcvtl   v26.4s, v26.4h
+    0.06 :   b6f98:  fcvtl   v4.4s, v4.4h
+    0.05 :   b6f9c:  fcvtl   v2.4s, v2.4h
+         : 134   return __a * __b;
+    0.05 :   b6fa0:  fmul    v27.4s, v27.4s, v1.s[0]
+    0.00 :   b6fa4:  fmul    v26.4s, v26.4s, v1.s[0]
+    0.05 :   b6fa8:  fmul    v28.4s, v4.4s, v1.s[0]
+    0.00 :   b6fac:  fmul    v18.4s, v2.4s, v1.s[0]
+         : 139   return __builtin_aarch64_addpv8hi (__a, __b);
+    0.07 :   b6fb0:  addp    v3.8h, v3.8h, v6.8h
+         :
+         : 142   // Each bsum is 16 elements, pairwise add leaves us with the 8 bsums of the entire block
+         : 143   const int16x8_t bsums = vpaddq_s16(vld1q_s16(q8_ptr[b].bsums), vld1q_s16(q8_ptr[b].bsums + 8));
+         : 144   int16_t         bsums_arr[8];
+         : 145   vst1q_s16(bsums_arr, bsums);
+         : 146   for (int sb = 0; sb < QK_K / 64; sb++) {
+    0.05 :   b6fb4:  str     q28, [sp, #16]
+         : 148   __builtin_aarch64_st1v8hi ((__builtin_aarch64_simd_hi *) __a, __b);
+    0.27 :   b6fb8:  str     q3, [sp, #48]
+         : 150   }
+         : 151   // Need scales for the low and high nibbles
+         : 152   // 2 * 12 = 24 bytes per subblock, 4 sbs -> 4 * 24 = 96 bytes total
+         : 153   int16x8_t q4sb_mins[2];  // int16 as its needed for bias_acc later
+         : 154   int16x8_t q4sb_scales[2];
+         : 155   for (int i = 0; i < 2; i++) {
+    1.62 :   b6fbc:  mov     w10, #0x0                       // #0
+    0.23 :   b6fc0:  mov     x20, x19
+    0.24 :   b6fc4:  stp     x22, x23, [sp]
+    1.41 :   b6fc8:  mov     w19, w24
+    0.26 :   b6fcc:  mov     x21, x22
+    0.24 :   b6fd0:  mov     w24, w10
+    0.23 :   b6fd4:  mov     x25, x14
+    0.24 :   b6fd8:  mov     x28, x30
+    0.24 :   b6fdc:  mov     w10, w26
+    0.24 :   b6fe0:  mov     w8, w19
+    0.22 :   b6fe4:  mov     x4, x20
+    0.23 :   b6fe8:  mov     x23, x13
+    0.23 :   b6fec:  mov     x9, x27
+         :
+         : 170   __fortify_function void *
+         : 171   __NTH (memcpy (void *__restrict __dest, const void *__restrict __src,
+         : 172   size_t __len))
+         : 173   {
+         : 174   return __builtin___memcpy_chk (__dest, __src, __len,
+    0.51 :   b6ff0:  ldr     x6, [x21]
+    0.07 :   b6ff4:  add     x21, x21, #0xc
+    6.43 :   b6ff8:  ldur    w20, [x21, #-4]
+    0.01 :   b6ffc:  lsr     x1, x6, #32
+    6.90 :   b7000:  mov     w22, w6
+    0.47 :   b7004:  str     x6, [x12]
+         : 181   const uint32_t   mins_4_7 = ((sm[2] >> 4) & kmask2) | (((sm[1] >> 6) & kmask3) << 4);
+    0.48 :   b7008:  and     w6, w1, #0xc0c0c0c0
+         : 183   const uint32_t   mins_0_3 = sm[1] & kmask1;
+    0.03 :   b700c:  and     w1, w1, #0x3f3f3f3f
+         : 185   const uint32_t   mins_4_7 = ((sm[2] >> 4) & kmask2) | (((sm[1] >> 6) & kmask3) << 4);
+    0.47 :   b7010:  lsr     w19, w20, #4
+         : 187   scales_u32[1] = (sm[2] & kmask2) | (((sm[0] >> 6) & kmask3) << 4);
+    0.04 :   b7014:  and     w30, w20, #0xf0f0f0f
+    0.45 :   b7018:  str     w20, [x12, #8]
+         : 190   const uint32x2_t mins_u32 = { mins_0_3, mins_4_7 };
+    0.46 :   b701c:  fmov    s1, w1
+         : 192   const uint32_t   mins_4_7 = ((sm[2] >> 4) & kmask2) | (((sm[1] >> 6) & kmask3) << 4);
+    0.44 :   b7020:  and     w19, w19, #0xf0f0f0f
+         : 194   scales_u32[1] = (sm[2] & kmask2) | (((sm[0] >> 6) & kmask3) << 4);
+    0.20 :   b7024:  and     w20, w22, #0xc0c0c0c0
+         : 196   const uint32_t   mins_4_7 = ((sm[2] >> 4) & kmask2) | (((sm[1] >> 6) & kmask3) << 4);
+    0.25 :   b7028:  orr     w6, w19, w6, lsr #2
+         : 198   scales_u32[0] = sm[0] & kmask1;
+    0.24 :   b702c:  and     w19, w22, #0x3f3f3f3f
+         : 200   scales_u32[1] = (sm[2] & kmask2) | (((sm[0] >> 6) & kmask3) << 4);
+    0.26 :   b7030:  orr     w20, w30, w20, lsr #2
+         : 202   scales_u32[0] = sm[0] & kmask1;
+    0.25 :   b7034:  bfxil   x7, x19, #0, #32
+         : 204   scales_u32[1] = (sm[2] & kmask2) | (((sm[0] >> 6) & kmask3) << 4);
+    0.21 :   b7038:  bfi     x7, x20, #32, #32
+         : 206   return __builtin_aarch64_sxtlv8hi (__a);
+    0.27 :   b703c:  fmov    d2, x7
+         : 208   const uint32x2_t mins_u32 = { mins_0_3, mins_4_7 };
+    0.44 :   b7040:  mov     v1.s[1], w6
+    0.25 :   b7044:  sxtl    v2.8h, v2.8b
+         : 211   return __builtin_aarch64_uxtlv8hi_uu (__a);
+    0.44 :   b7048:  uxtl    v1.8h, v1.8b
+         : 213   int8_t    aux_q4sb[8];
+         : 214   const int offset = sb * 24 + i * 12;
+         : 215   decode_q_Kx8_6bit_scales(&q4_ptr[b].scales[offset], &q4sb_mins[i], aux_q4sb);
+         : 216   q4sb_scales[i] = vmovl_s8(vld1_s8(aux_q4sb));
+    0.50 :   b704c:  str     q2, [x25], #16
+         : 218   *out_mins = vreinterpretq_s16_u16(vmovl_u8(vreinterpret_u8_u32(mins_u32)));
+    0.91 :   b7050:  str     q1, [x23], #16
+         : 220   for (int i = 0; i < 2; i++) {
+    0.40 :   b7054:  cbnz    w24, b7060 <ggml_gemv_q4_K_8x8_q8_K+0x1e0>
+    0.25 :   b7058:  mov     w24, #0x1                       // #1
+    0.00 :   b705c:  b       b6ff0 <ggml_gemv_q4_K_8x8_q8_K+0x170>
+         : 224   return __builtin_aarch64_ld1v16qi_us (
+    0.80 :   b7060:  ldp     q7, q10, [x28]
+         :
+         : 227   __extension__ extern __inline int32x4_t
+         : 228   __attribute__ ((__always_inline__, __gnu_inline__, __artificial__))
+         : 229   vdotq_s32 (int32x4_t __r, int8x16_t __a, int8x16_t __b)
+         : 230   {
+         : 231   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    7.23 :   b7064:  mov     v9.16b, v5.16b
+         : 233   return __builtin_aarch64_ld1v16qi_us (
+    0.00 :   b7068:  mov     x19, x4
+    0.24 :   b706c:  mov     w24, w8
+         : 236   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    0.00 :   b7070:  mov     v8.16b, v5.16b
+         : 238   return __builtin_aarch64_ld1v16qi_us (
+    0.24 :   b7074:  ldp     x22, x23, [sp]
+    0.86 :   b7078:  mov     w26, w10
+    0.23 :   b707c:  mov     x27, x9
+         : 242   for (int sb = 0; sb < QK_K / 64; sb++) {
+    0.22 :   b7080:  add     x30, x28, #0x100
+    0.22 :   b7084:  ldp     q6, q16, [x28, #32]
+    0.00 :   b7088:  add     x22, x22, #0x18
+         : 246   return (int64x2_t) {__a, __a};
+    1.84 :   b708c:  ld1r    {v2.2d}, [x2]
+         : 248   return __a & __b;
+    0.04 :   b7090:  and     v4.16b, v7.16b, v0.16b
+    1.57 :   b7094:  and     v1.16b, v10.16b, v0.16b
+         : 251   return vdupq_n_s64 (*__a);
+    0.24 :   b7098:  ldr     d12, [x2, #32]
+         : 253   return __builtin_aarch64_lshrv16qi_uus (__a, __b);
+    0.37 :   b709c:  ushr    v7.16b, v7.16b, #4
+         : 255   return __builtin_aarch64_ld1v16qi_us (
+    0.21 :   b70a0:  ldp     q23, q22, [x28, #96]
+         : 257   return __builtin_aarch64_lshrv16qi_uus (__a, __b);
+    7.31 :   b70a4:  ushr    v10.16b, v10.16b, #4
+         : 259   return __builtin_aarch64_ld1v16qi_us (
+    0.23 :   b70a8:  ldp     q25, q24, [x28, #64]
+         : 261   return __a & __b;
+    0.81 :   b70ac:  and     v3.16b, v6.16b, v0.16b
+    0.00 :   b70b0:  and     v11.16b, v16.16b, v0.16b
+         : 264   return __builtin_aarch64_ld1v16qi_us (
+    0.23 :   b70b4:  ldp     q21, q20, [x28, #128]
+         : 266   return (int64x2_t) {__a, __a};
+    6.79 :   b70b8:  dup     v12.2d, v12.d[0]
+         : 268   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    0.00 :   b70bc:  sdot    v9.4s, v4.16b, v2.16b
+    0.25 :   b70c0:  mov     v4.16b, v5.16b
+         : 271   return __builtin_aarch64_lshrv16qi_uus (__a, __b);
+    0.02 :   b70c4:  ushr    v6.16b, v6.16b, #4
+         :
+         : 274   // Multiply Acc bsum + mins
+         : 275   // Each pair of subblocks share the same bsums
+         : 276   // Load scalar bsum → broadcast to a vector (vdupq_n_s16(s)).
+         : 277   int16x4_t bsums_vec_lo = vdup_n_s16(bsums_arr[2 * sb + 0]);
+         : 278   int16x4_t bsums_vec_hi = vdup_n_s16(bsums_arr[2 * sb + 1]);
+    0.22 :   b70c8:  ldrsh   w1, [x23, #2]
+         : 280   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    1.43 :   b70cc:  sdot    v8.4s, v3.16b, v2.16b
+    0.00 :   b70d0:  mov     v3.16b, v5.16b
+         : 283   return __builtin_aarch64_lshrv16qi_uus (__a, __b);
+    0.22 :   b70d4:  ushr    v16.16b, v16.16b, #4
+         : 285   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    0.00 :   b70d8:  sdot    v4.4s, v1.16b, v2.16b
+         : 287   return __a & __b;
+    0.22 :   b70dc:  and     v15.16b, v23.16b, v0.16b
+         : 289   return __builtin_aarch64_lshrv16qi_uus (__a, __b);
+    0.25 :   b70e0:  ushr    v23.16b, v23.16b, #4
+         : 291   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    0.00 :   b70e4:  sdot    v3.4s, v11.16b, v2.16b
+         : 293   return vdupq_n_s64 (*__a);
+    0.24 :   b70e8:  ldp     d1, d11, [x2, #8]
+         : 295   return __a & __b;
+    0.45 :   b70ec:  and     v2.16b, v22.16b, v0.16b
+    0.00 :   b70f0:  and     v19.16b, v25.16b, v0.16b
+    0.26 :   b70f4:  and     v17.16b, v24.16b, v0.16b
+         : 299   return __builtin_aarch64_lshrv16qi_uus (__a, __b);
+    0.00 :   b70f8:  ushr    v25.16b, v25.16b, #4
+         : 301   return __a & __b;
+    0.23 :   b70fc:  and     v28.16b, v21.16b, v0.16b
+         : 303   return __builtin_aarch64_lshrv16qi_uus (__a, __b);
+    0.23 :   b7100:  ushr    v24.16b, v24.16b, #4
+    0.25 :   b7104:  ushr    v22.16b, v22.16b, #4
+    0.00 :   b7108:  ushr    v21.16b, v21.16b, #4
+         : 307   return (int64x2_t) {__a, __a};
+    0.23 :   b710c:  dup     v1.2d, v1.d[0]
+    0.00 :   b7110:  dup     v11.2d, v11.d[0]
+         : 310   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    0.22 :   b7114:  sdot    v3.4s, v2.16b, v1.16b
+    0.00 :   b7118:  mov     v2.16b, v5.16b
+    0.23 :   b711c:  sdot    v9.4s, v19.16b, v1.16b
+    0.24 :   b7120:  sdot    v4.4s, v17.16b, v1.16b
+    0.00 :   b7124:  sdot    v8.4s, v15.16b, v1.16b
+    0.23 :   b7128:  mov     v1.16b, v5.16b
+         : 317   return __builtin_aarch64_ld1v16qi_us (
+    0.23 :   b712c:  ldp     q19, q17, [x28, #160]
+         : 319   return __a & __b;
+    0.89 :   b7130:  and     v15.16b, v20.16b, v0.16b
+         : 321   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    0.00 :   b7134:  sdot    v2.4s, v7.16b, v12.16b
+    0.23 :   b7138:  mov     v7.16b, v5.16b
+    0.00 :   b713c:  sdot    v9.4s, v28.16b, v11.16b
+         : 325   return __builtin_aarch64_lshrv16qi_uus (__a, __b);
+    0.24 :   b7140:  ushr    v20.16b, v20.16b, #4
+         : 327   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    0.23 :   b7144:  sdot    v1.4s, v6.16b, v12.16b
+    0.00 :   b7148:  mov     v6.16b, v5.16b
+    0.23 :   b714c:  sdot    v4.4s, v15.16b, v11.16b
+    0.00 :   b7150:  sdot    v7.4s, v10.16b, v12.16b
+         : 332   return vdupq_n_s64 (*__a);
+    0.25 :   b7154:  ldr     d10, [x2, #40]
+         : 334   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    1.05 :   b7158:  sdot    v6.4s, v16.16b, v12.16b
+         : 336   return __builtin_aarch64_ld1v16qi_us (
+    0.22 :   b715c:  ldp     q16, q15, [x28, #192]
+         : 338   return __a & __b;
+    7.56 :   b7160:  and     v12.16b, v19.16b, v0.16b
+    0.00 :   b7164:  and     v29.16b, v17.16b, v0.16b
+         : 341   return (int64x2_t) {__a, __a};
+    0.21 :   b7168:  dup     v10.2d, v10.d[0]
+         : 343   return __builtin_aarch64_lshrv16qi_uus (__a, __b);
+    0.00 :   b716c:  ushr    v19.16b, v19.16b, #4
+    0.22 :   b7170:  ushr    v17.16b, v17.16b, #4
+         : 346   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    0.00 :   b7174:  sdot    v8.4s, v12.16b, v11.16b
+         : 348   return __builtin_aarch64_ld1v16qi_us (
+    0.24 :   b7178:  ldr     q12, [x28, #224]
+         : 350   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    0.82 :   b717c:  sdot    v3.4s, v29.16b, v11.16b
+    0.24 :   b7180:  sdot    v2.4s, v25.16b, v10.16b
+    0.00 :   b7184:  sdot    v7.4s, v24.16b, v10.16b
+         : 354   return (int64x2_t) {__a, __a};
+    0.23 :   b7188:  ldr     d25, [x2, #24]
+         : 356   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    1.23 :   b718c:  sdot    v6.4s, v22.16b, v10.16b
+    0.00 :   b7190:  sdot    v1.4s, v23.16b, v10.16b
+         : 359   return __a & __b;
+    0.24 :   b7194:  and     v28.16b, v16.16b, v0.16b
+    0.00 :   b7198:  and     v11.16b, v15.16b, v0.16b
+         : 362   return __builtin_aarch64_ld1v16qi_us (
+    0.24 :   b719c:  ldr     q24, [x28, #240]
+         : 364   return __builtin_aarch64_lshrv16qi_uus (__a, __b);
+    1.32 :   b71a0:  ushr    v16.16b, v16.16b, #4
+    0.00 :   b71a4:  ushr    v15.16b, v15.16b, #4
+         : 367   return vdupq_n_s64 (*__a);
+    0.22 :   b71a8:  ldp     d23, d10, [x2, #48]
+         : 369   return __a & __b;
+    2.21 :   b71ac:  and     v22.16b, v12.16b, v0.16b
+         : 371   return __builtin_aarch64_lshrv16qi_uus (__a, __b);
+    0.00 :   b71b0:  ushr    v12.16b, v12.16b, #4
+         : 373   for (int sb = 0; sb < QK_K / 64; sb++) {
+    0.24 :   b71b4:  add     x2, x2, #0x40
+         : 375   return (int64x2_t) {__a, __a};
+    0.00 :   b71b8:  dup     v25.2d, v25.d[0]
+         : 377   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    0.24 :   b71bc:  sdot    v9.4s, v28.16b, v25.16b
+         : 379   return __a & __b;
+    0.22 :   b71c0:  and     v28.16b, v24.16b, v0.16b
+         : 381   return (int64x2_t) {__a, __a};
+    0.24 :   b71c4:  dup     v23.2d, v23.d[0]
+         : 383   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    0.00 :   b71c8:  sdot    v4.4s, v11.16b, v25.16b
+         : 385   int16x4_t   group_scales_lo = p == 0 ? vget_low_s16(q4sb_scales[0]) : vget_high_s16(q4sb_scales[0]);
+    0.26 :   b71cc:  ldr     q11, [x14]
+    0.45 :   b71d0:  sdot    v8.4s, v22.16b, v25.16b
+         : 388   return (int64x2_t) {__a, __a};
+    0.00 :   b71d4:  dup     v10.2d, v10.d[0]
+         : 390   return __builtin_aarch64_lshrv16qi_uus (__a, __b);
+    0.22 :   b71d8:  ushr    v24.16b, v24.16b, #4
+         : 392   int16x4_t   group_scales_hi = p == 0 ? vget_low_s16(q4sb_scales[1]) : vget_high_s16(q4sb_scales[1]);
+    0.22 :   b71dc:  ldr     q22, [x14, #16]
+         : 394   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    0.57 :   b71e0:  sdot    v3.4s, v28.16b, v25.16b
+    0.24 :   b71e4:  sdot    v1.4s, v19.16b, v23.16b
+    0.00 :   b71e8:  sdot    v6.4s, v17.16b, v23.16b
+    0.24 :   b71ec:  sdot    v2.4s, v21.16b, v23.16b
+    0.00 :   b71f0:  sdot    v7.4s, v20.16b, v23.16b
+         : 400   return __builtin_aarch64_addpv4si (__a, __b);
+    0.25 :   b71f4:  addp    v4.4s, v9.4s, v4.4s
+         : 402   return __builtin_aarch64_sxtlv4si (__a);
+    0.23 :   b71f8:  sxtl    v19.4s, v11.4h
+         : 404   return __builtin_aarch64_addpv4si (__a, __b);
+    0.00 :   b71fc:  addp    v3.4s, v8.4s, v3.4s
+         : 406   return __builtin_aarch64_sxtlv4si (__a);
+    0.24 :   b7200:  sxtl2   v11.4s, v11.8h
+         : 408   return __builtin_aarch64_sdot_prodv16qi (__a, __b, __r);
+    0.00 :   b7204:  sdot    v1.4s, v12.16b, v10.16b
+    0.23 :   b7208:  sdot    v6.4s, v24.16b, v10.16b
+    0.00 :   b720c:  sdot    v7.4s, v15.16b, v10.16b
+    0.23 :   b7210:  sdot    v2.4s, v16.16b, v10.16b
+         : 413   return __a * __b;
+    0.00 :   b7214:  mul     v8.4s, v19.4s, v4.4s
+         :
+         : 416   // cols 0-3 bias
+         : 417   bias_acc[0] = vmlal_s16(bias_acc[0], bsums_vec_lo, vget_low_s16(q4sb_mins[0]));
+         : 418   bias_acc[0] = vmlal_s16(bias_acc[0], bsums_vec_hi, vget_low_s16(q4sb_mins[1]));
+    0.23 :   b7218:  ldp     q9, q17, [x13]
+         : 420   return __builtin_aarch64_sxtlv4si (__a);
+    1.98 :   b721c:  sxtl    v4.4s, v22.4h
+         : 422   return __a * __b;
+    0.25 :   b7220:  mul     v11.4s, v11.4s, v3.4s
+         : 424   return __builtin_aarch64_addpv4si (__a, __b);
+    0.00 :   b7224:  addp    v6.4s, v1.4s, v6.4s
+    0.25 :   b7228:  addp    v2.4s, v2.4s, v7.4s
+         : 427   return __builtin_aarch64_sxtlv4si (__a);
+    0.00 :   b722c:  sxtl2   v22.4s, v22.8h
+         : 429   return (int16x4_t) {__a, __a, __a, __a};
+    0.23 :   b7230:  ld1r    {v7.4h}, [x23]
+         : 431   for (int sb = 0; sb < QK_K / 64; sb++) {
+    0.00 :   b7234:  add     x23, x23, #0x4
+    1.23 :   b7238:  dup     v3.4h, w1
+         : 434   return __a * __b;
+    0.23 :   b723c:  mul     v1.4s, v4.4s, v2.4s
+    0.21 :   b7240:  mul     v22.4s, v22.4s, v6.4s
+         : 437   return  __builtin_aarch64_get_highv8hi (__a);
+    0.01 :   b7244:  mov     d12, v9.d[1]
+    0.23 :   b7248:  mov     d10, v17.d[1]
+         : 440   return __builtin_aarch64_floatv4siv4sf (__a);
+    0.23 :   b724c:  scvtf   v11.4s, v11.4s
+    0.00 :   b7250:  scvtf   v2.4s, v8.4s
+         : 443   return __builtin_aarch64_smlalv4hi (__a, __b, __c);
+    0.22 :   b7254:  smlal   v14.4s, v7.4h, v12.4h
+         : 445   return __builtin_aarch64_floatv4siv4sf (__a);
+    0.00 :   b7258:  scvtf   v1.4s, v1.4s
+         : 447   return __builtin_aarch64_smlalv4hi (__a, __b, __c);
+    0.24 :   b725c:  smlal   v13.4s, v7.4h, v9.4h
+         : 449   return __builtin_aarch64_floatv4siv4sf (__a);
+    0.22 :   b7260:  scvtf   v22.4s, v22.4s
+         : 451   return __builtin_aarch64_fmav4sf (__b, __c, __a);
+    0.00 :   b7264:  fmla    v30.4s, v26.4s, v11.4s
+         : 453   return __builtin_aarch64_smlalv4hi (__a, __b, __c);
+    0.24 :   b7268:  smlal   v14.4s, v3.4h, v10.4h
+         : 455   return __builtin_aarch64_fmav4sf (__b, __c, __a);
+    0.00 :   b726c:  fmla    v31.4s, v27.4s, v2.4s
+         : 457   return __builtin_aarch64_smlalv4hi (__a, __b, __c);
+    0.24 :   b7270:  smlal   v13.4s, v3.4h, v17.4h
+         : 459   return __builtin_aarch64_fmav4sf (__b, __c, __a);
+    0.00 :   b7274:  fmla    v30.4s, v26.4s, v22.4s
+    0.23 :   b7278:  fmla    v31.4s, v27.4s, v1.4s
+    0.25 :   b727c:  cmp     x22, x15
+    0.00 :   b7280:  b.ne    b6fbc <ggml_gemv_q4_K_8x8_q8_K+0x13c>  // b.any
+         : 464   return __builtin_aarch64_floatv4siv4sf (__a);
+    0.68 :   b7284:  ldr     q28, [sp, #16]
+         : 466   for (int b = 0; b < nb; b++) {
+    0.00 :   b7288:  add     w5, w5, #0x1
+    1.24 :   b728c:  mov     x1, x3
+    0.06 :   b7290:  mov     x20, x0
+    0.06 :   b7294:  mov     w21, w11
+    0.00 :   b7298:  scvtf   v13.4s, v13.4s
+    0.07 :   b729c:  add     x15, x15, #0x480
+    0.05 :   b72a0:  add     x4, x4, #0x124
+    0.00 :   b72a4:  scvtf   v14.4s, v14.4s
+         : 475   return __builtin_aarch64_float_mlsv4sf (__a, __b, __c);
+    0.06 :   b72a8:  fmul    v13.4s, v13.4s, v28.4s
+    0.00 :   b72ac:  fmul    v14.4s, v14.4s, v18.4s
+    0.05 :   b72b0:  fsub    v31.4s, v31.4s, v13.4s
+    0.00 :   b72b4:  fsub    v30.4s, v30.4s, v14.4s
+    0.05 :   b72b8:  cmp     w8, w5
+    0.00 :   b72bc:  b.gt    b6f48 <ggml_gemv_q4_K_8x8_q8_K+0xc8>
+         : 482   for (int x = 0; x < nc / ncols_interleaved; x++) {
+    0.00 :   b72c0:  add     w10, w10, #0x1
+    0.00 :   b72c4:  add     x3, x3, x17
+         : 485   __builtin_aarch64_st1v4sf ((__builtin_aarch64_simd_sf *) __a, __b);
+    0.03 :   b72c8:  stp     q31, q30, [x0]
+    0.03 :   b72cc:  add     x0, x0, #0x20
+    0.00 :   b72d0:  cmp     w10, w16
+    0.00 :   b72d4:  b.lt    b6f1c <ggml_gemv_q4_K_8x8_q8_K+0x9c>  // b.tstop
+    0.00 :   b72d8:  ldp     d8, d9, [sp, #240]
+    0.01 :   b72dc:  ldp     x19, x20, [sp, #160]
+    0.00 :   b72e0:  ldp     x21, x22, [sp, #176]
+    0.00 :   b72e4:  ldp     x23, x24, [sp, #192]
+    0.00 :   b72e8:  ldp     x25, x26, [sp, #208]
+    0.00 :   b72ec:  ldp     x27, x28, [sp, #224]
+    0.00 :   b72f0:  ldp     d10, d11, [sp, #256]
+    0.00 :   b72f4:  ldp     d12, d13, [sp, #272]
+    0.00 :   b72f8:  ldp     d14, d15, [sp, #288]
+         : 499   vst1q_f32(s + base + 4, acc_f32[1]);
+         : 500   }  // for x
+         : 501   return;
+         : 502   #endif  // defined(__aarch64__) && defined(__ARM_NEON) && defined(__ARM_FEATURE_DOTPROD)
+         : 503   ggml_gemv_q4_K_8x8_q8_K_generic(n, s, bs, vx, vy, nr, nc);
+         : 504   }
+    0.00 :   b72fc:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc81d0>
+    0.00 :   b7300:  ldr     x0, [x0, #3600]
+    0.01 :   b7304:  ldr     x2, [sp, #136]
+    0.00 :   b7308:  ldr     x1, [x0]
+    0.01 :   b730c:  subs    x2, x2, x1
+    0.00 :   b7310:  mov     x1, #0x0                        // #0
+    0.00 :   b7314:  b.ne    b7344 <ggml_gemv_q4_K_8x8_q8_K+0x4c4>  // b.any
+    0.00 :   b7318:  ldp     x29, x30, [sp, #144]
+    0.00 :   b731c:  add     sp, sp, #0x130
+    0.00 :   b7320:  ret
+         : 515   acc_f32[i] = vdupq_n_f32(0);
+    0.00 :   b7324:  mov     v31.16b, v30.16b
+         : 517   for (int x = 0; x < nc / ncols_interleaved; x++) {
+    0.00 :   b7328:  add     w10, w10, #0x1
+    0.00 :   b732c:  add     x3, x3, x17
+    0.00 :   b7330:  stp     q31, q30, [x0]
+    0.00 :   b7334:  add     x0, x0, #0x20
+    0.00 :   b7338:  cmp     w10, w16
+    0.00 :   b733c:  b.lt    b6f1c <ggml_gemv_q4_K_8x8_q8_K+0x9c>  // b.tstop
+    0.00 :   b7340:  b       b72d8 <ggml_gemv_q4_K_8x8_q8_K+0x458>
+    0.00 :   b7344:  stp     x19, x20, [sp, #160]
+    0.00 :   b7348:  stp     x21, x22, [sp, #176]
+    0.00 :   b734c:  stp     x23, x24, [sp, #192]
+    0.00 :   b7350:  stp     x25, x26, [sp, #208]
+    0.00 :   b7354:  stp     x27, x28, [sp, #224]
+    0.00 :   b7358:  stp     d8, d9, [sp, #240]
+    0.00 :   b735c:  stp     d10, d11, [sp, #256]
+    0.00 :   b7360:  stp     d12, d13, [sp, #272]
+    0.00 :   b7364:  stp     d14, d15, [sp, #288]
+         : 534   }
+    0.00 :   b7368:  bl      17e60 <__stack_chk_fail@plt>

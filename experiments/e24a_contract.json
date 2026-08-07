@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "contract_revision": 1,
+  "experiment_id": "E24a",
+  "title": "Axion decode hot-path and dispatch profile",
+  "objective": "Freeze the accepted E23 Q4_K prefill patch as the baseline, identify the AArch64 kernels that dominate single-token generation, and rank decode source opportunities before any implementation.",
+  "claim_boundary": "E24a is diagnostic profiling on one Google Axion Neoverse V2 VM. It may select or reject decode source targets and prove that real inference executed named functions. It makes no optimization, correctness, speed, energy, cost, or generality claim.",
+  "source": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216",
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "patches": [
+      "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+      "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+      "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+      "patches/llama.cpp/b10216/0013-arm-q4-k-neon-vector-scale-kernel.patch"
+    ],
+    "baseline_name": "E23 Q4_K vector-scale prefill patch",
+    "required_decode_source_changes": 0
+  },
+  "model": {
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "entrypoint": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+    "size_bytes": 2146497824,
+    "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4"
+  },
+  "host": {
+    "provider": "Google Cloud Compute Engine",
+    "machine_type": "c4a-highcpu-8",
+    "cpu": "Google Axion Neoverse V2",
+    "logical_cpus": 8,
+    "benchmark_core_set": "0-3",
+    "threads": 4,
+    "pmu": "standard",
+    "provisioning_model": "STANDARD",
+    "maximum_run_duration": "6h",
+    "maximum_estimated_compute_usd": 2.0,
+    "required_auto_delete": true
+  },
+  "build": {
+    "generator": "Ninja",
+    "targets": ["llama-bench", "llama-completion"],
+    "cmake_arguments": [
+      "-DBUILD_SHARED_LIBS=ON",
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DCMAKE_C_FLAGS_RELEASE=-O3 -DNDEBUG -g -fno-omit-frame-pointer",
+      "-DCMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG -g -fno-omit-frame-pointer",
+      "-DGGML_CPU_KLEIDIAI=ON",
+      "-DGGML_LTO=OFF",
+      "-DGGML_NATIVE=ON",
+      "-DLLAMA_BUILD_EXAMPLES=ON",
+      "-DLLAMA_BUILD_SERVER=OFF",
+      "-DLLAMA_BUILD_TESTS=OFF",
+      "-DLLAMA_CURL=OFF",
+      "-DLLAMA_OPENSSL=OFF"
+    ]
+  },
+  "profile": {
+    "common_benchmark_arguments": [
+      "--threads", "4",
+      "--n-gpu-layers", "0",
+      "--flash-attn", "on",
+      "--batch-size", "1024",
+      "--ubatch-size", "512",
+      "--no-warmup",
+      "--output", "jsonl"
+    ],
+    "tg128": {
+      "prompt_tokens": 0,
+      "generation_tokens": 128,
+      "repetitions": 3
+    },
+    "live": {
+      "prompt_file": "experiments/e24_decode_prompt.txt",
+      "generation_tokens": 128,
+      "seed": 42,
+      "temperature": 0,
+      "context_tokens": 1024
+    },
+    "perf_sample_event": "cpu_cycles:u",
+    "perf_sample_period": 100000,
+    "perf_stat_events": [
+      "cpu_cycles",
+      "inst_retired",
+      "l1d_cache",
+      "l1d_cache_refill",
+      "l2d_cache"
+    ],
+    "tracked_symbols": [
+      "ggml_gemv_q4_K_8x8_q8_K",
+      "ggml_gemv_q5_K_8x8_q8_K",
+      "ggml_gemv_q6_K_8x8_q8_K",
+      "ggml_quantize_mat_q8_K_4x8",
+      "quantize_row_q8_K_ref",
+      "ggml_compute_forward_flash_attn_ext"
+    ]
+  },
+  "selection": {
+    "first_target_only_if_profile_agrees": "ggml_gemv_q4_K_8x8_q8_K",
+    "required_real_inference_execution_proof": true,
+    "rank_by": "exclusive CPU-cycle sample share in tg128 and live generation",
+    "whole_model_ceiling": "Amdahl upper bound computed from measured exclusive share",
+    "minimum_direct_kernel_speedup_for_first_rewrite": 1.10,
+    "minimum_projected_decode_speedup": 1.05,
+    "performance_claim_allowed": false,
+    "required_user_checkpoint_after_ranking": true
+  }
+}
