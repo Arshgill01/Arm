@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "contract_revision": 1,
+  "experiment_id": "E23",
+  "title": "Arm Q4_K i8mm vector-scale kernel pass",
+  "objective": "Measure a real AArch64 source change in the dominant Q4_K x q8_K prefill kernel under matched model, quality, CPU, core-count, and executable controls.",
+  "upstream": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216",
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "audited_current_commit": "fc3f10b3895ebb0ddfe1fcb7fd5950f2c1719339"
+  },
+  "candidate": {
+    "path": "patches/llama.cpp/b10216/0013-arm-q4-k-neon-vector-scale-kernel.patch",
+    "sha256": "c4794e8e0087fd32691778c23b1ee559fde0e37ee69f281973ec2b02d02c33f2",
+    "changed_file": "ggml/src/ggml-cpu/arch/arm/repack.cpp",
+    "kernel": "ggml_gemm_q4_K_8x8_q8_K",
+    "mechanism": [
+      "Keep the unused 256-bit SVE body out of the NEON/I8MM runtime function.",
+      "Decode Q4_K scales into NEON vectors and widen/zip each scale group once per subblock.",
+      "Prevent GCC from fully unrolling the four column-pair iterations."
+    ]
+  },
+  "build": {
+    "type": "Release",
+    "release_flags": "-O3 -DNDEBUG -g -fno-omit-frame-pointer",
+    "shared_libraries": true,
+    "native": true,
+    "kleidiai": true,
+    "lto": false,
+    "control": "Use one llama-bench executable and switch only libggml-cpu through LD_LIBRARY_PATH."
+  },
+  "primary_model": {
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "filename": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+    "size_bytes": 2146497824,
+    "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4"
+  },
+  "second_machine_model": {
+    "repository": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+    "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+    "filename": "qwen2.5-1.5b-instruct-q4_k_m.gguf",
+    "size_bytes": 1117320736,
+    "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e"
+  },
+  "hosts": {
+    "primary": {
+      "provider": "Google Cloud",
+      "machine_type": "c4a-highcpu-8",
+      "cpu": "Google Axion / Arm Neoverse V2",
+      "paid_cost_ceiling_usd_for_pass": 40,
+      "required_auto_delete": true
+    },
+    "second": {
+      "runner": "ubuntu-24.04-arm",
+      "required_architecture": "aarch64",
+      "actual_cpu_must_be_recorded": true
+    }
+  },
+  "correctness_before_performance": {
+    "direct_cases": {
+      "nb": [1, 2, 3, 12, 36],
+      "seeds": [1, 17, 1234567],
+      "reference": "ggml_gemm_q4_K_8x8_q8_K_generic",
+      "maximum_nmse": 0.0005
+    },
+    "deterministic_inference": {
+      "seed": 42,
+      "temperature": 0,
+      "required_output": "byte-identical"
+    }
+  },
+  "performance": {
+    "cpu_list": "0-3",
+    "threads": 4,
+    "flash_attention": true,
+    "process_order": ["baseline", "candidate", "candidate", "baseline"],
+    "samples_per_variant_per_case": 6,
+    "cases": [
+      {"id": "pp128", "prompt_tokens": 128, "generated_tokens": 0},
+      {"id": "pp512", "prompt_tokens": 512, "generated_tokens": 0},
+      {"id": "tg128", "prompt_tokens": 0, "generated_tokens": 128}
+    ],
+    "decision_metric": "whole-model tokens per second",
+    "microbenchmark_is_not_headline": true
+  },
+  "acceptance": {
+    "correctness": true,
+    "minimum_samples_per_variant_per_case": 6,
+    "pp128_speedup": 1.05,
+    "pp512_speedup": 1.03,
+    "minimum_decode_ratio": 0.98
+  },
+  "claim_boundary": "Results are specific to measured models, quantizations, compilers, and Arm machines. Microbenchmark speedups are supporting mechanism evidence and never the headline."
+}
