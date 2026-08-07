@@ -1,0 +1,36 @@
+[0/1] Re-running CMake...
+CMAKE_BUILD_TYPE=Release
+-- Warning: ccache not found - consider installing it for faster compilation or disable this warning with GGML_CCACHE=OFF
+-- CMAKE_SYSTEM_PROCESSOR: aarch64
+-- GGML_SYSTEM_ARCH: ARM
+-- Including CPU backend
+-- ARM detected
+-- ARM detected flags: -mcpu=neoverse-v2+crc+sve2-sm4+sve2-aes+sve2-sha3+nossbs
+-- Checking for ARM features using flags:
+--   -mcpu=neoverse-v2+crc+sve2-sm4+sve2-aes+sve2-sha3+nossbs+dotprod+i8mm+sve
+-- Using KleidiAI optimized kernels if applicable
+-- Adding CPU backend variant ggml-cpu: -mcpu=neoverse-v2+crc+sve2-sm4+sve2-aes+sve2-sha3+nossbs+dotprod+i8mm+sve 
+-- ggml version: 0.18.0
+-- ggml commit:  876a43211-dirty
+-- Could NOT find OpenSSL, try to set the path to OpenSSL root folder in the system variable OPENSSL_ROOT_DIR (missing: OPENSSL_CRYPTO_LIBRARY OPENSSL_INCLUDE_DIR) 
+CMake Warning at vendor/cpp-httplib/CMakeLists.txt:152 (message):
+  OpenSSL not found, HTTPS support disabled
+
+
+-- Generating embedded license file for target: llama-app
+-- Configuring done (0.3s)
+-- Generating done (0.0s)
+-- Build files have been written to: /var/tmp/e24-kernel/build
+[1/13] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/arm/repack.cpp.o
+[2/13] Linking CXX shared library bin/libggml-cpu.so.0.18.0
+[3/13] Creating library symlink bin/libggml-cpu.so.0 bin/libggml-cpu.so
+[4/13] Linking CXX shared library bin/libggml.so.0.18.0
+[5/13] Creating library symlink bin/libggml.so.0 bin/libggml.so
+[6/13] Linking CXX shared library bin/libllama.so.0.0.10216
+[7/13] Creating library symlink bin/libllama.so.0 bin/libllama.so
+[8/13] Linking CXX shared library bin/libllama-common.so.0.0.10216
+[9/13] Creating library symlink bin/libllama-common.so.0 bin/libllama-common.so
+[10/13] Linking CXX shared library bin/libllama-completion-impl.so
+[11/13] Linking CXX shared library bin/libllama-bench-impl.so
+[12/13] Linking CXX executable bin/llama-completion
+[13/13] Linking CXX executable bin/llama-bench

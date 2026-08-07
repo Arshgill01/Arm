@@ -1,0 +1,4 @@
+ Optimizing single-token matrix-vector kernels can make a streamed language-model response feel faster on an Arm cloud CPU because these kernels are responsible for processing individual tokens in the input sequence. When these kernels are optimized, they can process each token more efficiently, reducing the overall time required to process the entire sequence. This can result in a faster response time for the language model, as the model can process more tokens in less time. 
+
+One correctness risk with optimizing single-token matrix-vector kernels is that it may not be the most efficient approach for the entire model. While optimizing these kernels can improve the speed of the language model for individual tokens, it may
+

@@ -1,0 +1,13 @@
+[1/13] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/arm/repack.cpp.o
+[2/13] Linking CXX shared library bin/libggml-cpu.so.0.18.0
+[3/13] Creating library symlink bin/libggml-cpu.so.0 bin/libggml-cpu.so
+[4/13] Linking CXX shared library bin/libggml.so.0.18.0
+[5/13] Creating library symlink bin/libggml.so.0 bin/libggml.so
+[6/13] Linking CXX shared library bin/libllama.so.0.0.10216
+[7/13] Creating library symlink bin/libllama.so.0 bin/libllama.so
+[8/13] Linking CXX shared library bin/libllama-common.so.0.0.10216
+[9/13] Creating library symlink bin/libllama-common.so.0 bin/libllama-common.so
+[10/13] Linking CXX shared library bin/libllama-completion-impl.so
+[11/13] Linking CXX shared library bin/libllama-bench-impl.so
+[12/13] Linking CXX executable bin/llama-completion
+[13/13] Linking CXX executable bin/llama-bench

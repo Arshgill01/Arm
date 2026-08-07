@@ -1,0 +1,167 @@
+     12783:	find library=libc.so.6 [0]; searching
+     12783:	 search path=/var/tmp/e24-kernel/variants/e2e-stock-bin		(LD_LIBRARY_PATH)
+     12783:	  trying file=/var/tmp/e24-kernel/variants/e2e-stock-bin/libc.so.6
+     12783:	 search cache=/etc/ld.so.cache
+     12783:	  trying file=/lib/aarch64-linux-gnu/libc.so.6
+     12783:	
+     12783:	
+     12783:	calling init: /lib/ld-linux-aarch64.so.1
+     12783:	
+     12783:	
+     12783:	calling init: /lib/aarch64-linux-gnu/libc.so.6
+     12783:	
+     12783:	
+     12783:	initialize program: taskset
+     12783:	
+     12783:	
+     12783:	transferring control: taskset
+     12783:	
+     12783:	find library=libllama-bench-impl.so [0]; searching
+     12783:	 search path=/var/tmp/e24-kernel/variants/e2e-stock-bin		(LD_LIBRARY_PATH)
+     12783:	  trying file=/var/tmp/e24-kernel/variants/e2e-stock-bin/libllama-bench-impl.so
+     12783:	
+     12783:	find library=libstdc++.so.6 [0]; searching
+     12783:	 search path=/var/tmp/e24-kernel/variants/e2e-stock-bin		(LD_LIBRARY_PATH)
+     12783:	  trying file=/var/tmp/e24-kernel/variants/e2e-stock-bin/libstdc++.so.6
+     12783:	 search path=/var/tmp/e24-kernel/build/bin:		(RUNPATH from file /var/tmp/e24-kernel/variants/e2e-stock-bin/llama-bench)
+     12783:	  trying file=/var/tmp/e24-kernel/build/bin/libstdc++.so.6
+     12783:	  trying file=libstdc++.so.6
+     12783:	 search cache=/etc/ld.so.cache
+     12783:	  trying file=/lib/aarch64-linux-gnu/libstdc++.so.6
+     12783:	
+     12783:	find library=libgcc_s.so.1 [0]; searching
+     12783:	 search path=/var/tmp/e24-kernel/variants/e2e-stock-bin		(LD_LIBRARY_PATH)
+     12783:	  trying file=/var/tmp/e24-kernel/variants/e2e-stock-bin/libgcc_s.so.1
+     12783:	 search path=/var/tmp/e24-kernel/build/bin:		(RUNPATH from file /var/tmp/e24-kernel/variants/e2e-stock-bin/llama-bench)
+     12783:	  trying file=/var/tmp/e24-kernel/build/bin/libgcc_s.so.1
+     12783:	  trying file=libgcc_s.so.1
+     12783:	 search cache=/etc/ld.so.cache
+     12783:	  trying file=/lib/aarch64-linux-gnu/libgcc_s.so.1
+     12783:	
+     12783:	find library=libc.so.6 [0]; searching
+     12783:	 search path=/var/tmp/e24-kernel/variants/e2e-stock-bin		(LD_LIBRARY_PATH)
+     12783:	  trying file=/var/tmp/e24-kernel/variants/e2e-stock-bin/libc.so.6
+     12783:	 search path=/var/tmp/e24-kernel/build/bin:		(RUNPATH from file /var/tmp/e24-kernel/variants/e2e-stock-bin/llama-bench)
+     12783:	  trying file=/var/tmp/e24-kernel/build/bin/libc.so.6
+     12783:	  trying file=libc.so.6
+     12783:	 search cache=/etc/ld.so.cache
+     12783:	  trying file=/lib/aarch64-linux-gnu/libc.so.6
+     12783:	
+     12783:	find library=libllama-common.so.0 [0]; searching
+     12783:	 search path=/var/tmp/e24-kernel/variants/e2e-stock-bin		(LD_LIBRARY_PATH)
+     12783:	  trying file=/var/tmp/e24-kernel/variants/e2e-stock-bin/libllama-common.so.0
+     12783:	
+     12783:	find library=libllama.so.0 [0]; searching
+     12783:	 search path=/var/tmp/e24-kernel/variants/e2e-stock-bin		(LD_LIBRARY_PATH)
+     12783:	  trying file=/var/tmp/e24-kernel/variants/e2e-stock-bin/libllama.so.0
+     12783:	
+     12783:	find library=libggml.so.0 [0]; searching
+     12783:	 search path=/var/tmp/e24-kernel/variants/e2e-stock-bin		(LD_LIBRARY_PATH)
+     12783:	  trying file=/var/tmp/e24-kernel/variants/e2e-stock-bin/libggml.so.0
+     12783:	
+     12783:	find library=libggml-base.so.0 [0]; searching
+     12783:	 search path=/var/tmp/e24-kernel/variants/e2e-stock-bin		(LD_LIBRARY_PATH)
+     12783:	  trying file=/var/tmp/e24-kernel/variants/e2e-stock-bin/libggml-base.so.0
+     12783:	
+     12783:	find library=libm.so.6 [0]; searching
+     12783:	 search path=/var/tmp/e24-kernel/variants/e2e-stock-bin		(LD_LIBRARY_PATH)
+     12783:	  trying file=/var/tmp/e24-kernel/variants/e2e-stock-bin/libm.so.6
+     12783:	 search path=/var/tmp/e24-kernel/build/bin:		(RUNPATH from file /var/tmp/e24-kernel/variants/e2e-stock-bin/llama-bench)
+     12783:	  trying file=/var/tmp/e24-kernel/build/bin/libm.so.6
+     12783:	  trying file=libm.so.6
+     12783:	 search cache=/etc/ld.so.cache
+     12783:	  trying file=/lib/aarch64-linux-gnu/libm.so.6
+     12783:	
+     12783:	find library=libggml-cpu.so.0 [0]; searching
+     12783:	 search path=/var/tmp/e24-kernel/variants/e2e-stock-bin		(LD_LIBRARY_PATH)
+     12783:	  trying file=/var/tmp/e24-kernel/variants/e2e-stock-bin/libggml-cpu.so.0
+     12783:	
+     12783:	find library=libgomp.so.1 [0]; searching
+     12783:	 search path=/var/tmp/e24-kernel/variants/e2e-stock-bin		(LD_LIBRARY_PATH)
+     12783:	  trying file=/var/tmp/e24-kernel/variants/e2e-stock-bin/libgomp.so.1
+     12783:	 search cache=/etc/ld.so.cache
+     12783:	  trying file=/lib/aarch64-linux-gnu/libgomp.so.1
+     12783:	
+     12783:	
+     12783:	calling init: /lib/ld-linux-aarch64.so.1
+     12783:	
+     12783:	
+     12783:	calling init: /lib/aarch64-linux-gnu/libc.so.6
+     12783:	
+     12783:	
+     12783:	calling init: /lib/aarch64-linux-gnu/libgomp.so.1
+     12783:	
+     12783:	
+     12783:	calling init: /lib/aarch64-linux-gnu/libm.so.6
+     12783:	
+     12783:	
+     12783:	calling init: /lib/aarch64-linux-gnu/libgcc_s.so.1
+     12783:	
+     12783:	
+     12783:	calling init: /lib/aarch64-linux-gnu/libstdc++.so.6
+     12783:	
+     12783:	
+     12783:	calling init: /var/tmp/e24-kernel/variants/e2e-stock-bin/libggml-base.so.0
+     12783:	
+     12783:	
+     12783:	calling init: /var/tmp/e24-kernel/variants/e2e-stock-bin/libggml-cpu.so.0
+     12783:	
+     12783:	
+     12783:	calling init: /var/tmp/e24-kernel/variants/e2e-stock-bin/libggml.so.0
+     12783:	
+     12783:	
+     12783:	calling init: /var/tmp/e24-kernel/variants/e2e-stock-bin/libllama.so.0
+     12783:	
+     12783:	
+     12783:	calling init: /var/tmp/e24-kernel/variants/e2e-stock-bin/libllama-common.so.0
+     12783:	
+     12783:	
+     12783:	calling init: /var/tmp/e24-kernel/variants/e2e-stock-bin/libllama-bench-impl.so
+     12783:	
+     12783:	
+     12783:	initialize program: /var/tmp/e24-kernel/variants/e2e-stock-bin/llama-bench
+     12783:	
+     12783:	
+     12783:	transferring control: /var/tmp/e24-kernel/variants/e2e-stock-bin/llama-bench
+     12783:	
+     12783:	/var/tmp/e24-kernel/variants/e2e-stock-bin/libggml-cpu.so.0: error: symbol lookup error: undefined symbol: ggml_backend_score (fatal)
+     12783:	/var/tmp/e24-kernel/variants/e2e-stock-bin/libggml-cpu.so.0: error: symbol lookup error: undefined symbol: ggml_backend_init (fatal)
+     12783:	
+     12783:	calling fini:  [0]
+     12783:	
+     12783:	
+     12783:	calling fini: /var/tmp/e24-kernel/variants/e2e-stock-bin/libllama-bench-impl.so [0]
+     12783:	
+     12783:	
+     12783:	calling fini: /var/tmp/e24-kernel/variants/e2e-stock-bin/libllama-common.so.0 [0]
+     12783:	
+     12783:	
+     12783:	calling fini: /var/tmp/e24-kernel/variants/e2e-stock-bin/libllama.so.0 [0]
+     12783:	
+     12783:	
+     12783:	calling fini: /var/tmp/e24-kernel/variants/e2e-stock-bin/libggml.so.0 [0]
+     12783:	
+     12783:	
+     12783:	calling fini: /var/tmp/e24-kernel/variants/e2e-stock-bin/libggml-cpu.so.0 [0]
+     12783:	
+     12783:	
+     12783:	calling fini: /var/tmp/e24-kernel/variants/e2e-stock-bin/libggml-base.so.0 [0]
+     12783:	
+     12783:	
+     12783:	calling fini: /lib/aarch64-linux-gnu/libstdc++.so.6 [0]
+     12783:	
+     12783:	
+     12783:	calling fini: /lib/aarch64-linux-gnu/libgcc_s.so.1 [0]
+     12783:	
+     12783:	
+     12783:	calling fini: /lib/aarch64-linux-gnu/libm.so.6 [0]
+     12783:	
+     12783:	
+     12783:	calling fini: /lib/aarch64-linux-gnu/libgomp.so.1 [0]
+     12783:	
+     12783:	
+     12783:	calling fini: /lib/aarch64-linux-gnu/libc.so.6 [0]
+     12783:	
+     12783:	
+     12783:	calling fini: /lib/ld-linux-aarch64.so.1 [0]
+     12783:	
