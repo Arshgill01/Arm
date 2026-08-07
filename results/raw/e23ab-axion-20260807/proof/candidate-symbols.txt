@@ -1,0 +1,4 @@
+00000000000b4ac0 0000000000000a74 t ggml_gemm_q4_K_8x8_q8_K_sve(int, float*, unsigned long, void const*, void const*, int, int)
+00000000000e0e50 0000000000000020 r ggml_gemm_q4_K_8x8_q8_K_sve(int, float*, unsigned long, void const*, void const*, int, int)::idx_data
+00000000000bc0c0 0000000000000af0 T ggml_gemm_q4_K_8x8_q8_K
+000000000002f8f0 00000000000009c4 T ggml_gemm_q4_K_8x8_q8_K_generic

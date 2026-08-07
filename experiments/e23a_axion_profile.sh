@@ -85,16 +85,19 @@ cp "$build_dir/CMakeCache.txt" "$evidence/build/CMakeCache.txt"
 ninja -C "$build_dir" -t commands > "$evidence/build/build-commands.txt"
 cp "$build_dir/compile_commands.json" "$evidence/build/compile_commands.json"
 bench="$build_dir/bin/llama-bench"
-"$bench" --version 2>&1 | tee "$evidence/build/bench-version.txt"
+cpu_lib="$build_dir/bin/libggml-cpu.so"
+"$bench" --help > "$evidence/build/bench-help.txt" 2>&1
 sha256sum "$bench" > "$evidence/build/bench-sha256.txt"
 file "$bench" > "$evidence/build/bench-file.txt"
-nm --defined-only --demangle "$bench" > "$evidence/build/bench-symbols.txt"
+sha256sum "$cpu_lib" > "$evidence/build/cpu-library-sha256.txt"
+file "$cpu_lib" > "$evidence/build/cpu-library-file.txt"
+nm --defined-only --demangle "$cpu_lib" > "$evidence/build/cpu-library-symbols.txt"
 for symbol in \
   ggml_gemm_q4_K_8x8_q8_K \
   ggml_gemv_q4_K_8x8_q8_K \
-  ggml_quantize_mat_q8_K_4x8_generic \
+  ggml_quantize_mat_q8_K_4x8 \
   quantize_row_q8_K_ref; do
-  objdump --disassemble="$symbol" "$bench" \
+  objdump --disassemble="$symbol" "$cpu_lib" \
     > "$evidence/build/${symbol}.asm.txt" 2>&1 || true
 done
 
@@ -144,7 +147,7 @@ while IFS=$'\t' read -r name prompt generation; do
   perf annotate --stdio --input "$case_dir/perf.data" \
     ggml_gemv_q4_K_8x8_q8_K > "$case_dir/annotate-gemv-q4_K-8x8.txt" 2>&1 || true
   perf annotate --stdio --input "$case_dir/perf.data" \
-    ggml_quantize_mat_q8_K_4x8_generic > "$case_dir/annotate-quantize-mat-q8_K-4x8.txt" 2>&1 || true
+    ggml_quantize_mat_q8_K_4x8 > "$case_dir/annotate-quantize-mat-q8_K-4x8.txt" 2>&1 || true
 done < <(jq -r '.benchmark.cases[] | [.name, .prompt_tokens, .generation_tokens] | @tsv' "$contract")
 
 python3 - "$contract" "$evidence" <<'PY'
@@ -158,7 +161,7 @@ root = pathlib.Path(sys.argv[2])
 symbols = [
     "ggml_gemm_q4_K_8x8_q8_K",
     "ggml_gemv_q4_K_8x8_q8_K",
-    "ggml_quantize_mat_q8_K_4x8_generic",
+    "ggml_quantize_mat_q8_K_4x8",
     "quantize_row_q8_K_ref",
 ]
 summary = {"schema_version": 1, "experiment_id": "E23a", "cases": {}}
