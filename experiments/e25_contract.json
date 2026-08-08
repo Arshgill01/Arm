@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "contract_revision": 1,
+  "experiment_id": "E25",
+  "title": "Arm Q4_K decode-layout pass",
+  "objective": "Make the retained E24 Q4_K model generate tokens at least 10% faster on the same Arm CPU and four-core budget using a decode-oriented packed representation and matching AArch64 GEMV path.",
+  "starting_point": {
+    "required_ancestor": "1c830dbf6eeb6e9261cbe2613a22ea89b733ea22",
+    "baseline": "E24 cumulative E23 Q4_K prefill plus E24 Q6_K decode",
+    "branch": "codex/e25-q4-k-decode-layout"
+  },
+  "constraints": {
+    "threads": 4,
+    "same_model": true,
+    "prompt_caching": false,
+    "speculative_decoding": false,
+    "second_full_model_copy": false,
+    "maximum_compute_usd": 12.0,
+    "maximum_instance_duration_hours": 6,
+    "required_auto_delete": true
+  },
+  "gates": {
+    "target_whole_model_tg128_ratio": 1.10,
+    "desired_whole_model_tg128_ratio": 1.15,
+    "minimum_direct_ratio_both_primary_shapes": 1.20,
+    "alternate_minimum_projected_whole_model_ratio": 1.08,
+    "reference_correctness_required_before_timing": true,
+    "reverse_balanced_whole_model_ab_required": true,
+    "e23_prefill_regression_guard_required": true,
+    "e24_q6_regression_guard_required": true
+  },
+  "required_scope": {
+    "profile_cumulative_baseline": true,
+    "packed_format_harness": true,
+    "materially_distinct_second_layout_if_first_misses": true,
+    "real_model_dispatch_proof": true,
+    "representation_size_and_preparation_measurement": true,
+    "adjacent_models_after_primary_win": ["Q4_K_S", "Qwen Q4_K_M"],
+    "second_arm_cpu_after_primary_win": true,
+    "current_upstream_patch": true,
+    "streamed_demo": true
+  },
+  "artifact_prefix": "e25",
+  "patch_directory": "patches/llama.cpp/e25",
+  "claim_boundary": "A smaller positive patch may be retained, but E25 succeeds only if the 1.10x whole-model tg128 target is met under the frozen constraints."
+}
