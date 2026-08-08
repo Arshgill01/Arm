@@ -1,0 +1,32 @@
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:893:void ggml_gemv_q4_K_8x4_q8_K_generic(int n, float * GGML_RESTRICT s, size_t bs, const void * GGML_RESTRICT vx, const void * GGML_RESTRICT vy, int nr, int nc) {
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:964:void ggml_gemv_q4_K_8x8_q8_K_generic(int n, float * GGML_RESTRICT s, size_t bs, const void * GGML_RESTRICT vx, const void * GGML_RESTRICT vy, int nr, int nc) {
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:1828:void ggml_gemm_q4_K_8x4_q8_K_generic(int n, float * GGML_RESTRICT s, size_t bs, const void * GGML_RESTRICT vx, const void * GGML_RESTRICT vy, int nr, int nc) {
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:1911:void ggml_gemm_q4_K_8x8_q8_K_generic(int n, float * GGML_RESTRICT s, size_t bs, const void * GGML_RESTRICT vx, const void * GGML_RESTRICT vy, int nr, int nc) {
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4042:template <> void gemv<block_q4_K, 4, 8, GGML_TYPE_Q8_K>(int n, float * s, size_t bs, const void * vx, const void * vy, int nr, int nc) {
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4043:    ggml_gemv_q4_K_8x4_q8_K(n, s, bs, vx, vy, nr, nc);
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4046:template <> void gemv<block_q4_K, 2, 8, GGML_TYPE_Q8_K>(int n, float * s, size_t bs, const void * vx, const void * vy, int nr, int nc) {
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4047:    ggml_gemv_q4_K_8x4_q8_K_decoded(n, s, bs, vx, vy, nr, nc);
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4050:template <> void gemv<block_q4_K, 8, 8, GGML_TYPE_Q8_K>(int n, float * s, size_t bs, const void * vx, const void * vy, int nr, int nc) {
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4051:    ggml_gemv_q4_K_8x8_q8_K(n, s, bs, vx, vy, nr, nc);
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4099:template <> void gemv<block_q4_K, 1, 16, GGML_TYPE_Q8_K>(int n, float * s, size_t bs, const void * vx, const void * vy, int nr, int nc) {
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4144:    ggml_gemm_q4_K_8x4_q8_K(n, s, bs, vx, vy, nr, nc);
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4149:    ggml_gemm_q4_K_8x4_q8_K(n, s, bs, view->blocks, vy, nr, nc);
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4153:    ggml_gemm_q4_K_8x8_q8_K(n, s, bs, vx, vy, nr, nc);
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4621:    static const ggml::cpu::repack::tensor_traits<block_q4_K, 2, 8, GGML_TYPE_Q8_K> q4_K_8x4_q8_K_decoded;
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4622:    static const ggml::cpu::repack::tensor_traits<block_q4_K, 4, 8, GGML_TYPE_Q8_K> q4_K_8x4_q8_K;
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4623:    static const ggml::cpu::repack::tensor_traits<block_q4_K, 8, 8, GGML_TYPE_Q8_K> q4_K_8x8_q8_K;
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4690:                return &q4_K_8x8_q8_K;
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4695:                return &q4_K_8x4_q8_K_decoded;
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4698:                return &q4_K_8x8_q8_K;
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/repack.cpp:4703:                return &q4_K_8x4_q8_K;
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/arch/arm/repack.cpp:595:void ggml_gemv_q4_K_8x4_q8_K(int n, float * GGML_RESTRICT s, size_t bs, const void * GGML_RESTRICT vx, const void * GGML_RESTRICT vy, int nr, int nc) {
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/arch/arm/repack.cpp:725:    ggml_gemv_q4_K_8x4_q8_K_generic(n, s, bs, vx, vy, nr, nc);
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/arch/arm/repack.cpp:728:void ggml_gemv_q4_K_8x4_q8_K_decoded(int                        n,
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/arch/arm/repack.cpp:851:void ggml_gemv_q4_K_8x8_q8_K(int                        n,
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/arch/arm/repack.cpp:1002:    ggml_gemv_q4_K_8x8_q8_K_generic(n, s, bs, vx, vy, nr, nc);
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/arch/arm/repack.cpp:3420:void ggml_gemm_q4_K_8x4_q8_K(int n, float * GGML_RESTRICT s, size_t bs, const void * GGML_RESTRICT vx, const void * GGML_RESTRICT vy, int nr, int nc) {
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/arch/arm/repack.cpp:3617:    ggml_gemm_q4_K_8x4_q8_K_generic(n, s, bs, vx, vy, nr, nc);
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/arch/arm/repack.cpp:3850:static __attribute__((noinline)) void ggml_gemm_q4_K_8x8_q8_K_sve(int                        n,
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/arch/arm/repack.cpp:4183:void ggml_gemm_q4_K_8x8_q8_K(int                        n,
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/arch/arm/repack.cpp:4206:        ggml_gemm_q4_K_8x8_q8_K_sve(n, s, bs, vx, vy, nr, nc);
+/var/tmp/e25/llama.cpp/ggml/src/ggml-cpu/arch/arm/repack.cpp:4399:    ggml_gemm_q4_K_8x8_q8_K_generic(n, s, bs, vx, vy, nr, nc);
