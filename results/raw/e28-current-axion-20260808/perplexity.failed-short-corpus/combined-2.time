@@ -1,0 +1,23 @@
+	Command being timed: "env LD_LIBRARY_PATH=/var/tmp/e28-current-work/builds/D/bin taskset -c 0-3 /var/tmp/e28-current-work/builds/D/bin/llama-perplexity -m /var/tmp/e28-current-work/model/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf -f /opt/Arm/experiments/e3_tasks.json -t 4 -c 2048 -b 512 -ub 512 --flash-attn on"
+	User time (seconds): 1.51
+	System time (seconds): 0.91
+	Percent of CPU this job got: 107%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:02.25
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 4609504
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 671147
+	Voluntary context switches: 16
+	Involuntary context switches: 10
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 16
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

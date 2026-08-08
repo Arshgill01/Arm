@@ -1,0 +1,213 @@
+{
+  "accepted": true,
+  "contract_revision": 3,
+  "correctness": {
+    "dispatch": {
+      "e23_superseded_prefill": true,
+      "e24_q6": true,
+      "e25_q4_decoded": true,
+      "e27_neon_fmla": true
+    },
+    "flash_case_count": 9,
+    "flash_passed": true,
+    "maximum_direct_nmse": 8.12298834027e-13,
+    "maximum_flash_nmse": 8.49028348036e-05
+  },
+  "experiment_id": "E28-current-upstream-preperformance",
+  "gates": {
+    "all_dispatch_paths": true,
+    "direct_correctness": true,
+    "perplexity": true,
+    "quality_no_loss": true,
+    "quality_stable": true
+  },
+  "perplexity": {
+    "combined": {
+      "median": 1.8969,
+      "samples": [
+        1.8969,
+        1.8969
+      ]
+    },
+    "combined_over_stock": 1.0006857986917073,
+    "maximum_relative_increase": 0.001,
+    "stock": {
+      "median": 1.8956,
+      "samples": [
+        1.8956,
+        1.8956
+      ]
+    }
+  },
+  "quality": {
+    "combined": {
+      "median_maximum_rss_kib": 4691196.0,
+      "median_readiness_ms": 2112.594709,
+      "minimum_score": 19,
+      "predictions_stable": true,
+      "repetitions": [
+        {
+          "maximum_rss_kib": 4691196,
+          "predictions": {
+            "arithmetic-01": "C",
+            "arithmetic-02": "C",
+            "arithmetic-03": "B",
+            "arithmetic-04": "C",
+            "arithmetic-05": "A",
+            "code-01": "C",
+            "code-02": "C",
+            "code-03": "B",
+            "code-04": "C",
+            "code-05": "B",
+            "data-01": "B",
+            "data-02": "B",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "C",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "C",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "B",
+            "logic-04": "C",
+            "logic-05": "B",
+            "systems-01": "B",
+            "systems-02": "B",
+            "systems-03": "C",
+            "systems-04": "C",
+            "systems-05": "C"
+          },
+          "readiness_ms": 2072.739784,
+          "score": 19,
+          "total": 30
+        },
+        {
+          "maximum_rss_kib": 4691196,
+          "predictions": {
+            "arithmetic-01": "C",
+            "arithmetic-02": "C",
+            "arithmetic-03": "B",
+            "arithmetic-04": "C",
+            "arithmetic-05": "A",
+            "code-01": "C",
+            "code-02": "C",
+            "code-03": "B",
+            "code-04": "C",
+            "code-05": "B",
+            "data-01": "B",
+            "data-02": "B",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "C",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "C",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "B",
+            "logic-04": "C",
+            "logic-05": "B",
+            "systems-01": "B",
+            "systems-02": "B",
+            "systems-03": "C",
+            "systems-04": "C",
+            "systems-05": "C"
+          },
+          "readiness_ms": 2152.449634,
+          "score": 19,
+          "total": 30
+        }
+      ]
+    },
+    "stock": {
+      "median_maximum_rss_kib": 4531352.0,
+      "median_readiness_ms": 2367.177372,
+      "minimum_score": 19,
+      "predictions_stable": true,
+      "repetitions": [
+        {
+          "maximum_rss_kib": 4531316,
+          "predictions": {
+            "arithmetic-01": "C",
+            "arithmetic-02": "C",
+            "arithmetic-03": "B",
+            "arithmetic-04": "C",
+            "arithmetic-05": "A",
+            "code-01": "C",
+            "code-02": "C",
+            "code-03": "B",
+            "code-04": "C",
+            "code-05": "B",
+            "data-01": "B",
+            "data-02": "B",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "C",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "C",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "B",
+            "logic-04": "C",
+            "logic-05": "B",
+            "systems-01": "B",
+            "systems-02": "B",
+            "systems-03": "C",
+            "systems-04": "C",
+            "systems-05": "C"
+          },
+          "readiness_ms": 2350.757535,
+          "score": 19,
+          "total": 30
+        },
+        {
+          "maximum_rss_kib": 4531388,
+          "predictions": {
+            "arithmetic-01": "C",
+            "arithmetic-02": "C",
+            "arithmetic-03": "B",
+            "arithmetic-04": "C",
+            "arithmetic-05": "A",
+            "code-01": "C",
+            "code-02": "C",
+            "code-03": "B",
+            "code-04": "C",
+            "code-05": "B",
+            "data-01": "B",
+            "data-02": "B",
+            "data-03": "B",
+            "data-04": "C",
+            "data-05": "C",
+            "evidence-01": "B",
+            "evidence-02": "C",
+            "evidence-03": "C",
+            "evidence-04": "D",
+            "evidence-05": "B",
+            "logic-01": "C",
+            "logic-02": "A",
+            "logic-03": "B",
+            "logic-04": "C",
+            "logic-05": "B",
+            "systems-01": "B",
+            "systems-02": "B",
+            "systems-03": "C",
+            "systems-04": "C",
+            "systems-05": "C"
+          },
+          "readiness_ms": 2383.597209,
+          "score": 19,
+          "total": 30
+        }
+      ]
+    }
+  },
+  "schema_version": 1
+}

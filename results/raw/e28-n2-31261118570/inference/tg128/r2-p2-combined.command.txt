@@ -1,0 +1,1 @@
+env LD_LIBRARY_PATH=/tmp/e28-portability/builds/D/bin taskset -c 0-3 /tmp/e28-portability/builds/D/bin/llama-bench --model /tmp/e28-portability/model/qwen2.5-1.5b-instruct-q4_k_m.gguf --threads 4 --n-gpu-layers 0 --flash-attn on --batch-size 1024 --ubatch-size 512 --no-warmup --output jsonl --repetitions 1 --n-prompt 0 --n-gen 128 

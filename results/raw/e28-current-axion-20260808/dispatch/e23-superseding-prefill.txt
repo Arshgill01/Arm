@@ -1,0 +1,18 @@
+Function "ggml_gemm_q4_K_8x4_q8_K" not defined.
+Breakpoint 1 (ggml_gemm_q4_K_8x4_q8_K) pending.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1".
+[New Thread 0xfffff6bfb4e0 (LWP 7539)]
+[New Thread 0xfffff63eb4e0 (LWP 7540)]
+[New Thread 0xfffff5bdb4e0 (LWP 7541)]
+[Switching to Thread 0xfffff6bfb4e0 (LWP 7539)]
+E28_DISPATCH e23-superseded symbol=ggml_gemm_q4_K_8x4_q8_K n=3072 nr=512 nc=256
+#0  ggml_gemm_q4_K_8x4_q8_K(int, float * __restrict__, size_t, const void * __restrict__, const void * __restrict__, int, int) (n=3072, s=0xfffed6f0d440, bs=4096, vx=0xfffeffc7f040, vy=0xaaaaae089ca0, nr=512, nc=256) at /var/tmp/e28-current-work/sources/D/ggml/src/ggml-cpu/arch/arm/repack.cpp:3402
+#1  0x0000fffff701e5cc in ggml::cpu::repack::tensor_traits<block_q4_K, 2l, 8l, (ggml_type)15>::forward_mul_mat_one_chunk (this=<optimized out>, src1_end=<optimized out>, src1_start=<optimized out>, src0_end=<optimized out>, src0_start=256, op=<optimized out>, params=0xfffff6bfaab8) at /var/tmp/e28-current-work/sources/D/ggml/src/ggml-cpu/repack.cpp:4333
+#2  ggml::cpu::repack::tensor_traits<block_q4_K, 2l, 8l, (ggml_type)15>::forward_mul_mat (this=<optimized out>, op=<optimized out>, params=<optimized out>) at /var/tmp/e28-current-work/sources/D/ggml/src/ggml-cpu/repack.cpp:4471
+#3  ggml::cpu::repack::tensor_traits<block_q4_K, 2l, 8l, (ggml_type)15>::compute_forward (this=<optimized out>, params=<optimized out>, op=<optimized out>) at /var/tmp/e28-current-work/sources/D/ggml/src/ggml-cpu/repack.cpp:4273
+A debugging session is active.
+
+	Inferior 1 [process 7537] will be killed.
+
+Quit anyway? (y or n) [answered Y; input not from terminal]

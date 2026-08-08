@@ -1,0 +1,25 @@
+{
+  "architecture": "ARM64",
+  "boot_disk": {
+    "auto_delete": true,
+    "id": "7104397895173574290",
+    "name": "arm-e28-current-20260808",
+    "size_gb": 60,
+    "type": "hyperdisk-balanced"
+  },
+  "cpu_platform": "Google Axion",
+  "created_utc": "2026-08-08T13:34:53.946Z",
+  "instance_id": "5140430713603657362",
+  "labels": {
+    "experiment": "e28",
+    "lane": "current",
+    "owner": "codex"
+  },
+  "machine_type": "c4a-highcpu-8",
+  "maximum_run_duration_seconds": 21600,
+  "name": "arm-e28-current-20260808",
+  "performance_monitoring_unit": "STANDARD",
+  "status_at_capture": "RUNNING",
+  "termination_action": "DELETE",
+  "zone": "us-central1-a"
+}

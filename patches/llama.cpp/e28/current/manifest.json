@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E28",
+  "upstream_repository": "https://github.com/ggml-org/llama.cpp.git",
+  "upstream_commit": "69bf6437914596fbbc4caf09a7ac16f2acdd1a94",
+  "application_order": [
+    {
+      "file": "0001-arm-q6-k-gemv-reduce-scale-and-load-overhead.patch",
+      "mechanism": "E24 Q6_K Arm GEMV",
+      "sha256": "f1bab985619675bf6fa2771e81455c579ebf77ace53733fc42c0315f9dc5a451"
+    },
+    {
+      "file": "0002-q4-k-decoded-metadata-layout.patch",
+      "mechanism": "E25 decoded Q4_K metadata using the current-upstream Q8_K 4x4 layout",
+      "sha256": "09b7daee6fc5ca662820b8b31b9551076747c2510cf7d6bc07ef34beb3ab9812"
+    },
+    {
+      "file": "0003-arm-sve-flash-attention-neon-gemm.patch",
+      "mechanism": "E27 Arm SVE-build NEON Flash Attention GEMM",
+      "sha256": "5f7c5896a99312b4f9e80cacb39ad766d81cc17b1d93454a0bc6394a013197a4"
+    }
+  ],
+  "omitted_mechanisms": [
+    {
+      "mechanism": "E23 Q4_K 8x8 kernel",
+      "reason": "The patch is not upstream, but the current runtime dispatches aligned two-dimensional Q4_K tensors through E25's Q4_K 8x4 path, so E23 is superseded rather than duplicated."
+    }
+  ],
+  "native_validation": {
+    "machine_family": "Google Axion C4A",
+    "architecture": "aarch64",
+    "evidence": "results/raw/e28-current-axion-20260808"
+  }
+}

@@ -1,3 +1,4 @@
+import hashlib
 import importlib.util
 import json
 import struct
@@ -53,6 +54,30 @@ class E28ContractTests(unittest.TestCase):
         self.assertIn("e28_current_second_arm.sh", workflow)
         self.assertIn("stock-versus-combined", workflow)
         self.assertIn("Neoverse-N2", workflow)
+
+    def test_current_series_manifest_matches_ordered_patch_bytes(self) -> None:
+        expected_commit = "69bf6437914596fbbc4caf09a7ac16f2acdd1a94"
+        for directory in (
+            ROOT / "patches/llama.cpp/current",
+            ROOT / "patches/llama.cpp/e28/current",
+        ):
+            manifest = json.loads((directory / "manifest.json").read_text())
+            self.assertEqual(manifest["upstream_commit"], expected_commit)
+            self.assertEqual(len(manifest["application_order"]), 3)
+            for entry in manifest["application_order"]:
+                self.assertEqual(
+                    hashlib.sha256((directory / entry["file"]).read_bytes()).hexdigest(),
+                    entry["sha256"],
+                )
+
+    def test_live_demo_compares_stock_and_combined(self) -> None:
+        script = ROOT / "scripts/e28_demo_cumulative_arm.sh"
+        self.assertTrue(script.stat().st_mode & 0o111)
+        source = script.read_text()
+        self.assertIn("run_variant stock", source)
+        self.assertIn("run_variant combined", source)
+        self.assertIn("-c 8192", source)
+        self.assertIn("taskset -c 0-3", source)
 
 
 class E28IngestTests(unittest.TestCase):

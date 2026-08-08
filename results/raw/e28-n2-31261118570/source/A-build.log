@@ -1,0 +1,639 @@
+[1/345] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.o
+[2/345] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o
+[3/345] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o
+[4/345] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.o
+[5/345] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.o
+[6/345] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o
+[7/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.c.o
+[8/345] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.cpp.o
+[9/345] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend-meta.cpp.o
+[10/345] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/hbm.cpp.o
+[11/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/quants.c.o
+[12/345] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.o
+[13/345] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/traits.cpp.o
+[14/345] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o
+[15/345] Linking CXX shared library bin/libggml-base.so.0.19.0
+[16/345] Creating library symlink bin/libggml-base.so.0 bin/libggml-base.so
+[17/345] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/amx.cpp.o
+[18/345] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/mmq.cpp.o
+[19/345] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/vec.cpp.o
+[20/345] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/binary-ops.cpp.o
+[21/345] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/unary-ops.cpp.o
+[22/345] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/repack.cpp.o
+[23/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/arm/quants.c.o
+[24/345] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/llamafile/sgemm.cpp.o
+[25/345] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/kleidiai/kernels.cpp.o
+[26/345] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/arm/repack.cpp.o
+[27/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/pack/kai_lhs_quant_pack_qsi8d32p_f32.c.o
+[28/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/pack/kai_lhs_quant_pack_qsi8d32p4x8sb_f32_neon.c.o
+[29/345] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/kleidiai/kleidiai.cpp.o
+[30/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/pack/kai_rhs_pack_nxk_qsi4c32ps1s0scalef16_qsu4c32s16s0_neon.c.o
+[31/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/pack/kai_lhs_quant_pack_qsi8d32p_f32_neon.c.o
+[32/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/pack/kai_rhs_pack_nxk_qsi4c32pscalef16_qsu4c32s16s0.c.o
+[33/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/pack/kai_lhs_quant_pack_qai8dxp_f32.c.o
+[34/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/pack/kai_rhs_pack_nxk_qsi8cxp_qsi8cx_neon.c.o
+[35/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod.c.o
+[36/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod.c.o
+[37/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod.c.o
+[38/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod.c.o
+[39/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod.c.o
+[40/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod.c.o
+[41/345] Building ASM object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/kai_common_sve_asm.S.o
+[42/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm.c.o
+[43/345] Building ASM object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod_asm.S.o
+[44/345] Building ASM object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm_asm.S.o
+[45/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm.c.o
+[46/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod.c.o
+[47/345] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm.c.o
+[48/345] Building CXX object ggml/src/CMakeFiles/ggml.dir/ggml-backend-dl.cpp.o
+[49/345] Building CXX object src/CMakeFiles/llama.dir/llama.cpp.o
+[50/345] Building CXX object ggml/src/CMakeFiles/ggml.dir/ggml-backend-reg.cpp.o
+[51/345] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ops.cpp.o
+[52/345] Linking CXX shared library bin/libggml-cpu.so.0.19.0
+[53/345] Creating library symlink bin/libggml-cpu.so.0 bin/libggml-cpu.so
+[54/345] Linking CXX shared library bin/libggml.so.0.19.0
+[55/345] Creating library symlink bin/libggml.so.0 bin/libggml.so
+[56/345] Building CXX object src/CMakeFiles/llama.dir/llama-adapter.cpp.o
+[57/345] Building CXX object src/CMakeFiles/llama.dir/llama-arch.cpp.o
+[58/345] Building CXX object src/CMakeFiles/llama.dir/llama-cparams.cpp.o
+[59/345] Building CXX object src/CMakeFiles/llama.dir/llama-batch.cpp.o
+[60/345] Building CXX object src/CMakeFiles/llama.dir/llama-chat.cpp.o
+[61/345] Building CXX object src/CMakeFiles/llama.dir/llama-hparams.cpp.o
+[62/345] Building CXX object src/CMakeFiles/llama.dir/llama-impl.cpp.o
+[63/345] Building CXX object src/CMakeFiles/llama.dir/llama-io.cpp.o
+[64/345] Building CXX object src/CMakeFiles/llama.dir/llama-context.cpp.o
+[65/345] Building CXX object src/CMakeFiles/llama.dir/llama-graph.cpp.o
+[66/345] Building CXX object src/CMakeFiles/llama.dir/llama-kv-cache-iswa.cpp.o
+[67/345] Building CXX object src/CMakeFiles/llama.dir/llama-kv-cache-dsa.cpp.o
+[68/345] Building CXX object src/CMakeFiles/llama.dir/llama-grammar.cpp.o
+[69/345] Building CXX object src/CMakeFiles/llama.dir/llama-memory.cpp.o
+[70/345] Building CXX object src/CMakeFiles/llama.dir/llama-kv-cache-msa.cpp.o
+[71/345] Building CXX object src/CMakeFiles/llama.dir/llama-kv-cache.cpp.o
+[72/345] Building CXX object src/CMakeFiles/llama.dir/llama-memory-hybrid.cpp.o
+[73/345] Building CXX object src/CMakeFiles/llama.dir/llama-memory-hybrid-iswa.cpp.o
+[74/345] Building CXX object src/CMakeFiles/llama.dir/llama-mmap.cpp.o
+[75/345] Building CXX object src/CMakeFiles/llama.dir/llama-model-saver.cpp.o
+[76/345] Building CXX object src/CMakeFiles/llama.dir/llama-memory-recurrent.cpp.o
+[77/345] Building CXX object src/CMakeFiles/llama.dir/llama-kv-cache-dsv4.cpp.o
+[78/345] Building CXX object src/CMakeFiles/llama.dir/llama-quant.cpp.o
+[79/345] Building CXX object src/CMakeFiles/llama.dir/llama-model-loader.cpp.o
+[80/345] Building CXX object src/CMakeFiles/llama.dir/unicode-data.cpp.o
+[81/345] Building CXX object src/CMakeFiles/llama.dir/llama-sampler.cpp.o
+[82/345] Building CXX object src/CMakeFiles/llama.dir/models/afmoe.cpp.o
+[83/345] Building CXX object src/CMakeFiles/llama.dir/llama-model.cpp.o
+[84/345] Building CXX object src/CMakeFiles/llama.dir/models/apertus.cpp.o
+[85/345] Building CXX object src/CMakeFiles/llama.dir/models/arcee.cpp.o
+[86/345] Building CXX object src/CMakeFiles/llama.dir/models/arctic.cpp.o
+[87/345] Building CXX object src/CMakeFiles/llama.dir/models/arwkv7.cpp.o
+[88/345] Building CXX object src/CMakeFiles/llama.dir/models/baichuan.cpp.o
+[89/345] Building CXX object src/CMakeFiles/llama.dir/models/bailingmoe.cpp.o
+[90/345] Building CXX object src/CMakeFiles/llama.dir/llama-vocab.cpp.o
+[91/345] Building CXX object src/CMakeFiles/llama.dir/models/bailingmoe2.cpp.o
+[92/345] Building CXX object src/CMakeFiles/llama.dir/models/bert.cpp.o
+[93/345] Building CXX object src/CMakeFiles/llama.dir/models/bitnet.cpp.o
+[94/345] Building CXX object src/CMakeFiles/llama.dir/models/bloom.cpp.o
+[95/345] Building CXX object src/CMakeFiles/llama.dir/models/chameleon.cpp.o
+[96/345] Building CXX object src/CMakeFiles/llama.dir/models/chatglm.cpp.o
+[97/345] Building CXX object src/CMakeFiles/llama.dir/models/codeshell.cpp.o
+[98/345] Building CXX object src/CMakeFiles/llama.dir/models/cogvlm.cpp.o
+[99/345] Building CXX object src/CMakeFiles/llama.dir/models/cohere2.cpp.o
+[100/345] Building CXX object src/CMakeFiles/llama.dir/models/command-r.cpp.o
+[101/345] Building CXX object src/CMakeFiles/llama.dir/models/cohere2moe.cpp.o
+[102/345] Building CXX object src/CMakeFiles/llama.dir/models/dbrx.cpp.o
+[103/345] Building CXX object src/CMakeFiles/llama.dir/unicode.cpp.o
+[104/345] Building CXX object src/CMakeFiles/llama.dir/models/deci.cpp.o
+[105/345] Building CXX object src/CMakeFiles/llama.dir/models/deepseek.cpp.o
+[106/345] Building CXX object src/CMakeFiles/llama.dir/models/deepseek2ocr.cpp.o
+[107/345] Building CXX object src/CMakeFiles/llama.dir/models/deepseek2.cpp.o
+[108/345] Building CXX object src/CMakeFiles/llama.dir/models/deepseek32.cpp.o
+[109/345] Building CXX object src/CMakeFiles/llama.dir/models/delta-net-base.cpp.o
+[110/345] Building CXX object src/CMakeFiles/llama.dir/models/deepseek4.cpp.o
+[111/345] Building CXX object src/CMakeFiles/llama.dir/models/dots1.cpp.o
+[112/345] Building CXX object src/CMakeFiles/llama.dir/models/dflash.cpp.o
+[113/345] Building CXX object src/CMakeFiles/llama.dir/models/dream.cpp.o
+[114/345] Building CXX object src/CMakeFiles/llama.dir/models/eagle3.cpp.o
+[115/345] Building CXX object src/CMakeFiles/llama.dir/models/ernie4-5-moe.cpp.o
+[116/345] Building CXX object src/CMakeFiles/llama.dir/models/ernie4-5.cpp.o
+[117/345] Building CXX object src/CMakeFiles/llama.dir/models/eurobert.cpp.o
+[118/345] Building CXX object src/CMakeFiles/llama.dir/models/exaone-moe.cpp.o
+[119/345] Building CXX object src/CMakeFiles/llama.dir/models/exaone.cpp.o
+[120/345] Building CXX object src/CMakeFiles/llama.dir/models/exaone4.cpp.o
+[121/345] Building CXX object src/CMakeFiles/llama.dir/models/falcon-h1.cpp.o
+[122/345] Building CXX object src/CMakeFiles/llama.dir/models/falcon.cpp.o
+[123/345] Building CXX object src/CMakeFiles/llama.dir/models/gemma-embedding.cpp.o
+[124/345] Building CXX object src/CMakeFiles/llama.dir/models/gemma.cpp.o
+[125/345] Building CXX object src/CMakeFiles/llama.dir/models/gemma2.cpp.o
+[126/345] Building CXX object src/CMakeFiles/llama.dir/models/gemma3.cpp.o
+[127/345] Building CXX object src/CMakeFiles/llama.dir/models/gemma3n.cpp.o
+[128/345] Building CXX object src/CMakeFiles/llama.dir/models/gemma4-assistant.cpp.o
+[129/345] Building CXX object src/CMakeFiles/llama.dir/models/gemma4.cpp.o
+[130/345] Building CXX object src/CMakeFiles/llama.dir/models/glm4.cpp.o
+[131/345] Building CXX object src/CMakeFiles/llama.dir/models/glm4-moe.cpp.o
+[132/345] Building CXX object src/CMakeFiles/llama.dir/models/glm-dsa.cpp.o
+[133/345] Building CXX object src/CMakeFiles/llama.dir/models/gpt2.cpp.o
+[134/345] Building CXX object src/CMakeFiles/llama.dir/models/gptneox.cpp.o
+[135/345] Building CXX object src/CMakeFiles/llama.dir/models/granite-hybrid.cpp.o
+[136/345] Building CXX object src/CMakeFiles/llama.dir/models/granite-moe.cpp.o
+[137/345] Building CXX object src/CMakeFiles/llama.dir/models/granite.cpp.o
+[138/345] Building CXX object src/CMakeFiles/llama.dir/models/grok.cpp.o
+[139/345] Building CXX object src/CMakeFiles/llama.dir/models/hunyuan-dense.cpp.o
+[140/345] Building CXX object src/CMakeFiles/llama.dir/models/grovemoe.cpp.o
+[141/345] Building CXX object src/CMakeFiles/llama.dir/models/hunyuan-moe.cpp.o
+[142/345] Building CXX object src/CMakeFiles/llama.dir/models/hunyuan-vl.cpp.o
+[143/345] Building CXX object src/CMakeFiles/llama.dir/models/internlm2.cpp.o
+[144/345] Building CXX object src/CMakeFiles/llama.dir/models/hy-v3.cpp.o
+[145/345] Building CXX object src/CMakeFiles/llama.dir/models/jais.cpp.o
+[146/345] Building CXX object src/CMakeFiles/llama.dir/models/jais2.cpp.o
+[147/345] Building CXX object src/CMakeFiles/llama.dir/models/jamba.cpp.o
+[148/345] Building CXX object src/CMakeFiles/llama.dir/models/jina-bert-v2.cpp.o
+[149/345] Building CXX object src/CMakeFiles/llama.dir/models/jina-bert-v3.cpp.o
+[150/345] Building CXX object src/CMakeFiles/llama.dir/models/kimi-linear.cpp.o
+[151/345] Building CXX object src/CMakeFiles/llama.dir/models/laguna.cpp.o
+[152/345] Building CXX object src/CMakeFiles/llama.dir/models/lfm2.cpp.o
+[153/345] Building CXX object src/CMakeFiles/llama.dir/models/lfm2moe.cpp.o
+[154/345] Building CXX object src/CMakeFiles/llama.dir/models/llada-moe.cpp.o
+[155/345] Building CXX object src/CMakeFiles/llama.dir/models/llada.cpp.o
+[156/345] Building CXX object src/CMakeFiles/llama.dir/models/llama-embed.cpp.o
+[157/345] Building CXX object src/CMakeFiles/llama.dir/models/llama.cpp.o
+[158/345] Building CXX object src/CMakeFiles/llama.dir/models/maincoder.cpp.o
+[159/345] Building CXX object src/CMakeFiles/llama.dir/models/llama4.cpp.o
+[160/345] Building CXX object src/CMakeFiles/llama.dir/models/mamba-base.cpp.o
+[161/345] Building CXX object src/CMakeFiles/llama.dir/models/mamba.cpp.o
+[162/345] Building CXX object src/CMakeFiles/llama.dir/models/mamba2.cpp.o
+[163/345] Building CXX object src/CMakeFiles/llama.dir/models/mellum.cpp.o
+[164/345] Building CXX object src/CMakeFiles/llama.dir/models/minicpm.cpp.o
+[165/345] Building CXX object src/CMakeFiles/llama.dir/models/mimo2.cpp.o
+[166/345] Building CXX object src/CMakeFiles/llama.dir/models/minicpm3.cpp.o
+[167/345] Building CXX object src/CMakeFiles/llama.dir/models/minimax-m2.cpp.o
+[168/345] Building CXX object src/CMakeFiles/llama.dir/models/mistral3.cpp.o
+[169/345] Building CXX object src/CMakeFiles/llama.dir/models/mistral4.cpp.o
+[170/345] Building CXX object src/CMakeFiles/llama.dir/models/minimax-m3.cpp.o
+[171/345] Building CXX object src/CMakeFiles/llama.dir/models/modern-bert.cpp.o
+[172/345] Building CXX object src/CMakeFiles/llama.dir/models/mpt.cpp.o
+[173/345] Building CXX object src/CMakeFiles/llama.dir/models/nemotron-h-moe.cpp.o
+[174/345] Building CXX object src/CMakeFiles/llama.dir/models/nanbeige.cpp.o
+[175/345] Building CXX object src/CMakeFiles/llama.dir/models/nemotron-h.cpp.o
+[176/345] Building CXX object src/CMakeFiles/llama.dir/models/nemotron.cpp.o
+[177/345] Building CXX object src/CMakeFiles/llama.dir/models/neo-bert.cpp.o
+[178/345] Building CXX object src/CMakeFiles/llama.dir/models/nomic-bert-moe.cpp.o
+[179/345] Building CXX object src/CMakeFiles/llama.dir/models/nomic-bert.cpp.o
+[180/345] Building CXX object src/CMakeFiles/llama.dir/models/olmo.cpp.o
+[181/345] Building CXX object src/CMakeFiles/llama.dir/models/olmoe.cpp.o
+[182/345] Building CXX object src/CMakeFiles/llama.dir/models/olmo2.cpp.o
+[183/345] Building CXX object src/CMakeFiles/llama.dir/models/openai-moe.cpp.o
+[184/345] Building CXX object src/CMakeFiles/llama.dir/models/openelm.cpp.o
+[185/345] Building CXX object src/CMakeFiles/llama.dir/models/orion.cpp.o
+[186/345] Building CXX object src/CMakeFiles/llama.dir/models/paddleocr.cpp.o
+[187/345] Building CXX object src/CMakeFiles/llama.dir/models/pangu-embed.cpp.o
+[188/345] Building CXX object src/CMakeFiles/llama.dir/models/phi2.cpp.o
+[189/345] Building CXX object src/CMakeFiles/llama.dir/models/phimoe.cpp.o
+[190/345] Building CXX object src/CMakeFiles/llama.dir/models/phi3.cpp.o
+[191/345] Building CXX object src/CMakeFiles/llama.dir/models/plamo.cpp.o
+[192/345] Building CXX object src/CMakeFiles/llama.dir/models/plamo3.cpp.o
+[193/345] Building CXX object src/CMakeFiles/llama.dir/models/plamo2.cpp.o
+[194/345] Building CXX object src/CMakeFiles/llama.dir/models/plm.cpp.o
+[195/345] Building CXX object src/CMakeFiles/llama.dir/models/qwen.cpp.o
+[196/345] Building CXX object src/CMakeFiles/llama.dir/models/qwen2.cpp.o
+[197/345] Building CXX object src/CMakeFiles/llama.dir/models/qwen2moe.cpp.o
+[198/345] Building CXX object src/CMakeFiles/llama.dir/models/qwen2vl.cpp.o
+[199/345] Building CXX object src/CMakeFiles/llama.dir/models/qwen3.cpp.o
+[200/345] Building CXX object src/CMakeFiles/llama.dir/models/qwen3moe.cpp.o
+[201/345] Building CXX object src/CMakeFiles/llama.dir/models/qwen35.cpp.o
+[202/345] Building CXX object src/CMakeFiles/llama.dir/models/qwen35moe.cpp.o
+[203/345] Building CXX object src/CMakeFiles/llama.dir/models/qwen3next.cpp.o
+[204/345] Building CXX object src/CMakeFiles/llama.dir/models/qwen3tts.cpp.o
+[205/345] Building CXX object src/CMakeFiles/llama.dir/models/qwen3vl.cpp.o
+[206/345] Building CXX object src/CMakeFiles/llama.dir/models/qwen3vlmoe.cpp.o
+[207/345] Building CXX object src/CMakeFiles/llama.dir/models/refact.cpp.o
+[208/345] Building CXX object src/CMakeFiles/llama.dir/models/rnd1.cpp.o
+[209/345] Building CXX object src/CMakeFiles/llama.dir/models/rwkv6-base.cpp.o
+[210/345] Building CXX object src/CMakeFiles/llama.dir/models/rwkv6.cpp.o
+[211/345] Building CXX object src/CMakeFiles/llama.dir/models/rwkv6qwen2.cpp.o
+[212/345] Building CXX object src/CMakeFiles/llama.dir/models/rwkv7-base.cpp.o
+[213/345] Building CXX object src/CMakeFiles/llama.dir/models/rwkv7.cpp.o
+[214/345] Building CXX object src/CMakeFiles/llama.dir/models/seed-oss.cpp.o
+[215/345] Building CXX object src/CMakeFiles/llama.dir/models/smallthinker.cpp.o
+[216/345] Building CXX object src/CMakeFiles/llama.dir/models/smollm3.cpp.o
+[217/345] Building CXX object src/CMakeFiles/llama.dir/models/stablelm.cpp.o
+[218/345] Building CXX object src/CMakeFiles/llama.dir/models/starcoder.cpp.o
+[219/345] Building CXX object src/CMakeFiles/llama.dir/models/starcoder2.cpp.o
+[220/345] Building CXX object src/CMakeFiles/llama.dir/models/step35.cpp.o
+[221/345] Building CXX object src/CMakeFiles/llama.dir/models/t5encoder.cpp.o
+[222/345] Building CXX object src/CMakeFiles/llama.dir/models/t5.cpp.o
+[223/345] Building CXX object common/CMakeFiles/llama-common-base.dir/build-info.cpp.o
+[224/345] Building CXX object src/CMakeFiles/llama.dir/models/talkie.cpp.o
+[225/345] Building CXX object src/CMakeFiles/llama.dir/models/wavtokenizer-dec.cpp.o
+[226/345] Building CXX object src/CMakeFiles/llama.dir/models/xverse.cpp.o
+[227/345] Linking CXX shared library bin/libllama.so.0.0.10327
+[228/345] Creating library symlink bin/libllama.so.0 bin/libllama.so
+[229/345] Building CXX object tools/ui/CMakeFiles/llama-ui-embed.dir/embed.cpp.o
+[230/345] Linking CXX static library common/libllama-common-base.a
+[231/345] Building CXX object common/CMakeFiles/llama-common.dir/chat-auto-parser-generator.cpp.o
+[232/345] Building CXX object common/CMakeFiles/llama-common.dir/chat-auto-parser-helpers.cpp.o
+[233/345] Building CXX object common/CMakeFiles/llama-common.dir/chat-peg-parser.cpp.o
+[234/345] Building CXX object common/CMakeFiles/llama-common.dir/chat-diff-analyzer.cpp.o
+[235/345] Building CXX object vendor/cpp-httplib/CMakeFiles/cpp-httplib.dir/httplib.cpp.o
+[236/345] Building CXX object common/CMakeFiles/llama-common.dir/console.cpp.o
+[237/345] Building CXX object common/CMakeFiles/llama-common.dir/arg.cpp.o
+[238/345] Building CXX object common/CMakeFiles/llama-common.dir/debug.cpp.o
+[239/345] Building CXX object common/CMakeFiles/llama-common.dir/common.cpp.o
+[240/345] Building CXX object common/CMakeFiles/llama-common.dir/fit.cpp.o
+[241/345] Building CXX object common/CMakeFiles/llama-common.dir/imatrix-loader.cpp.o
+[242/345] Building CXX object common/CMakeFiles/llama-common.dir/hf-cache.cpp.o
+[243/345] Building CXX object common/CMakeFiles/llama-common.dir/llguidance.cpp.o
+[244/345] Building CXX object common/CMakeFiles/llama-common.dir/log.cpp.o
+[245/345] Building CXX object common/CMakeFiles/llama-common.dir/chat.cpp.o
+[246/345] Building CXX object common/CMakeFiles/llama-common.dir/ngram-cache.cpp.o
+[247/345] Building CXX object common/CMakeFiles/llama-common.dir/ngram-mod.cpp.o
+[248/345] Building CXX object common/CMakeFiles/llama-common.dir/download.cpp.o
+[249/345] Building CXX object common/CMakeFiles/llama-common.dir/ngram-map.cpp.o
+[250/345] Building CXX object common/CMakeFiles/llama-common.dir/reasoning-budget.cpp.o
+[251/345] Building CXX object common/CMakeFiles/llama-common.dir/sampling.cpp.o
+[252/345] Building CXX object common/CMakeFiles/llama-common.dir/json-schema-to-grammar.cpp.o
+[253/345] Building CXX object common/CMakeFiles/llama-common.dir/subproc.cpp.o
+[254/345] Building CXX object common/CMakeFiles/llama-common.dir/trie.cpp.o
+[255/345] Building CXX object common/CMakeFiles/llama-common.dir/unicode.cpp.o
+[256/345] Building CXX object common/CMakeFiles/llama-common.dir/jinja/lexer.cpp.o
+[257/345] Building CXX object common/CMakeFiles/llama-common.dir/preset.cpp.o
+[258/345] Building CXX object common/CMakeFiles/llama-common.dir/speculative.cpp.o
+[259/345] Building CXX object common/CMakeFiles/llama-common.dir/jinja/parser.cpp.o
+[260/345] Building CXX object common/CMakeFiles/llama-common.dir/jinja/string.cpp.o
+[261/345] Building CXX object common/CMakeFiles/llama-common.dir/jinja/runtime.cpp.o
+[262/345] Linking CXX static library vendor/cpp-httplib/libcpp-httplib.a
+[263/345] Linking CXX executable tools/ui/llama-ui-embed
+[264/345] Building CXX object common/CMakeFiles/llama-common.dir/jinja/value.cpp.o
+[265/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/mtmd.cpp.o
+[266/345] Building CXX object common/CMakeFiles/llama-common.dir/peg-parser.cpp.o
+[267/345] Building CXX object common/CMakeFiles/llama-common.dir/jinja/caps.cpp.o
+[268/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/mtmd-audio.cpp.o
+[269/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/mtmd-helper-gen.cpp.o
+[270/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/mtmd-image.cpp.o
+[271/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/cogvlm.cpp.o
+[272/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/conformer.cpp.o
+[273/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/dotsocr.cpp.o
+[274/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/exaone4_5.cpp.o
+[275/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/gemma4a.cpp.o
+[276/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/gemma4v.cpp.o
+[277/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/gemma4ua.cpp.o
+[278/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/gemma4uv.cpp.o
+[279/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/glm4v.cpp.o
+[280/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/granite-speech.cpp.o
+[281/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/hunyuanvl.cpp.o
+[282/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/granite4-vision.cpp.o
+[283/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/internvl.cpp.o
+[284/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/kimivl.cpp.o
+[285/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/kimik25.cpp.o
+[286/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/nemotron-v2-vl.cpp.o
+[287/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/llama4.cpp.o
+[288/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/llava.cpp.o
+[289/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/minicpmv.cpp.o
+[290/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/paddleocr.cpp.o
+[291/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/pixtral.cpp.o
+[292/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/qwen2vl.cpp.o
+[293/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/minimax-m3.cpp.o
+[294/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/qwen3vl.cpp.o
+[295/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/mimovl.cpp.o
+[296/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/qwen3a.cpp.o
+[297/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/mtmd-helper.cpp.o
+[298/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/mimo-audio.cpp.o
+[299/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/qwen3tts-spkenc.cpp.o
+[300/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/step3vl.cpp.o
+[301/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/siglip.cpp.o
+[302/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/clip.cpp.o
+[303/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/whisper-enc.cpp.o
+[304/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/deepseekocr.cpp.o
+[305/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/qwen3tts-gen.cpp.o
+[306/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/deepseekocr2.cpp.o
+[307/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/mobilenetv5.cpp.o
+[308/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/youtuvl.cpp.o
+[309/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/yasa2.cpp.o
+[310/345] Linking CXX shared library bin/libllama-common.so.0.0.10327
+[311/345] Creating library symlink bin/libllama-common.so.0 bin/libllama-common.so
+[312/345] Building CXX object tools/mtmd/CMakeFiles/mtmd.dir/models/parakeet.cpp.o
+[313/345] Linking CXX shared library bin/libmtmd.so.0.0.10327
+[314/345] Building CXX object tools/server/CMakeFiles/server-context.dir/server-queue.cpp.o
+[315/345] Building CXX object tools/server/CMakeFiles/server-context.dir/server-chat.cpp.o
+[316/345] Building CXX object tools/server/CMakeFiles/server-context.dir/server-common.cpp.o
+[317/345] Building CXX object tools/server/CMakeFiles/server-context.dir/server-task.cpp.o
+[318/345] Building CXX object tools/server/CMakeFiles/server-context.dir/server-stream.cpp.o
+[319/345] Building CXX object tools/server/CMakeFiles/server-context.dir/server-context.cpp.o
+[320/345] Building CXX object tools/server/CMakeFiles/server-context.dir/server-mcp.cpp.o
+[321/345] Creating library symlink bin/libmtmd.so.0 bin/libmtmd.so
+[322/345] Building CXX object tools/server/CMakeFiles/server-context.dir/server-tools.cpp.o
+[323/345] Building CXX object tools/server/CMakeFiles/server-context.dir/server-schema.cpp.o
+[324/345] Building CXX object tools/completion/CMakeFiles/llama-completion-impl.dir/completion.cpp.o
+[325/345] Linking CXX static library tools/server/libserver-context.a
+[326/345] Building CXX object tools/llama-bench/CMakeFiles/llama-bench.dir/main.cpp.o
+[327/345] Linking CXX shared library bin/libllama-completion-impl.so
+[328/345] Building CXX object tools/completion/CMakeFiles/llama-completion.dir/main.cpp.o
+[329/345] Building CXX object tools/perplexity/CMakeFiles/llama-perplexity.dir/main.cpp.o
+[330/345] Linking CXX executable bin/llama-completion
+[331/345] Building CXX object tools/perplexity/CMakeFiles/llama-perplexity-impl.dir/perplexity.cpp.o
+/tmp/e28-portability/sources/A/tools/perplexity/perplexity.cpp: In lambda function:
+/tmp/e28-portability/sources/A/tools/perplexity/perplexity.cpp:1772:41: note: parameter passing for argument of type ‘std::pair<double, double>’ when C++17 is enabled changed to match C++14 in GCC 10.1
+ 1772 |             return std::make_pair(0., 0.);
+      |                                         ^
+[332/345] Linking CXX shared library bin/libllama-perplexity-impl.so
+[333/345] Linking CXX executable bin/llama-perplexity
+[334/345] Building CXX object tools/llama-bench/CMakeFiles/llama-bench-impl.dir/llama-bench.cpp.o
+[335/345] Linking CXX shared library bin/libllama-bench-impl.so
+[336/345] Linking CXX executable bin/llama-bench
+[337/345] Provisioning UI assets
+-- UI: running npm ci
+
+added 1053 packages, and audited 1054 packages in 21s
+
+355 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+-- UI: running npm run build, output -> /tmp/e28-portability/builds/A/tools/ui/dist
+
+> llama-ui@1.0.0 build
+> npm run build-pwa-assets && vite build
+
+
+> llama-ui@1.0.0 build-pwa-assets
+> npx @vite-pwa/assets-generator --root . --config pwa-assets.config.ts && npx @vite-pwa/assets-generator --root . --config pwa-assets-dark.config.ts && node scripts/make-icons-circular.js
+
+[log] Zero Config PWA Assets Generator v1.0.2
+[start] Preparing to generate PWA assets...
+[start] Resolving instructions...
+[ready] PWA assets ready to be generated, instructions resolved
+[start] Generating PWA assets from static/favicon.svg image
+[start] Generating assets for static/favicon.svg...
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/pwa-64x64.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/pwa-192x192.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/pwa-512x512.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/maskable-icon-512x512.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-touch-icon-180x180.png
+[ready] Generated ICO file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/favicon.ico
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-1170x2532.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-1179x2556.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-2532x1170.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-2778x1284.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-1284x2778.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-2556x1179.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-1206x2622.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-2622x1206.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-640x1136.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-1136x640.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-1290x2796.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-2796x1290.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-1320x2868.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-750x1334.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-1334x750.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-2868x1320.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-1640x2360.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-1668x2388.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-2048x2732.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-2360x1640.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-1488x2266.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-2266x1488.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-2732x2048.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-2388x1668.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-dark-1170x2532.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-dark-2532x1170.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-dark-2556x1179.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-dark-2778x1284.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-dark-1284x2778.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-dark-1179x2556.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-dark-2796x1290.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-dark-1290x2796.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-dark-1206x2622.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-dark-640x1136.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-dark-1320x2868.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-dark-1136x640.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-dark-1334x750.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-dark-750x1334.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-dark-2622x1206.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-dark-2868x1320.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-dark-2360x1640.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-dark-1640x2360.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-dark-1668x2388.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-dark-2048x2732.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-portrait-dark-1488x2266.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-dark-2388x1668.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-dark-2266x1488.png
+[ready] Generated PNG file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/apple-splash-landscape-dark-2732x2048.png
+[ready] Assets generated for static/favicon.svg
+[start] Generating Html Head Links...
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="./apple-splash-portrait-1170x2532.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="./apple-splash-landscape-2532x1170.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="./apple-splash-portrait-dark-1170x2532.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="./apple-splash-landscape-dark-2532x1170.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="./apple-splash-portrait-1284x2778.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="./apple-splash-landscape-2778x1284.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="./apple-splash-portrait-dark-1284x2778.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="./apple-splash-landscape-dark-2778x1284.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="./apple-splash-portrait-1179x2556.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="./apple-splash-landscape-2556x1179.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="./apple-splash-portrait-dark-1179x2556.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="./apple-splash-landscape-dark-2556x1179.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="./apple-splash-portrait-1290x2796.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="./apple-splash-landscape-2796x1290.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="./apple-splash-portrait-dark-1290x2796.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="./apple-splash-landscape-dark-2796x1290.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="./apple-splash-portrait-1206x2622.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="./apple-splash-landscape-2622x1206.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="./apple-splash-portrait-dark-1206x2622.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="./apple-splash-landscape-dark-2622x1206.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="./apple-splash-portrait-1320x2868.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="./apple-splash-landscape-2868x1320.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="./apple-splash-portrait-dark-1320x2868.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="./apple-splash-landscape-dark-2868x1320.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="./apple-splash-portrait-640x1136.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="./apple-splash-landscape-1136x640.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="./apple-splash-portrait-dark-640x1136.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="./apple-splash-landscape-dark-1136x640.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="./apple-splash-portrait-750x1334.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="./apple-splash-landscape-1334x750.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="./apple-splash-portrait-dark-750x1334.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="./apple-splash-landscape-dark-1334x750.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="./apple-splash-portrait-1640x2360.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="./apple-splash-landscape-2360x1640.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="./apple-splash-portrait-dark-1640x2360.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="./apple-splash-landscape-dark-2360x1640.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="./apple-splash-portrait-2048x2732.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="./apple-splash-landscape-2732x2048.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="./apple-splash-portrait-dark-2048x2732.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="./apple-splash-landscape-dark-2732x2048.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="./apple-splash-portrait-1668x2388.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="./apple-splash-landscape-2388x1668.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="./apple-splash-portrait-dark-1668x2388.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="./apple-splash-landscape-dark-2388x1668.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="./apple-splash-portrait-1488x2266.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="./apple-splash-landscape-2266x1488.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="./apple-splash-portrait-dark-1488x2266.png">
+<link rel="apple-touch-startup-image" media="screen and (prefers-color-scheme: dark) and (device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="./apple-splash-landscape-dark-2266x1488.png">
+[ready] Html Head Links generated
+[start] Generating PWA web manifest icons entry...
+{
+  "icons": [
+    {
+      "src": "pwa-64x64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
+[ready] PWA web manifest icons entry generated
+[ready] PWA assets generated
+[log] Zero Config PWA Assets Generator v1.0.2
+[start] Preparing to generate PWA assets...
+[start] Resolving instructions...
+[ready] PWA assets ready to be generated, instructions resolved
+[start] Generating PWA assets from static/favicon-dark.svg image
+[start] Generating assets for static/favicon-dark.svg...
+[ready] Generated ICO file: /tmp/e28-portability/builds/A/tools/ui/ui-src/static/favicon-dark.ico
+[ready] Assets generated for static/favicon-dark.svg
+[start] Generating Html Head Links...
+<link rel="icon" href="/favicon-dark.ico" sizes="48x48">
+<link rel="icon" href="/favicon-dark.svg" sizes="any" type="image/svg+xml">
+[ready] Html Head Links generated
+[start] Generating PWA web manifest icons entry...
+{
+  "icons": []
+}
+[ready] PWA web manifest icons entry generated
+[ready] PWA assets generated
+Circular mask: 0% padding, 85% scale, source=maskable-icon-512x512.png
+
+✓ pwa-64x64.png → circle from maskable-icon-512x512.png, 0% padding (size=64, r=32, scale=85%, circleDiameter=64)
+✓ pwa-192x192.png → circle from maskable-icon-512x512.png, 0% padding (size=192, r=96, scale=85%, circleDiameter=192)
+✓ pwa-512x512.png → circle from maskable-icon-512x512.png, 0% padding (size=512, r=256, scale=85%, circleDiameter=512)
+
+Unchanged:
+  maskable-icon-512x512.png (1894 bytes)
+  apple-touch-icon-180x180.png (806 bytes)
+vite v7.3.6 building ssr environment for production...
+transforming...
+✓ 5287 modules transformed.
+rendering chunks...
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 8355 modules transformed.
+rendering chunks...
+computing gzip size...
+.svelte-kit/output/client/_app/version.json                              0.03 kB │ gzip:     0.05 kB
+.svelte-kit/output/client/.vite/manifest.json                            0.30 kB │ gzip:     0.19 kB
+.svelte-kit/output/client/manifest.webmanifest                           0.52 kB
+.svelte-kit/output/client/_app/immutable/assets/bundle.PKCB2it5.css    538.45 kB │ gzip:   291.95 kB
+.svelte-kit/output/client/_app/immutable/bundle.xBqrubvI.js          8,829.28 kB │ gzip: 2,602.85 kB
+✓ built in 29.36s
+Relativized base refs in index.html and sw.js
+.svelte-kit/output/server/.vite/manifest.json                                                         16.44 kB
+.svelte-kit/output/server/_app/immutable/assets/_page.CV-KWLNP.css                                     0.29 kB
+.svelte-kit/output/server/_app/immutable/assets/dialog-description.bHHIbcsu.css                        0.35 kB
+.svelte-kit/output/server/_app/immutable/assets/_layout.BNz1JCli.css                                 147.51 kB
+.svelte-kit/output/server/_app/immutable/assets/SidebarNavigationConversationItem.Y_e16-sg.css       389.06 kB
+.svelte-kit/output/server/chunks/app.js                                                                0.07 kB
+.svelte-kit/output/server/chunks/internal.js                                                           0.07 kB
+.svelte-kit/output/server/env.js                                                                       0.15 kB
+.svelte-kit/output/server/chunks/api-key-validation.js                                                 0.19 kB
+.svelte-kit/output/server/chunks/server.js                                                             0.20 kB
+.svelte-kit/output/server/chunks/arrow-right.js                                                        0.22 kB
+.svelte-kit/output/server/chunks/device.svelte.js                                                      0.23 kB
+.svelte-kit/output/server/entries/pages/(chat)/_page.ts.js                                             0.29 kB
+.svelte-kit/output/server/chunks/keyboard.enums.js                                                     0.29 kB
+.svelte-kit/output/server/entries/pages/(chat)/chat/_id_/_page.ts.js                                   0.31 kB
+.svelte-kit/output/server/chunks/pencil.js                                                             0.33 kB
+.svelte-kit/output/server/chunks/refresh-cw.js                                                         0.35 kB
+.svelte-kit/output/server/internal.js                                                                  0.37 kB
+.svelte-kit/output/server/chunks/card.js                                                               0.45 kB
+.svelte-kit/output/server/chunks/utils2.js                                                             0.60 kB
+.svelte-kit/output/server/chunks/use-marquee-selection.svelte.js                                       0.63 kB
+.svelte-kit/output/server/entries/pages/settings/_layout.svelte.js                                     0.88 kB
+.svelte-kit/output/server/entries/pages/(chat)/_page.svelte.js                                         1.14 kB
+.svelte-kit/output/server/chunks/formatters.js                                                         1.14 kB
+.svelte-kit/output/server/entries/pages/(chat)/chat/_id_/_page.svelte.js                               1.28 kB
+.svelte-kit/output/server/chunks/alert-dialog-cancel.js                                                1.29 kB
+.svelte-kit/output/server/chunks/exports.js                                                            1.46 kB
+.svelte-kit/output/server/chunks/label.js                                                              1.56 kB
+.svelte-kit/output/server/chunks/ActionIcon.js                                                         1.57 kB
+.svelte-kit/output/server/chunks/url.js                                                                1.60 kB
+.svelte-kit/output/server/chunks/input.js                                                              1.67 kB
+.svelte-kit/output/server/entries/pages/search/_page.svelte.js                                         2.03 kB
+.svelte-kit/output/server/chunks/DialogConfirmation.js                                                 2.43 kB
+.svelte-kit/output/server/chunks/DialogModelNotAvailable.js                                            2.76 kB
+.svelte-kit/output/server/chunks/internal2.js                                                          2.84 kB
+.svelte-kit/output/server/chunks/SidebarNavigationSearchResults.js                                     5.25 kB
+.svelte-kit/output/server/chunks/workbox-window.prod.es5.js                                            5.75 kB
+.svelte-kit/output/server/chunks/dialog-footer.js                                                      5.77 kB
+.svelte-kit/output/server/chunks/TruncatedText.js                                                      5.78 kB
+.svelte-kit/output/server/chunks/index2.js                                                             6.85 kB
+.svelte-kit/output/server/entries/pages/_error.svelte.js                                               8.18 kB
+.svelte-kit/output/server/chunks/SearchInput.js                                                        9.16 kB
+.svelte-kit/output/server/chunks/McpServerIdentity.js                                                 12.08 kB
+.svelte-kit/output/server/chunks/utils.js                                                             15.02 kB
+.svelte-kit/output/server/chunks/popper-layer-force-mount.js                                          15.45 kB
+.svelte-kit/output/server/remote-entry.js                                                             15.69 kB
+.svelte-kit/output/server/chunks/conversations.svelte.js                                              17.51 kB
+.svelte-kit/output/server/chunks/models.svelte.js                                                     17.52 kB
+.svelte-kit/output/server/chunks/index.js                                                             21.71 kB
+.svelte-kit/output/server/chunks/dialog-description.js                                                24.61 kB
+.svelte-kit/output/server/entries/pages/mcp-servers/_page.svelte.js                                   33.59 kB
+.svelte-kit/output/server/entries/pages/_layout.svelte.js                                             39.46 kB
+.svelte-kit/output/server/chunks/root.js                                                              41.41 kB
+.svelte-kit/output/server/index.js                                                                    57.22 kB
+.svelte-kit/output/server/chunks/SidebarNavigationConversationItem.svelte_svelte_type_style_lang.js   76.01 kB
+.svelte-kit/output/server/entries/pages/settings/__section__/_page.svelte.js                          76.36 kB
+.svelte-kit/output/server/chunks/chat.svelte.js                                                       76.92 kB
+.svelte-kit/output/server/chunks/uuid.js                                                             118.61 kB
+.svelte-kit/output/server/entries/pages/(chat)/_layout.svelte.js                                     338.29 kB
+.svelte-kit/output/server/chunks/_virtual_nerdamer.js                                                483.95 kB
+✓ built in 52.13s
+
+PWA v1.3.0
+mode      generateSW
+precache  67 entries (9581.93 KiB)
+files generated
+  .svelte-kit/output/server/sw.js
+  .svelte-kit/output/server/workbox-b3c04f83.js
+
+Run npm run preview to preview your production build locally.
+
+> Using @sveltejs/adapter-static
+Overwriting /tmp/e28-portability/builds/A/tools/ui/dist/index.html with fallback page. Consider using a different name for the fallback.
+  Wrote site to "/tmp/e28-portability/builds/A/tools/ui/dist"
+  ✔ done
+Generated 48 apple-splash link tags
+Updated index.html
+Created build.json (version: 10327)
+Relativized base refs in index.html and sw.js
+-- UI: npm build succeeded
+-- UI: gzip compression applied (/tmp/e28-portability/builds/A/tools/ui/dist/_gzip)
+embed: write output file /tmp/e28-portability/builds/A/tools/ui/ui.h
+embed: write output file /tmp/e28-portability/builds/A/tools/ui/ui.cpp
+[338/345] Building CXX object tools/ui/CMakeFiles/llama-ui.dir/ui.cpp.o
+[339/345] Linking CXX static library tools/ui/libllama-ui.a
+[340/345] Building CXX object tools/server/CMakeFiles/llama-server.dir/main.cpp.o
+[341/345] Building CXX object tools/server/CMakeFiles/llama-server-impl.dir/server.cpp.o
+[342/345] Building CXX object tools/server/CMakeFiles/llama-server-impl.dir/server-http.cpp.o
+[343/345] Building CXX object tools/server/CMakeFiles/llama-server-impl.dir/server-models.cpp.o
+[344/345] Linking CXX shared library bin/libllama-server-impl.so
+[345/345] Linking CXX executable bin/llama-server

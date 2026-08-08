@@ -1,0 +1,374 @@
+{
+  "schema_version": 1,
+  "license": "Apache-2.0",
+  "instruction": "Choose the correct option. Respond with only one uppercase letter: A, B, C, or D.",
+  "tasks": [
+    {
+      "id": "arithmetic-01",
+      "category": "arithmetic",
+      "prompt": "What is 17 multiplied by 6, minus 14?\nA. 88\nB. 92\nC. 102\nD. 116",
+      "answer": "A"
+    },
+    {
+      "id": "arithmetic-02",
+      "category": "arithmetic",
+      "prompt": "What is 15 percent of 240?\nA. 24\nB. 30\nC. 36\nD. 40",
+      "answer": "C"
+    },
+    {
+      "id": "arithmetic-03",
+      "category": "arithmetic",
+      "prompt": "A train travels 180 km in 2.5 hours at a constant speed. What is that speed?\nA. 60 km/h\nB. 72 km/h\nC. 75 km/h\nD. 90 km/h",
+      "answer": "B"
+    },
+    {
+      "id": "arithmetic-04",
+      "category": "arithmetic",
+      "prompt": "What is the arithmetic mean of 12, 18, 21, and 29?\nA. 18\nB. 20\nC. 21\nD. 22",
+      "answer": "B"
+    },
+    {
+      "id": "arithmetic-05",
+      "category": "arithmetic",
+      "prompt": "What is 3/4 plus 5/8?\nA. 11/8\nB. 8/12\nC. 7/8\nD. 13/16",
+      "answer": "A"
+    },
+    {
+      "id": "logic-01",
+      "category": "logic",
+      "prompt": "All cobalt objects in a collection are metal. No metal object in the collection is transparent. Which conclusion must be true?\nA. Every transparent object is cobalt.\nB. Some cobalt objects are transparent.\nC. No cobalt object is transparent.\nD. No transparent objects exist.",
+      "answer": "C"
+    },
+    {
+      "id": "logic-02",
+      "category": "logic",
+      "prompt": "Priya finishes before Leon, and Leon finishes before Mei. Which relation must hold?\nA. Priya finishes before Mei.\nB. Mei finishes before Priya.\nC. Priya and Mei tie.\nD. No relation can be inferred.",
+      "answer": "A"
+    },
+    {
+      "id": "logic-03",
+      "category": "logic",
+      "prompt": "Exactly one of alerts A and B is true. Alert A is false. What follows?\nA. Both alerts are false.\nB. Alert B is true.\nC. Both alerts are true.\nD. Alert B is false.",
+      "answer": "B"
+    },
+    {
+      "id": "logic-04",
+      "category": "logic",
+      "prompt": "A status light repeats red, green, blue, red, green, blue. It is green now. What color is next?\nA. Red\nB. Green\nC. Blue\nD. Yellow",
+      "answer": "C"
+    },
+    {
+      "id": "logic-05",
+      "category": "logic",
+      "prompt": "Three boxes are labeled Apples, Oranges, and Mixed, but every label is wrong. What is the minimum number of fruit draws needed to determine all three correct labels?\nA. One\nB. Two\nC. Three\nD. Four",
+      "answer": "A"
+    },
+    {
+      "id": "code-01",
+      "category": "code_reasoning",
+      "prompt": "In Python, what does sum(range(1, 6)) return?\nA. 10\nB. 14\nC. 15\nD. 21",
+      "answer": "C"
+    },
+    {
+      "id": "code-02",
+      "category": "code_reasoning",
+      "prompt": "Pseudocode sets x = 3, then repeats x = x * 2 exactly four times. What is the final x?\nA. 12\nB. 24\nC. 32\nD. 48",
+      "answer": "D"
+    },
+    {
+      "id": "code-03",
+      "category": "code_reasoning",
+      "prompt": "A list starts as [4, 1, 7]. The program appends 2 and then sorts ascending. What is the result?\nA. [4, 1, 7, 2]\nB. [1, 2, 4, 7]\nC. [7, 4, 2, 1]\nD. [1, 4, 7, 2]",
+      "answer": "B"
+    },
+    {
+      "id": "code-04",
+      "category": "code_reasoning",
+      "prompt": "A recursive function returns 1 when n is at most 1; otherwise it returns n times the function of n minus 1. What does it return for n = 4?\nA. 4\nB. 12\nC. 24\nD. 120",
+      "answer": "C"
+    },
+    {
+      "id": "code-05",
+      "category": "code_reasoning",
+      "prompt": "What is binary 101101 in decimal?\nA. 35\nB. 41\nC. 44\nD. 45",
+      "answer": "D"
+    },
+    {
+      "id": "data-01",
+      "category": "data_reasoning",
+      "prompt": "Configurations have (latency ms, quality, memory MB): A=(20,90,800), B=(18,88,700), C=(24,93,650), D=(19,91,900). Under quality at least 90 and memory at most 800 MB, which has the lowest latency?\nA. A\nB. B\nC. C\nD. D",
+      "answer": "A"
+    },
+    {
+      "id": "data-02",
+      "category": "data_reasoning",
+      "prompt": "Configurations have (latency ms, quality, memory MB): A=(20,90,800), B=(18,88,700), C=(24,93,650), D=(19,91,900). Under quality at least 91 and memory at most 700 MB, which is eligible?\nA. A only\nB. B only\nC. C only\nD. D only",
+      "answer": "C"
+    },
+    {
+      "id": "data-03",
+      "category": "data_reasoning",
+      "prompt": "A service completes 1,200 requests in 60 seconds. What is its average throughput?\nA. 12 requests/s\nB. 20 requests/s\nC. 60 requests/s\nD. 72 requests/s",
+      "answer": "B"
+    },
+    {
+      "id": "data-04",
+      "category": "data_reasoning",
+      "prompt": "What does a request latency p95 of 80 ms mean?\nA. Every request takes exactly 80 ms.\nB. The mean request takes 80 ms.\nC. At least 95 percent of measured requests take no more than 80 ms.\nD. Only 5 percent of requests are faster than 80 ms.",
+      "answer": "C"
+    },
+    {
+      "id": "data-05",
+      "category": "data_reasoning",
+      "prompt": "A model package shrinks from 1.2 GB to 0.9 GB. What is the percentage reduction relative to the original?\nA. 20 percent\nB. 25 percent\nC. 30 percent\nD. 33 percent",
+      "answer": "B"
+    },
+    {
+      "id": "systems-01",
+      "category": "systems_reasoning",
+      "prompt": "For equal quality, variant A uses 10 ms and variant C uses 10 ms but C has lower quality. Which statement is correct?\nA. C dominates A.\nB. A dominates C.\nC. Neither can dominate the other.\nD. Both are always Pareto optimal.",
+      "answer": "B"
+    },
+    {
+      "id": "systems-02",
+      "category": "systems_reasoning",
+      "prompt": "Variant A produces 100 tokens/s using 3 GB. Variant B produces 90 tokens/s using 2 GB. A deployment has a strict 2.5 GB limit. Which variant is feasible?\nA. A only\nB. B only\nC. Both\nD. Neither",
+      "answer": "B"
+    },
+    {
+      "id": "systems-03",
+      "category": "systems_reasoning",
+      "prompt": "Four independent cores each complete 8 identical jobs per second with perfect scaling. What is total throughput?\nA. 8 jobs/s\nB. 16 jobs/s\nC. 32 jobs/s\nD. 64 jobs/s",
+      "answer": "C"
+    },
+    {
+      "id": "systems-04",
+      "category": "systems_reasoning",
+      "prompt": "Batching raises throughput from 40 to 68 requests/s. What is the relative throughput gain?\nA. 28 percent\nB. 70 percent\nC. 140 percent\nD. 170 percent",
+      "answer": "B"
+    },
+    {
+      "id": "systems-05",
+      "category": "systems_reasoning",
+      "prompt": "One cold request takes 1,200 ms and each of four warm requests takes 200 ms. What is the mean latency over all five?\nA. 200 ms\nB. 280 ms\nC. 320 ms\nD. 400 ms",
+      "answer": "D"
+    },
+    {
+      "id": "evidence-01",
+      "category": "evidence_reasoning",
+      "prompt": "An optimizer is designed to fail closed when required telemetry is missing. What should it do if the memory measurement is absent?\nA. Guess memory from model size.\nB. Refuse to recommend the configuration.\nC. Treat memory as zero.\nD. Select the fastest configuration anyway.",
+      "answer": "B"
+    },
+    {
+      "id": "evidence-02",
+      "category": "evidence_reasoning",
+      "prompt": "A deployment manifest records the exact model hash, runtime revision, and build flags. What is its main purpose?\nA. Increase model quality.\nB. Reduce token count.\nC. Reproduce the measured configuration.\nD. Hide implementation details.",
+      "answer": "C"
+    },
+    {
+      "id": "evidence-03",
+      "category": "evidence_reasoning",
+      "prompt": "The declared quality floor is 80 points. Variant X scores 84 and variant Y scores 79. Which variants pass the floor?\nA. X only\nB. Y only\nC. Both\nD. Neither",
+      "answer": "A"
+    },
+    {
+      "id": "evidence-04",
+      "category": "evidence_reasoning",
+      "prompt": "Why alternate benchmark order as A-B, then B-A, across rounds?\nA. To change the model weights.\nB. To increase package size.\nC. To remove the need for repeated trials.\nD. To reduce time-order and thermal bias.",
+      "answer": "D"
+    },
+    {
+      "id": "evidence-05",
+      "category": "evidence_reasoning",
+      "prompt": "Two runs use the same model, runtime, input, and flags, but one uses two threads and the other four. What is the controlled variable?\nA. Model family\nB. Thread count\nC. Input data\nD. Runtime revision",
+      "answer": "B"
+    }
+  ]
+}
+{
+  "schema_version": 1,
+  "license": "Apache-2.0",
+  "instruction": "Choose the correct option. Respond with only one uppercase letter: A, B, C, or D.",
+  "tasks": [
+    {
+      "id": "arithmetic-01",
+      "category": "arithmetic",
+      "prompt": "What is 17 multiplied by 6, minus 14?\nA. 88\nB. 92\nC. 102\nD. 116",
+      "answer": "A"
+    },
+    {
+      "id": "arithmetic-02",
+      "category": "arithmetic",
+      "prompt": "What is 15 percent of 240?\nA. 24\nB. 30\nC. 36\nD. 40",
+      "answer": "C"
+    },
+    {
+      "id": "arithmetic-03",
+      "category": "arithmetic",
+      "prompt": "A train travels 180 km in 2.5 hours at a constant speed. What is that speed?\nA. 60 km/h\nB. 72 km/h\nC. 75 km/h\nD. 90 km/h",
+      "answer": "B"
+    },
+    {
+      "id": "arithmetic-04",
+      "category": "arithmetic",
+      "prompt": "What is the arithmetic mean of 12, 18, 21, and 29?\nA. 18\nB. 20\nC. 21\nD. 22",
+      "answer": "B"
+    },
+    {
+      "id": "arithmetic-05",
+      "category": "arithmetic",
+      "prompt": "What is 3/4 plus 5/8?\nA. 11/8\nB. 8/12\nC. 7/8\nD. 13/16",
+      "answer": "A"
+    },
+    {
+      "id": "logic-01",
+      "category": "logic",
+      "prompt": "All cobalt objects in a collection are metal. No metal object in the collection is transparent. Which conclusion must be true?\nA. Every transparent object is cobalt.\nB. Some cobalt objects are transparent.\nC. No cobalt object is transparent.\nD. No transparent objects exist.",
+      "answer": "C"
+    },
+    {
+      "id": "logic-02",
+      "category": "logic",
+      "prompt": "Priya finishes before Leon, and Leon finishes before Mei. Which relation must hold?\nA. Priya finishes before Mei.\nB. Mei finishes before Priya.\nC. Priya and Mei tie.\nD. No relation can be inferred.",
+      "answer": "A"
+    },
+    {
+      "id": "logic-03",
+      "category": "logic",
+      "prompt": "Exactly one of alerts A and B is true. Alert A is false. What follows?\nA. Both alerts are false.\nB. Alert B is true.\nC. Both alerts are true.\nD. Alert B is false.",
+      "answer": "B"
+    },
+    {
+      "id": "logic-04",
+      "category": "logic",
+      "prompt": "A status light repeats red, green, blue, red, green, blue. It is green now. What color is next?\nA. Red\nB. Green\nC. Blue\nD. Yellow",
+      "answer": "C"
+    },
+    {
+      "id": "logic-05",
+      "category": "logic",
+      "prompt": "Three boxes are labeled Apples, Oranges, and Mixed, but every label is wrong. What is the minimum number of fruit draws needed to determine all three correct labels?\nA. One\nB. Two\nC. Three\nD. Four",
+      "answer": "A"
+    },
+    {
+      "id": "code-01",
+      "category": "code_reasoning",
+      "prompt": "In Python, what does sum(range(1, 6)) return?\nA. 10\nB. 14\nC. 15\nD. 21",
+      "answer": "C"
+    },
+    {
+      "id": "code-02",
+      "category": "code_reasoning",
+      "prompt": "Pseudocode sets x = 3, then repeats x = x * 2 exactly four times. What is the final x?\nA. 12\nB. 24\nC. 32\nD. 48",
+      "answer": "D"
+    },
+    {
+      "id": "code-03",
+      "category": "code_reasoning",
+      "prompt": "A list starts as [4, 1, 7]. The program appends 2 and then sorts ascending. What is the result?\nA. [4, 1, 7, 2]\nB. [1, 2, 4, 7]\nC. [7, 4, 2, 1]\nD. [1, 4, 7, 2]",
+      "answer": "B"
+    },
+    {
+      "id": "code-04",
+      "category": "code_reasoning",
+      "prompt": "A recursive function returns 1 when n is at most 1; otherwise it returns n times the function of n minus 1. What does it return for n = 4?\nA. 4\nB. 12\nC. 24\nD. 120",
+      "answer": "C"
+    },
+    {
+      "id": "code-05",
+      "category": "code_reasoning",
+      "prompt": "What is binary 101101 in decimal?\nA. 35\nB. 41\nC. 44\nD. 45",
+      "answer": "D"
+    },
+    {
+      "id": "data-01",
+      "category": "data_reasoning",
+      "prompt": "Configurations have (latency ms, quality, memory MB): A=(20,90,800), B=(18,88,700), C=(24,93,650), D=(19,91,900). Under quality at least 90 and memory at most 800 MB, which has the lowest latency?\nA. A\nB. B\nC. C\nD. D",
+      "answer": "A"
+    },
+    {
+      "id": "data-02",
+      "category": "data_reasoning",
+      "prompt": "Configurations have (latency ms, quality, memory MB): A=(20,90,800), B=(18,88,700), C=(24,93,650), D=(19,91,900). Under quality at least 91 and memory at most 700 MB, which is eligible?\nA. A only\nB. B only\nC. C only\nD. D only",
+      "answer": "C"
+    },
+    {
+      "id": "data-03",
+      "category": "data_reasoning",
+      "prompt": "A service completes 1,200 requests in 60 seconds. What is its average throughput?\nA. 12 requests/s\nB. 20 requests/s\nC. 60 requests/s\nD. 72 requests/s",
+      "answer": "B"
+    },
+    {
+      "id": "data-04",
+      "category": "data_reasoning",
+      "prompt": "What does a request latency p95 of 80 ms mean?\nA. Every request takes exactly 80 ms.\nB. The mean request takes 80 ms.\nC. At least 95 percent of measured requests take no more than 80 ms.\nD. Only 5 percent of requests are faster than 80 ms.",
+      "answer": "C"
+    },
+    {
+      "id": "data-05",
+      "category": "data_reasoning",
+      "prompt": "A model package shrinks from 1.2 GB to 0.9 GB. What is the percentage reduction relative to the original?\nA. 20 percent\nB. 25 percent\nC. 30 percent\nD. 33 percent",
+      "answer": "B"
+    },
+    {
+      "id": "systems-01",
+      "category": "systems_reasoning",
+      "prompt": "For equal quality, variant A uses 10 ms and variant C uses 10 ms but C has lower quality. Which statement is correct?\nA. C dominates A.\nB. A dominates C.\nC. Neither can dominate the other.\nD. Both are always Pareto optimal.",
+      "answer": "B"
+    },
+    {
+      "id": "systems-02",
+      "category": "systems_reasoning",
+      "prompt": "Variant A produces 100 tokens/s using 3 GB. Variant B produces 90 tokens/s using 2 GB. A deployment has a strict 2.5 GB limit. Which variant is feasible?\nA. A only\nB. B only\nC. Both\nD. Neither",
+      "answer": "B"
+    },
+    {
+      "id": "systems-03",
+      "category": "systems_reasoning",
+      "prompt": "Four independent cores each complete 8 identical jobs per second with perfect scaling. What is total throughput?\nA. 8 jobs/s\nB. 16 jobs/s\nC. 32 jobs/s\nD. 64 jobs/s",
+      "answer": "C"
+    },
+    {
+      "id": "systems-04",
+      "category": "systems_reasoning",
+      "prompt": "Batching raises throughput from 40 to 68 requests/s. What is the relative throughput gain?\nA. 28 percent\nB. 70 percent\nC. 140 percent\nD. 170 percent",
+      "answer": "B"
+    },
+    {
+      "id": "systems-05",
+      "category": "systems_reasoning",
+      "prompt": "One cold request takes 1,200 ms and each of four warm requests takes 200 ms. What is the mean latency over all five?\nA. 200 ms\nB. 280 ms\nC. 320 ms\nD. 400 ms",
+      "answer": "D"
+    },
+    {
+      "id": "evidence-01",
+      "category": "evidence_reasoning",
+      "prompt": "An optimizer is designed to fail closed when required telemetry is missing. What should it do if the memory measurement is absent?\nA. Guess memory from model size.\nB. Refuse to recommend the configuration.\nC. Treat memory as zero.\nD. Select the fastest configuration anyway.",
+      "answer": "B"
+    },
+    {
+      "id": "evidence-02",
+      "category": "evidence_reasoning",
+      "prompt": "A deployment manifest records the exact model hash, runtime revision, and build flags. What is its main purpose?\nA. Increase model quality.\nB. Reduce token count.\nC. Reproduce the measured configuration.\nD. Hide implementation details.",
+      "answer": "C"
+    },
+    {
+      "id": "evidence-03",
+      "category": "evidence_reasoning",
+      "prompt": "The declared quality floor is 80 points. Variant X scores 84 and variant Y scores 79. Which variants pass the floor?\nA. X only\nB. Y only\nC. Both\nD. Neither",
+      "answer": "A"
+    },
+    {
+      "id": "evidence-04",
+      "category": "evidence_reasoning",
+      "prompt": "Why alternate benchmark order as A-B, then B-A, across rounds?\nA. To change the model weights.\nB. To increase package size.\nC. To remove the need for repeated trials.\nD. To reduce time-order and thermal bias.",
+      "answer": "D"
+    },
+    {
+      "id": "evidence-05",
+      "category": "evidence_reasoning",
+      "prompt": "Two runs use the same model, runtime, input, and flags, but one uses two threads and the other four. What is the controlled variable?\nA. Model family\nB. Thread count\nC. Input data\nD. Runtime revision",
+      "answer": "B"
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "pp2048": {
+    "combined": {
+      "count": 6,
+      "internal_samples_tokens_per_second": [
+        66.8772,
+        66.9007,
+        66.8141,
+        66.7891,
+        66.8769,
+        66.8036
+      ],
+      "maximum_rss_kib": {
+        "count": 6,
+        "maximum_rss_kib": 4681436.0,
+        "mean_rss_kib": 4681306.666666667,
+        "median_rss_kib": 4681326.0,
+        "minimum_rss_kib": 4681208.0,
+        "population_cv": 1.7001199187603903e-05,
+        "samples": [
+          4681336.0,
+          4681336.0,
+          4681208.0,
+          4681208.0,
+          4681316.0,
+          4681436.0
+        ]
+      },
+      "maximum_tokens_per_second": 66.900741,
+      "mean_tokens_per_second": 66.84362633333333,
+      "median_tokens_per_second": 66.845524,
+      "minimum_tokens_per_second": 66.789137,
+      "population_cv": 0.0006389557986338453,
+      "samples": [
+        66.877234,
+        66.900741,
+        66.814101,
+        66.789137,
+        66.876947,
+        66.803598
+      ]
+    },
+    "combined_over_stock": {
+      "confidence_interval": {
+        "confidence": 0.95,
+        "lower": 2.64443612493606,
+        "resamples": 10000,
+        "upper": 2.6587486934273734
+      },
+      "ratio": 2.6541437750463124
+    },
+    "stock": {
+      "count": 6,
+      "internal_samples_tokens_per_second": [
+        25.2645,
+        25.1748,
+        25.2673,
+        25.1959,
+        25.1536,
+        25.1455
+      ],
+      "maximum_rss_kib": {
+        "count": 6,
+        "maximum_rss_kib": 4521772.0,
+        "mean_rss_kib": 4521636.0,
+        "median_rss_kib": 4521656.0,
+        "minimum_rss_kib": 4521456.0,
+        "population_cv": 2.6744685256099297e-05,
+        "samples": [
+          4521712.0,
+          4521600.0,
+          4521760.0,
+          4521456.0,
+          4521772.0,
+          4521516.0
+        ]
+      },
+      "maximum_tokens_per_second": 25.267325,
+      "mean_tokens_per_second": 25.200262666666667,
+      "median_tokens_per_second": 25.185344,
+      "minimum_tokens_per_second": 25.14546,
+      "population_cv": 0.0019490536501896975,
+      "samples": [
+        25.264507,
+        25.174767,
+        25.267325,
+        25.195921,
+        25.153596,
+        25.14546
+      ]
+    }
+  },
+  "tg128": {
+    "combined": {
+      "count": 6,
+      "internal_samples_tokens_per_second": [
+        28.526,
+        28.6192,
+        28.5133,
+        28.4341,
+        28.589,
+        28.545
+      ],
+      "maximum_rss_kib": {
+        "count": 6,
+        "maximum_rss_kib": 4417656.0,
+        "mean_rss_kib": 4417653.333333333,
+        "median_rss_kib": 4417656.0,
+        "minimum_rss_kib": 4417644.0,
+        "population_cv": 1.0010215952829858e-06,
+        "samples": [
+          4417644.0,
+          4417656.0,
+          4417652.0,
+          4417656.0,
+          4417656.0,
+          4417656.0
+        ]
+      },
+      "maximum_tokens_per_second": 28.619179,
+      "mean_tokens_per_second": 28.537760333333335,
+      "median_tokens_per_second": 28.5355025,
+      "minimum_tokens_per_second": 28.434052,
+      "population_cv": 0.002063368201238787,
+      "samples": [
+        28.52597,
+        28.619179,
+        28.513293,
+        28.434052,
+        28.589033,
+        28.545035
+      ]
+    },
+    "combined_over_stock": {
+      "confidence_interval": {
+        "confidence": 0.95,
+        "lower": 1.1487685589139847,
+        "resamples": 10000,
+        "upper": 1.1631595279109705
+      },
+      "ratio": 1.1561406609657463
+    },
+    "stock": {
+      "count": 6,
+      "internal_samples_tokens_per_second": [
+        24.5599,
+        24.8031,
+        24.6021,
+        24.5495,
+        24.7613,
+        24.866
+      ],
+      "maximum_rss_kib": {
+        "count": 6,
+        "maximum_rss_kib": 4257912.0,
+        "mean_rss_kib": 4257907.333333333,
+        "median_rss_kib": 4257912.0,
+        "minimum_rss_kib": 4257896.0,
+        "population_cv": 1.5735234602915096e-06,
+        "samples": [
+          4257900.0,
+          4257912.0,
+          4257912.0,
+          4257912.0,
+          4257896.0,
+          4257912.0
+        ]
+      },
+      "maximum_tokens_per_second": 24.865997,
+      "mean_tokens_per_second": 24.690315833333333,
+      "median_tokens_per_second": 24.681687500000002,
+      "minimum_tokens_per_second": 24.549537,
+      "population_cv": 0.005049330553291226,
+      "samples": [
+        24.559859,
+        24.803127,
+        24.602069,
+        24.549537,
+        24.761306,
+        24.865997
+      ]
+    }
+  }
+}
