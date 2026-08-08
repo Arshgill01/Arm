@@ -1,0 +1,8 @@
+0.02.016.417 W llama_context: setting new yarn_attn_factor = 1.0000 (mscale == 1.0, mscale_all_dim = 1.0)
+0.02.072.287 W kleidiai: no kernel for tensor type q6_K, not accelerated by KleidiAI (kernels available for Q4_0 and Q8_0)
+0.02.136.130 I 
+0.02.136.228 I system_info: n_threads = 4 (n_threads_batch = 4) / 8 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | SVE = 1 | DOTPROD = 1 | SVE_CNT = 16 | OPENMP = 1 | KLEIDIAI = 1 | REPACK = 1 | 
+0.02.136.245 I perplexity: tokenizing the input ..
+0.02.140.434 I perplexity: tokenization took 4.186 ms
+0.02.140.441 E perplexity: you need at least 4096 tokens to evaluate perplexity with a context of 2048
+0.02.140.442 E perplexity: the data file you provided tokenizes to only 2896 tokens

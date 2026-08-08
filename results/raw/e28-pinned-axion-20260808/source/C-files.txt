@@ -1,0 +1,6 @@
+common/reasoning-budget.cpp
+ggml/src/ggml-cpu/CMakeLists.txt
+ggml/src/ggml-cpu/arch/arm/quants.c
+ggml/src/ggml-cpu/arch/arm/repack.cpp
+ggml/src/ggml-cpu/simd-gemm.h
+tests/test-reasoning-budget.cpp

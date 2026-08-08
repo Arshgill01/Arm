@@ -1,0 +1,286 @@
+{
+  "cases": [
+    {
+      "decode_ms": 45.176,
+      "encode_ms": 12127.352,
+      "generated_tokens": 2,
+      "http_ms": 12176.726103,
+      "id": "arithmetic-01",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 44.915,
+      "encode_ms": 456.434,
+      "generated_tokens": 2,
+      "http_ms": 504.425464,
+      "id": "arithmetic-02",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 47.057,
+      "encode_ms": 783.296,
+      "generated_tokens": 2,
+      "http_ms": 833.369746,
+      "id": "arithmetic-03",
+      "response": "B",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.19,
+      "encode_ms": 695.76,
+      "generated_tokens": 2,
+      "http_ms": 744.049973,
+      "id": "arithmetic-04",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.432,
+      "encode_ms": 618.922,
+      "generated_tokens": 2,
+      "http_ms": 667.383942,
+      "id": "arithmetic-05",
+      "response": "A",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.127,
+      "encode_ms": 783.017,
+      "generated_tokens": 2,
+      "http_ms": 831.180506,
+      "id": "logic-01",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 44.986,
+      "encode_ms": 723.794,
+      "generated_tokens": 2,
+      "http_ms": 771.830309,
+      "id": "logic-02",
+      "response": "A",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 44.676,
+      "encode_ms": 671.434,
+      "generated_tokens": 2,
+      "http_ms": 719.131194,
+      "id": "logic-03",
+      "response": "B",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.186,
+      "encode_ms": 619.0,
+      "generated_tokens": 2,
+      "http_ms": 667.186895,
+      "id": "logic-04",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.433,
+      "encode_ms": 749.235,
+      "generated_tokens": 2,
+      "http_ms": 797.667722,
+      "id": "logic-05",
+      "response": "B",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 44.468,
+      "encode_ms": 590.978,
+      "generated_tokens": 2,
+      "http_ms": 638.316488,
+      "id": "code-01",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 44.854,
+      "encode_ms": 748.62,
+      "generated_tokens": 2,
+      "http_ms": 796.413387,
+      "id": "code-02",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.091,
+      "encode_ms": 3198.699,
+      "generated_tokens": 2,
+      "http_ms": 3246.834153,
+      "id": "code-03",
+      "response": "B",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.133,
+      "encode_ms": 836.209,
+      "generated_tokens": 2,
+      "http_ms": 884.384802,
+      "id": "code-04",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 44.934,
+      "encode_ms": 540.411,
+      "generated_tokens": 2,
+      "http_ms": 588.277355,
+      "id": "code-05",
+      "response": "B",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.221,
+      "encode_ms": 3328.064,
+      "generated_tokens": 2,
+      "http_ms": 3376.392785,
+      "id": "data-01",
+      "response": "B",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 52.519,
+      "encode_ms": 551.055,
+      "generated_tokens": 2,
+      "http_ms": 606.654838,
+      "id": "data-02",
+      "response": "B",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 44.691,
+      "encode_ms": 781.712,
+      "generated_tokens": 2,
+      "http_ms": 829.352284,
+      "id": "data-03",
+      "response": "B",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.247,
+      "encode_ms": 2975.379,
+      "generated_tokens": 2,
+      "http_ms": 3023.636504,
+      "id": "data-04",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.498,
+      "encode_ms": 783.501,
+      "generated_tokens": 2,
+      "http_ms": 832.00726,
+      "id": "data-05",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 44.856,
+      "encode_ms": 835.787,
+      "generated_tokens": 2,
+      "http_ms": 883.618273,
+      "id": "systems-01",
+      "response": "B",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 44.777,
+      "encode_ms": 888.239,
+      "generated_tokens": 2,
+      "http_ms": 935.985046,
+      "id": "systems-02",
+      "response": "B",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.594,
+      "encode_ms": 749.225,
+      "generated_tokens": 2,
+      "http_ms": 797.816417,
+      "id": "systems-03",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 44.853,
+      "encode_ms": 730.656,
+      "generated_tokens": 2,
+      "http_ms": 778.510631,
+      "id": "systems-04",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.03,
+      "encode_ms": 2870.98,
+      "generated_tokens": 2,
+      "http_ms": 2918.992949,
+      "id": "systems-05",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 44.642,
+      "encode_ms": 859.944,
+      "generated_tokens": 2,
+      "http_ms": 907.546461,
+      "id": "evidence-01",
+      "response": "B",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 44.924,
+      "encode_ms": 748.309,
+      "generated_tokens": 2,
+      "http_ms": 796.198976,
+      "id": "evidence-02",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.246,
+      "encode_ms": 671.085,
+      "generated_tokens": 2,
+      "http_ms": 719.241744,
+      "id": "evidence-03",
+      "response": "C",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.175,
+      "encode_ms": 749.122,
+      "generated_tokens": 2,
+      "http_ms": 797.284968,
+      "id": "evidence-04",
+      "response": "D",
+      "termination_reason": "stop"
+    },
+    {
+      "decode_ms": 45.248,
+      "encode_ms": 723.393,
+      "generated_tokens": 2,
+      "http_ms": 771.584882,
+      "id": "evidence-05",
+      "response": "B",
+      "termination_reason": "stop"
+    }
+  ],
+  "chat_template_mode": "model_jinja_enable_thinking_false",
+  "context_size": 2048,
+  "framework": "llama.cpp",
+  "instruction_role": "user_prefix",
+  "max_output_tokens": 8,
+  "model_load_ms": 2409.856931,
+  "model_path": "/var/tmp/e28-pinned-work/model/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+  "schema_version": 1,
+  "seed": 424242,
+  "temperature": 0.0,
+  "threads": 4,
+  "transport": "OpenAI-compatible HTTP"
+}
