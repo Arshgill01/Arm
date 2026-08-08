@@ -39,7 +39,7 @@ class E28ContractTests(unittest.TestCase):
 
     def test_campaign_is_staged_and_e26_is_absent(self) -> None:
         campaign = (ROOT / "experiments/e28_pinned_campaign.sh").read_text()
-        self.assertIn("prepare|benchmark|demo-profile|second-arm|all", campaign)
+        self.assertIn("prepare|benchmark|demo-profile|all", campaign)
         self.assertIn("run_correctness", campaign)
         self.assertIn("run_quality_and_perplexity", campaign)
         self.assertIn("run_benchmarks", campaign)
@@ -48,8 +48,8 @@ class E28ContractTests(unittest.TestCase):
     def test_second_arm_workflow_runs_portability_matrix(self) -> None:
         workflow = (ROOT / ".github/workflows/e28-cumulative-arm-runtime.yml").read_text()
         self.assertIn("ubuntu-24.04-arm", workflow)
-        self.assertIn("E28_MODEL_KEY: portability", workflow)
-        self.assertIn("second-arm", workflow)
+        self.assertIn("e28_current_second_arm.sh", workflow)
+        self.assertIn("stock-versus-combined", workflow)
         self.assertIn("Neoverse-N2", workflow)
 
 

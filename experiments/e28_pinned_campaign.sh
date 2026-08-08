@@ -2,14 +2,14 @@
 set -euo pipefail
 
 if [[ $# -lt 1 || $# -gt 2 ]]; then
-    echo "usage: $0 OUTPUT_DIR [prepare|benchmark|demo-profile|second-arm|all]" >&2
+    echo "usage: $0 OUTPUT_DIR [prepare|benchmark|demo-profile|all]" >&2
     exit 2
 fi
 
 output_dir=$(realpath -m "$1")
 stage=${2:-all}
 case "$stage" in
-    prepare|benchmark|demo-profile|second-arm|all) ;;
+    prepare|benchmark|demo-profile|all) ;;
     *) echo "invalid stage: $stage" >&2; exit 2 ;;
 esac
 
@@ -537,22 +537,5 @@ if [[ "$stage" = demo-profile || "$stage" = all ]]; then
     python3 "$repo_root/experiments/e28_ingest.py" "$output_dir" \
         "$output_dir/results/summary.json"
     touch "$marker_dir/demo-profile.complete"
-    finish_inventory
-fi
-
-if [[ "$stage" = second-arm ]]; then
-    test "$model_key" = portability
-    test ! -e "$marker_dir/second-arm.complete"
-    record_host
-    verify_inputs
-    prepare_sources_and_builds
-    prepare_model
-    compile_harnesses
-    run_correctness
-    touch "$marker_dir/prepare.complete"
-    run_benchmarks
-    python3 "$repo_root/experiments/e28_second_ingest.py" "$output_dir" \
-        "$output_dir/results/summary.json"
-    touch "$marker_dir/second-arm.complete"
     finish_inventory
 fi

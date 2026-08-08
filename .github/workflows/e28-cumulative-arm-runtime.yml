@@ -21,7 +21,7 @@ env:
   MODEL_PATH: /tmp/e28-portability/model/qwen2.5-1.5b-instruct-q4_k_m.gguf
   MODEL_SHA256: 6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e
   EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e28-n2-${{ github.run_id }}-${{ github.run_attempt }}
-  E28_WORK_DIR: /tmp/e28-portability
+  E28_CURRENT_WORK_DIR: /tmp/e28-portability
 
 jobs:
   validate:
@@ -46,7 +46,8 @@ jobs:
           grep -q 'Neoverse-N2' /tmp/e28-lscpu.txt
           c++ --version | grep -q '13.3.0'
           bash -n experiments/e28_pinned_campaign.sh
-          python3 -m py_compile experiments/e28_ingest.py experiments/e28_second_ingest.py \
+          python3 -m py_compile experiments/e28_ingest.py \
+            experiments/e28_current_ingest.py experiments/e28_current_second_ingest.py \
             experiments/e28_sidecar_bytes.py
           python3 -m unittest tests.test_e28
 
@@ -76,12 +77,10 @@ jobs:
           path: ${{ env.MODEL_PATH }}
           key: e28-qwen25-q4-k-m-${{ env.MODEL_SHA256 }}
 
-      - name: Run direct correctness and reverse-balanced matrix
+      - name: Run current stock-versus-combined direct correctness and matrix
         id: experiment
         continue-on-error: true
-        env:
-          E28_MODEL_KEY: portability
-        run: experiments/e28_pinned_campaign.sh "$EVIDENCE_DIR" second-arm
+        run: experiments/e28_current_second_arm.sh "$EVIDENCE_DIR"
 
       - name: Print retained summary
         if: always() && hashFiles('results/raw/e28-n2-*/results/summary.json') != ''
