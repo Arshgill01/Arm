@@ -40,7 +40,7 @@ prepare_current_sources_and_builds() {
     git -C "$source_repo" fetch origin master
     observed=$(git -C "$source_repo" ls-remote origin refs/heads/master | awk '{print $1}')
     printf '%s\n' "$observed" > "$output_dir/source/upstream-master-at-run.txt"
-    test "$observed" = "$commit"
+    git -C "$source_repo" cat-file -e "$commit^{commit}"
 
     current_e24=$(jq -r '.source.mechanism_patches.current_e24.path' "$contract")
     current_e25=$(jq -r '.source.mechanism_patches.current_e25.path' "$contract")

@@ -55,6 +55,12 @@ class E28ContractTests(unittest.TestCase):
         self.assertIn("stock-versus-combined", workflow)
         self.assertIn("Neoverse-N2", workflow)
 
+    def test_current_campaign_records_moving_head_but_builds_pinned_commit(self) -> None:
+        campaign = (ROOT / "experiments/e28_current_campaign.sh").read_text()
+        self.assertIn('ls-remote origin refs/heads/master', campaign)
+        self.assertIn('cat-file -e "$commit^{commit}"', campaign)
+        self.assertNotIn('test "$observed" = "$commit"', campaign)
+
     def test_current_series_manifest_matches_ordered_patch_bytes(self) -> None:
         expected_commit = "69bf6437914596fbbc4caf09a7ac16f2acdd1a94"
         for directory in (
