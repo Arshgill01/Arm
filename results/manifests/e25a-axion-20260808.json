@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E25a",
+  "status": "cumulative_e24_profile_complete",
+  "captured_at_utc": "2026-08-08T08:15:00+00:00",
+  "claim_boundary": "Native profiling binds the cumulative E24 Q4_K opportunity. This checkpoint makes no E25 speedup or generality claim.",
+  "provenance": {
+    "llama_cpp_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "contract_sha256": "c71ca15f36e2a317259bbf9c3a7f2ad24691aab24d03a5af2474ffefdf89cd60",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "compact_raw_directory": "results/raw/e25a-axion-20260808",
+    "patches": [
+      ["patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch", "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f"],
+      ["patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch", "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab"],
+      ["patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch", "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783"],
+      ["patches/llama.cpp/b10216/0013-arm-q4-k-neon-vector-scale-kernel.patch", "c4794e8e0087fd32691778c23b1ee559fde0e37ee69f281973ec2b02d02c33f2"],
+      ["patches/llama.cpp/b10216/0016-arm-q6-k-gemv-fused-scales.patch", "154076f9c565abf47466a9aa5d6d5ae1f22dbeedbb6aa8dc125682c4d06d0846"],
+      ["patches/llama.cpp/b10216/0020-arm-q6-k-gemv-just-in-time-loads.patch", "6a270cf9a1d7681d756d305a40018eada2321ef4c43abdcc1eb3d6905ef33cd7"]
+    ]
+  },
+  "platform": {
+    "provider": "Google Cloud Compute Engine",
+    "zone": "us-central1-a",
+    "instance_name": "arm-e25-pmu-20260808",
+    "instance_id": "750392873397738700",
+    "machine_type": "c4a-highcpu-8",
+    "cpu": "Google Axion / Arm Neoverse V2",
+    "pmu": "STANDARD",
+    "logical_cpus_used": 4,
+    "compiler": "GCC 13.3.0",
+    "maximum_run_duration_seconds": 21600,
+    "instance_termination_action": "DELETE"
+  },
+  "profile": {
+    "tg128_tokens_per_second": 25.60448,
+    "tg128_q4_k_exclusive_cycle_share": 0.5735,
+    "tg128_q6_k_exclusive_cycle_share": 0.3046,
+    "live_decode_tokens_per_second": 25.50,
+    "live_q4_k_exclusive_cycle_share": 0.4956,
+    "live_q6_k_exclusive_cycle_share": 0.2636,
+    "real_model_dispatch_proved": true,
+    "lost_samples": 0
+  },
+  "resource_state": {
+    "primary_instance_running_for_follow_on_validation": true,
+    "superseded_non_pmu_instance_deleted": true,
+    "superseded_instance_absence_verified": true,
+    "superseded_boot_disk_absence_verified": true
+  }
+}

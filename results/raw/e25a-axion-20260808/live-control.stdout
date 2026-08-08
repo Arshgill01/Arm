@@ -1,0 +1,5 @@
+**Optimizing single-token matrix-vector kernels** (e.g., via fused operations or specialized hardware like Arm NEON/SVE) speeds up language-model inference by reducing memory bandwidth and latency for dense linear algebra. On a streamed CPU (e.g., Arm Cortex-A), this means:
+
+- **Fewer cache misses**: A fused kernel (e.g., `matmul + softmax` in one pass) avoids per-token memory access bottlenecks.
+- **Lower latency**: Arm’s SIMD (SVE) can parallelize token predictions, reducing stalls for small batch sizes.
+- **Streaming efficiency**: Precom

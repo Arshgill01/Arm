@@ -1,0 +1,41 @@
+{
+  "baseline": "cumulative E24",
+  "experiment_id": "E25a",
+  "live": {
+    "counters": {
+      "cpu_cycles": 72423743619,
+      "inst_retired": 283952955386,
+      "l1d_cache": 56497119598,
+      "l1d_cache_refill": 977373017,
+      "l2d_cache": 10101210719
+    },
+    "exclusive_cycle_share": {
+      "ggml_compute_forward_flash_attn_ext": 0.0106,
+      "ggml_gemv_q4_K_8x8_q8_K": 0.49560000000000004,
+      "ggml_gemv_q6_K_8x8_q8_K": 0.2636,
+      "ggml_quantize_mat_q8_K_4x8": 0.0027,
+      "quantize_row_q8_K_ref": 0.0024
+    },
+    "ipc": 3.9207163451780804,
+    "l1d_refill_per_access": 0.017299519408323943
+  },
+  "schema_version": 1,
+  "tg128": {
+    "counters": {
+      "cpu_cycles": 184693716790,
+      "inst_retired": 718639081818,
+      "l1d_cache": 134424922628,
+      "l1d_cache_refill": 2462907926,
+      "l2d_cache": 27154568237
+    },
+    "exclusive_cycle_share": {
+      "ggml_compute_forward_flash_attn_ext": 0.0079,
+      "ggml_gemv_q4_K_8x8_q8_K": 0.5735,
+      "ggml_gemv_q6_K_8x8_q8_K": 0.3046,
+      "quantize_row_q8_K_ref": 0.0027
+    },
+    "ipc": 3.8909774209325447,
+    "l1d_refill_per_access": 0.018321810255496396,
+    "tokens_per_second": 25.60448
+  }
+}
