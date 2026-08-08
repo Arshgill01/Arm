@@ -1,0 +1,2468 @@
+ Percent |	Source code & Disassembly of libggml-cpu.so.0.18.0 for cpu_cycles:u (2267677 samples, percent: local period)
+----------------------------------------------------------------------------------------------------------------------------
+         :
+         :
+         :
+         : 3     Disassembly of section .text:
+         :
+         : 5     000000000006ffc8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)>:
+         : 6     }
+         :
+         : 8     static void ggml_compute_forward_flash_attn_ext_tiled(
+         : 9     const ggml_compute_params * params,
+         : 10    ggml_tensor * dst,
+         : 11    int ir0, int ir1) {
+    0.00 :   6ffc8:  stp     x29, x30, [sp, #-160]!
+    0.00 :   6ffcc:  mov     x29, sp
+    0.00 :   6ffd0:  stp     x19, x20, [sp, #16]
+    0.00 :   6ffd4:  stp     x21, x22, [sp, #32]
+    0.00 :   6ffd8:  stp     x23, x24, [sp, #48]
+    0.00 :   6ffdc:  stp     x25, x26, [sp, #64]
+    0.00 :   6ffe0:  stp     x27, x28, [sp, #80]
+    0.00 :   6ffe4:  sub     sp, sp, #0x510
+    0.00 :   6ffe8:  str     xzr, [sp, #1024]
+    0.00 :   6ffec:  adrp    x5, 10f000 <quantize_row_q5_0@@Base+0xc71b0>
+    0.00 :   6fff0:  ldr     x5, [x5, #3600]
+    0.00 :   6fff4:  mov     x4, x1
+    0.00 :   6fff8:  str     x0, [sp, #408]
+         : 25    const ggml_tensor * q     = dst->src[0];
+         : 26    const ggml_tensor * k     = dst->src[1];
+    0.00 :   6fffc:  ldr     x0, [x1, #160]
+         : 28    int ir0, int ir1) {
+    0.00 :   70000:  stp     w2, w3, [sp, #240]
+         : 30    const ggml_tensor * q     = dst->src[0];
+    0.00 :   70004:  ldr     x9, [x1, #152]
+         : 32    const ggml_tensor * k     = dst->src[1];
+    0.00 :   70008:  str     x0, [sp, #128]
+         : 34    int ir0, int ir1) {
+    0.00 :   7000c:  ldr     x0, [x5]
+    0.00 :   70010:  str     x0, [sp, #1288]
+    0.00 :   70014:  mov     x0, #0x0                        // #0
+         : 38    const ggml_tensor * v     = dst->src[2];
+    0.00 :   70018:  ldr     x0, [x1, #168]
+    0.00 :   7001c:  str     x0, [sp, #72]
+         : 41    const ggml_tensor * mask  = dst->src[3];
+    0.00 :   70020:  ldr     x0, [x1, #176]
+    0.00 :   70024:  str     x0, [sp, #448]
+         : 44    const ggml_tensor * sinks = dst->src[4];
+    0.00 :   70028:  ldr     x0, [x1, #184]
+    0.00 :   7002c:  str     x0, [sp, #288]
+         :
+         : 48    GGML_TENSOR_LOCALS(int64_t, neq, q,   ne)
+    0.00 :   70030:  cbz     x9, 71784 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x17bc>
+    0.00 :   70034:  ldp     x1, x22, [x9, #32]
+    0.00 :   70038:  ldp     x25, x0, [x9, #16]
+         : 52    GGML_TENSOR_LOCALS(size_t,  nbq, q,   nb)
+    0.00 :   7003c:  ldr     x2, [x9, #56]
+    0.00 :   70040:  stp     x1, x2, [sp, #136]
+    0.00 :   70044:  ldr     x2, [x9, #64]
+    0.00 :   70048:  ldr     x1, [x9, #48]
+    0.00 :   7004c:  str     x2, [sp, #304]
+    0.00 :   70050:  ldr     x2, [x9, #72]
+    0.00 :   70054:  str     x2, [sp, #264]
+         : 60    GGML_TENSOR_LOCALS(int64_t, nek, k,   ne)
+    0.00 :   70058:  ldr     x2, [sp, #128]
+    0.00 :   7005c:  cbz     x2, 717a8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x17e0>
+    0.00 :   70060:  ldr     x3, [x2, #16]
+         : 64    GGML_TENSOR_LOCALS(size_t,  nbk, k,   nb)
+    0.00 :   70064:  ldp     x21, x23, [x2, #40]
+         : 66    GGML_TENSOR_LOCALS(int64_t, nek, k,   ne)
+    0.00 :   70068:  str     x3, [sp, #80]
+    0.00 :   7006c:  ldr     x3, [x2, #24]
+    0.00 :   70070:  str     x3, [sp, #40]
+    0.00 :   70074:  ldr     x3, [x2, #32]
+    0.00 :   70078:  str     x3, [sp, #8]
+         : 72    GGML_TENSOR_LOCALS(size_t,  nbk, k,   nb)
+    0.00 :   7007c:  ldr     x3, [x2, #56]
+    0.00 :   70080:  str     x3, [sp, #200]
+    0.00 :   70084:  ldp     x3, x2, [x2, #64]
+    0.00 :   70088:  str     x2, [sp, #272]
+         : 77    GGML_TENSOR_LOCALS(int64_t, nev, v,   ne)
+    0.00 :   7008c:  ldr     x2, [sp, #72]
+         : 79    GGML_TENSOR_LOCALS(size_t,  nbk, k,   nb)
+    0.00 :   70090:  str     x3, [sp, #312]
+         : 81    GGML_TENSOR_LOCALS(int64_t, nev, v,   ne)
+    0.00 :   70094:  cbz     x2, 717d0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1808>
+    0.00 :   70098:  ldr     x3, [x2, #16]
+    0.00 :   7009c:  ldp     x28, x20, [x2, #32]
+    0.00 :   700a0:  str     x3, [sp, #32]
+         : 86    GGML_TENSOR_LOCALS(size_t,  nbv, v,   nb)
+    0.00 :   700a4:  ldr     x3, [x2, #56]
+    0.00 :   700a8:  ldr     x24, [x2, #48]
+    0.00 :   700ac:  str     x3, [sp, #152]
+    0.00 :   700b0:  ldp     x3, x2, [x2, #64]
+    0.00 :   700b4:  str     x2, [sp, #280]
+    0.00 :   700b8:  str     x3, [sp, #320]
+         : 93    GGML_TENSOR_LOCALS(int64_t, ne,  dst, ne)
+    0.00 :   700bc:  ldp     x2, x3, [x4, #16]
+         : 95    GGML_TENSOR_LOCALS(size_t,  nb,  dst, nb)
+    0.00 :   700c0:  ldp     x19, x26, [x4, #64]
+         : 97    GGML_TENSOR_LOCALS(int64_t, ne,  dst, ne)
+    0.00 :   700c4:  str     x3, [sp, #296]
+    0.00 :   700c8:  ldr     x3, [x4, #32]
+         : 100   GGML_TENSOR_LOCALS(size_t,  nb,  dst, nb)
+    0.00 :   700cc:  ldr     x27, [x4, #48]
+         : 102   GGML_TENSOR_LOCALS(int64_t, ne,  dst, ne)
+    0.00 :   700d0:  str     x3, [sp, #192]
+         : 104   GGML_TENSOR_LOCALS(size_t,  nb,  dst, nb)
+    0.00 :   700d4:  ldr     x3, [x4, #56]
+    0.00 :   700d8:  str     x3, [sp, #48]
+         :
+         : 108   const int64_t DK = nek0;
+         : 109   const int64_t DV = nev0;
+         : 110   const int64_t N  = neq1;
+         :
+         : 112   GGML_ASSERT(ne0 == DV);
+    0.00 :   700dc:  ldr     x3, [sp, #32]
+    0.00 :   700e0:  cmp     x2, x3
+    0.00 :   700e4:  b.ne    71bd8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1c10>  // b.any
+         : 116   GGML_ASSERT(ne2 == N);
+    0.00 :   700e8:  ldr     x2, [sp, #192]
+    0.00 :   700ec:  cmp     x0, x2
+    0.00 :   700f0:  b.ne    71b7c <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1bb4>  // b.any
+         :
+         : 121   // input tensor rows must be contiguous
+         : 122   GGML_ASSERT(nbq0 == ggml_type_size(q->type));
+    0.00 :   700f4:  ldr     w0, [x9]
+    0.00 :   700f8:  stp     x9, x1, [sp, #16]
+    0.00 :   700fc:  str     x4, [sp, #56]
+    0.00 :   70100:  bl      18810 <ggml_type_size@plt>
+    0.00 :   70104:  ldp     x9, x1, [sp, #16]
+    0.00 :   70108:  ldr     x4, [sp, #56]
+    0.00 :   7010c:  cmp     x1, x0
+    0.00 :   70110:  b.ne    71b20 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1b58>  // b.any
+         : 131   GGML_ASSERT(nbk0 == ggml_type_size(k->type));
+    0.00 :   70114:  ldr     x0, [sp, #128]
+    0.00 :   70118:  stp     x9, x4, [sp, #16]
+    0.00 :   7011c:  ldr     w0, [x0]
+    0.00 :   70120:  bl      18810 <ggml_type_size@plt>
+    0.00 :   70124:  cmp     x23, x0
+    0.00 :   70128:  ldp     x9, x4, [sp, #16]
+    0.00 :   7012c:  b.ne    71ac4 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1afc>  // b.any
+         : 139   GGML_ASSERT(nbv0 == ggml_type_size(v->type));
+    0.00 :   70130:  stp     x9, x4, [sp, #16]
+    0.00 :   70134:  ldr     x0, [sp, #72]
+    0.00 :   70138:  ldr     w0, [x0]
+    0.00 :   7013c:  bl      18810 <ggml_type_size@plt>
+    0.00 :   70140:  cmp     x24, x0
+    0.00 :   70144:  ldp     x9, x4, [sp, #16]
+    0.00 :   70148:  b.ne    71a68 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1aa0>  // b.any
+         :
+         : 148   GGML_ASSERT(neq0 == DK);
+    0.00 :   7014c:  ldr     x0, [sp, #80]
+    0.00 :   70150:  cmp     x25, x0
+    0.00 :   70154:  b.ne    71a0c <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1a44>  // b.any
+         : 152   GGML_ASSERT(nev0 == DV);
+         :
+         : 154   GGML_ASSERT(neq1 == N);
+         :
+         : 156   // dst cannot be transposed or permuted
+         : 157   GGML_ASSERT(nb0 == sizeof(float));
+    0.00 :   70158:  cmp     x27, #0x4
+    0.00 :   7015c:  b.ne    719b0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x19e8>  // b.any
+         : 160   GGML_ASSERT(nb0 <= nb1);
+    0.00 :   70160:  ldr     x0, [sp, #48]
+    0.00 :   70164:  cmp     x0, #0x3
+    0.00 :   70168:  b.ls    71954 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x198c>  // b.plast
+         : 164   GGML_ASSERT(nb1 <= nb2);
+    0.00 :   7016c:  cmp     x0, x19
+    0.00 :   70170:  b.hi    7189c <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x18d4>  // b.pmore
+         : 167   GGML_ASSERT(nb2 <= nb3);
+    0.00 :   70174:  cmp     x19, x26
+    0.00 :   70178:  b.hi    71840 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1878>  // b.pmore
+         :
+         : 171   GGML_ASSERT(k->type == v->type);
+    0.00 :   7017c:  ldr     x0, [sp, #128]
+    0.00 :   70180:  ldr     w1, [x0]
+    0.00 :   70184:  ldr     x0, [sp, #72]
+    0.00 :   70188:  str     w1, [sp, #328]
+    0.00 :   7018c:  ldr     w0, [x0]
+    0.00 :   70190:  cmp     w1, w0
+    0.00 :   70194:  b.ne    718f8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1930>  // b.any
+         : 179   const ggml_type kv_type = k->type;
+         :
+         :
+         : 182   // broadcast factors
+         : 183   const int64_t rk2 = neq2/nek2;
+    0.00 :   70198:  ldr     x1, [sp, #8]
+    0.00 :   7019c:  str     d8, [sp, #1392]
+    0.00 :   701a0:  ldr     x0, [sp, #136]
+    0.00 :   701a4:  str     d9, [sp, #1400]
+    0.00 :   701a8:  str     d10, [sp, #1408]
+    0.00 :   701ac:  str     d11, [sp, #1416]
+    0.00 :   701b0:  str     d14, [sp, #1440]
+    0.00 :   701b4:  sdiv    x1, x0, x1
+    0.00 :   701b8:  str     d15, [sp, #1448]
+         :
+         : 194   __fortify_function void *
+         : 195   __NTH (memcpy (void *__restrict __dest, const void *__restrict __src,
+         : 196   size_t __len))
+         : 197   {
+         : 198   return __builtin___memcpy_chk (__dest, __src, __len,
+    0.00 :   701bc:  ldr     s14, [x4, #92]
+    0.00 :   701c0:  ldr     s10, [x4, #84]
+         : 201   const int64_t rk3 = neq3/nek3;
+         :
+         : 203   const int64_t rv2 = neq2/nev2;
+    0.00 :   701c4:  sdiv    x0, x0, x28
+    0.00 :   701c8:  ldr     w19, [x4, #88]
+         :
+         : 207   memcpy(&scale,         (float *) dst->op_params + 0, sizeof(float));
+         : 208   memcpy(&max_bias,      (float *) dst->op_params + 1, sizeof(float));
+         : 209   memcpy(&logit_softcap, (float *) dst->op_params + 2, sizeof(float));
+         :
+         : 211   if (logit_softcap != 0) {
+    0.00 :   701cc:  fcmp    s14, #0.0
+         : 213   const int64_t rk2 = neq2/nek2;
+    0.00 :   701d0:  str     x1, [sp, #456]
+         : 215   const int64_t rk3 = neq3/nek3;
+    0.00 :   701d4:  sdiv    x1, x22, x21
+         : 217   const int64_t rv2 = neq2/nev2;
+    0.00 :   701d8:  str     x0, [sp, #472]
+         : 219   const int64_t rv3 = neq3/nev3;
+    0.00 :   701dc:  sdiv    x0, x22, x20
+         : 221   const int64_t rk3 = neq3/nek3;
+    0.00 :   701e0:  str     x1, [sp, #464]
+         : 223   const int64_t rv3 = neq3/nev3;
+    0.00 :   701e4:  str     x0, [sp, #480]
+         : 225   if (logit_softcap != 0) {
+    0.00 :   701e8:  b.ne    717f0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1828>  // b.any
+         : 227   #ifndef __CORRECT_ISO_CPP11_MATH_H_PROTO_INT
+         : 228   template<typename _Tp>
+         : 229   constexpr typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value,
+         : 230   double>::__type
+         : 231   log2(_Tp __x)
+         : 232   { return __builtin_log2(__x); }
+    0.00 :   701ec:  ldr     x20, [sp, #136]
+    0.00 :   701f0:  stp     x9, x4, [sp, #8]
+    0.00 :   701f4:  ucvtf   d0, w20
+    0.00 :   701f8:  bl      194e0 <log2@plt>
+    0.00 :   701fc:  fmov    d1, d0
+         : 238   scale /= logit_softcap;
+         : 239   }
+         :
+         : 241   const uint32_t n_head      = neq2;
+         : 242   const uint32_t n_head_log2 = 1u << (uint32_t) floor(log2(n_head));
+    0.00 :   70200:  mov     w1, #0x1                        // #1
+    0.00 :   70204:  fmov    s11, w19
+         :
+         : 246   const float m0 = powf(2.0f, -(max_bias       ) / n_head_log2);
+    0.00 :   70208:  fmov    s0, #2.000000000000000000e+00
+         : 248   const uint32_t n_head_log2 = 1u << (uint32_t) floor(log2(n_head));
+    0.00 :   7020c:  fcvtmu  w0, d1
+         : 250   const float m0 = powf(2.0f, -(max_bias       ) / n_head_log2);
+    0.00 :   70210:  fneg    s1, s11
+         : 252   const uint32_t n_head_log2 = 1u << (uint32_t) floor(log2(n_head));
+    0.00 :   70214:  lsl     w0, w1, w0
+         : 254   const float m0 = powf(2.0f, -(max_bias       ) / n_head_log2);
+    0.00 :   70218:  fmov    s2, w0
+         : 256   const uint32_t n_head_log2 = 1u << (uint32_t) floor(log2(n_head));
+    0.00 :   7021c:  str     w0, [sp, #332]
+         : 258   const float m0 = powf(2.0f, -(max_bias       ) / n_head_log2);
+    0.00 :   70220:  ucvtf   s8, s2
+    0.00 :   70224:  fdiv    s1, s1, s8
+    0.00 :   70228:  bl      19060 <powf@plt>
+         : 262   const float m1 = powf(2.0f, -(max_bias / 2.0f) / n_head_log2);
+    0.00 :   7022c:  fmov    s1, #5.000000000000000000e-01
+         : 264   const float m0 = powf(2.0f, -(max_bias       ) / n_head_log2);
+    0.00 :   70230:  fmov    s15, s0
+         : 266   const float m1 = powf(2.0f, -(max_bias / 2.0f) / n_head_log2);
+    0.00 :   70234:  fmov    s0, #2.000000000000000000e+00
+    0.00 :   70238:  fnmul   s1, s1, s11
+    0.00 :   7023c:  fdiv    s1, s1, s8
+    0.00 :   70240:  bl      19060 <powf@plt>
+         :
+         : 272   int ith = params->ith;
+    0.00 :   70244:  ldr     x0, [sp, #408]
+         : 274   const float m1 = powf(2.0f, -(max_bias / 2.0f) / n_head_log2);
+    0.00 :   70248:  str     s0, [sp, #492]
+         :
+         : 277   static constexpr int Q_TILE_SZ  = ggml_fa_tile_config::Q;
+         : 278   static constexpr int KV_TILE_SZ = ggml_fa_tile_config::KV;
+         :
+         : 280   int ir = ir0;
+         : 281   while (ir < ir1) {
+    0.00 :   7024c:  ldr     w1, [sp, #244]
+         : 283   int ith = params->ith;
+    0.00 :   70250:  ldr     w6, [x0]
+         : 285   while (ir < ir1) {
+    0.00 :   70254:  ldr     w0, [sp, #240]
+    0.00 :   70258:  cmp     w0, w1
+    0.00 :   7025c:  b.ge    70f60 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xf98>  // b.tcont
+         : 289   // KQ:     Q_TILE_SZ * KV_TILE_SZ (attention scores in float)
+         : 290   // mask:   Q_TILE_SZ * KV_TILE_SZ (mask in float)
+         : 291   // VKQ32:  Q_TILE_SZ * DV (FP32 output accumulator)
+         : 292   // V32:    KV_TILE_SZ * DV (F32 buffer for V tile)
+         : 293   // K_f32:  KV_TILE_SZ * DK (F32 buffer for K tile — GEMM path)
+         : 294   float * base  = (float *) params->wdata + ith*(Q_TILE_SZ*DK + 2*Q_TILE_SZ*KV_TILE_SZ + Q_TILE_SZ*DV + KV_TILE_SZ*DV + KV_TILE_SZ*DK + CACHE_LINE_SIZE_F32);
+    0.00 :   70260:  ldr     x7, [sp, #32]
+    0.00 :   70264:  mov     x2, #0x2010                     // #8208
+    0.00 :   70268:  sxtw    x6, w6
+         : 298   bool can_skip = true;
+         : 299   for (int tq = 0; tq < tile_rows; tq++) {
+         : 300   const ggml_fp16_t * mp_row = (const ggml_fp16_t *)((const char *) mask->data + (iq1 + tq)*mask->nb[1] + (iq2%mask->ne[2])*mask->nb[2] + (iq3%mask->ne[3])*mask->nb[3]);
+         : 301   for (int tk = 0; tk < kv_tile; tk++) {
+         : 302   mask32[tq * KV_TILE_SZ + tk] = slope * GGML_CPU_FP16_TO_FP32(mp_row[ic + tk]);
+         : 303   if (mask32[tq * KV_TILE_SZ + tk] != -INFINITY) {
+    0.00 :   7026c:  mvni    v9.2s, #0x80, lsl #16
+    0.00 :   70270:  str     d12, [sp, #1424]
+         : 306   float * kq_row = KQ + tq * KV_TILE_SZ;
+         :
+         : 308   float tile_max;
+         : 309   ggml_vec_max_f32(KV_TILE_SZ, &tile_max, kq_row);
+         :
+         : 311   if (tile_max == -INFINITY) {
+    0.00 :   70274:  mvni    v12.2s, #0x7f, msl #16
+         : 313   float * base  = (float *) params->wdata + ith*(Q_TILE_SZ*DK + 2*Q_TILE_SZ*KV_TILE_SZ + Q_TILE_SZ*DV + KV_TILE_SZ*DV + KV_TILE_SZ*DK + CACHE_LINE_SIZE_F32);
+    0.00 :   70278:  ldr     x4, [sp, #80]
+    0.00 :   7027c:  str     d13, [sp, #1432]
+         : 316   const int iq3 = ir/(neq2*neq1);
+    0.00 :   70280:  ldr     x8, [sp, #192]
+         : 318   for (int tk = 0; tk < kv_tile; tk++) {
+         : 319   const char * v_data = (const char *)v->data + (ic + tk)*nbv1 + iv2*nbv2 + iv3*nbv3;
+         : 320   if (kv_type == GGML_TYPE_F16) {
+         : 321   ggml_fp16_to_fp32_row((const ggml_fp16_t *)v_data, V32 + tk * DV, DV);
+         : 322   } else {
+         : 323   memcpy(V32 + tk * DV, v_data, DV * sizeof(float));
+    0.00 :   70284:  lsl     x25, x7, #2
+         : 325   for (int tq = 0; tq < Q_TILE_SZ; tq++) {
+         : 326   if (skip[tq]) {
+         : 327   memset(KQ + tq * KV_TILE_SZ, 0, KV_TILE_SZ * sizeof(float));
+         : 328   }
+         : 329   }
+         : 330   simd_gemm(VKQ32, KQ, V32, Q_TILE_SZ, KV_TILE_SZ, DV);
+    0.00 :   70288:  mov     w23, w7
+    0.00 :   7028c:  sbfiz   x28, x7, #2, #32
+         : 333   float * base  = (float *) params->wdata + ith*(Q_TILE_SZ*DK + 2*Q_TILE_SZ*KV_TILE_SZ + Q_TILE_SZ*DV + KV_TILE_SZ*DV + KV_TILE_SZ*DK + CACHE_LINE_SIZE_F32);
+    0.00 :   70290:  add     x0, x7, x4
+    0.00 :   70294:  add     x1, x4, x7, lsl #1
+    0.00 :   70298:  lsr     x5, x4, #2
+    0.00 :   7029c:  add     x0, x2, x0, lsl #7
+         : 338   K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   702a0:  and     x2, x4, #0xfffffffffffffffc
+         : 340   int M, int K, int N)
+         : 341   {
+         : 342   for (int64_t i = 0; i < M; i++) {
+         : 343   for (int64_t j = 0; j < N; j++) {
+         : 344   float sum = C[i * N + j];
+         : 345   for (int64_t kk = 0; kk < K; kk++) {
+    0.00 :   702a4:  sxtw    x18, w4
+         : 347   for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   702a8:  add     x9, x2, #0x1
+         : 349   const int iq3 = ir/(neq2*neq1);
+    0.00 :   702ac:  mul     x3, x20, x8
+    0.00 :   702b0:  mov     w12, w8
+    0.00 :   702b4:  mul     w11, w20, w8
+         : 353   for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   702b8:  add     x10, x2, #0x2
+    0.00 :   702bc:  mov     x19, x18
+    0.00 :   702c0:  mul     x0, x0, x6
+         : 357   K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   702c4:  lsl     x6, x9, #2
+         : 359   for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   702c8:  str     x9, [sp, #368]
+         : 361   const int iq3 = ir/(neq2*neq1);
+    0.00 :   702cc:  str     x3, [sp, #432]
+    0.00 :   702d0:  lsr     x3, x4, #3
+         : 364   K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   702d4:  str     x6, [sp, #552]
+    0.00 :   702d8:  lsl     x6, x9, #6
+    0.00 :   702dc:  ldr     x9, [sp, #296]
+    0.00 :   702e0:  str     x6, [sp, #360]
+    0.00 :   702e4:  ldr     x6, [sp, #48]
+         : 370   for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   702e8:  str     x10, [sp, #352]
+         : 372   const int iq1 = (ir - iq3*neq2*neq1 - iq2*neq1);
+    0.00 :   702ec:  str     w12, [sp, #488]
+         : 374   const int i1 = iq1 + tq;
+         : 375   const int i2 = iq2;
+         : 376   const int i3 = iq3;
+         :
+         : 378   // permute(0, 2, 1, 3)
+         : 379   memcpy((char *) dst->data + (i3*ne2*ne1 + i2 + i1*ne1)*nb1, VKQ32 + tq * DV, nb1);
+    0.00 :   702f0:  mul     x8, x8, x9
+    0.00 :   702f4:  str     w11, [sp, #608]
+    0.00 :   702f8:  mul     x6, x6, x9
+    0.00 :   702fc:  str     x8, [sp, #600]
+         : 384   K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   70300:  lsl     x8, x2, #2
+    0.00 :   70304:  lsl     x2, x2, #6
+    0.00 :   70308:  str     x2, [sp, #376]
+         : 388   float * base  = (float *) params->wdata + ith*(Q_TILE_SZ*DK + 2*Q_TILE_SZ*KV_TILE_SZ + Q_TILE_SZ*DV + KV_TILE_SZ*DV + KV_TILE_SZ*DK + CACHE_LINE_SIZE_F32);
+    0.00 :   7030c:  lsl     x2, x0, #2
+         : 390   K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   70310:  str     x8, [sp, #560]
+    0.00 :   70314:  add     x8, x0, x4, lsl #6
+    0.00 :   70318:  add     x0, x0, x1, lsl #6
+    0.00 :   7031c:  lsl     x1, x3, #11
+    0.00 :   70320:  str     x6, [sp, #400]
+    0.00 :   70324:  lsl     x6, x10, #2
+         : 397   float * base  = (float *) params->wdata + ith*(Q_TILE_SZ*DK + 2*Q_TILE_SZ*KV_TILE_SZ + Q_TILE_SZ*DV + KV_TILE_SZ*DV + KV_TILE_SZ*DK + CACHE_LINE_SIZE_F32);
+    0.00 :   70328:  str     x2, [sp, #440]
+    0.00 :   7032c:  lsl     x2, x5, #4
+    0.00 :   70330:  add     x0, x0, #0x2, lsl #12
+    0.00 :   70334:  str     x1, [sp, #232]
+         : 402   float * KQ     = (float *)((char *)base + Q_TILE_SZ * DK * sizeof(float));
+    0.00 :   70338:  lsl     x1, x4, #8
+    0.00 :   7033c:  lsl     x0, x0, #2
+    0.00 :   70340:  str     x8, [sp, #216]
+    0.00 :   70344:  lsl     x8, x8, #2
+         : 407   K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   70348:  str     x6, [sp, #544]
+    0.00 :   7034c:  lsl     x6, x10, #6
+    0.00 :   70350:  str     x0, [sp, #568]
+         : 411   float * V32    = VKQ32 + Q_TILE_SZ * DV;
+    0.00 :   70354:  lsl     x0, x7, #8
+    0.00 :   70358:  str     x2, [sp, #224]
+    0.00 :   7035c:  str     x0, [sp, #256]
+         : 415   memcpy(Q_f32 + tq * DK, pq, DK * sizeof(float));
+    0.00 :   70360:  lsl     x0, x4, #2
+         : 417   K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   70364:  str     x6, [sp, #344]
+         : 419   memcpy(Q_f32 + tq * DK, pq, DK * sizeof(float));
+    0.00 :   70368:  stp     x1, x0, [sp, #176]
+         : 421   for (int64_t j = 0; j < N; j++) {
+    0.00 :   7036c:  sxtw    x0, w7
+    0.00 :   70370:  add     x1, x8, #0x4, lsl #12
+    0.00 :   70374:  str     x0, [sp, #504]
+    0.00 :   70378:  ldr     x0, [sp, #152]
+    0.00 :   7037c:  str     x1, [sp, #520]
+    0.00 :   70380:  lsl     x0, x0, #6
+    0.00 :   70384:  str     x0, [sp, #392]
+    0.00 :   70388:  ldr     x0, [sp, #200]
+    0.00 :   7038c:  str     s15, [sp, #612]
+    0.00 :   70390:  fmov    s15, s10
+    0.00 :   70394:  ldr     x9, [sp, #8]
+    0.00 :   70398:  str     x8, [sp, #616]
+    0.00 :   7039c:  lsl     x0, x0, #6
+    0.00 :   703a0:  str     x0, [sp, #384]
+    0.00 :   703a4:  sub     x0, x4, #0x1
+    0.00 :   703a8:  mov     x27, x9
+    0.00 :   703ac:  str     x0, [sp, #496]
+    0.00 :   703b0:  and     x0, x4, #0xfffffffffffffff8
+    0.00 :   703b4:  str     x0, [sp, #512]
+    0.00 :   703b8:  sbfiz   x0, x4, #2, #32
+    0.00 :   703bc:  ldr     x4, [sp, #16]
+    0.00 :   703c0:  str     x0, [sp, #584]
+    0.00 :   703c4:  str     x4, [sp, #624]
+         : 445   const int tile_rows = MIN(Q_TILE_SZ, MIN((int)(ir1 - ir), (int)(neq1 - iq1)));
+    0.00 :   703c8:  ldp     w6, w1, [sp, #240]
+    0.00 :   703cc:  mov     w5, #0x40                       // #64
+         : 448   const int iq3 = ir/(neq2*neq1);
+    0.00 :   703d0:  ldr     x0, [sp, #432]
+         : 450   const int iq1 = (ir - iq3*neq2*neq1 - iq2*neq1);
+    0.00 :   703d4:  ldr     w8, [sp, #608]
+         : 452   const int iq3 = ir/(neq2*neq1);
+    0.00 :   703d8:  sxtw    x2, w6
+         : 454   const int tile_rows = MIN(Q_TILE_SZ, MIN((int)(ir1 - ir), (int)(neq1 - iq1)));
+    0.00 :   703dc:  sub     w1, w1, w6
+    0.00 :   703e0:  ldr     w7, [sp, #488]
+         : 457   const int iq3 = ir/(neq2*neq1);
+    0.00 :   703e4:  sdiv    x0, x2, x0
+         : 459   const int tile_rows = MIN(Q_TILE_SZ, MIN((int)(ir1 - ir), (int)(neq1 - iq1)));
+    0.00 :   703e8:  sub     w3, w7, w6
+         : 461   const int iq2 = (ir - iq3*neq2*neq1)/neq1;
+    0.00 :   703ec:  sxtw    x4, w0
+         : 463   const int iq1 = (ir - iq3*neq2*neq1 - iq2*neq1);
+    0.00 :   703f0:  mul     w0, w8, w0
+         : 465   const int iq2 = (ir - iq3*neq2*neq1)/neq1;
+    0.00 :   703f4:  ldr     x8, [sp, #136]
+    0.00 :   703f8:  str     x4, [sp, #168]
+         : 468   const int iq1 = (ir - iq3*neq2*neq1 - iq2*neq1);
+    0.00 :   703fc:  sub     w6, w6, w0
+         : 470   const int iq2 = (ir - iq3*neq2*neq1)/neq1;
+    0.00 :   70400:  mul     x4, x4, x8
+    0.00 :   70404:  ldr     x8, [sp, #192]
+    0.00 :   70408:  msub    x2, x4, x8, x2
+    0.00 :   7040c:  sdiv    x2, x2, x8
+    0.00 :   70410:  str     x2, [sp, #112]
+         : 476   const int iq1 = (ir - iq3*neq2*neq1 - iq2*neq1);
+    0.00 :   70414:  mul     w2, w7, w2
+         : 478   const int tile_rows = MIN(Q_TILE_SZ, MIN((int)(ir1 - ir), (int)(neq1 - iq1)));
+    0.00 :   70418:  add     w0, w0, w2
+         : 480   const int iq1 = (ir - iq3*neq2*neq1 - iq2*neq1);
+    0.00 :   7041c:  sub     w2, w6, w2
+         : 482   const int tile_rows = MIN(Q_TILE_SZ, MIN((int)(ir1 - ir), (int)(neq1 - iq1)));
+    0.00 :   70420:  add     w0, w0, w3
+    0.00 :   70424:  cmp     w0, w1
+    0.00 :   70428:  csel    w0, w0, w1, le
+         : 486   const int iq1 = (ir - iq3*neq2*neq1 - iq2*neq1);
+    0.00 :   7042c:  str     w2, [sp, #24]
+         : 488   const int tile_rows = MIN(Q_TILE_SZ, MIN((int)(ir1 - ir), (int)(neq1 - iq1)));
+    0.00 :   70430:  mov     w26, w0
+    0.00 :   70434:  cmp     w0, w5
+    0.00 :   70438:  csel    w1, w0, w5, le
+    0.00 :   7043c:  str     w1, [sp, #16]
+         : 493   GGML_ASSERT(tile_rows > 0);
+    0.00 :   70440:  cmp     w0, #0x0
+    0.00 :   70444:  b.le    71804 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x183c>
+         : 496   const float slope = (max_bias > 0.0f) ? h < n_head_log2 ? powf(m0, h + 1) : powf(m1, 2*(h - n_head_log2) + 1) : 1.0f;
+    0.00 :   70448:  fcmpe   s11, #0.0
+    0.00 :   7044c:  b.gt    71704 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x173c>
+    0.00 :   70450:  fmov    s13, #1.000000000000000000e+00
+         : 500   S[i] = 0.;
+    0.00 :   70454:  movi    v0.4s, #0x0
+         : 502   M[i] = -INFINITY;
+    0.00 :   70458:  mvni    v1.4s, #0x7f, msl #16
+         : 504   S[i] = 0.;
+    0.00 :   7045c:  add     x22, sp, #0x408
+         : 506   case no work is done at all.  We detect these problems by referring
+         : 507   non-existing functions.  */
+         : 508   __fortify_function void *
+         : 509   __NTH (memset (void *__dest, int __ch, size_t __len))
+         : 510   {
+         : 511   return __builtin___memset_chk (__dest, __ch, __len,
+    0.00 :   70460:  ldr     x4, [sp, #256]
+    0.00 :   70464:  mov     w1, #0x0                        // #0
+    0.00 :   70468:  stp     q0, q0, [x22]
+    0.00 :   7046c:  stp     q0, q0, [x22, #32]
+    0.00 :   70470:  stp     q0, q0, [x22, #64]
+    0.00 :   70474:  stp     q0, q0, [x22, #96]
+    0.00 :   70478:  stp     q0, q0, [x22, #128]
+    0.00 :   7047c:  stp     q0, q0, [x22, #160]
+    0.00 :   70480:  stp     q0, q0, [x22, #192]
+         : 521   M[i] = -INFINITY;
+    0.00 :   70484:  stp     q1, q1, [sp, #768]
+    0.00 :   70488:  stp     q1, q1, [sp, #800]
+    0.00 :   7048c:  stp     q1, q1, [sp, #832]
+    0.00 :   70490:  stp     q1, q1, [sp, #864]
+    0.00 :   70494:  stp     q1, q1, [sp, #896]
+    0.00 :   70498:  stp     q1, q1, [sp, #928]
+    0.00 :   7049c:  stp     q1, q1, [sp, #960]
+    0.00 :   704a0:  stp     q1, q1, [sp, #992]
+         : 530   S[i] = 0.;
+    0.00 :   704a4:  stp     q0, q0, [x22, #224]
+         : 532   float * base  = (float *) params->wdata + ith*(Q_TILE_SZ*DK + 2*Q_TILE_SZ*KV_TILE_SZ + Q_TILE_SZ*DV + KV_TILE_SZ*DV + KV_TILE_SZ*DK + CACHE_LINE_SIZE_F32);
+    0.00 :   704a8:  ldr     x0, [sp, #408]
+    0.00 :   704ac:  mov     x2, x4
+    0.00 :   704b0:  ldr     x3, [sp, #440]
+    0.00 :   704b4:  ldr     x0, [x0, #16]
+    0.00 :   704b8:  add     x20, x0, x3
+    0.00 :   704bc:  str     x0, [sp, #120]
+         : 539   float * KQ     = (float *)((char *)base + Q_TILE_SZ * DK * sizeof(float));
+    0.00 :   704c0:  ldr     x0, [sp, #176]
+         : 541   float * base  = (float *) params->wdata + ith*(Q_TILE_SZ*DK + 2*Q_TILE_SZ*KV_TILE_SZ + Q_TILE_SZ*DV + KV_TILE_SZ*DV + KV_TILE_SZ*DK + CACHE_LINE_SIZE_F32);
+    0.00 :   704c4:  str     x20, [sp, #336]
+         : 543   float * KQ     = (float *)((char *)base + Q_TILE_SZ * DK * sizeof(float));
+    0.00 :   704c8:  add     x21, x20, x0
+         : 545   float * VKQ32  = mask32 + Q_TILE_SZ * KV_TILE_SZ;
+    0.00 :   704cc:  add     x3, x21, #0x8, lsl #12
+         : 547   float * mask32 = KQ + Q_TILE_SZ * KV_TILE_SZ;
+    0.00 :   704d0:  add     x24, x21, #0x4, lsl #12
+         : 549   float * V32    = VKQ32 + Q_TILE_SZ * DV;
+    0.00 :   704d4:  add     x5, x3, x4
+    0.00 :   704d8:  mov     x0, x3
+         : 552   float * VKQ32  = mask32 + Q_TILE_SZ * KV_TILE_SZ;
+    0.00 :   704dc:  str     x3, [sp, #208]
+         : 554   float * K_f32  = V32 + KV_TILE_SZ * DV;
+    0.00 :   704e0:  add     x3, x3, x4, lsl #1
+         : 556   float * mask32 = KQ + Q_TILE_SZ * KV_TILE_SZ;
+    0.00 :   704e4:  str     x24, [sp, #96]
+         : 558   float * V32    = VKQ32 + Q_TILE_SZ * DV;
+    0.00 :   704e8:  str     x5, [sp, #160]
+         : 560   float * K_f32  = V32 + KV_TILE_SZ * DV;
+    0.00 :   704ec:  str     x3, [sp, #8]
+    0.00 :   704f0:  bl      18170 <memset@plt>
+    0.00 :   704f4:  mov     x0, x24
+    0.00 :   704f8:  mov     x2, #0x4000                     // #16384
+    0.00 :   704fc:  mov     w1, #0x0                        // #0
+    0.00 :   70500:  bl      18170 <memset@plt>
+         : 567   const int ik3 = iq3 / rk3;
+    0.00 :   70504:  ldr     x1, [sp, #168]
+         : 569   const float * pq = (const float *) ((char *) q->data + ((iq1 + tq)*nbq1 + iq2*nbq2 + iq3*nbq3));
+    0.00 :   70508:  mov     x5, x20
+         : 571   for (int tq = 0; tq < tile_rows; tq++) {
+    0.00 :   7050c:  mov     w4, #0x0                        // #0
+         : 573   const int ik3 = iq3 / rk3;
+    0.00 :   70510:  ldp     x3, x2, [sp, #456]
+    0.00 :   70514:  str     x21, [sp, #104]
+         : 576   const int ik2 = iq2 / rk2;
+    0.00 :   70518:  ldrsw   x0, [sp, #112]
+         : 578   const int ik3 = iq3 / rk3;
+    0.00 :   7051c:  sdiv    x2, x1, x2
+    0.00 :   70520:  str     x19, [sp, #416]
+    0.00 :   70524:  mov     x19, x27
+    0.00 :   70528:  mov     x27, x22
+    0.00 :   7052c:  ldr     x24, [sp, #184]
+         : 584   const int ik2 = iq2 / rk2;
+    0.00 :   70530:  sdiv    x3, x0, x3
+    0.00 :   70534:  stp     x2, x0, [sp, #56]
+    0.00 :   70538:  ldrsw   x2, [sp, #24]
+    0.00 :   7053c:  str     x3, [sp, #24]
+         : 589   const int iv2 = iq2 / rv2;
+    0.00 :   70540:  ldr     x3, [sp, #472]
+    0.00 :   70544:  str     x2, [sp, #248]
+    0.00 :   70548:  sdiv    x20, x0, x3
+         : 593   const int iv3 = iq3 / rv3;
+    0.00 :   7054c:  ldr     x3, [sp, #480]
+    0.00 :   70550:  sdiv    x3, x1, x3
+    0.00 :   70554:  mov     x22, x20
+    0.00 :   70558:  mov     w20, w4
+    0.00 :   7055c:  str     x3, [sp, #88]
+         : 599   const float * pq = (const float *) ((char *) q->data + ((iq1 + tq)*nbq1 + iq2*nbq2 + iq3*nbq3));
+    0.00 :   70560:  ldr     x3, [sp, #264]
+    0.00 :   70564:  mul     x3, x1, x3
+    0.00 :   70568:  ldr     x1, [sp, #304]
+    0.00 :   7056c:  madd    x3, x0, x1, x3
+    0.00 :   70570:  ldr     x0, [sp, #144]
+    0.00 :   70574:  madd    x3, x0, x2, x3
+    0.00 :   70578:  mov     x21, x3
+    0.00 :   7057c:  ldr     x1, [x19, #248]
+         : 608   return __builtin___memcpy_chk (__dest, __src, __len,
+    0.00 :   70580:  mov     x0, x5
+    0.00 :   70584:  mov     x2, x24
+         : 611   for (int tq = 0; tq < tile_rows; tq++) {
+    0.00 :   70588:  add     w20, w20, #0x1
+    0.00 :   7058c:  add     x1, x1, x21
+    0.00 :   70590:  bl      17b00 <memcpy@plt>
+    0.00 :   70594:  add     x5, x0, x24
+    0.00 :   70598:  ldr     x0, [sp, #144]
+    0.00 :   7059c:  add     x21, x21, x0
+    0.00 :   705a0:  ldr     w0, [sp, #16]
+    0.00 :   705a4:  cmp     w0, w20
+    0.00 :   705a8:  b.gt    7057c <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x5b4>
+         : 621   for (int tq = tile_rows; tq < Q_TILE_SZ; tq++) {
+    0.00 :   705ac:  ldr     x21, [sp, #104]
+    0.00 :   705b0:  mov     x20, x22
+    0.00 :   705b4:  mov     x22, x27
+    0.00 :   705b8:  mov     x27, x19
+    0.00 :   705bc:  ldr     x19, [sp, #416]
+    0.00 :   705c0:  cmp     w26, #0x3f
+    0.00 :   705c4:  b.gt    70610 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x648>
+    0.00 :   705c8:  mov     x26, x19
+    0.00 :   705cc:  ldr     w4, [sp, #16]
+    0.00 :   705d0:  ldr     x0, [sp, #80]
+    0.00 :   705d4:  ldr     x24, [sp, #184]
+    0.00 :   705d8:  sxtw    x3, w4
+    0.00 :   705dc:  mov     w19, w4
+    0.00 :   705e0:  mul     x3, x3, x0
+    0.00 :   705e4:  ldr     x0, [sp, #336]
+    0.00 :   705e8:  add     x3, x0, x3, lsl #2
+         : 638   return __builtin___memset_chk (__dest, __ch, __len,
+    0.00 :   705ec:  mov     x0, x3
+    0.00 :   705f0:  mov     x2, x24
+    0.00 :   705f4:  mov     w1, #0x0                        // #0
+    0.00 :   705f8:  add     w19, w19, #0x1
+    0.00 :   705fc:  bl      18170 <memset@plt>
+    0.00 :   70600:  add     x3, x0, x24
+    0.00 :   70604:  cmp     w19, #0x40
+    0.00 :   70608:  b.ne    705ec <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x624>  // b.any
+    0.00 :   7060c:  mov     x19, x26
+    0.00 :   70610:  ldr     x0, [sp, #8]
+    0.00 :   70614:  mov     w1, #0x0                        // #0
+    0.00 :   70618:  ldr     x2, [sp, #176]
+    0.00 :   7061c:  bl      18170 <memset@plt>
+    0.00 :   70620:  ldr     x0, [sp, #160]
+    0.00 :   70624:  mov     w1, #0x0                        // #0
+    0.00 :   70628:  ldr     x2, [sp, #256]
+    0.00 :   7062c:  bl      18170 <memset@plt>
+         : 656   for (int64_t ic = 0; ic < nek1; ic += KV_TILE_SZ) {
+    0.00 :   70630:  ldr     x0, [sp, #40]
+    0.00 :   70634:  cmp     x0, #0x0
+    0.00 :   70638:  b.le    70df0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xe28>
+         : 660   const char * k_data = (const char *)k->data + (ic + tk)*nbk1 + ik2*nbk2 + ik3*nbk3;
+    0.00 :   7063c:  ldr     x4, [sp, #272]
+         : 662   const char * v_data = (const char *)v->data + (ic + tk)*nbv1 + iv2*nbv2 + iv3*nbv3;
+    0.00 :   70640:  sxtw    x2, w20
+    0.00 :   70644:  mov     w26, w23
+    0.00 :   70648:  str     x22, [sp, #416]
+         : 666   const char * k_data = (const char *)k->data + (ic + tk)*nbk1 + ik2*nbk2 + ik3*nbk3;
+    0.00 :   7064c:  ldrsw   x1, [sp, #56]
+    0.00 :   70650:  str     x27, [sp, #632]
+    0.00 :   70654:  ldr     x5, [sp, #568]
+         : 670   const char * v_data = (const char *)v->data + (ic + tk)*nbv1 + iv2*nbv2 + iv3*nbv3;
+    0.00 :   70658:  ldrsw   x0, [sp, #88]
+         : 672   const char * k_data = (const char *)k->data + (ic + tk)*nbk1 + ik2*nbk2 + ik3*nbk3;
+    0.00 :   7065c:  mul     x1, x1, x4
+    0.00 :   70660:  ldr     x4, [sp, #120]
+    0.00 :   70664:  ldrsw   x3, [sp, #24]
+         : 676   for (int64_t ic = 0; ic < nek1; ic += KV_TILE_SZ) {
+    0.00 :   70668:  str     xzr, [sp, #24]
+    0.00 :   7066c:  ldr     x9, [sp, #8]
+    0.00 :   70670:  add     x5, x4, x5
+    0.00 :   70674:  ldr     x18, [sp, #80]
+    0.00 :   70678:  str     x5, [sp, #576]
+    0.00 :   7067c:  ldr     x5, [sp, #616]
+    0.00 :   70680:  ldr     x8, [sp, #96]
+    0.00 :   70684:  ldr     x10, [sp, #448]
+    0.00 :   70688:  add     x5, x4, x5
+    0.00 :   7068c:  str     x5, [sp, #536]
+         : 687   const char * v_data = (const char *)v->data + (ic + tk)*nbv1 + iv2*nbv2 + iv3*nbv3;
+    0.00 :   70690:  ldr     x5, [sp, #280]
+    0.00 :   70694:  mul     x0, x0, x5
+    0.00 :   70698:  ldr     x5, [sp, #520]
+    0.00 :   7069c:  add     x4, x4, x5
+    0.00 :   706a0:  str     x4, [sp, #528]
+    0.00 :   706a4:  ldr     x4, [sp, #16]
+    0.00 :   706a8:  ubfiz   x4, x4, #8, #26
+    0.00 :   706ac:  str     x4, [sp, #592]
+    0.00 :   706b0:  ldr     x4, [sp, #312]
+    0.00 :   706b4:  madd    x1, x3, x4, x1
+    0.00 :   706b8:  ldr     x4, [sp, #504]
+    0.00 :   706bc:  mov     x3, x21
+    0.00 :   706c0:  str     x1, [sp, #88]
+    0.00 :   706c4:  ldr     x1, [sp, #320]
+    0.00 :   706c8:  madd    x0, x2, x1, x0
+    0.00 :   706cc:  str     x0, [sp, #56]
+         : 704   const int kv_tile = (int)std::min((int64_t)KV_TILE_SZ, nek1 - ic);
+    0.00 :   706d0:  ldr     x0, [sp, #24]
+    0.00 :   706d4:  ldr     x2, [sp, #40]
+    0.00 :   706d8:  sub     x20, x2, x0
+         : 708   min(const _Tp& __a, const _Tp& __b)
+         : 709   {
+         : 710   // concept requirements
+         : 711   __glibcxx_function_requires(_LessThanComparableConcept<_Tp>)
+         : 712   //return __b < __a ? __b : __a;
+         : 713   if (__b < __a)
+    0.00 :   706dc:  mov     x0, #0x40                       // #64
+    0.00 :   706e0:  cmp     x20, x0
+    0.00 :   706e4:  csel    x21, x20, x0, le
+    0.00 :   706e8:  mov     w23, w21
+         : 718   if (mask) {
+    0.00 :   706ec:  cbz     x10, 70908 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x940>
+    0.00 :   706f0:  ldr     x5, [sp, #216]
+    0.00 :   706f4:  sub     w0, w0, w21
+    0.00 :   706f8:  mov     w17, #0x3f                      // #63
+         : 723   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   706fc:  mvni    v1.4s, #0x7f, msl #16
+         : 725   const ggml_fp16_t * mp_row = (const ggml_fp16_t *)((const char *) mask->data + (iq1 + tq)*mask->nb[1] + (iq2%mask->ne[2])*mask->nb[2] + (iq3%mask->ne[3])*mask->nb[3]);
+    0.00 :   70700:  ldp     x11, x2, [x10, #32]
+    0.00 :   70704:  and     w12, w0, #0x7
+    0.00 :   70708:  and     w14, w0, #0xfffffff8
+    0.00 :   7070c:  lsr     w13, w0, #3
+    0.00 :   70710:  sub     w17, w17, w21
+    0.00 :   70714:  add     w14, w14, w21
+    0.00 :   70718:  cmp     w17, #0x7
+    0.00 :   7071c:  csel    w14, w21, w14, ls       // ls = plast
+    0.00 :   70720:  str     w12, [sp, #8]
+         : 735   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   70724:  add     w15, w14, #0x1
+    0.00 :   70728:  add     w16, w14, #0x2
+    0.00 :   7072c:  add     x7, x21, x5
+    0.00 :   70730:  ldr     x5, [sp, #120]
+    0.00 :   70734:  add     w22, w14, #0x3
+    0.00 :   70738:  str     x25, [sp, #96]
+    0.00 :   7073c:  add     w27, w14, #0x4
+    0.00 :   70740:  add     w30, w14, #0x5
+         : 744   const ggml_fp16_t * mp_row = (const ggml_fp16_t *)((const char *) mask->data + (iq1 + tq)*mask->nb[1] + (iq2%mask->ne[2])*mask->nb[2] + (iq3%mask->ne[3])*mask->nb[3]);
+    0.00 :   70744:  ldr     x6, [sp, #64]
+         : 746   for (int tq = 0; tq < tile_rows; tq++) {
+    0.00 :   70748:  mov     w12, #0x0                       // #0
+    0.00 :   7074c:  str     w26, [sp, #104]
+    0.00 :   70750:  add     w26, w14, #0x7
+         : 750   const ggml_fp16_t * mp_row = (const ggml_fp16_t *)((const char *) mask->data + (iq1 + tq)*mask->nb[1] + (iq2%mask->ne[2])*mask->nb[2] + (iq3%mask->ne[3])*mask->nb[3]);
+    0.00 :   70754:  ldr     x24, [x10, #56]
+    0.00 :   70758:  add     x7, x5, x7, lsl #2
+    0.00 :   7075c:  str     x10, [sp, #424]
+    0.00 :   70760:  ldr     x5, [sp, #168]
+    0.00 :   70764:  sdiv    x0, x6, x11
+    0.00 :   70768:  mov     x6, x8
+    0.00 :   7076c:  ldr     w25, [sp, #8]
+    0.00 :   70770:  sdiv    x1, x5, x2
+    0.00 :   70774:  msub    x1, x1, x2, x5
+    0.00 :   70778:  ldr     x5, [x10, #72]
+    0.00 :   7077c:  ldr     x2, [sp, #64]
+    0.00 :   70780:  mul     x1, x1, x5
+    0.00 :   70784:  ldr     x5, [x10, #64]
+    0.00 :   70788:  msub    x0, x0, x11, x2
+    0.00 :   7078c:  ldr     x2, [sp, #248]
+    0.00 :   70790:  ldr     w11, [sp, #16]
+    0.00 :   70794:  madd    x0, x0, x5, x1
+    0.00 :   70798:  add     w5, w14, #0x6
+    0.00 :   7079c:  ldr     x1, [sp, #24]
+    0.00 :   707a0:  mul     x2, x24, x2
+    0.00 :   707a4:  add     x2, x2, x1, lsl #1
+         : 772   bool can_skip = true;
+    0.00 :   707a8:  mov     w1, #0x1                        // #1
+    0.00 :   707ac:  add     x0, x0, x2
+    0.00 :   707b0:  ldr     x2, [x10, #248]
+    0.00 :   707b4:  add     x2, x2, x0
+    0.00 :   707b8:  nop
+    0.00 :   707bc:  nop
+         : 779   mask32[tq * KV_TILE_SZ + tk] = slope * GGML_CPU_FP16_TO_FP32(mp_row[ic + tk]);
+    0.00 :   707c0:  lsl     w10, w12, #6
+    0.00 :   707c4:  mov     x0, #0x0                        // #0
+         : 782   #define GGML_CPU_FP16_TO_FP32(x) GGML_CPU_COMPUTE_FP16_TO_FP32(x)
+         :
+         : 784   static inline float neon_compute_fp16_to_fp32(ggml_fp16_t h) {
+         : 785   __fp16 tmp;
+         : 786   memcpy(&tmp, &h, sizeof(ggml_fp16_t));
+         : 787   return (float)tmp;
+    0.04 :   707c8:  ldr     h0, [x2, x0, lsl #1]
+    0.19 :   707cc:  fcvt    s0, h0
+    0.00 :   707d0:  fmul    s0, s0, s13
+         : 791   can_skip = false;
+    0.03 :   707d4:  fcmp    s0, s9
+         : 793   mask32[tq * KV_TILE_SZ + tk] = slope * GGML_CPU_FP16_TO_FP32(mp_row[ic + tk]);
+    0.04 :   707d8:  str     s0, [x6, x0, lsl #2]
+         : 795   for (int tk = 0; tk < kv_tile; tk++) {
+    0.04 :   707dc:  add     x0, x0, #0x1
+         : 797   can_skip = false;
+    0.04 :   707e0:  csel    w1, wzr, w1, pl // pl = nfrst
+         : 799   for (int tk = 0; tk < kv_tile; tk++) {
+    0.04 :   707e4:  cmp     w23, w0
+    0.00 :   707e8:  b.gt    707c8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x800>
+         : 802   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   707ec:  cmp     x20, #0x3f
+    0.00 :   707f0:  b.gt    708e0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x918>
+    0.00 :   707f4:  cmp     w17, #0x7
+    0.00 :   707f8:  b.ls    70868 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x8a0>  // b.plast
+         : 807   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   707fc:  str     q1, [x7, #16384]
+    0.00 :   70800:  str     q1, [x7, #16400]
+         : 810   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   70804:  cmp     w13, #0x1
+    0.00 :   70808:  b.ls    70864 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x89c>  // b.plast
+         : 813   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   7080c:  str     q1, [x7, #16416]
+    0.00 :   70810:  str     q1, [x7, #16432]
+         : 816   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   70814:  cmp     w13, #0x2
+    0.00 :   70818:  b.eq    70864 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x89c>  // b.none
+         : 819   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   7081c:  str     q1, [x7, #16448]
+    0.00 :   70820:  str     q1, [x7, #16464]
+         : 822   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   70824:  cmp     w13, #0x3
+    0.00 :   70828:  b.eq    70864 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x89c>  // b.none
+         : 825   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   7082c:  str     q1, [x7, #16480]
+    0.00 :   70830:  str     q1, [x7, #16496]
+         : 828   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   70834:  cmp     w13, #0x4
+    0.00 :   70838:  b.eq    70864 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x89c>  // b.none
+         : 831   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   7083c:  str     q1, [x7, #16512]
+    0.00 :   70840:  str     q1, [x7, #16528]
+         : 834   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   70844:  cmp     w13, #0x5
+    0.00 :   70848:  b.eq    70864 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x89c>  // b.none
+         : 837   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   7084c:  str     q1, [x7, #16544]
+    0.00 :   70850:  str     q1, [x7, #16560]
+         : 840   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   70854:  cmp     w13, #0x7
+    0.00 :   70858:  b.ne    70864 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x89c>  // b.any
+         : 843   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   7085c:  str     q1, [x7, #16576]
+    0.00 :   70860:  str     q1, [x7, #16592]
+         : 846   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   70864:  cbz     w25, 708e0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x918>
+         : 848   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   70868:  add     w0, w10, w14
+    0.00 :   7086c:  str     s12, [x8, w0, sxtw #2]
+         : 851   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   70870:  cmp     w15, #0x40
+    0.00 :   70874:  b.eq    708e0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x918>  // b.none
+         : 854   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   70878:  add     w0, w10, w15
+    0.00 :   7087c:  str     s12, [x8, w0, sxtw #2]
+         : 857   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   70880:  cmp     w16, #0x40
+    0.00 :   70884:  b.eq    708e0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x918>  // b.none
+         : 860   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   70888:  add     w0, w10, w16
+    0.00 :   7088c:  str     s12, [x8, w0, sxtw #2]
+         : 863   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   70890:  cmp     w22, #0x40
+    0.00 :   70894:  b.eq    708e0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x918>  // b.none
+         : 866   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   70898:  add     w0, w10, w22
+    0.00 :   7089c:  str     s12, [x8, w0, sxtw #2]
+         : 869   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   708a0:  cmp     w27, #0x40
+    0.00 :   708a4:  b.eq    708e0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x918>  // b.none
+         : 872   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   708a8:  add     w0, w10, w27
+    0.00 :   708ac:  str     s12, [x8, w0, sxtw #2]
+         : 875   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   708b0:  cmp     w30, #0x40
+    0.00 :   708b4:  b.eq    708e0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x918>  // b.none
+         : 878   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   708b8:  add     w0, w10, w30
+    0.00 :   708bc:  str     s12, [x8, w0, sxtw #2]
+         : 881   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   708c0:  cmp     w5, #0x40
+    0.00 :   708c4:  b.eq    708e0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x918>  // b.none
+         : 884   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   708c8:  add     w0, w10, w5
+    0.00 :   708cc:  str     s12, [x8, w0, sxtw #2]
+         : 887   for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   708d0:  cmp     w26, #0x40
+    0.00 :   708d4:  b.eq    708e0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x918>  // b.none
+         : 890   mask32[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   708d8:  add     w10, w10, w26
+    0.00 :   708dc:  str     s12, [x8, w10, sxtw #2]
+         : 893   for (int tq = 0; tq < tile_rows; tq++) {
+    0.00 :   708e0:  add     w12, w12, #0x1
+    0.00 :   708e4:  add     x7, x7, #0x100
+    0.00 :   708e8:  add     x2, x2, x24
+    0.00 :   708ec:  add     x6, x6, #0x100
+    0.00 :   708f0:  cmp     w11, w12
+    0.00 :   708f4:  b.gt    707c0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x7f8>
+         : 900   if (can_skip) {
+    0.00 :   708f8:  ldr     x25, [sp, #96]
+    0.00 :   708fc:  ldr     x10, [sp, #424]
+    0.00 :   70900:  ldr     w26, [sp, #104]
+    0.00 :   70904:  tbnz    w1, #0, 70dac <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xde4>
+    0.00 :   70908:  str     x3, [sp, #424]
+         : 906   const char * k_data = (const char *)k->data + (ic + tk)*nbk1 + ik2*nbk2 + ik3*nbk3;
+    0.00 :   7090c:  mov     x2, x9
+    0.00 :   70910:  mov     x7, #0x0                        // #0
+    0.00 :   70914:  ldr     x0, [sp, #128]
+    0.00 :   70918:  and     x16, x18, #0x3
+    0.00 :   7091c:  mov     x22, x20
+    0.00 :   70920:  str     x4, [sp, #640]
+    0.00 :   70924:  ldr     x17, [sp, #184]
+    0.00 :   70928:  ldr     x13, [sp, #200]
+    0.00 :   7092c:  ldr     x1, [x0, #248]
+    0.00 :   70930:  ldr     x0, [sp, #176]
+    0.00 :   70934:  ldr     x14, [sp, #496]
+    0.00 :   70938:  ldr     x24, [sp, #512]
+    0.00 :   7093c:  sub     x15, x0, #0xfc
+    0.00 :   70940:  ldr     x0, [sp, #88]
+    0.00 :   70944:  ldr     x3, [sp, #544]
+    0.00 :   70948:  ldr     x4, [sp, #552]
+    0.00 :   7094c:  add     x1, x1, x0
+    0.00 :   70950:  ldr     x27, [sp, #560]
+    0.00 :   70954:  ldr     x6, [sp, #576]
+    0.00 :   70958:  ldr     w12, [sp, #328]
+    0.00 :   7095c:  nop
+         : 928   if (kv_type == GGML_TYPE_F16) {
+    0.00 :   70960:  cmp     w12, #0x1
+    0.00 :   70964:  b.eq    71194 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x11cc>  // b.none
+         : 931   for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   70968:  cmp     x18, #0x0
+    0.00 :   7096c:  b.le    709a8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9e0>
+    0.00 :   70970:  cmp     x14, #0x2
+    0.00 :   70974:  b.ls    713a0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x13d8>  // b.plast
+    0.00 :   70978:  add     x0, x15, x6
+    0.00 :   7097c:  add     x5, x17, x1
+    0.00 :   70980:  cmp     x1, x0
+    0.00 :   70984:  mov     x0, #0x0                        // #0
+    0.00 :   70988:  ccmp    x6, x5, #0x2, cc        // cc = lo, ul, last
+    0.00 :   7098c:  b.cs    71300 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1338>  // b.hs, b.nlast
+         : 942   K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   70990:  ldr     s0, [x1, x0, lsl #2]
+    0.00 :   70994:  lsl     x5, x0, #8
+         : 945   for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   70998:  add     x0, x0, #0x1
+         : 947   K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   7099c:  str     s0, [x2, x5]
+         : 949   for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   709a0:  cmp     x18, x0
+    0.00 :   709a4:  b.ne    70990 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9c8>  // b.any
+         : 952   for (int tk = 0; tk < kv_tile; tk++) {
+    0.00 :   709a8:  add     x7, x7, #0x1
+    0.00 :   709ac:  add     x1, x1, x13
+    0.00 :   709b0:  add     x2, x2, #0x4
+    0.00 :   709b4:  add     x6, x6, #0x4
+    0.00 :   709b8:  cmp     w23, w7
+    0.00 :   709bc:  b.gt    70960 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x998>
+    0.00 :   709c0:  ldr     x3, [sp, #424]
+    0.00 :   709c4:  mov     x2, #0x4000                     // #16384
+    0.00 :   709c8:  mov     w1, #0x0                        // #0
+    0.00 :   709cc:  str     x10, [sp, #8]
+    0.00 :   709d0:  mov     x20, x22
+    0.00 :   709d4:  ldr     x4, [sp, #640]
+    0.00 :   709d8:  stp     x18, x9, [sp, #96]
+    0.00 :   709dc:  mov     x0, x3
+    0.00 :   709e0:  str     x8, [sp, #640]
+    0.00 :   709e4:  str     x4, [sp, #424]
+    0.00 :   709e8:  bl      18170 <memset@plt>
+    0.00 :   709ec:  ldr     x10, [sp, #8]
+    0.00 :   709f0:  mov     x3, x0
+         : 972   for (int64_t i = 0; i < M; i++) {
+    0.00 :   709f4:  mov     x2, x0
+    0.00 :   709f8:  ldp     x18, x9, [sp, #96]
+    0.00 :   709fc:  mov     x12, x0
+    0.00 :   70a00:  ldr     x7, [sp, #336]
+    0.00 :   70a04:  ldr     x4, [sp, #424]
+    0.00 :   70a08:  ldr     x1, [sp, #584]
+    0.00 :   70a0c:  ldr     x8, [sp, #640]
+         : 980   for (int64_t dk = 0; dk < DK; dk++) {
+    0.02 :   70a10:  mov     x5, x9
+         : 982   for (int64_t j = 0; j < N; j++) {
+    0.00 :   70a14:  mov     x6, #0x0                        // #0
+    0.00 :   70a18:  nop
+    0.00 :   70a1c:  nop
+         : 986   float sum = C[i * N + j];
+    0.07 :   70a20:  ldr     s0, [x12, x6, lsl #2]
+         : 988   for (int64_t kk = 0; kk < K; kk++) {
+    0.87 :   70a24:  cmp     x19, #0x0
+    0.00 :   70a28:  b.le    70a4c <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xa84>
+    0.03 :   70a2c:  mov     x0, #0x0                        // #0
+         : 992   sum += A[i * K + kk] * B[kk * N + j];
+    4.54 :   70a30:  lsl     x11, x0, #8
+    4.59 :   70a34:  ldr     s2, [x7, x0, lsl #2]
+         : 995   for (int64_t kk = 0; kk < K; kk++) {
+    5.78 :   70a38:  add     x0, x0, #0x1
+         : 997   sum += A[i * K + kk] * B[kk * N + j];
+    7.58 :   70a3c:  ldr     s1, [x5, x11]
+   22.43 :   70a40:  fmadd   s0, s2, s1, s0
+         : 1000  for (int64_t kk = 0; kk < K; kk++) {
+    4.60 :   70a44:  cmp     x0, x19
+    0.00 :   70a48:  b.ne    70a30 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xa68>  // b.any
+         : 1003  }
+         : 1004  C[i * N + j] = sum;
+    0.04 :   70a4c:  str     s0, [x12, x6, lsl #2]
+         : 1006  for (int64_t j = 0; j < N; j++) {
+    0.82 :   70a50:  add     x6, x6, #0x1
+    0.01 :   70a54:  add     x5, x5, #0x4
+    0.03 :   70a58:  cmp     x6, #0x40
+    0.00 :   70a5c:  b.ne    70a20 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xa58>  // b.any
+         : 1011  for (int64_t i = 0; i < M; i++) {
+    0.00 :   70a60:  add     x12, x12, #0x100
+    0.00 :   70a64:  add     x7, x7, x1
+    0.01 :   70a68:  cmp     x8, x12
+    0.00 :   70a6c:  b.ne    70a10 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xa48>  // b.any
+         : 1016  inline static void ggml_vec_scale_f32(const int n, float * y, const float   v) {
+         : 1017  #if defined(GGML_USE_ACCELERATE)
+         : 1018  vDSP_vsmul(y, 1, &v, y, 1, n);
+         : 1019  #elif defined(GGML_SIMD)
+         : 1020  #if defined(__ARM_FEATURE_SVE)
+         : 1021  const int sve_register_length = ggml_cpu_get_sve_cnt() * 8;
+    0.00 :   70a70:  str     x8, [sp, #8]
+    0.00 :   70a74:  stp     x2, x4, [sp, #96]
+    0.00 :   70a78:  str     x9, [sp, #424]
+    0.00 :   70a7c:  str     x3, [sp, #640]
+    0.00 :   70a80:  str     x18, [sp, #648]
+    0.00 :   70a84:  str     x10, [sp, #656]
+    0.00 :   70a88:  bl      195b0 <ggml_cpu_get_sve_cnt@plt>
+         : 1029  const int ggml_f32_epr = sve_register_length / 32;//8;//svcntw(); // SVE128:4, SVE256:8, SVE512:16
+    0.00 :   70a8c:  mov     z1.s, s15
+         : 1031  const int sve_register_length = ggml_cpu_get_sve_cnt() * 8;
+    0.00 :   70a90:  lsl     w0, w0, #3
+         :
+         : 1034  GGML_F32_VEC vx = GGML_F32_VEC_SET1(v);
+         : 1035  const int np = (n & ~(ggml_f32_step - 1));
+         : 1036  svfloat32_t ay1;
+         : 1037  svfloat32_t ay2;
+         : 1038  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   70a94:  ldr     x8, [sp, #8]
+         : 1040  const int ggml_f32_epr = sve_register_length / 32;//8;//svcntw(); // SVE128:4, SVE256:8, SVE512:16
+    0.00 :   70a98:  add     w6, w0, #0x1f
+    0.00 :   70a9c:  cmp     w0, #0x0
+    0.00 :   70aa0:  csel    w0, w6, w0, lt  // lt = tstop
+         : 1044  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   70aa4:  ldp     x2, x4, [sp, #96]
+         : 1046  const int ggml_f32_epr = sve_register_length / 32;//8;//svcntw(); // SVE128:4, SVE256:8, SVE512:16
+    0.00 :   70aa8:  asr     w6, w0, #5
+         : 1048  const int np = (n & ~(ggml_f32_step - 1));
+    0.00 :   70aac:  neg     w0, w6, lsl #1
+         : 1050  const int ggml_f32_step = 2 * ggml_f32_epr;
+    0.00 :   70ab0:  lsl     w7, w6, #1
+         : 1052  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   70ab4:  ldr     x9, [sp, #424]
+    0.00 :   70ab8:  and     w1, w0, #0x1000
+    0.00 :   70abc:  ldr     x3, [sp, #640]
+    0.00 :   70ac0:  ldr     x18, [sp, #648]
+    0.00 :   70ac4:  ldr     x10, [sp, #656]
+    0.00 :   70ac8:  tbz     w0, #12, 716c8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1700>
+    0.00 :   70acc:  add     x0, x3, w6, sxtw #2
+    0.00 :   70ad0:  sbfiz   x11, x7, #2, #32
+    0.00 :   70ad4:  mov     x1, x3
+         : 1062  ay1 = GGML_F32_VEC_LOAD(y + i);
+    0.00 :   70ad8:  ptrue   p0.b
+         : 1064  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   70adc:  mov     w6, #0x0                        // #0
+         : 1066  ay1 = GGML_F32_VEC_LOAD(y + i);
+    0.00 :   70ae0:  ld1w    {z0.s}, p0/z, [x1]
+         : 1068  ay1 = GGML_F32_VEC_MUL(ay1, vx);
+    0.01 :   70ae4:  fmul    z0.s, p0/m, z0.s, z1.s
+         : 1070  GGML_F32_VEC_STORE(y + i, ay1);
+    0.00 :   70ae8:  st1w    {z0.s}, p0, [x1]
+         : 1072  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   70aec:  add     w6, w6, w7
+    0.00 :   70af0:  add     x1, x1, x11
+         :
+         : 1076  ay2 = GGML_F32_VEC_LOAD(y + i + 1*ggml_f32_epr);
+    0.00 :   70af4:  ld1w    {z0.s}, p0/z, [x0]
+         : 1078  ay2 = GGML_F32_VEC_MUL(ay2, vx);
+    0.01 :   70af8:  fmul    z0.s, p0/m, z0.s, z1.s
+         : 1080  GGML_F32_VEC_STORE(y + i + 1*ggml_f32_epr, ay2);
+    0.00 :   70afc:  st1w    {z0.s}, p0, [x0]
+         : 1082  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   70b00:  add     x0, x0, x11
+    0.00 :   70b04:  cmp     w6, #0xfff
+    0.00 :   70b08:  b.le    70ae0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xb18>
+         : 1086  if (kv_tile < KV_TILE_SZ) {
+    0.00 :   70b0c:  cmp     x20, #0x3f
+    0.00 :   70b10:  b.le    713a8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x13e0>
+         : 1089  if (logit_softcap != 0.0f) {
+    0.00 :   70b14:  fcmp    s14, #0.0
+    0.00 :   70b18:  b.ne    70fb4 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xfec>  // b.any
+         : 1092  if (mask) {
+    0.00 :   70b1c:  cbnz    x10, 71090 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x10c8>
+         : 1094  bool skip[Q_TILE_SZ] = {};
+    0.00 :   70b20:  ldr     x21, [sp, #208]
+    0.00 :   70b24:  add     x24, x3, #0x100
+    0.00 :   70b28:  movi    v0.4s, #0x0
+    0.00 :   70b2c:  add     x22, sp, #0x300
+    0.00 :   70b30:  str     x9, [sp, #640]
+    0.00 :   70b34:  add     x9, sp, #0x290
+    0.00 :   70b38:  add     x5, sp, #0x2c0
+    0.00 :   70b3c:  mov     x0, x22
+    0.00 :   70b40:  mov     x27, #0x1                       // #1
+    0.00 :   70b44:  str     w23, [sp, #648]
+    0.00 :   70b48:  stp     x4, x19, [x9]
+    0.00 :   70b4c:  mov     x23, x24
+    0.00 :   70b50:  mov     x20, x5
+    0.00 :   70b54:  mov     x11, x21
+    0.00 :   70b58:  mov     x22, x21
+    0.00 :   70b5c:  ldr     x19, [sp, #416]
+    0.00 :   70b60:  mov     w21, w26
+    0.00 :   70b64:  mov     x26, x0
+    0.00 :   70b68:  stp     x24, x2, [x9, #16]
+    0.00 :   70b6c:  mov     x24, x27
+    0.00 :   70b70:  stp     q0, q0, [x5]
+    0.00 :   70b74:  stp     q0, q0, [x5, #32]
+         : 1117  for (int tq = 0; tq < Q_TILE_SZ; tq++) {
+    0.00 :   70b78:  stp     x10, x18, [sp, #96]
+    0.00 :   70b7c:  str     x3, [sp, #424]
+    0.00 :   70b80:  str     x11, [sp, #688]
+    0.00 :   70b84:  str     x8, [sp, #696]
+         : 1122  *s = sum;
+         : 1123  }
+         :
+         : 1125  inline static void ggml_vec_max_f32(const int n, float * s, const float * x) {
+         : 1126  #ifndef GGML_USE_ACCELERATE
+         : 1127  float max = -INFINITY;
+    0.00 :   70b88:  mvni    v1.2s, #0x7f, msl #16
+    0.00 :   70b8c:  sub     x2, x23, #0x100
+         : 1130  bool skip[Q_TILE_SZ] = {};
+    0.00 :   70b90:  mov     x0, x2
+    0.00 :   70b94:  nop
+    0.00 :   70b98:  nop
+    0.00 :   70b9c:  nop
+         : 1135  for (int i = 0; i < n; ++i) {
+         : 1136  max = MAX(max, x[i]);
+    0.16 :   70ba0:  ldr     s0, [x0], #4
+    0.32 :   70ba4:  fcmpe   s0, s1
+    0.03 :   70ba8:  fcsel   s1, s1, s0, mi  // mi = first
+         : 1140  for (int i = 0; i < n; ++i) {
+    0.05 :   70bac:  cmp     x23, x0
+    0.00 :   70bb0:  b.ne    70ba0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xbd8>  // b.any
+         : 1143  if (tile_max == -INFINITY) {
+    0.00 :   70bb4:  fcmp    s1, s12
+    0.00 :   70bb8:  b.eq    710c0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x10f8>  // b.none
+         : 1146  const float Mold = M[tq];
+    0.76 :   70bbc:  add     x0, x26, x24, lsl #2
+    0.00 :   70bc0:  lsl     x27, x24, #2
+    0.00 :   70bc4:  ldur    s0, [x0, #-4]
+         : 1150  const float Mnew = fmaxf(Mold, tile_max);
+    0.00 :   70bc8:  fmaxnm  s8, s0, s1
+         : 1152  if (Mnew > Mold) {
+    0.00 :   70bcc:  fcmpe   s0, s8
+    0.00 :   70bd0:  b.mi    710d0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1108>  // b.first
+         : 1155  M[tq] = Mnew;
+    0.01 :   70bd4:  add     x4, x26, x27
+         : 1157  S[tq] += ggml_vec_soft_max_f32(KV_TILE_SZ, kq_row, kq_row, Mnew);
+    0.00 :   70bd8:  fmov    s0, s8
+    0.00 :   70bdc:  mov     x1, x2
+    0.00 :   70be0:  mov     w0, #0x40                       // #64
+         : 1161  M[tq] = Mnew;
+    0.00 :   70be4:  stur    s8, [x4, #-4]
+         : 1163  S[tq] += ggml_vec_soft_max_f32(KV_TILE_SZ, kq_row, kq_row, Mnew);
+    0.00 :   70be8:  bl      17f40 <ggml_vec_soft_max_f32@plt>
+    0.00 :   70bec:  add     x7, x27, x19
+    0.00 :   70bf0:  ldur    s1, [x7, #-4]
+    0.01 :   70bf4:  fcvt    d1, s1
+    0.00 :   70bf8:  fadd    d1, d1, d0
+    0.00 :   70bfc:  fcvt    s1, d1
+    0.00 :   70c00:  stur    s1, [x7, #-4]
+         : 1171  for (int tq = 0; tq < Q_TILE_SZ; tq++) {
+    0.00 :   70c04:  add     x24, x24, #0x1
+    0.00 :   70c08:  add     x23, x23, #0x100
+    0.00 :   70c0c:  add     x22, x22, x25
+    0.00 :   70c10:  cmp     x24, #0x41
+    0.00 :   70c14:  b.ne    70b88 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xbc0>  // b.any
+    0.00 :   70c18:  ldr     w0, [sp, #328]
+    0.00 :   70c1c:  add     x8, sp, #0x290
+    0.00 :   70c20:  mov     x22, x26
+    0.00 :   70c24:  ldp     x4, x19, [x8]
+    0.00 :   70c28:  mov     x5, x20
+    0.00 :   70c2c:  mov     w26, w21
+    0.00 :   70c30:  ldp     x24, x2, [x8, #16]
+    0.00 :   70c34:  ldp     x10, x18, [sp, #96]
+    0.00 :   70c38:  ldr     x3, [sp, #424]
+    0.00 :   70c3c:  ldr     x9, [sp, #640]
+    0.00 :   70c40:  ldr     x11, [sp, #688]
+    0.00 :   70c44:  ldr     x8, [sp, #696]
+    0.00 :   70c48:  ldr     w23, [sp, #648]
+    0.00 :   70c4c:  cmp     w0, #0x1
+    0.00 :   70c50:  b.eq    714fc <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1534>  // b.none
+         : 1192  for (int tk = 0; tk < kv_tile; tk++) {
+    0.00 :   70c54:  mov     w20, #0x0                       // #0
+    0.00 :   70c58:  ldp     x27, x6, [sp, #152]
+    0.00 :   70c5c:  add     x7, sp, #0x280
+    0.00 :   70c60:  str     x22, [sp, #680]
+         : 1197  for (int tq = 0; tq < Q_TILE_SZ; tq++) {
+    0.00 :   70c64:  ldr     x21, [sp, #56]
+         : 1199  for (int tk = 0; tk < kv_tile; tk++) {
+    0.00 :   70c68:  stp     x4, x19, [x7]
+    0.00 :   70c6c:  mov     x19, x25
+    0.00 :   70c70:  mov     x25, x8
+    0.00 :   70c74:  str     x10, [sp, #8]
+    0.00 :   70c78:  mov     x22, x21
+    0.00 :   70c7c:  mov     w21, w20
+    0.00 :   70c80:  ldr     x20, [sp, #72]
+    0.00 :   70c84:  stp     x2, x11, [x7, #16]
+    0.00 :   70c88:  stp     x18, x3, [sp, #96]
+    0.00 :   70c8c:  str     x9, [sp, #424]
+    0.00 :   70c90:  str     x5, [sp, #672]
+         : 1211  const char * v_data = (const char *)v->data + (ic + tk)*nbv1 + iv2*nbv2 + iv3*nbv3;
+    0.00 :   70c94:  ldr     x1, [x20, #248]
+         : 1213  return __builtin___memcpy_chk (__dest, __src, __len,
+    0.00 :   70c98:  mov     x0, x6
+    0.00 :   70c9c:  mov     x2, x19
+         : 1216  for (int tk = 0; tk < kv_tile; tk++) {
+    0.00 :   70ca0:  add     w21, w21, #0x1
+    0.00 :   70ca4:  add     x1, x1, x22
+    0.00 :   70ca8:  add     x22, x22, x27
+    0.00 :   70cac:  bl      17b00 <memcpy@plt>
+    0.00 :   70cb0:  add     x6, x0, x19
+    0.00 :   70cb4:  cmp     w23, w21
+    0.00 :   70cb8:  b.gt    70c94 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xccc>
+    0.00 :   70cbc:  add     x5, sp, #0x280
+    0.00 :   70cc0:  ldr     x10, [sp, #8]
+    0.00 :   70cc4:  mov     x8, x25
+    0.00 :   70cc8:  ldp     x2, x11, [x5, #16]
+    0.00 :   70ccc:  mov     x25, x19
+    0.00 :   70cd0:  ldp     x4, x19, [x5]
+    0.00 :   70cd4:  ldp     x18, x3, [sp, #96]
+    0.00 :   70cd8:  ldr     x9, [sp, #424]
+    0.00 :   70cdc:  ldr     x5, [sp, #672]
+    0.00 :   70ce0:  ldr     x22, [sp, #680]
+         : 1234  return __builtin___memset_chk (__dest, __ch, __len,
+    0.00 :   70ce4:  movi    v0.4s, #0x0
+    0.00 :   70ce8:  mov     x21, x5
+    0.00 :   70cec:  mov     x0, x3
+    0.00 :   70cf0:  b       70d04 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xd3c>
+         : 1239  for (int tq = 0; tq < Q_TILE_SZ; tq++) {
+    0.00 :   70cf4:  add     x21, x21, #0x1
+    0.00 :   70cf8:  add     x0, x0, #0x100
+    0.00 :   70cfc:  cmp     x22, x21
+    0.00 :   70d00:  b.eq    70d3c <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xd74>  // b.none
+         : 1244  if (skip[tq]) {
+    0.00 :   70d04:  ldrb    w1, [x21]
+    0.00 :   70d08:  tbz     w1, #0, 70cf4 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xd2c>
+         : 1247  for (int tq = 0; tq < Q_TILE_SZ; tq++) {
+    0.00 :   70d0c:  add     x21, x21, #0x1
+    0.00 :   70d10:  stp     q0, q0, [x0]
+    0.00 :   70d14:  stp     q0, q0, [x0, #32]
+    0.00 :   70d18:  stp     q0, q0, [x0, #64]
+    0.00 :   70d1c:  stp     q0, q0, [x0, #96]
+    0.00 :   70d20:  stp     q0, q0, [x0, #128]
+    0.00 :   70d24:  stp     q0, q0, [x0, #160]
+    0.00 :   70d28:  stp     q0, q0, [x0, #192]
+    0.00 :   70d2c:  stp     q0, q0, [x0, #224]
+    0.00 :   70d30:  add     x0, x0, #0x100
+    0.00 :   70d34:  cmp     x22, x21
+    0.00 :   70d38:  b.ne    70d04 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xd3c>  // b.any
+    0.00 :   70d3c:  cmp     x4, #0x0
+    0.00 :   70d40:  b.le    70dac <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xde4>
+    0.00 :   70d44:  ldr     x5, [sp, #160]
+    0.00 :   70d48:  mov     x0, #0x4100                     // #16640
+    0.00 :   70d4c:  add     x1, x3, x0
+         : 1265  for (int64_t j = 0; j < N; j++) {
+    0.02 :   70d50:  mov     x7, x5
+    0.00 :   70d54:  mov     x6, #0x0                        // #0
+    0.00 :   70d58:  nop
+    0.00 :   70d5c:  nop
+         : 1270  float sum = C[i * N + j];
+    0.07 :   70d60:  ldr     s0, [x11, x6, lsl #2]
+    0.24 :   70d64:  mov     x12, x7
+    0.13 :   70d68:  mov     x0, x2
+         : 1274  sum += A[i * K + kk] * B[kk * N + j];
+    8.63 :   70d6c:  ldr     s1, [x12]
+         : 1276  for (int64_t kk = 0; kk < K; kk++) {
+    7.92 :   70d70:  add     x12, x12, x28
+         : 1278  sum += A[i * K + kk] * B[kk * N + j];
+   14.81 :   70d74:  ldr     s2, [x0], #4
+    9.43 :   70d78:  fmadd   s0, s2, s1, s0
+         : 1281  for (int64_t kk = 0; kk < K; kk++) {
+    4.36 :   70d7c:  cmp     x24, x0
+    0.00 :   70d80:  b.ne    70d6c <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xda4>  // b.any
+         : 1284  C[i * N + j] = sum;
+    0.14 :   70d84:  str     s0, [x11, x6, lsl #2]
+         : 1286  for (int64_t j = 0; j < N; j++) {
+    0.07 :   70d88:  add     x6, x6, #0x1
+    0.02 :   70d8c:  add     x7, x7, #0x4
+    0.07 :   70d90:  cmp     x6, x4
+    0.00 :   70d94:  b.ne    70d60 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xd98>  // b.any
+         : 1291  for (int64_t i = 0; i < M; i++) {
+    0.00 :   70d98:  add     x24, x24, #0x100
+    0.00 :   70d9c:  add     x11, x11, x28
+    0.00 :   70da0:  add     x2, x2, #0x100
+    0.00 :   70da4:  cmp     x1, x24
+    0.00 :   70da8:  b.ne    70d50 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xd88>  // b.any
+         : 1297  for (int64_t ic = 0; ic < nek1; ic += KV_TILE_SZ) {
+    0.00 :   70dac:  ldr     x1, [sp, #56]
+    0.00 :   70db0:  ldr     x2, [sp, #392]
+    0.00 :   70db4:  ldr     x0, [sp, #24]
+    0.00 :   70db8:  add     x1, x1, x2
+    0.00 :   70dbc:  ldr     x2, [sp, #384]
+    0.00 :   70dc0:  str     x1, [sp, #56]
+    0.00 :   70dc4:  add     x0, x0, #0x40
+    0.00 :   70dc8:  ldr     x1, [sp, #88]
+    0.00 :   70dcc:  str     x0, [sp, #24]
+    0.00 :   70dd0:  add     x1, x1, x2
+    0.00 :   70dd4:  str     x1, [sp, #88]
+    0.00 :   70dd8:  ldr     x1, [sp, #40]
+    0.00 :   70ddc:  cmp     x1, x0
+    0.00 :   70de0:  b.gt    706d0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x708>
+    0.00 :   70de4:  ldr     x22, [sp, #416]
+    0.00 :   70de8:  mov     w23, w26
+    0.00 :   70dec:  ldr     x27, [sp, #632]
+         : 1315  if (sinks) {
+    0.00 :   70df0:  ldr     x0, [sp, #288]
+    0.00 :   70df4:  cbnz    x0, 715a0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x15d8>
+         : 1318  memcpy((char *) dst->data + (i3*ne2*ne1 + i2 + i1*ne1)*nb1, VKQ32 + tq * DV, nb1);
+    0.00 :   70df8:  ldr     x2, [sp, #64]
+    0.00 :   70dfc:  mov     x21, x22
+    0.00 :   70e00:  mov     w22, #0x0                       // #0
+         : 1322  const float S_inv = S[tq] == 0.0f ? 0.0f : 1.0f / S[tq];
+    0.00 :   70e04:  fmov    s13, #1.000000000000000000e+00
+    0.00 :   70e08:  mov     w20, w22
+    0.00 :   70e0c:  mov     x22, x21
+         : 1326  memcpy((char *) dst->data + (i3*ne2*ne1 + i2 + i1*ne1)*nb1, VKQ32 + tq * DV, nb1);
+    0.00 :   70e10:  ldr     x1, [sp, #168]
+    0.00 :   70e14:  ldr     x0, [sp, #600]
+    0.00 :   70e18:  ldr     x3, [sp, #296]
+    0.00 :   70e1c:  ldr     x21, [sp, #624]
+    0.00 :   70e20:  madd    x0, x0, x1, x2
+    0.00 :   70e24:  ldr     x2, [sp, #248]
+    0.00 :   70e28:  ldr     x1, [sp, #208]
+    0.00 :   70e2c:  madd    x0, x2, x3, x0
+    0.00 :   70e30:  ldr     x2, [sp, #48]
+    0.00 :   70e34:  mul     x26, x0, x2
+    0.00 :   70e38:  mov     x24, x26
+    0.00 :   70e3c:  mov     w26, w23
+    0.00 :   70e40:  mov     x23, x19
+    0.00 :   70e44:  mov     x19, x1
+         : 1341  const float S_inv = S[tq] == 0.0f ? 0.0f : 1.0f / S[tq];
+    0.00 :   70e48:  ldr     s0, [x22]
+    0.00 :   70e4c:  movi    v8.2s, #0x0
+    0.00 :   70e50:  fcmp    s0, s8
+    0.00 :   70e54:  b.eq    70e5c <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xe94>  // b.none
+    0.00 :   70e58:  fdiv    s8, s13, s0
+         : 1347  const int sve_register_length = ggml_cpu_get_sve_cnt() * 8;
+    0.00 :   70e5c:  bl      195b0 <ggml_cpu_get_sve_cnt@plt>
+         : 1349  GGML_F32_VEC vx = GGML_F32_VEC_SET1(v);
+    0.00 :   70e60:  mov     z8.s, s8
+         : 1351  const int sve_register_length = ggml_cpu_get_sve_cnt() * 8;
+    0.00 :   70e64:  lsl     w0, w0, #3
+         : 1353  const int ggml_f32_epr = sve_register_length / 32;//8;//svcntw(); // SVE128:4, SVE256:8, SVE512:16
+    0.00 :   70e68:  cmp     w0, #0x0
+    0.00 :   70e6c:  add     w6, w0, #0x1f
+    0.00 :   70e70:  csel    w6, w6, w0, lt  // lt = tstop
+    0.00 :   70e74:  asr     w6, w6, #5
+         : 1358  const int np = (n & ~(ggml_f32_step - 1));
+    0.00 :   70e78:  neg     w0, w6, lsl #1
+         : 1360  const int ggml_f32_step = 2 * ggml_f32_epr;
+    0.00 :   70e7c:  lsl     w7, w6, #1
+         : 1362  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   70e80:  ands    w0, w0, w26
+    0.00 :   70e84:  b.le    70ecc <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xf04>
+    0.00 :   70e88:  sbfiz   x5, x7, #2, #32
+    0.00 :   70e8c:  mov     x3, x19
+    0.00 :   70e90:  ptrue   p0.b
+    0.00 :   70e94:  add     x2, x19, w6, sxtw #2
+    0.00 :   70e98:  mov     w4, #0x0                        // #0
+    0.00 :   70e9c:  nop
+         : 1371  ay1 = GGML_F32_VEC_LOAD(y + i);
+    0.00 :   70ea0:  ld1w    {z0.s}, p0/z, [x3]
+         : 1373  ay1 = GGML_F32_VEC_MUL(ay1, vx);
+    0.00 :   70ea4:  fmul    z0.s, p0/m, z0.s, z8.s
+         : 1375  GGML_F32_VEC_STORE(y + i, ay1);
+    0.00 :   70ea8:  st1w    {z0.s}, p0, [x3]
+         : 1377  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   70eac:  add     w4, w4, w7
+    0.00 :   70eb0:  add     x3, x3, x5
+         : 1380  ay2 = GGML_F32_VEC_LOAD(y + i + 1*ggml_f32_epr);
+    0.00 :   70eb4:  ld1w    {z0.s}, p0/z, [x2]
+         : 1382  ay2 = GGML_F32_VEC_MUL(ay2, vx);
+    0.00 :   70eb8:  fmul    z0.s, p0/m, z0.s, z8.s
+         : 1384  GGML_F32_VEC_STORE(y + i + 1*ggml_f32_epr, ay2);
+    0.00 :   70ebc:  st1w    {z0.s}, p0, [x2]
+         : 1386  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   70ec0:  add     x2, x2, x5
+    0.00 :   70ec4:  cmp     w0, w4
+    0.00 :   70ec8:  b.gt    70ea0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xed8>
+         : 1390  for (int i = np; i < n; i += ggml_f32_epr) {
+    0.00 :   70ecc:  sbfiz   x3, x6, #2, #32
+    0.00 :   70ed0:  add     x2, x19, w0, sxtw #2
+    0.00 :   70ed4:  cmp     w26, w0
+    0.00 :   70ed8:  b.le    70f00 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xf38>
+    0.00 :   70edc:  nop
+         : 1396  svbool_t pg = svwhilelt_b32(i, n);
+    0.00 :   70ee0:  whilelt p0.s, w0, w26
+         : 1398  for (int i = np; i < n; i += ggml_f32_epr) {
+    0.00 :   70ee4:  add     w0, w0, w6
+         : 1400  ay1 = svld1_f32(pg, y + i);
+    0.00 :   70ee8:  ld1w    {z0.s}, p0/z, [x2]
+         : 1402  ay1 = svmul_f32_m(pg, ay1, vx);
+    0.00 :   70eec:  fmul    z0.s, p0/m, z0.s, z8.s
+         : 1404  svst1_f32(pg, y + i, ay1);
+    0.00 :   70ef0:  st1w    {z0.s}, p0, [x2]
+         : 1406  for (int i = np; i < n; i += ggml_f32_epr) {
+    0.00 :   70ef4:  add     x2, x2, x3
+    0.00 :   70ef8:  cmp     w26, w0
+    0.00 :   70efc:  b.gt    70ee0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xf18>
+         : 1410  memcpy((char *) dst->data + (i3*ne2*ne1 + i2 + i1*ne1)*nb1, VKQ32 + tq * DV, nb1);
+    0.00 :   70f00:  ldr     x0, [x21, #248]
+         : 1412  return __builtin___memcpy_chk (__dest, __src, __len,
+    0.00 :   70f04:  mov     x1, x19
+         : 1414  for (int tq = 0; tq < tile_rows; tq++) {
+    0.00 :   70f08:  add     w20, w20, #0x1
+    0.00 :   70f0c:  add     x22, x22, #0x4
+    0.00 :   70f10:  add     x19, x19, x25
+    0.00 :   70f14:  ldr     x2, [sp, #48]
+    0.00 :   70f18:  add     x0, x0, x24
+    0.00 :   70f1c:  bl      17b00 <memcpy@plt>
+    0.00 :   70f20:  ldr     x0, [sp, #400]
+    0.00 :   70f24:  add     x24, x24, x0
+    0.00 :   70f28:  ldr     w0, [sp, #16]
+    0.00 :   70f2c:  cmp     w0, w20
+    0.00 :   70f30:  b.gt    70e48 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xe80>
+         : 1426  }
+         :
+         : 1428  ir += tile_rows;
+    0.00 :   70f34:  ldr     w1, [sp, #16]
+    0.00 :   70f38:  mov     x19, x23
+    0.00 :   70f3c:  mov     w23, w26
+    0.00 :   70f40:  ldr     w0, [sp, #240]
+    0.00 :   70f44:  add     w0, w0, w1
+         : 1434  while (ir < ir1) {
+    0.00 :   70f48:  ldr     w1, [sp, #244]
+         : 1436  ir += tile_rows;
+    0.00 :   70f4c:  str     w0, [sp, #240]
+         : 1438  while (ir < ir1) {
+    0.00 :   70f50:  cmp     w1, w0
+    0.00 :   70f54:  b.gt    703c8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x400>
+    0.00 :   70f58:  ldr     d12, [sp, #1424]
+    0.00 :   70f5c:  ldr     d13, [sp, #1432]
+         : 1443  }
+         : 1444  }
+    0.00 :   70f60:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc71b0>
+    0.00 :   70f64:  ldr     x0, [x0, #3600]
+    0.00 :   70f68:  ldr     x2, [sp, #1288]
+    0.00 :   70f6c:  ldr     x1, [x0]
+    0.00 :   70f70:  subs    x2, x2, x1
+    0.00 :   70f74:  mov     x1, #0x0                        // #0
+    0.00 :   70f78:  b.ne    717f8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1830>  // b.any
+    0.00 :   70f7c:  ldr     d8, [sp, #1392]
+    0.00 :   70f80:  ldr     d9, [sp, #1400]
+    0.00 :   70f84:  ldr     d10, [sp, #1408]
+    0.00 :   70f88:  ldr     d11, [sp, #1416]
+    0.00 :   70f8c:  ldr     d14, [sp, #1440]
+    0.00 :   70f90:  ldr     d15, [sp, #1448]
+    0.00 :   70f94:  add     sp, sp, #0x510
+    0.00 :   70f98:  ldp     x19, x20, [sp, #16]
+    0.00 :   70f9c:  ldp     x21, x22, [sp, #32]
+    0.00 :   70fa0:  ldp     x23, x24, [sp, #48]
+    0.00 :   70fa4:  ldp     x25, x26, [sp, #64]
+    0.00 :   70fa8:  ldp     x27, x28, [sp, #80]
+    0.00 :   70fac:  ldp     x29, x30, [sp], #160
+    0.00 :   70fb0:  ret
+    0.00 :   70fb4:  mov     x21, x18
+    0.00 :   70fb8:  mov     x22, x3
+    0.00 :   70fbc:  stp     x19, x2, [sp, #96]
+    0.00 :   70fc0:  mov     x24, x9
+    0.00 :   70fc4:  mov     x27, x4
+    0.00 :   70fc8:  mov     x19, x3
+    0.00 :   70fcc:  mov     x20, x8
+    0.00 :   70fd0:  str     x10, [sp, #8]
+         : 1474  inline static void ggml_vec_tanh_f32 (const int n, float * y, const float * x) { for (int i = 0; i < n; ++i) y[i] = tanhf(x[i]);  }
+    0.00 :   70fd4:  ldr     s0, [x19]
+    0.00 :   70fd8:  bl      17b20 <tanhf@plt>
+    0.00 :   70fdc:  str     s0, [x19], #4
+    0.00 :   70fe0:  cmp     x20, x19
+    0.00 :   70fe4:  b.ne    70fd4 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x100c>  // b.any
+         : 1480  const int sve_register_length = ggml_cpu_get_sve_cnt() * 8;
+    0.00 :   70fe8:  ldr     x10, [sp, #8]
+    0.00 :   70fec:  add     x11, sp, #0x280
+    0.00 :   70ff0:  ldp     x19, x2, [sp, #96]
+    0.00 :   70ff4:  stp     x24, x22, [x11]
+    0.00 :   70ff8:  str     x20, [sp, #8]
+    0.00 :   70ffc:  stp     x21, x10, [x11, #16]
+    0.00 :   71000:  str     x2, [sp, #96]
+    0.00 :   71004:  str     x27, [sp, #424]
+    0.00 :   71008:  bl      195b0 <ggml_cpu_get_sve_cnt@plt>
+         : 1490  const int ggml_f32_epr = sve_register_length / 32;//8;//svcntw(); // SVE128:4, SVE256:8, SVE512:16
+    0.00 :   7100c:  mov     z1.s, s14
+         : 1492  const int sve_register_length = ggml_cpu_get_sve_cnt() * 8;
+    0.00 :   71010:  lsl     w0, w0, #3
+         : 1494  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   71014:  add     x12, sp, #0x280
+    0.00 :   71018:  ldr     x8, [sp, #8]
+         : 1497  const int ggml_f32_epr = sve_register_length / 32;//8;//svcntw(); // SVE128:4, SVE256:8, SVE512:16
+    0.00 :   7101c:  add     w6, w0, #0x1f
+    0.00 :   71020:  cmp     w0, #0x0
+    0.00 :   71024:  csel    w0, w6, w0, lt  // lt = tstop
+         : 1501  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   71028:  ldp     x9, x3, [x12]
+         : 1503  const int ggml_f32_epr = sve_register_length / 32;//8;//svcntw(); // SVE128:4, SVE256:8, SVE512:16
+    0.00 :   7102c:  asr     w6, w0, #5
+         : 1505  const int np = (n & ~(ggml_f32_step - 1));
+    0.00 :   71030:  neg     w0, w6, lsl #1
+         : 1507  const int ggml_f32_step = 2 * ggml_f32_epr;
+    0.00 :   71034:  lsl     w7, w6, #1
+         : 1509  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   71038:  ldp     x18, x10, [x12, #16]
+    0.00 :   7103c:  and     w1, w0, #0x1000
+    0.00 :   71040:  ldr     x2, [sp, #96]
+    0.00 :   71044:  ldr     x4, [sp, #424]
+    0.00 :   71048:  tbz     w0, #12, 71754 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x178c>
+    0.00 :   7104c:  add     x0, x3, w6, sxtw #2
+    0.00 :   71050:  sbfiz   x11, x7, #2, #32
+    0.00 :   71054:  mov     x1, x3
+         : 1518  ay1 = GGML_F32_VEC_LOAD(y + i);
+    0.00 :   71058:  ptrue   p0.b
+         : 1520  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   7105c:  mov     w6, #0x0                        // #0
+         : 1522  ay1 = GGML_F32_VEC_LOAD(y + i);
+    0.00 :   71060:  ld1w    {z0.s}, p0/z, [x1]
+         : 1524  ay1 = GGML_F32_VEC_MUL(ay1, vx);
+    0.00 :   71064:  fmul    z0.s, p0/m, z0.s, z1.s
+         : 1526  GGML_F32_VEC_STORE(y + i, ay1);
+    0.00 :   71068:  st1w    {z0.s}, p0, [x1]
+         : 1528  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   7106c:  add     w6, w6, w7
+    0.00 :   71070:  add     x1, x1, x11
+         : 1531  ay2 = GGML_F32_VEC_LOAD(y + i + 1*ggml_f32_epr);
+    0.00 :   71074:  ld1w    {z0.s}, p0/z, [x0]
+         : 1533  ay2 = GGML_F32_VEC_MUL(ay2, vx);
+    0.00 :   71078:  fmul    z0.s, p0/m, z0.s, z1.s
+         : 1535  GGML_F32_VEC_STORE(y + i + 1*ggml_f32_epr, ay2);
+    0.00 :   7107c:  st1w    {z0.s}, p0, [x0]
+         : 1537  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   71080:  add     x0, x0, x11
+    0.00 :   71084:  cmp     w6, #0xfff
+    0.00 :   71088:  b.le    71060 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1098>
+         : 1541  if (mask) {
+    0.00 :   7108c:  cbz     x10, 70b20 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xb58>
+    0.00 :   71090:  ldr     x5, [sp, #528]
+    0.00 :   71094:  mov     x0, #0x0                        // #0
+    0.00 :   71098:  ldr     x1, [sp, #536]
+    0.00 :   7109c:  ldr     x6, [sp, #592]
+         : 1547  z[i] = x[i] + y[i];
+    0.01 :   710a0:  ldr     q0, [x5, x0]
+    0.02 :   710a4:  ldr     q1, [x1, x0]
+    0.03 :   710a8:  fadd    v0.4s, v0.4s, v1.4s
+    0.01 :   710ac:  str     q0, [x1, x0]
+         : 1552  for (; i < n; ++i) {
+    0.01 :   710b0:  add     x0, x0, #0x10
+    0.01 :   710b4:  cmp     x6, x0
+    0.00 :   710b8:  b.ne    710a0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x10d8>  // b.any
+    0.00 :   710bc:  b       70b20 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xb58>
+         : 1557  skip[tq] = true;
+    0.00 :   710c0:  add     x0, x24, x20
+    0.00 :   710c4:  mov     w1, #0x1                        // #1
+    0.00 :   710c8:  sturb   w1, [x0, #-1]
+         : 1561  continue;
+    0.00 :   710cc:  b       70c04 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xc3c>
+         : 1563  const float ms = expf(Mold - Mnew);
+    0.00 :   710d0:  fsub    s0, s0, s8
+    0.00 :   710d4:  str     x2, [sp, #8]
+    0.00 :   710d8:  bl      19240 <expf@plt>
+    0.00 :   710dc:  fmov    s10, s0
+         : 1568  const int sve_register_length = ggml_cpu_get_sve_cnt() * 8;
+    0.00 :   710e0:  bl      195b0 <ggml_cpu_get_sve_cnt@plt>
+         : 1570  GGML_F32_VEC vx = GGML_F32_VEC_SET1(v);
+    0.00 :   710e4:  mov     z2.s, s10
+         : 1572  const int sve_register_length = ggml_cpu_get_sve_cnt() * 8;
+    0.00 :   710e8:  lsl     w0, w0, #3
+         : 1574  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   710ec:  ldr     x2, [sp, #8]
+         : 1576  const int ggml_f32_epr = sve_register_length / 32;//8;//svcntw(); // SVE128:4, SVE256:8, SVE512:16
+    0.00 :   710f0:  cmp     w0, #0x0
+    0.00 :   710f4:  add     w12, w0, #0x1f
+    0.00 :   710f8:  csel    w12, w12, w0, lt        // lt = tstop
+    0.00 :   710fc:  asr     w12, w12, #5
+         : 1581  const int np = (n & ~(ggml_f32_step - 1));
+    0.00 :   71100:  neg     w0, w12, lsl #1
+         : 1583  const int ggml_f32_step = 2 * ggml_f32_epr;
+    0.00 :   71104:  lsl     w13, w12, #1
+         : 1585  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   71108:  ands    w0, w0, w21
+    0.00 :   7110c:  b.le    71150 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1188>
+    0.00 :   71110:  sbfiz   x11, x13, #2, #32
+    0.00 :   71114:  mov     x4, x22
+    0.00 :   71118:  ptrue   p0.b
+    0.00 :   7111c:  add     x1, x22, w12, sxtw #2
+    0.00 :   71120:  mov     w5, #0x0                        // #0
+         : 1593  ay1 = GGML_F32_VEC_LOAD(y + i);
+    0.00 :   71124:  ld1w    {z1.s}, p0/z, [x4]
+         : 1595  ay1 = GGML_F32_VEC_MUL(ay1, vx);
+    0.00 :   71128:  fmul    z1.s, p0/m, z1.s, z2.s
+         : 1597  GGML_F32_VEC_STORE(y + i, ay1);
+    0.00 :   7112c:  st1w    {z1.s}, p0, [x4]
+         : 1599  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   71130:  add     w5, w5, w13
+    0.00 :   71134:  add     x4, x4, x11
+         : 1602  ay2 = GGML_F32_VEC_LOAD(y + i + 1*ggml_f32_epr);
+    0.00 :   71138:  ld1w    {z1.s}, p0/z, [x1]
+         : 1604  ay2 = GGML_F32_VEC_MUL(ay2, vx);
+    0.00 :   7113c:  fmul    z1.s, p0/m, z1.s, z2.s
+         : 1606  GGML_F32_VEC_STORE(y + i + 1*ggml_f32_epr, ay2);
+    0.00 :   71140:  st1w    {z1.s}, p0, [x1]
+         : 1608  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   71144:  add     x1, x1, x11
+    0.00 :   71148:  cmp     w0, w5
+    0.00 :   7114c:  b.gt    71124 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x115c>
+         : 1612  for (int i = np; i < n; i += ggml_f32_epr) {
+    0.00 :   71150:  sbfiz   x4, x12, #2, #32
+    0.00 :   71154:  add     x1, x22, w0, sxtw #2
+    0.00 :   71158:  cmp     w21, w0
+    0.00 :   7115c:  b.le    71180 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x11b8>
+         : 1617  svbool_t pg = svwhilelt_b32(i, n);
+    0.00 :   71160:  whilelt p0.s, w0, w21
+         : 1619  for (int i = np; i < n; i += ggml_f32_epr) {
+    0.00 :   71164:  add     w0, w0, w12
+         : 1621  ay1 = svld1_f32(pg, y + i);
+    0.00 :   71168:  ld1w    {z1.s}, p0/z, [x1]
+         : 1623  ay1 = svmul_f32_m(pg, ay1, vx);
+    0.00 :   7116c:  fmul    z1.s, p0/m, z1.s, z2.s
+         : 1625  svst1_f32(pg, y + i, ay1);
+    0.00 :   71170:  st1w    {z1.s}, p0, [x1]
+         : 1627  for (int i = np; i < n; i += ggml_f32_epr) {
+    0.00 :   71174:  add     x1, x1, x4
+    0.00 :   71178:  cmp     w21, w0
+    0.00 :   7117c:  b.gt    71160 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1198>
+         : 1631  S[tq] *= ms;
+    0.00 :   71180:  add     x0, x27, x19
+    0.00 :   71184:  ldur    s0, [x0, #-4]
+    0.00 :   71188:  fmul    s0, s0, s10
+    0.00 :   7118c:  stur    s0, [x0, #-4]
+    0.00 :   71190:  b       70bd4 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xc0c>
+         : 1637  for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   71194:  cmp     x18, #0x0
+    0.00 :   71198:  b.le    709a8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9e0>
+    0.00 :   7119c:  cmp     x14, #0x6
+    0.00 :   711a0:  b.ls    71598 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x15d0>  // b.plast
+    0.00 :   711a4:  ldr     x0, [sp, #232]
+    0.00 :   711a8:  mov     x5, x1
+    0.00 :   711ac:  str     w12, [sp, #8]
+    0.00 :   711b0:  stp     x17, x22, [sp, #96]
+    0.00 :   711b4:  add     x20, x6, x0
+    0.00 :   711b8:  mov     x0, x6
+    0.00 :   711bc:  nop
+         : 1649  K_f32[dk * KV_TILE_SZ + tk] = GGML_CPU_FP16_TO_FP32(k_f16[dk]);
+    0.01 :   711c0:  ldr     q0, [x5], #16
+    0.02 :   711c4:  add     x30, x0, #0x100
+    0.00 :   711c8:  add     x22, x0, #0x200
+    0.01 :   711cc:  add     x17, x0, #0x300
+    0.00 :   711d0:  add     x12, x0, #0x500
+    0.01 :   711d4:  add     x11, x0, #0x600
+    0.00 :   711d8:  fcvtl   v1.4s, v0.4h
+    0.01 :   711dc:  fcvtl2  v0.4s, v0.8h
+    0.01 :   711e0:  str     s1, [x0]
+    0.05 :   711e4:  st1     {v1.s}[1], [x30]
+    0.07 :   711e8:  st1     {v1.s}[2], [x22]
+    0.08 :   711ec:  st1     {v1.s}[3], [x17]
+    0.08 :   711f0:  str     s0, [x0, #1024]
+    0.08 :   711f4:  st1     {v0.s}[1], [x12]
+    0.08 :   711f8:  add     x12, x0, #0x700
+    0.00 :   711fc:  add     x0, x0, #0x800
+    0.01 :   71200:  st1     {v0.s}[2], [x11]
+    0.08 :   71204:  st1     {v0.s}[3], [x12]
+         : 1668  for (int64_t dk = 0; dk < DK; dk++) {
+    0.08 :   71208:  cmp     x20, x0
+    0.00 :   7120c:  b.ne    711c0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x11f8>  // b.any
+    0.00 :   71210:  ldp     x17, x22, [sp, #96]
+    0.00 :   71214:  ldr     w12, [sp, #8]
+    0.00 :   71218:  cmp     x18, x24
+    0.00 :   7121c:  b.eq    709a8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9e0>  // b.none
+    0.00 :   71220:  mov     x0, x24
+         : 1676  K_f32[dk * KV_TILE_SZ + tk] = GGML_CPU_FP16_TO_FP32(k_f16[dk]);
+    0.00 :   71224:  lsl     x5, x0, #1
+    0.00 :   71228:  add     x11, x7, x0, lsl #6
+         : 1679  for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   7122c:  add     x20, x0, #0x1
+    0.00 :   71230:  ldr     h0, [x1, x5]
+    0.00 :   71234:  fcvt    s0, h0
+    0.00 :   71238:  str     s0, [x9, x11, lsl #2]
+    0.00 :   7123c:  cmp     x18, x20
+    0.00 :   71240:  b.le    709a8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9e0>
+         : 1686  K_f32[dk * KV_TILE_SZ + tk] = GGML_CPU_FP16_TO_FP32(k_f16[dk]);
+    0.00 :   71244:  add     x5, x1, x5
+    0.00 :   71248:  add     x30, x11, #0x40
+         : 1689  for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   7124c:  add     x20, x0, #0x2
+    0.00 :   71250:  ldr     h0, [x5, #2]
+    0.00 :   71254:  fcvt    s0, h0
+    0.00 :   71258:  str     s0, [x9, x30, lsl #2]
+    0.00 :   7125c:  cmp     x18, x20
+    0.00 :   71260:  b.le    709a8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9e0>
+    0.00 :   71264:  ldr     h0, [x5, #4]
+         : 1697  K_f32[dk * KV_TILE_SZ + tk] = GGML_CPU_FP16_TO_FP32(k_f16[dk]);
+    0.00 :   71268:  add     x30, x11, #0x80
+         : 1699  for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   7126c:  add     x20, x0, #0x3
+    0.00 :   71270:  fcvt    s0, h0
+    0.00 :   71274:  str     s0, [x9, x30, lsl #2]
+    0.00 :   71278:  cmp     x18, x20
+    0.00 :   7127c:  b.le    709a8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9e0>
+    0.00 :   71280:  ldr     h0, [x5, #6]
+         : 1706  K_f32[dk * KV_TILE_SZ + tk] = GGML_CPU_FP16_TO_FP32(k_f16[dk]);
+    0.00 :   71284:  add     x30, x11, #0xc0
+         : 1708  for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   71288:  add     x20, x0, #0x4
+    0.00 :   7128c:  fcvt    s0, h0
+    0.00 :   71290:  str     s0, [x9, x30, lsl #2]
+    0.00 :   71294:  cmp     x18, x20
+    0.00 :   71298:  b.le    709a8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9e0>
+    0.00 :   7129c:  ldr     h0, [x5, #8]
+         : 1715  K_f32[dk * KV_TILE_SZ + tk] = GGML_CPU_FP16_TO_FP32(k_f16[dk]);
+    0.00 :   712a0:  add     x30, x11, #0x100
+         : 1717  for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   712a4:  add     x20, x0, #0x5
+    0.00 :   712a8:  fcvt    s0, h0
+    0.00 :   712ac:  str     s0, [x9, x30, lsl #2]
+    0.00 :   712b0:  cmp     x18, x20
+    0.00 :   712b4:  b.le    709a8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9e0>
+    0.00 :   712b8:  ldr     h0, [x5, #10]
+         : 1724  K_f32[dk * KV_TILE_SZ + tk] = GGML_CPU_FP16_TO_FP32(k_f16[dk]);
+    0.00 :   712bc:  add     x20, x11, #0x140
+         : 1726  for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   712c0:  add     x0, x0, #0x6
+    0.00 :   712c4:  fcvt    s0, h0
+    0.00 :   712c8:  str     s0, [x9, x20, lsl #2]
+    0.00 :   712cc:  cmp     x18, x0
+    0.00 :   712d0:  b.le    709a8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9e0>
+    0.00 :   712d4:  ldr     h0, [x5, #12]
+         : 1733  K_f32[dk * KV_TILE_SZ + tk] = GGML_CPU_FP16_TO_FP32(k_f16[dk]);
+    0.00 :   712d8:  add     x11, x11, #0x180
+         : 1735  for (int tk = 0; tk < kv_tile; tk++) {
+    0.00 :   712dc:  add     x7, x7, #0x1
+    0.00 :   712e0:  add     x1, x1, x13
+    0.00 :   712e4:  add     x2, x2, #0x4
+    0.00 :   712e8:  add     x6, x6, #0x4
+    0.00 :   712ec:  fcvt    s0, h0
+    0.00 :   712f0:  str     s0, [x9, x11, lsl #2]
+    0.00 :   712f4:  cmp     w23, w7
+    0.00 :   712f8:  b.gt    70960 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x998>
+    0.00 :   712fc:  b       709c0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9f8>
+    0.00 :   71300:  ldr     x0, [sp, #224]
+         : 1746  for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   71304:  mov     x5, x6
+    0.00 :   71308:  add     x11, x1, x0
+    0.00 :   7130c:  mov     x0, x1
+         : 1750  K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   71310:  ldp     s3, s2, [x0, #4]
+    0.00 :   71314:  ldr     s1, [x0, #12]
+    0.00 :   71318:  ldr     s0, [x0], #16
+    0.00 :   7131c:  str     s3, [x5, #256]
+    0.00 :   71320:  str     s2, [x5, #512]
+    0.00 :   71324:  str     s1, [x5, #768]
+    0.00 :   71328:  str     s0, [x5]
+    0.00 :   7132c:  add     x5, x5, #0x400
+    0.00 :   71330:  cmp     x11, x0
+    0.00 :   71334:  b.ne    71310 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1348>  // b.any
+    0.00 :   71338:  cbz     x16, 709a8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9e0>
+    0.00 :   7133c:  ldr     x0, [sp, #376]
+    0.00 :   71340:  ldr     s0, [x1, x27]
+    0.00 :   71344:  add     x0, x7, x0
+    0.00 :   71348:  str     s0, [x9, x0, lsl #2]
+         : 1766  for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   7134c:  ldr     x0, [sp, #368]
+    0.00 :   71350:  cmp     x18, x0
+    0.00 :   71354:  b.le    709a8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9e0>
+         : 1770  K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   71358:  ldr     x0, [sp, #360]
+    0.00 :   7135c:  ldr     s0, [x1, x4]
+    0.00 :   71360:  add     x0, x7, x0
+    0.00 :   71364:  str     s0, [x9, x0, lsl #2]
+         : 1775  for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   71368:  ldr     x0, [sp, #352]
+    0.00 :   7136c:  cmp     x18, x0
+    0.00 :   71370:  b.le    709a8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9e0>
+         : 1779  K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   71374:  ldr     x0, [sp, #344]
+         : 1781  for (int tk = 0; tk < kv_tile; tk++) {
+    0.00 :   71378:  add     x2, x2, #0x4
+    0.00 :   7137c:  add     x6, x6, #0x4
+         : 1784  K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   71380:  ldr     s0, [x1, x3]
+         : 1786  for (int tk = 0; tk < kv_tile; tk++) {
+    0.00 :   71384:  add     x1, x1, x13
+         : 1788  K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   71388:  add     x0, x7, x0
+         : 1790  for (int tk = 0; tk < kv_tile; tk++) {
+    0.00 :   7138c:  add     x7, x7, #0x1
+         : 1792  K_f32[dk * KV_TILE_SZ + tk] = k_f32_src[dk];
+    0.00 :   71390:  str     s0, [x9, x0, lsl #2]
+         : 1794  for (int tk = 0; tk < kv_tile; tk++) {
+    0.00 :   71394:  cmp     w23, w7
+    0.00 :   71398:  b.gt    70960 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x998>
+    0.00 :   7139c:  b       709c0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9f8>
+         : 1798  for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   713a0:  mov     x0, #0x0                        // #0
+    0.00 :   713a4:  b       70990 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x9c8>
+    0.00 :   713a8:  mov     w0, #0x40                       // #64
+    0.00 :   713ac:  ldr     x5, [sp, #120]
+    0.00 :   713b0:  mov     w17, #0x3f                      // #63
+         : 1804  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   713b4:  mvni    v0.4s, #0x7f, msl #16
+    0.00 :   713b8:  sub     w1, w0, w21
+    0.00 :   713bc:  sub     w17, w17, w21
+    0.00 :   713c0:  ldr     x0, [sp, #216]
+    0.00 :   713c4:  and     w14, w1, #0xfffffff8
+    0.00 :   713c8:  cmp     w17, #0x7
+    0.00 :   713cc:  add     w14, w14, w21
+    0.00 :   713d0:  lsr     w6, w1, #3
+    0.00 :   713d4:  csel    w14, w21, w14, ls       // ls = plast
+    0.00 :   713d8:  and     w20, w1, #0x7
+         : 1815  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   713dc:  add     w11, w14, #0x1
+    0.00 :   713e0:  add     w12, w14, #0x2
+    0.00 :   713e4:  add     w13, w14, #0x3
+    0.00 :   713e8:  add     w15, w14, #0x4
+    0.00 :   713ec:  add     w16, w14, #0x5
+    0.00 :   713f0:  add     x0, x21, x0
+    0.00 :   713f4:  add     w24, w14, #0x7
+    0.00 :   713f8:  add     x0, x5, x0, lsl #2
+    0.00 :   713fc:  mov     w1, #0x0                        // #0
+    0.00 :   71400:  add     w21, w14, #0x6
+    0.00 :   71404:  cmp     w17, #0x7
+    0.00 :   71408:  b.ls    7145c <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1494>  // b.plast
+         : 1828  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   7140c:  stp     q0, q0, [x0]
+         : 1830  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   71410:  cmp     w6, #0x1
+    0.00 :   71414:  b.eq    71458 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1490>  // b.none
+         : 1833  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   71418:  stp     q0, q0, [x0, #32]
+         : 1835  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   7141c:  cmp     w6, #0x2
+    0.00 :   71420:  b.eq    71458 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1490>  // b.none
+         : 1838  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   71424:  stp     q0, q0, [x0, #64]
+         : 1840  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   71428:  cmp     w6, #0x3
+    0.00 :   7142c:  b.eq    71458 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1490>  // b.none
+         : 1843  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   71430:  stp     q0, q0, [x0, #96]
+         : 1845  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   71434:  cmp     w6, #0x4
+    0.00 :   71438:  b.eq    71458 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1490>  // b.none
+         : 1848  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   7143c:  stp     q0, q0, [x0, #128]
+         : 1850  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   71440:  cmp     w6, #0x5
+    0.00 :   71444:  b.eq    71458 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1490>  // b.none
+         : 1853  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   71448:  stp     q0, q0, [x0, #160]
+         : 1855  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   7144c:  cmp     w6, #0x7
+    0.00 :   71450:  b.ne    71458 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1490>  // b.any
+         : 1858  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   71454:  stp     q0, q0, [x0, #192]
+         : 1860  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   71458:  cbz     w20, 714e8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1520>
+         : 1862  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   7145c:  add     w5, w1, w14
+    0.00 :   71460:  str     s12, [x3, w5, sxtw #2]
+         : 1865  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   71464:  cmp     w11, #0x40
+    0.00 :   71468:  b.eq    714d4 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x150c>  // b.none
+         : 1868  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   7146c:  add     w5, w1, w11
+    0.00 :   71470:  str     s12, [x3, w5, sxtw #2]
+         : 1871  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   71474:  cmp     w12, #0x40
+    0.00 :   71478:  b.eq    714d4 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x150c>  // b.none
+         : 1874  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   7147c:  add     w5, w1, w12
+    0.00 :   71480:  str     s12, [x3, w5, sxtw #2]
+         : 1877  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   71484:  cmp     w13, #0x40
+    0.00 :   71488:  b.eq    714d4 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x150c>  // b.none
+         : 1880  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   7148c:  add     w5, w1, w13
+    0.00 :   71490:  str     s12, [x3, w5, sxtw #2]
+         : 1883  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   71494:  cmp     w15, #0x40
+    0.00 :   71498:  b.eq    714d4 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x150c>  // b.none
+         : 1886  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   7149c:  add     w5, w1, w15
+    0.00 :   714a0:  str     s12, [x3, w5, sxtw #2]
+         : 1889  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   714a4:  cmp     w16, #0x40
+    0.00 :   714a8:  b.eq    714d4 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x150c>  // b.none
+         : 1892  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   714ac:  add     w5, w1, w16
+    0.00 :   714b0:  str     s12, [x3, w5, sxtw #2]
+         : 1895  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   714b4:  cmp     w21, #0x40
+    0.00 :   714b8:  b.eq    714d4 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x150c>  // b.none
+         : 1898  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   714bc:  add     w5, w1, w21
+    0.00 :   714c0:  str     s12, [x3, w5, sxtw #2]
+         : 1901  for (int tk = kv_tile; tk < KV_TILE_SZ; tk++) {
+    0.00 :   714c4:  cmp     w24, #0x40
+    0.00 :   714c8:  b.eq    714d4 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x150c>  // b.none
+         : 1904  KQ[tq * KV_TILE_SZ + tk] = -INFINITY;
+    0.00 :   714cc:  add     w5, w1, w24
+    0.00 :   714d0:  str     s12, [x3, w5, sxtw #2]
+         : 1907  for (int tq = 0; tq < Q_TILE_SZ; tq++) {
+    0.00 :   714d4:  add     w1, w1, #0x40
+    0.00 :   714d8:  add     x0, x0, #0x100
+    0.00 :   714dc:  cmp     w1, #0x1, lsl #12
+    0.00 :   714e0:  b.ne    71404 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x143c>  // b.any
+    0.00 :   714e4:  b       70b14 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xb4c>
+    0.00 :   714e8:  add     w1, w1, #0x40
+    0.00 :   714ec:  add     x0, x0, #0x100
+    0.00 :   714f0:  cmp     w1, #0x1, lsl #12
+    0.00 :   714f4:  b.ne    7140c <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1444>  // b.any
+    0.00 :   714f8:  b       70b14 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xb4c>
+         : 1918  for (int tq = 0; tq < Q_TILE_SZ; tq++) {
+    0.00 :   714fc:  ldr     x21, [sp, #56]
+         : 1920  for (int tk = 0; tk < kv_tile; tk++) {
+    0.00 :   71500:  mov     w20, #0x0                       // #0
+    0.00 :   71504:  stp     x18, x3, [sp, #96]
+    0.00 :   71508:  add     x3, sp, #0x280
+    0.00 :   7150c:  ldr     x27, [sp, #160]
+    0.00 :   71510:  stp     x4, x19, [x3]
+    0.00 :   71514:  ldr     x19, [sp, #152]
+    0.00 :   71518:  stp     x24, x2, [x3, #16]
+    0.00 :   7151c:  mov     x24, x21
+    0.00 :   71520:  mov     w21, w20
+    0.00 :   71524:  ldr     x20, [sp, #72]
+    0.00 :   71528:  str     x22, [sp, #688]
+    0.00 :   7152c:  mov     x22, x27
+    0.00 :   71530:  mov     x27, x8
+    0.00 :   71534:  str     x10, [sp, #8]
+    0.00 :   71538:  str     x9, [sp, #424]
+    0.00 :   7153c:  str     x11, [sp, #672]
+    0.00 :   71540:  str     x5, [sp, #680]
+         : 1938  const char * v_data = (const char *)v->data + (ic + tk)*nbv1 + iv2*nbv2 + iv3*nbv3;
+    0.00 :   71544:  ldr     x0, [x20, #248]
+         : 1940  ggml_fp16_to_fp32_row((const ggml_fp16_t *)v_data, V32 + tk * DV, DV);
+    0.00 :   71548:  mov     x1, x22
+         : 1942  for (int tk = 0; tk < kv_tile; tk++) {
+    0.01 :   7154c:  add     w21, w21, #0x1
+    0.00 :   71550:  add     x22, x22, x25
+         : 1945  ggml_fp16_to_fp32_row((const ggml_fp16_t *)v_data, V32 + tk * DV, DV);
+    0.00 :   71554:  ldr     x2, [sp, #32]
+    0.00 :   71558:  add     x0, x0, x24
+         : 1948  for (int tk = 0; tk < kv_tile; tk++) {
+    0.00 :   7155c:  add     x24, x24, x19
+         : 1950  ggml_fp16_to_fp32_row((const ggml_fp16_t *)v_data, V32 + tk * DV, DV);
+    0.00 :   71560:  bl      18000 <ggml_fp16_to_fp32_row@plt>
+         : 1952  for (int tk = 0; tk < kv_tile; tk++) {
+    0.01 :   71564:  cmp     w23, w21
+    0.00 :   71568:  b.gt    71544 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x157c>
+    0.00 :   7156c:  add     x1, sp, #0x280
+    0.00 :   71570:  ldr     x10, [sp, #8]
+    0.00 :   71574:  mov     x8, x27
+    0.00 :   71578:  ldp     x4, x19, [x1]
+    0.00 :   7157c:  ldp     x24, x2, [x1, #16]
+    0.00 :   71580:  ldp     x18, x3, [sp, #96]
+    0.00 :   71584:  ldr     x9, [sp, #424]
+    0.00 :   71588:  ldr     x11, [sp, #672]
+    0.00 :   7158c:  ldr     x5, [sp, #680]
+    0.00 :   71590:  ldr     x22, [sp, #688]
+    0.00 :   71594:  b       70ce4 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xd1c>
+         : 1966  for (int64_t dk = 0; dk < DK; dk++) {
+    0.00 :   71598:  mov     x0, #0x0                        // #0
+    0.00 :   7159c:  b       71224 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x125c>
+         : 1969  const float s = ((float *)((char *) sinks->data))[h];
+    0.00 :   715a0:  ldr     x1, [sp, #112]
+    0.00 :   715a4:  mov     x26, #0x1                       // #1
+    0.00 :   715a8:  add     x24, sp, #0x300
+    0.00 :   715ac:  ldr     x0, [x0, #248]
+    0.00 :   715b0:  ldr     x21, [sp, #208]
+    0.00 :   715b4:  ldr     s13, [x0, w1, uxtw #2]
+    0.00 :   715b8:  mov     x0, x26
+    0.00 :   715bc:  mov     x26, x21
+    0.00 :   715c0:  mov     x21, x19
+    0.00 :   715c4:  mov     x19, x0
+         : 1980  if (s > M[tq]) {
+    0.00 :   715c8:  add     x0, x24, x19, lsl #2
+    0.00 :   715cc:  lsl     x20, x19, #2
+    0.00 :   715d0:  ldur    s0, [x0, #-4]
+    0.00 :   715d4:  fcmpe   s0, s13
+    0.00 :   715d8:  b.mi    71618 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1650>  // b.first
+         : 1986  vs = expf(s - M[tq]);
+    0.00 :   715dc:  fsub    s0, s13, s0
+    0.00 :   715e0:  bl      19240 <expf@plt>
+         : 1989  float ms = 1.0f;
+    0.00 :   715e4:  fmov    s8, #1.000000000000000000e+00
+         : 1991  S[tq] = S[tq] * ms + vs;
+    0.00 :   715e8:  add     x20, x20, x22
+         : 1993  for (int tq = 0; tq < tile_rows; tq++) {
+    0.00 :   715ec:  ldr     w1, [sp, #16]
+    0.00 :   715f0:  add     x19, x19, #0x1
+    0.00 :   715f4:  sub     w0, w19, #0x1
+    0.00 :   715f8:  add     x26, x26, x25
+         : 1998  S[tq] = S[tq] * ms + vs;
+    0.00 :   715fc:  ldur    s1, [x20, #-4]
+    0.00 :   71600:  fmadd   s0, s1, s8, s0
+    0.00 :   71604:  stur    s0, [x20, #-4]
+         : 2002  for (int tq = 0; tq < tile_rows; tq++) {
+    0.00 :   71608:  cmp     w1, w0
+    0.00 :   7160c:  b.gt    715c8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1600>
+    0.00 :   71610:  mov     x19, x21
+    0.00 :   71614:  b       70df8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xe30>
+         : 2007  ms = expf(M[tq] - s);
+    0.00 :   71618:  fsub    s0, s0, s13
+    0.00 :   7161c:  bl      19240 <expf@plt>
+    0.00 :   71620:  fmov    s8, s0
+         : 2011  const int sve_register_length = ggml_cpu_get_sve_cnt() * 8;
+    0.00 :   71624:  bl      195b0 <ggml_cpu_get_sve_cnt@plt>
+         : 2013  GGML_F32_VEC vx = GGML_F32_VEC_SET1(v);
+    0.00 :   71628:  mov     z1.s, s8
+         : 2015  const int sve_register_length = ggml_cpu_get_sve_cnt() * 8;
+    0.00 :   7162c:  lsl     w0, w0, #3
+         : 2017  const int ggml_f32_epr = sve_register_length / 32;//8;//svcntw(); // SVE128:4, SVE256:8, SVE512:16
+    0.00 :   71630:  cmp     w0, #0x0
+    0.00 :   71634:  add     w4, w0, #0x1f
+    0.00 :   71638:  csel    w4, w4, w0, lt  // lt = tstop
+    0.00 :   7163c:  asr     w4, w4, #5
+         : 2022  const int np = (n & ~(ggml_f32_step - 1));
+    0.00 :   71640:  neg     w0, w4, lsl #1
+         : 2024  const int ggml_f32_step = 2 * ggml_f32_epr;
+    0.00 :   71644:  lsl     w6, w4, #1
+         : 2026  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   71648:  ands    w0, w0, w23
+    0.00 :   7164c:  b.le    71690 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x16c8>
+    0.00 :   71650:  sbfiz   x5, x6, #2, #32
+    0.00 :   71654:  mov     x2, x26
+    0.00 :   71658:  ptrue   p0.b
+    0.00 :   7165c:  add     x1, x26, w4, sxtw #2
+    0.00 :   71660:  mov     w3, #0x0                        // #0
+         : 2034  ay1 = GGML_F32_VEC_LOAD(y + i);
+    0.00 :   71664:  ld1w    {z0.s}, p0/z, [x2]
+         : 2036  ay1 = GGML_F32_VEC_MUL(ay1, vx);
+    0.00 :   71668:  fmul    z0.s, p0/m, z0.s, z1.s
+         : 2038  GGML_F32_VEC_STORE(y + i, ay1);
+    0.00 :   7166c:  st1w    {z0.s}, p0, [x2]
+         : 2040  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   71670:  add     w3, w3, w6
+    0.00 :   71674:  add     x2, x2, x5
+         : 2043  ay2 = GGML_F32_VEC_LOAD(y + i + 1*ggml_f32_epr);
+    0.00 :   71678:  ld1w    {z0.s}, p0/z, [x1]
+         : 2045  ay2 = GGML_F32_VEC_MUL(ay2, vx);
+    0.00 :   7167c:  fmul    z0.s, p0/m, z0.s, z1.s
+         : 2047  GGML_F32_VEC_STORE(y + i + 1*ggml_f32_epr, ay2);
+    0.00 :   71680:  st1w    {z0.s}, p0, [x1]
+         : 2049  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   71684:  add     x1, x1, x5
+    0.00 :   71688:  cmp     w0, w3
+    0.00 :   7168c:  b.gt    71664 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x169c>
+         : 2053  for (int i = np; i < n; i += ggml_f32_epr) {
+    0.00 :   71690:  sbfiz   x2, x4, #2, #32
+    0.00 :   71694:  add     x1, x26, w0, sxtw #2
+    0.00 :   71698:  cmp     w23, w0
+    0.00 :   7169c:  b.le    716c0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x16f8>
+         : 2058  svbool_t pg = svwhilelt_b32(i, n);
+    0.00 :   716a0:  whilelt p0.s, w0, w23
+         : 2060  for (int i = np; i < n; i += ggml_f32_epr) {
+    0.00 :   716a4:  add     w0, w0, w4
+         : 2062  ay1 = svld1_f32(pg, y + i);
+    0.00 :   716a8:  ld1w    {z0.s}, p0/z, [x1]
+         : 2064  ay1 = svmul_f32_m(pg, ay1, vx);
+    0.00 :   716ac:  fmul    z0.s, p0/m, z0.s, z1.s
+         : 2066  svst1_f32(pg, y + i, ay1);
+    0.00 :   716b0:  st1w    {z0.s}, p0, [x1]
+         : 2068  for (int i = np; i < n; i += ggml_f32_epr) {
+    0.00 :   716b4:  add     x1, x1, x2
+    0.00 :   716b8:  cmp     w23, w0
+    0.00 :   716bc:  b.gt    716a0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x16d8>
+         : 2072  float vs = 1.0f;
+    0.00 :   716c0:  fmov    s0, #1.000000000000000000e+00
+    0.00 :   716c4:  b       715e8 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1620>
+    0.00 :   716c8:  sbfiz   x11, x6, #2, #32
+         : 2076  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   716cc:  mov     x0, x3
+         : 2078  svbool_t pg = svwhilelt_b32(i, n);
+    0.00 :   716d0:  mov     w7, #0x1000                     // #4096
+    0.00 :   716d4:  nop
+    0.00 :   716d8:  nop
+    0.00 :   716dc:  nop
+    0.00 :   716e0:  whilelt p0.s, w1, w7
+         : 2084  for (int i = np; i < n; i += ggml_f32_epr) {
+    0.00 :   716e4:  add     w1, w1, w6
+         : 2086  ay1 = svld1_f32(pg, y + i);
+    0.00 :   716e8:  ld1w    {z0.s}, p0/z, [x0]
+         : 2088  ay1 = svmul_f32_m(pg, ay1, vx);
+    0.00 :   716ec:  fmul    z0.s, p0/m, z0.s, z1.s
+         : 2090  svst1_f32(pg, y + i, ay1);
+    0.00 :   716f0:  st1w    {z0.s}, p0, [x0]
+         : 2092  for (int i = np; i < n; i += ggml_f32_epr) {
+    0.00 :   716f4:  add     x0, x0, x11
+    0.00 :   716f8:  cmp     w1, #0xfff
+    0.00 :   716fc:  b.le    716e0 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1718>
+    0.00 :   71700:  b       70b0c <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xb44>
+         : 2097  const float slope = (max_bias > 0.0f) ? h < n_head_log2 ? powf(m0, h + 1) : powf(m1, 2*(h - n_head_log2) + 1) : 1.0f;
+    0.00 :   71704:  ldr     x0, [sp, #112]
+    0.00 :   71708:  ldr     w2, [sp, #332]
+    0.00 :   7170c:  cmp     w0, w2
+    0.00 :   71710:  b.cs    7172c <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1764>  // b.hs, b.nlast
+    0.00 :   71714:  add     w0, w0, #0x1
+    0.00 :   71718:  ldr     s0, [sp, #612]
+    0.00 :   7171c:  ucvtf   s1, w0
+    0.00 :   71720:  bl      19060 <powf@plt>
+    0.00 :   71724:  fmov    s13, s0
+    0.00 :   71728:  b       70454 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x48c>
+    0.00 :   7172c:  ldr     w0, [sp, #112]
+    0.00 :   71730:  ldr     w1, [sp, #332]
+    0.00 :   71734:  ldr     s0, [sp, #492]
+    0.00 :   71738:  sub     w0, w0, w1
+    0.00 :   7173c:  lsl     w0, w0, #1
+    0.00 :   71740:  add     w0, w0, #0x1
+    0.00 :   71744:  ucvtf   s1, w0
+    0.00 :   71748:  bl      19060 <powf@plt>
+    0.00 :   7174c:  fmov    s13, s0
+    0.00 :   71750:  b       70454 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x48c>
+    0.00 :   71754:  sbfiz   x11, x6, #2, #32
+         : 2119  for (int i = 0; i < np; i += ggml_f32_step) {
+    0.00 :   71758:  mov     x0, x3
+         : 2121  svbool_t pg = svwhilelt_b32(i, n);
+    0.00 :   7175c:  mov     w7, #0x1000                     // #4096
+    0.00 :   71760:  whilelt p0.s, w1, w7
+         : 2124  for (int i = np; i < n; i += ggml_f32_epr) {
+    0.00 :   71764:  add     w1, w1, w6
+         : 2126  ay1 = svld1_f32(pg, y + i);
+    0.00 :   71768:  ld1w    {z0.s}, p0/z, [x0]
+         : 2128  ay1 = svmul_f32_m(pg, ay1, vx);
+    0.00 :   7176c:  fmul    z0.s, p0/m, z0.s, z1.s
+         : 2130  svst1_f32(pg, y + i, ay1);
+    0.00 :   71770:  st1w    {z0.s}, p0, [x0]
+         : 2132  for (int i = np; i < n; i += ggml_f32_epr) {
+    0.00 :   71774:  add     x0, x0, x11
+    0.00 :   71778:  cmp     w1, #0xfff
+    0.00 :   7177c:  b.le    71760 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1798>
+    0.00 :   71780:  b       70b1c <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xb54>
+         : 2137  GGML_TENSOR_LOCALS(int64_t, nek, k,   ne)
+    0.00 :   71784:  ldr     x2, [sp, #128]
+         : 2139  GGML_TENSOR_LOCALS(size_t,  nbq, q,   nb)
+    0.00 :   71788:  mov     x1, #0x0                        // #0
+         : 2141  GGML_TENSOR_LOCALS(int64_t, neq, q,   ne)
+    0.00 :   7178c:  mov     x22, #0x0                       // #0
+         : 2143  GGML_TENSOR_LOCALS(size_t,  nbq, q,   nb)
+    0.00 :   71790:  stp     xzr, xzr, [sp, #136]
+         : 2145  GGML_TENSOR_LOCALS(int64_t, neq, q,   ne)
+    0.00 :   71794:  mov     x0, #0x0                        // #0
+    0.00 :   71798:  mov     x25, #0x0                       // #0
+         : 2148  GGML_TENSOR_LOCALS(size_t,  nbq, q,   nb)
+    0.00 :   7179c:  str     xzr, [sp, #264]
+    0.00 :   717a0:  str     xzr, [sp, #304]
+         : 2151  GGML_TENSOR_LOCALS(int64_t, nek, k,   ne)
+    0.00 :   717a4:  cbnz    x2, 70060 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x98>
+         : 2153  GGML_TENSOR_LOCALS(int64_t, nev, v,   ne)
+    0.00 :   717a8:  ldr     x2, [sp, #72]
+         : 2155  GGML_TENSOR_LOCALS(size_t,  nbk, k,   nb)
+    0.00 :   717ac:  mov     x23, #0x0                       // #0
+         : 2157  GGML_TENSOR_LOCALS(int64_t, nek, k,   ne)
+    0.00 :   717b0:  mov     x21, #0x0                       // #0
+    0.00 :   717b4:  str     xzr, [sp, #8]
+    0.00 :   717b8:  str     xzr, [sp, #40]
+    0.00 :   717bc:  str     xzr, [sp, #80]
+         : 2162  GGML_TENSOR_LOCALS(size_t,  nbk, k,   nb)
+    0.00 :   717c0:  str     xzr, [sp, #200]
+    0.00 :   717c4:  str     xzr, [sp, #272]
+    0.00 :   717c8:  str     xzr, [sp, #312]
+         : 2166  GGML_TENSOR_LOCALS(int64_t, nev, v,   ne)
+    0.00 :   717cc:  cbnz    x2, 70098 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xd0>
+         : 2168  GGML_TENSOR_LOCALS(size_t,  nbv, v,   nb)
+    0.00 :   717d0:  mov     x24, #0x0                       // #0
+         : 2170  GGML_TENSOR_LOCALS(int64_t, nev, v,   ne)
+    0.00 :   717d4:  mov     x20, #0x0                       // #0
+    0.00 :   717d8:  str     xzr, [sp, #32]
+    0.00 :   717dc:  mov     x28, #0x0                       // #0
+         : 2174  GGML_TENSOR_LOCALS(size_t,  nbv, v,   nb)
+    0.00 :   717e0:  str     xzr, [sp, #152]
+    0.00 :   717e4:  str     xzr, [sp, #280]
+    0.00 :   717e8:  str     xzr, [sp, #320]
+    0.00 :   717ec:  b       700bc <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0xf4>
+         : 2179  scale /= logit_softcap;
+    0.00 :   717f0:  fdiv    s10, s10, s14
+    0.00 :   717f4:  b       701ec <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x224>
+    0.00 :   717f8:  str     d12, [sp, #1424]
+    0.00 :   717fc:  str     d13, [sp, #1432]
+         : 2184  }
+    0.00 :   71800:  bl      17e70 <__stack_chk_fail@plt>
+         : 2186  GGML_ASSERT(tile_rows > 0);
+    0.00 :   71804:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc71b0>
+    0.00 :   71808:  ldr     x0, [x0, #3600]
+    0.00 :   7180c:  ldr     x2, [sp, #1288]
+    0.00 :   71810:  ldr     x1, [x0]
+    0.00 :   71814:  subs    x2, x2, x1
+    0.00 :   71818:  mov     x1, #0x0                        // #0
+    0.00 :   7181c:  b.ne    71800 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1838>  // b.any
+    0.00 :   71820:  adrp    x3, ce000 <_fini+0x12e4>
+    0.00 :   71824:  adrp    x2, cc000 <kai_run_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm+0x8c0>
+    0.00 :   71828:  adrp    x0, cd000 <_fini+0x2e4>
+    0.00 :   7182c:  add     x3, x3, #0x250
+    0.00 :   71830:  add     x2, x2, #0xec8
+    0.00 :   71834:  add     x0, x0, #0xee0
+    0.00 :   71838:  mov     w1, #0x225b                     // #8795
+    0.00 :   7183c:  bl      19320 <ggml_abort@plt>
+         : 2202  GGML_ASSERT(nb2 <= nb3);
+    0.00 :   71840:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc71b0>
+    0.00 :   71844:  ldr     x0, [x0, #3600]
+    0.00 :   71848:  ldr     x2, [sp, #1288]
+    0.00 :   7184c:  ldr     x1, [x0]
+    0.00 :   71850:  subs    x2, x2, x1
+    0.00 :   71854:  mov     x1, #0x0                        // #0
+    0.00 :   71858:  str     d8, [sp, #1392]
+    0.00 :   7185c:  str     d9, [sp, #1400]
+    0.00 :   71860:  str     d10, [sp, #1408]
+    0.00 :   71864:  str     d11, [sp, #1416]
+    0.00 :   71868:  str     d12, [sp, #1424]
+    0.00 :   7186c:  str     d13, [sp, #1432]
+    0.00 :   71870:  str     d14, [sp, #1440]
+    0.00 :   71874:  str     d15, [sp, #1448]
+    0.00 :   71878:  b.ne    71800 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1838>  // b.any
+    0.00 :   7187c:  adrp    x3, cd000 <_fini+0x2e4>
+    0.00 :   71880:  adrp    x2, cc000 <kai_run_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm+0x8c0>
+    0.00 :   71884:  adrp    x0, cd000 <_fini+0x2e4>
+    0.00 :   71888:  add     x3, x3, #0x88
+    0.00 :   7188c:  add     x2, x2, #0xec8
+    0.00 :   71890:  add     x0, x0, #0xee0
+    0.00 :   71894:  mov     w1, #0x222b                     // #8747
+    0.00 :   71898:  bl      19320 <ggml_abort@plt>
+         : 2226  GGML_ASSERT(nb1 <= nb2);
+    0.00 :   7189c:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc71b0>
+    0.00 :   718a0:  ldr     x0, [x0, #3600]
+    0.00 :   718a4:  ldr     x2, [sp, #1288]
+    0.00 :   718a8:  ldr     x1, [x0]
+    0.00 :   718ac:  subs    x2, x2, x1
+    0.00 :   718b0:  mov     x1, #0x0                        // #0
+    0.00 :   718b4:  str     d8, [sp, #1392]
+    0.00 :   718b8:  str     d9, [sp, #1400]
+    0.00 :   718bc:  str     d10, [sp, #1408]
+    0.00 :   718c0:  str     d11, [sp, #1416]
+    0.00 :   718c4:  str     d12, [sp, #1424]
+    0.00 :   718c8:  str     d13, [sp, #1432]
+    0.00 :   718cc:  str     d14, [sp, #1440]
+    0.00 :   718d0:  str     d15, [sp, #1448]
+    0.00 :   718d4:  b.ne    71800 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1838>  // b.any
+    0.00 :   718d8:  adrp    x3, cd000 <_fini+0x2e4>
+    0.00 :   718dc:  adrp    x2, cc000 <kai_run_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm+0x8c0>
+    0.00 :   718e0:  adrp    x0, cd000 <_fini+0x2e4>
+    0.00 :   718e4:  add     x3, x3, #0x78
+    0.00 :   718e8:  add     x2, x2, #0xec8
+    0.00 :   718ec:  add     x0, x0, #0xee0
+    0.00 :   718f0:  mov     w1, #0x222a                     // #8746
+    0.00 :   718f4:  bl      19320 <ggml_abort@plt>
+         : 2250  GGML_ASSERT(k->type == v->type);
+    0.00 :   718f8:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc71b0>
+    0.00 :   718fc:  ldr     x0, [x0, #3600]
+    0.00 :   71900:  ldr     x2, [sp, #1288]
+    0.00 :   71904:  ldr     x1, [x0]
+    0.00 :   71908:  subs    x2, x2, x1
+    0.00 :   7190c:  mov     x1, #0x0                        // #0
+    0.00 :   71910:  str     d8, [sp, #1392]
+    0.00 :   71914:  str     d9, [sp, #1400]
+    0.00 :   71918:  str     d10, [sp, #1408]
+    0.00 :   7191c:  str     d11, [sp, #1416]
+    0.00 :   71920:  str     d12, [sp, #1424]
+    0.00 :   71924:  str     d13, [sp, #1432]
+    0.00 :   71928:  str     d14, [sp, #1440]
+    0.00 :   7192c:  str     d15, [sp, #1448]
+    0.00 :   71930:  b.ne    71800 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1838>  // b.any
+    0.00 :   71934:  adrp    x3, ce000 <_fini+0x12e4>
+    0.00 :   71938:  adrp    x2, cc000 <kai_run_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm+0x8c0>
+    0.00 :   7193c:  adrp    x0, cd000 <_fini+0x2e4>
+    0.00 :   71940:  add     x3, x3, #0x238
+    0.00 :   71944:  add     x2, x2, #0xec8
+    0.00 :   71948:  add     x0, x0, #0xee0
+    0.00 :   7194c:  mov     w1, #0x222d                     // #8749
+    0.00 :   71950:  bl      19320 <ggml_abort@plt>
+         : 2274  GGML_ASSERT(nb0 <= nb1);
+    0.00 :   71954:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc71b0>
+    0.00 :   71958:  ldr     x0, [x0, #3600]
+    0.00 :   7195c:  ldr     x2, [sp, #1288]
+    0.00 :   71960:  ldr     x1, [x0]
+    0.00 :   71964:  subs    x2, x2, x1
+    0.00 :   71968:  mov     x1, #0x0                        // #0
+    0.00 :   7196c:  str     d8, [sp, #1392]
+    0.00 :   71970:  str     d9, [sp, #1400]
+    0.00 :   71974:  str     d10, [sp, #1408]
+    0.00 :   71978:  str     d11, [sp, #1416]
+    0.00 :   7197c:  str     d12, [sp, #1424]
+    0.00 :   71980:  str     d13, [sp, #1432]
+    0.00 :   71984:  str     d14, [sp, #1440]
+    0.00 :   71988:  str     d15, [sp, #1448]
+    0.00 :   7198c:  b.ne    71800 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1838>  // b.any
+    0.00 :   71990:  adrp    x3, cd000 <_fini+0x2e4>
+    0.00 :   71994:  adrp    x2, cc000 <kai_run_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm+0x8c0>
+    0.00 :   71998:  adrp    x0, cd000 <_fini+0x2e4>
+    0.00 :   7199c:  add     x3, x3, #0x68
+    0.00 :   719a0:  add     x2, x2, #0xec8
+    0.00 :   719a4:  add     x0, x0, #0xee0
+    0.00 :   719a8:  mov     w1, #0x2229                     // #8745
+    0.00 :   719ac:  bl      19320 <ggml_abort@plt>
+         : 2298  GGML_ASSERT(nb0 == sizeof(float));
+    0.00 :   719b0:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc71b0>
+    0.00 :   719b4:  ldr     x0, [x0, #3600]
+    0.00 :   719b8:  ldr     x2, [sp, #1288]
+    0.00 :   719bc:  ldr     x1, [x0]
+    0.00 :   719c0:  subs    x2, x2, x1
+    0.00 :   719c4:  mov     x1, #0x0                        // #0
+    0.00 :   719c8:  str     d8, [sp, #1392]
+    0.00 :   719cc:  str     d9, [sp, #1400]
+    0.00 :   719d0:  str     d10, [sp, #1408]
+    0.00 :   719d4:  str     d11, [sp, #1416]
+    0.00 :   719d8:  str     d12, [sp, #1424]
+    0.00 :   719dc:  str     d13, [sp, #1432]
+    0.00 :   719e0:  str     d14, [sp, #1440]
+    0.00 :   719e4:  str     d15, [sp, #1448]
+    0.00 :   719e8:  b.ne    71800 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1838>  // b.any
+    0.00 :   719ec:  adrp    x3, cd000 <_fini+0x2e4>
+    0.00 :   719f0:  adrp    x2, cc000 <kai_run_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm+0x8c0>
+    0.00 :   719f4:  adrp    x0, cd000 <_fini+0x2e4>
+    0.00 :   719f8:  add     x3, x3, #0x50
+    0.00 :   719fc:  add     x2, x2, #0xec8
+    0.00 :   71a00:  add     x0, x0, #0xee0
+    0.00 :   71a04:  mov     w1, #0x2228                     // #8744
+    0.00 :   71a08:  bl      19320 <ggml_abort@plt>
+         : 2322  GGML_ASSERT(neq0 == DK);
+    0.00 :   71a0c:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc71b0>
+    0.00 :   71a10:  ldr     x0, [x0, #3600]
+    0.00 :   71a14:  ldr     x2, [sp, #1288]
+    0.00 :   71a18:  ldr     x1, [x0]
+    0.00 :   71a1c:  subs    x2, x2, x1
+    0.00 :   71a20:  mov     x1, #0x0                        // #0
+    0.00 :   71a24:  str     d8, [sp, #1392]
+    0.00 :   71a28:  str     d9, [sp, #1400]
+    0.00 :   71a2c:  str     d10, [sp, #1408]
+    0.00 :   71a30:  str     d11, [sp, #1416]
+    0.00 :   71a34:  str     d12, [sp, #1424]
+    0.00 :   71a38:  str     d13, [sp, #1432]
+    0.00 :   71a3c:  str     d14, [sp, #1440]
+    0.00 :   71a40:  str     d15, [sp, #1448]
+    0.00 :   71a44:  b.ne    71800 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1838>  // b.any
+    0.00 :   71a48:  adrp    x3, ce000 <_fini+0x12e4>
+    0.00 :   71a4c:  adrp    x2, cc000 <kai_run_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm+0x8c0>
+    0.00 :   71a50:  adrp    x0, cd000 <_fini+0x2e4>
+    0.00 :   71a54:  add     x3, x3, #0x228
+    0.00 :   71a58:  add     x2, x2, #0xec8
+    0.00 :   71a5c:  add     x0, x0, #0xee0
+    0.00 :   71a60:  mov     w1, #0x2221                     // #8737
+    0.00 :   71a64:  bl      19320 <ggml_abort@plt>
+         : 2346  GGML_ASSERT(nbv0 == ggml_type_size(v->type));
+    0.00 :   71a68:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc71b0>
+    0.00 :   71a6c:  ldr     x0, [x0, #3600]
+    0.00 :   71a70:  ldr     x2, [sp, #1288]
+    0.00 :   71a74:  ldr     x1, [x0]
+    0.00 :   71a78:  subs    x2, x2, x1
+    0.00 :   71a7c:  mov     x1, #0x0                        // #0
+    0.00 :   71a80:  str     d8, [sp, #1392]
+    0.00 :   71a84:  str     d9, [sp, #1400]
+    0.00 :   71a88:  str     d10, [sp, #1408]
+    0.00 :   71a8c:  str     d11, [sp, #1416]
+    0.00 :   71a90:  str     d12, [sp, #1424]
+    0.00 :   71a94:  str     d13, [sp, #1432]
+    0.00 :   71a98:  str     d14, [sp, #1440]
+    0.00 :   71a9c:  str     d15, [sp, #1448]
+    0.00 :   71aa0:  b.ne    71800 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1838>  // b.any
+    0.00 :   71aa4:  adrp    x3, ce000 <_fini+0x12e4>
+    0.00 :   71aa8:  adrp    x2, cc000 <kai_run_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm+0x8c0>
+    0.00 :   71aac:  adrp    x0, cd000 <_fini+0x2e4>
+    0.00 :   71ab0:  add     x3, x3, #0x208
+    0.00 :   71ab4:  add     x2, x2, #0xec8
+    0.00 :   71ab8:  add     x0, x0, #0xee0
+    0.00 :   71abc:  mov     w1, #0x221f                     // #8735
+    0.00 :   71ac0:  bl      19320 <ggml_abort@plt>
+         : 2370  GGML_ASSERT(nbk0 == ggml_type_size(k->type));
+    0.00 :   71ac4:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc71b0>
+    0.00 :   71ac8:  ldr     x0, [x0, #3600]
+    0.00 :   71acc:  ldr     x2, [sp, #1288]
+    0.00 :   71ad0:  ldr     x1, [x0]
+    0.00 :   71ad4:  subs    x2, x2, x1
+    0.00 :   71ad8:  mov     x1, #0x0                        // #0
+    0.00 :   71adc:  str     d8, [sp, #1392]
+    0.00 :   71ae0:  str     d9, [sp, #1400]
+    0.00 :   71ae4:  str     d10, [sp, #1408]
+    0.00 :   71ae8:  str     d11, [sp, #1416]
+    0.00 :   71aec:  str     d12, [sp, #1424]
+    0.00 :   71af0:  str     d13, [sp, #1432]
+    0.00 :   71af4:  str     d14, [sp, #1440]
+    0.00 :   71af8:  str     d15, [sp, #1448]
+    0.00 :   71afc:  b.ne    71800 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1838>  // b.any
+    0.00 :   71b00:  adrp    x3, ce000 <_fini+0x12e4>
+    0.00 :   71b04:  adrp    x2, cc000 <kai_run_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm+0x8c0>
+    0.00 :   71b08:  adrp    x0, cd000 <_fini+0x2e4>
+    0.00 :   71b0c:  add     x3, x3, #0x1e8
+    0.00 :   71b10:  add     x2, x2, #0xec8
+    0.00 :   71b14:  add     x0, x0, #0xee0
+    0.00 :   71b18:  mov     w1, #0x221e                     // #8734
+    0.00 :   71b1c:  bl      19320 <ggml_abort@plt>
+         : 2394  GGML_ASSERT(nbq0 == ggml_type_size(q->type));
+    0.00 :   71b20:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc71b0>
+    0.00 :   71b24:  ldr     x0, [x0, #3600]
+    0.00 :   71b28:  ldr     x2, [sp, #1288]
+    0.00 :   71b2c:  ldr     x1, [x0]
+    0.00 :   71b30:  subs    x2, x2, x1
+    0.00 :   71b34:  mov     x1, #0x0                        // #0
+    0.00 :   71b38:  str     d8, [sp, #1392]
+    0.00 :   71b3c:  str     d9, [sp, #1400]
+    0.00 :   71b40:  str     d10, [sp, #1408]
+    0.00 :   71b44:  str     d11, [sp, #1416]
+    0.00 :   71b48:  str     d12, [sp, #1424]
+    0.00 :   71b4c:  str     d13, [sp, #1432]
+    0.00 :   71b50:  str     d14, [sp, #1440]
+    0.00 :   71b54:  str     d15, [sp, #1448]
+    0.00 :   71b58:  b.ne    71800 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1838>  // b.any
+    0.00 :   71b5c:  adrp    x3, ce000 <_fini+0x12e4>
+    0.00 :   71b60:  adrp    x2, cc000 <kai_run_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm+0x8c0>
+    0.00 :   71b64:  adrp    x0, cd000 <_fini+0x2e4>
+    0.00 :   71b68:  add     x3, x3, #0x1c8
+    0.00 :   71b6c:  add     x2, x2, #0xec8
+    0.00 :   71b70:  add     x0, x0, #0xee0
+    0.00 :   71b74:  mov     w1, #0x221d                     // #8733
+    0.00 :   71b78:  bl      19320 <ggml_abort@plt>
+         : 2418  GGML_ASSERT(ne2 == N);
+    0.00 :   71b7c:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc71b0>
+    0.00 :   71b80:  ldr     x0, [x0, #3600]
+    0.00 :   71b84:  ldr     x2, [sp, #1288]
+    0.00 :   71b88:  ldr     x1, [x0]
+    0.00 :   71b8c:  subs    x2, x2, x1
+    0.00 :   71b90:  mov     x1, #0x0                        // #0
+    0.00 :   71b94:  str     d8, [sp, #1392]
+    0.00 :   71b98:  str     d9, [sp, #1400]
+    0.00 :   71b9c:  str     d10, [sp, #1408]
+    0.00 :   71ba0:  str     d11, [sp, #1416]
+    0.00 :   71ba4:  str     d12, [sp, #1424]
+    0.00 :   71ba8:  str     d13, [sp, #1432]
+    0.00 :   71bac:  str     d14, [sp, #1440]
+    0.00 :   71bb0:  str     d15, [sp, #1448]
+    0.00 :   71bb4:  b.ne    71800 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1838>  // b.any
+    0.00 :   71bb8:  adrp    x3, ce000 <_fini+0x12e4>
+    0.00 :   71bbc:  adrp    x2, cc000 <kai_run_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm+0x8c0>
+    0.00 :   71bc0:  adrp    x0, cd000 <_fini+0x2e4>
+    0.00 :   71bc4:  add     x3, x3, #0x1b8
+    0.00 :   71bc8:  add     x2, x2, #0xec8
+    0.00 :   71bcc:  add     x0, x0, #0xee0
+    0.00 :   71bd0:  mov     w1, #0x221a                     // #8730
+    0.00 :   71bd4:  bl      19320 <ggml_abort@plt>
+         : 2442  GGML_ASSERT(ne0 == DV);
+    0.00 :   71bd8:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc71b0>
+    0.00 :   71bdc:  ldr     x0, [x0, #3600]
+    0.00 :   71be0:  ldr     x2, [sp, #1288]
+    0.00 :   71be4:  ldr     x1, [x0]
+    0.00 :   71be8:  subs    x2, x2, x1
+    0.00 :   71bec:  mov     x1, #0x0                        // #0
+    0.00 :   71bf0:  str     d8, [sp, #1392]
+    0.00 :   71bf4:  str     d9, [sp, #1400]
+    0.00 :   71bf8:  str     d10, [sp, #1408]
+    0.00 :   71bfc:  str     d11, [sp, #1416]
+    0.00 :   71c00:  str     d12, [sp, #1424]
+    0.00 :   71c04:  str     d13, [sp, #1432]
+    0.00 :   71c08:  str     d14, [sp, #1440]
+    0.00 :   71c0c:  str     d15, [sp, #1448]
+    0.00 :   71c10:  b.ne    71800 <ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)+0x1838>  // b.any
+    0.00 :   71c14:  adrp    x3, ce000 <_fini+0x12e4>
+    0.00 :   71c18:  adrp    x2, cc000 <kai_run_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm+0x8c0>
+    0.00 :   71c1c:  adrp    x0, cd000 <_fini+0x2e4>
+    0.00 :   71c20:  add     x3, x3, #0x1a8
+    0.00 :   71c24:  add     x2, x2, #0xec8
+    0.00 :   71c28:  add     x0, x0, #0xee0
+    0.00 :   71c2c:  mov     w1, #0x2219                     // #8729
+    0.00 :   71c30:  bl      19320 <ggml_abort@plt>
