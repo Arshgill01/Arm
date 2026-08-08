@@ -36,6 +36,7 @@ class E28ContractTests(unittest.TestCase):
         self.assertEqual(contract["performance"]["processes_per_variant_per_case"], 6)
         self.assertEqual(contract["performance"]["internal_repetitions_per_process"], 1)
         self.assertEqual(contract["quality"]["repetitions_per_variant"], 2)
+        self.assertEqual(contract["quality"]["perplexity_corpus_size_bytes"], 17020)
         self.assertEqual(contract["resource_policy"]["maximum_total_usd"], 12.0)
 
     def test_campaign_is_staged_and_e26_is_absent(self) -> None:

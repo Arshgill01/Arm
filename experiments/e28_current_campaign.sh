@@ -122,15 +122,7 @@ EOF
         "$output_dir/dispatch/e23-superseding-prefill.txt"
 }
 
-run_current_quality_and_perplexity() {
-    test ! -e "$output_dir/quality"
-    mkdir -p "$output_dir/quality" "$output_dir/perplexity"
-    run_quality_cell A 1
-    run_quality_cell D 1
-    run_quality_cell D 2
-    run_quality_cell A 2
-    mv "$output_dir/quality/A" "$output_dir/quality/stock"
-    mv "$output_dir/quality/D" "$output_dir/quality/combined"
+run_current_perplexity() {
     for repetition in 1 2; do
         order=(stock combined)
         if [[ "$repetition" -eq 2 ]]; then order=(combined stock); fi
@@ -142,12 +134,25 @@ run_current_quality_and_perplexity() {
                 --output "$output_dir/perplexity/$label-$repetition.time" \
                 env "LD_LIBRARY_PATH=$bin_dir" taskset -c 0-3 \
                 "$bin_dir/llama-perplexity" -m "$model" \
-                -f "$repo_root/experiments/e3_tasks.json" \
+                -f "$output_dir/perplexity/corpus.txt" \
                 -t 4 -c 2048 -b 512 -ub 512 --flash-attn on \
                 > "$output_dir/perplexity/$label-$repetition.stdout" \
                 2> "$output_dir/perplexity/$label-$repetition.stderr"
         done
     done
+}
+
+run_current_quality_and_perplexity() {
+    test ! -e "$output_dir/quality"
+    mkdir -p "$output_dir/quality" "$output_dir/perplexity"
+    prepare_perplexity_corpus
+    run_quality_cell A 1
+    run_quality_cell D 1
+    run_quality_cell D 2
+    run_quality_cell A 2
+    mv "$output_dir/quality/A" "$output_dir/quality/stock"
+    mv "$output_dir/quality/D" "$output_dir/quality/combined"
+    run_current_perplexity
 }
 
 run_current_bench_cell() {

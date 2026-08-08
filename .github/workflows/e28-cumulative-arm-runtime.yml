@@ -48,7 +48,7 @@ jobs:
           bash -n experiments/e28_pinned_campaign.sh
           python3 -m py_compile experiments/e28_ingest.py \
             experiments/e28_current_ingest.py experiments/e28_current_second_ingest.py \
-            experiments/e28_sidecar_bytes.py
+            experiments/e28_sidecar_bytes.py experiments/e28_perplexity_corpus.py
           python3 -m unittest tests.test_e28
 
       - name: Restore pinned Qwen model

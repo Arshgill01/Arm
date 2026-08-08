@@ -350,6 +350,17 @@ stop_server() {
     [[ "$status" -eq 0 || "$status" -eq 130 || "$status" -eq 143 ]]
 }
 
+prepare_perplexity_corpus() {
+    local corpus="$output_dir/perplexity/corpus.txt"
+    python3 "$repo_root/experiments/e28_perplexity_corpus.py" \
+        "$repo_root/experiments/e3_tasks.json" "$corpus"
+    test "$(stat --format='%s' "$corpus")" = \
+        "$(jq -r '.quality.perplexity_corpus_size_bytes' "$contract")"
+    echo "$(jq -r '.quality.perplexity_corpus_sha256' "$contract")  $corpus" \
+        | sha256sum --check --strict
+    sha256sum "$corpus" > "$output_dir/perplexity/corpus-sha256.txt"
+}
+
 run_quality_cell() {
     local variant=$1 repetition=$2
     local cell="$output_dir/quality/$variant/repeat-$repetition"
@@ -386,12 +397,7 @@ run_quality_cell() {
     trap - ERR INT TERM
 }
 
-run_quality_and_perplexity() {
-    test ! -e "$output_dir/quality"
-    mkdir -p "$output_dir/quality" "$output_dir/perplexity"
-    for variant in A B C D; do run_quality_cell "$variant" 1; done
-    for variant in D C B A; do run_quality_cell "$variant" 2; done
-
+run_pinned_perplexity() {
     for repetition in 1 2; do
         order=(A B C D)
         if [[ "$repetition" -eq 2 ]]; then order=(D C B A); fi
@@ -401,12 +407,21 @@ run_quality_and_perplexity() {
                 --output "$output_dir/perplexity/$variant-$repetition.time" \
                 env "LD_LIBRARY_PATH=$bin_dir" taskset -c 0-3 \
                 "$bin_dir/llama-perplexity" -m "$model" \
-                -f "$repo_root/experiments/e3_tasks.json" \
+                -f "$output_dir/perplexity/corpus.txt" \
                 -t 4 -c 2048 -b 512 -ub 512 --flash-attn on \
                 > "$output_dir/perplexity/$variant-$repetition.stdout" \
                 2> "$output_dir/perplexity/$variant-$repetition.stderr"
         done
     done
+}
+
+run_quality_and_perplexity() {
+    test ! -e "$output_dir/quality"
+    mkdir -p "$output_dir/quality" "$output_dir/perplexity"
+    prepare_perplexity_corpus
+    for variant in A B C D; do run_quality_cell "$variant" 1; done
+    for variant in D C B A; do run_quality_cell "$variant" 2; done
+    run_pinned_perplexity
 }
 
 run_bench_cell() {

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "contract_revision": 2,
-  "revision_note": "Before any accepted timing, invalid-host preparation evidence showed that three internal repetitions duplicated the six required fresh-process samples and could exceed the mandatory six-hour resource lifetime. Revision 2 retains six reverse-balanced processes per variant and uses one measurement per process.",
+  "contract_revision": 3,
+  "revision_note": "Before any accepted timing, revision 2 reduced duplicated internal repetitions while retaining six fresh processes. Revision 3 replaces the too-short 2,896-token perplexity input with two byte-identical copies of that frozen source, which exceeds llama.cpp's minimum corpus length for context 2048.",
   "experiment_id": "E28",
   "title": "Cumulative Arm runtime integration pass",
   "objective": "Measure one runtime containing the retained E24 Q6_K, E25 Q4_K decoded-metadata and E27 Flash Attention mechanisms, then validate the same combined mechanism set against one pinned current-upstream llama.cpp commit.",
@@ -181,8 +181,10 @@
     "temperature": 0.0,
     "max_output_tokens": 8,
     "gate": "B must not score below A and D must not score below C; the same no-loss rule applies to current_combined versus current_stock",
-    "perplexity_corpus_path": "experiments/e3_tasks.json",
-    "perplexity_corpus_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "perplexity_corpus_source_path": "experiments/e3_tasks.json",
+    "perplexity_corpus_construction": "two byte-identical concatenated copies of the source task file",
+    "perplexity_corpus_size_bytes": 17020,
+    "perplexity_corpus_sha256": "874eb47be4be7f64fdf075dad9a2816532bb105b6e6f008de05207bcec5759ae",
     "perplexity_context": 2048,
     "perplexity_repetitions": 2,
     "maximum_relative_increase": 0.001
