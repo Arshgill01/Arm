@@ -1,0 +1,165 @@
+diff --git a/ggml/src/ggml-cpu/arch/arm/repack.cpp b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+index a753444..1c1d82e 100644
+--- a/ggml/src/ggml-cpu/arch/arm/repack.cpp
++++ b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+@@ -1539,47 +1539,12 @@ void ggml_gemv_q6_K_8x8_q8_K(int                        n,
+             float32x4_t sb_scale_0 = vmulq_f32(q6_d_0, q8_d);
+             float32x4_t sb_scale_1 = vmulq_f32(q6_d_1, q8_d);
+ 
+-            int32x2_t acc[col_pairs];
+-            for (int i = 0; i < col_pairs; i++) {
+-                acc[i] = vdup_n_s32(0);
+-            }
+-
+-            // Load all 16 scales once and widen to int16 (Q6_K has 16 scales per block)
+-            // Reused for bias and dequantization later
+-            int16_t q6_scales[16 * 8];
+-            for (int i = 0; i < 16; i++) {
+-                int16x8_t scales = vmovl_s8(vld1_s8(q6_ptr[b].scales + i * 8));
+-                vst1q_s16(q6_scales + i * 8, scales);
+-            }
++            int32x4_t acc[2] = { vdupq_n_s32(0), vdupq_n_s32(0) };
+ 
+-            // Compute bias per column using q8 bsums and preloaded scales to skip the -32 shift
++            // Compute bias while consuming each scale row below, skipping the -32 shift.
+             int32x4_t bias_lo = vdupq_n_s32(0);
+             int32x4_t bias_hi = vdupq_n_s32(0);
+ 
+-            // Load bsums in chunks of 4 to process with vectorized operations
+-            for (int i = 0; i < 16; i += 4) {
+-                int16x4_t bsums_vec   = vld1_s16(q8_ptr[b].bsums + i);
+-                int16x4_t scales_lo_0 = vld1_s16(q6_scales + (i + 0) * 8);
+-                int16x4_t scales_hi_0 = vld1_s16(q6_scales + (i + 0) * 8 + 4);
+-                int16x4_t scales_lo_1 = vld1_s16(q6_scales + (i + 1) * 8);
+-                int16x4_t scales_hi_1 = vld1_s16(q6_scales + (i + 1) * 8 + 4);
+-                int16x4_t scales_lo_2 = vld1_s16(q6_scales + (i + 2) * 8);
+-                int16x4_t scales_hi_2 = vld1_s16(q6_scales + (i + 2) * 8 + 4);
+-                int16x4_t scales_lo_3 = vld1_s16(q6_scales + (i + 3) * 8);
+-                int16x4_t scales_hi_3 = vld1_s16(q6_scales + (i + 3) * 8 + 4);
+-
+-                bias_lo = vmlal_lane_s16(bias_lo, scales_lo_0, bsums_vec, 0);
+-                bias_hi = vmlal_lane_s16(bias_hi, scales_hi_0, bsums_vec, 0);
+-                bias_lo = vmlal_lane_s16(bias_lo, scales_lo_1, bsums_vec, 1);
+-                bias_hi = vmlal_lane_s16(bias_hi, scales_hi_1, bsums_vec, 1);
+-                bias_lo = vmlal_lane_s16(bias_lo, scales_lo_2, bsums_vec, 2);
+-                bias_hi = vmlal_lane_s16(bias_hi, scales_hi_2, bsums_vec, 2);
+-                bias_lo = vmlal_lane_s16(bias_lo, scales_lo_3, bsums_vec, 3);
+-                bias_hi = vmlal_lane_s16(bias_hi, scales_hi_3, bsums_vec, 3);
+-            }
+-            bias_lo = vshlq_n_s32(bias_lo, 5);
+-            bias_hi = vshlq_n_s32(bias_hi, 5);
+-
+             // Process two 128-value halves per superblock
+             for (int half = 0; half < 2; half++) {
+                 const uint8_t * ql_base = q6_ptr[b].ql + half * 512;
+@@ -1592,6 +1557,16 @@ void ggml_gemv_q6_K_8x8_q8_K(int                        n,
+                     const int8_t * q8_base_l = q8_ptr[b].qs + half * 128 + sb * 16;
+                     const int8_t * q8_base_h = q8_base_l + 64;
+ 
++                    const int       scale_idx_l = half * 8 + sb;
++                    const int       scale_idx_h = scale_idx_l + 4;
++                    const int16x8_t scale_l     = vmovl_s8(vld1_s8(q6_ptr[b].scales + scale_idx_l * 8));
++                    const int16x8_t scale_h     = vmovl_s8(vld1_s8(q6_ptr[b].scales + scale_idx_h * 8));
++
++                    bias_lo = vmlal_n_s16(bias_lo, vget_low_s16(scale_l), q8_ptr[b].bsums[scale_idx_l]);
++                    bias_hi = vmlal_n_s16(bias_hi, vget_high_s16(scale_l), q8_ptr[b].bsums[scale_idx_l]);
++                    bias_lo = vmlal_n_s16(bias_lo, vget_low_s16(scale_h), q8_ptr[b].bsums[scale_idx_h]);
++                    bias_hi = vmlal_n_s16(bias_hi, vget_high_s16(scale_h), q8_ptr[b].bsums[scale_idx_h]);
++
+                     // Load and duplicate q8 values (each register covers two interleaved columns of q6)
+                     int8x16_t q8_l[2];
+                     int8x16_t q8_h[2];
+@@ -1603,30 +1578,21 @@ void ggml_gemv_q6_K_8x8_q8_K(int                        n,
+                     const int ql_off_base = sb * QK_K / 2;
+                     const int qh_off_base = ql_off_base & 255;  // wraps after 256 bytes
+ 
+-                    // Load 4 vectors at once (64 bytes each for ql_0, ql_1, qh_0, qh_1)
+-                    uint8x16x4_t q6_ql_0 = vld1q_u8_x4(ql_base + ql_off_base);
+-                    uint8x16x4_t q6_ql_1 = vld1q_u8_x4(ql_base + ql_off_base + 64);
+-                    uint8x16x4_t q6_qh_0 = vld1q_u8_x4(qh_base + qh_off_base);
+-                    uint8x16x4_t q6_qh_1 = vld1q_u8_x4(qh_base + qh_off_base + 64);
+-
+-                    // Adjust qh for subblocks 2 and 3 (shift right by 2)
+-                    if (sb > 1) {
+-                        q6_qh_0.val[0] = vshrq_n_u8(q6_qh_0.val[0], 2);
+-                        q6_qh_0.val[1] = vshrq_n_u8(q6_qh_0.val[1], 2);
+-                        q6_qh_0.val[2] = vshrq_n_u8(q6_qh_0.val[2], 2);
+-                        q6_qh_0.val[3] = vshrq_n_u8(q6_qh_0.val[3], 2);
+-                        q6_qh_1.val[0] = vshrq_n_u8(q6_qh_1.val[0], 2);
+-                        q6_qh_1.val[1] = vshrq_n_u8(q6_qh_1.val[1], 2);
+-                        q6_qh_1.val[2] = vshrq_n_u8(q6_qh_1.val[2], 2);
+-                        q6_qh_1.val[3] = vshrq_n_u8(q6_qh_1.val[3], 2);
+-                    }
++                    int32x2_t sum_l[col_pairs];
++                    int32x2_t sum_h[col_pairs];
+ 
+                     // Process column pairs (0-1, 2-3, 4-5, 6-7)
+                     for (int cp = 0; cp < col_pairs; cp++) {
+-                        const uint8x16_t q6_qs_cp_0_l = q6_ql_0.val[cp];
+-                        const uint8x16_t q6_qs_cp_1_l = q6_ql_1.val[cp];
+-                        const uint8x16_t q6_qs_cp_0_h = q6_qh_0.val[cp];
+-                        const uint8x16_t q6_qs_cp_1_h = q6_qh_1.val[cp];
++                        const uint8x16_t q6_qs_cp_0_l = vld1q_u8(ql_base + ql_off_base + cp * 16);
++                        const uint8x16_t q6_qs_cp_1_l = vld1q_u8(ql_base + ql_off_base + 64 + cp * 16);
++                        uint8x16_t       q6_qs_cp_0_h = vld1q_u8(qh_base + qh_off_base + cp * 16);
++                        uint8x16_t       q6_qs_cp_1_h = vld1q_u8(qh_base + qh_off_base + 64 + cp * 16);
++
++                        // Subblocks 2 and 3 use the upper two bits of each qh nibble.
++                        if (sb > 1) {
++                            q6_qs_cp_0_h = vshrq_n_u8(q6_qs_cp_0_h, 2);
++                            q6_qs_cp_1_h = vshrq_n_u8(q6_qs_cp_1_h, 2);
++                        }
+ 
+                         // Extract high 2 bits for upper nibble reconstruction
+                         const uint8x16_t q6_qs_cp_0_hh = vandq_u8(q6_qs_cp_0_h, mask_hi);
+@@ -1651,37 +1617,26 @@ void ggml_gemv_q6_K_8x8_q8_K(int                        n,
+                         sb_acc_h           = vdotq_s32(sb_acc_h, q6_h1, q8_h[1]);
+ 
+                         // Pairwise add to get per-column sums: [col0, col1]
+-                        int32x2_t sum_l = vpadd_s32(vget_low_s32(sb_acc_l), vget_high_s32(sb_acc_l));
+-                        int32x2_t sum_h = vpadd_s32(vget_low_s32(sb_acc_h), vget_high_s32(sb_acc_h));
+-
+-                        const int scale_idx_l = half * 8 + sb;
+-                        const int scale_idx_h = half * 8 + sb + 4;
+-
+-                        // Access scales using array indexing (scales are interleaved by column)
+-                        const int32x2_t scale_vec_l = { (int32_t) q6_scales[scale_idx_l * 8 + cp * 2],
+-                                                        (int32_t) q6_scales[scale_idx_l * 8 + cp * 2 + 1] };
+-                        const int32x2_t scale_vec_h = { (int32_t) q6_scales[scale_idx_h * 8 + cp * 2],
+-                                                        (int32_t) q6_scales[scale_idx_h * 8 + cp * 2 + 1] };
+-
+-                        // Accumulate scaled results
+-                        acc[cp] = vmla_s32(acc[cp], sum_l, scale_vec_l);
+-                        acc[cp] = vmla_s32(acc[cp], sum_h, scale_vec_h);
++                        sum_l[cp] = vpadd_s32(vget_low_s32(sb_acc_l), vget_high_s32(sb_acc_l));
++                        sum_h[cp] = vpadd_s32(vget_low_s32(sb_acc_h), vget_high_s32(sb_acc_h));
+                     }
++
++                    acc[0] = vmlaq_s32(acc[0], vcombine_s32(sum_l[0], sum_l[1]), vmovl_s16(vget_low_s16(scale_l)));
++                    acc[0] = vmlaq_s32(acc[0], vcombine_s32(sum_h[0], sum_h[1]), vmovl_s16(vget_low_s16(scale_h)));
++                    acc[1] = vmlaq_s32(acc[1], vcombine_s32(sum_l[2], sum_l[3]), vmovl_s16(vget_high_s16(scale_l)));
++                    acc[1] = vmlaq_s32(acc[1], vcombine_s32(sum_h[2], sum_h[3]), vmovl_s16(vget_high_s16(scale_h)));
+                 }
+             }  // for half
+ 
+             // Bias correction
+-            acc[0] = vsub_s32(acc[0], vget_low_s32(bias_lo));
+-            acc[1] = vsub_s32(acc[1], vget_high_s32(bias_lo));
+-            acc[2] = vsub_s32(acc[2], vget_low_s32(bias_hi));
+-            acc[3] = vsub_s32(acc[3], vget_high_s32(bias_hi));
++            acc[0] = vsubq_s32(acc[0], vshlq_n_s32(bias_lo, 5));
++            acc[1] = vsubq_s32(acc[1], vshlq_n_s32(bias_hi, 5));
+ 
+             // Apply superblock scale (no mins for q6_K)
+-            // acc[cp] has [c0, c1]
+-            float32x2_t w_01 = vmul_f32(vcvt_f32_s32(acc[0]), vget_low_f32(sb_scale_0));
+-            float32x2_t w_23 = vmul_f32(vcvt_f32_s32(acc[1]), vget_high_f32(sb_scale_0));
+-            float32x2_t w_45 = vmul_f32(vcvt_f32_s32(acc[2]), vget_low_f32(sb_scale_1));
+-            float32x2_t w_67 = vmul_f32(vcvt_f32_s32(acc[3]), vget_high_f32(sb_scale_1));
++            const float32x2_t w_01 = vmul_f32(vcvt_f32_s32(vget_low_s32(acc[0])), vget_low_f32(sb_scale_0));
++            const float32x2_t w_23 = vmul_f32(vcvt_f32_s32(vget_high_s32(acc[0])), vget_high_f32(sb_scale_0));
++            const float32x2_t w_45 = vmul_f32(vcvt_f32_s32(vget_low_s32(acc[1])), vget_low_f32(sb_scale_1));
++            const float32x2_t w_67 = vmul_f32(vcvt_f32_s32(vget_high_s32(acc[1])), vget_high_f32(sb_scale_1));
+ 
+             acc_f32[0] = vaddq_f32(acc_f32[0], vcombine_f32(w_01, w_23));
+             acc_f32[1] = vaddq_f32(acc_f32[1], vcombine_f32(w_45, w_67));

@@ -1,0 +1,29 @@
+{
+  "instance": {
+    "name": "arm-decode-e24-kernel-20260807",
+    "zone": "us-central1-a",
+    "status_at_checkpoint": "RUNNING",
+    "cpu_platform": "Google Axion",
+    "machine_type": "c4a-highcpu-8",
+    "creation_timestamp": "2026-08-07T03:18:47.676-07:00",
+    "last_start_timestamp": "2026-08-07T03:19:06.617-07:00",
+    "termination_timestamp": "2026-08-07T14:18:49.177421Z",
+    "maximum_run_seconds": 14400,
+    "termination_action": "DELETE",
+    "provisioning_model": "STANDARD",
+    "performance_monitoring_unit": "STANDARD",
+    "deletion_protection": false
+  },
+  "boot_disk": {
+    "name": "arm-decode-e24-kernel-20260807",
+    "architecture": "ARM64",
+    "size_gb": 30,
+    "type": "hyperdisk-balanced",
+    "auto_delete": true,
+    "status_at_checkpoint": "READY"
+  },
+  "labels": {
+    "experiment": "e24-kernel",
+    "owner": "codex"
+  }
+}

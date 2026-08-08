@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E23a",
+  "title": "Axion Q4_K x q8_K function-level profile",
+  "question": "Which exact b10216 AArch64 Q4_K x q8_K compute or activation-packing functions consume enough native pp128/pp512/pp4096/tg128 time to justify the first source rewrite?",
+  "claim_boundary": "E23a is diagnostic profiling on one Google Axion Neoverse V2 VM. It may select or reject a source target and prove that real inference executed named functions. Instrumented and sampled runs are not performance comparisons or optimization claims.",
+  "source": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216",
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "patches": [
+      "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+      "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+      "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch"
+    ]
+  },
+  "model": {
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "entrypoint": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+    "size_bytes": 2146497824,
+    "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4"
+  },
+  "host": {
+    "provider": "Google Cloud Compute Engine",
+    "machine_type": "c4a-highcpu-8",
+    "cpu": "Google Axion Neoverse V2",
+    "logical_cpus": 8,
+    "benchmark_core_set": "0-3",
+    "threads": 4,
+    "pmu": "standard",
+    "provisioning_model": "STANDARD",
+    "maximum_run_duration": "6h",
+    "maximum_estimated_compute_usd": 2.0
+  },
+  "build": {
+    "generator": "Ninja",
+    "targets": ["llama-bench"],
+    "cmake_arguments": [
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DCMAKE_C_FLAGS_RELEASE=-O3 -DNDEBUG -g -fno-omit-frame-pointer",
+      "-DCMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG -g -fno-omit-frame-pointer",
+      "-DGGML_CPU_KLEIDIAI=ON",
+      "-DGGML_LTO=OFF",
+      "-DGGML_NATIVE=ON",
+      "-DLLAMA_BUILD_EXAMPLES=ON",
+      "-DLLAMA_BUILD_SERVER=OFF",
+      "-DLLAMA_BUILD_TESTS=OFF",
+      "-DLLAMA_CURL=OFF",
+      "-DLLAMA_OPENSSL=OFF"
+    ]
+  },
+  "benchmark": {
+    "common_arguments": [
+      "--threads", "4",
+      "--n-gpu-layers", "0",
+      "--flash-attn", "on",
+      "--batch-size", "1024",
+      "--ubatch-size", "512",
+      "--no-warmup",
+      "--output", "jsonl"
+    ],
+    "cases": [
+      {"name": "pp128", "prompt_tokens": 128, "generation_tokens": 0},
+      {"name": "pp512", "prompt_tokens": 512, "generation_tokens": 0},
+      {"name": "pp4096", "prompt_tokens": 4096, "generation_tokens": 0},
+      {"name": "tg128", "prompt_tokens": 0, "generation_tokens": 128}
+    ],
+    "unsampled_repetitions": 3,
+    "sampled_repetitions": 1,
+    "perf_sample_event": "cpu_cycles:u",
+    "perf_sample_period": 100000,
+    "perf_stat_events": [
+      "cpu_cycles",
+      "inst_retired",
+      "l1d_cache",
+      "l1d_cache_refill",
+      "l2d_cache"
+    ]
+  },
+  "selection": {
+    "required_real_inference_execution_proof": true,
+    "minimum_direct_speedup_for_rewrite": 1.10,
+    "minimum_projected_end_to_end_speedup": 1.05,
+    "activation_packer_implementation_gate": 1.03,
+    "performance_claim_allowed": false
+  }
+}

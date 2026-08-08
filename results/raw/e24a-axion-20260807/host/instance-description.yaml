@@ -1,0 +1,12 @@
+advancedMachineFeatures:
+  performanceMonitoringUnit: STANDARD
+creationTimestamp: '2026-08-07T03:01:12.892-07:00'
+id: '5712690528329929224'
+machineType: https://www.googleapis.com/compute/v1/projects/warrant-auth/zones/us-central1-a/machineTypes/c4a-highcpu-8
+name: arm-decode-e24a-20260807
+scheduling:
+  instanceTerminationAction: DELETE
+  maxRunDuration:
+    nanos: 0
+    seconds: '21600'
+status: RUNNING

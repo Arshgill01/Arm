@@ -1,0 +1,9 @@
+perf record event: cycles:u
+whole-model case: pp128, Ministral-3-3B-Instruct-2512-Q4_K_M
+candidate kernel: ggml_gemm_q4_K_8x8_q8_K
+candidate flat cycle share: 56.14%
+q8_K activation pack flat cycle share: 2.87%
+flash-attention flat cycle share: 17.59%
+Q6_K GEMM flat cycle share: 11.44%
+runtime SVE vector length: 16 bytes
+selected branch: NEON/I8MM (the SVE branch requires 32 bytes)

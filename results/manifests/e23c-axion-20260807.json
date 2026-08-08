@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E23c",
+  "status": "accepted",
+  "provenance": {
+    "llama_cpp_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "candidate_patch_sha256": "c4794e8e0087fd32691778c23b1ee559fde0e37ee69f281973ec2b02d02c33f2",
+    "primary_model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "raw_directory": "results/raw/e23c-axion-20260807"
+  },
+  "platform": {
+    "provider": "Google Cloud",
+    "zone": "us-central1-a",
+    "machine_type": "c4a-highcpu-8",
+    "cpu": "Google Axion / Arm Neoverse V2",
+    "runtime_sve_vector_bytes": 16,
+    "logical_cpus_used": 4,
+    "compiler": "gcc 13.3.0"
+  },
+  "validation": {
+    "correctness_before_performance": true,
+    "direct_reference_cases_passed": 15,
+    "deterministic_output_exact": true,
+    "primary_pp128_speedup": 1.1069007393794392,
+    "primary_pp512_speedup": 1.0787486425367039,
+    "primary_tg128_speedup": 1.0054406296183127,
+    "adjacent_models_tested": 2,
+    "candidate_execution_cycle_share": 0.5614,
+    "all_acceptance_gates_passed": true
+  },
+  "artifact": {
+    "path": "/var/tmp/e23c-final-evidence-20260807-v2.tar.gz",
+    "size_bytes": 4069957,
+    "sha256": "e0e10e79636ada6eb0c8a903e161c939ae913f6a43118b6291974cafb415dcae",
+    "manifest_entries": 288,
+    "manifest_verified": true
+  },
+  "resource_closure": {
+    "instance_name": "arm-kernel-e23c-20260807",
+    "instance_id": "2374287748515769602",
+    "instance_deleted": true,
+    "instance_absence_verified": true,
+    "boot_disk_absence_verified": true
+  }
+}

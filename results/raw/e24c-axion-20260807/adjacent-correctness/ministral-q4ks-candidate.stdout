@@ -1,0 +1,5 @@
+**Optimizing single-token matrix-vector kernels** (e.g., via fused operations or specialized hardware like Arm NEON/SVE) speeds up language-model inference by reducing memory bandwidth and computational overhead per token. Here’s why it matters in practice:
+
+1. **Fewer Memory Accesses**: A single fused kernel (e.g., `softmax + dot` or `embedding + attention`) processes multiple steps in one pass, cutting cache misses and latency.
+2. **Streaming Efficiency**: On Arm CPUs, SVE (Scalar Vector Extensions) or NEON can parallelize token-wise ops (e.g., 1
+

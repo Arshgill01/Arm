@@ -1,0 +1,215 @@
+      4045:	find library=libc.so.6 [0]; searching
+      4045:	 search path=/opt/hostedtoolcache/Python/3.10.20/arm64/lib		(LD_LIBRARY_PATH)
+      4045:	  trying file=/opt/hostedtoolcache/Python/3.10.20/arm64/lib/libc.so.6
+      4045:	 search cache=/etc/ld.so.cache
+      4045:	  trying file=/lib/aarch64-linux-gnu/libc.so.6
+      4045:	
+      4045:	
+      4045:	calling init: /lib/ld-linux-aarch64.so.1
+      4045:	
+      4045:	
+      4045:	calling init: /lib/aarch64-linux-gnu/libc.so.6
+      4045:	
+      4045:	
+      4045:	initialize program: taskset
+      4045:	
+      4045:	
+      4045:	transferring control: taskset
+      4045:	
+      4045:	find library=libllama-bench-impl.so [0]; searching
+      4045:	 search path=/opt/hostedtoolcache/Python/3.10.20/arm64/lib		(LD_LIBRARY_PATH)
+      4045:	  trying file=/opt/hostedtoolcache/Python/3.10.20/arm64/lib/libllama-bench-impl.so
+      4045:	 search path=/tmp/e24c-31174841481-1/build/bin:		(RUNPATH from file /tmp/e24c-31174841481-1/variants/candidate/llama-bench)
+      4045:	  trying file=/tmp/e24c-31174841481-1/build/bin/libllama-bench-impl.so
+      4045:	
+      4045:	find library=libstdc++.so.6 [0]; searching
+      4045:	 search path=/opt/hostedtoolcache/Python/3.10.20/arm64/lib		(LD_LIBRARY_PATH)
+      4045:	  trying file=/opt/hostedtoolcache/Python/3.10.20/arm64/lib/libstdc++.so.6
+      4045:	 search path=/tmp/e24c-31174841481-1/build/bin:		(RUNPATH from file /tmp/e24c-31174841481-1/variants/candidate/llama-bench)
+      4045:	  trying file=/tmp/e24c-31174841481-1/build/bin/libstdc++.so.6
+      4045:	  trying file=libstdc++.so.6
+      4045:	 search cache=/etc/ld.so.cache
+      4045:	  trying file=/lib/aarch64-linux-gnu/libstdc++.so.6
+      4045:	
+      4045:	find library=libgcc_s.so.1 [0]; searching
+      4045:	 search path=/opt/hostedtoolcache/Python/3.10.20/arm64/lib		(LD_LIBRARY_PATH)
+      4045:	  trying file=/opt/hostedtoolcache/Python/3.10.20/arm64/lib/libgcc_s.so.1
+      4045:	 search path=/tmp/e24c-31174841481-1/build/bin:		(RUNPATH from file /tmp/e24c-31174841481-1/variants/candidate/llama-bench)
+      4045:	  trying file=/tmp/e24c-31174841481-1/build/bin/libgcc_s.so.1
+      4045:	  trying file=libgcc_s.so.1
+      4045:	 search cache=/etc/ld.so.cache
+      4045:	  trying file=/lib/aarch64-linux-gnu/libgcc_s.so.1
+      4045:	
+      4045:	find library=libc.so.6 [0]; searching
+      4045:	 search path=/opt/hostedtoolcache/Python/3.10.20/arm64/lib		(LD_LIBRARY_PATH)
+      4045:	  trying file=/opt/hostedtoolcache/Python/3.10.20/arm64/lib/libc.so.6
+      4045:	 search path=/tmp/e24c-31174841481-1/build/bin:		(RUNPATH from file /tmp/e24c-31174841481-1/variants/candidate/llama-bench)
+      4045:	  trying file=/tmp/e24c-31174841481-1/build/bin/libc.so.6
+      4045:	  trying file=libc.so.6
+      4045:	 search cache=/etc/ld.so.cache
+      4045:	  trying file=/lib/aarch64-linux-gnu/libc.so.6
+      4045:	
+      4045:	find library=libllama-common.so.0 [0]; searching
+      4045:	 search path=/opt/hostedtoolcache/Python/3.10.20/arm64/lib		(LD_LIBRARY_PATH)
+      4045:	  trying file=/opt/hostedtoolcache/Python/3.10.20/arm64/lib/libllama-common.so.0
+      4045:	 search path=/tmp/e24c-31174841481-1/build/bin:		(RUNPATH from file /tmp/e24c-31174841481-1/variants/candidate/llama-bench)
+      4045:	  trying file=/tmp/e24c-31174841481-1/build/bin/libllama-common.so.0
+      4045:	
+      4045:	find library=libllama.so.0 [0]; searching
+      4045:	 search path=/opt/hostedtoolcache/Python/3.10.20/arm64/lib		(LD_LIBRARY_PATH)
+      4045:	  trying file=/opt/hostedtoolcache/Python/3.10.20/arm64/lib/libllama.so.0
+      4045:	 search path=/tmp/e24c-31174841481-1/build/bin:		(RUNPATH from file /tmp/e24c-31174841481-1/variants/candidate/llama-bench)
+      4045:	  trying file=/tmp/e24c-31174841481-1/build/bin/libllama.so.0
+      4045:	
+      4045:	find library=libggml.so.0 [0]; searching
+      4045:	 search path=/opt/hostedtoolcache/Python/3.10.20/arm64/lib		(LD_LIBRARY_PATH)
+      4045:	  trying file=/opt/hostedtoolcache/Python/3.10.20/arm64/lib/libggml.so.0
+      4045:	 search path=/tmp/e24c-31174841481-1/build/bin:		(RUNPATH from file /tmp/e24c-31174841481-1/variants/candidate/llama-bench)
+      4045:	  trying file=/tmp/e24c-31174841481-1/build/bin/libggml.so.0
+      4045:	
+      4045:	find library=libggml-base.so.0 [0]; searching
+      4045:	 search path=/opt/hostedtoolcache/Python/3.10.20/arm64/lib		(LD_LIBRARY_PATH)
+      4045:	  trying file=/opt/hostedtoolcache/Python/3.10.20/arm64/lib/libggml-base.so.0
+      4045:	 search path=/tmp/e24c-31174841481-1/build/bin:		(RUNPATH from file /tmp/e24c-31174841481-1/variants/candidate/llama-bench)
+      4045:	  trying file=/tmp/e24c-31174841481-1/build/bin/libggml-base.so.0
+      4045:	
+      4045:	find library=libm.so.6 [0]; searching
+      4045:	 search path=/opt/hostedtoolcache/Python/3.10.20/arm64/lib		(LD_LIBRARY_PATH)
+      4045:	  trying file=/opt/hostedtoolcache/Python/3.10.20/arm64/lib/libm.so.6
+      4045:	 search path=/tmp/e24c-31174841481-1/build/bin:		(RUNPATH from file /tmp/e24c-31174841481-1/variants/candidate/llama-bench)
+      4045:	  trying file=/tmp/e24c-31174841481-1/build/bin/libm.so.6
+      4045:	  trying file=libm.so.6
+      4045:	 search cache=/etc/ld.so.cache
+      4045:	  trying file=/lib/aarch64-linux-gnu/libm.so.6
+      4045:	
+      4045:	find library=libssl.so.3 [0]; searching
+      4045:	 search path=/opt/hostedtoolcache/Python/3.10.20/arm64/lib		(LD_LIBRARY_PATH)
+      4045:	  trying file=/opt/hostedtoolcache/Python/3.10.20/arm64/lib/libssl.so.3
+      4045:	 search path=/tmp/e24c-31174841481-1/build/bin:		(RUNPATH from file /tmp/e24c-31174841481-1/variants/candidate/llama-bench)
+      4045:	  trying file=/tmp/e24c-31174841481-1/build/bin/libssl.so.3
+      4045:	  trying file=libssl.so.3
+      4045:	 search cache=/etc/ld.so.cache
+      4045:	  trying file=/lib/aarch64-linux-gnu/libssl.so.3
+      4045:	
+      4045:	find library=libcrypto.so.3 [0]; searching
+      4045:	 search path=/opt/hostedtoolcache/Python/3.10.20/arm64/lib		(LD_LIBRARY_PATH)
+      4045:	  trying file=/opt/hostedtoolcache/Python/3.10.20/arm64/lib/libcrypto.so.3
+      4045:	 search path=/tmp/e24c-31174841481-1/build/bin:		(RUNPATH from file /tmp/e24c-31174841481-1/variants/candidate/llama-bench)
+      4045:	  trying file=/tmp/e24c-31174841481-1/build/bin/libcrypto.so.3
+      4045:	  trying file=libcrypto.so.3
+      4045:	 search cache=/etc/ld.so.cache
+      4045:	  trying file=/lib/aarch64-linux-gnu/libcrypto.so.3
+      4045:	
+      4045:	find library=libggml-cpu.so.0 [0]; searching
+      4045:	 search path=/opt/hostedtoolcache/Python/3.10.20/arm64/lib		(LD_LIBRARY_PATH)
+      4045:	  trying file=/opt/hostedtoolcache/Python/3.10.20/arm64/lib/libggml-cpu.so.0
+      4045:	 search path=/tmp/e24c-31174841481-1/build/bin:		(RUNPATH from file /tmp/e24c-31174841481-1/variants/candidate/llama-bench)
+      4045:	  trying file=/tmp/e24c-31174841481-1/build/bin/libggml-cpu.so.0
+      4045:	
+      4045:	find library=libgomp.so.1 [0]; searching
+      4045:	 search path=/opt/hostedtoolcache/Python/3.10.20/arm64/lib		(LD_LIBRARY_PATH)
+      4045:	  trying file=/opt/hostedtoolcache/Python/3.10.20/arm64/lib/libgomp.so.1
+      4045:	 search cache=/etc/ld.so.cache
+      4045:	  trying file=/lib/aarch64-linux-gnu/libgomp.so.1
+      4045:	
+      4045:	
+      4045:	calling init: /lib/ld-linux-aarch64.so.1
+      4045:	
+      4045:	
+      4045:	calling init: /lib/aarch64-linux-gnu/libc.so.6
+      4045:	
+      4045:	
+      4045:	calling init: /lib/aarch64-linux-gnu/libgomp.so.1
+      4045:	
+      4045:	
+      4045:	calling init: /lib/aarch64-linux-gnu/libm.so.6
+      4045:	
+      4045:	
+      4045:	calling init: /lib/aarch64-linux-gnu/libgcc_s.so.1
+      4045:	
+      4045:	
+      4045:	calling init: /lib/aarch64-linux-gnu/libstdc++.so.6
+      4045:	
+      4045:	
+      4045:	calling init: /tmp/e24c-31174841481-1/build/bin/libggml-base.so.0
+      4045:	
+      4045:	
+      4045:	calling init: /tmp/e24c-31174841481-1/build/bin/libggml-cpu.so.0
+      4045:	
+      4045:	
+      4045:	calling init: /lib/aarch64-linux-gnu/libcrypto.so.3
+      4045:	
+      4045:	
+      4045:	calling init: /lib/aarch64-linux-gnu/libssl.so.3
+      4045:	
+      4045:	
+      4045:	calling init: /tmp/e24c-31174841481-1/build/bin/libggml.so.0
+      4045:	
+      4045:	
+      4045:	calling init: /tmp/e24c-31174841481-1/build/bin/libllama.so.0
+      4045:	
+      4045:	
+      4045:	calling init: /tmp/e24c-31174841481-1/build/bin/libllama-common.so.0
+      4045:	
+      4045:	
+      4045:	calling init: /tmp/e24c-31174841481-1/build/bin/libllama-bench-impl.so
+      4045:	
+      4045:	
+      4045:	initialize program: /tmp/e24c-31174841481-1/variants/candidate/llama-bench
+      4045:	
+      4045:	
+      4045:	transferring control: /tmp/e24c-31174841481-1/variants/candidate/llama-bench
+      4045:	
+      4045:	
+      4045:	calling init: /tmp/e24c-31174841481-1/variants/candidate/libggml-cpu.so
+      4045:	
+      4045:	/tmp/e24c-31174841481-1/variants/candidate/libggml-cpu.so: error: symbol lookup error: undefined symbol: ggml_backend_score (fatal)
+      4045:	/tmp/e24c-31174841481-1/variants/candidate/libggml-cpu.so: error: symbol lookup error: undefined symbol: ggml_backend_init (fatal)
+      4045:	
+      4045:	calling fini: /tmp/e24c-31174841481-1/variants/candidate/libggml-cpu.so [0]
+      4045:	
+      4045:	
+      4045:	calling fini:  [0]
+      4045:	
+      4045:	
+      4045:	calling fini: /tmp/e24c-31174841481-1/build/bin/libllama-bench-impl.so [0]
+      4045:	
+      4045:	
+      4045:	calling fini: /tmp/e24c-31174841481-1/build/bin/libllama-common.so.0 [0]
+      4045:	
+      4045:	
+      4045:	calling fini: /tmp/e24c-31174841481-1/build/bin/libllama.so.0 [0]
+      4045:	
+      4045:	
+      4045:	calling fini: /tmp/e24c-31174841481-1/build/bin/libggml.so.0 [0]
+      4045:	
+      4045:	
+      4045:	calling fini: /lib/aarch64-linux-gnu/libssl.so.3 [0]
+      4045:	
+      4045:	
+      4045:	calling fini: /lib/aarch64-linux-gnu/libcrypto.so.3 [0]
+      4045:	
+      4045:	
+      4045:	calling fini: /tmp/e24c-31174841481-1/build/bin/libggml-cpu.so.0 [0]
+      4045:	
+      4045:	
+      4045:	calling fini: /tmp/e24c-31174841481-1/build/bin/libggml-base.so.0 [0]
+      4045:	
+      4045:	
+      4045:	calling fini: /lib/aarch64-linux-gnu/libstdc++.so.6 [0]
+      4045:	
+      4045:	
+      4045:	calling fini: /lib/aarch64-linux-gnu/libgcc_s.so.1 [0]
+      4045:	
+      4045:	
+      4045:	calling fini: /lib/aarch64-linux-gnu/libm.so.6 [0]
+      4045:	
+      4045:	
+      4045:	calling fini: /lib/aarch64-linux-gnu/libgomp.so.1 [0]
+      4045:	
+      4045:	
+      4045:	calling fini: /lib/aarch64-linux-gnu/libc.so.6 [0]
+      4045:	
+      4045:	
+      4045:	calling fini: /lib/ld-linux-aarch64.so.1 [0]
+      4045:	

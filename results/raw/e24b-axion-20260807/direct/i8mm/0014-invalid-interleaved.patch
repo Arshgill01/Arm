@@ -1,0 +1,77 @@
+diff --git a/ggml/src/ggml-cpu/arch/arm/repack.cpp b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+index 30002f8..16ed27e 100644
+--- a/ggml/src/ggml-cpu/arch/arm/repack.cpp
++++ b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+@@ -773,10 +773,19 @@ void ggml_gemv_q4_K_8x8_q8_K(int                        n,
+                 // Load the 64 quants from q8K duplicated to use vecdots with the interleaved columns
+                 // but still need the qs to use the low and hi bits from q4
+                 const int8_t * q8_base = q8_ptr[b].qs + sb * 64;
++#if defined(__ARM_FEATURE_MATMUL_INT8)
++                int8x16_t q8_qs[8];
++                for (int i = 0; i < 8; i++) {
++                    const int8x8_t  q8_values = vld1_s8(q8_base + i * 8);
++                    const int8x16_t q8_twice  = vcombine_s8(q8_values, q8_values);
++                    q8_qs[i]                  = vzip1q_s8(q8_twice, q8_twice);
++                }
++#else
+                 int8x16_t      q8_qs[8];
+                 for (int i = 0; i < 8; i++) {
+                     q8_qs[i] = (int8x16_t) vld1q_dup_s64((const int64_t *) (q8_base + i * 8));
+                 }
++#endif
+ 
+                 // Q4s columns iterated in pairs (01, 23, 45, 67)
+                 for (int cp = 0; cp < col_pairs; cp++) {
+@@ -785,6 +794,25 @@ void ggml_gemv_q4_K_8x8_q8_K(int                        n,
+                     uint8x16_t q4_qs_cp_2 = vld1q_u8(q4_base + 16 * cp + 128);
+                     uint8x16_t q4_qs_cp_3 = vld1q_u8(q4_base + 16 * cp + 192);
+ 
++#if defined(__ARM_FEATURE_MATMUL_INT8)
++                    acc_lo[cp] = vusmmlaq_s32(
++                        acc_lo[cp], vandq_u8(q4_qs_cp_0, m4b), q8_qs[0]);
++                    acc_lo[cp] = vusmmlaq_s32(
++                        acc_lo[cp], vandq_u8(q4_qs_cp_1, m4b), q8_qs[1]);
++                    acc_lo[cp] = vusmmlaq_s32(
++                        acc_lo[cp], vandq_u8(q4_qs_cp_2, m4b), q8_qs[2]);
++                    acc_lo[cp] = vusmmlaq_s32(
++                        acc_lo[cp], vandq_u8(q4_qs_cp_3, m4b), q8_qs[3]);
++
++                    acc_hi[cp] = vusmmlaq_s32(
++                        acc_hi[cp], vshrq_n_u8(q4_qs_cp_0, 4), q8_qs[4]);
++                    acc_hi[cp] = vusmmlaq_s32(
++                        acc_hi[cp], vshrq_n_u8(q4_qs_cp_1, 4), q8_qs[5]);
++                    acc_hi[cp] = vusmmlaq_s32(
++                        acc_hi[cp], vshrq_n_u8(q4_qs_cp_2, 4), q8_qs[6]);
++                    acc_hi[cp] = vusmmlaq_s32(
++                        acc_hi[cp], vshrq_n_u8(q4_qs_cp_3, 4), q8_qs[7]);
++#else
+                     acc_lo[cp] =
+                         ggml_vdotq_s32(acc_lo[cp], vreinterpretq_s8_u8(vandq_u8(q4_qs_cp_0, m4b)), q8_qs[0]);  // 0 .. 7
+                     acc_lo[cp] =
+@@ -802,5 +830,6 @@ void ggml_gemv_q4_K_8x8_q8_K(int                        n,
+                     acc_hi[cp] =
+                         ggml_vdotq_s32(acc_hi[cp], vreinterpretq_s8_u8(vshrq_n_u8(q4_qs_cp_3, 4)), q8_qs[7]);  // 56..63
++#endif
+                 }
+ 
+                 // Iterates over a pair of column pairs (4 columns) to use a single 128 register
+@@ -813,11 +842,19 @@ void ggml_gemv_q4_K_8x8_q8_K(int                        n,
+ 
+                     // 0123 or 4567
+                     float32x4_t sumf_0 =
++#if defined(__ARM_FEATURE_MATMUL_INT8)
++                        vcvtq_f32_s32(vmulq_s32(vmovl_s16(group_scales_lo), vuzp1q_s32(acc_lo[p], acc_lo[p + 1])));
++#else
+                         vcvtq_f32_s32(vmulq_s32(vmovl_s16(group_scales_lo), vpaddq_s32(acc_lo[p], acc_lo[p + 1])));
++#endif
+                     acc_f32[i] = vfmaq_f32(acc_f32[i], sb_scale, sumf_0);
+ 
+                     float32x4_t sumf_1 =
++#if defined(__ARM_FEATURE_MATMUL_INT8)
++                        vcvtq_f32_s32(vmulq_s32(vmovl_s16(group_scales_hi), vuzp1q_s32(acc_hi[p], acc_hi[p + 1])));
++#else
+                         vcvtq_f32_s32(vmulq_s32(vmovl_s16(group_scales_hi), vpaddq_s32(acc_hi[p], acc_hi[p + 1])));
++#endif
+                     acc_f32[i] = vfmaq_f32(acc_f32[i], sb_scale, sumf_1);
+                 }
+ 

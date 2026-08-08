@@ -1,0 +1,11 @@
+diff --git a/ggml/src/ggml-cpu/arch/arm/repack.cpp b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+--- a/ggml/src/ggml-cpu/arch/arm/repack.cpp
++++ b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+@@ -1572,6 +1572,7 @@ void ggml_gemv_q6_K_8x8_q8_K(int                        n,
+ 
+                 // A subblock (sb) is a set of weights that share the scale
+                 // Since q6_K scales are per 16 elements
++#pragma GCC unroll 4
+                 // num sbs -> 256 elements / (16 elements/scale * 2 elements/byte * 2 halves)
+                 for (int sb = 0; sb < QK_K / 64; sb++) {
+                     const int8_t * q8_base_l = q8_ptr[b].qs + half * 128 + sb * 16;

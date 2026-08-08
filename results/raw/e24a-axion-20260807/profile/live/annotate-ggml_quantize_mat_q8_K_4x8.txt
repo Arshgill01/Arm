@@ -1,0 +1,212 @@
+ Percent |	Source code & Disassembly of libggml-cpu.so.0.18.0 for cpu_cycles:u (912 samples, percent: local period)
+------------------------------------------------------------------------------------------------------------------------
+         :
+         :
+         :
+         : 3     Disassembly of section .text:
+         :
+         : 5     00000000000272a4 <ggml_quantize_mat_q8_K_4x8>:
+         : 6     y[i].bsums[index] += y[i].qs[j];
+         : 7     }
+         : 8     }
+         : 9     }
+         :
+         : 11    void ggml_quantize_mat_q8_K_4x8_generic(const float * GGML_RESTRICT x, void * GGML_RESTRICT vy, int64_t k) {
+    0.00 :   272a4:  mov     x13, #0x1020                    // #4128
+    0.00 :   272a8:  stp     x29, x30, [sp, #-16]!
+    0.00 :   272ac:  mov     x29, sp
+    0.00 :   272b0:  sub     sp, sp, x13
+    0.00 :   272b4:  str     xzr, [sp, #1024]
+    0.00 :   272b8:  adrp    x3, 10f000 <quantize_row_q5_0@@Base+0xc81d0>
+    0.00 :   272bc:  ldr     x3, [x3, #3600]
+    0.00 :   272c0:  mov     x9, x2
+         : 20    assert(QK_K == 256);
+         : 21    assert(k % QK_K == 0);
+         : 22    const int nb = k / QK_K;
+    0.00 :   272c4:  cmp     x2, #0x0
+         : 24    void ggml_quantize_mat_q8_K_4x8_generic(const float * GGML_RESTRICT x, void * GGML_RESTRICT vy, int64_t k) {
+    0.00 :   272c8:  mov     x11, x0
+         : 26    const int nb = k / QK_K;
+    0.00 :   272cc:  add     x2, x2, #0xff
+    0.00 :   272d0:  csel    x2, x2, x9, lt  // lt = tstop
+    0.00 :   272d4:  asr     x2, x2, #8
+         : 30    void ggml_quantize_mat_q8_K_4x8_generic(const float * GGML_RESTRICT x, void * GGML_RESTRICT vy, int64_t k) {
+    0.00 :   272d8:  ldr     x0, [x3]
+    0.00 :   272dc:  str     x0, [sp, #4120]
+    0.00 :   272e0:  mov     x0, #0x0                        // #0
+         : 34    // scalar
+         : 35    const int blck_size_interleave = 8;
+         : 36    float srcv[4][QK_K];
+         : 37    float iscale[4];
+         :
+         : 39    for (int i = 0; i < nb; i++) {
+    0.00 :   272e4:  cmp     w2, #0x0
+    0.00 :   272e8:  b.le    2742c <ggml_quantize_mat_q8_K_4x8+0x188>
+    0.00 :   272ec:  mov     x5, x1
+         : 43    float val = fval + 12582912.f;
+    0.00 :   272f0:  mov     w0, #0x4b400000                 // #1262485504
+         : 45    }
+         : 46    }
+         :
+         : 48    iscale[row_iter] = amax ? -127.f/max : 0;
+         :
+         : 50    y[i].d[row_iter] = amax ? 1/iscale[row_iter] : 0;
+    0.00 :   272f4:  fmov    s7, #1.000000000000000000e+00
+         : 52    }
+         :
+         : 54    for (int j = 0; j < QK_K / 4; j++) {
+         : 55    y[i].bsums[j] = 0;
+    0.00 :   272f8:  movi    v5.4s, #0x0
+         : 57    iscale[row_iter] = amax ? -127.f/max : 0;
+    0.00 :   272fc:  mov     w1, #0xc2fe0000                 // #-1023541248
+    0.00 :   27300:  sub     w10, w2, #0x1
+         : 60    float val = fval + 12582912.f;
+    0.00 :   27304:  fmov    s4, w0
+    0.00 :   27308:  add     x10, x10, #0x1
+    0.00 :   2730c:  add     x5, x5, #0x10
+         : 64    iscale[row_iter] = amax ? -127.f/max : 0;
+    0.00 :   27310:  fmov    s6, w1
+    0.00 :   27314:  lsl     x10, x10, #8
+    0.00 :   27318:  lsl     x9, x9, #2
+         : 68    for (int i = 0; i < nb; i++) {
+    0.00 :   2731c:  mov     x12, #0x0                       // #0
+    0.00 :   27320:  add     x6, sp, #0x8
+    0.00 :   27324:  add     x7, sp, #0x18
+         : 72    y[i].d[row_iter] = amax ? 1/iscale[row_iter] : 0;
+    0.00 :   27328:  sub     x8, x5, #0x10
+    0.00 :   2732c:  mov     x2, x7
+    0.00 :   27330:  mov     x1, x11
+    0.00 :   27334:  mov     x3, #0x1                        // #1
+    0.00 :   27338:  sub     x4, x5, #0x14
+         : 78    float max = 0;
+    0.00 :   2733c:  movi    v3.2s, #0x0
+         : 80    void ggml_quantize_mat_q8_K_4x8_generic(const float * GGML_RESTRICT x, void * GGML_RESTRICT vy, int64_t k) {
+    0.00 :   27340:  mov     x0, #0x0                        // #0
+         : 82    float amax = 0.0f; // absolute max
+    0.00 :   27344:  fmov    s2, s3
+         : 84    srcv[row_iter][j] = x[row_iter * k + i * QK_K + j];
+    2.85 :   27348:  ldr     s0, [x1, x0]
+         : 86    if(amax < fabsf(srcv[row_iter][j])) {
+    3.62 :   2734c:  fabs    s1, s0
+         : 88    srcv[row_iter][j] = x[row_iter * k + i * QK_K + j];
+    1.43 :   27350:  str     s0, [x2, x0]
+         : 90    if(amax < fabsf(srcv[row_iter][j])) {
+    1.86 :   27354:  fcmpe   s2, s1
+    2.41 :   27358:  b.mi    27458 <ggml_quantize_mat_q8_K_4x8+0x1b4>  // b.first
+         : 93    for (int j = 0; j < QK_K; j++) {
+   14.04 :   2735c:  add     x0, x0, #0x4
+    2.19 :   27360:  cmp     x0, #0x400
+    0.00 :   27364:  b.ne    27348 <ggml_quantize_mat_q8_K_4x8+0xa4>  // b.any
+         : 97    iscale[row_iter] = amax ? -127.f/max : 0;
+    0.00 :   27368:  fcmp    s2, #0.0
+    0.00 :   2736c:  b.eq    27464 <ggml_quantize_mat_q8_K_4x8+0x1c0>  // b.none
+    0.22 :   27370:  fdiv    s3, s6, s3
+    0.00 :   27374:  add     x0, x6, x3, lsl #2
+         : 102   for (int row_iter = 0; row_iter < 4; row_iter++) {
+    0.00 :   27378:  add     x1, x1, x9
+    0.00 :   2737c:  add     x2, x2, #0x400
+         : 105   y[i].d[row_iter] = amax ? 1/iscale[row_iter] : 0;
+    0.00 :   27380:  fdiv    s0, s7, s3
+         : 107   iscale[row_iter] = amax ? -127.f/max : 0;
+    0.00 :   27384:  stur    s3, [x0, #-4]
+         : 109   y[i].d[row_iter] = amax ? 1/iscale[row_iter] : 0;
+    0.00 :   27388:  str     s0, [x4, x3, lsl #2]
+         : 111   for (int row_iter = 0; row_iter < 4; row_iter++) {
+    0.00 :   2738c:  add     x3, x3, #0x1
+    0.00 :   27390:  cmp     x3, #0x5
+    0.00 :   27394:  b.ne    2733c <ggml_quantize_mat_q8_K_4x8+0x98>  // b.any
+         : 115   y[i].bsums[j] = 0;
+    0.00 :   27398:  add     x0, x5, #0x400
+    0.00 :   2739c:  mov     x1, #0x0                        // #0
+    0.00 :   273a0:  stp     q5, q5, [x0]
+    0.00 :   273a4:  stp     q5, q5, [x0, #32]
+    0.00 :   273a8:  stp     q5, q5, [x0, #64]
+    0.00 :   273ac:  stp     q5, q5, [x0, #96]
+         : 122   int src_offset = (j / (4 * blck_size_interleave)) * blck_size_interleave;
+         : 123   int src_id     = (j % (4 * blck_size_interleave)) / blck_size_interleave;
+         : 124   src_offset += (j % blck_size_interleave);
+         : 125   int index = (((j & 31) >> 3) << 2) + ((j >> 8) << 4) + ((j >> 6) & 3);
+         :
+         : 127   float x0 = srcv[src_id][src_offset] * iscale[src_id];
+    1.64 :   273b0:  ubfx    x2, x1, #3, #2
+         : 129   src_offset += (j % blck_size_interleave);
+    0.00 :   273b4:  and     w4, w1, #0x7
+         : 131   int src_offset = (j / (4 * blck_size_interleave)) * blck_size_interleave;
+    1.64 :   273b8:  asr     w0, w1, #5
+         : 133   float x0 = srcv[src_id][src_offset] * iscale[src_id];
+    0.00 :   273bc:  lsl     x3, x2, #8
+         : 135   float val = fval + 12582912.f;
+    2.08 :   273c0:  ldr     s1, [x6, x2, lsl #2]
+         : 137   src_offset += (j % blck_size_interleave);
+    0.00 :   273c4:  add     w0, w4, w0, lsl #3
+         : 139   float x0 = srcv[src_id][src_offset] * iscale[src_id];
+    1.97 :   273c8:  add     x0, x3, w0, sxtw
+    0.00 :   273cc:  asr     w3, w1, #3
+         : 142   int index = (((j & 31) >> 3) << 2) + ((j >> 8) << 4) + ((j >> 6) & 3);
+    1.97 :   273d0:  asr     w2, w1, #8
+    0.00 :   273d4:  ubfiz   w3, w3, #2, #2
+    1.97 :   273d8:  ubfx    w4, w1, #6, #2
+         : 146   float val = fval + 12582912.f;
+    1.86 :   273dc:  ldr     s0, [x7, x0, lsl #2]
+         : 148   int index = (((j & 31) >> 3) << 2) + ((j >> 8) << 4) + ((j >> 6) & 3);
+    1.97 :   273e0:  add     w2, w3, w2, lsl #4
+    0.00 :   273e4:  add     w2, w2, w4
+         : 151   float val = fval + 12582912.f;
+    1.97 :   273e8:  add     x2, x8, w2, sxtw #1
+    0.00 :   273ec:  fmadd   s0, s0, s1, s4
+         : 154   return (i & 0x007fffff) - 0x00400000;
+    1.64 :   273f0:  fmov    w0, s0
+    0.00 :   273f4:  and     w0, w0, #0x7fffff
+         : 157   y[i].qs[j] = nearest_int(x0);
+    2.08 :   273f8:  sxtb    w0, w0
+    2.41 :   273fc:  strb    w0, [x5, x1]
+         : 160   for (int j = 0; j < QK_K * 4; j++) {
+    1.54 :   27400:  add     x1, x1, #0x1
+         : 162   y[i].bsums[index] += y[i].qs[j];
+    1.43 :   27404:  ldrh    w3, [x2, #1040]
+   14.47 :   27408:  add     w0, w0, w3
+   28.73 :   2740c:  strh    w0, [x2, #1040]
+         : 166   for (int j = 0; j < QK_K * 4; j++) {
+    0.77 :   27410:  cmp     x1, #0x400
+    0.00 :   27414:  b.ne    273b0 <ggml_quantize_mat_q8_K_4x8+0x10c>  // b.any
+         : 169   for (int i = 0; i < nb; i++) {
+    0.00 :   27418:  add     x12, x12, #0x100
+    0.00 :   2741c:  add     x5, x5, #0x490
+    0.00 :   27420:  add     x11, x11, #0x400
+    0.00 :   27424:  cmp     x12, x10
+    0.00 :   27428:  b.ne    27328 <ggml_quantize_mat_q8_K_4x8+0x84>  // b.any
+         : 175   }
+         : 176   }
+         : 177   }
+    0.00 :   2742c:  adrp    x0, 10f000 <quantize_row_q5_0@@Base+0xc81d0>
+    0.00 :   27430:  ldr     x0, [x0, #3600]
+    0.00 :   27434:  ldr     x2, [sp, #4120]
+    0.00 :   27438:  ldr     x1, [x0]
+    0.00 :   2743c:  subs    x2, x2, x1
+    0.00 :   27440:  mov     x1, #0x0                        // #0
+    0.00 :   27444:  b.ne    27488 <ggml_quantize_mat_q8_K_4x8+0x1e4>  // b.any
+    0.00 :   27448:  mov     x13, #0x1020                    // #4128
+    0.00 :   2744c:  add     sp, sp, x13
+    0.00 :   27450:  ldp     x29, x30, [sp], #16
+    0.00 :   27454:  ret
+         : 189   max = srcv[row_iter][j];
+    0.88 :   27458:  fmov    s3, s0
+         : 191   amax = fabsf(srcv[row_iter][j]);
+    0.22 :   2745c:  fmov    s2, s1
+    0.11 :   27460:  b       2735c <ggml_quantize_mat_q8_K_4x8+0xb8>
+         : 194   iscale[row_iter] = amax ? -127.f/max : 0;
+    0.00 :   27464:  add     x0, x6, x3, lsl #2
+         : 196   y[i].d[row_iter] = amax ? 1/iscale[row_iter] : 0;
+    0.00 :   27468:  str     wzr, [x4, x3, lsl #2]
+         : 198   for (int row_iter = 0; row_iter < 4; row_iter++) {
+    0.00 :   2746c:  add     x3, x3, #0x1
+    0.00 :   27470:  add     x1, x1, x9
+    0.00 :   27474:  add     x2, x2, #0x400
+         : 202   iscale[row_iter] = amax ? -127.f/max : 0;
+    0.00 :   27478:  stur    wzr, [x0, #-4]
+         : 204   for (int row_iter = 0; row_iter < 4; row_iter++) {
+    0.00 :   2747c:  cmp     x3, #0x5
+    0.00 :   27480:  b.ne    2733c <ggml_quantize_mat_q8_K_4x8+0x98>  // b.any
+    0.00 :   27484:  b       27398 <ggml_quantize_mat_q8_K_4x8+0xf4>
+         : 208   }
+    0.00 :   27488:  bl      17e60 <__stack_chk_fail@plt>

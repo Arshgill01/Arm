@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E24a",
+  "status": "diagnostic_profile_complete",
+  "captured_at_utc": "2026-08-07T10:03:42+00:00",
+  "claim_boundary": "Function-level native profiling selects and ranks decode source targets. No optimization, speedup, correctness, energy, cost, or generality claim is allowed.",
+  "provenance": {
+    "llama_cpp_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "contract_sha256": "79888710a703fab4270029ef37de2a5a6bd9bd9501b48697bd7aec5e48b63074",
+    "e23_baseline_patch_sha256": "c4794e8e0087fd32691778c23b1ee559fde0e37ee69f281973ec2b02d02c33f2",
+    "model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "compact_raw_directory": "results/raw/e24a-axion-20260807",
+    "compact_inventory_sha256": "23e34e954a12f1d1e9ac3ae71d6498d4843185a896e23af971e0f7e1c01415a8"
+  },
+  "platform": {
+    "provider": "Google Cloud Compute Engine",
+    "zone": "us-central1-a",
+    "instance_name": "arm-decode-e24a-20260807",
+    "instance_id": "5712690528329929224",
+    "machine_type": "c4a-highcpu-8",
+    "cpu": "Google Axion / Arm Neoverse V2",
+    "pmu": "STANDARD",
+    "logical_cpus_used": 4,
+    "compiler": "GCC 13.3.0"
+  },
+  "profile": {
+    "tg128_tokens_per_second": 24.666781,
+    "live_decode_tokens_per_second": 24.66,
+    "live_output_sha256": "ce8f5083c626b4d3ddc532144cae09206238a8767d048efab233b2f5be0d321b",
+    "live_output_identical_across_control_stat_and_record": true,
+    "tg128_exclusive_cycle_share": {
+      "ggml_gemv_q4_K_8x8_q8_K": 0.5578,
+      "ggml_gemv_q6_K_8x8_q8_K": 0.3351,
+      "ggml_gemv_q5_K_8x8_q8_K": 0.0,
+      "quantize_row_q8_K_ref": 0.0027,
+      "ggml_compute_forward_flash_attn_ext": 0.0076
+    },
+    "live_exclusive_cycle_share": {
+      "ggml_gemv_q4_K_8x8_q8_K": 0.4816,
+      "ggml_gemv_q6_K_8x8_q8_K": 0.2912,
+      "ggml_gemv_q5_K_8x8_q8_K": 0.0,
+      "ggml_quantize_mat_q8_K_4x8": 0.0025,
+      "quantize_row_q8_K_ref": 0.0025,
+      "ggml_compute_forward_flash_attn_ext": 0.0102
+    },
+    "lost_samples": 0,
+    "real_model_execution_proved": true
+  },
+  "full_raw_bundle": {
+    "path": "/var/tmp/e24a-evidence-final.tar.gz",
+    "size_bytes": 10320506,
+    "sha256": "a83abc523e3897af5ce447c0dd0b23290990f901479ad5bd1b14bf9aeeda80df",
+    "remote_inventory_verified": true,
+    "local_tar_sha256_verified": true,
+    "local_extracted_inventory_verified_after_path_rebasing": true,
+    "committed": false,
+    "reason": "The full bundle contains 50 MiB of binary perf.data samples; the 1.9 MiB text evidence is retained separately."
+  },
+  "retained_failures": [
+    {
+      "path": "/var/tmp/e24a-failure-metadata.tar.gz",
+      "size_bytes": 19116,
+      "sha256": "84f38650219ac98d7c3237b2155fe170baf06e68751a41dbc23b4273e609000c",
+      "failure": "The first runner requested a nonexistent instance/name metadata path and stopped before source checkout."
+    },
+    {
+      "path": "/var/tmp/e24a-failure-pmu.tar.gz",
+      "size_bytes": 19086,
+      "sha256": "1b8ebe5106faeefd09ba753265ba4a59fc15269ea5a0fc980906b5cc9de07133",
+      "failure": "The first VM omitted explicit standard PMU provisioning and stopped before source checkout."
+    },
+    {
+      "path": "/var/tmp/e24a-failure-ripgrep.tar.gz",
+      "size_bytes": 25573,
+      "sha256": "a5b769bc2a566e3e288192106abb4c961bdf29c9d4462a0d12922715d3a789ca",
+      "failure": "The corrected host reached the source audit but the runner had not declared its ripgrep dependency; no build or profile ran."
+    }
+  ],
+  "resource_closure": {
+    "instance_deleted": true,
+    "instance_absence_verified": true,
+    "boot_disk_absence_verified": true,
+    "automatic_max_run_duration_seconds": 21600
+  }
+}

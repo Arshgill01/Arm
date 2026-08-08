@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "contract_revision": 1,
+  "experiment_id": "E24c",
+  "title": "Arm Q6_K decode kernel breadth, current-upstream and resource closure",
+  "objective": "Complete the E24 decode pass after the first Axion result without changing model output, quantization, CPU allocation or core count.",
+  "claim_boundary": "The retained patch accelerates the direct Q6_K GEMV on Axion Neoverse V2 and GitHub-hosted Neoverse N2. Whole-model tg128 gains are positive on three Axion Q4_K model files but are not material on the N2 Qwen run. No universal end-to-end gain or double-digit decode claim is made.",
+  "source": {
+    "frozen_repository": "https://github.com/ggml-org/llama.cpp.git",
+    "frozen_tag": "b10216",
+    "frozen_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "baseline_patches": [
+      "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+      "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+      "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+      "patches/llama.cpp/b10216/0013-arm-q4-k-neon-vector-scale-kernel.patch"
+    ],
+    "decode_patches": [
+      "patches/llama.cpp/b10216/0016-arm-q6-k-gemv-fused-scales.patch",
+      "patches/llama.cpp/b10216/0020-arm-q6-k-gemv-just-in-time-loads.patch"
+    ],
+    "current_upstream_commit": "cb26014d965036f0eacdab7387b222d28d36b9e6",
+    "current_upstream_fetched_utc": "2026-08-07T11:33:25Z",
+    "current_upstream_patch": "patches/llama.cpp/current/0001-arm-q6-k-gemv-reduce-scale-and-load-overhead.patch"
+  },
+  "models": [
+    {
+      "id": "ministral-3b-q4-k-m",
+      "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+      "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+      "file": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "size_bytes": 2146497824,
+      "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "role": "primary"
+    },
+    {
+      "id": "ministral-3b-q4-k-s",
+      "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+      "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+      "file": "Ministral-3-3B-Instruct-2512-Q4_K_S.gguf",
+      "size_bytes": 2053256480,
+      "sha256": "9973a001b3ed68a1bb47a5235798816c0989213cf0a8679f566a195b176dbb50",
+      "role": "adjacent"
+    },
+    {
+      "id": "qwen2-5-1-5b-q4-k-m",
+      "repository": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+      "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+      "file": "qwen2.5-1.5b-instruct-q4_k_m.gguf",
+      "size_bytes": 1117320736,
+      "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+      "role": "adjacent_and_second_arm"
+    }
+  ],
+  "hosts": {
+    "primary": {
+      "provider": "Google Cloud Compute Engine",
+      "machine_type": "c4a-highcpu-8",
+      "cpu": "Google Axion Neoverse V2",
+      "zone": "us-central1-a",
+      "benchmark_core_set": "0-3",
+      "threads": 4,
+      "creation_utc": "2026-08-07T10:18:47.676Z",
+      "verified_absent_utc": "2026-08-07T12:00:32Z",
+      "max_run_seconds": 14400,
+      "termination_action": "DELETE",
+      "boot_disk_auto_delete": true
+    },
+    "secondary": {
+      "provider": "GitHub Actions",
+      "runner": "ubuntu-24.04-arm",
+      "cpu": "Neoverse-N2",
+      "logical_cpus": 4,
+      "workflow_run": "https://github.com/Arshgill01/Arm/actions/runs/31174841481",
+      "conclusion": "success"
+    }
+  },
+  "measurement": {
+    "whole_model": {
+      "cases": ["pp128", "pp512", "tg128"],
+      "repetitions_per_process": 3,
+      "processes_per_variant": 6,
+      "process_order_per_round": ["baseline", "candidate", "candidate", "baseline"],
+      "threads": 4,
+      "flash_attention": true,
+      "warmup": false
+    },
+    "direct": {
+      "function": "ggml_gemv_q6_K_8x8_q8_K",
+      "shapes": [[3072, 2304], [9216, 768]],
+      "correctness_cases": 12,
+      "nmse_limit": 0.0005
+    }
+  },
+  "gates": {
+    "primary_direct_speedup": 1.10,
+    "primary_tg128_speedup": 1.03,
+    "adjacent_model_direction": "positive",
+    "prefill_minimum_ratio": 0.98,
+    "second_arm_direct_speedup": 1.10,
+    "current_upstream_direct_speedup": 1.10,
+    "byte_identical_output": true,
+    "instance_and_disk_absent_before_closure": true
+  },
+  "evidence": {
+    "profile": "results/raw/e24a-axion-20260807",
+    "first_result": "results/raw/e24b-axion-20260807",
+    "breadth_axion": "results/raw/e24c-axion-20260807",
+    "second_arm": "results/raw/e24c-n2-31174841481",
+    "derived_summary": "results/raw/e24c-summary.json",
+    "complete_archive_record": "results/raw/e24c-archive.txt"
+  }
+}

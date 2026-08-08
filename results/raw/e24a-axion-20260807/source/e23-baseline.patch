@@ -1,0 +1,280 @@
+diff --git a/common/reasoning-budget.cpp b/common/reasoning-budget.cpp
+index 1fe242d062d1aeeb75d62cf22a89d4753678ead1..f988aeadf621d5f076aad0f62c1d7219cca419a9 100644
+--- a/common/reasoning-budget.cpp
++++ b/common/reasoning-budget.cpp
+@@ -133,6 +133,16 @@ static void common_reasoning_budget_accept(struct llama_sampler * smpl, llama_to
+         }
+         case REASONING_BUDGET_FORCING:
+         {
++            if (ctx->force_pos >= ctx->forced_tokens.size() ||
++                token != ctx->forced_tokens[ctx->force_pos]) {
++                COM_TRC("ignoring unexpected token %d while forcing token %d\n",
++                        token,
++                        ctx->force_pos < ctx->forced_tokens.size()
++                            ? ctx->forced_tokens[ctx->force_pos]
++                            : -1);
++                break;
++            }
++
+             // track the end sequence within forced_tokens so it is also reported on DONE
+             const int32_t match = ctx->end_matcher.advance(token);
+             ctx->force_pos++;
+diff --git a/ggml/src/ggml-cpu/CMakeLists.txt b/ggml/src/ggml-cpu/CMakeLists.txt
+index 836bae4d05a752f5f399388e60a1f56b124f448e..ef3a4c0c4397cfd3e5f2cd780c058ef5f5c0d71d 100644
+--- a/ggml/src/ggml-cpu/CMakeLists.txt
++++ b/ggml/src/ggml-cpu/CMakeLists.txt
+@@ -645,10 +645,6 @@ function(ggml_add_cpu_backend_variant_impl tag_name)
+         if (NOT ARCH_FLAGS_TEMP)
+             string(REGEX MATCH "-march=[^ ]+" ARCH_FLAGS_TEMP "${CMAKE_C_FLAGS}")
+         endif()
+-        string(FIND "${ARCH_FLAGS_TEMP}" "+dotprod" DOTPROD_ENABLED)
+-        string(FIND "${ARCH_FLAGS_TEMP}" "+i8mm" I8MM_ENABLED)
+-        string(FIND "${ARCH_FLAGS_TEMP}" "+sme" SME_ENABLED)
+-        string(FIND "${ARCH_FLAGS_TEMP}" "+sve" SVE_ENABLED)
+ 
+         set(PRIVATE_ARCH_FLAGS ${ARCH_FLAGS_TEMP})
+ 
+@@ -661,7 +657,7 @@ function(ggml_add_cpu_backend_variant_impl tag_name)
+             ${KLEIDIAI_SRC}/kai/ukernels/matmul/pack/kai_lhs_quant_pack_qai8dxp_f32.c
+             ${KLEIDIAI_SRC}/kai/ukernels/matmul/pack/kai_rhs_pack_nxk_qsi8cxp_qsi8cx_neon.c)
+ 
+-        if (NOT DOTPROD_ENABLED MATCHES -1)
++        if (HAVE_DOTPROD)
+             list(APPEND GGML_KLEIDIAI_SOURCES
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod.c
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod.c
+@@ -671,13 +667,13 @@ function(ggml_add_cpu_backend_variant_impl tag_name)
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod.c)
+         endif()
+ 
+-        if (NOT I8MM_ENABLED MATCHES -1)
++        if (HAVE_MATMUL_INT8)
+             list(APPEND GGML_KLEIDIAI_SOURCES
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm.c
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm.c)
+         endif()
+ 
+-        if (NOT SME_ENABLED MATCHES -1)
++        if (HAVE_SME)
+             list(APPEND GGML_KLEIDIAI_SME_SOURCES
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp1vlx4_qsi8cxp4vlx4_1vlx4vl_sme_mopa.c
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp1vlx4_qsi8cxp4vlx4_1vlx4vl_sme_mopa_asm.S
+@@ -715,7 +711,7 @@ function(ggml_add_cpu_backend_variant_impl tag_name)
+             set(PRIVATE_ARCH_FLAGS "-fno-tree-vectorize;${PRIVATE_ARCH_FLAGS}")
+         endif()
+ 
+-        if (NOT SVE_ENABLED MATCHES -1)
++        if (HAVE_SVE)
+             list(APPEND GGML_KLEIDIAI_SOURCES
+                 ${KLEIDIAI_SRC}/kai/kai_common_sve_asm.S
+                 ${KLEIDIAI_SRC}/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod_asm.S
+diff --git a/ggml/src/ggml-cpu/arch/arm/quants.c b/ggml/src/ggml-cpu/arch/arm/quants.c
+index b988abf9963a192e16177661a7d99596effc0d36..2e2439e2413963a6df4f5c3c6ad22b404370e1cb 100644
+--- a/ggml/src/ggml-cpu/arch/arm/quants.c
++++ b/ggml/src/ggml-cpu/arch/arm/quants.c
+@@ -65,15 +65,18 @@ void quantize_row_q8_0(const float * GGML_RESTRICT x, void * GGML_RESTRICT vy, i
+ 
+         y[i].d = GGML_CPU_FP32_TO_FP16(d);
+ 
++        int32x4_t q[8];
+         for (int j = 0; j < 8; j++) {
+-            const float32x4_t v  = vmulq_n_f32(srcv[j], id);
+-            const int32x4_t   vi = vcvtnq_s32_f32(v);
+-
+-            y[i].qs[4*j + 0] = vgetq_lane_s32(vi, 0);
+-            y[i].qs[4*j + 1] = vgetq_lane_s32(vi, 1);
+-            y[i].qs[4*j + 2] = vgetq_lane_s32(vi, 2);
+-            y[i].qs[4*j + 3] = vgetq_lane_s32(vi, 3);
++            q[j] = vcvtnq_s32_f32(vmulq_n_f32(srcv[j], id));
+         }
++
++        const int16x8_t q0 = vcombine_s16(vmovn_s32(q[0]), vmovn_s32(q[1]));
++        const int16x8_t q1 = vcombine_s16(vmovn_s32(q[2]), vmovn_s32(q[3]));
++        const int16x8_t q2 = vcombine_s16(vmovn_s32(q[4]), vmovn_s32(q[5]));
++        const int16x8_t q3 = vcombine_s16(vmovn_s32(q[6]), vmovn_s32(q[7]));
++
++        vst1q_s8(y[i].qs,      vcombine_s8(vmovn_s16(q0), vmovn_s16(q1)));
++        vst1q_s8(y[i].qs + 16, vcombine_s8(vmovn_s16(q2), vmovn_s16(q3)));
+     }
+ #else
+     GGML_UNUSED(nb);
+diff --git a/ggml/src/ggml-cpu/arch/arm/repack.cpp b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+index a7534443091f351734dcadc9c9f1c3568e1bd810..1bc2690f655c037bc6d248c19ac015a10a15e8af 100644
+--- a/ggml/src/ggml-cpu/arch/arm/repack.cpp
++++ b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+@@ -46,6 +46,25 @@ static inline void decode_q_Kx8_6bit_scales(const uint8_t * scales_in, int16x8_t
+     scales_u32[1] = (sm[2] & kmask2) | (((sm[0] >> 6) & kmask3) << 4);
+     memcpy(out_scales, scales_u32, 8);
+ }
++
++static inline int8x8_t decode_q_Kx8_6bit_scales_vec(const uint8_t * scales_in, int16x8_t * out_mins) {
++    constexpr uint32_t kmask1 = 0x3f3f3f3f;
++    constexpr uint32_t kmask2 = 0x0f0f0f0f;
++    constexpr uint32_t kmask3 = 0x03030303;
++
++    uint32_t sm[3];
++    memcpy(sm, scales_in, sizeof(sm));
++
++    const uint32_t   mins_0_3 = sm[1] & kmask1;
++    const uint32_t   mins_4_7 = ((sm[2] >> 4) & kmask2) | (((sm[1] >> 6) & kmask3) << 4);
++    const uint32x2_t mins_u32 = { mins_0_3, mins_4_7 };
++    *out_mins = vreinterpretq_s16_u16(vmovl_u8(vreinterpret_u8_u32(mins_u32)));
++
++    const uint32_t scales_0_3 = sm[0] & kmask1;
++    const uint32_t scales_4_7 = (sm[2] & kmask2) | (((sm[0] >> 6) & kmask3) << 4);
++    const uint32x2_t scales_u32 = { scales_0_3, scales_4_7 };
++    return vreinterpret_s8_u32(scales_u32);
++}
+ #endif
+ 
+ void ggml_quantize_mat_q8_0_4x4(const float * GGML_RESTRICT x, void * GGML_RESTRICT vy, int64_t k) {
+@@ -3749,13 +3768,14 @@ void ggml_gemm_q5_K_8x4_q8_K(int                        n,
+     ggml_gemm_q5_K_8x4_q8_K_generic(n, s, bs, vx, vy, nr, nc);
+ }
+ 
+-void ggml_gemm_q4_K_8x8_q8_K(int                        n,
+-                             float * GGML_RESTRICT      s,
+-                             size_t                     bs,
+-                             const void * GGML_RESTRICT vx,
+-                             const void * GGML_RESTRICT vy,
+-                             int                        nr,
+-                             int                        nc) {
++#if defined(__aarch64__) && defined(__ARM_FEATURE_SVE) && defined(__ARM_FEATURE_MATMUL_INT8)
++static __attribute__((noinline)) void ggml_gemm_q4_K_8x8_q8_K_sve(int                        n,
++                                                                  float * GGML_RESTRICT      s,
++                                                                  size_t                     bs,
++                                                                  const void * GGML_RESTRICT vx,
++                                                                  const void * GGML_RESTRICT vy,
++                                                                  int                        nr,
++                                                                  int                        nc) {
+     constexpr int qk = QK_K;
+     const int     nb = n / qk;
+ 
+@@ -4079,6 +4099,36 @@ void ggml_gemm_q4_K_8x8_q8_K(int                        n,
+         return;
+     }
+ #endif  // SVE compile-time end
++}
++#endif
++
++void ggml_gemm_q4_K_8x8_q8_K(int                        n,
++                             float * GGML_RESTRICT      s,
++                             size_t                     bs,
++                             const void * GGML_RESTRICT vx,
++                             const void * GGML_RESTRICT vy,
++                             int                        nr,
++                             int                        nc) {
++    constexpr int qk = QK_K;
++    const int     nb = n / qk;
++
++    constexpr int ncols_interleaved = 8;
++    constexpr int blocklen          = 8;
++
++    assert(n % qk == 0);
++    assert(nr % 4 == 0);
++    assert(nc % ncols_interleaved == 0);
++
++    UNUSED(nb);
++    UNUSED(ncols_interleaved);
++    UNUSED(blocklen);
++
++#if defined(__aarch64__) && defined(__ARM_FEATURE_SVE) && defined(__ARM_FEATURE_MATMUL_INT8)
++    if (svcntb() * 8 == 256) {
++        ggml_gemm_q4_K_8x8_q8_K_sve(n, s, bs, vx, vy, nr, nc);
++        return;
++    }
++#endif
+ 
+ #if defined(__aarch64__) && defined(__ARM_NEON) && defined(__ARM_FEATURE_MATMUL_INT8)
+     constexpr int    q8_k_blocklen = 4;
+@@ -4121,11 +4171,19 @@ void ggml_gemm_q4_K_8x8_q8_K(int                        n,
+                 for (int sb = 0; sb < QK_K / 64; sb++) {
+                     // Need scales for the low and high nibbles
+                     // 2 * 12 = 24 bytes per subblock, 4 sbs -> 4 * 24 = 96 bytes total
+-                    int8_t    q4sb_scales[2][8];
++                    int32x4_t block_scales[2][4];
+                     int16x8_t q4sb_mins[2];  // int16 as its needed for bias_acc later
+                     for (int i = 0; i < 2; i++) {
+                         const int offset = sb * 24 + i * 12;
+-                        decode_q_Kx8_6bit_scales(&q4_ptr[b].scales[offset], &q4sb_mins[i], q4sb_scales[i]);
++                        const int8x8_t scales_s8 = decode_q_Kx8_6bit_scales_vec(
++                            &q4_ptr[b].scales[offset], &q4sb_mins[i]);
++                        const int16x8_t scales_s16 = vmovl_s8(scales_s8);
++                        const int16x8_t paired_lo  = vzip1q_s16(scales_s16, scales_s16);
++                        const int16x8_t paired_hi  = vzip2q_s16(scales_s16, scales_s16);
++                        block_scales[i][0] = vmovl_s16(vget_low_s16(paired_lo));
++                        block_scales[i][1] = vmovl_s16(vget_high_s16(paired_lo));
++                        block_scales[i][2] = vmovl_s16(vget_low_s16(paired_hi));
++                        block_scales[i][3] = vmovl_s16(vget_high_s16(paired_hi));
+                     }
+ 
+                     // q8_ptr[b].qs has interleaved Q8 rows (01, 23)
+@@ -4149,6 +4207,9 @@ void ggml_gemm_q4_K_8x8_q8_K(int                        n,
+                     };
+ 
+                     // Q4s columns iterated in pairs (01, 23, 45, 67)
++#if defined(__GNUC__) && !defined(__clang__)
++#pragma GCC unroll 1
++#endif
+                     for (int cp = 0; cp < ncols_interleaved / 2; cp++) {
+                         for (int i = 0; i < 4; i++) {
+                             sb_acc[i] = vdupq_n_s32(0);
+@@ -4188,19 +4249,10 @@ void ggml_gemm_q4_K_8x8_q8_K(int                        n,
+                             }
+                         }
+ 
+-                        // Scales[i] corresponds to column i
+-                        const int scale_offset = cp * 2;
+-                        const int32_t scale_00 = q4sb_scales[0][scale_offset];
+-                        const int32_t scale_01 = q4sb_scales[0][scale_offset + 1];
+-                        const int32_t scale_10 = q4sb_scales[1][scale_offset];
+-                        const int32_t scale_11 = q4sb_scales[1][scale_offset + 1];
+-                        const int32x4_t block_scale_0 = vcombine_s32(vdup_n_s32(scale_00), vdup_n_s32(scale_01));
+-                        const int32x4_t block_scale_1 = vcombine_s32(vdup_n_s32(scale_10), vdup_n_s32(scale_11));
+-
+-                        acc[cp]     = vmlaq_s32(acc[cp], sb_acc[0], block_scale_0);
+-                        acc[cp + 4] = vmlaq_s32(acc[cp + 4], sb_acc[2], block_scale_0);
+-                        acc[cp]     = vmlaq_s32(acc[cp], sb_acc[1], block_scale_1);
+-                        acc[cp + 4] = vmlaq_s32(acc[cp + 4], sb_acc[3], block_scale_1);
++                        acc[cp]     = vmlaq_s32(acc[cp], sb_acc[0], block_scales[0][cp]);
++                        acc[cp + 4] = vmlaq_s32(acc[cp + 4], sb_acc[2], block_scales[0][cp]);
++                        acc[cp]     = vmlaq_s32(acc[cp], sb_acc[1], block_scales[1][cp]);
++                        acc[cp + 4] = vmlaq_s32(acc[cp + 4], sb_acc[3], block_scales[1][cp]);
+                     }
+ 
+                     // Multiply Acc bsum + mins
+diff --git a/tests/test-reasoning-budget.cpp b/tests/test-reasoning-budget.cpp
+index 3bcc77e1733cef05166737cb89a29edae182a260..1b942791f0623dc22299ce0f995b3dd4c6eaacab 100644
+--- a/tests/test-reasoning-budget.cpp
++++ b/tests/test-reasoning-budget.cpp
+@@ -490,12 +490,29 @@ int main(void) {
+             SIZE_MAX, SIZE_MAX); // no forcing expected (natural end)
+     }
+ 
++    // Regression: the common sampler accepts every generation-prompt token as
++    // prefill without applying logits. A token following the matched start tag
++    // must not be mistaken for the end tag that budget=0 is about to force.
++    {
++        const std::vector<llama_token> start = {100};
++        const std::vector<llama_token> end = {101};
++        const std::vector<llama_token> forced = {101};
++        auto * sampler = common_reasoning_budget_init(
++            nullptr, {start}, {end}, forced, 0, REASONING_BUDGET_IDLE);
++
++        llama_sampler_accept(sampler, 100);
++        GGML_ASSERT(common_reasoning_budget_get_state(sampler) == REASONING_BUDGET_FORCING);
++        llama_sampler_accept(sampler, 50); // trailing generation-prompt newline
++        GGML_ASSERT(common_reasoning_budget_get_state(sampler) == REASONING_BUDGET_FORCING);
++        llama_sampler_free(sampler);
++    }
++
+     test_reasoning_budget_clone_mid_counting();
+     test_reasoning_budget_clone_mid_forcing();
+     test_reasoning_budget_force_manual();
+     test_reasoning_budget_end_match();
+ 
+-    printf("OK (12 tests passed)\n");
++    printf("OK (13 tests passed)\n");
+ 
+     printf("Testing UTF-8 boundary detection... ");
+     test_utf8_boundary_detection();

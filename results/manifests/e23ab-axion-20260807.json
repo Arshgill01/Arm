@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "experiment_ids": ["E23a", "E23b"],
+  "captured_at_utc": "2026-08-07",
+  "source_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+  "model": {
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "entrypoint": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+    "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4"
+  },
+  "host": {
+    "provider": "Google Cloud Compute Engine",
+    "instance_name": "arm-kernel-e23a-20260807",
+    "instance_id": "4325326855186429939",
+    "zone": "us-central1-a",
+    "machine_type": "c4a-highcpu-8",
+    "cpu": "Google Axion Neoverse V2",
+    "benchmark_core_set": "0-3",
+    "threads": 4,
+    "sve_vector_length_bytes": 16,
+    "deleted_after_capture": true
+  },
+  "candidate_patch": "patches/llama.cpp/b10216/0011-arm-q4-k-split-sve-neon-kernels.patch",
+  "repository_evidence": "results/raw/e23ab-axion-20260807",
+  "full_raw_bundle": {
+    "local_path": "/var/tmp/e23a-evidence-20260807.tar.gz",
+    "size_bytes": 5898594,
+    "sha256": "15fceb80b02bf4021d87e1f07b67b1f8b84aa8a4c7cd3c2adeddb144622437c0",
+    "committed": false,
+    "reason": "Contains binary perf.data samples; compact text evidence is committed separately."
+  },
+  "setup_failure_bundle": {
+    "local_path": "/var/tmp/e23a-failure-version-probe.tar.gz",
+    "size_bytes": 68613,
+    "sha256": "a8d5b61db0d39dbf3b7125f405227e995d983ff4351f839b99c23416e4876b60",
+    "failure": "llama-bench b10216 does not implement --version; the harness was corrected to capture --help instead."
+  },
+  "discarded_runs": [
+    {
+      "case": "E23a pp4096 profile",
+      "reason": "Candidate compilation overlapped the control run, so it was terminated and excluded from every claim."
+    },
+    {
+      "case": "CLI correctness probe with 512-token context",
+      "reason": "The model's generated prompt exceeded context and the CLI retried interactively; only the stderr diagnosis was retained."
+    }
+  ]
+}

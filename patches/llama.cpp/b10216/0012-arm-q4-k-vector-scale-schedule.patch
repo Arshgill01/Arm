@@ -1,0 +1,86 @@
+diff --git a/ggml/src/ggml-cpu/arch/arm/repack.cpp b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+index a753444..0de400a 100644
+--- a/ggml/src/ggml-cpu/arch/arm/repack.cpp
++++ b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+@@ -46,6 +46,25 @@ static inline void decode_q_Kx8_6bit_scales(const uint8_t * scales_in, int16x8_t
+     scales_u32[1] = (sm[2] & kmask2) | (((sm[0] >> 6) & kmask3) << 4);
+     memcpy(out_scales, scales_u32, 8);
+ }
++
++static inline int8x8_t decode_q_Kx8_6bit_scales_vec(const uint8_t * scales_in, int16x8_t * out_mins) {
++    constexpr uint32_t kmask1 = 0x3f3f3f3f;
++    constexpr uint32_t kmask2 = 0x0f0f0f0f;
++    constexpr uint32_t kmask3 = 0x03030303;
++
++    uint32_t sm[3];
++    memcpy(sm, scales_in, sizeof(sm));
++
++    const uint32_t   mins_0_3 = sm[1] & kmask1;
++    const uint32_t   mins_4_7 = ((sm[2] >> 4) & kmask2) | (((sm[1] >> 6) & kmask3) << 4);
++    const uint32x2_t mins_u32 = { mins_0_3, mins_4_7 };
++    *out_mins = vreinterpretq_s16_u16(vmovl_u8(vreinterpret_u8_u32(mins_u32)));
++
++    const uint32_t scales_0_3 = sm[0] & kmask1;
++    const uint32_t scales_4_7 = (sm[2] & kmask2) | (((sm[0] >> 6) & kmask3) << 4);
++    const uint32x2_t scales_u32 = { scales_0_3, scales_4_7 };
++    return vreinterpret_s8_u32(scales_u32);
++}
+ #endif
+ 
+ void ggml_quantize_mat_q8_0_4x4(const float * GGML_RESTRICT x, void * GGML_RESTRICT vy, int64_t k) {
+@@ -4121,11 +4140,19 @@ void ggml_gemm_q4_K_8x8_q8_K(int                        n,
+                 for (int sb = 0; sb < QK_K / 64; sb++) {
+                     // Need scales for the low and high nibbles
+                     // 2 * 12 = 24 bytes per subblock, 4 sbs -> 4 * 24 = 96 bytes total
+-                    int8_t    q4sb_scales[2][8];
++                    int32x4_t block_scales[2][4];
+                     int16x8_t q4sb_mins[2];  // int16 as its needed for bias_acc later
+                     for (int i = 0; i < 2; i++) {
+                         const int offset = sb * 24 + i * 12;
+-                        decode_q_Kx8_6bit_scales(&q4_ptr[b].scales[offset], &q4sb_mins[i], q4sb_scales[i]);
++                        const int8x8_t scales_s8 = decode_q_Kx8_6bit_scales_vec(
++                            &q4_ptr[b].scales[offset], &q4sb_mins[i]);
++                        const int16x8_t scales_s16 = vmovl_s8(scales_s8);
++                        const int16x8_t paired_lo  = vzip1q_s16(scales_s16, scales_s16);
++                        const int16x8_t paired_hi  = vzip2q_s16(scales_s16, scales_s16);
++                        block_scales[i][0] = vmovl_s16(vget_low_s16(paired_lo));
++                        block_scales[i][1] = vmovl_s16(vget_high_s16(paired_lo));
++                        block_scales[i][2] = vmovl_s16(vget_low_s16(paired_hi));
++                        block_scales[i][3] = vmovl_s16(vget_high_s16(paired_hi));
+                     }
+ 
+                     // q8_ptr[b].qs has interleaved Q8 rows (01, 23)
+@@ -4149,6 +4176,9 @@ void ggml_gemm_q4_K_8x8_q8_K(int                        n,
+                     };
+ 
+                     // Q4s columns iterated in pairs (01, 23, 45, 67)
++#if defined(__GNUC__) && !defined(__clang__)
++#pragma GCC unroll 1
++#endif
+                     for (int cp = 0; cp < ncols_interleaved / 2; cp++) {
+                         for (int i = 0; i < 4; i++) {
+                             sb_acc[i] = vdupq_n_s32(0);
+@@ -4188,19 +4218,10 @@ void ggml_gemm_q4_K_8x8_q8_K(int                        n,
+                             }
+                         }
+ 
+-                        // Scales[i] corresponds to column i
+-                        const int scale_offset = cp * 2;
+-                        const int32_t scale_00 = q4sb_scales[0][scale_offset];
+-                        const int32_t scale_01 = q4sb_scales[0][scale_offset + 1];
+-                        const int32_t scale_10 = q4sb_scales[1][scale_offset];
+-                        const int32_t scale_11 = q4sb_scales[1][scale_offset + 1];
+-                        const int32x4_t block_scale_0 = vcombine_s32(vdup_n_s32(scale_00), vdup_n_s32(scale_01));
+-                        const int32x4_t block_scale_1 = vcombine_s32(vdup_n_s32(scale_10), vdup_n_s32(scale_11));
+-
+-                        acc[cp]     = vmlaq_s32(acc[cp], sb_acc[0], block_scale_0);
+-                        acc[cp + 4] = vmlaq_s32(acc[cp + 4], sb_acc[2], block_scale_0);
+-                        acc[cp]     = vmlaq_s32(acc[cp], sb_acc[1], block_scale_1);
+-                        acc[cp + 4] = vmlaq_s32(acc[cp + 4], sb_acc[3], block_scale_1);
++                        acc[cp]     = vmlaq_s32(acc[cp], sb_acc[0], block_scales[0][cp]);
++                        acc[cp + 4] = vmlaq_s32(acc[cp + 4], sb_acc[2], block_scales[0][cp]);
++                        acc[cp]     = vmlaq_s32(acc[cp], sb_acc[1], block_scales[1][cp]);
++                        acc[cp + 4] = vmlaq_s32(acc[cp + 4], sb_acc[3], block_scales[1][cp]);
+                     }
+ 
+                     // Multiply Acc bsum + mins

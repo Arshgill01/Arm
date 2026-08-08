@@ -1,0 +1,50 @@
+[1/50] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.o
+[2/50] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.o
+[3/50] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o
+[4/50] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.o
+[5/50] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o
+[6/50] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.cpp.o
+[7/50] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/hbm.cpp.o
+[8/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.c.o
+[9/50] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/traits.cpp.o
+[10/50] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/amx.cpp.o
+[11/50] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o
+[12/50] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/mmq.cpp.o
+[13/50] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/vec.cpp.o
+[14/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/quants.c.o
+[15/50] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/binary-ops.cpp.o
+[16/50] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend-meta.cpp.o
+[17/50] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.o
+[18/50] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/unary-ops.cpp.o
+[19/50] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/kleidiai/kleidiai.cpp.o
+[20/50] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o
+[21/50] Linking CXX shared library bin/libggml-base.so.0.18.1
+[22/50] Creating library symlink bin/libggml-base.so.0 bin/libggml-base.so
+[23/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/pack/kai_lhs_quant_pack_qsi8d32p_f32.c.o
+[24/50] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/kleidiai/kernels.cpp.o
+[25/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/arm/quants.c.o
+[26/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/pack/kai_lhs_quant_pack_qsi8d32p4x8sb_f32_neon.c.o
+[27/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/pack/kai_rhs_pack_nxk_qsi4c32ps1s0scalef16_qsu4c32s16s0_neon.c.o
+[28/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/pack/kai_lhs_quant_pack_qsi8d32p_f32_neon.c.o
+[29/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/pack/kai_rhs_pack_nxk_qsi4c32pscalef16_qsu4c32s16s0.c.o
+[30/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/pack/kai_lhs_quant_pack_qai8dxp_f32.c.o
+[31/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/pack/kai_rhs_pack_nxk_qsi8cxp_qsi8cx_neon.c.o
+[32/50] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/llamafile/sgemm.cpp.o
+[33/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod.c.o
+[34/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod.c.o
+[35/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod.c.o
+[36/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod.c.o
+[37/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod.c.o
+[38/50] Building ASM object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/kai_common_sve_asm.S.o
+[39/50] Building ASM object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod_asm.S.o
+[40/50] Building ASM object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm_asm.S.o
+[41/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod.c.o
+[42/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm.c.o
+[43/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qai8dxp_qsi8cxp/kai_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm.c.o
+[44/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod.c.o
+[45/50] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/__/__/_deps/kleidiai_download-src/kai/ukernels/matmul/matmul_clamp_f32_qsi8d32p_qsi4c32p/kai_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm.c.o
+[46/50] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/arm/repack.cpp.o
+[47/50] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ops.cpp.o
+[48/50] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/repack.cpp.o
+[49/50] Linking CXX shared library bin/libggml-cpu.so.0.18.1
+[50/50] Creating library symlink bin/libggml-cpu.so.0 bin/libggml-cpu.so
