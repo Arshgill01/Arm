@@ -1,0 +1,8 @@
+ common/reasoning-budget.cpp           |  10 +
+ ggml/src/ggml-cpu/CMakeLists.txt      |  12 +-
+ ggml/src/ggml-cpu/arch/arm/quants.c   |  17 +-
+ ggml/src/ggml-cpu/arch/arm/repack.cpp | 478 ++++++++++++++++++++++++----------
+ ggml/src/ggml-cpu/repack.cpp          | 109 +++++++-
+ ggml/src/ggml-cpu/repack.h            |  14 +
+ tests/test-reasoning-budget.cpp       |  19 +-
+ 7 files changed, 501 insertions(+), 158 deletions(-)

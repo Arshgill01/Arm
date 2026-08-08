@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E25",
+  "status": "primary_target_met",
+  "claim_boundary": "The decoded-metadata Q4_K layout exceeds the frozen 1.10x whole-model target on Google Axion. Q4_K_S and Qwen remain positive on Axion, but the real-model path is neutral on Neoverse N1 because its non-I8MM dispatch does not select the packed representation.",
+  "provenance": {
+    "llama_cpp_frozen_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "llama_cpp_current_commit": "69bf6437914596fbbc4caf09a7ac16f2acdd1a94",
+    "contract_sha256": "c71ca15f36e2a317259bbf9c3a7f2ad24691aab24d03a5af2474ffefdf89cd60",
+    "candidate_patch_sha256": "b5e61f73bfc7efe1b735e5437f2e3323ef9f1a188e91bb747bbbcc90557719b4",
+    "current_patch_sha256": "674da08e5e03ccd2465e8c21c3cd7b8f8a3425b71e350e4cd96a6a78a2f38aa8",
+    "primary_model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4"
+  },
+  "primary_axion": {
+    "instance": "arm-e25-pmu-20260808",
+    "instance_id": "750392873397738700",
+    "machine_type": "c4a-highcpu-8",
+    "cpu": "Google Axion / Arm Neoverse V2",
+    "threads": 4,
+    "tg128": {
+      "e24_samples_tokens_per_second": [25.989463, 26.087995, 26.117203, 26.125220],
+      "e24_median_tokens_per_second": 26.102599,
+      "candidate_samples_tokens_per_second": [29.101161, 29.106896, 29.116082, 29.126313],
+      "candidate_median_tokens_per_second": 29.111489,
+      "ratio": 1.115271663178061,
+      "target_ratio": 1.10,
+      "passed": true
+    },
+    "direct": {
+      "3072x2304": {"baseline_median_us": 194.654, "candidate_median_us": 135.227, "ratio": 1.439461054375236, "nmse": 6.50293261416e-14},
+      "9216x768": {"baseline_median_us": 201.284, "candidate_median_us": 137.978, "ratio": 1.458812274420560, "nmse": 1.93465945625e-13}
+    },
+    "prefill_pp512": {
+      "e24_samples_tokens_per_second": [55.832928, 55.967652, 55.988355, 56.148114],
+      "e24_median_tokens_per_second": 55.9780035,
+      "candidate_samples_tokens_per_second": [55.091340, 55.155348, 55.163641, 55.180699],
+      "candidate_median_tokens_per_second": 55.1594945,
+      "ratio": 0.985378024423468,
+      "floor": 0.98,
+      "passed": true
+    },
+    "q6_guard": {
+      "3072x2304_ratio": 1.0015263788436792,
+      "9216x768_ratio": 1.0095056640503655,
+      "worst_nmse": 3.22177008173e-13,
+      "passed": true
+    },
+    "representation": {
+      "q4_bytes_per_eight_rows": 1152,
+      "decoded_metadata_bytes_per_eight_rows": 128,
+      "metadata_overhead_fraction_of_q4_weights": 0.1111111111111111,
+      "whole_process_rss_delta_kib": 159744,
+      "readiness_proxy_delta_seconds": -0.2059777735,
+      "second_full_weight_copy": false
+    },
+    "instance_deleted": true,
+    "boot_disk_deleted": true,
+    "resource_closure_at_utc": "2026-08-08T10:28:09Z"
+  },
+  "adjacent_axion": {
+    "ministral_3b_q4_k_s": {"e24_median_tokens_per_second": 27.2180035, "candidate_median_tokens_per_second": 31.0913325, "ratio": 1.1423076090059288},
+    "qwen2_5_1_5b_q4_k_m": {"e24_median_tokens_per_second": 51.903897, "candidate_median_tokens_per_second": 56.4507865, "ratio": 1.0876020831345286}
+  },
+  "second_arm": {
+    "instance": "arm-e25-n1-20260808",
+    "instance_id": "8834799931938785517",
+    "machine_type": "t2a-standard-4",
+    "cpu": "Arm Neoverse N1",
+    "model": "Qwen2.5 1.5B Q4_K_M",
+    "direct_3072x2304_ratio": 1.470551958,
+    "direct_9216x768_ratio": 1.466727300,
+    "tg128_ratio": 0.9997073309220211,
+    "packed_real_model_dispatch_selected": false,
+    "instance_deleted": true,
+    "boot_disk_deleted": true
+  },
+  "negative_experiments": {
+    "family1_whole_model_ratio": 1.06965846025041,
+    "decoded_layout_before_bsum_cleanup_ratio": 1.095596241408549,
+    "initial_prefill_ratio": 0.9087856444186442,
+    "prefill_scale_hoist_ratio": 0.9736113444642764,
+    "paired_tile_dataflow": "direct regression",
+    "forced_subblock_unroll": "direct regression"
+  },
+  "correctness": {
+    "gemv_reference_passed": true,
+    "gemm_reference_passed": true,
+    "gemm_worst_nmse": 6.47041537413e-13,
+    "live_demo_completed": true,
+    "live_demo_output_identical": false,
+    "output_policy_changed": false
+  },
+  "current_upstream": {
+    "patch_applies_cleanly": true,
+    "x86_build_passed": true,
+    "axion_build_passed": true,
+    "real_model_smoke_passed": true,
+    "direct_3072x2304_ratio_range": [1.440404011, 1.452872766],
+    "direct_9216x768_ratio_range": [1.459412869, 1.476064655]
+  },
+  "github_validation": {
+    "run_id": 31251352112,
+    "conclusion": "success",
+    "arm_direct_3072x2304_ratio": 1.351759746,
+    "arm_direct_9216x768_ratio": 1.327902377
+  },
+  "cloud_cost": {
+    "budget_usd": 12.0,
+    "conservative_total_estimate_usd_less_than": 1.20,
+    "primary_axion_runtime_hours": 2.4592,
+    "all_e25_instances_deleted": true,
+    "all_e25_boot_disks_deleted": true
+  }
+}

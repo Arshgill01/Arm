@@ -1,0 +1,130 @@
+name: E25 Q4_K decode-layout validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/e25-q4-k-decode-layout.yml"
+      - "experiments/e25_*"
+      - "patches/llama.cpp/e25/**"
+      - "scripts/demo_e25_*"
+
+permissions:
+  contents: read
+
+env:
+  LLAMA_CPP_SHA: 876a4321163249c43ca4e986818fab5ab081f282
+  SOURCE_DIR: /tmp/llama.cpp-e25
+  BUILD_DIR: /tmp/llama.cpp-e25-build
+  EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e25-ci-${{ github.run_id }}-${{ github.run_attempt }}
+
+jobs:
+  validate:
+    name: Apply, build, and check direct kernels on Arm
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out experiment repository
+        uses: actions/checkout@v7
+
+      - name: Install build and script tooling
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake jq ninja-build shellcheck
+
+      - name: Verify E25 scripts and frozen contract
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR"
+          test "$(uname -m)" = aarch64
+          bash -n experiments/e25_q4_layout_reproduce.sh \
+            scripts/demo_e25_q4_k_decode_layout.sh
+          shellcheck experiments/e25_q4_layout_reproduce.sh \
+            scripts/demo_e25_q4_k_decode_layout.sh
+          jq -e '.experiment_id == "E25"' experiments/e25_contract.json
+          sha256sum experiments/e25_contract.json \
+            patches/llama.cpp/e25/0003-q4-k-decoded-metadata-layout.patch \
+            | tee "$EVIDENCE_DIR/input-sha256.txt"
+          uname -a | tee "$EVIDENCE_DIR/uname.txt"
+          lscpu | tee "$EVIDENCE_DIR/lscpu.txt"
+
+      - name: Apply the cumulative E24 and E25 patch series
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/ggml-org/llama.cpp.git "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$LLAMA_CPP_SHA"
+          patches=(
+            patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch
+            patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch
+            patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch
+            patches/llama.cpp/b10216/0013-arm-q4-k-neon-vector-scale-kernel.patch
+            patches/llama.cpp/b10216/0016-arm-q6-k-gemv-fused-scales.patch
+            patches/llama.cpp/b10216/0020-arm-q6-k-gemv-just-in-time-loads.patch
+            patches/llama.cpp/e25/0003-q4-k-decoded-metadata-layout.patch
+          )
+          for patch in "${patches[@]}"; do
+            git -C "$SOURCE_DIR" apply --check "$GITHUB_WORKSPACE/$patch"
+            git -C "$SOURCE_DIR" apply "$GITHUB_WORKSPACE/$patch"
+          done
+          git -C "$SOURCE_DIR" diff --check
+          git -C "$SOURCE_DIR" diff --stat \
+            | tee "$EVIDENCE_DIR/diff-stat.txt"
+
+      - name: Build the patched shared CPU backend
+        run: |
+          set -euo pipefail
+          cmake -S "$SOURCE_DIR" -B "$BUILD_DIR" -G Ninja \
+            -DBUILD_SHARED_LIBS=ON \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DGGML_NATIVE=ON \
+            -DGGML_OPENMP=ON \
+            -DLLAMA_BUILD_SERVER=OFF \
+            2>&1 | tee "$EVIDENCE_DIR/configure.log"
+          cmake --build "$BUILD_DIR" --parallel "$(nproc)" \
+            --target llama-bench \
+            2>&1 | tee "$EVIDENCE_DIR/build.log"
+
+      - name: Run reference and direct kernel checks
+        run: |
+          set -euo pipefail
+          compile=(
+            c++ -O3 -std=c++17 -march=native
+            -I"$SOURCE_DIR/ggml/include"
+            -I"$SOURCE_DIR/ggml/src"
+            -I"$SOURCE_DIR/ggml/src/ggml-cpu"
+            -L"$BUILD_DIR/bin" "-Wl,-rpath,$BUILD_DIR/bin"
+          )
+          libraries=(-lggml-cpu -lggml-base -lggml -fopenmp)
+          "${compile[@]}" experiments/e25_q4_layout_bench.cpp \
+            -o /tmp/e25-q4-layout-bench "${libraries[@]}"
+          "${compile[@]}" experiments/e25_q4_gemm_correctness.cpp \
+            -o /tmp/e25-q4-gemm-correctness "${libraries[@]}"
+          taskset --cpu-list 0 /tmp/e25-q4-gemm-correctness \
+            | tee "$EVIDENCE_DIR/gemm-correctness.txt"
+          taskset --cpu-list 0 /tmp/e25-q4-layout-bench 3072 2304 11 \
+            | tee "$EVIDENCE_DIR/direct-3072x2304.txt"
+          taskset --cpu-list 0 /tmp/e25-q4-layout-bench 9216 768 11 \
+            | tee "$EVIDENCE_DIR/direct-9216x768.txt"
+          awk '{for (i=1;i<=NF;i++) if ($i ~ /^decoded_ratio=/) {split($i,a,"="); if (a[2] < 1.20) exit 1}}' \
+            "$EVIDENCE_DIR"/direct-*.txt
+
+      - name: Inventory and upload E25 evidence
+        if: always()
+        run: |
+          set -euo pipefail
+          find "$EVIDENCE_DIR" -type f ! -name file-inventory-sha256.txt -print0 \
+            | sort -z | xargs -0 sha256sum \
+            > "$EVIDENCE_DIR/file-inventory-sha256.txt"
+
+      - name: Upload E25 evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e25-q4-k-decode-layout-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90

@@ -1,0 +1,14 @@
+--- /var/tmp/e25/reproduce-final-bsum-output/demo/baseline.stdout	2026-08-08 10:22:32.201823566 +0000
++++ /var/tmp/e25/reproduce-final-bsum-output/demo/candidate.stdout	2026-08-08 10:22:38.929823416 +0000
+@@ -1,6 +1,8 @@
+-Balanced measurement order ensures consistent and reliable results by minimizing systematic biases that arise from the sequence of measurements. It prevents variations caused by environmental changes, instrument drift, or cumulative effects of prior tests affecting subsequent measurements. Proper ordering maintains experimental validity, ensuring accurate comparisons between different conditions or treatments. This approach is critical for drawing statistically sound conclusions in performance experiments. 
++Balanced measurement order ensures consistent and reliable results by minimizing systematic biases that arise from the sequence of measurements. It prevents variations caused by environmental changes, instrument drift, or sequential dependencies between tests. Proper ordering maintains statistical validity, allowing accurate comparisons across different experimental conditions. This approach enhances reproducibility and trustworthiness in performance evaluations. 
+ 
+-*(Example: If you measure CPU temperature before and after a workload, the order matters because cooling effects could skew results.)* 
++*(Concise yet thorough!)* 😊
+ 
+-Would you like a deeper dive into specific scenarios? For instance, how this applies to latency testing or power profiling? Let me know! �
++Would you like a deeper dive into any specific aspect? For example, how to implement it in your experiments? 🚀
++
++*(Example: If you’re testing CPU performance under different workloads, measuring each workload in a random order helps avoid warm-up
+ 

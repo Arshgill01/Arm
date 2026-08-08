@@ -1,0 +1,369 @@
+diff --git a/ggml/src/ggml-cpu/ggml-cpu.c b/ggml/src/ggml-cpu/ggml-cpu.c
+index 491316f7491252248d6f74a60440d3efa7aa6177..37765812e2d04e4306066c1cf59092df412052b5 100644
+--- a/ggml/src/ggml-cpu/ggml-cpu.c
++++ b/ggml/src/ggml-cpu/ggml-cpu.c
+@@ -3022,11 +3022,40 @@ struct ggml_cplan ggml_graph_plan(
+ // Try to fuse the current node with subsequent nodes for better performance.
+ // Returns the number of nodes skipped by fusion (>=1), or 0 if no fusion was applied.
+ static bool ggml_cpu_disable_fusion = false;  // initialized once in ggml_cpu_init(), read-only afterwards
++static bool ggml_cpu_tiled_ffn      = false;
++static bool ggml_cpu_tiled_ffn_debug = false;
++
++static bool ggml_cpu_tiled_ffn_roles_match(
++        const struct ggml_tensor * gate,
++        const struct ggml_tensor * up,
++        const struct ggml_tensor * down) {
++    static const char gate_suffix[] = ".ffn_gate.weight";
++    static const char up_suffix[]   = ".ffn_up.weight";
++    static const char down_suffix[] = ".ffn_down.weight";
++    const size_t gate_name_length   = strlen(gate->src[0]->name);
++    const size_t up_name_length     = strlen(up->src[0]->name);
++    const size_t down_name_length   = strlen(down->src[0]->name);
++    const size_t gate_suffix_length = sizeof(gate_suffix) - 1;
++    const size_t up_suffix_length   = sizeof(up_suffix) - 1;
++    const size_t down_suffix_length = sizeof(down_suffix) - 1;
++    if (gate_name_length <= gate_suffix_length || up_name_length <= up_suffix_length || down_name_length <= down_suffix_length) {
++        return false;
++    }
++    const size_t gate_prefix_length = gate_name_length - gate_suffix_length;
++    const size_t up_prefix_length   = up_name_length - up_suffix_length;
++    const size_t down_prefix_length = down_name_length - down_suffix_length;
++    return gate_prefix_length == up_prefix_length && gate_prefix_length == down_prefix_length &&
++           memcmp(gate->src[0]->name, up->src[0]->name, gate_prefix_length) == 0 &&
++           memcmp(gate->src[0]->name, down->src[0]->name, gate_prefix_length) == 0 &&
++           strcmp(gate->src[0]->name + gate_prefix_length, gate_suffix) == 0 &&
++           strcmp(up->src[0]->name + up_prefix_length, up_suffix) == 0 &&
++           strcmp(down->src[0]->name + down_prefix_length, down_suffix) == 0;
++}
+ 
+ static int ggml_cpu_try_fuse_ops(
+         const struct ggml_cgraph * cgraph,
+         const int node_n,
+-        const struct ggml_compute_params * params,
++        struct ggml_compute_params * params,
+         const struct ggml_cplan * cplan) {
+ 
+     if (ggml_cpu_disable_fusion || cplan->use_ref) {
+@@ -3035,6 +3064,33 @@ static int ggml_cpu_try_fuse_ops(
+ 
+     struct ggml_tensor * node = cgraph->nodes[node_n];
+ 
++    if (ggml_cpu_tiled_ffn && node->op == GGML_OP_MUL_MAT && node_n + 3 < cgraph->n_nodes) {
++        struct ggml_tensor * up         = cgraph->nodes[node_n + 1];
++        struct ggml_tensor * activation = cgraph->nodes[node_n + 2];
++        struct ggml_tensor * down       = cgraph->nodes[node_n + 3];
++        const enum ggml_op ffn_ops[]    = { GGML_OP_MUL_MAT, GGML_OP_MUL_MAT, GGML_OP_GLU, GGML_OP_MUL_MAT };
++        const int ffn_outputs[]         = { node_n + 3 };
++        if (node->src[1] == up->src[1] &&
++            node->src[0]->type == GGML_TYPE_Q4_K &&
++            up->src[0]->type == GGML_TYPE_Q4_K &&
++            ggml_are_same_shape(node, up) &&
++            activation->src[0] == node &&
++            activation->src[1] == up &&
++            down->src[1] == activation &&
++            (down->src[0]->type == GGML_TYPE_Q4_K || down->src[0]->type == GGML_TYPE_Q6_K) &&
++            ggml_get_glu_op(activation) == GGML_GLU_OP_SWIGLU &&
++            ggml_get_op_params_i32(activation, 1) == 0 &&
++            ggml_cpu_tiled_ffn_roles_match(node, up, down) &&
++            ggml_can_fuse_subgraph(cgraph, node_n, 4, ffn_ops, ffn_outputs, 1) &&
++            ggml_cpu_extra_compute_forward_tiled_ffn(params, node, up, activation, down)) {
++            if (ggml_cpu_tiled_ffn_debug && params->ith == 0) {
++                GGML_LOG_INFO("tiled_ffn: %s + %s -> %s, rows = %" PRId64 ", tokens = %" PRId64 "\n",
++                        node->src[0]->name, up->src[0]->name, down->src[0]->name, node->ne[0], node->ne[1]);
++            }
++            return 3;
++        }
++    }
++
+     if (node->op == GGML_OP_RMS_NORM) {
+         // RMS_NORM + MUL fusion
+         const enum ggml_op fuse_ops[] = { GGML_OP_RMS_NORM, GGML_OP_MUL };
+@@ -3887,6 +3943,14 @@ void ggml_cpu_init(void) {
+             const char * env = getenv("GGML_CPU_DISABLE_FUSION");
+             ggml_cpu_disable_fusion = (env != NULL && atoi(env) == 1);
+         }
++        {
++            const char * env = getenv("GGML_CPU_TILED_FFN");
++            ggml_cpu_tiled_ffn = (env != NULL && atoi(env) == 1);
++        }
++        {
++            const char * env = getenv("GGML_CPU_TILED_FFN_DEBUG");
++            ggml_cpu_tiled_ffn_debug = (env != NULL && atoi(env) == 1);
++        }
+ 
+         is_first_call = false;
+     }
+diff --git a/ggml/src/ggml-cpu/repack.cpp b/ggml/src/ggml-cpu/repack.cpp
+index 9689ca3ced8fa4b00df712a624aade1c1797bce2..4d5d9c11f00ed345616801f090252aff3f029929 100644
+--- a/ggml/src/ggml-cpu/repack.cpp
++++ b/ggml/src/ggml-cpu/repack.cpp
+@@ -8,6 +8,7 @@
+ #include "ggml-cpu-impl.h"
+ #include "simd-mappings.h"
+ #include "traits.h"
++#include "vec.h"
+ 
+ #include "arch-fallback.h"
+ 
+@@ -4201,6 +4202,186 @@ template <typename BLOC_TYPE, int64_t INTER_SIZE, int64_t NB_COLS, ggml_type PAR
+         return false;
+     }
+ 
++    bool compute_forward_tiled_ffn(
++            struct ggml_compute_params * params,
++            struct ggml_tensor * gate,
++            struct ggml_tensor * up,
++            struct ggml_tensor * activation,
++            struct ggml_tensor * down,
++            ggml::cpu::tensor_traits * down_traits) override {
++        if (gate->op != GGML_OP_MUL_MAT ||
++            up->op != GGML_OP_MUL_MAT ||
++            activation->op != GGML_OP_GLU ||
++            down->op != GGML_OP_MUL_MAT ||
++            gate->src[1] != up->src[1] ||
++            gate->src[0]->type != GGML_TYPE_Q4_K ||
++            up->src[0]->type != GGML_TYPE_Q4_K ||
++            (down->src[0]->type != GGML_TYPE_Q4_K && down->src[0]->type != GGML_TYPE_Q6_K) ||
++            gate->src[1]->type != GGML_TYPE_F32 ||
++            gate->type != GGML_TYPE_F32 ||
++            up->type != GGML_TYPE_F32 ||
++            activation->type != GGML_TYPE_F32 ||
++            down->type != GGML_TYPE_F32 ||
++            !ggml_are_same_shape(gate, up) ||
++            !ggml_are_same_shape(gate, activation) ||
++            ggml_n_dims(gate->src[0]) != 2 ||
++            ggml_n_dims(up->src[0]) != 2 ||
++            ggml_n_dims(down->src[0]) != 2 ||
++            gate->ne[2] != 1 || gate->ne[3] != 1 ||
++            gate->src[1]->ne[2] != 1 || gate->src[1]->ne[3] != 1 ||
++            gate->nb[0] != sizeof(float) ||
++            up->nb[0] != sizeof(float) ||
++            activation->nb[0] != sizeof(float) ||
++            down->nb[0] != sizeof(float) ||
++            PARAM_TYPE != GGML_TYPE_Q8_K ||
++            down_traits->repack_interleave() != INTER_SIZE ||
++            down_traits->repack_columns() != NB_COLS) {
++            return false;
++        }
++
++        const int64_t n_embd   = gate->src[0]->ne[0];
++        const int64_t n_ff     = gate->src[0]->ne[1];
++        const int64_t n_tokens = gate->src[1]->ne[1];
++        const int     ith      = params->ith;
++        const int     nth      = params->nth;
++        int64_t       tile     = n_ff - n_embd < 1024 ? n_ff - n_embd : 1024;
++        tile -= tile % QK_K;
++        if (tile < QK_K || n_ff % QK_K != 0 ||
++            down->src[0]->ne[0] != n_ff || down->src[0]->ne[1] != n_embd ||
++            down->ne[0] != n_embd || down->ne[1] != n_tokens) {
++            return false;
++        }
++
++        char *       wdata          = static_cast<char *>(params->wdata);
++        const size_t input_stride    = ggml_row_size(PARAM_TYPE, n_embd);
++        const size_t tile_stride_max = ggml_row_size(PARAM_TYPE, tile);
++        char *       tile_data       = wdata + input_stride * n_tokens;
++        if (params->wsize < (input_stride + tile_stride_max) * n_tokens) {
++            return false;
++        }
++
++        const ggml_from_float_t from_float = ggml_get_type_traits_cpu(PARAM_TYPE)->from_float;
++        for (int64_t ir = ith * 4; ir < n_tokens - n_tokens % 4; ir += nth * 4) {
++            ggml_quantize_mat_t<INTER_SIZE, PARAM_TYPE>(
++                    (float *) ((char *) gate->src[1]->data + ir * gate->src[1]->nb[1]),
++                    wdata + ir * input_stride, 4, n_embd);
++        }
++        const int64_t rows_processed = n_tokens - n_tokens % 4;
++        for (int64_t ir = rows_processed + ith; ir < n_tokens; ir += nth) {
++            from_float(
++                    (float *) ((char *) gate->src[1]->data + ir * gate->src[1]->nb[1]),
++                    wdata + ir * input_stride, n_embd);
++        }
++
++        ggml_barrier(params->threadpool);
++
++        float * gate_scratch      = (float *) gate->data;
++        float * up_scratch        = (float *) up->data;
++        float * activation_scratch = (float *) activation->data;
++        const size_t down_block_bytes = ggml_row_size(down->src[0]->type, QK_K) * NB_COLS;
++        for (int64_t tile_start = 0; tile_start < n_ff; tile_start += tile) {
++            const int64_t tile_rows = MIN(tile, n_ff - tile_start);
++            int64_t row_start = (ith * tile_rows) / nth;
++            int64_t row_end   = ((ith + 1) * tile_rows) / nth;
++            row_start = (row_start + NB_COLS - 1) / NB_COLS * NB_COLS;
++            row_end   = (row_end + NB_COLS - 1) / NB_COLS * NB_COLS;
++            row_end   = MIN(row_end, tile_rows);
++            const int64_t rows = row_end - row_start;
++            const int64_t gemm_rows = n_tokens - n_tokens % 4;
++            const char * gate_weights = (const char *) gate->src[0]->data + (tile_start + row_start) * gate->src[0]->nb[1];
++            const char * up_weights   = (const char *) up->src[0]->data + (tile_start + row_start) * up->src[0]->nb[1];
++
++            if (rows > 0 && gemm_rows > 0) {
++                gemm<BLOC_TYPE, INTER_SIZE, NB_COLS, PARAM_TYPE>(
++                        n_embd, gate_scratch + row_start, tile_rows, gate_weights, wdata, gemm_rows, rows);
++                gemm<BLOC_TYPE, INTER_SIZE, NB_COLS, PARAM_TYPE>(
++                        n_embd, up_scratch + row_start, tile_rows, up_weights, wdata, gemm_rows, rows);
++            }
++            for (int64_t ir = gemm_rows; rows > 0 && ir < n_tokens; ++ir) {
++                gemv<BLOC_TYPE, INTER_SIZE, NB_COLS, PARAM_TYPE>(
++                        n_embd, gate_scratch + ir * tile_rows + row_start, rows, gate_weights,
++                        wdata + ir * input_stride, 1, rows);
++                gemv<BLOC_TYPE, INTER_SIZE, NB_COLS, PARAM_TYPE>(
++                        n_embd, up_scratch + ir * tile_rows + row_start, rows, up_weights,
++                        wdata + ir * input_stride, 1, rows);
++            }
++            for (int64_t ir = 0; ir < n_tokens; ++ir) {
++                ggml_vec_swiglu_f32(
++                        rows,
++                        activation_scratch + ir * tile_rows + row_start,
++                        gate_scratch + ir * tile_rows + row_start,
++                        up_scratch + ir * tile_rows + row_start);
++            }
++
++            ggml_barrier(params->threadpool);
++
++            const size_t tile_stride = ggml_row_size(PARAM_TYPE, tile_rows);
++            for (int64_t ir = ith * 4; ir < n_tokens - n_tokens % 4; ir += nth * 4) {
++                ggml_quantize_mat_t<INTER_SIZE, PARAM_TYPE>(
++                        activation_scratch + ir * tile_rows,
++                        tile_data + ir * tile_stride, 4, tile_rows);
++            }
++            for (int64_t ir = rows_processed + ith; ir < n_tokens; ir += nth) {
++                from_float(activation_scratch + ir * tile_rows, tile_data + ir * tile_stride, tile_rows);
++            }
++
++            ggml_barrier(params->threadpool);
++
++            int64_t down_start = (ith * n_embd) / nth;
++            int64_t down_end   = ((ith + 1) * n_embd) / nth;
++            down_start = (down_start + NB_COLS - 1) / NB_COLS * NB_COLS;
++            down_end   = (down_end + NB_COLS - 1) / NB_COLS * NB_COLS;
++            down_end   = MIN(down_end, n_embd);
++            float * down_scratch = activation_scratch + tile_rows * n_tokens;
++            const size_t input_block_offset = (tile_start / QK_K) * down_block_bytes;
++            for (int64_t down_row = down_start; down_row < down_end; down_row += NB_COLS) {
++                const char * down_weights = (const char *) down->src[0]->data +
++                        down_row * down->src[0]->nb[1] + input_block_offset;
++                if (gemm_rows > 0) {
++                    if (down->src[0]->type == GGML_TYPE_Q6_K) {
++                        gemm<block_q6_K, INTER_SIZE, NB_COLS, PARAM_TYPE>(
++                                tile_rows, down_scratch + down_row, n_embd,
++                                down_weights, tile_data, gemm_rows, NB_COLS);
++                    } else {
++                        gemm<block_q4_K, INTER_SIZE, NB_COLS, PARAM_TYPE>(
++                                tile_rows, down_scratch + down_row, n_embd,
++                                down_weights, tile_data, gemm_rows, NB_COLS);
++                    }
++                }
++                for (int64_t ir = gemm_rows; ir < n_tokens; ++ir) {
++                    if (down->src[0]->type == GGML_TYPE_Q6_K) {
++                        gemv<block_q6_K, INTER_SIZE, NB_COLS, PARAM_TYPE>(
++                                tile_rows, down_scratch + ir * n_embd + down_row, NB_COLS,
++                                down_weights, tile_data + ir * tile_stride, 1, NB_COLS);
++                    } else {
++                        gemv<block_q4_K, INTER_SIZE, NB_COLS, PARAM_TYPE>(
++                                tile_rows, down_scratch + ir * n_embd + down_row, NB_COLS,
++                                down_weights, tile_data + ir * tile_stride, 1, NB_COLS);
++                    }
++                }
++            }
++            const int64_t down_rows = down_end - down_start;
++            for (int64_t ir = 0; ir < n_tokens; ++ir) {
++                float * dst = (float *) ((char *) down->data + ir * down->nb[1]) + down_start;
++                float * src = down_scratch + ir * n_embd + down_start;
++                if (tile_start == 0) {
++                    memcpy(dst, src, down_rows * sizeof(float));
++                } else {
++                    for (int64_t i = 0; i < down_rows; ++i) {
++                        dst[i] += src[i];
++                    }
++                }
++            }
++
++            ggml_barrier(params->threadpool);
++        }
++
++        return true;
++    }
++
++    int64_t repack_interleave() const override { return INTER_SIZE; }
++    int64_t repack_columns() const override { return NB_COLS; }
++
+     void forward_mul_mat_one_chunk(ggml_compute_params * params,
+                                    ggml_tensor *         op,
+                                    int64_t               src0_start,
+diff --git a/ggml/src/ggml-cpu/traits.cpp b/ggml/src/ggml-cpu/traits.cpp
+index 4f32f10255aa4620484244e98f132a1bb0089d8e..8aa03e4d5967c12e85bc20ac81ec6ada0732fd96 100644
+--- a/ggml/src/ggml-cpu/traits.cpp
++++ b/ggml/src/ggml-cpu/traits.cpp
+@@ -22,6 +22,27 @@ bool ggml_cpu_extra_compute_forward(struct ggml_compute_params * params, struct
+     return false;
+ }
+ 
++bool ggml_cpu_extra_compute_forward_tiled_ffn(
++        struct ggml_compute_params * params,
++        struct ggml_tensor * gate,
++        struct ggml_tensor * up,
++        struct ggml_tensor * activation,
++        struct ggml_tensor * down) {
++    for (auto extra : ggml_backend_cpu_get_extra_buffer_types()) {
++        if (extra && extra->context) {
++            auto buf_extra   = (ggml::cpu::extra_buffer_type *) extra->context;
++            auto traits_gate = buf_extra->get_tensor_traits(gate);
++            auto traits_up   = buf_extra->get_tensor_traits(up);
++            auto traits_down = buf_extra->get_tensor_traits(down);
++            if (traits_gate && traits_gate == traits_up && traits_down &&
++                    traits_gate->compute_forward_tiled_ffn(params, gate, up, activation, down, traits_down)) {
++                return true;
++            }
++        }
++    }
++    return false;
++}
++
+ bool ggml_cpu_extra_work_size(int n_threads, const struct ggml_tensor * op, size_t * size) {
+     for (auto extra : ggml_backend_cpu_get_extra_buffer_types()) {
+         if (extra && extra->context) {
+diff --git a/ggml/src/ggml-cpu/traits.h b/ggml/src/ggml-cpu/traits.h
+index f4e0990ddfc95b61c2e38f224aac0fd76475c9c1..56be5a7fb24ca8db4b8d8a8c2938637258d7b758 100644
+--- a/ggml/src/ggml-cpu/traits.h
++++ b/ggml/src/ggml-cpu/traits.h
+@@ -10,6 +10,12 @@ extern "C" {
+ 
+ // return true if op part of extra "accelerator"
+ bool ggml_cpu_extra_compute_forward(struct ggml_compute_params * params, struct ggml_tensor * op);
++bool ggml_cpu_extra_compute_forward_tiled_ffn(
++        struct ggml_compute_params * params,
++        struct ggml_tensor * gate,
++        struct ggml_tensor * up,
++        struct ggml_tensor * activation,
++        struct ggml_tensor * down);
+ bool ggml_cpu_extra_work_size(int n_threads, const struct ggml_tensor * op, size_t * size);
+ 
+ #ifdef __cplusplus
+@@ -22,6 +28,23 @@ class tensor_traits {
+     virtual ~tensor_traits();
+     virtual bool work_size(int n_threads, const struct ggml_tensor * op, size_t & size)        = 0;
+     virtual bool compute_forward(struct ggml_compute_params * params, struct ggml_tensor * op) = 0;
++    virtual bool compute_forward_tiled_ffn(
++            struct ggml_compute_params * params,
++            struct ggml_tensor * gate,
++            struct ggml_tensor * up,
++            struct ggml_tensor * activation,
++            struct ggml_tensor * down,
++            tensor_traits * down_traits) {
++        GGML_UNUSED(params);
++        GGML_UNUSED(gate);
++        GGML_UNUSED(up);
++        GGML_UNUSED(activation);
++        GGML_UNUSED(down);
++        GGML_UNUSED(down_traits);
++        return false;
++    }
++    virtual int64_t repack_interleave() const { return 0; }
++    virtual int64_t repack_columns() const { return 0; }
+ };
+ 
+ class extra_buffer_type {
+
+

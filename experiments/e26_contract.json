@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "contract_revision": 2,
+  "experiment_id": "E26",
+  "title": "Arm Q4_K tiled FFN SwiGLU fusion",
+  "objective": "Execute dense Q4_K FFN gate, up, SwiGLU and Q4_K/Q6_K down projection as a tiled CPU dataflow without materializing full FFN intermediates.",
+  "source": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "tag": "b10216",
+    "commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "baseline_patches": [
+      "patches/llama.cpp/b10216/0013-arm-q4-k-neon-vector-scale-kernel.patch",
+      "patches/llama.cpp/b10216/0016-arm-q6-k-gemv-fused-scales.patch",
+      "patches/llama.cpp/b10216/0020-arm-q6-k-gemv-just-in-time-loads.patch"
+    ],
+    "candidate_patch": "patches/llama.cpp/e26/rejected/0001-ggml-cpu-tile-q4-k-ffn-swiglu.patch",
+    "current_upstream_commit_at_freeze": "69bf6437914596fbbc4caf09a7ac16f2acdd1a94"
+  },
+  "mechanism": {
+    "status": "rejected_after_native_cheap_gate",
+    "production_enabled": false,
+    "environment": "GGML_CPU_TILED_FFN",
+    "default_enabled": false,
+    "tile_rows": 1024,
+    "supported_gate_up_weight_type": "Q4_K",
+    "supported_down_weight_types": ["Q4_K", "Q6_K"],
+    "supported_activation": "split SwiGLU",
+    "required_roles": [".ffn_gate.weight", ".ffn_up.weight", ".ffn_down.weight"],
+    "required_shared_input": true,
+    "down_projection_fused": true,
+    "inner_kernel_changes": false
+  },
+  "layer": {
+    "dominant_shape": {
+      "n_embd": 3072,
+      "n_ff": 9216
+    },
+    "token_cases": [1, 32],
+    "threads": 4,
+    "minimum_speedup": 1.15,
+    "correctness": {
+      "output_policy": "NMSE <= 1e-8; characterize changed floating-point accumulation order",
+      "unsupported_role_fallback": true
+    }
+  },
+  "whole_model": {
+    "model": {
+      "repository": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+      "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+      "filename": "qwen2.5-1.5b-instruct-q4_k_m.gguf",
+      "size_bytes": 1117320736,
+      "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e"
+    },
+    "cases": [
+      {"id": "pp128", "prompt_tokens": 128, "generated_tokens": 0},
+      {"id": "pp512", "prompt_tokens": 512, "generated_tokens": 0},
+      {"id": "tg128", "prompt_tokens": 0, "generated_tokens": 128}
+    ],
+    "threads": 4,
+    "core_set": "0-3",
+    "promotion_speedup": 1.08,
+    "target_speedup": 1.10,
+    "non_regression_ratio": 0.98
+  },
+  "claim_boundary": "The layer harness measures one complete Q4_K gate/up/SwiGLU/down FFN. Whole-model claims require matched native Arm runs. The allocated graph buffers remain unchanged; saved bytes count avoided gate, up, and activation materialization after accounting for tile and down-accumulator scratch writes."
+}

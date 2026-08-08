@@ -1,0 +1,21 @@
+diff --git a/ggml/src/ggml-cpu/repack.cpp b/ggml/src/ggml-cpu/repack.cpp
+--- a/ggml/src/ggml-cpu/repack.cpp
++++ b/ggml/src/ggml-cpu/repack.cpp
+@@ -4244,7 +4244,16 @@
+         const int64_t n_tokens = gate->src[1]->ne[1];
+         const int     ith      = params->ith;
+         const int     nth      = params->nth;
+-        int64_t       tile     = n_ff - n_embd < 1024 ? n_ff - n_embd : 1024;
++        static const int64_t tile_limit = []() {
++            const char * value = getenv("GGML_CPU_TILED_FFN_TILE");
++            if (value == nullptr) {
++                return INT64_C(1024);
++            }
++            char * end = nullptr;
++            const int64_t parsed = strtoll(value, &end, 10);
++            return end != value && *end == '\0' && parsed > 0 ? parsed : INT64_C(1024);
++        }();
++        int64_t       tile     = n_ff - n_embd < tile_limit ? n_ff - n_embd : tile_limit;
+         tile -= tile % QK_K;
+         if (tile < QK_K || n_ff % QK_K != 0 ||
+             down->src[0]->ne[0] != n_ff || down->src[0]->ne[1] != n_embd ||

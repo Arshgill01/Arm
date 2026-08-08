@@ -1,0 +1,18 @@
+diff --git a/ggml/src/ggml-cpu/arch/arm/repack.cpp b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+index 30002f8..0c4211d 100644
+--- a/ggml/src/ggml-cpu/arch/arm/repack.cpp
++++ b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+@@ -626,11 +626,10 @@ void ggml_gemv_q4_K_8x4_q8_K(int n, float * GGML_RESTRICT s, size_t bs, const v
+                 // 2 * 12 = 24 bytes per subblock, 4 sbs -> 4 * 24 = 96 bytes total
+                 int16x8_t q4sb_mins[2];
+                 int16x8_t q4sb_scales[2];
+                 for (int i = 0; i < 2; i++) {
+-                    int8_t    aux_q4sb[8];
+                     const int offset = sb * 24 + i * 12;
+-                    decode_q_Kx8_6bit_scales(&q4_ptr[b].scales[offset], &q4sb_mins[i], aux_q4sb);
+-                    q4sb_scales[i] = vmovl_s8(vld1_s8(aux_q4sb));
++                    q4sb_scales[i] = vmovl_s8(decode_q_Kx8_6bit_scales_vec(
++                        &q4_ptr[b].scales[offset], &q4sb_mins[i]));
+                 }
+ 
+                 int8x16_t q8_qs[64 / 16];
