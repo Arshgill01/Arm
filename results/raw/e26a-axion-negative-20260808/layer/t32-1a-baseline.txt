@@ -1,0 +1,4 @@
+nodes=ffn_gate-0,ffn_up-0,ffn_swiglu-0,ffn_down-0
+n_embd=3072 n_ff=9216 n_tokens=32 threads=4 repetitions=5
+gate_written=294912 up_written=294912 full_intermediate_bytes=2359296 written_intermediate_bytes=2359296 saved_bytes=0
+median_ms=8.955635 output_hash=7fb21065d4d34d5d output_values=98304
