@@ -1,0 +1,261 @@
+diff --git a/ggml/src/ggml-cpu/ggml-cpu.c b/ggml/src/ggml-cpu/ggml-cpu.c
+index 491316f7491252248d6f74a60440d3efa7aa6177..19770c015fb4a9a62ddcc1918b4aa99666bde9a1 100644
+--- a/ggml/src/ggml-cpu/ggml-cpu.c
++++ b/ggml/src/ggml-cpu/ggml-cpu.c
+@@ -3022,11 +3022,33 @@ struct ggml_cplan ggml_graph_plan(
+ // Try to fuse the current node with subsequent nodes for better performance.
+ // Returns the number of nodes skipped by fusion (>=1), or 0 if no fusion was applied.
+ static bool ggml_cpu_disable_fusion = false;  // initialized once in ggml_cpu_init(), read-only afterwards
++static bool ggml_cpu_tiled_ffn      = false;
++static bool ggml_cpu_tiled_ffn_debug = false;
++
++static bool ggml_cpu_tiled_ffn_roles_match(
++        const struct ggml_tensor * gate,
++        const struct ggml_tensor * up) {
++    static const char gate_suffix[] = ".ffn_gate.weight";
++    static const char up_suffix[]   = ".ffn_up.weight";
++    const size_t gate_name_length   = strlen(gate->src[0]->name);
++    const size_t up_name_length     = strlen(up->src[0]->name);
++    const size_t gate_suffix_length = sizeof(gate_suffix) - 1;
++    const size_t up_suffix_length   = sizeof(up_suffix) - 1;
++    if (gate_name_length <= gate_suffix_length || up_name_length <= up_suffix_length) {
++        return false;
++    }
++    const size_t gate_prefix_length = gate_name_length - gate_suffix_length;
++    const size_t up_prefix_length   = up_name_length - up_suffix_length;
++    return gate_prefix_length == up_prefix_length &&
++           memcmp(gate->src[0]->name, up->src[0]->name, gate_prefix_length) == 0 &&
++           strcmp(gate->src[0]->name + gate_prefix_length, gate_suffix) == 0 &&
++           strcmp(up->src[0]->name + up_prefix_length, up_suffix) == 0;
++}
+ 
+ static int ggml_cpu_try_fuse_ops(
+         const struct ggml_cgraph * cgraph,
+         const int node_n,
+-        const struct ggml_compute_params * params,
++        struct ggml_compute_params * params,
+         const struct ggml_cplan * cplan) {
+ 
+     if (ggml_cpu_disable_fusion || cplan->use_ref) {
+@@ -3035,6 +3057,30 @@ static int ggml_cpu_try_fuse_ops(
+ 
+     struct ggml_tensor * node = cgraph->nodes[node_n];
+ 
++    if (ggml_cpu_tiled_ffn && node->op == GGML_OP_MUL_MAT && node_n + 2 < cgraph->n_nodes) {
++        struct ggml_tensor * up         = cgraph->nodes[node_n + 1];
++        struct ggml_tensor * activation = cgraph->nodes[node_n + 2];
++        const enum ggml_op ffn_ops[]    = { GGML_OP_MUL_MAT, GGML_OP_MUL_MAT, GGML_OP_GLU };
++        const int ffn_outputs[]         = { node_n + 2 };
++        if (node->src[1] == up->src[1] &&
++            node->src[0]->type == GGML_TYPE_Q4_K &&
++            up->src[0]->type == GGML_TYPE_Q4_K &&
++            ggml_are_same_shape(node, up) &&
++            activation->src[0] == node &&
++            activation->src[1] == up &&
++            ggml_get_glu_op(activation) == GGML_GLU_OP_SWIGLU &&
++            ggml_get_op_params_i32(activation, 1) == 0 &&
++            ggml_cpu_tiled_ffn_roles_match(node, up) &&
++            ggml_can_fuse_subgraph(cgraph, node_n, 3, ffn_ops, ffn_outputs, 1) &&
++            ggml_cpu_extra_compute_forward_tiled_ffn(params, node, up, activation)) {
++            if (ggml_cpu_tiled_ffn_debug && params->ith == 0) {
++                GGML_LOG_INFO("tiled_ffn: %s + %s, rows = %" PRId64 ", tokens = %" PRId64 "\n",
++                        node->src[0]->name, up->src[0]->name, node->ne[0], node->ne[1]);
++            }
++            return 2;
++        }
++    }
++
+     if (node->op == GGML_OP_RMS_NORM) {
+         // RMS_NORM + MUL fusion
+         const enum ggml_op fuse_ops[] = { GGML_OP_RMS_NORM, GGML_OP_MUL };
+@@ -3887,6 +3933,14 @@ void ggml_cpu_init(void) {
+             const char * env = getenv("GGML_CPU_DISABLE_FUSION");
+             ggml_cpu_disable_fusion = (env != NULL && atoi(env) == 1);
+         }
++        {
++            const char * env = getenv("GGML_CPU_TILED_FFN");
++            ggml_cpu_tiled_ffn = (env != NULL && atoi(env) == 1);
++        }
++        {
++            const char * env = getenv("GGML_CPU_TILED_FFN_DEBUG");
++            ggml_cpu_tiled_ffn_debug = (env != NULL && atoi(env) == 1);
++        }
+ 
+         is_first_call = false;
+     }
+diff --git a/ggml/src/ggml-cpu/repack.cpp b/ggml/src/ggml-cpu/repack.cpp
+index 9689ca3ced8fa4b00df712a624aade1c1797bce2..fb0a50b708a8af7cfa892e6937c9e09bc275dfae 100644
+--- a/ggml/src/ggml-cpu/repack.cpp
++++ b/ggml/src/ggml-cpu/repack.cpp
+@@ -8,6 +8,7 @@
+ #include "ggml-cpu-impl.h"
+ #include "simd-mappings.h"
+ #include "traits.h"
++#include "vec.h"
+ 
+ #include "arch-fallback.h"
+ 
+@@ -4201,6 +4202,99 @@ template <typename BLOC_TYPE, int64_t INTER_SIZE, int64_t NB_COLS, ggml_type PAR
+         return false;
+     }
+ 
++    bool compute_forward_tiled_ffn(
++            struct ggml_compute_params * params,
++            struct ggml_tensor * gate,
++            struct ggml_tensor * up,
++            struct ggml_tensor * activation) override {
++        if (gate->op != GGML_OP_MUL_MAT ||
++            up->op != GGML_OP_MUL_MAT ||
++            activation->op != GGML_OP_GLU ||
++            gate->src[1] != up->src[1] ||
++            gate->src[0]->type != GGML_TYPE_Q4_K ||
++            up->src[0]->type != GGML_TYPE_Q4_K ||
++            gate->src[1]->type != GGML_TYPE_F32 ||
++            gate->type != GGML_TYPE_F32 ||
++            up->type != GGML_TYPE_F32 ||
++            activation->type != GGML_TYPE_F32 ||
++            !ggml_are_same_shape(gate, up) ||
++            !ggml_are_same_shape(gate, activation) ||
++            ggml_n_dims(gate->src[0]) != 2 ||
++            ggml_n_dims(up->src[0]) != 2 ||
++            gate->ne[2] != 1 || gate->ne[3] != 1 ||
++            gate->src[1]->ne[2] != 1 || gate->src[1]->ne[3] != 1 ||
++            gate->nb[0] != sizeof(float) ||
++            up->nb[0] != sizeof(float) ||
++            activation->nb[0] != sizeof(float)) {
++            return false;
++        }
++
++        const int64_t n_embd   = gate->src[0]->ne[0];
++        const int64_t n_ff     = gate->src[0]->ne[1];
++        const int64_t n_tokens = gate->src[1]->ne[1];
++        const int     ith      = params->ith;
++        const int     nth      = params->nth;
++        int64_t       tile     = n_ff / nth < 64 ? n_ff / nth : 64;
++        tile -= tile % NB_COLS;
++        if (tile < NB_COLS || n_ff % NB_COLS != 0 || nth * tile > n_ff) {
++            return false;
++        }
++
++        char *       wdata      = static_cast<char *>(params->wdata);
++        const size_t src1_stride = ggml_row_size(PARAM_TYPE, n_embd);
++        if (params->wsize < src1_stride * n_tokens) {
++            return false;
++        }
++
++        const ggml_from_float_t from_float = ggml_get_type_traits_cpu(PARAM_TYPE)->from_float;
++        for (int64_t ir = ith * 4; ir < n_tokens - n_tokens % 4; ir += nth * 4) {
++            ggml_quantize_mat_t<INTER_SIZE, PARAM_TYPE>(
++                    (float *) ((char *) gate->src[1]->data + ir * gate->src[1]->nb[1]),
++                    wdata + ir * src1_stride, 4, n_embd);
++        }
++        const int64_t rows_processed = n_tokens - n_tokens % 4;
++        for (int64_t ir = rows_processed + ith; ir < n_tokens; ir += nth) {
++            from_float(
++                    (float *) ((char *) gate->src[1]->data + ir * gate->src[1]->nb[1]),
++                    wdata + ir * src1_stride, n_embd);
++        }
++
++        ggml_barrier(params->threadpool);
++
++        float * gate_scratch = (float *) gate->data + ith * tile * n_tokens;
++        float * up_scratch   = (float *) up->data + ith * tile * n_tokens;
++        for (int64_t row = ith * tile; row < n_ff; row += nth * tile) {
++            const int64_t rows = MIN(tile, n_ff - row);
++            const char * gate_weights = (const char *) gate->src[0]->data + row * gate->src[0]->nb[1];
++            const char * up_weights   = (const char *) up->src[0]->data + row * up->src[0]->nb[1];
++            const int64_t gemm_rows   = n_tokens - n_tokens % 4;
++
++            if (gemm_rows > 0) {
++                gemm<BLOC_TYPE, INTER_SIZE, NB_COLS, PARAM_TYPE>(
++                        n_embd, gate_scratch, tile, gate_weights, wdata, gemm_rows, rows);
++                gemm<BLOC_TYPE, INTER_SIZE, NB_COLS, PARAM_TYPE>(
++                        n_embd, up_scratch, tile, up_weights, wdata, gemm_rows, rows);
++            }
++            for (int64_t ir = gemm_rows; ir < n_tokens; ++ir) {
++                gemv<BLOC_TYPE, INTER_SIZE, NB_COLS, PARAM_TYPE>(
++                        n_embd, gate_scratch + ir * tile, rows, gate_weights,
++                        wdata + ir * src1_stride, 1, rows);
++                gemv<BLOC_TYPE, INTER_SIZE, NB_COLS, PARAM_TYPE>(
++                        n_embd, up_scratch + ir * tile, rows, up_weights,
++                        wdata + ir * src1_stride, 1, rows);
++            }
++            for (int64_t ir = 0; ir < n_tokens; ++ir) {
++                ggml_vec_swiglu_f32(
++                        rows,
++                        (float *) ((char *) activation->data + ir * activation->nb[1]) + row,
++                        gate_scratch + ir * tile,
++                        up_scratch + ir * tile);
++            }
++        }
++
++        return true;
++    }
++
+     void forward_mul_mat_one_chunk(ggml_compute_params * params,
+                                    ggml_tensor *         op,
+                                    int64_t               src0_start,
+diff --git a/ggml/src/ggml-cpu/traits.cpp b/ggml/src/ggml-cpu/traits.cpp
+index 4f32f10255aa4620484244e98f132a1bb0089d8e..3c5493c8e2973beebd2866d23f88fc87afc1ec36 100644
+--- a/ggml/src/ggml-cpu/traits.cpp
++++ b/ggml/src/ggml-cpu/traits.cpp
+@@ -22,6 +22,24 @@ bool ggml_cpu_extra_compute_forward(struct ggml_compute_params * params, struct
+     return false;
+ }
+ 
++bool ggml_cpu_extra_compute_forward_tiled_ffn(
++        struct ggml_compute_params * params,
++        struct ggml_tensor * gate,
++        struct ggml_tensor * up,
++        struct ggml_tensor * activation) {
++    for (auto extra : ggml_backend_cpu_get_extra_buffer_types()) {
++        if (extra && extra->context) {
++            auto buf_extra   = (ggml::cpu::extra_buffer_type *) extra->context;
++            auto traits_gate = buf_extra->get_tensor_traits(gate);
++            auto traits_up   = buf_extra->get_tensor_traits(up);
++            if (traits_gate && traits_gate == traits_up && traits_gate->compute_forward_tiled_ffn(params, gate, up, activation)) {
++                return true;
++            }
++        }
++    }
++    return false;
++}
++
+ bool ggml_cpu_extra_work_size(int n_threads, const struct ggml_tensor * op, size_t * size) {
+     for (auto extra : ggml_backend_cpu_get_extra_buffer_types()) {
+         if (extra && extra->context) {
+diff --git a/ggml/src/ggml-cpu/traits.h b/ggml/src/ggml-cpu/traits.h
+index f4e0990ddfc95b61c2e38f224aac0fd76475c9c1..ee4050115b7eea2373fe126a56469d9f73521dd5 100644
+--- a/ggml/src/ggml-cpu/traits.h
++++ b/ggml/src/ggml-cpu/traits.h
+@@ -10,6 +10,11 @@ extern "C" {
+ 
+ // return true if op part of extra "accelerator"
+ bool ggml_cpu_extra_compute_forward(struct ggml_compute_params * params, struct ggml_tensor * op);
++bool ggml_cpu_extra_compute_forward_tiled_ffn(
++        struct ggml_compute_params * params,
++        struct ggml_tensor * gate,
++        struct ggml_tensor * up,
++        struct ggml_tensor * activation);
+ bool ggml_cpu_extra_work_size(int n_threads, const struct ggml_tensor * op, size_t * size);
+ 
+ #ifdef __cplusplus
+@@ -22,6 +27,17 @@ class tensor_traits {
+     virtual ~tensor_traits();
+     virtual bool work_size(int n_threads, const struct ggml_tensor * op, size_t & size)        = 0;
+     virtual bool compute_forward(struct ggml_compute_params * params, struct ggml_tensor * op) = 0;
++    virtual bool compute_forward_tiled_ffn(
++            struct ggml_compute_params * params,
++            struct ggml_tensor * gate,
++            struct ggml_tensor * up,
++            struct ggml_tensor * activation) {
++        GGML_UNUSED(params);
++        GGML_UNUSED(gate);
++        GGML_UNUSED(up);
++        GGML_UNUSED(activation);
++        return false;
++    }
+ };
+ 
+ class extra_buffer_type {
+
