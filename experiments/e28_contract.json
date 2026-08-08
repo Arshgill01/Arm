@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "contract_revision": 1,
+  "experiment_id": "E28",
+  "title": "Cumulative Arm runtime integration pass",
+  "objective": "Measure one runtime containing the retained E24 Q6_K, E25 Q4_K decoded-metadata and E27 Flash Attention mechanisms, then validate the same combined mechanism set against one pinned current-upstream llama.cpp commit.",
+  "claim_boundary": "Only matched native Arm samples from this contract may support E28 performance claims. The pinned-b10216 matrix is comparability evidence; the current-upstream stock-versus-combined cells are the release claim. Effects from earlier experiments must not be multiplied.",
+  "repository": {
+    "required_project_ancestor": "d06b28b4a4eb7743804cf8981e1249da9c15d6d5",
+    "branch": "codex/e28-cumulative-arm-runtime"
+  },
+  "source": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "pinned_baseline_tag": "b10216",
+    "pinned_baseline_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "current_upstream_ref": "refs/heads/master",
+    "current_upstream_commit": "69bf6437914596fbbc4caf09a7ac16f2acdd1a94",
+    "current_upstream_observed_utc": "2026-08-08",
+    "compiler": {
+      "family": "GNU",
+      "version": "13.3.0",
+      "ubuntu_package_banner": "Ubuntu 13.3.0-6ubuntu2~24.04.1"
+    },
+    "cmake_flags": [
+      "-DBUILD_SHARED_LIBS=ON",
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DCMAKE_C_FLAGS_RELEASE=-O3 -DNDEBUG -g -fno-omit-frame-pointer",
+      "-DCMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG -g -fno-omit-frame-pointer",
+      "-DGGML_CPU_KLEIDIAI=ON",
+      "-DGGML_OPENMP=ON",
+      "-DGGML_LTO=OFF",
+      "-DGGML_NATIVE=ON",
+      "-DLLAMA_BUILD_EXAMPLES=ON",
+      "-DLLAMA_BUILD_SERVER=ON",
+      "-DLLAMA_BUILD_TESTS=OFF",
+      "-DLLAMA_CURL=OFF",
+      "-DLLAMA_OPENSSL=OFF"
+    ],
+    "pinned_baseline_series": [
+      {
+        "path": "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+        "sha256": "b638f72925d6d16636ed5675006e6cd199e963ca8cd2f3087f2774047e1cf83f",
+        "role": "retained E23 dependency"
+      },
+      {
+        "path": "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+        "sha256": "54e5c08e68e1f5739d63eb7552d74b1ad7ecefb880f59d71d9a43ce9549465ab",
+        "role": "retained cumulative dependency"
+      },
+      {
+        "path": "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+        "sha256": "2c0c611f325fd036eadaa0b7dc5615898f1ded3f770b0cf8eacb3a472a613783",
+        "role": "retained quality-harness dependency"
+      },
+      {
+        "path": "patches/llama.cpp/b10216/0013-arm-q4-k-neon-vector-scale-kernel.patch",
+        "sha256": "c4794e8e0087fd32691778c23b1ee559fde0e37ee69f281973ec2b02d02c33f2",
+        "role": "E23 Q4_K prefill mechanism"
+      },
+      {
+        "path": "patches/llama.cpp/b10216/0016-arm-q6-k-gemv-fused-scales.patch",
+        "sha256": "154076f9c565abf47466a9aa5d6d5ae1f22dbeedbb6aa8dc125682c4d06d0846",
+        "role": "E24 Q6_K mechanism part 1"
+      },
+      {
+        "path": "patches/llama.cpp/b10216/0020-arm-q6-k-gemv-just-in-time-loads.patch",
+        "sha256": "6a270cf9a1d7681d756d305a40018eada2321ef4c43abdcc1eb3d6905ef33cd7",
+        "role": "E24 Q6_K mechanism part 2"
+      }
+    ],
+    "mechanism_patches": {
+      "e25": {
+        "path": "patches/llama.cpp/e25/0003-q4-k-decoded-metadata-layout.patch",
+        "sha256": "b5e61f73bfc7efe1b735e5437f2e3323ef9f1a188e91bb747bbbcc90557719b4"
+      },
+      "e27": {
+        "path": "patches/llama.cpp/e27/0001-arm-sve-flash-attention-neon-gemm.patch",
+        "sha256": "5f7c5896a99312b4f9e80cacb39ad766d81cc17b1d93454a0bc6394a013197a4"
+      },
+      "current_e24": {
+        "path": "patches/llama.cpp/current/0001-arm-q6-k-gemv-reduce-scale-and-load-overhead.patch",
+        "sha256": "f1bab985619675bf6fa2771e81455c579ebf77ace53733fc42c0315f9dc5a451"
+      },
+      "current_e25": {
+        "path": "patches/llama.cpp/current/0002-q4-k-decoded-metadata-layout.patch",
+        "sha256": "674da08e5e03ccd2465e8c21c3cd7b8f8a3425b71e350e4cd96a6a78a2f38aa8"
+      }
+    }
+  },
+  "matrix": {
+    "A": ["pinned_baseline_series"],
+    "B": ["pinned_baseline_series", "e25"],
+    "C": ["pinned_baseline_series", "e27"],
+    "D": ["pinned_baseline_series", "e25", "e27"],
+    "current_stock": [],
+    "current_combined": ["current_e24_if_absent", "current_e25_if_absent", "e27_if_absent"]
+  },
+  "models": {
+    "primary": {
+      "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+      "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+      "filename": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "size_bytes": 2146497824,
+      "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+      "license": "Apache-2.0"
+    },
+    "portability": {
+      "repository": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+      "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+      "filename": "qwen2.5-1.5b-instruct-q4_k_m.gguf",
+      "size_bytes": 1117320736,
+      "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+      "license": "Apache-2.0"
+    }
+  },
+  "hosts": {
+    "primary": {
+      "provider": "Google Cloud Compute Engine",
+      "machine_type": "c4a-highcpu-8",
+      "cpu": "Google Axion / Arm Neoverse V2",
+      "zone": "us-central1-a",
+      "architecture": "aarch64",
+      "required_cpu_flags": ["asimd", "asimddp", "i8mm", "sve", "sve2", "svei8mm"],
+      "benchmark_core_set": "0-3",
+      "threads": 4,
+      "pmu": "standard"
+    },
+    "portability": {
+      "provider": "GitHub Actions",
+      "runner": "ubuntu-24.04-arm",
+      "expected_cpu": "Arm Neoverse N2",
+      "architecture": "aarch64",
+      "benchmark_core_set": "0-3",
+      "threads": 4
+    }
+  },
+  "common_runtime": {
+    "threads": 4,
+    "core_set": "0-3",
+    "gpu_layers": 0,
+    "flash_attention": true,
+    "kv_type_k": "f16",
+    "kv_type_v": "f16",
+    "batch_size": 1024,
+    "ubatch_size": 512,
+    "warmup": false,
+    "prompt_caching": false,
+    "speculative_decoding": false,
+    "seed": 42,
+    "temperature": 0.0
+  },
+  "correctness": {
+    "must_pass_before_timing": true,
+    "q4_gemv_harness": "experiments/e24_gemv_correctness.cpp",
+    "q4_gemm_harness": "experiments/e25_q4_gemm_correctness.cpp",
+    "q6_harness": "experiments/e24_q6_gemv_correctness.cpp",
+    "flash_attention_harness": "experiments/e27_flash_attn_harness.cpp",
+    "maximum_flash_attention_nmse": 0.0005,
+    "flash_attention_cases": [
+      {"head_size": 128, "query_tokens": 512, "kv_tokens": 512, "query_heads": 24, "kv_heads": 8, "kv_type": "f16"},
+      {"head_size": 128, "query_tokens": 512, "kv_tokens": 2048, "query_heads": 24, "kv_heads": 8, "kv_type": "f16"},
+      {"head_size": 128, "query_tokens": 512, "kv_tokens": 4096, "query_heads": 24, "kv_heads": 8, "kv_type": "f16"}
+    ],
+    "seeds": [1, 17, 42],
+    "semantic_pairs_requiring_byte_identity": [["A", "C"], ["B", "D"]],
+    "deterministic_long_prompt": {
+      "context": 8192,
+      "generated_tokens": 8,
+      "seed": 42,
+      "temperature": 0.0
+    }
+  },
+  "quality": {
+    "tasks_path": "experiments/e3_tasks.json",
+    "tasks_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "task_count": 30,
+    "repetitions_per_variant": 2,
+    "repetitions_must_be_stable": true,
+    "seed": 424242,
+    "temperature": 0.0,
+    "max_output_tokens": 8,
+    "gate": "B must not score below A and D must not score below C; the same no-loss rule applies to current_combined versus current_stock",
+    "perplexity_corpus_path": "experiments/e3_tasks.json",
+    "perplexity_corpus_sha256": "beaf59c9967445df780db02da5f6c92990c51b79afa87e3cb245dda91428d346",
+    "perplexity_context": 2048,
+    "perplexity_repetitions": 2,
+    "maximum_relative_increase": 0.001
+  },
+  "performance": {
+    "whole_model_cases": [
+      {"id": "pp512", "prompt_tokens": 512, "generated_tokens": 0},
+      {"id": "pp2048", "prompt_tokens": 2048, "generated_tokens": 0},
+      {"id": "pp4096", "prompt_tokens": 4096, "generated_tokens": 0},
+      {"id": "tg128", "prompt_tokens": 0, "generated_tokens": 128}
+    ],
+    "process_order_per_round": ["A", "B", "C", "D", "D", "C", "B", "A"],
+    "rounds": 3,
+    "processes_per_variant_per_case": 6,
+    "internal_repetitions_per_process": 3,
+    "fresh_processes": true,
+    "confidence_interval": {"method": "percentile bootstrap of process medians", "confidence": 0.95, "seed": 280028, "resamples": 10000},
+    "gates": {
+      "B_over_A_tg128": 1.10,
+      "D_over_C_tg128": 1.10,
+      "C_over_A_pp512": 1.50,
+      "C_over_A_pp2048": 2.70,
+      "C_over_A_pp4096": 3.75,
+      "D_over_B_pp512": 1.50,
+      "D_over_B_pp2048": 2.70,
+      "D_over_B_pp4096": 3.75,
+      "minimum_non_target_ratio": 0.98
+    },
+    "required_metrics": ["throughput", "readiness_time", "maximum_rss_kib", "decoded_sidecar_bytes", "population_cv", "confidence_interval"]
+  },
+  "current_upstream": {
+    "matched_cases": ["pp2048", "tg128"],
+    "process_order_per_round": ["current_stock", "current_combined", "current_combined", "current_stock"],
+    "rounds": 3,
+    "processes_per_variant_per_case": 6,
+    "direct_correctness_required": true,
+    "quality_gate_required": true,
+    "profile_cases": ["pp2048", "tg128"],
+    "profile_requirements": ["symbols", "cpu_cycles", "instructions", "L1 data cache accesses and refills", "L2 data cache accesses", "ranked whole-model symbols"]
+  },
+  "live_demo": {
+    "prompt_contract": "repeat the E27 fixed paragraph 220 times followed by its frozen summarization instruction",
+    "context": 8192,
+    "generated_tokens": 1,
+    "variant_order": ["A", "B", "C", "D"],
+    "record": ["prompt_tokens", "generated_text", "wall_time", "first_token_time", "complete_command", "cpu_and_core_policy"]
+  },
+  "resource_policy": {
+    "maximum_total_usd": 12.0,
+    "maximum_instance_duration_seconds": 21600,
+    "instance_termination_action": "DELETE",
+    "boot_disk_auto_delete": true,
+    "explicit_instance_and_disk_delete_required": true,
+    "empty_exact_name_inventories_required": true
+  },
+  "failure_rules": {
+    "composition_conflict": "repair only the E25/E27 integration and retain all gates",
+    "e25_quality_or_prefill_failure": "retain the full negative matrix and promote E27 without E25",
+    "e27_output_change": "stop performance promotion until resolved",
+    "upstream_mechanism_present": "prove presence from source and omit the duplicate patch",
+    "new_kernel_work": "forbidden in E28"
+  }
+}
