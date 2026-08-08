@@ -487,6 +487,10 @@ finish_inventory() {
         | sort -z | xargs -0 sha256sum > "$output_dir/file-inventory-sha256.txt"
 }
 
+if [[ "${E28_LIBRARY_ONLY:-0}" = 1 ]]; then
+    return 0
+fi
+
 if [[ "$stage" = prepare || "$stage" = all ]]; then
     test ! -e "$marker_dir/prepare.complete"
     record_host
