@@ -1,0 +1,370 @@
+diff --git a/ggml/src/ggml-cpu/arch/arm/repack.cpp b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+index a7534443091f351734dcadc9c9f1c3568e1bd810..b99d3c30f9de68627d00ef521505d628d3b47f81 100644
+--- a/ggml/src/ggml-cpu/arch/arm/repack.cpp
++++ b/ggml/src/ggml-cpu/arch/arm/repack.cpp
+@@ -706,6 +706,130 @@ void ggml_gemv_q4_K_8x4_q8_K(int n, float * GGML_RESTRICT s, size_t bs, const vo
+     ggml_gemv_q4_K_8x4_q8_K_generic(n, s, bs, vx, vy, nr, nc);
+ }
+ 
++void ggml_gemv_q4_K_8x4_q8_K_decoded(int                        n,
++                                     float * GGML_RESTRICT      s,
++                                     size_t                     bs,
++                                     const void * GGML_RESTRICT vx,
++                                     const void * GGML_RESTRICT vy,
++                                     int                        nr,
++                                     int                        nc) {
++    constexpr int qk = QK_K;
++    const int     nb = n / qk;
++
++    constexpr int ncols_interleaved = 8;
++
++    assert(n % qk == 0);
++    assert(nc % ncols_interleaved == 0);
++
++#if defined(__aarch64__) && defined(__ARM_NEON) && defined(__ARM_FEATURE_DOTPROD)
++    constexpr int    col_groups = ncols_interleaved / 4;
++    const uint8x16_t m4b        = vdupq_n_u8(0x0f);
++
++    const block_q4_Kx8_decoded_view * GGML_RESTRICT view =
++        (const block_q4_Kx8_decoded_view *) vx;
++    const block_q8_K * GGML_RESTRICT q8_ptr = (const block_q8_K *) vy;
++
++    for (int x = 0; x < nc / ncols_interleaved; x++) {
++        const block_q4_Kx8 * GGML_RESTRICT q4_ptr = view->blocks + x * nb;
++        const block_q4_Kx8_decoded * GGML_RESTRICT metadata = view->metadata + x * nb;
++        float32x4_t acc_f32[col_groups] = { vdupq_n_f32(0), vdupq_n_f32(0) };
++
++        for (int b = 0; b < nb; b++) {
++            const float32x4_t q8_d          = vdupq_n_f32(q8_ptr[b].d);
++            const float32x4_t sb_scale_0123 = vmulq_f32(vcvt_f32_f16(vld1_f16((const __fp16 *) q4_ptr[b].d)), q8_d);
++            const float32x4_t sb_scale_4567 = vmulq_f32(vcvt_f32_f16(vld1_f16((const __fp16 *) q4_ptr[b].d + 4)), q8_d);
++            const float32x4_t sb_min_0123   = vmulq_f32(vcvt_f32_f16(vld1_f16((const __fp16 *) q4_ptr[b].dmin)), q8_d);
++            const float32x4_t sb_min_4567   = vmulq_f32(vcvt_f32_f16(vld1_f16((const __fp16 *) q4_ptr[b].dmin + 4)), q8_d);
++
++            int32x4_t bias_acc[2] = { vdupq_n_s32(0), vdupq_n_s32(0) };
++            int32x4_t acc_lo[col_groups];
++            int32x4_t acc_hi[col_groups];
++
++
++            for (int sb = 0; sb < QK_K / 64; sb++) {
++                for (int i = 0; i < col_groups; i++) {
++                    acc_lo[i] = vdupq_n_s32(0);
++                    acc_hi[i] = vdupq_n_s32(0);
++                }
++
++                const int metadata_offset = 2 * sb * 8;
++                const int16x8_t q4sb_scales[2] = {
++                    vreinterpretq_s16_u16(vmovl_u8(vld1_u8(metadata[b].scales + metadata_offset))),
++                    vreinterpretq_s16_u16(vmovl_u8(vld1_u8(metadata[b].scales + metadata_offset + 8))),
++                };
++                const int16x8_t q4sb_mins[2] = {
++                    vreinterpretq_s16_u16(vmovl_u8(vld1_u8(metadata[b].mins + metadata_offset))),
++                    vreinterpretq_s16_u16(vmovl_u8(vld1_u8(metadata[b].mins + metadata_offset + 8))),
++                };
++
++                int8x16_t q8_qs[4];
++                for (int i = 0; i < 4; i++) {
++                    q8_qs[i] = vld1q_s8(q8_ptr[b].qs + sb * 64 + i * 16);
++                }
++
++                for (int c = 0; c < col_groups; c++) {
++                    uint8x16_t q4_cols[8];
++                    for (int i = 0; i < 8; i++) {
++                        q4_cols[i] = vld1q_u8(q4_ptr[b].qs + sb * QK_K + i * 32 + 16 * c);
++                    }
++
++                    acc_lo[c] = vdotq_laneq_s32(acc_lo[c], vreinterpretq_s8_u8(vandq_u8(q4_cols[0], m4b)), q8_qs[0], 0);
++                    acc_lo[c] = vdotq_laneq_s32(acc_lo[c], vreinterpretq_s8_u8(vandq_u8(q4_cols[1], m4b)), q8_qs[0], 1);
++                    acc_lo[c] = vdotq_laneq_s32(acc_lo[c], vreinterpretq_s8_u8(vandq_u8(q4_cols[2], m4b)), q8_qs[0], 2);
++                    acc_lo[c] = vdotq_laneq_s32(acc_lo[c], vreinterpretq_s8_u8(vandq_u8(q4_cols[3], m4b)), q8_qs[0], 3);
++                    acc_lo[c] = vdotq_laneq_s32(acc_lo[c], vreinterpretq_s8_u8(vandq_u8(q4_cols[4], m4b)), q8_qs[1], 0);
++                    acc_lo[c] = vdotq_laneq_s32(acc_lo[c], vreinterpretq_s8_u8(vandq_u8(q4_cols[5], m4b)), q8_qs[1], 1);
++                    acc_lo[c] = vdotq_laneq_s32(acc_lo[c], vreinterpretq_s8_u8(vandq_u8(q4_cols[6], m4b)), q8_qs[1], 2);
++                    acc_lo[c] = vdotq_laneq_s32(acc_lo[c], vreinterpretq_s8_u8(vandq_u8(q4_cols[7], m4b)), q8_qs[1], 3);
++
++                    acc_hi[c] = vdotq_laneq_s32(acc_hi[c], vreinterpretq_s8_u8(vshrq_n_u8(q4_cols[0], 4)), q8_qs[2], 0);
++                    acc_hi[c] = vdotq_laneq_s32(acc_hi[c], vreinterpretq_s8_u8(vshrq_n_u8(q4_cols[1], 4)), q8_qs[2], 1);
++                    acc_hi[c] = vdotq_laneq_s32(acc_hi[c], vreinterpretq_s8_u8(vshrq_n_u8(q4_cols[2], 4)), q8_qs[2], 2);
++                    acc_hi[c] = vdotq_laneq_s32(acc_hi[c], vreinterpretq_s8_u8(vshrq_n_u8(q4_cols[3], 4)), q8_qs[2], 3);
++                    acc_hi[c] = vdotq_laneq_s32(acc_hi[c], vreinterpretq_s8_u8(vshrq_n_u8(q4_cols[4], 4)), q8_qs[3], 0);
++                    acc_hi[c] = vdotq_laneq_s32(acc_hi[c], vreinterpretq_s8_u8(vshrq_n_u8(q4_cols[5], 4)), q8_qs[3], 1);
++                    acc_hi[c] = vdotq_laneq_s32(acc_hi[c], vreinterpretq_s8_u8(vshrq_n_u8(q4_cols[6], 4)), q8_qs[3], 2);
++                    acc_hi[c] = vdotq_laneq_s32(acc_hi[c], vreinterpretq_s8_u8(vshrq_n_u8(q4_cols[7], 4)), q8_qs[3], 3);
++                }
++
++                const float32x4_t sumf_0123 = vcvtq_f32_s32(
++                    vaddq_s32(vmulq_s32(vmovl_s16(vget_low_s16(q4sb_scales[0])), acc_lo[0]),
++                              vmulq_s32(vmovl_s16(vget_low_s16(q4sb_scales[1])), acc_hi[0])));
++                acc_f32[0] = vfmaq_f32(acc_f32[0], sb_scale_0123, sumf_0123);
++
++                const float32x4_t sumf_4567 = vcvtq_f32_s32(
++                    vaddq_s32(vmulq_s32(vmovl_s16(vget_high_s16(q4sb_scales[0])), acc_lo[1]),
++                              vmulq_s32(vmovl_s16(vget_high_s16(q4sb_scales[1])), acc_hi[1])));
++                acc_f32[1] = vfmaq_f32(acc_f32[1], sb_scale_4567, sumf_4567);
++
++                const int bsum_offset = 4 * sb;
++                const int16x4_t bsums_vec_lo = vdup_n_s16(
++                    q8_ptr[b].bsums[bsum_offset] + q8_ptr[b].bsums[bsum_offset + 1]);
++                const int16x4_t bsums_vec_hi = vdup_n_s16(
++                    q8_ptr[b].bsums[bsum_offset + 2] + q8_ptr[b].bsums[bsum_offset + 3]);
++                bias_acc[0] = vmlal_s16(bias_acc[0], bsums_vec_lo, vget_low_s16(q4sb_mins[0]));
++                bias_acc[0] = vmlal_s16(bias_acc[0], bsums_vec_hi, vget_low_s16(q4sb_mins[1]));
++                bias_acc[1] = vmlal_s16(bias_acc[1], bsums_vec_lo, vget_high_s16(q4sb_mins[0]));
++                bias_acc[1] = vmlal_s16(bias_acc[1], bsums_vec_hi, vget_high_s16(q4sb_mins[1]));
++            }
++
++            acc_f32[0] = vmlsq_f32(acc_f32[0], vcvtq_f32_s32(bias_acc[0]), sb_min_0123);
++            acc_f32[1] = vmlsq_f32(acc_f32[1], vcvtq_f32_s32(bias_acc[1]), sb_min_4567);
++        }
++
++        const int base = x * ncols_interleaved;
++        vst1q_f32(s + base, acc_f32[0]);
++        vst1q_f32(s + base + 4, acc_f32[1]);
++    }
++    return;
++#endif
++    GGML_ABORT("decoded Q4_K GEMV requires AArch64 NEON dot product support");
++
++    GGML_UNUSED(bs);
++    GGML_UNUSED(nr);
++}
++
++
+ void ggml_gemv_q4_K_8x8_q8_K(int                        n,
+                              float * GGML_RESTRICT      s,
+                              size_t                     bs,
+diff --git a/ggml/src/ggml-cpu/repack.cpp b/ggml/src/ggml-cpu/repack.cpp
+index 9689ca3ced8fa4b00df712a624aade1c1797bce2..6ff587c310fd854863097c3c374c4d3f01daa9e6 100644
+--- a/ggml/src/ggml-cpu/repack.cpp
++++ b/ggml/src/ggml-cpu/repack.cpp
+@@ -333,6 +333,12 @@ template <> void ggml_quantize_mat_t<4, GGML_TYPE_Q8_K>(const float * GGML_RESTR
+     ggml_quantize_mat_q8_K_4x4(x, vy, n_per_row);
+ }
+ 
++template <> void ggml_quantize_mat_t<2, GGML_TYPE_Q8_K>(const float * GGML_RESTRICT x, void * GGML_RESTRICT vy, int64_t nrow, int64_t n_per_row) {
++    assert(nrow == 4);
++    UNUSED(nrow);
++    ggml_quantize_mat_q8_K_4x8(x, vy, n_per_row);
++}
++
+ template <> void ggml_quantize_mat_t<8, GGML_TYPE_Q8_K>(const float * GGML_RESTRICT x, void * GGML_RESTRICT vy, int64_t nrow, int64_t n_per_row) {
+     assert(nrow == 4);
+     UNUSED(nrow);
+@@ -3259,6 +3265,52 @@ static int repack_q4_K_to_q4_K_8_bl(struct ggml_tensor * t, int interleave_block
+     GGML_UNUSED(data_size);
+ }
+ 
++static inline void decode_q4_K_scales(const block_q4_K & block, block_q4_Kx8_decoded & metadata, int column) {
++    for (int sb = 0; sb < QK_K / 32; sb++) {
++        uint8_t scale;
++        uint8_t min;
++        if (sb < 4) {
++            scale = block.scales[sb] & 63;
++            min   = block.scales[sb + 4] & 63;
++        } else {
++            scale = (block.scales[sb + 4] & 0x0f) | ((block.scales[sb - 4] >> 6) << 4);
++            min   = (block.scales[sb + 4] >> 4) | ((block.scales[sb] >> 6) << 4);
++        }
++        metadata.scales[sb * 8 + column] = scale;
++        metadata.mins[sb * 8 + column]   = min;
++    }
++}
++
++static int repack_q4_K_to_q4_K_8_bl_decoded(struct ggml_tensor * t, const void * GGML_RESTRICT data, size_t data_size) {
++    GGML_ASSERT(t->type == GGML_TYPE_Q4_K);
++    constexpr int nrows_interleaved = 8;
++
++    block_q4_Kx8 * dst = (block_q4_Kx8 *) t->data;
++    block_q4_Kx8_decoded * metadata = (block_q4_Kx8_decoded *) ((char *) t->data + data_size);
++    const block_q4_K * src = (const block_q4_K *) data;
++    block_q4_K dst_tmp[nrows_interleaved];
++    const int nrow    = ggml_nrows(t);
++    const int nblocks = t->ne[0] / QK_K;
++
++    GGML_ASSERT(data_size == (size_t) nrow * nblocks * sizeof(block_q4_K));
++    if (t->ne[1] % nrows_interleaved != 0 || t->ne[0] % 8 != 0) {
++        return -1;
++    }
++
++    for (int row = 0; row < nrow; row += nrows_interleaved) {
++        for (int block = 0; block < nblocks; block++) {
++            for (int column = 0; column < nrows_interleaved; column++) {
++                dst_tmp[column] = src[block + column * nblocks];
++                decode_q4_K_scales(dst_tmp[column], *metadata, column);
++            }
++            *dst++ = make_block_q4_Kx8(dst_tmp, 4);
++            metadata++;
++        }
++        src += nrows_interleaved * nblocks;
++    }
++    return 0;
++}
++
+ static int repack_q4_K_to_q4_K_16_bl(struct ggml_tensor * t, int interleave_block, const void * GGML_RESTRICT data, size_t data_size) {
+     GGML_ASSERT(t->type == GGML_TYPE_Q4_K);
+     constexpr int nrows_interleaved = 16;
+@@ -3885,6 +3937,10 @@ template <> int repack<block_q4_K, 4, 8>(struct ggml_tensor * t, const void * da
+     return repack_q4_K_to_q4_K_8_bl(t, 4, data, data_size);
+ }
+ 
++template <> int repack<block_q4_K, 2, 8>(struct ggml_tensor * t, const void * data, size_t data_size) {
++    return repack_q4_K_to_q4_K_8_bl_decoded(t, data, data_size);
++}
++
+ template <> int repack<block_q2_K, 8, 8>(struct ggml_tensor * t, const void * data, size_t data_size) {
+     return repack_q2_K_to_q2_K_8_bl(t, 8, data, data_size);
+ }
+@@ -3987,6 +4043,15 @@ template <> void gemv<block_q4_K, 4, 8, GGML_TYPE_Q8_K>(int n, float * s, size_t
+     ggml_gemv_q4_K_8x4_q8_K(n, s, bs, vx, vy, nr, nc);
+ }
+ 
++template <> void gemv<block_q4_K, 2, 8, GGML_TYPE_Q8_K>(int n, float * s, size_t bs, const void * vx, const void * vy, int nr, int nc) {
++#if defined(__aarch64__)
++    ggml_gemv_q4_K_8x4_q8_K_decoded(n, s, bs, vx, vy, nr, nc);
++#else
++    const block_q4_Kx8_decoded_view * view = (const block_q4_Kx8_decoded_view *) vx;
++    ggml_gemv_q4_K_8x4_q8_K(n, s, bs, view->blocks, vy, nr, nc);
++#endif
++}
++
+ template <> void gemv<block_q4_K, 8, 8, GGML_TYPE_Q8_K>(int n, float * s, size_t bs, const void * vx, const void * vy, int nr, int nc) {
+     ggml_gemv_q4_K_8x8_q8_K(n, s, bs, vx, vy, nr, nc);
+ }
+@@ -4084,6 +4149,11 @@ template <> void gemm<block_q4_K, 4, 8, GGML_TYPE_Q8_K>(int n, float * s, size_t
+     ggml_gemm_q4_K_8x4_q8_K(n, s, bs, vx, vy, nr, nc);
+ }
+ 
++template <> void gemm<block_q4_K, 2, 8, GGML_TYPE_Q8_K>(int n, float * s, size_t bs, const void * vx, const void * vy, int nr, int nc) {
++    const block_q4_Kx8_decoded_view * view = (const block_q4_Kx8_decoded_view *) vx;
++    ggml_gemm_q4_K_8x4_q8_K(n, s, bs, view->blocks, vy, nr, nc);
++}
++
+ template <> void gemm<block_q4_K, 8, 8, GGML_TYPE_Q8_K>(int n, float * s, size_t bs, const void * vx, const void * vy, int nr, int nc) {
+     ggml_gemm_q4_K_8x8_q8_K(n, s, bs, vx, vy, nr, nc);
+ }
+@@ -4153,10 +4223,21 @@ template <> void gemm<block_q2_K, 1, 16, GGML_TYPE_Q8_K>(int n, float * s, size_
+ class tensor_traits_base : public ggml::cpu::tensor_traits {
+   public:
+     virtual int repack(struct ggml_tensor * t, const void * data, size_t data_size) = 0;
++    virtual size_t alloc_size(const struct ggml_tensor * t) const = 0;
+ };
+ 
+ template <typename BLOC_TYPE, int64_t INTER_SIZE, int64_t NB_COLS, ggml_type PARAM_TYPE> class tensor_traits : public tensor_traits_base {
+ 
++    size_t alloc_size(const struct ggml_tensor * t) const override {
++        const size_t data_size = ggml_nbytes(t);
++        if constexpr (INTER_SIZE == 2) {
++            GGML_ASSERT(t->type == GGML_TYPE_Q4_K);
++            GGML_ASSERT(data_size % sizeof(block_q4_Kx8) == 0);
++            return data_size + data_size / sizeof(block_q4_Kx8) * sizeof(block_q4_Kx8_decoded);
++        }
++        return data_size;
++    }
++
+     bool work_size(int /* n_threads */, const struct ggml_tensor * op, size_t & size) override {
+         // not realy a GGML_TYPE_Q8_0 but same size.
+         switch (op->op) {
+@@ -4235,17 +4316,27 @@ template <typename BLOC_TYPE, int64_t INTER_SIZE, int64_t NB_COLS, ggml_type PAR
+         const int64_t nrows = src1_end - src1_start;
+         const int64_t ncols = src0_end - src0_start;
+ 
++        const void * weights = src0_ptr + src0_start * nb01;
++        block_q4_Kx8_decoded_view decoded_view;
++        if constexpr (INTER_SIZE == 2) {
++            const int64_t nblocks = ne00 / QK_K;
++            decoded_view.blocks = (const block_q4_Kx8 *) weights;
++            decoded_view.metadata = (const block_q4_Kx8_decoded *)
++                ((const char *) src0->data + ggml_nbytes(src0)) + (src0_start / NB_COLS) * nblocks;
++            weights = &decoded_view;
++        }
++
+         GGML_ASSERT(src1_ptr + src1_col_stride * nrows <= (const char *) params->wdata + params->wsize);
+ 
+         // If there are more than three rows in src1, use gemm; otherwise, use gemv.
+         if (nrows > 3) {
+             gemm<BLOC_TYPE, INTER_SIZE, NB_COLS, PARAM_TYPE>(ne00, (float *) (dst_ptr) + src0_start, nb1 / nb0,
+-                                                             src0_ptr + src0_start * nb01, src1_ptr,
++                                                             weights, src1_ptr,
+                                                              nrows - (nrows % 4), ncols);
+         }
+         for (int iter = nrows - (nrows % 4); iter < nrows; iter++) {
+             gemv<BLOC_TYPE, INTER_SIZE, NB_COLS, PARAM_TYPE>(ne00, (float *) (dst_ptr + (iter * nb1)) + src0_start,
+-                                                             ne01, src0_ptr + src0_start * nb01,
++                                                             ne01, weights,
+                                                              src1_ptr + (src1_col_stride * iter), 1 /* nrows */, ncols);
+         }
+     }
+@@ -4532,6 +4623,7 @@ static const ggml::cpu::tensor_traits * ggml_repack_get_optimal_repack_type(cons
+     static const ggml::cpu::repack::tensor_traits<block_q4_0, 8, 8, GGML_TYPE_Q8_0> q4_0_8x8_q8_0;
+ 
+     // instance for Q4_K
++    static const ggml::cpu::repack::tensor_traits<block_q4_K, 2, 8, GGML_TYPE_Q8_K> q4_K_8x4_q8_K_decoded;
+     static const ggml::cpu::repack::tensor_traits<block_q4_K, 4, 8, GGML_TYPE_Q8_K> q4_K_8x4_q8_K;
+     static const ggml::cpu::repack::tensor_traits<block_q4_K, 8, 8, GGML_TYPE_Q8_K> q4_K_8x8_q8_K;
+ 
+@@ -4604,6 +4696,9 @@ static const ggml::cpu::tensor_traits * ggml_repack_get_optimal_repack_type(cons
+             }
+         }
+         if (ggml_cpu_has_neon() && ggml_cpu_has_matmul_int8()) {
++            if (ggml_n_dims(cur) == 2 && cur->ne[1] % 8 == 0) {
++                return &q4_K_8x4_q8_K_decoded;
++            }
+             if (cur->ne[1] % 8 == 0) {
+                 return &q4_K_8x8_q8_K;
+             }
+@@ -4769,6 +4864,14 @@ static size_t ggml_backend_cpu_repack_buffer_type_get_alignment(ggml_backend_buf
+     GGML_UNUSED(buft);
+ }
+ 
++static size_t ggml_backend_cpu_repack_buffer_type_get_alloc_size(ggml_backend_buffer_type_t buft,
++                                                                  const struct ggml_tensor * tensor) {
++    const auto * traits = (const ggml::cpu::repack::tensor_traits_base *)
++        ggml_repack_get_optimal_repack_type(tensor);
++    GGML_UNUSED(buft);
++    return traits ? traits->alloc_size(tensor) : ggml_nbytes(tensor);
++}
++
+ namespace ggml::cpu::repack {
+ class extra_buffer_type : ggml::cpu::extra_buffer_type {
+     bool supports_op(ggml_backend_dev_t, const struct ggml_tensor * op) override {
+@@ -4825,7 +4928,7 @@ ggml_backend_buffer_type_t ggml_backend_cpu_repack_buffer_type(void) {
+                            /* .alloc_buffer     = */ ggml_backend_cpu_repack_buffer_type_alloc_buffer,
+                            /* .get_alignment    = */ ggml_backend_cpu_repack_buffer_type_get_alignment,
+                            /* .get_max_size     = */ nullptr,  // defaults to SIZE_MAX
+-                           /* .get_alloc_size   = */ nullptr,  // defaults to ggml_nbytes
++                           /* .get_alloc_size   = */ ggml_backend_cpu_repack_buffer_type_get_alloc_size,
+                            /* .is_host          = */ nullptr,
+                            },
+         /* .device  = */ ggml_backend_reg_dev_get(ggml_backend_cpu_reg(), 0),
+diff --git a/ggml/src/ggml-cpu/repack.h b/ggml/src/ggml-cpu/repack.h
+index cb21edf6239485805df7a2b552c81a5ba9fc9552..ab8a7479ccb0b4ff6736744db1800fd4413e75e6 100644
+--- a/ggml/src/ggml-cpu/repack.h
++++ b/ggml/src/ggml-cpu/repack.h
+@@ -48,6 +48,19 @@ struct block_q4_Kx8 {
+ };
+ 
+ static_assert(sizeof(block_q4_Kx8) == sizeof(ggml_half) * 16 + K_SCALE_SIZE * 8 + QK_K * 4, "wrong q4_K block size/padding");
++
++struct block_q4_Kx8_decoded {
++    uint8_t scales[QK_K / 32 * 8];
++    uint8_t mins[QK_K / 32 * 8];
++};
++
++static_assert(sizeof(block_q4_Kx8_decoded) == 128, "wrong decoded q4_K metadata size/padding");
++
++struct block_q4_Kx8_decoded_view {
++    const block_q4_Kx8 *         blocks;
++    const block_q4_Kx8_decoded * metadata;
++};
++
+ struct block_q4_Kx16 {
+     ggml_half d[16];      // super-block scale for quantized scales
+     ggml_half dmin[16];   // super-block scale for quantized mins
+@@ -146,6 +159,7 @@ void ggml_gemv_q4_0_4x8_q8_0(int n, float * GGML_RESTRICT s, size_t bs, const vo
+ void ggml_gemv_q4_0_8x8_q8_0(int n, float * GGML_RESTRICT s, size_t bs, const void * GGML_RESTRICT vx, const void * GGML_RESTRICT vy, int nr, int nc);
+ void ggml_gemv_q2_K_8x8_q8_K(int n, float * GGML_RESTRICT s, size_t bs, const void * GGML_RESTRICT vx, const void * GGML_RESTRICT vy, int nr, int nc);
+ void ggml_gemv_q4_K_8x4_q8_K(int n, float * GGML_RESTRICT s, size_t bs, const void * GGML_RESTRICT vx, const void * GGML_RESTRICT vy, int nr, int nc);
++void ggml_gemv_q4_K_8x4_q8_K_decoded(int n, float * GGML_RESTRICT s, size_t bs, const void * GGML_RESTRICT vx, const void * GGML_RESTRICT vy, int nr, int nc);
+ void ggml_gemv_q4_K_8x8_q8_K(int n, float * GGML_RESTRICT s, size_t bs, const void * GGML_RESTRICT vx, const void * GGML_RESTRICT vy, int nr, int nc);
+ void ggml_gemv_q5_K_8x4_q8_K(int n, float * GGML_RESTRICT s, size_t bs, const void * GGML_RESTRICT vx, const void * GGML_RESTRICT vy, int nr, int nc);
+ void ggml_gemv_q5_K_8x8_q8_K(int n, float * GGML_RESTRICT s, size_t bs, const void * GGML_RESTRICT vx, const void * GGML_RESTRICT vy, int nr, int nc);
