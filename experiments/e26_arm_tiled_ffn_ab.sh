@@ -87,7 +87,10 @@ run_layer() {
 
 run_layer baseline 1 correctness-t1-baseline
 run_layer candidate 1 correctness-t1-candidate
-cmp "$output_dir/correctness/correctness-t1-baseline.bin" "$output_dir/correctness/correctness-t1-candidate.bin"
+python3 "$repo_root/experiments/e26_compare.py" \
+    "$output_dir/correctness/correctness-t1-baseline.bin" \
+    "$output_dir/correctness/correctness-t1-candidate.bin" \
+    "$output_dir/correctness/t1-numerics.json"
 GGML_CPU_TILED_FFN=1 taskset --cpu-list 0-3 "$work_dir/e26-tiled-ffn" \
     --n-embd 3072 --n-ff 9216 --n-tokens 1 --threads 4 --repetitions 1 \
     --unsupported-names --output "$output_dir/correctness/fallback.bin" \

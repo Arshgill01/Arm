@@ -2,6 +2,12 @@
 
 Status: frozen before implementation on 2026-08-08.
 
+Implementation note: the initial 64-row gate/up-only candidate failed the
+native layer gate, so contract revision 2 follows the mandated fallback in pass
+step 5: 1024-row gate/up/SwiGLU tiles are quantized and accumulated directly
+through the Q4_K or Q6_K down projection. The retained first result remains a
+negative result rather than being rewritten as pack reuse.
+
 ## Launch contract
 
 - Run in an isolated worktree from current `origin/main`.

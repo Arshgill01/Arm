@@ -1,88 +1,39 @@
-name: Arm E26 tiled FFN fusion
+name: Arm E26 rejected fusion validation
 
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/e26-tiled-ffn.yml
+      - experiments/e26_*
+      - patches/llama.cpp/e26/**
   workflow_dispatch:
 
 permissions:
   contents: read
 
-env:
-  MODEL_PATH: /tmp/e26-qwen/qwen2.5-1.5b-instruct-q4_k_m.gguf
-  MODEL_REVISION: 91cad51170dc346986eccefdc2dd33a9da36ead9
-  MODEL_SHA256: 6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e
-  MODEL_SIZE: "1117320736"
-
 jobs:
   validate:
-    name: Correctness and matched A/B on Neoverse N2
+    name: Rejected patch safety and repository checks
     runs-on: ubuntu-24.04-arm
-    timeout-minutes: 110
-    env:
-      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e26-${{ github.run_id }}-${{ github.run_attempt }}
-      E26_WORK_DIR: /tmp/e26-${{ github.run_id }}-${{ github.run_attempt }}
+    timeout-minutes: 30
 
     steps:
       - name: Check out E26 branch
         uses: actions/checkout@v7
 
-      - name: Verify prerequisites
+      - name: Verify retained negative decision
         run: |
           set -euo pipefail
           test "$(uname -m)" = aarch64
-          test "$(nproc)" -ge 4
-          command -v cmake
-          command -v ninja
-          command -v jq
-          command -v taskset
+          jq -e '.decision == "reject" and (.gates.cheap_layer_pass | not)' \
+            results/raw/e26a-axion-negative-summary.json
 
-      - name: Restore pinned Qwen model
-        id: model-cache
-        uses: actions/cache/restore@v6
-        with:
-          path: ${{ env.MODEL_PATH }}
-          key: e23-qwen25-q4-k-m-${{ env.MODEL_SHA256 }}
+      - name: Run rejected-patch native safety smoke
+        run: experiments/e26_rejected_smoke.sh /tmp/e26-rejected-smoke-output
 
-      - name: Fetch and verify pinned Qwen model
+      - name: Run repository validation
         run: |
-          set -euo pipefail
-          mkdir -p "$(dirname "$MODEL_PATH")"
-          if [[ ! -f "$MODEL_PATH" ]]; then
-            curl --fail --location --retry 5 --retry-all-errors \
-              --output "$MODEL_PATH" \
-              "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/$MODEL_REVISION/qwen2.5-1.5b-instruct-q4_k_m.gguf?download=true"
-          fi
-          test "$(stat --format='%s' "$MODEL_PATH")" = "$MODEL_SIZE"
-          echo "$MODEL_SHA256  $MODEL_PATH" | sha256sum --check --strict
-
-      - name: Save verified Qwen model
-        if: steps.model-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v6
-        with:
-          path: ${{ env.MODEL_PATH }}
-          key: e23-qwen25-q4-k-m-${{ env.MODEL_SHA256 }}
-
-      - name: Run E26 native A/B
-        id: experiment
-        continue-on-error: true
-        run: experiments/e26_arm_tiled_ffn_ab.sh "$EVIDENCE_DIR"
-
-      - name: Print retained summary
-        if: always() && hashFiles('results/raw/e26-*/summary.json') != ''
-        run: jq . "$EVIDENCE_DIR/summary.json"
-
-      - name: Upload E26 evidence
-        if: always() && hashFiles('results/raw/e26-*/**') != ''
-        uses: actions/upload-artifact@v6
-        with:
-          name: e26-tiled-ffn-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ env.EVIDENCE_DIR }}
-          if-no-files-found: error
-          retention-days: 30
-
-      - name: Enforce experiment completion
-        if: always()
-        env:
-          EXPERIMENT_OUTCOME: ${{ steps.experiment.outcome }}
-        run: |
-          set -euo pipefail
-          test "$EXPERIMENT_OUTCOME" = success
+          python3 -m unittest discover -s tests -q
+          python3 scripts/verify_submission.py
+          git diff --check

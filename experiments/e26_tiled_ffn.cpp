@@ -24,6 +24,7 @@ struct options {
     int     n_threads = 4;
     int     repetitions = 3;
     bool    supported_names = true;
+    bool    q6_down = false;
     std::string output_path;
 };
 
@@ -48,6 +49,10 @@ static options parse_options(int argc, char ** argv) {
         const std::string arg = argv[i];
         if (arg == "--unsupported-names") {
             result.supported_names = false;
+            continue;
+        }
+        if (arg == "--q6-down") {
+            result.q6_down = true;
             continue;
         }
         if (i + 1 >= argc) {
@@ -121,7 +126,8 @@ int main(int argc, char ** argv) {
 
     ggml_tensor * gate_weight = ggml_new_tensor_2d(ctx_weights, GGML_TYPE_Q4_K, opts.n_embd, opts.n_ff);
     ggml_tensor * up_weight   = ggml_new_tensor_2d(ctx_weights, GGML_TYPE_Q4_K, opts.n_embd, opts.n_ff);
-    ggml_tensor * down_weight = ggml_new_tensor_2d(ctx_weights, GGML_TYPE_Q4_K, opts.n_ff, opts.n_embd);
+    const ggml_type down_type = opts.q6_down ? GGML_TYPE_Q6_K : GGML_TYPE_Q4_K;
+    ggml_tensor * down_weight = ggml_new_tensor_2d(ctx_weights, down_type, opts.n_ff, opts.n_embd);
     ggml_set_name(gate_weight, opts.supported_names ? "blk.0.ffn_gate.weight" : "blk.0.attn_q.weight");
     ggml_set_name(up_weight, opts.supported_names ? "blk.0.ffn_up.weight" : "blk.0.attn_k.weight");
     ggml_set_name(down_weight, "blk.0.ffn_down.weight");
@@ -138,7 +144,7 @@ int main(int argc, char ** argv) {
     const std::vector<float> down_values = make_values(opts.n_ff * opts.n_embd, 0.055f, 0.47f);
     const std::vector<uint8_t> gate_quantized = quantize(GGML_TYPE_Q4_K, gate_values, opts.n_ff, opts.n_embd);
     const std::vector<uint8_t> up_quantized   = quantize(GGML_TYPE_Q4_K, up_values, opts.n_ff, opts.n_embd);
-    const std::vector<uint8_t> down_quantized = quantize(GGML_TYPE_Q4_K, down_values, opts.n_embd, opts.n_ff);
+    const std::vector<uint8_t> down_quantized = quantize(down_type, down_values, opts.n_embd, opts.n_ff);
     ggml_backend_tensor_set(gate_weight, gate_quantized.data(), 0, gate_quantized.size());
     ggml_backend_tensor_set(up_weight, up_quantized.data(), 0, up_quantized.size());
     ggml_backend_tensor_set(down_weight, down_quantized.data(), 0, down_quantized.size());
@@ -180,6 +186,7 @@ int main(int argc, char ** argv) {
     std::vector<float> intermediate(opts.n_ff * opts.n_tokens, sentinel);
     ggml_backend_tensor_set(gate, intermediate.data(), 0, intermediate.size() * sizeof(float));
     ggml_backend_tensor_set(up, intermediate.data(), 0, intermediate.size() * sizeof(float));
+    ggml_backend_tensor_set(activation, intermediate.data(), 0, intermediate.size() * sizeof(float));
 
     if (ggml_backend_graph_compute(backend, graph) != GGML_STATUS_SUCCESS) {
         fail("warmup graph compute failed");
@@ -189,6 +196,9 @@ int main(int argc, char ** argv) {
     const size_t gate_written = std::count_if(intermediate.begin(), intermediate.end(), [](float value) { return !std::isnan(value); });
     ggml_backend_tensor_get(up, intermediate.data(), 0, intermediate.size() * sizeof(float));
     const size_t up_written = std::count_if(intermediate.begin(), intermediate.end(), [](float value) { return !std::isnan(value); });
+    ggml_backend_tensor_get(activation, intermediate.data(), 0, intermediate.size() * sizeof(float));
+    const size_t activation_written = std::count_if(
+            intermediate.begin(), intermediate.end(), [](float value) { return !std::isnan(value); });
 
     std::vector<double> times_ms;
     for (int repetition = 0; repetition < opts.repetitions; ++repetition) {
@@ -211,14 +221,14 @@ int main(int argc, char ** argv) {
         }
     }
 
-    const size_t full_intermediate_bytes = 2 * opts.n_ff * opts.n_tokens * sizeof(float);
-    const size_t written_intermediate_bytes = (gate_written + up_written) * sizeof(float);
+    const size_t full_intermediate_bytes = 3 * opts.n_ff * opts.n_tokens * sizeof(float);
+    const size_t written_intermediate_bytes = (gate_written + up_written + activation_written) * sizeof(float);
     std::printf(
-            "n_embd=%" PRId64 " n_ff=%" PRId64 " n_tokens=%" PRId64 " threads=%d repetitions=%d\n"
-            "gate_written=%zu up_written=%zu full_intermediate_bytes=%zu written_intermediate_bytes=%zu saved_bytes=%zu\n"
+            "n_embd=%" PRId64 " n_ff=%" PRId64 " n_tokens=%" PRId64 " threads=%d repetitions=%d down_type=%s\n"
+            "gate_written=%zu up_written=%zu activation_written=%zu full_intermediate_bytes=%zu written_intermediate_bytes=%zu saved_bytes=%zu\n"
             "median_ms=%.6f output_hash=%016" PRIx64 " output_values=%zu\n",
-            opts.n_embd, opts.n_ff, opts.n_tokens, opts.n_threads, opts.repetitions,
-            gate_written, up_written, full_intermediate_bytes, written_intermediate_bytes,
+            opts.n_embd, opts.n_ff, opts.n_tokens, opts.n_threads, opts.repetitions, ggml_type_name(down_type),
+            gate_written, up_written, activation_written, full_intermediate_bytes, written_intermediate_bytes,
             full_intermediate_bytes - std::min(full_intermediate_bytes, written_intermediate_bytes),
             times_ms[times_ms.size() / 2], hash_floats(output_values), output_values.size());
 

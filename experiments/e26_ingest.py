@@ -12,7 +12,7 @@ from pathlib import Path
 
 LAYER_RE = re.compile(
     r"n_embd=(?P<n_embd>\d+) n_ff=(?P<n_ff>\d+) n_tokens=(?P<n_tokens>\d+).*\n"
-    r"gate_written=(?P<gate>\d+) up_written=(?P<up>\d+) "
+    r"gate_written=(?P<gate>\d+) up_written=(?P<up>\d+) activation_written=(?P<activation>\d+) "
     r"full_intermediate_bytes=(?P<full>\d+) written_intermediate_bytes=(?P<written>\d+) saved_bytes=(?P<saved>\d+).*\n"
     r"median_ms=(?P<time>[0-9.]+) output_hash=(?P<hash>[0-9a-f]+)"
 )
@@ -61,8 +61,8 @@ def main() -> int:
             raise ValueError(f"insufficient layer samples for {case}")
         baseline_times = [float(item["time"]) for item in baseline]
         candidate_times = [float(item["time"]) for item in candidate]
-        if {item["hash"] for item in baseline + candidate}.__len__() != 1:
-            raise ValueError(f"layer output mismatch for {case}")
+        if len({item["hash"] for item in baseline}) != 1 or len({item["hash"] for item in candidate}) != 1:
+            raise ValueError(f"layer output is not deterministic for {case}")
         full_bytes = {int(item["full"]) for item in candidate}
         saved_bytes = {int(item["saved"]) for item in candidate}
         if len(full_bytes) != 1 or len(saved_bytes) != 1:
@@ -75,7 +75,8 @@ def main() -> int:
             "speedup": baseline_median / candidate_median,
             "full_intermediate_bytes": full_bytes.pop(),
             "saved_intermediate_bytes": saved_bytes.pop(),
-            "output_hash": baseline[0]["hash"],
+            "reference_output_hash": baseline[0]["hash"],
+            "candidate_output_hash": candidate[0]["hash"],
             "samples_per_variant": len(baseline),
         }
 
@@ -94,14 +95,20 @@ def main() -> int:
     debug_lines = [line for line in (root / "graph" / "candidate.stderr").read_text().splitlines() if "tiled_ffn:" in line]
     if not debug_lines:
         raise ValueError("real graph did not select tiled FFN")
-    if any("ffn_gate.weight" not in line or "ffn_up.weight" not in line for line in debug_lines):
+    if any(
+        "ffn_gate.weight" not in line or "ffn_up.weight" not in line or "ffn_down.weight" not in line
+        for line in debug_lines
+    ):
         raise ValueError("real graph selected a non-FFN role")
     summary["real_graph"] = {
         "selected_calls": len(debug_lines),
-        "all_exact_gate_up_roles": True,
+        "all_exact_ffn_roles": True,
     }
+    layer_numerics = json.loads((root / "correctness" / "t1-numerics.json").read_text())
+    if not layer_numerics["within_tolerance"]:
+        raise ValueError("layer numerical comparison exceeds tolerance")
     summary["correctness"] = {
-        "layer_byte_identical": True,
+        "layer_numerics": layer_numerics,
         "unsupported_role_fallback_byte_identical": True,
         "live_request_byte_identical": (root / "live" / "output.diff").stat().st_size == 0,
     }
