@@ -1,0 +1,102 @@
+name: E28 cumulative runtime second Arm machine
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/e28-cumulative-arm-runtime.yml
+      - experiments/e28_*
+      - patches/llama.cpp/e25/**
+      - patches/llama.cpp/e27/**
+      - patches/llama.cpp/b10216/**
+      - patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch
+      - patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  MODEL_PATH: /tmp/e28-portability/model/qwen2.5-1.5b-instruct-q4_k_m.gguf
+  MODEL_SHA256: 6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e
+  EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e28-n2-${{ github.run_id }}-${{ github.run_attempt }}
+  E28_WORK_DIR: /tmp/e28-portability
+
+jobs:
+  validate:
+    name: Qwen A/B/C/D correctness and four-case matrix on Neoverse N2
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 180
+
+    steps:
+      - name: Check out experiment repository
+        uses: actions/checkout@v7
+
+      - name: Install and verify prerequisites
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake curl gdb git jq ninja-build \
+            linux-tools-common linux-tools-generic python3
+          test "$(uname -m)" = aarch64
+          test "$(nproc)" -ge 4
+          lscpu | tee /tmp/e28-lscpu.txt
+          grep -q 'Neoverse-N2' /tmp/e28-lscpu.txt
+          c++ --version | grep -q '13.3.0'
+          bash -n experiments/e28_pinned_campaign.sh
+          python3 -m py_compile experiments/e28_ingest.py experiments/e28_second_ingest.py
+          python3 -m unittest tests.test_e28
+
+      - name: Restore pinned Qwen model
+        id: model-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ${{ env.MODEL_PATH }}
+          key: e28-qwen25-q4-k-m-${{ env.MODEL_SHA256 }}
+
+      - name: Fetch and verify pinned Qwen model
+        run: |
+          set -euo pipefail
+          mkdir -p "$(dirname "$MODEL_PATH")"
+          if [[ ! -f "$MODEL_PATH" ]]; then
+            curl --fail --location --retry 5 --retry-all-errors \
+              --output "$MODEL_PATH" \
+              'https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/91cad51170dc346986eccefdc2dd33a9da36ead9/qwen2.5-1.5b-instruct-q4_k_m.gguf?download=true'
+          fi
+          test "$(stat --format='%s' "$MODEL_PATH")" = 1117320736
+          echo "$MODEL_SHA256  $MODEL_PATH" | sha256sum --check --strict
+
+      - name: Save verified Qwen model
+        if: steps.model-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: ${{ env.MODEL_PATH }}
+          key: e28-qwen25-q4-k-m-${{ env.MODEL_SHA256 }}
+
+      - name: Run direct correctness and reverse-balanced matrix
+        id: experiment
+        continue-on-error: true
+        env:
+          E28_MODEL_KEY: portability
+        run: experiments/e28_pinned_campaign.sh "$EVIDENCE_DIR" second-arm
+
+      - name: Print retained summary
+        if: always() && hashFiles('results/raw/e28-n2-*/results/summary.json') != ''
+        run: jq . "$EVIDENCE_DIR/results/summary.json"
+
+      - name: Upload second-machine evidence
+        if: always() && hashFiles('results/raw/e28-n2-*/**') != ''
+        uses: actions/upload-artifact@v7
+        with:
+          name: e28-cumulative-arm-n2-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Enforce experiment completion
+        if: always()
+        env:
+          EXPERIMENT_OUTCOME: ${{ steps.experiment.outcome }}
+        run: test "$EXPERIMENT_OUTCOME" = success

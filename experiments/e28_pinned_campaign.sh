@@ -2,14 +2,14 @@
 set -euo pipefail
 
 if [[ $# -lt 1 || $# -gt 2 ]]; then
-    echo "usage: $0 OUTPUT_DIR [prepare|benchmark|demo-profile|all]" >&2
+    echo "usage: $0 OUTPUT_DIR [prepare|benchmark|demo-profile|second-arm|all]" >&2
     exit 2
 fi
 
 output_dir=$(realpath -m "$1")
 stage=${2:-all}
 case "$stage" in
-    prepare|benchmark|demo-profile|all) ;;
+    prepare|benchmark|demo-profile|second-arm|all) ;;
     *) echo "invalid stage: $stage" >&2; exit 2 ;;
 esac
 
@@ -29,7 +29,12 @@ source_root="$work_dir/sources"
 build_root="$work_dir/builds"
 model_dir="$work_dir/model"
 tool_dir="$work_dir/tools"
-model="$model_dir/$(jq -r '.models.primary.filename' "$contract")"
+model_key=${E28_MODEL_KEY:-primary}
+case "$model_key" in
+    primary|portability) ;;
+    *) echo "invalid E28_MODEL_KEY: $model_key" >&2; exit 2 ;;
+esac
+model="$model_dir/$(jq -r ".models.$model_key.filename" "$contract")"
 commit=$(jq -r '.source.pinned_baseline_commit' "$contract")
 repository=$(jq -r '.source.repository' "$contract")
 marker_dir="$output_dir/stages"
@@ -65,7 +70,11 @@ record_host() {
         test "$(cat "$output_dir/host/metadata-preempted.txt")" = "FALSE"
         test "$(cat "$output_dir/host/metadata-maintenance-event.txt")" = "NONE"
     fi
-    grep -q "Neoverse-V2" "$output_dir/host/lscpu.txt"
+    if [[ "$model_key" = portability ]]; then
+        grep -q "Neoverse-N2" "$output_dir/host/lscpu.txt"
+    else
+        grep -q "Neoverse-V2" "$output_dir/host/lscpu.txt"
+    fi
     grep -q "13.3.0" "$output_dir/host/cxx-version.txt"
     for flag in asimd asimddp i8mm sve sve2 svei8mm; do
         grep '^Flags:' "$output_dir/host/lscpu.txt" | grep -qw "$flag"
@@ -161,16 +170,16 @@ prepare_model() {
         if [[ -n "${MODEL_PATH:-}" ]]; then
             cp --reflink=auto "$MODEL_PATH" "$model"
         else
-            model_repo=$(jq -r '.models.primary.repository' "$contract")
-            model_revision=$(jq -r '.models.primary.revision' "$contract")
-            model_filename=$(jq -r '.models.primary.filename' "$contract")
+            model_repo=$(jq -r ".models.$model_key.repository" "$contract")
+            model_revision=$(jq -r ".models.$model_key.revision" "$contract")
+            model_filename=$(jq -r ".models.$model_key.filename" "$contract")
             curl --fail --location --retry 5 --retry-all-errors \
                 --output "$model" \
                 "https://huggingface.co/$model_repo/resolve/$model_revision/$model_filename?download=true"
         fi
     fi
-    test "$(stat --format='%s' "$model")" = "$(jq -r '.models.primary.size_bytes' "$contract")"
-    echo "$(jq -r '.models.primary.sha256' "$contract")  $model" | sha256sum --check --strict
+    test "$(stat --format='%s' "$model")" = "$(jq -r ".models.$model_key.size_bytes" "$contract")"
+    echo "$(jq -r ".models.$model_key.sha256" "$contract")  $model" | sha256sum --check --strict
     sha256sum "$model" > "$output_dir/source/model-sha256.txt"
 }
 
@@ -522,5 +531,22 @@ if [[ "$stage" = demo-profile || "$stage" = all ]]; then
     python3 "$repo_root/experiments/e28_ingest.py" "$output_dir" \
         "$output_dir/results/summary.json"
     touch "$marker_dir/demo-profile.complete"
+    finish_inventory
+fi
+
+if [[ "$stage" = second-arm ]]; then
+    test "$model_key" = portability
+    test ! -e "$marker_dir/second-arm.complete"
+    record_host
+    verify_inputs
+    prepare_sources_and_builds
+    prepare_model
+    compile_harnesses
+    run_correctness
+    touch "$marker_dir/prepare.complete"
+    run_benchmarks
+    python3 "$repo_root/experiments/e28_second_ingest.py" "$output_dir" \
+        "$output_dir/results/summary.json"
+    touch "$marker_dir/second-arm.complete"
     finish_inventory
 fi
