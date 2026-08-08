@@ -1,0 +1,93 @@
+name: Arm E27 Flash Attention second machine
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/arm-flash-attention.yml
+      - experiments/e27_*
+      - patches/llama.cpp/e27/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  MODEL_PATH: /tmp/e27-qwen/qwen2.5-1.5b-instruct-q4_k_m.gguf
+  MODEL_REVISION: 91cad51170dc346986eccefdc2dd33a9da36ead9
+  MODEL_SHA256: 6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e
+  MODEL_SIZE: "1117320736"
+
+jobs:
+  validate:
+    name: Adjacent-model Flash Attention A/B on Neoverse N2
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 120
+    env:
+      EVIDENCE_DIR: ${{ github.workspace }}/results/raw/e27-n2-${{ github.run_id }}-${{ github.run_attempt }}
+      E27_SECOND_WORK_DIR: /tmp/e27-${{ github.run_id }}-${{ github.run_attempt }}
+
+    steps:
+      - name: Check out experiment repository
+        uses: actions/checkout@v7
+
+      - name: Verify Arm runner prerequisites
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          test "$(nproc)" -ge 4
+          command -v cmake
+          command -v ninja
+          command -v taskset
+          command -v c++
+
+      - name: Restore pinned Qwen model
+        id: model-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ${{ env.MODEL_PATH }}
+          key: e27-qwen25-q4-k-m-${{ env.MODEL_SHA256 }}
+
+      - name: Fetch and verify pinned Qwen model
+        run: |
+          set -euo pipefail
+          mkdir -p "$(dirname "$MODEL_PATH")"
+          if [[ ! -f "$MODEL_PATH" ]]; then
+            curl --fail --location --retry 5 --retry-all-errors \
+              --output "$MODEL_PATH" \
+              "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/$MODEL_REVISION/qwen2.5-1.5b-instruct-q4_k_m.gguf?download=true"
+          fi
+          test "$(stat --format='%s' "$MODEL_PATH")" = "$MODEL_SIZE"
+          echo "$MODEL_SHA256  $MODEL_PATH" | sha256sum --check --strict
+
+      - name: Save verified Qwen model
+        if: steps.model-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: ${{ env.MODEL_PATH }}
+          key: e27-qwen25-q4-k-m-${{ env.MODEL_SHA256 }}
+
+      - name: Run adjacent-model A/B
+        id: experiment
+        continue-on-error: true
+        run: experiments/e27_second_arm_ab.sh "$EVIDENCE_DIR"
+
+      - name: Print retained result
+        if: always() && hashFiles('results/raw/e27-n2-*/results/summary.json') != ''
+        run: jq . "$EVIDENCE_DIR/results/summary.json"
+
+      - name: Upload evidence
+        if: always() && hashFiles('results/raw/e27-n2-*/**') != ''
+        uses: actions/upload-artifact@v6
+        with:
+          name: e27-arm-flash-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Enforce experiment completion
+        if: always()
+        env:
+          EXPERIMENT_OUTCOME: ${{ steps.experiment.outcome }}
+        run: test "$EXPERIMENT_OUTCOME" = success

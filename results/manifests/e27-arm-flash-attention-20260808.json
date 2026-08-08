@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E27",
+  "status": "accepted",
+  "captured_at_utc": "2026-08-08",
+  "summary": "results/raw/e27-axion-20260808/results/summary.json",
+  "report": "results/reports/e27-arm-long-context-flash-attention.md",
+  "contract": "experiments/e27_contract.json",
+  "campaign": "experiments/e27_axion_campaign.sh",
+  "direct_harness": "experiments/e27_flash_attn_harness.cpp",
+  "demo": "scripts/e27_demo_arm_flash_attention.sh",
+  "candidate_patch": "patches/llama.cpp/e27/0001-arm-sve-flash-attention-neon-gemm.patch",
+  "candidate_patch_sha256": "5f7c5896a99312b4f9e80cacb39ad766d81cc17b1d93454a0bc6394a013197a4",
+  "provenance": {
+    "llama_cpp_baseline_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "llama_cpp_current_commit": "69bf6437914596fbbc4caf09a7ac16f2acdd1a94",
+    "contract_sha256": "e2af05212a9f35bf96e976b1eed921d67c0cbe8b46245fbaeca9aef04e97784b",
+    "primary_model_sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "primary_summary_sha256": "baebe95fbdb81e03fef806488dd2ec14d9c1b78b4e044467c680979d0a804b6a",
+    "current_upstream_summary_sha256": "605d21ea6a8c7644c2a43ead20fc236ef959a0d52a77ce299ca9244da2ee43f2"
+  },
+  "raw_evidence": [
+    {
+      "path": "results/raw/e27-axion-20260808",
+      "role": "primary Axion profiles, reference checks, matched direct and whole-model A/B, deterministic live demo, execution proof and verified resource closure",
+      "inventory_sha256": "9bc4c0b7b32c9da9e5c520ab2c51f523c19f40fec9556c53c0e33d3b18aed589"
+    },
+    {
+      "path": "results/raw/e27-current-upstream-20260808",
+      "role": "native current-upstream patch, build, correctness and direct A/B",
+      "inventory_sha256": "ab123b301e58b320207567b0791afb96a9ddf2baf5f9d86e1b8ce19842df90bd"
+    },
+    {
+      "path": "results/raw/e27-n2-31248789575",
+      "role": "adjacent Qwen model on the second native Arm CPU"
+    }
+  ],
+  "full_archive": {
+    "local_path": "/home/arshdeepsingh/work/e27-evidence-archives/e27-native-full-20260808.tar.gz",
+    "size_bytes": 128837474,
+    "sha256": "8ace0a4a7bbf2bf8d35ade6680370e37cee1b48c10cf06faba24f5298ad14cbc",
+    "contains_perf_data_and_full_disassembly": true,
+    "verified_before_resource_deletion": true
+  },
+  "platform": {
+    "provider": "Google Cloud Compute Engine",
+    "zone": "us-central1-a",
+    "instance_name": "arm-flash-e27-20260808",
+    "instance_id": "3317598042870995699",
+    "machine_type": "c4a-highcpu-8",
+    "cpu": "Google Axion / Arm Neoverse V2",
+    "logical_cpus_used": 4,
+    "pmu": "STANDARD",
+    "maximum_run_duration_seconds": 21600,
+    "instance_termination_action": "DELETE"
+  },
+  "results": {
+    "maximum_nmse": 0.0000105186071708,
+    "direct_speedup": {
+      "d128-q512-kv512": 9.158309427748103,
+      "d128-q512-kv2048": 9.487393787558426,
+      "d128-q512-kv4096": 9.634512294846095
+    },
+    "whole_model_speedup": {
+      "pp512": 1.6234923710965148,
+      "pp2048": 2.910143769937548,
+      "pp4096": 4.086358754790378,
+      "tg128": 0.999073231892792
+    },
+    "live_demo_wall_time_seconds": {
+      "baseline": 841.26,
+      "candidate": 158.24,
+      "speedup": 5.316354903943377
+    },
+    "all_gates_accepted": true
+  },
+  "resource_state": {
+    "created_at": "2026-08-08T08:09:01.561Z",
+    "absence_verified_at": "2026-08-08T11:17:38+00:00",
+    "runtime_hours": 3.143455277777778,
+    "instance_absence_verified": true,
+    "boot_disk_absence_verified": true,
+    "conservative_compute_estimate_usd": 0.96,
+    "hard_ceiling_usd": 12.0
+  },
+  "claim_boundary": "The primary result is specific to the tested four-core Axion configuration and model. The independent Neoverse N2 and current-upstream runs establish adjacent-model, second-CPU and source-portability evidence, not universal Arm performance."
+}

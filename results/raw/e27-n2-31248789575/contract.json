@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "contract_revision": 1,
+  "experiment_id": "E27",
+  "title": "Arm long-context Flash Attention SVE-build NEON GEMM pass",
+  "objective": "Reduce medium and long-prompt time to first token by replacing the scalar tiled Flash Attention GEMM fallback in AArch64 SVE builds with a fixed-width NEON microkernel.",
+  "claim_boundary": "Primary performance claims require matched native Arm measurements. Cross-builds and x86 harness runs prove only portability and harness behavior.",
+  "source": {
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "baseline_tag": "b10216",
+    "baseline_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "audited_current_commit": "69bf6437914596fbbc4caf09a7ac16f2acdd1a94",
+    "cumulative_baseline_patches": [
+      "patches/llama.cpp/b10216/0001-kleidiai-use-validated-arm-features.patch",
+      "patches/llama.cpp/0002-arm-q8-vector-narrowing-stores.patch",
+      "patches/llama.cpp/0003-reasoning-budget-forced-token-guard.patch",
+      "patches/llama.cpp/b10216/0013-arm-q4-k-neon-vector-scale-kernel.patch",
+      "patches/llama.cpp/b10216/0016-arm-q6-k-gemv-fused-scales.patch",
+      "patches/llama.cpp/b10216/0020-arm-q6-k-gemv-just-in-time-loads.patch"
+    ],
+    "candidate_patch": "patches/llama.cpp/e27/0001-arm-sve-flash-attention-neon-gemm.patch",
+    "changed_file": "ggml/src/ggml-cpu/simd-gemm.h",
+    "dispatch_condition": "GGML_SIMD && __ARM_FEATURE_SVE && __ARM_NEON",
+    "generic_fallback_retained": true
+  },
+  "mechanism": {
+    "measured_gap": "The tiled Flash Attention implementation invokes simd_gemm for QK and V accumulation, but simd-gemm.h excludes __ARM_FEATURE_SVE and selects its scalar fallback in the cumulative Axion build.",
+    "candidate": "Use a 4-row by 16-column fixed-width NEON FP32 FMA microkernel when an AArch64 build exposes both SVE and NEON, retaining the existing non-SVE SIMD, RVV and scalar branches.",
+    "affected_stages": ["QK GEMM", "V accumulation GEMM"],
+    "unaffected_stages": ["K and V conversion/packing", "online softmax", "masking", "tile geometry", "thread partitioning"]
+  },
+  "primary_model": {
+    "repository": "unsloth/Ministral-3-3B-Instruct-2512-GGUF",
+    "revision": "7564922f37fa5bbb62b87f09a55c12f1f91d7a6a",
+    "filename": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+    "size_bytes": 2146497824,
+    "sha256": "fd46fc371ff0509bfa8657ac956b7de8534d7d9baaa4947975c0648c3aa397f4",
+    "attention_shape": {"head_size": 128, "query_heads": 24, "kv_heads": 8},
+    "kv_type": "f16"
+  },
+  "adjacent_model": {
+    "repository": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+    "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+    "filename": "qwen2.5-1.5b-instruct-q4_k_m.gguf",
+    "size_bytes": 1117320736,
+    "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e"
+  },
+  "primary_host": {
+    "provider": "Google Cloud Compute Engine",
+    "machine_type": "c4a-highcpu-8",
+    "cpu": "Google Axion / Arm Neoverse V2",
+    "zone": "us-central1-a",
+    "benchmark_core_set": "0-3",
+    "threads": 4,
+    "pmu": "standard",
+    "maximum_run_duration": "6h",
+    "maximum_estimated_usd": 12.0,
+    "required_auto_delete": true
+  },
+  "correctness": {
+    "declared_before_timing": true,
+    "reference": "ggml_backend_cpu_set_use_ref(true)",
+    "candidate": "tiled Flash Attention with the E27 NEON GEMM branch",
+    "maximum_nmse": 0.0005,
+    "cases": [
+      {"head_size": 128, "query_tokens": 64, "kv_tokens": 128, "query_heads": 24, "kv_heads": 8, "kv_type": "f16"},
+      {"head_size": 128, "query_tokens": 64, "kv_tokens": 512, "query_heads": 24, "kv_heads": 8, "kv_type": "f16"},
+      {"head_size": 64, "query_tokens": 64, "kv_tokens": 512, "query_heads": 12, "kv_heads": 4, "kv_type": "f32"}
+    ],
+    "seeds": [1, 17, 42],
+    "deterministic_inference": {"seed": 42, "temperature": 0, "required_output": "byte-identical"}
+  },
+  "direct_performance": {
+    "process_order_per_round": ["baseline", "candidate", "candidate", "baseline"],
+    "processes_per_variant_per_case": 6,
+    "timed_calls_per_process": 7,
+    "cases": [
+      {"id": "d128-q512-kv512", "head_size": 128, "query_tokens": 512, "kv_tokens": 512, "query_heads": 24, "kv_heads": 8},
+      {"id": "d128-q512-kv2048", "head_size": 128, "query_tokens": 512, "kv_tokens": 2048, "query_heads": 24, "kv_heads": 8},
+      {"id": "d128-q512-kv4096", "head_size": 128, "query_tokens": 512, "kv_tokens": 4096, "query_heads": 24, "kv_heads": 8}
+    ],
+    "admission_ratio": 1.2
+  },
+  "whole_model": {
+    "cases": [
+      {"id": "pp512", "prompt_tokens": 512, "generated_tokens": 0},
+      {"id": "pp2048", "prompt_tokens": 2048, "generated_tokens": 0},
+      {"id": "pp4096", "prompt_tokens": 4096, "generated_tokens": 0},
+      {"id": "tg128", "prompt_tokens": 0, "generated_tokens": 128}
+    ],
+    "process_order_per_round": ["baseline", "candidate", "candidate", "baseline"],
+    "processes_per_variant_per_case": 6,
+    "internal_repetitions": 3,
+    "flash_attention": true,
+    "batch_size": 1024,
+    "ubatch_size": 512,
+    "warmup": false,
+    "promotion": {"pp2048_ratio": 1.1, "pp4096_ratio": 1.15, "minimum_pp512_ratio": 0.98, "minimum_tg128_ratio": 0.98}
+  }
+}

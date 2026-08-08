@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E27-second-arm",
+  "status": "accepted",
+  "captured_at_utc": "2026-08-08T08:37:30+00:00",
+  "claim_boundary": "This run confirms the Flash Attention mechanism on one adjacent model and a second native Arm CPU. It does not replace the primary Axion result or establish universal performance.",
+  "provenance": {
+    "arm_repository_commit": "e6086f3818600a6b0449c623e74816c1d9b73b5e",
+    "llama_cpp_commit": "876a4321163249c43ca4e986818fab5ab081f282",
+    "contract_sha256": "e2af05212a9f35bf96e976b1eed921d67c0cbe8b46245fbaeca9aef04e97784b",
+    "cumulative_candidate_patch_sha256": "26fe1b7aec0bd0ee1b278901603e33461f0fbe7f48f94f8d2dbca6bdabe1863d",
+    "model_sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+    "summary_sha256": "d65b7244a9acf43a3fc813cca439779ad9ff2c840b75048ed23e0d7809f1b607",
+    "compact_raw_directory": "results/raw/e27-n2-31248789575",
+    "compact_inventory_sha256": "564c2a008ba60d6b63135753b26feb2acfd54d5f866f3b88ac6e2e2ee8296d95"
+  },
+  "platform": {
+    "provider": "GitHub Actions",
+    "runner_label": "ubuntu-24.04-arm",
+    "runner_name": "GitHub Actions 1000001370",
+    "cpu": "Arm Neoverse N2",
+    "logical_cpus": 4,
+    "workflow_run": "https://github.com/Arshgill01/Arm/actions/runs/31248789575",
+    "job_id": 93081676781,
+    "conclusion": "success"
+  },
+  "model": {
+    "repository": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+    "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+    "filename": "qwen2.5-1.5b-instruct-q4_k_m.gguf"
+  },
+  "results": {
+    "maximum_nmse": 0.0000111731234137,
+    "direct_speedup": {
+      "d128-q512-kv512": 6.787044799187874,
+      "d128-q512-kv2048": 6.999456012428967
+    },
+    "whole_model_speedup": {
+      "pp512": 1.3950540305808254,
+      "pp2048": 2.1779648468499007,
+      "tg64": 0.9982127858357267
+    },
+    "all_gates_accepted": true
+  },
+  "artifact": {
+    "id": 9019441116,
+    "name": "e27-arm-flash-31248789575-1",
+    "size_bytes": 71965,
+    "retention_days": 30,
+    "downloaded_and_inventory_recomputed": true
+  }
+}

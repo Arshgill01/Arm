@@ -1,0 +1,45 @@
+{
+  "accessMode": "READ_WRITE_SINGLE",
+  "architecture": "ARM64",
+  "creationTimestamp": "2026-08-08T01:09:01.569-07:00",
+  "enableConfidentialCompute": false,
+  "guestOsFeatures": [
+    {
+      "type": "VIRTIO_SCSI_MULTIQUEUE"
+    },
+    {
+      "type": "IDPF"
+    },
+    {
+      "type": "UEFI_COMPATIBLE"
+    },
+    {
+      "type": "GVNIC"
+    }
+  ],
+  "id": "3567798648280144627",
+  "kind": "compute#disk",
+  "labelFingerprint": "42WmSpB8rSM=",
+  "lastAttachTimestamp": "2026-08-08T01:09:02.070-07:00",
+  "licenseCodes": [
+    "3242930272766215801"
+  ],
+  "licenses": [
+    "https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/licenses/ubuntu-2404-lts"
+  ],
+  "name": "arm-flash-e27-20260808",
+  "physicalBlockSizeBytes": "4096",
+  "provisionedIops": "3240",
+  "provisionedThroughput": "200",
+  "satisfiesPzi": true,
+  "selfLink": "https://www.googleapis.com/compute/v1/projects/warrant-auth/zones/us-central1-a/disks/arm-flash-e27-20260808",
+  "sizeGb": "40",
+  "sourceImage": "https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-arm64-v20260807",
+  "sourceImageId": "7541956201078597560",
+  "status": "READY",
+  "type": "https://www.googleapis.com/compute/v1/projects/warrant-auth/zones/us-central1-a/diskTypes/hyperdisk-balanced",
+  "users": [
+    "https://www.googleapis.com/compute/v1/projects/warrant-auth/zones/us-central1-a/instances/arm-flash-e27-20260808"
+  ],
+  "zone": "https://www.googleapis.com/compute/v1/projects/warrant-auth/zones/us-central1-a"
+}
