@@ -116,7 +116,7 @@ machine-readable summaries and SHA-256 inventories. The checksum-verified full
 archive, including `perf.data` and complete disassembly, is preserved outside
 Git at `/home/arshdeepsingh/work/e27-evidence-archives/e27-native-full-20260808.tar.gz`
 with SHA-256
-`8ace0a4a7bbf2bf8d35ade6680370e37cee1b78b4e044467c680979d0a804b6a`.
+`8ace0a4a7bbf2bf8d35ade6680370e37cee1b48c10cf06faba24f5298ad14cbc`.
 
 The Axion instance ran for `3.1435` hours with a six-hour automatic deletion
 rule. Eight vCPUs at the published `$0.03787` starting rate imply about `$0.96`

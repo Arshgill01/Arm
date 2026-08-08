@@ -1,0 +1,24 @@
+Function "ggml_gemv_q4_K_8x4_q8_K_decoded" not defined.
+Breakpoint 1 (ggml_gemv_q4_K_8x4_q8_K_decoded) pending.
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <https://debuginfod.ubuntu.com>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1".
+[New Thread 0xfffff6bfb4e0 (LWP 12580)]
+[New Thread 0xfffff63eb4e0 (LWP 12581)]
+[New Thread 0xfffff5bdb4e0 (LWP 12582)]
+[Switching to Thread 0xfffff6bfb4e0 (LWP 12580)]
+E28_DISPATCH e25 symbol=ggml_gemv_q4_K_8x4_q8_K_decoded n=3072 nc=256
+#0  ggml_gemv_q4_K_8x4_q8_K_decoded(int, float * __restrict__, size_t, const void * __restrict__, const void * __restrict__, int, int) (n=3072, s=0xaaaaae053240, bs=4096, vx=0xfffff6bfa848, vy=0xaaaaae4b9d80, nr=1, nc=256) at /var/tmp/e28-pinned-work/sources/D/ggml/src/ggml-cpu/arch/arm/repack.cpp:736
+#1  0x0000fffff701e534 in ggml::cpu::repack::tensor_traits<block_q4_K, 2l, 8l, (ggml_type)15>::forward_mul_mat_one_chunk (this=<optimized out>, src1_end=<optimized out>, src1_start=<optimized out>, src0_end=<optimized out>, src0_start=<optimized out>, op=<optimized out>, params=0xfffff6bfaab8) at /var/tmp/e28-pinned-work/sources/D/ggml/src/ggml-cpu/repack.cpp:4338
+#2  ggml::cpu::repack::tensor_traits<block_q4_K, 2l, 8l, (ggml_type)15>::forward_mul_mat (this=<optimized out>, op=<optimized out>, params=<optimized out>) at /var/tmp/e28-pinned-work/sources/D/ggml/src/ggml-cpu/repack.cpp:4471
+#3  ggml::cpu::repack::tensor_traits<block_q4_K, 2l, 8l, (ggml_type)15>::compute_forward (this=<optimized out>, params=<optimized out>, op=<optimized out>) at /var/tmp/e28-pinned-work/sources/D/ggml/src/ggml-cpu/repack.cpp:4273
+A debugging session is active.
+
+	Inferior 1 [process 12578] will be killed.
+
+Quit anyway? (y or n) [answered Y; input not from terminal]

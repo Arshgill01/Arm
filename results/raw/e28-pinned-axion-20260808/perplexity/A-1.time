@@ -1,0 +1,23 @@
+	Command being timed: "env LD_LIBRARY_PATH=/var/tmp/e28-pinned-work/builds/A/bin taskset -c 0-3 /var/tmp/e28-pinned-work/builds/A/bin/llama-perplexity -m /var/tmp/e28-pinned-work/model/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf -f /var/tmp/e28-evidence/pinned/perplexity/corpus.txt -t 4 -c 2048 -b 512 -ub 512 --flash-attn on"
+	User time (seconds): 645.22
+	System time (seconds): 1.09
+	Percent of CPU this job got: 391%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:45.07
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 5503792
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 899628
+	Voluntary context switches: 853
+	Involuntary context switches: 1299
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 40
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

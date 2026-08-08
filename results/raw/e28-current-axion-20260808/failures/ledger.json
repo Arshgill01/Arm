@@ -1,0 +1,24 @@
+{
+  "attempts": [
+    {
+      "accepted": false,
+      "archive": "/home/arshdeepsingh/work/e28-evidence-archives/current-no-pmu-20260808.tar.gz",
+      "archive_sha256": "0c36f3abbeaa1f58afec779480278d2075e19bbf3e146b613e584b0831363273",
+      "kind": "host-configuration",
+      "reason": "The first current host lacked STANDARD hardware PMU access. It was archived and explicitly deleted before this replacement host was created."
+    },
+    {
+      "accepted": false,
+      "evidence": "perplexity.failed-short-corpus",
+      "kind": "perplexity-corpus",
+      "reason": "The frozen source task file alone contained only 2,896 tokens, below llama-perplexity minimum coverage at context 2048. No accepted timing had begun; revision 3 uses two byte-identical copies."
+    },
+    {
+      "accepted": false,
+      "evidence": "../benchmark.exit",
+      "kind": "launcher-status",
+      "reason": "The outer nohup launcher expanded its trap variables at launch and wrote a literal 1 after the benchmark campaign had succeeded. Acceptance uses the campaign benchmark.complete marker, 24 nonempty samples, the final ingester, and its accepted gate."
+    }
+  ],
+  "schema_version": 1
+}

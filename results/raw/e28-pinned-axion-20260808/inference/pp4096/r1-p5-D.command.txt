@@ -1,0 +1,1 @@
+env LD_LIBRARY_PATH=/var/tmp/e28-pinned-work/builds/D/bin taskset -c 0-3 /var/tmp/e28-pinned-work/builds/D/bin/llama-bench --model /var/tmp/e28-pinned-work/model/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf --threads 4 --n-gpu-layers 0 --flash-attn on --batch-size 1024 --ubatch-size 512 --no-warmup --output jsonl --repetitions 1 --n-prompt 4096 --n-gen 0 

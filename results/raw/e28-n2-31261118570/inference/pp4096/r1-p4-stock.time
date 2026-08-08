@@ -1,0 +1,23 @@
+	Command being timed: "env LD_LIBRARY_PATH=/tmp/e28-portability/builds/A/bin taskset -c 0-3 /tmp/e28-portability/builds/A/bin/llama-bench --model /tmp/e28-portability/model/qwen2.5-1.5b-instruct-q4_k_m.gguf --threads 4 --n-gpu-layers 0 --flash-attn on --batch-size 1024 --ubatch-size 512 --no-warmup --output jsonl --repetitions 1 --n-prompt 4096 --n-gen 0"
+	User time (seconds): 490.08
+	System time (seconds): 0.50
+	Percent of CPU this job got: 387%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:06.50
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2111024
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 322441
+	Voluntary context switches: 2050
+	Involuntary context switches: 68245
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

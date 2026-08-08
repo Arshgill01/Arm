@@ -1,0 +1,8 @@
+The old E23 patch still applies, so its exact source change is not already upstream.
+It modifies ggml_gemm_q4_K_8x8_q8_K, while E25 selects the current
+ggml_gemm_q4_K_8x4_q8_K path for aligned two-dimensional Q4_K tensors.
+E23 is therefore omitted as superseded in the measured E25 combined path.
+/tmp/e28-portability/sources/D/ggml/src/ggml-cpu/repack.cpp:4626:    static const ggml::cpu::repack::tensor_traits<block_q4_K, 2, 8, GGML_TYPE_Q8_K> q4_K_8x4_q8_K_decoded;
+/tmp/e28-portability/sources/D/ggml/src/ggml-cpu/repack.cpp:4627:    static const ggml::cpu::repack::tensor_traits<block_q4_K, 4, 8, GGML_TYPE_Q8_K> q4_K_8x4_q8_K;
+/tmp/e28-portability/sources/D/ggml/src/ggml-cpu/repack.cpp:4628:    static const ggml::cpu::repack::tensor_traits<block_q4_K, 8, 8, GGML_TYPE_Q8_K> q4_K_8x8_q8_K;
+/tmp/e28-portability/sources/D/ggml/src/ggml-cpu/repack.cpp:4659:    static const ggml::cpu::repack::tensor_traits<block_q4_K, 1, 16, GGML_TYPE_Q8_K> q4_K_16x1_q8_K;

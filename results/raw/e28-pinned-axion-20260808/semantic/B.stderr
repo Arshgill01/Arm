@@ -1,0 +1,25 @@
+0.00.002.139 I llama_completion: llama backend init
+0.00.002.149 I llama_completion: load the model and apply lora adapter, if any
+0.01.991.044 W llama_context: setting new yarn_attn_factor = 1.0000 (mscale == 1.0, mscale_all_dim = 1.0)
+0.02.188.297 I llama_completion: llama threadpool init, n_threads = 4
+0.02.188.324 I 
+0.02.188.400 I system_info: n_threads = 4 (n_threads_batch = 4) / 8 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | SVE = 1 | DOTPROD = 1 | SVE_CNT = 16 | OPENMP = 1 | KLEIDIAI = 1 | REPACK = 1 | 
+0.02.188.403 I 
+0.02.201.075 I sampler seed: 42
+0.02.201.091 I sampler params: 
+	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = -1
+	top_k = 40, top_p = 0.950, min_p = 0.050, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+0.02.201.101 I sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> min-p -> ?xtc -> temp-ext -> dist 
+0.02.201.104 I generate: n_ctx = 8192, n_batch = 1024, n_predict = 8, n_keep = 1
+0.02.201.104 I 
+0.02.202.630 W kleidiai: no kernel for tensor type q6_K, not accelerated by KleidiAI (kernels available for Q4_0 and Q8_0)
+14.04.580.253 I common_perf_print:    sampling time =       2.24 ms
+14.04.580.255 I common_perf_print:    samplers time =       0.96 ms /  7501 tokens
+14.04.580.260 I common_perf_print:        load time =  841709.10 ms
+14.04.580.261 I common_perf_print: prompt eval time =  841695.99 ms /  7493 tokens (  112.33 ms per token,     8.90 tokens per second)
+14.04.580.262 I common_perf_print:        eval time =     681.24 ms /     7 runs   (   97.32 ms per token,    10.28 tokens per second)
+14.04.580.263 I common_perf_print:       total time =  842391.96 ms /  7500 tokens
+14.04.580.263 I common_perf_print: unaccounted time =      12.49 ms /   0.0 %      (total - sampling - prompt eval - eval) / (total)
+14.04.580.264 I common_perf_print:    graphs reused =          0

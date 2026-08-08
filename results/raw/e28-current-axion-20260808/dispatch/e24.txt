@@ -1,0 +1,24 @@
+Function "ggml_gemv_q6_K_8x8_q8_K" not defined.
+Breakpoint 1 (ggml_gemv_q6_K_8x8_q8_K) pending.
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <https://debuginfod.ubuntu.com>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1".
+[New Thread 0xfffff6bfb4e0 (LWP 6825)]
+[New Thread 0xfffff63eb4e0 (LWP 6826)]
+[New Thread 0xfffff5bdb4e0 (LWP 6827)]
+[Switching to Thread 0xfffff6bfb4e0 (LWP 6825)]
+E28_DISPATCH e24 symbol=ggml_gemv_q6_K_8x8_q8_K n=3072 nc=64
+#0  ggml_gemv_q6_K_8x8_q8_K(int, float * __restrict__, size_t, const void * __restrict__, const void * __restrict__, int, int) (n=3072, s=0xaaaaae052fc0, bs=1024, vx=0xffff0059a640, vy=0xaaaaae4b9e00, nr=1, nc=64) at /var/tmp/e28-current-work/sources/D/ggml/src/ggml-cpu/arch/arm/repack.cpp:1630
+#1  0x0000fffff7023a10 in ggml::cpu::repack::tensor_traits<block_q6_K, 8l, 8l, (ggml_type)15>::forward_mul_mat_one_chunk (this=<optimized out>, src1_end=<optimized out>, src1_start=<optimized out>, src0_end=<optimized out>, src0_start=<optimized out>, op=<optimized out>, params=0xfffff6bfaab8) at /var/tmp/e28-current-work/sources/D/ggml/src/ggml-cpu/repack.cpp:4338
+#2  ggml::cpu::repack::tensor_traits<block_q6_K, 8l, 8l, (ggml_type)15>::forward_mul_mat (this=<optimized out>, op=<optimized out>, params=0xfffff6bfaab8) at /var/tmp/e28-current-work/sources/D/ggml/src/ggml-cpu/repack.cpp:4471
+#3  ggml::cpu::repack::tensor_traits<block_q6_K, 8l, 8l, (ggml_type)15>::compute_forward (this=<optimized out>, params=0xfffff6bfaab8, op=<optimized out>) at /var/tmp/e28-current-work/sources/D/ggml/src/ggml-cpu/repack.cpp:4273
+A debugging session is active.
+
+	Inferior 1 [process 6823] will be killed.
+
+Quit anyway? (y or n) [answered Y; input not from terminal]

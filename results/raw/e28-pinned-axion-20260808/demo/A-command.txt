@@ -1,0 +1,1 @@
+env LD_LIBRARY_PATH=/var/tmp/e28-pinned-work/builds/A/bin taskset -c 0-3 /var/tmp/e28-pinned-work/builds/A/bin/llama-completion -m /var/tmp/e28-pinned-work/model/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf -f /var/tmp/e28-evidence/pinned/demo/prompt.txt -n 1 --seed 42 --temp 0 -t 4 -c 8192 -b 1024 -ub 512 --no-warmup --no-display-prompt --no-conversation 

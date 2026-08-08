@@ -1,0 +1,161 @@
+import hashlib
+import importlib.util
+import json
+import struct
+import tempfile
+import unittest
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+SPEC = importlib.util.spec_from_file_location(
+    "e28_ingest", ROOT / "experiments" / "e28_ingest.py"
+)
+assert SPEC and SPEC.loader
+E28 = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(E28)
+SIDECAR_SPEC = importlib.util.spec_from_file_location(
+    "e28_sidecar_bytes", ROOT / "experiments" / "e28_sidecar_bytes.py"
+)
+assert SIDECAR_SPEC and SIDECAR_SPEC.loader
+SIDECAR = importlib.util.module_from_spec(SIDECAR_SPEC)
+SIDECAR_SPEC.loader.exec_module(SIDECAR)
+
+
+class E28ContractTests(unittest.TestCase):
+    def test_contract_freezes_matrix_order_and_gates(self) -> None:
+        contract = json.loads((ROOT / "experiments/e28_contract.json").read_text())
+        self.assertEqual(contract["experiment_id"], "E28")
+        self.assertEqual(
+            contract["matrix"]["D"],
+            ["pinned_baseline_series", "e25", "e27"],
+        )
+        self.assertEqual(
+            contract["performance"]["process_order_per_round"],
+            ["A", "B", "C", "D", "D", "C", "B", "A"],
+        )
+        self.assertEqual(contract["performance"]["processes_per_variant_per_case"], 6)
+        self.assertEqual(contract["performance"]["internal_repetitions_per_process"], 1)
+        self.assertEqual(contract["quality"]["repetitions_per_variant"], 2)
+        self.assertEqual(contract["quality"]["perplexity_corpus_size_bytes"], 17020)
+        self.assertEqual(contract["resource_policy"]["maximum_total_usd"], 12.0)
+
+    def test_campaign_is_staged_and_e26_is_absent(self) -> None:
+        campaign = (ROOT / "experiments/e28_pinned_campaign.sh").read_text()
+        self.assertIn("prepare|benchmark|demo-profile|all", campaign)
+        self.assertIn("run_correctness", campaign)
+        self.assertIn("run_quality_and_perplexity", campaign)
+        self.assertIn("run_benchmarks", campaign)
+        self.assertNotIn("e26", campaign.lower())
+
+    def test_second_arm_workflow_runs_portability_matrix(self) -> None:
+        workflow = (ROOT / ".github/workflows/e28-cumulative-arm-runtime.yml").read_text()
+        self.assertIn("ubuntu-24.04-arm", workflow)
+        self.assertIn("e28_current_second_arm.sh", workflow)
+        self.assertIn("stock-versus-combined", workflow)
+        self.assertIn("Neoverse-N2", workflow)
+
+    def test_current_campaign_records_moving_head_but_builds_pinned_commit(self) -> None:
+        campaign = (ROOT / "experiments/e28_current_campaign.sh").read_text()
+        self.assertIn('ls-remote origin refs/heads/master', campaign)
+        self.assertIn('cat-file -e "$commit^{commit}"', campaign)
+        self.assertNotIn('test "$observed" = "$commit"', campaign)
+
+    def test_current_series_manifest_matches_ordered_patch_bytes(self) -> None:
+        expected_commit = "69bf6437914596fbbc4caf09a7ac16f2acdd1a94"
+        for directory in (
+            ROOT / "patches/llama.cpp/current",
+            ROOT / "patches/llama.cpp/e28/current",
+        ):
+            manifest = json.loads((directory / "manifest.json").read_text())
+            self.assertEqual(manifest["upstream_commit"], expected_commit)
+            self.assertEqual(len(manifest["application_order"]), 3)
+            for entry in manifest["application_order"]:
+                self.assertEqual(
+                    hashlib.sha256((directory / entry["file"]).read_bytes()).hexdigest(),
+                    entry["sha256"],
+                )
+
+    def test_live_demo_compares_stock_and_combined(self) -> None:
+        script = ROOT / "scripts/e28_demo_cumulative_arm.sh"
+        self.assertTrue(script.stat().st_mode & 0o111)
+        source = script.read_text()
+        self.assertIn("run_variant stock", source)
+        self.assertIn("run_variant combined", source)
+        self.assertIn("-c 8192", source)
+        self.assertIn("taskset -c 0-3", source)
+
+
+class E28IngestTests(unittest.TestCase):
+    def test_six_sample_summary_and_bootstrap_are_deterministic(self) -> None:
+        summary = E28.median_summary([10, 11, 12, 13, 14, 15], "units")
+        self.assertEqual(summary["median_units"], 12.5)
+        with self.assertRaises(ValueError):
+            E28.median_summary([10] * 5, "units")
+        first = E28.bootstrap_ratio(
+            [20, 21, 22, 23, 24, 25],
+            [10, 11, 12, 13, 14, 15],
+            seed=28,
+            resamples=100,
+        )
+        second = E28.bootstrap_ratio(
+            [20, 21, 22, 23, 24, 25],
+            [10, 11, 12, 13, 14, 15],
+            seed=28,
+            resamples=100,
+        )
+        self.assertEqual(first, second)
+
+    def test_inference_uses_six_process_medians(self) -> None:
+        contract = {
+            "performance": {
+                "confidence_interval": {"seed": 28, "resamples": 100},
+                "whole_model_cases": [{"id": "tg128"}],
+            }
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            case = root / "inference" / "tg128"
+            case.mkdir(parents=True)
+            for variant_index, variant in enumerate(E28.VARIANTS, start=1):
+                for run in range(6):
+                    stem = case / f"r{run}-{variant}"
+                    value = 10.0 * variant_index + run
+                    stem.with_suffix(".jsonl").write_text(
+                        json.dumps(
+                            {"avg_ts": value, "samples_ts": [value]}
+                        )
+                        + "\n"
+                    )
+                    stem.with_suffix(".time").write_text(
+                        "Maximum resident set size (kbytes): 1000\n"
+                    )
+            result = E28.inference_summary(root, contract)
+            self.assertEqual(result["tg128"]["A"]["count"], 6)
+            self.assertEqual(result["tg128"]["D"]["median_tokens_per_second"], 42.5)
+            self.assertAlmostEqual(result["tg128"]["D_over_A"]["ratio"], 42.5 / 12.5)
+
+    def test_sidecar_parser_measures_only_eligible_q4_k_tensors(self) -> None:
+        def string(value: str) -> bytes:
+            raw = value.encode()
+            return struct.pack("<Q", len(raw)) + raw
+
+        with tempfile.TemporaryDirectory() as directory:
+            model = Path(directory) / "tiny.gguf"
+            header = b"GGUF" + struct.pack("<IQQ", 3, 3, 0)
+            tensors = b""
+            for name, shape, tensor_type in (
+                ("eligible", (256, 8), 12),
+                ("wrong-type", (256, 8), 14),
+                ("wrong-rows", (256, 7), 12),
+            ):
+                tensors += string(name) + struct.pack("<IQQIQ", 2, *shape, tensor_type, 0)
+            model.write_bytes(header + tensors)
+            result = SIDECAR.measure(model, "0" * 64)
+            self.assertEqual(result["selected_tensor_count"], 1)
+            self.assertEqual(result["packed_q4_k_bytes"], 1152)
+            self.assertEqual(result["decoded_sidecar_bytes"], 128)
+
+
+if __name__ == "__main__":
+    unittest.main()

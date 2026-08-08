@@ -1,0 +1,1233 @@
+0000000000028c70 t .SVLPEND0
+0000000000049dc0 t .SVLPEND0
+00000000000bb770 t .SVLPEND0
+000000000002b444 t .SVLPEND1
+000000000004bebc t .SVLPEND1
+000000000002c084 t .SVLPEND2
+000000000002c9a4 t .SVLPEND3
+000000000002d1a4 t .SVLPEND4
+000000000002e790 t .SVLPEND5
+0000000000032bf0 t .SVLPEND6
+0000000000028c58 t .SVLPSPL0
+0000000000049da8 t .SVLPSPL0
+00000000000bb758 t .SVLPSPL0
+000000000002b42c t .SVLPSPL1
+000000000004bea4 t .SVLPSPL1
+000000000002c06c t .SVLPSPL2
+000000000002c98c t .SVLPSPL3
+000000000002d18c t .SVLPSPL4
+000000000002e778 t .SVLPSPL5
+0000000000032bd8 t .SVLPSPL6
+0000000000111018 d DW.ref.__gxx_personality_v0
+                 U GOMP_barrier@GOMP_1.0
+                 U GOMP_parallel@GOMP_4.0
+                 U GOMP_single_start@GOMP_1.0
+000000000010fb68 a _DYNAMIC
+000000000010fda8 a _GLOBAL_OFFSET_TABLE_
+0000000000019880 t _GLOBAL__sub_I_kernels.cpp
+                 w _ITM_deregisterTMCloneTable
+                 w _ITM_registerTMCloneTable
+                 U _Unwind_Resume@GCC_3.0
+00000000000c4acc t unsigned long lhs_ps_fn5<&kai_get_lhs_packed_size_lhs_quant_pack_qai8dxp_f32>(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)
+00000000000c49cc t unsigned long lhs_ps_fn6<&kai_get_lhs_packed_size_lhs_quant_pack_qsi8d32p_f32>(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)
+00000000000c49f0 t unsigned long lhs_ps_fn6<&kai_get_lhs_packed_size_lhs_quant_pack_qsi8d32p4x8sb_f32_neon>(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)
+00000000000c4a88 t unsigned long rhs_ps_fn5<&kai_get_rhs_packed_size_rhs_pack_nxk_qsi8cxp_qsi8cx_neon>(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)
+00000000000c49c4 t unsigned long rhs_ps_fn5<&kai_get_rhs_packed_size_rhs_pack_nxk_qsi4c32pscalef16_qsu4c32s16s0>(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)
+00000000000c4ae0 t unsigned long lhs_offs_fn5<&kai_get_lhs_packed_offset_lhs_quant_pack_qai8dxp_f32>(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)
+00000000000c49d0 t unsigned long lhs_offs_fn6<&kai_get_lhs_packed_offset_lhs_quant_pack_qsi8d32p_f32>(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)
+00000000000c4a00 t unsigned long lhs_offs_fn6<&kai_get_lhs_packed_offset_lhs_quant_pack_qsi8d32p4x8sb_f32_neon>(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)
+00000000000c49a8 t void rhs_pack_fn12<&kai_run_rhs_pack_nxk_qsi4c32pscalef16_qsu4c32s16s0>(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, void const*, void const*, void const*, void*, unsigned long, void const*)
+00000000000c4a10 t unsigned long rhs_stride_fn4<&kai_get_rhs_packed_stride_rhs_pack_nxk_qsi8cxp_qsi8cx_neon>(unsigned long, unsigned long, unsigned long, unsigned long)
+00000000000c4980 t unsigned long rhs_stride_fn4<&kai_get_rhs_packed_stride_rhs_pack_nxk_qsi4c32pscalef16_qsu4c32s16s0>(unsigned long, unsigned long, unsigned long, unsigned long)
+00000000000c4b0c t unsigned long kernel_offs_fn2<&kai_get_lhs_packed_offset_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm>(unsigned long, unsigned long, unsigned long)
+00000000000c4b08 t unsigned long kernel_offs_fn2<&kai_get_rhs_packed_offset_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm>(unsigned long, unsigned long, unsigned long)
+00000000000c4a44 t unsigned long kernel_offs_fn2<&kai_get_lhs_packed_offset_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod>(unsigned long, unsigned long, unsigned long)
+00000000000c4aa8 t unsigned long kernel_offs_fn2<&kai_get_lhs_packed_offset_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod>(unsigned long, unsigned long, unsigned long)
+00000000000c4a40 t unsigned long kernel_offs_fn2<&kai_get_rhs_packed_offset_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod>(unsigned long, unsigned long, unsigned long)
+00000000000c4aa4 t unsigned long kernel_offs_fn2<&kai_get_rhs_packed_offset_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod>(unsigned long, unsigned long, unsigned long)
+00000000000c4a64 t unsigned long kernel_offs_fn2<&kai_get_lhs_packed_offset_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod>(unsigned long, unsigned long, unsigned long)
+00000000000c4a60 t unsigned long kernel_offs_fn2<&kai_get_rhs_packed_offset_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod>(unsigned long, unsigned long, unsigned long)
+00000000000c4b30 t unsigned long kernel_offs_fn3<&kai_get_lhs_packed_offset_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm>(unsigned long, unsigned long, unsigned long)
+00000000000c4b2c t unsigned long kernel_offs_fn3<&kai_get_rhs_packed_offset_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm>(unsigned long, unsigned long, unsigned long)
+00000000000c4a0c t unsigned long kernel_offs_fn3<&kai_get_lhs_packed_offset_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm>(unsigned long, unsigned long, unsigned long)
+00000000000c4a08 t unsigned long kernel_offs_fn3<&kai_get_rhs_packed_offset_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm>(unsigned long, unsigned long, unsigned long)
+00000000000c4b24 t unsigned long kernel_offs_fn3<&kai_get_lhs_packed_offset_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod>(unsigned long, unsigned long, unsigned long)
+00000000000c4b20 t unsigned long kernel_offs_fn3<&kai_get_rhs_packed_offset_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod>(unsigned long, unsigned long, unsigned long)
+00000000000c498c t unsigned long kernel_offs_fn3<&kai_get_lhs_packed_offset_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod>(unsigned long, unsigned long, unsigned long)
+00000000000c4988 t unsigned long kernel_offs_fn3<&kai_get_rhs_packed_offset_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod>(unsigned long, unsigned long, unsigned long)
+00000000000c49a4 t unsigned long kernel_offs_fn3<&kai_get_lhs_packed_offset_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod>(unsigned long, unsigned long, unsigned long)
+00000000000c49a0 t unsigned long kernel_offs_fn3<&kai_get_rhs_packed_offset_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod>(unsigned long, unsigned long, unsigned long)
+00000000000c49e8 t unsigned long kernel_offs_fn3<&kai_get_lhs_packed_offset_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod>(unsigned long, unsigned long, unsigned long)
+00000000000c49e4 t unsigned long kernel_offs_fn3<&kai_get_rhs_packed_offset_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod>(unsigned long, unsigned long, unsigned long)
+00000000000c4b28 t void kernel_run_fn11<&kai_run_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm>(unsigned long, unsigned long, unsigned long, unsigned long, void const*, void const*, void*, unsigned long, unsigned long, float, float)
+00000000000c4a04 t void kernel_run_fn11<&kai_run_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm>(unsigned long, unsigned long, unsigned long, unsigned long, void const*, void const*, void*, unsigned long, unsigned long, float, float)
+00000000000c4b10 t void kernel_run_fn11<&kai_run_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod>(unsigned long, unsigned long, unsigned long, unsigned long, void const*, void const*, void*, unsigned long, unsigned long, float, float)
+00000000000c4984 t void kernel_run_fn11<&kai_run_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod>(unsigned long, unsigned long, unsigned long, unsigned long, void const*, void const*, void*, unsigned long, unsigned long, float, float)
+00000000000c4990 t void kernel_run_fn11<&kai_run_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod>(unsigned long, unsigned long, unsigned long, unsigned long, void const*, void const*, void*, unsigned long, unsigned long, float, float)
+00000000000c49e0 t void kernel_run_fn11<&kai_run_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod>(unsigned long, unsigned long, unsigned long, unsigned long, void const*, void const*, void*, unsigned long, unsigned long, float, float)
+00000000000274a8 T void ggml_quantize_mat_t<4l, (ggml_type)15>(float const*, void*, long, long)
+000000000002748c T void ggml_quantize_mat_t<4l, (ggml_type)8>(float const*, void*, long, long)
+00000000000274b0 T void ggml_quantize_mat_t<8l, (ggml_type)15>(float const*, void*, long, long)
+00000000000274a0 T void ggml_quantize_mat_t<8l, (ggml_type)8>(float const*, void*, long, long)
+00000000000c49c8 t void lhs_pack_float_fn10<&kai_run_lhs_quant_pack_qsi8d32p_f32>(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, void const*, unsigned long, void*)
+00000000000c49ec t void lhs_pack_float_fn10<&kai_run_lhs_quant_pack_qsi8d32p4x8sb_f32_neon>(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, void const*, unsigned long, void*)
+00000000000c4a68 t void rhs_pack_scale_fn12<&kai_run_rhs_pack_nxk_qsi8cxp_qsi8cx_neon>(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, void const*, void const*, void const*, void*, unsigned long, void const*)
+00000000000c4af0 t void kernel_run_float_fn10<&kai_run_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm>(unsigned long, unsigned long, unsigned long, unsigned long, void const*, void const*, void*, unsigned long, unsigned long, float, float)
+00000000000c4a20 t void kernel_run_float_fn10<&kai_run_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod>(unsigned long, unsigned long, unsigned long, unsigned long, void const*, void const*, void*, unsigned long, unsigned long, float, float)
+00000000000c4a8c t void kernel_run_float_fn10<&kai_run_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod>(unsigned long, unsigned long, unsigned long, unsigned long, void const*, void const*, void*, unsigned long, unsigned long, float, float)
+00000000000c4a48 t void kernel_run_float_fn10<&kai_run_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod>(unsigned long, unsigned long, unsigned long, unsigned long, void const*, void const*, void*, unsigned long, unsigned long, float, float)
+00000000000c4aac t void lhs_pack_float_fn9_no_bl<&kai_run_lhs_quant_pack_qai8dxp_f32>(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, void const*, unsigned long, void*)
+0000000000068fac t void ggml_compute_forward_dup_flt<unsigned short, ggml_bf16_t>(ggml_compute_params const*, ggml_tensor*)
+0000000000069cc0 t void ggml_compute_forward_dup_flt<unsigned short, float>(ggml_compute_params const*, ggml_tensor*)
+000000000006e828 t void ggml_compute_forward_dup_flt<unsigned short, unsigned short>(ggml_compute_params const*, ggml_tensor*)
+00000000000c4b40 T ggml_kleidiai_select_kernels(cpu_feature, ggml_tensor const*)
+000000000006ba40 t void ggml_compute_forward_rope_flt<float>(ggml_compute_params const*, ggml_tensor*, bool)
+000000000006d4e0 t void ggml_compute_forward_rope_flt<unsigned short>(ggml_compute_params const*, ggml_tensor*, bool)
+00000000000c4db0 T ggml_kleidiai_select_kernels_f32(cpu_feature)
+00000000000c4d10 T ggml_kleidiai_select_kernels_q4_0(cpu_feature)
+00000000000c4d80 T ggml_kleidiai_select_kernels_q8_0(cpu_feature)
+0000000000034d88 T ggml_backend_cpu_repack_buffer_type()
+0000000000021c60 t void ggml_gemm_q5_K_NxM_q8_K_generic_impl<4, 8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000022a6c t void ggml_gemm_q5_K_NxM_q8_K_generic_impl<8, 8>(int, float*, unsigned long, void const*, void const*, int, int)
+00000000000200e4 T ggml_backend_cpu_get_extra_buffer_types()
+00000000001563e8 b guard variable for ggml_backend_cpu_repack_buffer_type()::ggml_backend_cpu_buffer_type_repack
+0000000000196400 b guard variable for ggml_backend_cpu_kleidiai_buffer_type::ggml_backend_cpu_buffer_type_kleidiai
+00000000001963f8 b guard variable for ggml_backend_cpu_kleidiai_buffer_type::ctx
+00000000001562b8 b guard variable for ggml_backend_cpu_get_extra_buffer_types()::bufts
+0000000000156348 b guard variable for ggml_backend_cpu_get_features(ggml_backend_reg*)::features
+00000000001562b0 b guard variable for ggml_backend_cpu_reg_get_device(ggml_backend_reg*, unsigned long)::ggml_backend_cpu_device
+0000000000156288 b guard variable for ggml_backend_cpu_reg_get_device(ggml_backend_reg*, unsigned long)::ctx
+00000000001563b0 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q2_K_8x8_q8_K
+0000000000156368 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q4_0_4x4_q8_0
+0000000000156370 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q4_0_4x8_q8_0
+0000000000156378 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q4_0_8x8_q8_0
+0000000000156380 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q4_K_8x4_q8_K
+0000000000156388 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q4_K_8x8_q8_K
+0000000000156390 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q5_K_8x4_q8_K
+0000000000156398 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q5_K_8x8_q8_K
+00000000001563a0 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q6_K_8x4_q8_K
+00000000001563a8 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q6_K_8x8_q8_K
+00000000001563d8 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q8_0_4x4_q8_0
+00000000001563e0 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q8_0_4x8_q8_0
+00000000001563c8 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::mxfp4_4x4_q8_0
+00000000001563d0 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::mxfp4_8x8_q8_0
+00000000001563b8 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::iq4_nl_4x4_q8_0
+00000000001563c0 b guard variable for ggml_repack_get_optimal_repack_type(ggml_tensor const*)::iq4_nl_8x8_q8_0
+00000000001562d8 b guard variable for ggml_backend_cpu_device_get_extra_buffers_type(ggml_backend_device*)::extra_bufts
+00000000001963f0 b guard variable for ggml::cpu::kleidiai::get_tensor_traits(ggml_backend_buffer*, ggml_tensor*)::traits
+00000000001562f8 b guard variable for ggml_backend_cpu_get_features(ggml_backend_reg*)::{lambda()#1}::operator()() const::sve_cnt
+0000000000156320 b guard variable for ggml_backend_cpu_get_features(ggml_backend_reg*)::{lambda()#1}::operator()() const::rvv_vlen
+00000000000cefa0 r kvalues_fp4
+00000000000cef90 r kvalues_iq4nl
+00000000000bf3e0 t detect_num_smcus()
+00000000001114f0 d gemm_gemv_kernels
+000000000006b8e0 t ggml_call_mul_mat(ggml_type, ggml_compute_params const*, long, long, long, void*, void*, float*)
+000000000010eec0 d ggml_backend_cpu_i
+0000000000111160 d gemm_gemv_kernels_q8
+000000000001f8e0 t ggml_backend_cpu_free(ggml_backend*)
+000000000006b340 t ggml_mrope_cache_init(float, float, float, float, int*, bool, bool, float, float const*, float*, long, float, float, float*, float, float)
+00000000000c4848 t dequantize_row_qsi8cxp(void const*, int, long, float*, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)
+00000000000263a8 t repack_q2_K_to_q2_K_8_bl(ggml_tensor*, int, void const*, unsigned long) [clone .constprop.0]
+0000000000026900 t repack_q4_0_to_q4_0_8_bl(ggml_tensor*, int, void const*, unsigned long) [clone .constprop.0]
+0000000000023340 t repack_q4_K_to_q4_K_8_bl(ggml_tensor*, int, void const*, unsigned long)
+0000000000023bc0 t repack_q5_K_to_q5_K_8_bl(ggml_tensor*, int, void const*, unsigned long)
+000000000002446c t repack_q6_K_to_q6_K_8_bl(ggml_tensor*, int, void const*, unsigned long)
+0000000000024f00 t repack_q8_0_to_q8_0_4_bl(ggml_tensor*, int, void const*, unsigned long)
+000000000010ee48 d ggml_backend_cpu_device_i
+000000000001f880 t ggml_backend_cpu_get_name(ggml_backend*)
+0000000000025bd0 t repack_mxfp4_to_mxfp4_8_bl(ggml_tensor*, int, void const*, unsigned long) [clone .constprop.0]
+0000000000025fe4 t repack_iq4_nl_to_iq4_nl_8_bl(ggml_tensor*, int, void const*, unsigned long) [clone .constprop.0]
+00000000000215ec t ggml_backend_cpu_get_features(ggml_backend_reg*)
+000000000001fd2c t ggml_backend_cpu_reg_get_name(ggml_backend_reg*)
+00000000000beda0 t kleidiai_collect_kernel_chain(ggml_tensor const*, std::array<ggml_kleidiai_kernels*, 2ul>&)
+000000000001fa08 t ggml_backend_cpu_graph_compute(ggml_backend*, ggml_cgraph*)
+000000000006a548 t ggml_compute_forward_dup_bytes(ggml_compute_params const*, ggml_tensor*)
+00000000000c4460 t dequantize_row_qsi4c32pscalef16(void const*, int, long, float*, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)
+000000000001fed0 t ggml_backend_cpu_reg_get_device(ggml_backend_reg*, unsigned long)
+000000000001fd20 t ggml_backend_cpu_device_get_name(ggml_backend_device*)
+000000000001f8a0 t ggml_backend_cpu_device_get_type(ggml_backend_device*)
+000000000001f8b0 t ggml_backend_cpu_graph_plan_free(ggml_backend*, void*)
+000000000006c9ac t ggml_compute_forward_upscale_f32(ggml_compute_params const*, ggml_tensor*)
+000000000001fb4c t ggml_backend_cpu_device_get_props(ggml_backend_device*, ggml_backend_dev_props*)
+000000000001fba8 t ggml_backend_cpu_get_proc_address(ggml_backend_reg*, char const*)
+000000000001fb04 t ggml_backend_cpu_device_get_memory(ggml_backend_device*, unsigned long*, unsigned long*)
+000000000001f920 t ggml_backend_cpu_graph_plan_create(ggml_backend*, ggml_cgraph const*)
+000000000006af8c t ggml_compute_forward_diag_mask_f32(ggml_compute_params const*, ggml_tensor*, float)
+00000000000202b0 t ggml_backend_cpu_device_supports_op(ggml_backend_device*, ggml_tensor const*)
+000000000001fae0 t ggml_backend_cpu_graph_plan_compute(ggml_backend*, void*)
+00000000000252c0 t ggml_repack_get_optimal_repack_type(ggml_tensor const*)
+00000000000200e0 t ggml_backend_cpu_device_init_backend(ggml_backend_device*, char const*)
+0000000000020240 t ggml_backend_cpu_device_supports_buft(ggml_backend_device*, ggml_backend_buffer_type*)
+000000000001f8a8 t ggml_backend_cpu_reg_get_device_count(ggml_backend_reg*)
+000000000001fb00 t ggml_backend_cpu_device_get_buffer_type(ggml_backend_device*)
+000000000001f88c t ggml_backend_cpu_device_get_description(ggml_backend_device*)
+00000000001110e0 d ctx
+0000000000025b10 t ggml_backend_cpu_repack_buffer_set_tensor(ggml_backend_buffer*, ggml_tensor*, void const*, unsigned long, unsigned long)
+000000000006efa8 t ggml_compute_forward_flash_attn_ext_tiled(ggml_compute_params const*, ggml_tensor*, int, int)
+0000000000025a88 t ggml_backend_cpu_repack_buffer_init_tensor(ggml_backend_buffer*, ggml_tensor*)
+00000000000c02a8 t ggml_backend_cpu_kleidiai_buffer_set_tensor(ggml_backend_buffer*, ggml_tensor*, void const*, unsigned long, unsigned long)
+000000000001fae8 t ggml_backend_cpu_device_buffer_from_host_ptr(ggml_backend_device*, void*, unsigned long, unsigned long)
+00000000000beec0 t ggml_backend_cpu_kleidiai_buffer_init_tensor(ggml_backend_buffer*, ggml_tensor*)
+0000000000021c40 t ggml_backend_cpu_repack_buffer_type_get_name(ggml_backend_buffer_type*)
+0000000000020520 t ggml_backend_cpu_device_get_extra_buffers_type(ggml_backend_device*)
+00000000000bed80 t ggml_backend_cpu_kleidiai_buffer_type_get_name(ggml_backend_buffer_type*)
+0000000000025ac0 t ggml_backend_cpu_repack_buffer_type_alloc_buffer(ggml_backend_buffer_type*, unsigned long)
+0000000000021c4c t ggml_backend_cpu_repack_buffer_type_get_alignment(ggml_backend_buffer_type*)
+00000000000bee70 t ggml_backend_cpu_kleidiai_buffer_type_alloc_buffer(ggml_backend_buffer_type*, unsigned long)
+00000000000bed8c t ggml_backend_cpu_kleidiai_buffer_type_get_alignment(ggml_backend_buffer_type*)
+00000000000bf090 t ggml_backend_cpu_kleidiai_buffer_type_get_alloc_size(ggml_backend_buffer_type*, ggml_tensor const*)
+000000000009f160 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q4_0>::gemm<1, 1>(long, long, long, long)
+000000000009ef60 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q4_0>::gemm<1, 2>(long, long, long, long)
+000000000009eb08 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q4_0>::gemm<1, 3>(long, long, long, long)
+000000000009ed80 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q4_0>::gemm<2, 1>(long, long, long, long)
+000000000009e5a8 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q4_0>::gemm<2, 2>(long, long, long, long)
+000000000009e230 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q4_0>::gemm<2, 3>(long, long, long, long)
+000000000009e880 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q4_0>::gemm<3, 1>(long, long, long, long)
+000000000009dea4 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q4_0>::gemm<3, 2>(long, long, long, long)
+000000000009da0c t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q4_0>::gemm<3, 3>(long, long, long, long)
+000000000009f2a8 t (anonymous namespace)::tinyBLAS_Q0_ARM<block_q4_0>::mnpack(long, long, long, long)
+000000000009d640 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q8_0>::gemm<1, 1>(long, long, long, long)
+000000000009d448 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q8_0>::gemm<1, 2>(long, long, long, long)
+000000000009d024 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q8_0>::gemm<1, 3>(long, long, long, long)
+000000000009d28c t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q8_0>::gemm<2, 1>(long, long, long, long)
+000000000009cb20 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q8_0>::gemm<2, 2>(long, long, long, long)
+000000000009c7c4 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q8_0>::gemm<2, 3>(long, long, long, long)
+000000000009cdd0 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q8_0>::gemm<3, 1>(long, long, long, long)
+000000000009c464 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q8_0>::gemm<3, 2>(long, long, long, long)
+000000000009bfe8 t void (anonymous namespace)::tinyBLAS_Q0_ARM<block_q8_0>::gemm<3, 3>(long, long, long, long)
+000000000009d76c t (anonymous namespace)::tinyBLAS_Q0_ARM<block_q8_0>::mnpack(long, long, long, long)
+00000000000a6ec0 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 1, 1>(long, long, long) [clone .constprop.0]
+00000000000a2ac0 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 1, 2>(long, long, long) [clone .constprop.0]
+00000000000a15c0 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 1, 4>(long, long, long) [clone .constprop.0]
+00000000000ac368 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 2, 1>(long, long, long) [clone .constprop.0]
+00000000000a7ba4 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 2, 2>(long, long, long) [clone .constprop.0]
+00000000000a37d0 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 2, 4>(long, long, long) [clone .constprop.0]
+00000000000ab4a0 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 3, 1>(long, long, long) [clone .constprop.0]
+00000000000a8bd0 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 3, 2>(long, long, long) [clone .constprop.0]
+00000000000a47f0 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 3, 4>(long, long, long) [clone .constprop.0]
+00000000000aa520 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 4, 1>(long, long, long) [clone .constprop.0]
+00000000000a726c t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 4, 2>(long, long, long) [clone .constprop.0]
+00000000000a2ea4 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 4, 4>(long, long, long) [clone .constprop.0]
+000000000009fde0 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 5, 1>(long, long, long) [clone .constprop.0]
+00000000000a6188 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 5, 2>(long, long, long) [clone .constprop.0]
+00000000000a1d84 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 5, 4>(long, long, long) [clone .constprop.0]
+000000000009fb20 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 6, 1>(long, long, long) [clone .constprop.0]
+000000000009f840 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 6, 2>(long, long, long) [clone .constprop.0]
+000000000009f54c t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm<4, 6, 4>(long, long, long) [clone .constprop.0]
+000000000009b2e0 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm_bloc<4, 5>(long, long)
+000000000009ae40 t void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, float, float, float>::gemm_bloc<4, 6>(long, long)
+00000000000a93a0 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 1, 1>(long, long, long) [clone .constprop.0]
+00000000000a4fd0 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 1, 2>(long, long, long) [clone .constprop.0]
+00000000000a19a4 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 1, 4>(long, long, long) [clone .constprop.0]
+00000000000ac920 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 2, 1>(long, long, long) [clone .constprop.0]
+00000000000a972c t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 2, 2>(long, long, long) [clone .constprop.0]
+00000000000a53c4 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 2, 4>(long, long, long) [clone .constprop.0]
+00000000000abbd0 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 3, 1>(long, long, long) [clone .constprop.0]
+00000000000a9d48 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 3, 2>(long, long, long) [clone .constprop.0]
+00000000000a59c8 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 3, 4>(long, long, long) [clone .constprop.0]
+00000000000a0c40 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 4, 1>(long, long, long) [clone .constprop.0]
+00000000000a81e8 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 4, 2>(long, long, long) [clone .constprop.0]
+00000000000a3e08 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 4, 4>(long, long, long) [clone .constprop.0]
+00000000000aade0 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 5, 1>(long, long, long) [clone .constprop.0]
+00000000000a67e0 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 5, 2>(long, long, long) [clone .constprop.0]
+00000000000a23e0 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 5, 4>(long, long, long) [clone .constprop.0]
+00000000000a0980 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 6, 1>(long, long, long) [clone .constprop.0]
+00000000000a06a4 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 6, 2>(long, long, long) [clone .constprop.0]
+00000000000a03c8 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm<4, 6, 4>(long, long, long) [clone .constprop.0]
+000000000009ba90 t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm_bloc<4, 5>(long, long)
+000000000009b6cc t void (anonymous namespace)::tinyBLAS<8, __Float16x8_t, __Float16x8_t, unsigned short, unsigned short, float>::gemm_bloc<4, 6>(long, long)
+0000000000021760 W ggml_backend_cpu_device_context::ggml_backend_cpu_device_context()
+0000000000021760 W ggml_backend_cpu_device_context::ggml_backend_cpu_device_context()
+0000000000021720 W ggml_backend_cpu_device_context::~ggml_backend_cpu_device_context()
+0000000000021720 W ggml_backend_cpu_device_context::~ggml_backend_cpu_device_context()
+0000000000050ac4 T ggml::cpu::tensor_traits::~tensor_traits()
+0000000000050ac0 T ggml::cpu::tensor_traits::~tensor_traits()
+0000000000050ac0 T ggml::cpu::tensor_traits::~tensor_traits()
+0000000000050af0 T ggml::cpu::extra_buffer_type::~extra_buffer_type()
+0000000000050aec T ggml::cpu::extra_buffer_type::~extra_buffer_type()
+0000000000050aec T ggml::cpu::extra_buffer_type::~extra_buffer_type()
+00000000000397c0 W ggml::cpu::repack::tensor_traits<block_q2_K, 8l, 8l, (ggml_type)15>::compute_forward(ggml_compute_params*, ggml_tensor*)
+0000000000036120 W ggml::cpu::repack::tensor_traits<block_q2_K, 8l, 8l, (ggml_type)15>::repack(ggml_tensor*, void const*, unsigned long)
+0000000000035200 W ggml::cpu::repack::tensor_traits<block_q2_K, 8l, 8l, (ggml_type)15>::work_size(int, ggml_tensor const*, unsigned long&)
+0000000000035aa0 W ggml::cpu::repack::tensor_traits<block_q2_K, 8l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000035a80 W ggml::cpu::repack::tensor_traits<block_q2_K, 8l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000035a80 W ggml::cpu::repack::tensor_traits<block_q2_K, 8l, 8l, (ggml_type)15>::~tensor_traits()
+00000000000366a0 W ggml::cpu::repack::tensor_traits<block_q4_0, 4l, 4l, (ggml_type)8>::compute_forward(ggml_compute_params*, ggml_tensor*)
+0000000000035ea0 W ggml::cpu::repack::tensor_traits<block_q4_0, 4l, 4l, (ggml_type)8>::repack(ggml_tensor*, void const*, unsigned long)
+00000000000357a0 W ggml::cpu::repack::tensor_traits<block_q4_0, 4l, 4l, (ggml_type)8>::work_size(int, ggml_tensor const*, unsigned long&)
+0000000000035e00 W ggml::cpu::repack::tensor_traits<block_q4_0, 4l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000035de0 W ggml::cpu::repack::tensor_traits<block_q4_0, 4l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000035de0 W ggml::cpu::repack::tensor_traits<block_q4_0, 4l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000037700 W ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 4l, (ggml_type)8>::compute_forward(ggml_compute_params*, ggml_tensor*)
+0000000000035f20 W ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 4l, (ggml_type)8>::repack(ggml_tensor*, void const*, unsigned long)
+0000000000035700 W ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 4l, (ggml_type)8>::work_size(int, ggml_tensor const*, unsigned long&)
+0000000000035da0 W ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000035d80 W ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000035d80 W ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000038760 W ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 8l, (ggml_type)8>::compute_forward(ggml_compute_params*, ggml_tensor*)
+0000000000035fa0 W ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 8l, (ggml_type)8>::repack(ggml_tensor*, void const*, unsigned long)
+0000000000035660 W ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 8l, (ggml_type)8>::work_size(int, ggml_tensor const*, unsigned long&)
+0000000000035d40 W ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 8l, (ggml_type)8>::~tensor_traits()
+0000000000035d20 W ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 8l, (ggml_type)8>::~tensor_traits()
+0000000000035d20 W ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 8l, (ggml_type)8>::~tensor_traits()
+000000000003a820 W ggml::cpu::repack::tensor_traits<block_q4_K, 4l, 8l, (ggml_type)15>::compute_forward(ggml_compute_params*, ggml_tensor*)
+00000000000360a0 W ggml::cpu::repack::tensor_traits<block_q4_K, 4l, 8l, (ggml_type)15>::repack(ggml_tensor*, void const*, unsigned long)
+00000000000355c0 W ggml::cpu::repack::tensor_traits<block_q4_K, 4l, 8l, (ggml_type)15>::work_size(int, ggml_tensor const*, unsigned long&)
+0000000000035ce0 W ggml::cpu::repack::tensor_traits<block_q4_K, 4l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000035cc0 W ggml::cpu::repack::tensor_traits<block_q4_K, 4l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000035cc0 W ggml::cpu::repack::tensor_traits<block_q4_K, 4l, 8l, (ggml_type)15>::~tensor_traits()
+000000000003b880 W ggml::cpu::repack::tensor_traits<block_q4_K, 8l, 8l, (ggml_type)15>::compute_forward(ggml_compute_params*, ggml_tensor*)
+0000000000036020 W ggml::cpu::repack::tensor_traits<block_q4_K, 8l, 8l, (ggml_type)15>::repack(ggml_tensor*, void const*, unsigned long)
+0000000000035520 W ggml::cpu::repack::tensor_traits<block_q4_K, 8l, 8l, (ggml_type)15>::work_size(int, ggml_tensor const*, unsigned long&)
+0000000000035c80 W ggml::cpu::repack::tensor_traits<block_q4_K, 8l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000035c60 W ggml::cpu::repack::tensor_traits<block_q4_K, 8l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000035c60 W ggml::cpu::repack::tensor_traits<block_q4_K, 8l, 8l, (ggml_type)15>::~tensor_traits()
+000000000003c8e0 W ggml::cpu::repack::tensor_traits<block_q5_K, 4l, 8l, (ggml_type)15>::compute_forward(ggml_compute_params*, ggml_tensor*)
+00000000000361a0 W ggml::cpu::repack::tensor_traits<block_q5_K, 4l, 8l, (ggml_type)15>::repack(ggml_tensor*, void const*, unsigned long)
+0000000000035480 W ggml::cpu::repack::tensor_traits<block_q5_K, 4l, 8l, (ggml_type)15>::work_size(int, ggml_tensor const*, unsigned long&)
+0000000000035c20 W ggml::cpu::repack::tensor_traits<block_q5_K, 4l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000035c00 W ggml::cpu::repack::tensor_traits<block_q5_K, 4l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000035c00 W ggml::cpu::repack::tensor_traits<block_q5_K, 4l, 8l, (ggml_type)15>::~tensor_traits()
+000000000003d940 W ggml::cpu::repack::tensor_traits<block_q5_K, 8l, 8l, (ggml_type)15>::compute_forward(ggml_compute_params*, ggml_tensor*)
+0000000000036220 W ggml::cpu::repack::tensor_traits<block_q5_K, 8l, 8l, (ggml_type)15>::repack(ggml_tensor*, void const*, unsigned long)
+00000000000353e0 W ggml::cpu::repack::tensor_traits<block_q5_K, 8l, 8l, (ggml_type)15>::work_size(int, ggml_tensor const*, unsigned long&)
+0000000000035bc0 W ggml::cpu::repack::tensor_traits<block_q5_K, 8l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000035ba0 W ggml::cpu::repack::tensor_traits<block_q5_K, 8l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000035ba0 W ggml::cpu::repack::tensor_traits<block_q5_K, 8l, 8l, (ggml_type)15>::~tensor_traits()
+000000000003e9a0 W ggml::cpu::repack::tensor_traits<block_q6_K, 4l, 8l, (ggml_type)15>::compute_forward(ggml_compute_params*, ggml_tensor*)
+00000000000362a0 W ggml::cpu::repack::tensor_traits<block_q6_K, 4l, 8l, (ggml_type)15>::repack(ggml_tensor*, void const*, unsigned long)
+0000000000035340 W ggml::cpu::repack::tensor_traits<block_q6_K, 4l, 8l, (ggml_type)15>::work_size(int, ggml_tensor const*, unsigned long&)
+0000000000035b60 W ggml::cpu::repack::tensor_traits<block_q6_K, 4l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000035b40 W ggml::cpu::repack::tensor_traits<block_q6_K, 4l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000035b40 W ggml::cpu::repack::tensor_traits<block_q6_K, 4l, 8l, (ggml_type)15>::~tensor_traits()
+000000000003fa00 W ggml::cpu::repack::tensor_traits<block_q6_K, 8l, 8l, (ggml_type)15>::compute_forward(ggml_compute_params*, ggml_tensor*)
+0000000000036320 W ggml::cpu::repack::tensor_traits<block_q6_K, 8l, 8l, (ggml_type)15>::repack(ggml_tensor*, void const*, unsigned long)
+00000000000352a0 W ggml::cpu::repack::tensor_traits<block_q6_K, 8l, 8l, (ggml_type)15>::work_size(int, ggml_tensor const*, unsigned long&)
+0000000000035b00 W ggml::cpu::repack::tensor_traits<block_q6_K, 8l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000035ae0 W ggml::cpu::repack::tensor_traits<block_q6_K, 8l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000035ae0 W ggml::cpu::repack::tensor_traits<block_q6_K, 8l, 8l, (ggml_type)15>::~tensor_traits()
+0000000000044be0 W ggml::cpu::repack::tensor_traits<block_q8_0, 4l, 4l, (ggml_type)8>::compute_forward(ggml_compute_params*, ggml_tensor*)
+00000000000365a0 W ggml::cpu::repack::tensor_traits<block_q8_0, 4l, 4l, (ggml_type)8>::repack(ggml_tensor*, void const*, unsigned long)
+0000000000034ee0 W ggml::cpu::repack::tensor_traits<block_q8_0, 4l, 4l, (ggml_type)8>::work_size(int, ggml_tensor const*, unsigned long&)
+00000000000358c0 W ggml::cpu::repack::tensor_traits<block_q8_0, 4l, 4l, (ggml_type)8>::~tensor_traits()
+00000000000358a0 W ggml::cpu::repack::tensor_traits<block_q8_0, 4l, 4l, (ggml_type)8>::~tensor_traits()
+00000000000358a0 W ggml::cpu::repack::tensor_traits<block_q8_0, 4l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000045c40 W ggml::cpu::repack::tensor_traits<block_q8_0, 8l, 4l, (ggml_type)8>::compute_forward(ggml_compute_params*, ggml_tensor*)
+0000000000036620 W ggml::cpu::repack::tensor_traits<block_q8_0, 8l, 4l, (ggml_type)8>::repack(ggml_tensor*, void const*, unsigned long)
+0000000000034e40 W ggml::cpu::repack::tensor_traits<block_q8_0, 8l, 4l, (ggml_type)8>::work_size(int, ggml_tensor const*, unsigned long&)
+0000000000035860 W ggml::cpu::repack::tensor_traits<block_q8_0, 8l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000035840 W ggml::cpu::repack::tensor_traits<block_q8_0, 8l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000035840 W ggml::cpu::repack::tensor_traits<block_q8_0, 8l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000042b20 W ggml::cpu::repack::tensor_traits<block_mxfp4, 4l, 4l, (ggml_type)8>::compute_forward(ggml_compute_params*, ggml_tensor*)
+00000000000364a0 W ggml::cpu::repack::tensor_traits<block_mxfp4, 4l, 4l, (ggml_type)8>::repack(ggml_tensor*, void const*, unsigned long)
+0000000000035020 W ggml::cpu::repack::tensor_traits<block_mxfp4, 4l, 4l, (ggml_type)8>::work_size(int, ggml_tensor const*, unsigned long&)
+0000000000035980 W ggml::cpu::repack::tensor_traits<block_mxfp4, 4l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000035960 W ggml::cpu::repack::tensor_traits<block_mxfp4, 4l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000035960 W ggml::cpu::repack::tensor_traits<block_mxfp4, 4l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000043b80 W ggml::cpu::repack::tensor_traits<block_mxfp4, 8l, 8l, (ggml_type)8>::compute_forward(ggml_compute_params*, ggml_tensor*)
+0000000000036520 W ggml::cpu::repack::tensor_traits<block_mxfp4, 8l, 8l, (ggml_type)8>::repack(ggml_tensor*, void const*, unsigned long)
+0000000000034f80 W ggml::cpu::repack::tensor_traits<block_mxfp4, 8l, 8l, (ggml_type)8>::work_size(int, ggml_tensor const*, unsigned long&)
+0000000000035920 W ggml::cpu::repack::tensor_traits<block_mxfp4, 8l, 8l, (ggml_type)8>::~tensor_traits()
+0000000000035900 W ggml::cpu::repack::tensor_traits<block_mxfp4, 8l, 8l, (ggml_type)8>::~tensor_traits()
+0000000000035900 W ggml::cpu::repack::tensor_traits<block_mxfp4, 8l, 8l, (ggml_type)8>::~tensor_traits()
+0000000000040a60 W ggml::cpu::repack::tensor_traits<block_iq4_nl, 4l, 4l, (ggml_type)8>::compute_forward(ggml_compute_params*, ggml_tensor*)
+00000000000363a0 W ggml::cpu::repack::tensor_traits<block_iq4_nl, 4l, 4l, (ggml_type)8>::repack(ggml_tensor*, void const*, unsigned long)
+0000000000035160 W ggml::cpu::repack::tensor_traits<block_iq4_nl, 4l, 4l, (ggml_type)8>::work_size(int, ggml_tensor const*, unsigned long&)
+0000000000035a40 W ggml::cpu::repack::tensor_traits<block_iq4_nl, 4l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000035a20 W ggml::cpu::repack::tensor_traits<block_iq4_nl, 4l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000035a20 W ggml::cpu::repack::tensor_traits<block_iq4_nl, 4l, 4l, (ggml_type)8>::~tensor_traits()
+0000000000041ac0 W ggml::cpu::repack::tensor_traits<block_iq4_nl, 8l, 8l, (ggml_type)8>::compute_forward(ggml_compute_params*, ggml_tensor*)
+0000000000036420 W ggml::cpu::repack::tensor_traits<block_iq4_nl, 8l, 8l, (ggml_type)8>::repack(ggml_tensor*, void const*, unsigned long)
+00000000000350c0 W ggml::cpu::repack::tensor_traits<block_iq4_nl, 8l, 8l, (ggml_type)8>::work_size(int, ggml_tensor const*, unsigned long&)
+00000000000359e0 W ggml::cpu::repack::tensor_traits<block_iq4_nl, 8l, 8l, (ggml_type)8>::~tensor_traits()
+00000000000359c0 W ggml::cpu::repack::tensor_traits<block_iq4_nl, 8l, 8l, (ggml_type)8>::~tensor_traits()
+00000000000359c0 W ggml::cpu::repack::tensor_traits<block_iq4_nl, 8l, 8l, (ggml_type)8>::~tensor_traits()
+0000000000046d20 W ggml::cpu::repack::extra_buffer_type::supports_op(ggml_backend_device*, ggml_tensor const*)
+0000000000046ca0 W ggml::cpu::repack::extra_buffer_type::get_tensor_traits(ggml_tensor const*)
+0000000000035e60 W ggml::cpu::repack::extra_buffer_type::~extra_buffer_type()
+0000000000035e40 W ggml::cpu::repack::extra_buffer_type::~extra_buffer_type()
+0000000000035e40 W ggml::cpu::repack::extra_buffer_type::~extra_buffer_type()
+0000000000034d30 T void ggml::cpu::repack::gemm<block_q2_K, 8l, 8l, (ggml_type)15>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d24 T void ggml::cpu::repack::gemm<block_q4_0, 4l, 4l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d28 T void ggml::cpu::repack::gemm<block_q4_0, 8l, 4l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d2c T void ggml::cpu::repack::gemm<block_q4_0, 8l, 8l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d40 T void ggml::cpu::repack::gemm<block_q4_K, 4l, 8l, (ggml_type)15>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d44 T void ggml::cpu::repack::gemm<block_q4_K, 8l, 8l, (ggml_type)15>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d48 T void ggml::cpu::repack::gemm<block_q5_K, 4l, 8l, (ggml_type)15>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d4c T void ggml::cpu::repack::gemm<block_q5_K, 8l, 8l, (ggml_type)15>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d50 T void ggml::cpu::repack::gemm<block_q6_K, 4l, 8l, (ggml_type)15>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d60 T void ggml::cpu::repack::gemm<block_q6_K, 8l, 8l, (ggml_type)15>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d80 T void ggml::cpu::repack::gemm<block_q8_0, 4l, 4l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d84 T void ggml::cpu::repack::gemm<block_q8_0, 8l, 4l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d6c T void ggml::cpu::repack::gemm<block_mxfp4, 4l, 4l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d70 T void ggml::cpu::repack::gemm<block_mxfp4, 8l, 8l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d64 T void ggml::cpu::repack::gemm<block_iq4_nl, 4l, 4l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d68 T void ggml::cpu::repack::gemm<block_iq4_nl, 8l, 8l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034ccc T void ggml::cpu::repack::gemv<block_q2_K, 8l, 8l, (ggml_type)15>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034cc0 T void ggml::cpu::repack::gemv<block_q4_0, 4l, 4l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034cc4 T void ggml::cpu::repack::gemv<block_q4_0, 8l, 4l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034cc8 T void ggml::cpu::repack::gemv<block_q4_0, 8l, 8l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034cd0 T void ggml::cpu::repack::gemv<block_q4_K, 4l, 8l, (ggml_type)15>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034ce0 T void ggml::cpu::repack::gemv<block_q4_K, 8l, 8l, (ggml_type)15>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034ce4 T void ggml::cpu::repack::gemv<block_q5_K, 4l, 8l, (ggml_type)15>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034ce8 T void ggml::cpu::repack::gemv<block_q5_K, 8l, 8l, (ggml_type)15>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034cec T void ggml::cpu::repack::gemv<block_q6_K, 4l, 8l, (ggml_type)15>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034cf0 T void ggml::cpu::repack::gemv<block_q6_K, 8l, 8l, (ggml_type)15>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d10 T void ggml::cpu::repack::gemv<block_q8_0, 4l, 4l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d20 T void ggml::cpu::repack::gemv<block_q8_0, 8l, 4l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d08 T void ggml::cpu::repack::gemv<block_mxfp4, 4l, 4l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d0c T void ggml::cpu::repack::gemv<block_mxfp4, 8l, 8l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d00 T void ggml::cpu::repack::gemv<block_iq4_nl, 4l, 4l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034d04 T void ggml::cpu::repack::gemv<block_iq4_nl, 8l, 8l, (ggml_type)8>(int, float*, unsigned long, void const*, void const*, int, int)
+0000000000034630 T int ggml::cpu::repack::repack<block_q2_K, 8l, 8l>(ggml_tensor*, void const*, unsigned long)
+0000000000034030 T int ggml::cpu::repack::repack<block_q4_0, 4l, 4l>(ggml_tensor*, void const*, unsigned long)
+0000000000034330 T int ggml::cpu::repack::repack<block_q4_0, 8l, 4l>(ggml_tensor*, void const*, unsigned long)
+0000000000034600 T int ggml::cpu::repack::repack<block_q4_0, 8l, 8l>(ggml_tensor*, void const*, unsigned long)
+0000000000034620 T int ggml::cpu::repack::repack<block_q4_K, 4l, 8l>(ggml_tensor*, void const*, unsigned long)
+0000000000034604 T int ggml::cpu::repack::repack<block_q4_K, 8l, 8l>(ggml_tensor*, void const*, unsigned long)
+0000000000034640 T int ggml::cpu::repack::repack<block_q5_K, 4l, 8l>(ggml_tensor*, void const*, unsigned long)
+0000000000034650 T int ggml::cpu::repack::repack<block_q5_K, 8l, 8l>(ggml_tensor*, void const*, unsigned long)
+0000000000034660 T int ggml::cpu::repack::repack<block_q6_K, 4l, 8l>(ggml_tensor*, void const*, unsigned long)
+0000000000034670 T int ggml::cpu::repack::repack<block_q6_K, 8l, 8l>(ggml_tensor*, void const*, unsigned long)
+0000000000034ca0 T int ggml::cpu::repack::repack<block_q8_0, 4l, 4l>(ggml_tensor*, void const*, unsigned long)
+0000000000034cb0 T int ggml::cpu::repack::repack<block_q8_0, 8l, 4l>(ggml_tensor*, void const*, unsigned long)
+0000000000034980 T int ggml::cpu::repack::repack<block_mxfp4, 4l, 4l>(ggml_tensor*, void const*, unsigned long)
+0000000000034c90 T int ggml::cpu::repack::repack<block_mxfp4, 8l, 8l>(ggml_tensor*, void const*, unsigned long)
+0000000000034680 T int ggml::cpu::repack::repack<block_iq4_nl, 4l, 4l>(ggml_tensor*, void const*, unsigned long)
+0000000000034970 T int ggml::cpu::repack::repack<block_iq4_nl, 8l, 8l>(ggml_tensor*, void const*, unsigned long)
+00000000000c2360 W ggml::cpu::kleidiai::tensor_traits::compute_forward(ggml_compute_params*, ggml_tensor*)
+00000000000c1280 t ggml::cpu::kleidiai::tensor_traits::compute_forward_qx(ggml_compute_params*, ggml_tensor*) [clone .isra.0]
+00000000000c0dc0 W ggml::cpu::kleidiai::tensor_traits::work_size(int, ggml_tensor const*, unsigned long&)
+00000000000c0d80 W ggml::cpu::kleidiai::tensor_traits::~tensor_traits()
+00000000000c0d60 W ggml::cpu::kleidiai::tensor_traits::~tensor_traits()
+00000000000c0d60 W ggml::cpu::kleidiai::tensor_traits::~tensor_traits()
+00000000000c3aa0 W ggml::cpu::kleidiai::extra_buffer_type::supports_op(ggml_backend_device*, ggml_tensor const*)
+00000000000c3900 W ggml::cpu::kleidiai::extra_buffer_type::get_tensor_traits(ggml_tensor const*)
+00000000000c0d20 W ggml::cpu::kleidiai::extra_buffer_type::~extra_buffer_type()
+00000000000c0d00 W ggml::cpu::kleidiai::extra_buffer_type::~extra_buffer_type()
+00000000000c0d00 W ggml::cpu::kleidiai::extra_buffer_type::~extra_buffer_type()
+                 U std::__basic_file<char>::is_open() const@GLIBCXX_3.4
+                 U std::istream& std::istream::_M_extract<unsigned long>(unsigned long&)@GLIBCXX_3.4.9
+                 U std::__basic_file<char>::~__basic_file()@GLIBCXX_3.4
+                 U std::basic_filebuf<char, std::char_traits<char> >::open(char const*, std::_Ios_Openmode)@GLIBCXX_3.4
+                 U std::basic_filebuf<char, std::char_traits<char> >::close()@GLIBCXX_3.4
+                 U std::basic_filebuf<char, std::char_traits<char> >::basic_filebuf()@GLIBCXX_3.4
+                 U std::basic_filebuf<char, std::char_traits<char> >::~basic_filebuf()@GLIBCXX_3.4
+                 U std::basic_ifstream<char, std::char_traits<char> >::~basic_ifstream()@GLIBCXX_3.4
+                 U std::locale::~locale()@GLIBCXX_3.4
+0000000000021ac0 W void std::vector<ggml_backend_feature, std::allocator<ggml_backend_feature> >::_M_realloc_insert<ggml_backend_feature>(__gnu_cxx::__normal_iterator<ggml_backend_feature*, std::vector<ggml_backend_feature, std::allocator<ggml_backend_feature> > >, ggml_backend_feature&&)
+0000000000021700 W std::vector<ggml_backend_feature, std::allocator<ggml_backend_feature> >::~vector()
+0000000000021700 W std::vector<ggml_backend_feature, std::allocator<ggml_backend_feature> >::~vector()
+0000000000021920 W void std::vector<ggml_backend_buffer_type*, std::allocator<ggml_backend_buffer_type*> >::_M_realloc_insert<ggml_backend_buffer_type*>(__gnu_cxx::__normal_iterator<ggml_backend_buffer_type**, std::vector<ggml_backend_buffer_type*, std::allocator<ggml_backend_buffer_type*> > >, ggml_backend_buffer_type*&&)
+00000000000216e0 W std::vector<ggml_backend_buffer_type*, std::allocator<ggml_backend_buffer_type*> >::~vector()
+00000000000216e0 W std::vector<ggml_backend_buffer_type*, std::allocator<ggml_backend_buffer_type*> >::~vector()
+00000000000c3c40 W std::vector<signed char, std::allocator<signed char> >::_M_fill_insert(__gnu_cxx::__normal_iterator<signed char*, std::vector<signed char, std::allocator<signed char> > >, unsigned long, signed char const&)
+00000000000c3ec0 W std::vector<float, std::allocator<float> >::_M_fill_insert(__gnu_cxx::__normal_iterator<float*, std::vector<float, std::allocator<float> > >, unsigned long, float const&)
+00000000000c3780 W std::vector<float, std::allocator<float> >::~vector()
+00000000000c3780 W std::vector<float, std::allocator<float> >::~vector()
+                 U std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_dispose()@GLIBCXX_3.4.21
+                 U std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_replace(unsigned long, unsigned long, char const*, unsigned long)@GLIBCXX_3.4.21
+                 U std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct(unsigned long, char)@GLIBCXX_3.4.21
+                 U std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_append(char const*, unsigned long)@GLIBCXX_3.4.21
+                 U std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string()@GLIBCXX_3.4.21
+00000000000c37a0 W std::pair<std::_Rb_tree_iterator<unsigned int>, bool> std::_Rb_tree<unsigned int, unsigned int, std::_Identity<unsigned int>, std::less<unsigned int>, std::allocator<unsigned int> >::_M_emplace_unique<unsigned int const&>(unsigned int const&)
+00000000000bef50 t std::_Rb_tree<unsigned int, unsigned int, std::_Identity<unsigned int>, std::less<unsigned int>, std::allocator<unsigned int> >::_M_erase(std::_Rb_tree_node<unsigned int>*) [clone .isra.0]
+                 U std::ios_base::ios_base()@GLIBCXX_3.4
+                 U std::ios_base::~ios_base()@GLIBCXX_3.4
+                 U std::basic_ios<char, std::char_traits<char> >::init(std::basic_streambuf<char, std::char_traits<char> >*)@GLIBCXX_3.4
+                 U std::basic_ios<char, std::char_traits<char> >::clear(std::_Ios_Iostate)@GLIBCXX_3.4
+000000000009a840 W void std::__adjust_heap<int*, long, int, __gnu_cxx::__ops::_Iter_comp_iter<cmp_argsort<(ggml_sort_order)0> > >(int*, long, long, int, __gnu_cxx::__ops::_Iter_comp_iter<cmp_argsort<(ggml_sort_order)0> >)
+000000000009ab40 W void std::__adjust_heap<int*, long, int, __gnu_cxx::__ops::_Iter_comp_iter<cmp_argsort<(ggml_sort_order)1> > >(int*, long, long, int, __gnu_cxx::__ops::_Iter_comp_iter<cmp_argsort<(ggml_sort_order)1> >)
+000000000009a720 W void std::__adjust_heap<int*, long, int, __gnu_cxx::__ops::_Iter_comp_iter<cmp_top_k> >(int*, long, long, int, __gnu_cxx::__ops::_Iter_comp_iter<cmp_top_k>)
+000000000009a520 W void std::__insertion_sort<int*, __gnu_cxx::__ops::_Iter_comp_iter<cmp_argsort<(ggml_sort_order)0> > >(int*, int*, __gnu_cxx::__ops::_Iter_comp_iter<cmp_argsort<(ggml_sort_order)0> >)
+000000000009a620 W void std::__insertion_sort<int*, __gnu_cxx::__ops::_Iter_comp_iter<cmp_argsort<(ggml_sort_order)1> > >(int*, int*, __gnu_cxx::__ops::_Iter_comp_iter<cmp_argsort<(ggml_sort_order)1> >)
+000000000009a960 W void std::__introsort_loop<int*, long, __gnu_cxx::__ops::_Iter_comp_iter<cmp_argsort<(ggml_sort_order)0> > >(int*, int*, long, __gnu_cxx::__ops::_Iter_comp_iter<cmp_argsort<(ggml_sort_order)0> >)
+000000000009ac60 W void std::__introsort_loop<int*, long, __gnu_cxx::__ops::_Iter_comp_iter<cmp_argsort<(ggml_sort_order)1> > >(int*, int*, long, __gnu_cxx::__ops::_Iter_comp_iter<cmp_argsort<(ggml_sort_order)1> >)
+                 U std::_Rb_tree_decrement(std::_Rb_tree_node_base*)@GLIBCXX_3.4
+                 U std::__throw_length_error(char const*)@GLIBCXX_3.4
+                 U std::ios_base_library_init()@GLIBCXX_3.4.32
+                 U std::__throw_bad_array_new_length()@GLIBCXX_3.4.29
+                 U std::_Rb_tree_insert_and_rebalance(bool, std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::_Rb_tree_node_base&)@GLIBCXX_3.4
+000000000010fa48 V typeinfo for ggml::cpu::tensor_traits
+000000000010fa58 V typeinfo for ggml::cpu::extra_buffer_type
+000000000010f590 V typeinfo for ggml::cpu::repack::tensor_traits<block_q2_K, 8l, 8l, (ggml_type)15>
+000000000010f4b8 V typeinfo for ggml::cpu::repack::tensor_traits<block_q4_0, 4l, 4l, (ggml_type)8>
+000000000010f4d0 V typeinfo for ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 4l, (ggml_type)8>
+000000000010f4e8 V typeinfo for ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 8l, (ggml_type)8>
+000000000010f500 V typeinfo for ggml::cpu::repack::tensor_traits<block_q4_K, 4l, 8l, (ggml_type)15>
+000000000010f518 V typeinfo for ggml::cpu::repack::tensor_traits<block_q4_K, 8l, 8l, (ggml_type)15>
+000000000010f530 V typeinfo for ggml::cpu::repack::tensor_traits<block_q5_K, 4l, 8l, (ggml_type)15>
+000000000010f548 V typeinfo for ggml::cpu::repack::tensor_traits<block_q5_K, 8l, 8l, (ggml_type)15>
+000000000010f560 V typeinfo for ggml::cpu::repack::tensor_traits<block_q6_K, 4l, 8l, (ggml_type)15>
+000000000010f578 V typeinfo for ggml::cpu::repack::tensor_traits<block_q6_K, 8l, 8l, (ggml_type)15>
+000000000010f608 V typeinfo for ggml::cpu::repack::tensor_traits<block_q8_0, 4l, 4l, (ggml_type)8>
+000000000010f620 V typeinfo for ggml::cpu::repack::tensor_traits<block_q8_0, 8l, 4l, (ggml_type)8>
+000000000010f5d8 V typeinfo for ggml::cpu::repack::tensor_traits<block_mxfp4, 4l, 4l, (ggml_type)8>
+000000000010f5f0 V typeinfo for ggml::cpu::repack::tensor_traits<block_mxfp4, 8l, 8l, (ggml_type)8>
+000000000010f5a8 V typeinfo for ggml::cpu::repack::tensor_traits<block_iq4_nl, 4l, 4l, (ggml_type)8>
+000000000010f5c0 V typeinfo for ggml::cpu::repack::tensor_traits<block_iq4_nl, 8l, 8l, (ggml_type)8>
+000000000010f638 V typeinfo for ggml::cpu::repack::extra_buffer_type
+000000000010f4a0 V typeinfo for ggml::cpu::repack::tensor_traits_base
+000000000010fac8 V typeinfo for ggml::cpu::kleidiai::tensor_traits
+000000000010fae0 V typeinfo for ggml::cpu::kleidiai::extra_buffer_type
+00000000000d7450 V typeinfo name for ggml::cpu::tensor_traits
+00000000000d7470 V typeinfo name for ggml::cpu::extra_buffer_type
+00000000000ced70 V typeinfo name for ggml::cpu::repack::tensor_traits<block_q2_K, 8l, 8l, (ggml_type)15>
+00000000000ceae8 V typeinfo name for ggml::cpu::repack::tensor_traits<block_q4_0, 4l, 4l, (ggml_type)8>
+00000000000ceb30 V typeinfo name for ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 4l, (ggml_type)8>
+00000000000ceb78 V typeinfo name for ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 8l, (ggml_type)8>
+00000000000cebc0 V typeinfo name for ggml::cpu::repack::tensor_traits<block_q4_K, 4l, 8l, (ggml_type)15>
+00000000000cec08 V typeinfo name for ggml::cpu::repack::tensor_traits<block_q4_K, 8l, 8l, (ggml_type)15>
+00000000000cec50 V typeinfo name for ggml::cpu::repack::tensor_traits<block_q5_K, 4l, 8l, (ggml_type)15>
+00000000000cec98 V typeinfo name for ggml::cpu::repack::tensor_traits<block_q5_K, 8l, 8l, (ggml_type)15>
+00000000000cece0 V typeinfo name for ggml::cpu::repack::tensor_traits<block_q6_K, 4l, 8l, (ggml_type)15>
+00000000000ced28 V typeinfo name for ggml::cpu::repack::tensor_traits<block_q6_K, 8l, 8l, (ggml_type)15>
+00000000000ceed8 V typeinfo name for ggml::cpu::repack::tensor_traits<block_q8_0, 4l, 4l, (ggml_type)8>
+00000000000cef20 V typeinfo name for ggml::cpu::repack::tensor_traits<block_q8_0, 8l, 4l, (ggml_type)8>
+00000000000cee48 V typeinfo name for ggml::cpu::repack::tensor_traits<block_mxfp4, 4l, 4l, (ggml_type)8>
+00000000000cee90 V typeinfo name for ggml::cpu::repack::tensor_traits<block_mxfp4, 8l, 8l, (ggml_type)8>
+00000000000cedb8 V typeinfo name for ggml::cpu::repack::tensor_traits<block_iq4_nl, 4l, 4l, (ggml_type)8>
+00000000000cee00 V typeinfo name for ggml::cpu::repack::tensor_traits<block_iq4_nl, 8l, 8l, (ggml_type)8>
+00000000000cef68 V typeinfo name for ggml::cpu::repack::extra_buffer_type
+00000000000ceac0 V typeinfo name for ggml::cpu::repack::tensor_traits_base
+00000000000e0ed0 V typeinfo name for ggml::cpu::kleidiai::tensor_traits
+00000000000e0ef8 V typeinfo name for ggml::cpu::kleidiai::extra_buffer_type
+                 U VTT for std::basic_ifstream<char, std::char_traits<char> >@GLIBCXX_3.4
+                 U vtable for __cxxabiv1::__class_type_info@CXXABI_1.3
+                 U vtable for __cxxabiv1::__si_class_type_info@CXXABI_1.3
+                 U vtable for __cxxabiv1::__vmi_class_type_info@CXXABI_1.3
+000000000010fa68 V vtable for ggml::cpu::tensor_traits
+000000000010fa98 V vtable for ggml::cpu::extra_buffer_type
+000000000010f890 V vtable for ggml::cpu::repack::tensor_traits<block_q2_K, 8l, 8l, (ggml_type)15>
+000000000010f698 V vtable for ggml::cpu::repack::tensor_traits<block_q4_0, 4l, 4l, (ggml_type)8>
+000000000010f6d0 V vtable for ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 4l, (ggml_type)8>
+000000000010f708 V vtable for ggml::cpu::repack::tensor_traits<block_q4_0, 8l, 8l, (ggml_type)8>
+000000000010f740 V vtable for ggml::cpu::repack::tensor_traits<block_q4_K, 4l, 8l, (ggml_type)15>
+000000000010f778 V vtable for ggml::cpu::repack::tensor_traits<block_q4_K, 8l, 8l, (ggml_type)15>
+000000000010f7b0 V vtable for ggml::cpu::repack::tensor_traits<block_q5_K, 4l, 8l, (ggml_type)15>
+000000000010f7e8 V vtable for ggml::cpu::repack::tensor_traits<block_q5_K, 8l, 8l, (ggml_type)15>
+000000000010f820 V vtable for ggml::cpu::repack::tensor_traits<block_q6_K, 4l, 8l, (ggml_type)15>
+000000000010f858 V vtable for ggml::cpu::repack::tensor_traits<block_q6_K, 8l, 8l, (ggml_type)15>
+000000000010f9a8 V vtable for ggml::cpu::repack::tensor_traits<block_q8_0, 4l, 4l, (ggml_type)8>
+000000000010f9e0 V vtable for ggml::cpu::repack::tensor_traits<block_q8_0, 8l, 4l, (ggml_type)8>
+000000000010f938 V vtable for ggml::cpu::repack::tensor_traits<block_mxfp4, 4l, 4l, (ggml_type)8>
+000000000010f970 V vtable for ggml::cpu::repack::tensor_traits<block_mxfp4, 8l, 8l, (ggml_type)8>
+000000000010f8c8 V vtable for ggml::cpu::repack::tensor_traits<block_iq4_nl, 4l, 4l, (ggml_type)8>
+000000000010f900 V vtable for ggml::cpu::repack::tensor_traits<block_iq4_nl, 8l, 8l, (ggml_type)8>
+000000000010fa18 V vtable for ggml::cpu::repack::extra_buffer_type
+000000000010f660 V vtable for ggml::cpu::repack::tensor_traits_base
+000000000010fb08 V vtable for ggml::cpu::kleidiai::tensor_traits
+000000000010fb38 V vtable for ggml::cpu::kleidiai::extra_buffer_type
+                 U vtable for std::basic_filebuf<char, std::char_traits<char> >@GLIBCXX_3.4
+                 U vtable for std::basic_ifstream<char, std::char_traits<char> >@GLIBCXX_3.4
+                 U vtable for std::basic_streambuf<char, std::char_traits<char> >@GLIBCXX_3.4
+                 U vtable for std::basic_ios<char, std::char_traits<char> >@GLIBCXX_3.4
+0000000000110fe8 d ggml_backend_cpu_reg::ggml_backend_cpu_reg
+00000000000e0e50 r ggml_gemm_q4_K_8x8_q8_K::idx_data
+00000000000e0e70 r ggml_gemm_q8_0_4x8_q8_0::idx_arr
+00000000000e0e90 r ggml_gemm_q8_0_4x8_q8_0::idx_arr1
+00000000000e0eb0 r ggml_gemm_q8_0_4x8_q8_0::idx_arr2
+00000000001110a0 d ggml_backend_cpu_repack_buffer_type()::ggml_backend_cpu_buffer_type_repack
+0000000000111120 d ggml_backend_cpu_kleidiai_buffer_type::ggml_backend_cpu_buffer_type_kleidiai
+0000000000111118 d ggml_backend_cpu_kleidiai_buffer_type::ctx
+00000000001562c0 b ggml_backend_cpu_get_extra_buffer_types()::bufts
+0000000000110f50 d ggml_backend_cpu_guid()::guid
+0000000000196408 b init_kleidiai_context()::initialized
+0000000000068f80 t ggml_compute_forward_tri_f32(ggml_compute_params const*, ggml_tensor*)::{lambda(int, int)#2}::_FUN(int, int)
+0000000000068f8c t ggml_compute_forward_tri_f32(ggml_compute_params const*, ggml_tensor*)::{lambda(int, int)#3}::_FUN(int, int)
+0000000000068fa0 t ggml_compute_forward_tri_f32(ggml_compute_params const*, ggml_tensor*)::{lambda(int, int)#4}::_FUN(int, int)
+0000000000068f68 t ggml_compute_forward_tri_f32(ggml_compute_params const*, ggml_tensor*)::{lambda(int, int)#1}::_FUN(int, int)
+0000000000156350 b ggml_backend_cpu_get_features(ggml_backend_reg*)::features
+0000000000020700 t ggml_backend_cpu_get_features(ggml_backend_reg*)::{lambda()#1}::operator()() const [clone .isra.0]
+0000000000110f60 d ggml_backend_cpu_reg_get_device(ggml_backend_reg*, unsigned long)::ggml_backend_cpu_device
+0000000000156290 b ggml_backend_cpu_reg_get_device(ggml_backend_reg*, unsigned long)::ctx
+0000000000111048 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q2_K_8x8_q8_K
+0000000000111030 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q4_0_4x4_q8_0
+0000000000111028 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q4_0_4x8_q8_0
+0000000000111020 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q4_0_8x8_q8_0
+0000000000111040 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q4_K_8x4_q8_K
+0000000000111038 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q4_K_8x8_q8_K
+0000000000111058 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q5_K_8x4_q8_K
+0000000000111050 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q5_K_8x8_q8_K
+0000000000111068 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q6_K_8x4_q8_K
+0000000000111060 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q6_K_8x8_q8_K
+0000000000111098 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q8_0_4x4_q8_0
+0000000000111090 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::q8_0_4x8_q8_0
+0000000000111088 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::mxfp4_4x4_q8_0
+0000000000111080 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::mxfp4_8x8_q8_0
+0000000000111078 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::iq4_nl_4x4_q8_0
+0000000000111070 d ggml_repack_get_optimal_repack_type(ggml_tensor const*)::iq4_nl_8x8_q8_0
+00000000001562e0 b ggml_backend_cpu_device_get_extra_buffers_type(ggml_backend_device*)::extra_bufts
+0000000000196410 u ggml::cpu::kleidiai::extra_buffer_type::get_tensor_traits(ggml_tensor const*)::warned
+0000000000111110 d ggml::cpu::kleidiai::get_tensor_traits(ggml_backend_buffer*, ggml_tensor*)::traits
+0000000000156300 b ggml_backend_cpu_get_features(ggml_backend_reg*)::{lambda()#1}::operator()() const::sve_cnt
+0000000000156328 b ggml_backend_cpu_get_features(ggml_backend_reg*)::{lambda()#1}::operator()() const::rvv_vlen
+                 U operator delete[](void*)@GLIBCXX_3.4
+                 U operator delete(void*, unsigned long)@CXXABI_1.3.9
+                 U operator new[](unsigned long)@GLIBCXX_3.4
+                 U operator new(unsigned long)@GLIBCXX_3.4
+00000000000f2adc r __FRAME_END__
+00000000000e0f20 r __GNU_EH_FRAME_HDR
+00000000001119b0 d __TMC_END__
+                 U __cxa_atexit@GLIBC_2.17
+                 U __cxa_begin_catch@CXXABI_1.3
+                 U __cxa_end_catch@CXXABI_1.3
+                 w __cxa_finalize@GLIBC_2.17
+                 U __cxa_guard_abort@CXXABI_1.3
+                 U __cxa_guard_acquire@CXXABI_1.3
+                 U __cxa_guard_release@CXXABI_1.3
+                 w __cxa_pure_virtual@CXXABI_1.3
+0000000000019ab0 t __do_global_dtors_aux
+000000000010ee40 d __do_global_dtors_aux_fini_array_entry
+0000000000110f40 d __dso_handle
+                 U __fprintf_chk@GLIBC_2.17
+000000000010ee30 d __frame_dummy_init_array_entry
+00000000000ce820 r __func__.1
+                 w __gmon_start__
+                 U __gxx_personality_v0@CXXABI_1.3
+                 U __isoc23_strtol@GLIBC_2.38
+                 U __memcpy_chk@GLIBC_2.17
+                 U __sched_cpualloc@GLIBC_2.17
+                 U __sched_cpufree@GLIBC_2.17
+                 U __snprintf_chk@GLIBC_2.17
+                 U __stack_chk_fail@GLIBC_2.17
+                 U __stack_chk_guard@GLIBC_2.17
+00000000000cb13c t _fini
+00000000000179c8 t _init
+0000000000019a24 t call_weak_fn
+00000000001119b0 b completed.0
+                 U cosf@GLIBC_2.17
+0000000000019a40 t deregister_tm_clones
+                 U erff@GLIBC_2.17
+                 U expf@GLIBC_2.27
+                 U expm1f@GLIBC_2.17
+                 U fclose@GLIBC_2.17
+                 U fgets@GLIBC_2.17
+                 U fopen@GLIBC_2.17
+0000000000019b00 t frame_dummy
+                 U fwrite@GLIBC_2.17
+00000000001119d0 b g_state
+                 U getauxval@GLIBC_2.17
+                 U getcpu@GLIBC_2.29
+                 U getenv@GLIBC_2.17
+                 U ggml_abort
+                 U ggml_aligned_free
+                 U ggml_aligned_malloc
+                 U ggml_are_same_shape
+0000000000115a80 B ggml_arm_arch_features
+                 U ggml_backend_buft_alloc_buffer
+                 U ggml_backend_buft_is_host
+                 U ggml_backend_cpu_buffer_from_ptr
+                 U ggml_backend_cpu_buffer_type
+0000000000020020 T ggml_backend_cpu_init
+00000000000bfbac T ggml_backend_cpu_kleidiai_buffer_type
+0000000000020000 T ggml_backend_cpu_reg
+000000000001fe20 T ggml_backend_cpu_set_abort_callback
+000000000001fd60 T ggml_backend_cpu_set_n_threads
+000000000001fdb0 T ggml_backend_cpu_set_threadpool
+000000000001fe80 T ggml_backend_cpu_set_use_ref
+000000000001fd40 T ggml_backend_is_cpu
+                 U ggml_backend_reg_dev_get
+0000000000019fe0 T ggml_barrier
+                 U ggml_blck_size
+                 U ggml_can_repeat
+0000000000058780 T ggml_compute_forward_abs
+0000000000077dc0 T ggml_compute_forward_acc
+0000000000075be0 T ggml_compute_forward_add
+0000000000076528 T ggml_compute_forward_add1
+0000000000076160 T ggml_compute_forward_add_id
+0000000000050c60 T ggml_compute_forward_add_non_quantized
+0000000000094904 T ggml_compute_forward_add_rel_pos
+000000000008b840 T ggml_compute_forward_arange
+0000000000078b80 T ggml_compute_forward_argmax
+000000000009a18c T ggml_compute_forward_argsort
+00000000000653c0 T ggml_compute_forward_ceil
+0000000000081fa0 T ggml_compute_forward_clamp
+00000000000863e0 T ggml_compute_forward_col2im_1d
+0000000000079ee4 T ggml_compute_forward_concat
+000000000007f5cc T ggml_compute_forward_cont
+0000000000086900 T ggml_compute_forward_conv_2d
+0000000000088ec4 T ggml_compute_forward_conv_2d_dw
+0000000000087180 T ggml_compute_forward_conv_3d
+0000000000082544 T ggml_compute_forward_conv_transpose_1d
+0000000000087ac0 T ggml_compute_forward_conv_transpose_2d
+00000000000621b0 T ggml_compute_forward_cos
+0000000000078c64 T ggml_compute_forward_count_equal
+000000000007f5c8 T ggml_compute_forward_cpy
+0000000000098220 T ggml_compute_forward_cross_entropy_loss
+00000000000987a0 T ggml_compute_forward_cross_entropy_loss_back
+000000000007858c T ggml_compute_forward_cumsum
+00000000000981ac T ggml_compute_forward_custom
+0000000000080c60 T ggml_compute_forward_diag
+0000000000080f80 T ggml_compute_forward_diag_mask_inf
+0000000000080fc0 T ggml_compute_forward_diag_mask_zero
+00000000000568a8 T ggml_compute_forward_div
+0000000000096bc8 T ggml_compute_forward_dsv4_hc_comb
+00000000000977c8 T ggml_compute_forward_dsv4_hc_post
+00000000000975c0 T ggml_compute_forward_dsv4_hc_pre
+0000000000070c20 T ggml_compute_forward_dup
+000000000005bf10 T ggml_compute_forward_elu
+000000000005ec00 T ggml_compute_forward_exp
+0000000000063460 T ggml_compute_forward_expm1
+000000000007ae88 T ggml_compute_forward_fill
+000000000008eb90 T ggml_compute_forward_flash_attn_back
+000000000008bb60 T ggml_compute_forward_flash_attn_ext
+00000000000647e0 T ggml_compute_forward_floor
+0000000000099260 T ggml_compute_forward_fwht
+0000000000095e6c T ggml_compute_forward_gated_delta_net
+0000000000094768 T ggml_compute_forward_get_rel_pos
+000000000007f5d0 T ggml_compute_forward_get_rows
+0000000000080848 T ggml_compute_forward_get_rows_back
+00000000000954a0 T ggml_compute_forward_gla
+0000000000092300 T ggml_compute_forward_glu
+000000000007cee8 T ggml_compute_forward_group_norm
+000000000005dee4 T ggml_compute_forward_hardsigmoid
+000000000005f560 T ggml_compute_forward_hardswish
+0000000000083524 T ggml_compute_forward_im2col
+0000000000084d88 T ggml_compute_forward_im2col_3d
+00000000000847b0 T ggml_compute_forward_im2col_back_f32
+000000000007d42c T ggml_compute_forward_l2_norm
+000000000007b420 T ggml_compute_forward_leaky_relu
+00000000000996e0 T ggml_compute_forward_lightning_indexer
+0000000000062b10 T ggml_compute_forward_log
+0000000000098030 T ggml_compute_forward_map_custom1
+00000000000980ac T ggml_compute_forward_map_custom2
+000000000009812c T ggml_compute_forward_map_custom3
+0000000000078a20 T ggml_compute_forward_mean
+00000000000549e8 T ggml_compute_forward_mul
+000000000001beb0 T ggml_compute_forward_mul_mat
+0000000000059f0c T ggml_compute_forward_neg
+000000000007bba4 T ggml_compute_forward_norm
+0000000000098c68 T ggml_compute_forward_opt_step_adamw
+0000000000098fe8 T ggml_compute_forward_opt_step_sgd
+000000000007d880 T ggml_compute_forward_out_prod
+000000000008a940 T ggml_compute_forward_pad
+000000000008ae00 T ggml_compute_forward_pad_reflect_1d
+0000000000089e20 T ggml_compute_forward_pool_1d
+000000000008a064 T ggml_compute_forward_pool_2d
+000000000008a3ac T ggml_compute_forward_pool_2d_back
+000000000005c920 T ggml_compute_forward_relu
+000000000007906c T ggml_compute_forward_repeat
+00000000000798ec T ggml_compute_forward_repeat_back
+000000000007c084 T ggml_compute_forward_rms_norm
+000000000007c9ec T ggml_compute_forward_rms_norm_back
+000000000007c490 T ggml_compute_forward_rms_norm_mul_fused
+000000000008b4b0 T ggml_compute_forward_roll
+00000000000824c0 T ggml_compute_forward_rope
+0000000000082500 T ggml_compute_forward_rope_back
+0000000000065fa0 T ggml_compute_forward_round
+0000000000094e84 T ggml_compute_forward_rwkv_wkv6
+0000000000097cc0 T ggml_compute_forward_rwkv_wkv7
+000000000007eb20 T ggml_compute_forward_scale
+000000000007eee0 T ggml_compute_forward_set
+000000000007fd60 T ggml_compute_forward_set_rows
+0000000000059350 T ggml_compute_forward_sgn
+000000000005d5a0 T ggml_compute_forward_sigmoid
+000000000007b8c0 T ggml_compute_forward_silu_back
+0000000000061840 T ggml_compute_forward_sin
+0000000000081000 T ggml_compute_forward_soft_max
+00000000000818e0 T ggml_compute_forward_soft_max_ext_back
+0000000000063d80 T ggml_compute_forward_softplus
+0000000000095a88 T ggml_compute_forward_solve_tri
+0000000000060320 T ggml_compute_forward_sqr
+0000000000060ef0 T ggml_compute_forward_sqrt
+0000000000090380 T ggml_compute_forward_ssm_conv
+0000000000090608 T ggml_compute_forward_ssm_scan
+000000000005aae8 T ggml_compute_forward_step
+0000000000052b28 T ggml_compute_forward_sub
+0000000000078200 T ggml_compute_forward_sum
+00000000000787e0 T ggml_compute_forward_sum_rows
+000000000005b5a0 T ggml_compute_forward_tanh
+000000000008b964 T ggml_compute_forward_timestep_embedding
+0000000000099e0c T ggml_compute_forward_top_k
+000000000007b1e0 T ggml_compute_forward_tri
+0000000000066b80 T ggml_compute_forward_trunc
+00000000000913c0 T ggml_compute_forward_unary
+000000000008a904 T ggml_compute_forward_upscale
+0000000000090eac T ggml_compute_forward_win_part
+00000000000911cc T ggml_compute_forward_win_unpart
+0000000000067760 T ggml_compute_forward_xielu
+000000000001ef60 T ggml_cpu_bf16_to_fp32
+00000000001119c0 b ggml_cpu_disable_fusion
+0000000000050b20 T ggml_cpu_extra_compute_forward
+0000000000050bac T ggml_cpu_extra_work_size
+000000000001eecc T ggml_cpu_fp16_to_fp32
+0000000000019b20 T ggml_cpu_fp32_to_bf16
+0000000000019ec0 T ggml_cpu_fp32_to_fp16
+0000000000019d00 T ggml_cpu_fp32_to_fp32
+0000000000019c60 T ggml_cpu_fp32_to_i32
+000000000001f070 T ggml_cpu_get_rvv_vlen
+000000000001f100 T ggml_cpu_get_sve_cnt
+000000000001f040 T ggml_cpu_has_amx_int8
+000000000001f060 T ggml_cpu_has_arm_fma
+000000000001efec T ggml_cpu_has_avx
+000000000001f008 T ggml_cpu_has_avx2
+000000000001f010 T ggml_cpu_has_avx512
+000000000001f030 T ggml_cpu_has_avx512_bf16
+000000000001f020 T ggml_cpu_has_avx512_vbmi
+000000000001f028 T ggml_cpu_has_avx512_vnni
+000000000001f000 T ggml_cpu_has_avx_vnni
+000000000001f048 T ggml_cpu_has_bmi2
+000000000001f0e0 T ggml_cpu_has_dotprod
+000000000001f080 T ggml_cpu_has_f16c
+000000000001f050 T ggml_cpu_has_fma
+000000000001f088 T ggml_cpu_has_fp16_va
+000000000001f0a0 T ggml_cpu_has_llamafile
+000000000001f0f0 T ggml_cpu_has_matmul_int8
+000000000001f0d0 T ggml_cpu_has_neon
+000000000001f068 T ggml_cpu_has_riscv_v
+000000000001f110 T ggml_cpu_has_sme
+000000000001f120 T ggml_cpu_has_sme2
+000000000001f0a8 T ggml_cpu_has_sse3
+000000000001f0b0 T ggml_cpu_has_ssse3
+000000000001f0e8 T ggml_cpu_has_sve
+000000000001f0c0 T ggml_cpu_has_vsx
+000000000001f0c8 T ggml_cpu_has_vxe
+000000000001f090 T ggml_cpu_has_wasm_simd
+000000000001f128 T ggml_cpu_init
+                 U ggml_critical_section_end
+                 U ggml_critical_section_start
+                 U ggml_element_size
+                 U ggml_fp16_to_fp32_row
+                 U ggml_free
+00000000000b9d20 T ggml_gemm_iq4_nl_4x4_q8_0
+0000000000031a84 T ggml_gemm_iq4_nl_4x4_q8_0_generic
+0000000000032040 T ggml_gemm_iq4_nl_8x8_q8_0
+00000000000b9fc0 T ggml_gemm_mxfp4_4x4_q8_0
+0000000000032524 T ggml_gemm_mxfp4_4x4_q8_0_generic
+0000000000032ba0 T ggml_gemm_mxfp4_8x8_q8_0
+00000000000302c0 T ggml_gemm_q2_K_8x8_q8_K
+00000000000b88c8 T ggml_gemm_q4_0_4x4_q8_0
+000000000002ddc0 T ggml_gemm_q4_0_4x4_q8_0_generic
+00000000000b9000 T ggml_gemm_q4_0_4x8_q8_0
+000000000002e330 T ggml_gemm_q4_0_4x8_q8_0_generic
+00000000000b9640 T ggml_gemm_q4_0_8x8_q8_0
+000000000002e740 T ggml_gemm_q4_0_8x8_q8_0_generic
+00000000000ba2e0 T ggml_gemm_q4_K_8x4_q8_K
+000000000002f068 T ggml_gemm_q4_K_8x4_q8_K_generic
+00000000000bb720 T ggml_gemm_q4_K_8x8_q8_K
+000000000002f8f0 T ggml_gemm_q4_K_8x8_q8_K_generic
+00000000000bade4 T ggml_gemm_q5_K_8x4_q8_K
+0000000000030d20 T ggml_gemm_q5_K_8x4_q8_K_generic
+00000000000bcb4c T ggml_gemm_q5_K_8x8_q8_K
+0000000000030d24 T ggml_gemm_q5_K_8x8_q8_K_generic
+00000000000bd500 T ggml_gemm_q6_K_8x4_q8_K
+0000000000030d28 T ggml_gemm_q6_K_8x4_q8_K_generic
+00000000000bde08 T ggml_gemm_q6_K_8x8_q8_K
+00000000000314e0 T ggml_gemm_q6_K_8x8_q8_K_generic
+00000000000be700 T ggml_gemm_q8_0_4x4_q8_0
+00000000000335c0 T ggml_gemm_q8_0_4x4_q8_0_generic
+00000000000be940 T ggml_gemm_q8_0_4x8_q8_0
+0000000000033ba0 T ggml_gemm_q8_0_4x8_q8_0_generic
+00000000000b5dc0 T ggml_gemv_iq4_nl_4x4_q8_0
+000000000002b420 T ggml_gemv_iq4_nl_4x4_q8_0_generic
+000000000002bce0 T ggml_gemv_iq4_nl_8x8_q8_0
+00000000000b5ee8 T ggml_gemv_mxfp4_4x4_q8_0
+000000000002c060 T ggml_gemv_mxfp4_4x4_q8_0_generic
+000000000002c960 T ggml_gemv_mxfp4_8x8_q8_0
+0000000000028c20 T ggml_gemv_q2_K_8x8_q8_K
+00000000000b5a0c T ggml_gemv_q4_0_4x4_q8_0
+00000000000274c0 T ggml_gemv_q4_0_4x4_q8_0_generic
+00000000000b5b20 T ggml_gemv_q4_0_4x8_q8_0
+0000000000027850 T ggml_gemv_q4_0_4x8_q8_0_generic
+00000000000b5c44 T ggml_gemv_q4_0_8x8_q8_0
+0000000000027b64 T ggml_gemv_q4_0_8x8_q8_0_generic
+00000000000b60e0 T ggml_gemv_q4_K_8x4_q8_K
+0000000000028260 T ggml_gemv_q4_K_8x4_q8_K_generic
+00000000000b64e0 T ggml_gemv_q4_K_8x8_q8_K
+0000000000028660 T ggml_gemv_q4_K_8x8_q8_K_generic
+00000000000b69cc T ggml_gemv_q5_K_8x4_q8_K
+0000000000029be0 T ggml_gemv_q5_K_8x4_q8_K_generic
+00000000000b7220 T ggml_gemv_q5_K_8x8_q8_K
+000000000002a670 T ggml_gemv_q5_K_8x8_q8_K_generic
+00000000000b7a00 T ggml_gemv_q6_K_8x4_q8_K
+000000000002aae8 T ggml_gemv_q6_K_8x4_q8_K_generic
+00000000000b7fec T ggml_gemv_q6_K_8x8_q8_K
+000000000002b020 T ggml_gemv_q6_K_8x8_q8_K_generic
+00000000000b86e0 T ggml_gemv_q8_0_4x4_q8_0
+000000000002d180 T ggml_gemv_q8_0_4x4_q8_0_generic
+00000000000b87c0 T ggml_gemv_q8_0_4x8_q8_0
+000000000002db60 T ggml_gemv_q8_0_4x8_q8_0_generic
+                 U ggml_get_data_f32
+000000000001b9f0 T ggml_get_f32_1d
+000000000001b920 T ggml_get_f32_nd
+                 U ggml_get_glu_op
+000000000001b240 T ggml_get_i32_1d
+000000000001b170 T ggml_get_i32_nd
+                 U ggml_get_no_alloc
+                 U ggml_get_type_traits
+0000000000019fc0 T ggml_get_type_traits_cpu
+                 U ggml_get_unary_op
+000000000001f560 T ggml_graph_compute
+000000000001e328 t ggml_graph_compute._omp_fn.0
+000000000001caa4 t ggml_graph_compute_thread.isra.0
+000000000001f7e0 T ggml_graph_compute_with_ctx
+000000000001e5a4 T ggml_graph_plan
+                 U ggml_guid_matches
+                 U ggml_init
+                 U ggml_is_contiguous
+                 U ggml_is_contiguous_1
+                 U ggml_is_contiguous_channels
+                 U ggml_is_contiguous_rows
+                 U ggml_is_empty
+000000000001a020 T ggml_is_numa
+                 U ggml_is_quantized
+                 U ggml_is_scalar
+                 U ggml_log_internal
+                 U ggml_n_dims
+                 U ggml_nbytes
+                 U ggml_nelements
+                 U ggml_new_buffer
+000000000001b100 T ggml_new_f32
+000000000001aa90 T ggml_new_i32
+                 U ggml_new_tensor_1d
+                 U ggml_nrows
+000000000001a040 T ggml_numa_init
+                 U ggml_op_name
+00000000000b4ba0 T ggml_quantize_mat_q8_0_4x4
+0000000000026d08 T ggml_quantize_mat_q8_0_4x4_generic
+00000000000b52e0 T ggml_quantize_mat_q8_0_4x8
+0000000000026ee4 T ggml_quantize_mat_q8_0_4x8_generic
+00000000000270c0 T ggml_quantize_mat_q8_K_4x4
+00000000000272a4 T ggml_quantize_mat_q8_K_4x8
+                 U ggml_rope_yarn_corr_dims
+                 U ggml_row_size
+000000000001ab00 T ggml_set_f32
+000000000001bcac T ggml_set_f32_1d
+000000000001bb48 T ggml_set_f32_nd
+000000000001a4ac T ggml_set_i32
+000000000001b608 T ggml_set_i32_1d
+000000000001b4a0 T ggml_set_i32_nd
+0000000000115e88 B ggml_table_f32_e8m0_half
+0000000000116288 B ggml_table_f32_f16
+0000000000115a88 B ggml_table_f32_ue4m3
+00000000001763f0 B ggml_table_gelu_f16
+00000000001563f0 B ggml_table_gelu_quick_f16
+000000000001a00c T ggml_threadpool_chunk_add
+000000000001a000 T ggml_threadpool_chunk_set
+000000000001e550 T ggml_threadpool_free
+000000000001eec0 T ggml_threadpool_new
+0000000000019d20 t ggml_threadpool_new_impl
+                 U ggml_threadpool_params_default
+000000000001e590 T ggml_threadpool_pause
+000000000001e5a0 T ggml_threadpool_resume
+                 U ggml_time_us
+                 U ggml_type_name
+                 U ggml_type_size
+                 U ggml_unravel_index
+0000000000068a2c T ggml_vec_cvar_f32
+00000000000684cc T ggml_vec_dot_bf16
+0000000000068528 T ggml_vec_dot_f16
+00000000000682a0 T ggml_vec_dot_f32
+00000000000b4188 T ggml_vec_dot_iq1_m_q8_K
+000000000004fc00 T ggml_vec_dot_iq1_m_q8_K_generic
+00000000000b3f4c T ggml_vec_dot_iq1_s_q8_K
+000000000004f8e0 T ggml_vec_dot_iq1_s_q8_K_generic
+00000000000b372c T ggml_vec_dot_iq2_s_q8_K
+000000000004ef08 T ggml_vec_dot_iq2_s_q8_K_generic
+00000000000b34c4 T ggml_vec_dot_iq2_xs_q8_K
+000000000004ea80 T ggml_vec_dot_iq2_xs_q8_K_generic
+00000000000b32f0 T ggml_vec_dot_iq2_xxs_q8_K
+000000000004e868 T ggml_vec_dot_iq2_xxs_q8_K_generic
+00000000000b3c40 T ggml_vec_dot_iq3_s_q8_K
+000000000004f580 T ggml_vec_dot_iq3_s_q8_K_generic
+00000000000b39e0 T ggml_vec_dot_iq3_xxs_q8_K
+000000000004f390 T ggml_vec_dot_iq3_xxs_q8_K_generic
+00000000000b44c0 T ggml_vec_dot_iq4_nl_q8_0
+00000000000500c0 T ggml_vec_dot_iq4_nl_q8_0_generic
+00000000000b48e0 T ggml_vec_dot_iq4_xs_q8_K
+00000000000503f0 T ggml_vec_dot_iq4_xs_q8_K_generic
+00000000000aec60 T ggml_vec_dot_mxfp4_q8_0
+00000000000478c0 T ggml_vec_dot_mxfp4_q8_0_generic
+00000000000af040 T ggml_vec_dot_nvfp4_q8_0
+0000000000047b80 T ggml_vec_dot_nvfp4_q8_0_generic
+00000000000adc84 T ggml_vec_dot_q1_0_q8_0
+0000000000046e8c T ggml_vec_dot_q1_0_q8_0_generic
+00000000000adf0c T ggml_vec_dot_q2_0_q8_0
+0000000000047120 T ggml_vec_dot_q2_0_q8_0_generic
+00000000000b0200 T ggml_vec_dot_q2_K_q8_K
+0000000000048e84 T ggml_vec_dot_q2_K_q8_K_generic
+00000000000b07c4 T ggml_vec_dot_q3_K_q8_K
+00000000000493c8 T ggml_vec_dot_q3_K_q8_K_generic
+00000000000ae040 T ggml_vec_dot_q4_0_q8_0
+00000000000473e8 T ggml_vec_dot_q4_0_q8_0_generic
+00000000000ae7a0 T ggml_vec_dot_q4_1_q8_1
+0000000000047684 T ggml_vec_dot_q4_1_q8_1_generic
+00000000000b0ea0 T ggml_vec_dot_q4_K_q8_K
+0000000000049d6c T ggml_vec_dot_q4_K_q8_K_generic
+00000000000af180 T ggml_vec_dot_q5_0_q8_0
+0000000000047ea0 T ggml_vec_dot_q5_0_q8_0_generic
+00000000000af450 T ggml_vec_dot_q5_1_q8_1
+0000000000048020 T ggml_vec_dot_q5_1_q8_1_generic
+00000000000b1dc8 T ggml_vec_dot_q5_K_q8_K
+000000000004be64 T ggml_vec_dot_q5_K_q8_K_generic
+00000000000b2180 T ggml_vec_dot_q6_K_q8_K
+000000000004dfe0 T ggml_vec_dot_q6_K_q8_K_generic
+00000000000af970 T ggml_vec_dot_q8_0_q8_0
+00000000000483c4 T ggml_vec_dot_q8_0_q8_0_generic
+00000000000afe20 T ggml_vec_dot_tq1_0_q8_K
+0000000000048450 T ggml_vec_dot_tq1_0_q8_K_generic
+00000000000b0080 T ggml_vec_dot_tq2_0_q8_K
+0000000000048c44 T ggml_vec_dot_tq2_0_q8_K_generic
+0000000000068cc0 T ggml_vec_log_soft_max_f32
+0000000000068d60 t ggml_vec_mad_f32_unroll
+0000000000068724 T ggml_vec_silu_f32
+0000000000068b40 T ggml_vec_soft_max_f32
+00000000000688a0 T ggml_vec_swiglu_f32
+00000000000d0450 r iq1s_grid
+00000000000d9e30 r iq1s_grid
+00000000000d4450 r iq2s_grid
+00000000000dde30 r iq2s_grid
+00000000000d6450 r iq2xs_grid
+00000000000dfe30 r iq2xs_grid
+00000000000cf040 r iq2xxs_grid
+00000000000d89e0 r iq2xxs_grid
+00000000000cfc40 r iq3s_grid
+00000000000d9620 r iq3s_grid
+00000000000cf840 r iq3xxs_grid
+00000000000d9200 r iq3xxs_grid
+0000000000110f48 d is_first_call.0
+                 U isspace@GLIBC_2.17
+00000000000d9600 r k_mask1.2
+00000000000d91e0 r k_mask1.4
+00000000000c8d00 T kai_get_dst_offset_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod
+00000000000c8f40 T kai_get_dst_offset_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod
+00000000000c8220 T kai_get_dst_offset_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod
+00000000000c9b40 T kai_get_dst_offset_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm
+00000000000c7500 T kai_get_dst_offset_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod
+00000000000c7280 T kai_get_dst_offset_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod
+00000000000ca6c0 T kai_get_dst_offset_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod
+00000000000c7780 T kai_get_dst_offset_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod
+00000000000c91a0 T kai_get_dst_offset_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm
+00000000000cb040 T kai_get_dst_offset_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm
+00000000000c8d0c T kai_get_dst_size_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod
+00000000000c8f4c T kai_get_dst_size_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod
+00000000000c822c T kai_get_dst_size_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod
+00000000000c9b4c T kai_get_dst_size_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm
+00000000000c750c T kai_get_dst_size_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod
+00000000000c728c T kai_get_dst_size_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod
+00000000000ca6cc T kai_get_dst_size_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod
+00000000000c778c T kai_get_dst_size_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod
+00000000000c91ac T kai_get_dst_size_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm
+00000000000cb04c T kai_get_dst_size_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm
+00000000000c8ca8 T kai_get_kr_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod
+00000000000c8ee8 T kai_get_kr_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod
+00000000000c81c8 T kai_get_kr_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod
+00000000000c9ae8 T kai_get_kr_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm
+00000000000c7488 T kai_get_kr_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod
+00000000000c7228 T kai_get_kr_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod
+00000000000ca648 T kai_get_kr_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod
+00000000000c7708 T kai_get_kr_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod
+00000000000c9148 T kai_get_kr_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm
+00000000000cafc8 T kai_get_kr_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm
+00000000000c65e4 T kai_get_lhs_offset_lhs_quant_pack_qai8dxp_f32
+00000000000c4fe4 T kai_get_lhs_offset_lhs_quant_pack_qsi8d32p4x8sb_f32_neon
+00000000000c4dc4 T kai_get_lhs_offset_lhs_quant_pack_qsi8d32p_f32
+00000000000c5e64 T kai_get_lhs_offset_lhs_quant_pack_qsi8d32p_f32_neon
+00000000000c65ec T kai_get_lhs_packed_offset_lhs_quant_pack_qai8dxp_f32
+00000000000c4fec T kai_get_lhs_packed_offset_lhs_quant_pack_qsi8d32p4x8sb_f32_neon
+00000000000c4dcc T kai_get_lhs_packed_offset_lhs_quant_pack_qsi8d32p_f32
+00000000000c5e6c T kai_get_lhs_packed_offset_lhs_quant_pack_qsi8d32p_f32_neon
+00000000000c8cc0 T kai_get_lhs_packed_offset_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod
+00000000000c8f00 T kai_get_lhs_packed_offset_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod
+00000000000c81e0 T kai_get_lhs_packed_offset_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod
+00000000000c9b00 T kai_get_lhs_packed_offset_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm
+00000000000c74a0 T kai_get_lhs_packed_offset_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod
+00000000000c7240 T kai_get_lhs_packed_offset_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod
+00000000000ca660 T kai_get_lhs_packed_offset_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod
+00000000000c7720 T kai_get_lhs_packed_offset_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod
+00000000000c9160 T kai_get_lhs_packed_offset_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm
+00000000000cafe0 T kai_get_lhs_packed_offset_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm
+00000000000c6608 T kai_get_lhs_packed_size_lhs_quant_pack_qai8dxp_f32
+00000000000c5008 T kai_get_lhs_packed_size_lhs_quant_pack_qsi8d32p4x8sb_f32_neon
+00000000000c4de8 T kai_get_lhs_packed_size_lhs_quant_pack_qsi8d32p_f32
+00000000000c5e88 T kai_get_lhs_packed_size_lhs_quant_pack_qsi8d32p_f32_neon
+00000000000c65e0 T kai_get_m_step_lhs_quant_pack_qai8dxp_f32
+00000000000c4fe0 T kai_get_m_step_lhs_quant_pack_qsi8d32p4x8sb_f32_neon
+00000000000c4dc0 T kai_get_m_step_lhs_quant_pack_qsi8d32p_f32
+00000000000c5e60 T kai_get_m_step_lhs_quant_pack_qsi8d32p_f32_neon
+00000000000c8c80 T kai_get_m_step_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod
+00000000000c8ec0 T kai_get_m_step_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod
+00000000000c81a0 T kai_get_m_step_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod
+00000000000c9ac0 T kai_get_m_step_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm
+00000000000c7460 T kai_get_m_step_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod
+00000000000c7200 T kai_get_m_step_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod
+00000000000ca620 T kai_get_m_step_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod
+00000000000c76e0 T kai_get_m_step_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod
+00000000000c9120 T kai_get_m_step_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm
+00000000000cafa0 T kai_get_m_step_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm
+00000000000c8c90 T kai_get_mr_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod
+00000000000c8ed0 T kai_get_mr_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod
+00000000000c81b0 T kai_get_mr_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod
+00000000000c9ad0 T kai_get_mr_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm
+00000000000c7470 T kai_get_mr_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod
+00000000000c7210 T kai_get_mr_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod
+00000000000ca630 T kai_get_mr_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod
+00000000000c76f0 T kai_get_mr_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod
+00000000000c9130 T kai_get_mr_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm
+00000000000cafb0 T kai_get_mr_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm
+00000000000c8c88 T kai_get_n_step_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod
+00000000000c8ec8 T kai_get_n_step_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod
+00000000000c81a8 T kai_get_n_step_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod
+00000000000c9ac8 T kai_get_n_step_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm
+00000000000c7468 T kai_get_n_step_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod
+00000000000c7208 T kai_get_n_step_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod
+00000000000ca628 T kai_get_n_step_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod
+00000000000c76e8 T kai_get_n_step_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod
+00000000000c9128 T kai_get_n_step_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm
+00000000000cafa8 T kai_get_n_step_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm
+00000000000c6e00 T kai_get_n_step_rhs_pack_nxk_qsi8cxp_qsi8cx_neon
+00000000000c8ca0 T kai_get_nr_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod
+00000000000c8ee0 T kai_get_nr_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod
+00000000000c81c0 T kai_get_nr_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod
+00000000000c9ae0 T kai_get_nr_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm
+00000000000c7480 T kai_get_nr_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod
+00000000000c7220 T kai_get_nr_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod
+00000000000ca640 T kai_get_nr_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod
+00000000000c7700 T kai_get_nr_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod
+00000000000c9140 T kai_get_nr_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm
+00000000000cafc0 T kai_get_nr_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm
+00000000000c5648 T kai_get_rhs_offset_rhs_pack_nxk_qsi4c32ps1s0scalef16_qsu4c32s16s0_neon
+00000000000c6168 T kai_get_rhs_offset_rhs_pack_nxk_qsi4c32pscalef16_qsu4c32s16s0
+00000000000c6e04 T kai_get_rhs_offset_rhs_pack_nxk_qsi8cxp_qsi8cx_neon
+00000000000c8ce0 T kai_get_rhs_packed_offset_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod
+00000000000c8f20 T kai_get_rhs_packed_offset_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod
+00000000000c8200 T kai_get_rhs_packed_offset_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod
+00000000000c9b20 T kai_get_rhs_packed_offset_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm
+00000000000c74c4 T kai_get_rhs_packed_offset_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod
+00000000000c7260 T kai_get_rhs_packed_offset_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod
+00000000000ca684 T kai_get_rhs_packed_offset_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod
+00000000000c774c T kai_get_rhs_packed_offset_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod
+00000000000c9180 T kai_get_rhs_packed_offset_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm
+00000000000cb00c T kai_get_rhs_packed_offset_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm
+00000000000c5650 T kai_get_rhs_packed_offset_rhs_pack_nxk_qsi4c32ps1s0scalef16_qsu4c32s16s0_neon
+00000000000c6170 T kai_get_rhs_packed_offset_rhs_pack_nxk_qsi4c32pscalef16_qsu4c32s16s0
+00000000000c6e20 T kai_get_rhs_packed_offset_rhs_pack_nxk_qsi8cxp_qsi8cx_neon
+00000000000c568c T kai_get_rhs_packed_size_rhs_pack_nxk_qsi4c32ps1s0scalef16_qsu4c32s16s0_neon
+00000000000c61ac T kai_get_rhs_packed_size_rhs_pack_nxk_qsi4c32pscalef16_qsu4c32s16s0
+00000000000c6e60 T kai_get_rhs_packed_size_rhs_pack_nxk_qsi8cxp_qsi8cx_neon
+00000000000c5620 T kai_get_rhs_packed_stride_rhs_pack_nxk_qsi4c32ps1s0scalef16_qsu4c32s16s0_neon
+00000000000c6140 T kai_get_rhs_packed_stride_rhs_pack_nxk_qsi4c32pscalef16_qsu4c32s16s0
+00000000000c6e0c T kai_get_rhs_packed_stride_rhs_pack_nxk_qsi8cxp_qsi8cx_neon
+00000000000c8cb0 T kai_get_sr_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod
+00000000000c8ef0 T kai_get_sr_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod
+00000000000c81d0 T kai_get_sr_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod
+00000000000c9af0 T kai_get_sr_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm
+00000000000c7490 T kai_get_sr_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod
+00000000000c7230 T kai_get_sr_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod
+00000000000ca650 T kai_get_sr_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod
+00000000000c7710 T kai_get_sr_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod
+00000000000c9150 T kai_get_sr_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm
+00000000000cafd0 T kai_get_sr_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm
+00000000000ca4a0 T kai_get_sve_vector_length_u8
+00000000000ca4b0 T kai_kernel_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod
+00000000000ca7c0 T kai_kernel_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm
+00000000000c6640 T kai_run_lhs_quant_pack_qai8dxp_f32
+00000000000c5040 T kai_run_lhs_quant_pack_qsi8d32p4x8sb_f32_neon
+00000000000c4e20 T kai_run_lhs_quant_pack_qsi8d32p_f32
+00000000000c5ec0 T kai_run_lhs_quant_pack_qsi8d32p_f32_neon
+00000000000c8d20 T kai_run_matmul_clamp_f32_qai8dxp1x4_qsi8cxp4x4_1x4_neon_dotprod
+00000000000c8f60 T kai_run_matmul_clamp_f32_qai8dxp1x8_qsi8cxp4x8_1x4_neon_dotprod
+00000000000c8240 T kai_run_matmul_clamp_f32_qai8dxp4x4_qsi8cxp4x4_16x4_neon_dotprod
+00000000000c9b60 T kai_run_matmul_clamp_f32_qai8dxp4x8_qsi8cxp4x8_16x4_neon_i8mm
+00000000000c7520 T kai_run_matmul_clamp_f32_qsi8d32p1x4_qsi4c32p4x4_1x4_neon_dotprod
+00000000000c72a0 T kai_run_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p4x8_1x4x32_neon_dotprod
+00000000000ca6e0 T kai_run_matmul_clamp_f32_qsi8d32p1x8_qsi4c32p8x8_1x8_sve_dotprod
+00000000000c77a0 T kai_run_matmul_clamp_f32_qsi8d32p4x4_qsi4c32p4x4_16x4_neon_dotprod
+00000000000c91c0 T kai_run_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p4x8_16x4_neon_i8mm
+00000000000cb060 T kai_run_matmul_clamp_f32_qsi8d32p4x8_qsi4c32p8x8_16x8_sve_i8mm
+00000000000c56e0 T kai_run_rhs_pack_nxk_qsi4c32ps1s0scalef16_qsu4c32s16s0_neon
+00000000000c6200 T kai_run_rhs_pack_nxk_qsi4c32pscalef16_qsu4c32s16s0
+00000000000c6ea8 T kai_run_rhs_pack_nxk_qsi8cxp_qsi8cx_neon
+00000000000d85e0 r keven_signs_q2xs
+00000000000cefc0 r ksigns_iq2xs
+00000000000cefb0 r kvalues_fp4
+00000000000d7dd0 r kvalues_fp4
+00000000000d0440 r kvalues_iq4nl
+00000000000d9e20 r kvalues_iq4nl
+00000000000ca4f8 t label_1
+00000000000ca828 t label_1
+00000000000cad98 t label_10
+00000000000cada4 t label_11
+00000000000cadbc t label_12
+00000000000caf50 t label_14
+00000000000caf6c t label_15
+00000000000ca504 t label_2
+00000000000ca834 t label_2
+00000000000ca510 t label_3
+00000000000ca888 t label_3
+00000000000cad94 t label_9
+                 U ldexpf@GLIBC_2.17
+00000000000acf28 T llamafile_sgemm
+                 U log2@GLIBC_2.29
+                 U logf@GLIBC_2.27
+                 U lroundf@GLIBC_2.17
+                 U memcpy@GLIBC_2.17
+                 U memmove@GLIBC_2.17
+                 U memset@GLIBC_2.17
+                 U omp_get_num_threads@OMP_1.0
+                 U omp_get_thread_num@OMP_1.0
+                 U powf@GLIBC_2.27
+                 U pthread_getaffinity_np@GLIBC_2.32
+                 U pthread_self@GLIBC_2.17
+                 U pthread_setaffinity_np@GLIBC_2.34
+                 U pthread_setschedparam@GLIBC_2.17
+                 U quantize_iq4_xs
+0000000000050aa0 T quantize_row_iq4_nl
+                 U quantize_row_iq4_nl_ref
+0000000000050aa4 T quantize_row_iq4_xs
+0000000000046e4c T quantize_row_mxfp4
+                 U quantize_row_mxfp4_ref
+0000000000046e50 T quantize_row_nvfp4
+                 U quantize_row_nvfp4_ref
+0000000000046e20 T quantize_row_q1_0
+                 U quantize_row_q1_0_ref
+0000000000046e24 T quantize_row_q2_0
+                 U quantize_row_q2_0_ref
+0000000000046e60 T quantize_row_q2_K
+                 U quantize_row_q2_K_ref
+0000000000046e64 T quantize_row_q3_K
+                 U quantize_row_q3_K_ref
+0000000000046e28 T quantize_row_q4_0
+                 U quantize_row_q4_0_ref
+0000000000046e2c T quantize_row_q4_1
+                 U quantize_row_q4_1_ref
+0000000000046e68 T quantize_row_q4_K
+                 U quantize_row_q4_K_ref
+0000000000046e30 T quantize_row_q5_0
+                 U quantize_row_q5_0_ref
+0000000000046e40 T quantize_row_q5_1
+                 U quantize_row_q5_1_ref
+0000000000046e6c T quantize_row_q5_K
+                 U quantize_row_q5_K_ref
+0000000000046e70 T quantize_row_q6_K
+                 U quantize_row_q6_K_ref
+00000000000ad6a0 T quantize_row_q8_0
+0000000000046e44 T quantize_row_q8_0_generic
+                 U quantize_row_q8_0_ref
+00000000000ad920 T quantize_row_q8_1
+0000000000046e48 T quantize_row_q8_1_generic
+                 U quantize_row_q8_1_ref
+00000000000adc80 T quantize_row_q8_K
+0000000000046e88 T quantize_row_q8_K_generic
+                 U quantize_row_q8_K_ref
+0000000000046e80 T quantize_row_tq1_0
+                 U quantize_row_tq1_0_ref
+0000000000046e84 T quantize_row_tq2_0
+                 U quantize_row_tq2_0_ref
+0000000000019a70 t register_tm_clones
+                 U setenv@GLIBC_2.17
+                 U sincosf@GLIBC_2.17
+                 U sinf@GLIBC_2.17
+                 U sqrtf@GLIBC_2.17
+                 U stat@GLIBC_2.33
+                 U stderr@GLIBC_2.17
+                 U strchr@GLIBC_2.17
+                 U strcmp@GLIBC_2.17
+                 U strerror@GLIBC_2.17
+                 U strlen@GLIBC_2.17
+                 U sysconf@GLIBC_2.17
+00000000000d75d0 r table_b2b_0
+00000000000d7de0 r table_b2b_1
+                 U tanhf@GLIBC_2.17
+000000000010ef40 d type_traits_cpu

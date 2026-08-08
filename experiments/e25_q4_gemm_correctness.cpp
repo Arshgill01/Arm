@@ -63,8 +63,13 @@ bool check_case(int nb, uint32_t seed) {
     std::vector<float> actual(32, 0.0f);
     ggml_gemm_q4_K_8x4_q8_K_generic(
         nb * QK_K, reference.data(), 8, q4_interleave4.data(), q8_interleave4.data(), 4, 8);
+#if defined(E28_Q4_GEMM_Q8_4X4)
+    ggml_gemm_q4_K_8x4_q8_K(
+        nb * QK_K, actual.data(), 8, q4_interleave4.data(), q8_interleave4.data(), 4, 8);
+#else
     ggml_gemm_q4_K_8x4_q8_K(
         nb * QK_K, actual.data(), 8, q4_interleave4.data(), q8_interleave8.data(), 4, 8);
+#endif
 
     double squared_error = 0.0;
     double squared_reference = 0.0;
