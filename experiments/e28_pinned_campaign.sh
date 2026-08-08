@@ -207,10 +207,10 @@ run_correctness() {
     LD_LIBRARY_PATH="$build_root/D/bin" taskset -c 0 \
         "$tool_dir/e28-q6-gemv-correctness" > "$output_dir/correctness/q6-gemv.txt"
     LD_LIBRARY_PATH="$build_root/D/bin" taskset -c 0 \
-        "$tool_dir/e28-q4-decoded-correctness" 3072 2304 1 \
+        "$tool_dir/e28-q4-decoded-correctness" 3072 2304 3 \
         > "$output_dir/correctness/q4-decoded-3072x2304.txt"
     LD_LIBRARY_PATH="$build_root/D/bin" taskset -c 0 \
-        "$tool_dir/e28-q4-decoded-correctness" 9216 768 1 \
+        "$tool_dir/e28-q4-decoded-correctness" 9216 768 3 \
         > "$output_dir/correctness/q4-decoded-9216x768.txt"
 
     for spec in q512-kv512:512 q512-kv2048:2048 q512-kv4096:4096; do
