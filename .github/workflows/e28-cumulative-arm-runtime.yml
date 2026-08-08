@@ -46,7 +46,8 @@ jobs:
           grep -q 'Neoverse-N2' /tmp/e28-lscpu.txt
           c++ --version | grep -q '13.3.0'
           bash -n experiments/e28_pinned_campaign.sh
-          python3 -m py_compile experiments/e28_ingest.py experiments/e28_second_ingest.py
+          python3 -m py_compile experiments/e28_ingest.py experiments/e28_second_ingest.py \
+            experiments/e28_sidecar_bytes.py
           python3 -m unittest tests.test_e28
 
       - name: Restore pinned Qwen model

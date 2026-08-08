@@ -56,6 +56,9 @@ def build_summary(root: Path) -> dict[str, Any]:
     contract = load_object(root / "contract.json")
     correctness = correctness_summary(root, contract)
     inference = inference_summary(root, contract)
+    sidecar = load_object(root / "source/e25-decoded-sidecar-bytes.json")
+    if sidecar.get("decoded_sidecar_bytes", 0) <= 0:
+        raise ValueError("decoded Q4_K sidecar byte evidence is missing")
     gates = performance_gates(contract, inference)
     gates["direct_correctness"] = correctness["passed"]
     gates["accepted"] = all(gates.values())
@@ -65,6 +68,7 @@ def build_summary(root: Path) -> dict[str, Any]:
         "model": contract["models"]["portability"],
         "correctness": correctness,
         "inference": inference,
+        "decoded_sidecar": sidecar,
         "cumulative_D_over_A": {
             case: inference[case]["D_over_A"] for case in ("pp512", "pp2048", "pp4096", "tg128")
         },

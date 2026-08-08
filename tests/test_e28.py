@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import struct
 import tempfile
 import unittest
 from pathlib import Path
@@ -12,6 +13,12 @@ SPEC = importlib.util.spec_from_file_location(
 assert SPEC and SPEC.loader
 E28 = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(E28)
+SIDECAR_SPEC = importlib.util.spec_from_file_location(
+    "e28_sidecar_bytes", ROOT / "experiments" / "e28_sidecar_bytes.py"
+)
+assert SIDECAR_SPEC and SIDECAR_SPEC.loader
+SIDECAR = importlib.util.module_from_spec(SIDECAR_SPEC)
+SIDECAR_SPEC.loader.exec_module(SIDECAR)
 
 
 class E28ContractTests(unittest.TestCase):
@@ -94,6 +101,27 @@ class E28IngestTests(unittest.TestCase):
             self.assertEqual(result["tg128"]["A"]["count"], 6)
             self.assertEqual(result["tg128"]["D"]["median_tokens_per_second"], 42.5)
             self.assertAlmostEqual(result["tg128"]["D_over_A"]["ratio"], 42.5 / 12.5)
+
+    def test_sidecar_parser_measures_only_eligible_q4_k_tensors(self) -> None:
+        def string(value: str) -> bytes:
+            raw = value.encode()
+            return struct.pack("<Q", len(raw)) + raw
+
+        with tempfile.TemporaryDirectory() as directory:
+            model = Path(directory) / "tiny.gguf"
+            header = b"GGUF" + struct.pack("<IQQ", 3, 3, 0)
+            tensors = b""
+            for name, shape, tensor_type in (
+                ("eligible", (256, 8), 12),
+                ("wrong-type", (256, 8), 14),
+                ("wrong-rows", (256, 7), 12),
+            ):
+                tensors += string(name) + struct.pack("<IQQIQ", 2, *shape, tensor_type, 0)
+            model.write_bytes(header + tensors)
+            result = SIDECAR.measure(model, "0" * 64)
+            self.assertEqual(result["selected_tensor_count"], 1)
+            self.assertEqual(result["packed_q4_k_bytes"], 1152)
+            self.assertEqual(result["decoded_sidecar_bytes"], 128)
 
 
 if __name__ == "__main__":

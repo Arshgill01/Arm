@@ -181,6 +181,9 @@ prepare_model() {
     test "$(stat --format='%s' "$model")" = "$(jq -r ".models.$model_key.size_bytes" "$contract")"
     echo "$(jq -r ".models.$model_key.sha256" "$contract")  $model" | sha256sum --check --strict
     sha256sum "$model" > "$output_dir/source/model-sha256.txt"
+    python3 "$repo_root/experiments/e28_sidecar_bytes.py" "$model" \
+        "$output_dir/source/e25-decoded-sidecar-bytes.json" \
+        --model-sha256 "$(jq -r ".models.$model_key.sha256" "$contract")"
 }
 
 compile_harnesses() {

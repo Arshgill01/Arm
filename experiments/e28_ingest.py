@@ -229,6 +229,9 @@ def build_summary(root: Path) -> dict[str, Any]:
     quality = quality_summary(root, contract)
     perplexity = perplexity_summary(root, contract)
     inference = inference_summary(root, contract)
+    sidecar = load_object(root / "source/e25-decoded-sidecar-bytes.json")
+    if sidecar.get("decoded_sidecar_bytes", 0) <= 0:
+        raise ValueError("decoded Q4_K sidecar byte evidence is missing")
     gates = gate_summary(contract, correctness, quality, perplexity, inference)
     return {
         "schema_version": 1,
@@ -236,6 +239,7 @@ def build_summary(root: Path) -> dict[str, Any]:
         "correctness": correctness,
         "quality": quality,
         "perplexity": perplexity,
+        "decoded_sidecar": sidecar,
         "inference": inference,
         "cumulative_D_over_A": {
             case: inference[case]["D_over_A"] for case in ("pp512", "pp2048", "pp4096", "tg128")
