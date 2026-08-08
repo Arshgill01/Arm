@@ -35,7 +35,7 @@ def inference_summary(root: Path, contract: dict[str, Any]) -> dict[str, Any]:
             internal = []
             for path in sorted((root / "inference" / case_id).glob(f"*-{variant}.jsonl")):
                 rows = [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
-                if len(rows) != 1 or len(rows[0].get("samples_ts", [])) != 3:
+                if len(rows) != 1 or len(rows[0].get("samples_ts", [])) != 1:
                     raise ValueError(f"invalid current-upstream sample: {path}")
                 values.append(float(rows[0]["avg_ts"]))
                 internal.extend(float(value) for value in rows[0]["samples_ts"])
@@ -130,6 +130,8 @@ def correctness_summary(root: Path, contract: dict[str, Any]) -> dict[str, Any]:
             "e24_q6": "E28_DISPATCH e24" in (root / "dispatch/e24.txt").read_text(),
             "e25_q4_decoded": "E28_DISPATCH e25" in (root / "dispatch/e25.txt").read_text(),
             "e27_neon_fmla": (root / "dispatch/e27-neon-fmla.txt").stat().st_size > 0,
+            "e23_superseded_prefill": "E28_DISPATCH e23-superseded"
+            in (root / "dispatch/e23-superseding-prefill.txt").read_text(),
         },
     }
 

@@ -86,14 +86,40 @@ prepare_current_sources_and_builds() {
     old_e23="$repo_root/patches/llama.cpp/b10216/0013-arm-q4-k-neon-vector-scale-kernel.patch"
     git -C "$source_root/A" apply --check "$old_e23"
     {
-        echo "The old E23 patch still applies, but it modifies ggml_gemm_q4_K_8x8_q8_K."
-        echo "The combined current runtime dispatches E25's ggml_gemm_q4_K_8x4_q8_K_decoded path instead."
-        echo "E23 is therefore omitted as a duplicate mechanism from the measured combined path."
+        echo "The old E23 patch still applies, so its exact source change is not already upstream."
+        echo "It modifies ggml_gemm_q4_K_8x8_q8_K, while E25 selects the current"
+        echo "ggml_gemm_q4_K_8x4_q8_K path for aligned two-dimensional Q4_K tensors."
+        echo "E23 is therefore omitted as superseded in the measured E25 combined path."
     } > "$output_dir/source/e23-audit.txt"
     rg -n 'ggml_gemm_q4_K_8x4_q8_K_decoded|tensor_traits.*q4_K' \
         "$source_root/D/ggml/src/ggml-cpu/repack.cpp" \
         "$source_root/D/ggml/src/ggml-cpu/arch/arm/repack.cpp" \
         >> "$output_dir/source/e23-audit.txt"
+}
+
+run_current_e23_dispatch_audit() {
+    bin_dir="$build_root/D/bin"
+    cat > "$output_dir/dispatch/e23-superseding-prefill.gdb" <<'EOF'
+set pagination off
+set breakpoint pending on
+break ggml_gemm_q4_K_8x4_q8_K
+commands
+silent
+printf "E28_DISPATCH e23-superseded symbol=ggml_gemm_q4_K_8x4_q8_K n=%d nr=%d nc=%d\n", n, nr, nc
+bt 4
+quit
+end
+run
+EOF
+    env LD_LIBRARY_PATH="$bin_dir" taskset -c 0-3 \
+        gdb --batch --command "$output_dir/dispatch/e23-superseding-prefill.gdb" \
+        --args "$bin_dir/llama-bench" \
+        --model "$model" --threads 4 --n-gpu-layers 0 --flash-attn on \
+        --batch-size 1024 --ubatch-size 512 --no-warmup --output jsonl \
+        --repetitions 1 --n-prompt 512 --n-gen 0 \
+        > "$output_dir/dispatch/e23-superseding-prefill.txt" 2>&1
+    grep -q 'E28_DISPATCH e23-superseded' \
+        "$output_dir/dispatch/e23-superseding-prefill.txt"
 }
 
 run_current_quality_and_perplexity() {
@@ -133,7 +159,7 @@ run_current_bench_cell() {
         env "LD_LIBRARY_PATH=$bin_dir" taskset -c 0-3 "$bin_dir/llama-bench"
         --model "$model" --threads 4 --n-gpu-layers 0 --flash-attn on
         --batch-size 1024 --ubatch-size 512 --no-warmup --output jsonl
-        --repetitions 3 --n-prompt "$prompt_tokens" --n-gen "$generated_tokens"
+        --repetitions 1 --n-prompt "$prompt_tokens" --n-gen "$generated_tokens"
     )
     printf '%q ' "${command[@]}" > "$cell.command.txt"
     printf '\n' >> "$cell.command.txt"
@@ -169,6 +195,7 @@ if [[ "$stage" = prepare || "$stage" = all ]]; then
     E28_CURRENT_Q8_LAYOUT=1 compile_harnesses
     run_correctness
     run_dispatch_proof
+    run_current_e23_dispatch_audit
     run_current_quality_and_perplexity
     touch "$marker_dir/prepare.complete"
     finish_inventory

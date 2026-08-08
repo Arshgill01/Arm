@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
-  "contract_revision": 1,
+  "contract_revision": 2,
+  "revision_note": "Before any accepted timing, invalid-host preparation evidence showed that three internal repetitions duplicated the six required fresh-process samples and could exceed the mandatory six-hour resource lifetime. Revision 2 retains six reverse-balanced processes per variant and uses one measurement per process.",
   "experiment_id": "E28",
   "title": "Cumulative Arm runtime integration pass",
   "objective": "Measure one runtime containing the retained E24 Q6_K, E25 Q4_K decoded-metadata and E27 Flash Attention mechanisms, then validate the same combined mechanism set against one pinned current-upstream llama.cpp commit.",
@@ -196,7 +197,7 @@
     "process_order_per_round": ["A", "B", "C", "D", "D", "C", "B", "A"],
     "rounds": 3,
     "processes_per_variant_per_case": 6,
-    "internal_repetitions_per_process": 3,
+    "internal_repetitions_per_process": 1,
     "fresh_processes": true,
     "confidence_interval": {"method": "percentile bootstrap of process medians", "confidence": 0.95, "seed": 280028, "resamples": 10000},
     "gates": {

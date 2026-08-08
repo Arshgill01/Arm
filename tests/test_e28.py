@@ -34,6 +34,7 @@ class E28ContractTests(unittest.TestCase):
             ["A", "B", "C", "D", "D", "C", "B", "A"],
         )
         self.assertEqual(contract["performance"]["processes_per_variant_per_case"], 6)
+        self.assertEqual(contract["performance"]["internal_repetitions_per_process"], 1)
         self.assertEqual(contract["quality"]["repetitions_per_variant"], 2)
         self.assertEqual(contract["resource_policy"]["maximum_total_usd"], 12.0)
 
@@ -90,7 +91,7 @@ class E28IngestTests(unittest.TestCase):
                     value = 10.0 * variant_index + run
                     stem.with_suffix(".jsonl").write_text(
                         json.dumps(
-                            {"avg_ts": value, "samples_ts": [value, value, value]}
+                            {"avg_ts": value, "samples_ts": [value]}
                         )
                         + "\n"
                     )

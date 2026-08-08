@@ -80,7 +80,7 @@ def inference_summary(root: Path, contract: dict[str, Any]) -> dict[str, Any]:
             rss = []
             for path in paths:
                 rows = [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
-                if len(rows) != 1 or len(rows[0].get("samples_ts", [])) != 3:
+                if len(rows) != 1 or len(rows[0].get("samples_ts", [])) != 1:
                     raise ValueError(f"invalid llama-bench sample: {path}")
                 values.append(float(rows[0]["avg_ts"]))
                 internal.extend(float(value) for value in rows[0]["samples_ts"])

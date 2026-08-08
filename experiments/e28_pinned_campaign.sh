@@ -418,7 +418,7 @@ run_bench_cell() {
         env "LD_LIBRARY_PATH=$bin_dir" taskset -c 0-3 "$bin_dir/llama-bench"
         --model "$model" --threads 4 --n-gpu-layers 0 --flash-attn on
         --batch-size 1024 --ubatch-size 512 --no-warmup --output jsonl
-        --repetitions 3 --n-prompt "$prompt_tokens" --n-gen "$generated_tokens"
+        --repetitions 1 --n-prompt "$prompt_tokens" --n-gen "$generated_tokens"
     )
     printf '%q ' "${command[@]}" > "$cell.command.txt"
     printf '\n' >> "$cell.command.txt"
