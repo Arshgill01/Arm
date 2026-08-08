@@ -30,7 +30,8 @@ run_variant() {
     printf '\n===== %s stream (%s) =====\n' "$variant" "$(date -u +%FT%TZ)"
     /usr/bin/time --format='elapsed_seconds=%e' \
         --output="$output_dir/$variant.wall-time.txt" \
-        stdbuf --output=0 taskset --cpu-list 0-3 "$bin_dir/llama-completion" \
+        env LD_LIBRARY_PATH="$bin_dir" stdbuf --output=0 \
+        taskset --cpu-list 0-3 "$bin_dir/llama-completion" \
         -m "$model" -p "$prompt" -n 128 --seed 42 --temp 0 \
         -t 4 -c 2048 -b 512 -ub 512 --no-warmup --no-display-prompt \
         --no-conversation --ignore-eos \

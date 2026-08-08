@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E25",
+  "status": "primary_target_met",
+  "captured_at_utc": "2026-08-08",
+  "summary": "results/raw/e25-summary.json",
+  "report": "results/reports/e25-q4-k-decode-layout.md",
+  "contract": "experiments/e25_contract.json",
+  "reproducer": "experiments/e25_q4_layout_reproduce.sh",
+  "candidate_patch": "patches/llama.cpp/e25/0003-q4-k-decoded-metadata-layout.patch",
+  "candidate_patch_sha256": "b5e61f73bfc7efe1b735e5437f2e3323ef9f1a188e91bb747bbbcc90557719b4",
+  "current_upstream_patch": "patches/llama.cpp/current/0002-q4-k-decoded-metadata-layout.patch",
+  "raw_evidence": [
+    {
+      "path": "results/raw/e25a-axion-20260808",
+      "role": "cumulative E24 baseline profile"
+    },
+    {
+      "path": "results/raw/e25b-axion-20260808",
+      "role": "primary implementation, clean reproducer, regressions, adjacent models, current upstream, demo and verified resource closure"
+    },
+    {
+      "path": "results/raw/e25c-n1-20260808",
+      "role": "second Arm CPU validation and verified resource closure"
+    },
+    {
+      "path": "results/raw/e25d-31251352112",
+      "role": "successful named E25 GitHub Arm workflow"
+    }
+  ],
+  "claim_boundary": "Primary success is specific to the four-core Axion configuration and tested models. The second Arm whole-model result is neutral because the packed dispatch is not selected without I8MM."
+}

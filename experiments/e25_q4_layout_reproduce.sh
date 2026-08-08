@@ -113,7 +113,7 @@ run_bench() {
     local variant=$6
     local bin_dir="$variant_dir/$variant"
     /usr/bin/time --verbose --output "$output_dir/$case_name/r${round}-${order}-${variant}.time.txt" \
-        taskset --cpu-list 0-3 "$bin_dir/llama-bench" \
+        env LD_LIBRARY_PATH="$bin_dir" taskset --cpu-list 0-3 "$bin_dir/llama-bench" \
         --model "$MODEL_PATH" --threads 4 --n-gpu-layers 0 --flash-attn on \
         --batch-size 1024 --ubatch-size 512 --no-warmup --output jsonl \
         --repetitions 3 --n-prompt "$prompt_tokens" --n-gen "$generation_tokens" \
@@ -124,7 +124,7 @@ for case_name in pp512 tg128; do
     if [[ "$case_name" = pp512 ]]; then
         prompt_tokens=512
         generation_tokens=0
-        rounds=1
+        rounds=2
     else
         prompt_tokens=0
         generation_tokens=128
