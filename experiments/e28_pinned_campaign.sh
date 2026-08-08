@@ -196,6 +196,9 @@ compile_harnesses() {
         -I"$source_dir/ggml/src/ggml-cpu"
         -L"$build_dir/bin" "-Wl,-rpath,$build_dir/bin"
     )
+    if [[ "${E28_CURRENT_Q8_LAYOUT:-0}" = 1 ]]; then
+        compile+=(-DE28_Q4_GEMM_Q8_4X4)
+    fi
     libraries=(-lggml-cpu -lggml-base -lggml -fopenmp)
     "${compile[@]}" "$repo_root/experiments/e24_gemv_correctness.cpp" \
         -o "$tool_dir/e28-q4-gemv-correctness" "${libraries[@]}"

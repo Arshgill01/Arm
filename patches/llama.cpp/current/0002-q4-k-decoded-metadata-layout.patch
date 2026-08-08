@@ -144,7 +144,7 @@ index 9689ca3ced8fa4b00df712a624aade1c1797bce2..6ff587c310fd854863097c3c374c4d3f
 +template <> void ggml_quantize_mat_t<2, GGML_TYPE_Q8_K>(const float * GGML_RESTRICT x, void * GGML_RESTRICT vy, int64_t nrow, int64_t n_per_row) {
 +    assert(nrow == 4);
 +    UNUSED(nrow);
-+    ggml_quantize_mat_q8_K_4x8(x, vy, n_per_row);
++    ggml_quantize_mat_q8_K_4x4(x, vy, n_per_row);
 +}
 +
  template <> void ggml_quantize_mat_t<8, GGML_TYPE_Q8_K>(const float * GGML_RESTRICT x, void * GGML_RESTRICT vy, int64_t nrow, int64_t n_per_row) {

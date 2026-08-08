@@ -156,13 +156,17 @@ run_current_benchmarks() {
     done
 }
 
+if [[ "${E28_CURRENT_LIBRARY_ONLY:-0}" = 1 ]]; then
+    return 0
+fi
+
 if [[ "$stage" = prepare || "$stage" = all ]]; then
     test ! -e "$marker_dir/prepare.complete"
     record_host
     verify_inputs
     prepare_current_sources_and_builds
     prepare_model
-    compile_harnesses
+    E28_CURRENT_Q8_LAYOUT=1 compile_harnesses
     run_correctness
     run_dispatch_proof
     run_current_quality_and_perplexity
